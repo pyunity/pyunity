@@ -5,6 +5,7 @@ from .errors import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+from time import time
 
 class SceneManager:
     def __init__(self):
@@ -51,21 +52,23 @@ class Scene:
             gameObject.transform.List()
     
     def FindGameObjectsByName(self, name):
-        return [gameObject if gameObject.name == name for gameObject in self.gameObjects]
+        return [gameObject for gameObject in self.gameObjects if gameObject.name == name]
         
     def FindGameObjectsByTagName(self, name):
         if name in tags:
-            return [gameObject if gameObject.tag.tagName == name for gameObject in self.gameObjects]
+            return [gameObject for gameObject in self.gameObjects if gameObject.tag.tagName == name]
         else:
             raise GameObjectException("No tag named " + name + "; create a new tag with Tag.AddTag")
         
     def FindGameObjectsByTagNumber(self, num):
         if len(tags) > num:
-            return [gameObject if gameObject.tag.tag == num for gameObject in self.gameObjects]
+            return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
     
     def Run(self):
+        self.lastFrame = time()
+
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
@@ -78,6 +81,7 @@ class Scene:
         glutCreateWindow(self.name)
         
         glEnable(GL_DEPTH_TEST)
+        glEnable(GL_CULL_FACE)
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
         
@@ -108,7 +112,10 @@ class Scene:
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
+                    component.deltaTime = max(time() - self.lastFrame, 0.001)
                     component.Update()
+
+        self.lastFrame = time()
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glLoadIdentity()
