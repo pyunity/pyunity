@@ -1,4 +1,4 @@
-from pyunity.engine import *
+from engine import *
 from scripts import *
 
 def main():
