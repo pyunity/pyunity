@@ -1,4 +1,4 @@
-from pyunity import *
+from pyunity.engine import *
 
 class Rotator(Behaviour):
     def Update(self):
