@@ -1,0 +1,134 @@
+from .core import *
+from . import config
+from .errors import *
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from OpenGL.GLUT import *
+
+class SceneManager:
+    def __init__(self):
+        self.scenesByIndex = []
+        self.scenesByName = {}
+    
+    def AddScene(self, sceneName):
+        scene = Scene(sceneName)
+        self.scenesByIndex.append(scene)
+        self.scenesByName[sceneName] = scene
+        return scene
+    
+    def GetSceneByIndex(self, index):
+        return self.scenesByIndex[index]
+    
+    def GetSceneByName(self, name):
+        return self.scenesByName[name]
+
+class Scene:
+    def __init__(self, name):
+        self.name = name
+        self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
+        light = GameObject("Light")
+        light.AddComponent(Light)
+        self.gameObjects = [self.mainCamera.gameObject, light]
+        self.rootGameObjects = [self.mainCamera.gameObject, light]
+    
+    def Add(self, gameObject):
+        self.gameObjects.append(gameObject)
+        if gameObject.transform.parent is None:
+            self.rootGameObjects.append(gameObject)
+    
+    def Remove(self, gameObject):
+        if gameObject.name not in ["Main Camera"]:
+            flag = False
+            for go in self.gameObjects:
+                if go == gameObject:
+                    flag = True
+                    break
+            if flag: self.gameObjects.remove(gameObject)
+    
+    def List(self):
+        for gameObject in sorted(self.rootGameObjects, key = lambda x: x.name):
+            gameObject.transform.List()
+    
+    def FindGameObjectsByName(self, name):
+        return [gameObject if gameObject.name == name for gameObject in self.gameObjects]
+        
+    def FindGameObjectsByTagName(self, name):
+        if name in tags:
+            return [gameObject if gameObject.tag.tagName == name for gameObject in self.gameObjects]
+        else:
+            raise GameObjectException("No tag named " + name + "; create a new tag with Tag.AddTag")
+        
+    def FindGameObjectsByTagNumber(self, num):
+        if len(tags) > num:
+            return [gameObject if gameObject.tag.tag == num for gameObject in self.gameObjects]
+        else:
+            raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
+    
+    def Run(self):
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                if isinstance(component, Behaviour):
+                    component.Start()
+        
+        glutInit()
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH)
+        glutInitWindowPosition(50, 50)
+        glutInitWindowSize(*config.size)
+        glutCreateWindow(self.name)
+        
+        glEnable(GL_DEPTH_TEST)
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        
+        glClearColor(*self.mainCamera.clearColor)
+        glMatrixMode(GL_PROJECTION)
+        aspect = config.size[0] / config.size[1]
+        gluPerspective(self.mainCamera.fov / aspect, aspect, self.mainCamera.near, self.mainCamera.far)
+        glMatrixMode(GL_MODELVIEW)
+
+        glutDisplayFunc(self.display)
+
+        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
+        glutMainLoop()
+    
+    def schedule_update(self, t):
+        glutPostRedisplay()
+        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
+    
+    def transform(self, transform):
+        glRotatef(transform.rotation[0], 1, 0, 0)
+        glRotatef(transform.rotation[1], 0, 1, 0)
+        glRotatef(transform.rotation[2], 0, 0, 1)
+        glTranslatef(transform.position[0],
+                    transform.position[1],
+                    transform.position[2])
+
+    def display(self):
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                if isinstance(component, Behaviour):
+                    component.Update()
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glLoadIdentity()
+        gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+
+        glLightfv(GL_LIGHT0, GL_POSITION, [0, 0, 0, 1])
+
+        glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
+        glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
+        glRotatef(self.mainCamera.transform.rotation[2], 0, 0, 1)
+        glTranslatef(-self.mainCamera.transform.position[0],
+                    -self.mainCamera.transform.position[1],
+                    self.mainCamera.transform.position[2])
+
+        for gameObject in self.rootGameObjects:
+            renderer = gameObject.GetComponent(MeshRenderer)
+            if renderer:
+                glPushMatrix()
+                self.transform(gameObject.transform)
+                renderer.render()
+                glPopMatrix()
+        
+        glutSwapBuffers()
