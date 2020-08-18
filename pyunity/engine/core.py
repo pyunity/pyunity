@@ -126,13 +126,13 @@ class MeshRenderer(Component):
                     transform.position[2])
 
     def render(self):
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [*self.mat.color, 1])
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [*self.mat.color, 1])
         for triangle in self.mesh.triangles:
+            # glMaterialfv(GL_FRONT, GL_AMBIENT, [*self.mat.color, 1])
+            glMaterialfv(GL_FRONT, GL_DIFFUSE, [*self.mat.color, 1])
             glBegin(GL_TRIANGLES)
-            glVertex3f(*list(self.mesh.verts[triangle[0]]))
-            glVertex3f(*list(self.mesh.verts[triangle[1]]))
-            glVertex3f(*list(self.mesh.verts[triangle[2]]))
+            glVertex3f(*list(self.mesh.verts[triangle[0]] * -1))
+            glVertex3f(*list(self.mesh.verts[triangle[1]] * -1))
+            glVertex3f(*list(self.mesh.verts[triangle[2]] * -1))
             glEnd()
         
         for child in self.transform.children:
