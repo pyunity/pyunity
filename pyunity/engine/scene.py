@@ -122,7 +122,7 @@ class Scene:
         glLoadIdentity()
         gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
 
-        glLightfv(GL_LIGHT0, GL_POSITION, [0, 0, 0, 1])
+        glLightfv(GL_LIGHT0, GL_POSITION, [15, 5, 15, 1])
 
         glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
         glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
