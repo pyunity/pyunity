@@ -83,14 +83,16 @@ class Scene:
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
             glEnable(GL_CULL_FACE)
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
         
         glClearColor(*self.mainCamera.clearColor)
+
         glMatrixMode(GL_PROJECTION)
-        aspect = config.size[0] / config.size[1]
-        gluPerspective(self.mainCamera.fov / aspect, aspect, self.mainCamera.near, self.mainCamera.far)
+        gluPerspective(self.mainCamera.fov / config.size[0] * config.size[1], config.size[0] / config.size[1], self.mainCamera.near, self.mainCamera.far)
         glMatrixMode(GL_MODELVIEW)
+
+        glLightfv(GL_LIGHT0, GL_POSITION,  (5, 5, 5, 1))
+        glLightfv(GL_LIGHT0, GL_AMBIENT, (0, 0, 0, 1))
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
 
         glutDisplayFunc(self.display)
 
@@ -113,16 +115,19 @@ class Scene:
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    component.deltaTime = max(time() - self.lastFrame, 0.001)
-                    component.Update()
+                    component.Update(max(time() - self.lastFrame, 0.001))
 
         self.lastFrame = time()
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_COLOR_MATERIAL)
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+
         glLoadIdentity()
         gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
-
-        glLightfv(GL_LIGHT0, GL_POSITION, [15, 5, 15, 1])
 
         glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
         glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
@@ -138,5 +143,9 @@ class Scene:
                 self.transform(gameObject.transform)
                 renderer.render()
                 glPopMatrix()
+        
+        glDisable(GL_LIGHT0)
+        glDisable(GL_LIGHTING)
+        glDisable(GL_COLOR_MATERIAL)
         
         glutSwapBuffers()
