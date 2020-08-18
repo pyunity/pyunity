@@ -4,7 +4,7 @@ from .errors import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GLUT import *
+
 from time import time
 
 class SceneManager:
@@ -74,12 +74,8 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Start()
         
-        glutInit()
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH)
-        glutInitWindowPosition(50, 50)
-        glutInitWindowSize(*config.size)
-        glutCreateWindow(self.name)
-        
+        self.window = config.windowProviders[config.windowProvider](config.size, self.name)
+
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
             glEnable(GL_CULL_FACE)
@@ -94,14 +90,7 @@ class Scene:
         glLightfv(GL_LIGHT0, GL_AMBIENT, (0, 0, 0, 1))
         glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
 
-        glutDisplayFunc(self.display)
-
-        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
-        glutMainLoop()
-    
-    def schedule_update(self, t):
-        glutPostRedisplay()
-        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
+        window.start()
     
     def transform(self, transform):
         glRotatef(transform.rotation[0], 1, 0, 0)
@@ -147,5 +136,3 @@ class Scene:
         glDisable(GL_LIGHT0)
         glDisable(GL_LIGHTING)
         glDisable(GL_COLOR_MATERIAL)
-        
-        glutSwapBuffers()
