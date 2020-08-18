@@ -1,5 +1,5 @@
 from pyunity.engine import *
 
 class Rotator(Behaviour):
-    def Update(self):
-        self.transform.rotation.y += self.deltaTime * 30
+    def Update(self, dt):
+        self.transform.rotation += Vector3(45, 90, 135) * dt

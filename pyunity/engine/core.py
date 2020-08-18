@@ -126,14 +126,13 @@ class MeshRenderer(Component):
                     transform.position[2])
 
     def render(self):
-        for triangle in self.mesh.triangles:
-            # glMaterialfv(GL_FRONT, GL_AMBIENT, [*self.mat.color, 1])
-            glMaterialfv(GL_FRONT, GL_DIFFUSE, [*self.mat.color, 1])
-            glBegin(GL_TRIANGLES)
-            glVertex3f(*list(self.mesh.verts[triangle[0]] * -1))
-            glVertex3f(*list(self.mesh.verts[triangle[1]] * -1))
-            glVertex3f(*list(self.mesh.verts[triangle[2]] * -1))
-            glEnd()
+        glBegin(GL_TRIANGLES)
+        for index, triangle in enumerate(self.mesh.triangles):
+            glNormal3fv(list(self.mesh.normals[index]))
+            for vertex in triangle:
+                glColor3f(*self.mat.color)
+                glVertex3f(*list(self.mesh.verts[vertex] * -1))
+        glEnd()
         
         for child in self.transform.children:
             renderer = child.GetComponent(MeshRenderer)
@@ -144,9 +143,10 @@ class MeshRenderer(Component):
                 glPopMatrix()
 
 class Mesh:
-    def __init__(self, verts, triangles):
+    def __init__(self, verts, triangles, normals):
         self.verts = verts
         self.triangles = triangles
+        self.normals = normals
 
 class Material:
     def __init__(self, color):
