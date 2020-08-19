@@ -17,7 +17,7 @@ except Exception as e:
     try:
         if not glfw.init():
             raise Exception
-        glfw.create_window((50, 50), "Test", None, None)
+        glfw.create_window(50, 50, "Test", None, None)
         glfw.terminate()
         config.windowProvider = "glfw"
     except Exception as e:
