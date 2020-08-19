@@ -4,3 +4,6 @@
 /**/venv
 /**/.vscode
 /**/vectors.txt
+/dist/
+/**/*.egg-info
+/**/*.egg
