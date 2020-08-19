@@ -118,7 +118,8 @@ class GameObject:
         Adds a component to the GameObject
         
         Parameters
-        componentClass : Component class
+        ----------
+        componentClass : Component
             Component to add. Must inherit from `Component`
         
         """
@@ -141,7 +142,8 @@ class GameObject:
         Gets a component from the GameObject
         
         Parameters
-        componentClass : Component class
+        ----------
+        componentClass : Component
             Component to get. Must inherit from `Component`
         
         """
