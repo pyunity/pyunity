@@ -11,7 +11,6 @@ try:
     from OpenGL.GLUT import *
     glutInit()
     config.windowProvider = "glut"
-    raise Exception
 except:
     print("GLUT doesn't work, using GLFW")
     import glfw
