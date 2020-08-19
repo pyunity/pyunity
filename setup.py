@@ -32,7 +32,8 @@ setup(
     install_requires = [
         "glfw",
         "pygame",
-        *links,
+        # *links,
+        "pyopengl",
     ],
     python_requires = '>=3.7',
 )
