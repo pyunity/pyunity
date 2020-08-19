@@ -1,5 +1,5 @@
 from pyunity import *
-from scripts import *
+from .scripts import *
 
 def main():
     scene = SceneManager.AddScene("Scene")
