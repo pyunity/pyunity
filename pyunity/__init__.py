@@ -12,7 +12,7 @@ try:
     glutInit()
     config.windowProvider = "glut"
 except Exception as e:
-    print(e, "GLUT doesn't work, using GLFW")
+    print("GLUT doesn't work, using GLFW")
     import glfw
     try:
         if not glfw.init():
@@ -21,7 +21,7 @@ except Exception as e:
         glfw.terminate()
         config.windowProvider = "glfw"
     except Exception as e:
-        print(e, "GLFW doesn't work, using Pygame")
+        print("GLFW doesn't work, using Pygame")
         import pygame
         if not pygame.init():
             raise PyUnityException("No window provider found")
