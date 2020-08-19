@@ -1,4 +1,0 @@
-version: 2
-
-sphinx:
-  configuration: sphinx/conf.py
