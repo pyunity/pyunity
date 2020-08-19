@@ -1,6 +1,7 @@
 README.md
 setup.py
 pyunity/__init__.py
+pyunity/__main__.py
 pyunity/config.py
 pyunity/core.py
 pyunity/errors.py
