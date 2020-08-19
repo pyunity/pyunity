@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "pyunity"
+project = "PyUnity"
 copyright = "2020, Ray Chen"
 author = "Ray Chen"
 
