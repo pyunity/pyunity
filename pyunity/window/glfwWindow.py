@@ -8,7 +8,7 @@ class Window:
         glfw.init()
 
         self.window = glfw.create_window(*size, name, None, None)
-        if not window:
+        if not self.window:
             glfw.terminate()
             raise PyUnityException("Cannot open GLFW window")
         
