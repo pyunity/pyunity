@@ -1,3 +1,2 @@
 glfw
 pygame
-pyopengl

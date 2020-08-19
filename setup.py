@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import oss
+import os
 
 pyopengl_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl"
 pyopengl_accelerate_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL_accelerate-3.1.5-cp38-cp38-win32.whl"
@@ -29,7 +29,6 @@ setup(
     install_requires = [
         "glfw",
         "pygame",
-        "pyopengl",
     ],
     dependency_links = links,
     python_requires = '>=3.7',
