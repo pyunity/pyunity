@@ -5,12 +5,61 @@ from OpenGL.GL import *
 tags = ["Default"]
 
 class Tag:
+    """
+    Class to group GameObjects together without referencing the tags.
+
+    Attributes
+    ----------
+    tagName : str
+        Tag name
+    tag : int
+        Tag index of the list of tags
+    
+    Methods
+    -------
+    static AddTag(name)
+        Adds a new tag with a name
+    
+    """
+
     @staticmethod
     def AddTag(self, name):
+        """
+        Add a new tag to the tag list.
+        
+        Parameters
+        ----------
+        name : str
+            Name of the tag
+        
+        Returns
+        -------
+        int
+            The tag index
+        
+        """
         tags.append(name)
         return len(tags) - 1
     
     def __init__(self, tagNumOrName):
+        """
+        Create a new tag
+        
+        Parameters
+        ----------
+        tagNumOrName : str or int
+            Name or index of the tag
+        
+        Raises
+        ------
+        ValueError
+            If there is no tag name
+        IndexError
+            If there is no tag at the provided index
+        TypeError
+            If the argument is not a str or int
+        
+        """
         if type(tagNumOrName) is str:
             self.tagName = tagNumOrName
             self.tag = tags.index(tagNumOrName)
