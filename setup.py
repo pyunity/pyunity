@@ -1,4 +1,12 @@
 from setuptools import setup, find_packages
+import oss
+
+pyopengl_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl"
+pyopengl_accelerate_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL_accelerate-3.1.5-cp38-cp38-win32.whl"
+if os.name == "nt":
+    links = [pyopengl_link, pyopengl_accelerate_link]
+else:
+    links = []
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -23,5 +31,6 @@ setup(
         "pygame",
         "pyopengl",
     ],
+    dependency_links = links,
     python_requires = '>=3.7',
 )
