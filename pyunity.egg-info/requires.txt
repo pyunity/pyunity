@@ -1,3 +1,3 @@
 glfw
 pygame
-pyopengl@ git+https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl
+pyopengl
