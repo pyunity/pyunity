@@ -1,4 +1,6 @@
-import pygame
+import pygame, os
+os.environ["SDL_VIDEO_CENTERED"] = "1"
+
 pygame.init()
 
 from .. import config

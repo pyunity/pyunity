@@ -26,10 +26,10 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows :: Windows 10",
     ],
+    dependency_links = links,
     install_requires = [
         "glfw",
         "pygame",
     ],
-    dependency_links = links,
     python_requires = '>=3.7',
 )
