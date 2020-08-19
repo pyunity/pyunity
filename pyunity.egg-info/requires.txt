@@ -1,0 +1,3 @@
+glfw
+pygame
+pyopengl
