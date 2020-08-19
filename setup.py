@@ -1,12 +1,14 @@
 from setuptools import setup, find_packages
 import os
 
-pyopengl_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl"
-pyopengl_accelerate_link = "https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL_accelerate-3.1.5-cp38-cp38-win32.whl"
+pyopengl_link = "pyopengl @ git+https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl"
+pyopengl_accelerate_link = "pyopengl-accelerate @ git+https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL_accelerate-3.1.5-cp38-cp38-win32.whl"
 if os.name == "nt":
     links = [pyopengl_link, pyopengl_accelerate_link]
 else:
     links = []
+
+print(links)
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -30,6 +32,7 @@ setup(
     install_requires = [
         "glfw",
         "pygame",
+        *links,
     ],
     python_requires = '>=3.7',
 )
