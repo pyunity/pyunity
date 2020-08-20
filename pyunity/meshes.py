@@ -17,7 +17,14 @@ class Mesh:
 
     Attributes
     ----------
-    Same as Parameters
+    verts : list
+        List of Vector3's containing each vertex
+    triangles : list
+        List of ints containing triangles joining up the vertexes.
+        Each int is the index of a vertex above.
+    normals : list
+        List of Vector3's containing the normal of each triangle.
+        Unlike Unity, PyUnity uses normals per triangle.
     
     """
 
