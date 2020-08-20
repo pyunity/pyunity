@@ -4,7 +4,7 @@ from .vector3 import Vector3
 from .scene import SceneManager
 from . import errors
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 try:
     from OpenGL.GLUT import *

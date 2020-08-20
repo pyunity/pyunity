@@ -12,6 +12,7 @@
 #
 import os
 import sys
+from pyunity import *
 sys.path.insert(0, os.path.abspath('../..'))
 
 
@@ -22,7 +23,7 @@ copyright = '2020, Ray Chen'
 author = 'Ray Chen'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = pyunity.__version__
 
 
 # -- General configuration ---------------------------------------------------
