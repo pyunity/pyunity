@@ -12,7 +12,7 @@
 #
 import os
 import sys
-from pyunity import *
+import pyunity
 sys.path.insert(0, os.path.abspath('../..'))
 
 
