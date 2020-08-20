@@ -2,7 +2,6 @@ from . import config
 from .core import *
 from .vector3 import Vector3
 from .scene import SceneManager
-from . import meshes
 from . import errors
 
 __version__ = "0.0.1"

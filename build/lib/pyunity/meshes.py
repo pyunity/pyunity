@@ -1,7 +1,12 @@
-from .core import Mesh
 from .vector3 import Vector3
 
-quad = Mesh(
+class Mesh:
+    def __init__(self, verts, triangles, normals):
+        self.verts = verts
+        self.triangles = triangles
+        self.normals = normals
+
+Mesh.quad = Mesh(
     [
         Vector3(1, 1, 0),
         Vector3(-1, 1, 0),
@@ -18,7 +23,7 @@ quad = Mesh(
     ]
 )
 
-cube = Mesh(
+Mesh.cube = Mesh(
     [
         Vector3(x, y, z) for x in [-1, 1] for y in [-1, 1] for z in [-1, 1]
     ],
