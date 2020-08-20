@@ -68,7 +68,7 @@
 
 <dl class="py method">
 <dt id="pyunity.core.Behaviour.Update">
-<code class="sig-name descname">Update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Behaviour.Update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.Behaviour.Update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Behaviour.Update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.Behaviour.Update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -178,19 +178,9 @@
 <dl class="py method">
 <dt id="pyunity.core.GameObject.AddComponent">
 <code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.AddComponent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a component to the GameObject of type componentClass</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.core.GameObject.GetComponent">
-<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.GetComponent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a reference to a component of the GameObject of type componentClass</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="id0">
-<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a component to the GameObject</p>
+<dd><p>Adds a component to the GameObject.
+If it is a transform, set
+GameObject’s transform to it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
@@ -199,9 +189,11 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="id1">
-<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a component from the GameObject</p>
+<dt id="pyunity.core.GameObject.GetComponent">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a component from the GameObject.
+Will return first match.
+For all matches, do a manual loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
@@ -270,12 +262,6 @@
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt>
-<code class="sig-name descname">static AddTag(name)</code></dt>
-<dd><p>Adds a new tag with a name</p>
 </dd></dl>
 
 <dl class="py method">
