@@ -1,3 +1,4 @@
+import os
 from . import config
 from .core import *
 from .vector3 import Vector3
@@ -7,12 +8,15 @@ from . import errors
 __version__ = "0.0.2"
 
 try:
+    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+        print("Trying FreeGLUT as a window provider")
     from OpenGL.GLUT import *
     glutInit()
     config.windowProvider = "glut"
     w = "FreeGLUT"
 except Exception as e:
-    print("GLUT doesn't work, using GLFW")
+    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+        print("FreeGLUT doesn't work, using GLFW")
     try:
         import glfw
         if not glfw.init():
@@ -22,7 +26,8 @@ except Exception as e:
         config.windowProvider = "glfw"
         w = "GLFW"
     except Exception as e:
-        print("GLFW doesn't work, using Pygame")
+        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+            print("GLFW doesn't work, using Pygame")
         import pygame
         if pygame.init()[0] == 0:
             raise PyUnityException("No window provider found")
@@ -31,5 +36,6 @@ except Exception as e:
 
 SceneManager = SceneManager()
 
-print(f"Loaded PyUnity version {__version__}")
-print(f"Using window provider {w}")
+if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+    print(f"Loaded PyUnity version {__version__}")
+    print(f"Using window provider {w}")

@@ -372,10 +372,10 @@ class Camera(Component):
 
     def __init__(self):
         super(Camera, self).__init__()
-        self.farfov = 90
-        self.farnear = 0.05
-        self.farfar = 100
-        self.farclearColor = (.1, .1, .1, 1)
+        self.fov = 90
+        self.near = 0.05
+        self.far = 100
+        self.clearColor = (.1, .1, .1, 1)
 
 
 class Light(Component):
