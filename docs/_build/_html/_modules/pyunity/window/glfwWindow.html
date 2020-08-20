@@ -37,7 +37,7 @@
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">config</span>
 
-<div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../../pyunity.window.html#pyunity.window.glfwWindow.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">:</span>
+<div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../../pyunity.window.glfwWindow.html#pyunity.window.glfwWindow.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">glfw</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
@@ -48,7 +48,7 @@
         
         <span class="n">glfw</span><span class="o">.</span><span class="n">make_context_current</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.html#pyunity.window.glfwWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updateFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glfwWindow.html#pyunity.window.glfwWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updateFunc</span><span class="p">):</span>
         <span class="n">last</span> <span class="o">=</span> <span class="n">glfw</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">glfw</span><span class="o">.</span><span class="n">window_should_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">):</span>
             <span class="n">updateFunc</span><span class="p">()</span>
