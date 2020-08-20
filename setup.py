@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import os
+import os, pyunity
 
 pyopengl_link = "pyopengl @ git+https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL-3.1.5-cp38-cp38-win32.whl"
 pyopengl_accelerate_link = "pyopengl-accelerate @ git+https://raw.githubusercontent.com/rayzchen/PyUnity/master/PyOpenGL_accelerate-3.1.5-cp38-cp38-win32.whl"
@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = "pyunity",
-    version = "0.0.1",
+    version = pyunity.__version__,
     author = "Ray Chen",
     author_email = "tankimarshal2@gmail.com",
     description = "A Python implementation of the Unity Engine",
