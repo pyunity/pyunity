@@ -107,8 +107,12 @@ class GameObject:
         
         """
         if not issubclass(componentClass, Component):
-            raise ComponentError("Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component")
-        if not (componentClass in (Transform, Camera) and any(isinstance(component, componentClass) for component in self.components)):
+            raise ComponentError(
+                "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component"
+            )
+        if (
+                not (componentClass in (Transform, Camera) and 
+                any(isinstance(component, componentClass) for component in self.components))):
             component = componentClass()
             self.components.append(component)
             if componentClass is Transform:
@@ -118,7 +122,9 @@ class GameObject:
             component.transform = self.transform
             return component
         else:
-            raise ComponentError("Cannot add " + repr(componentClass.__name__) + " to the GameObject; it already has one")
+            raise ComponentError(
+                "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it already has one"
+            )
     
     def GetComponent(self, componentClass):
         """
@@ -139,24 +145,101 @@ class GameObject:
         return None
 
 class Component:
+    """
+    Base class for built-in components.
+
+    Attributes
+    ----------
+    gameObject : GameObject
+        GameObject that the component belongs to.
+    transform : Transform
+        Transform that the component belongs to.
+    
+    """
+
     def __init__(self):
         self.gameObject = None
         self.transform = None
     
     def GetComponent(self, component):
+        """
+        Calls `GetComponent` on the component's GameObject.
+        
+        Parameters
+        ----------
+        componentClass : Component
+            Component to get. Must inherit from `Component`
+        
+        """
         return self.gameObject.GetComponent(component)
     
     def AddComponent(self, component):
+        """
+        Calls `AddComponent` on the component's GameObject.
+        
+        Parameters
+        ----------
+        component : Component
+            Component to add. Must inherit from `Component`
+        
+        """
         return self.gameObject.AddComponent(component)
 
 class Behaviour(Component):
+    """
+    Base class for behaviours that can be scripted.
+
+    Attributes
+    ----------
+    gameObject : GameObject
+        GameObject that the component belongs to.
+    transform : Transform
+        Transform that the component belongs to.
+    
+    """
+
     def Start(self):
+        """
+        Called every time a scene is loaded up.
+        
+        """
         pass
 
     def Update(self, dt):
+        """
+        Called every frame.
+
+        Parameters
+        ----------
+        dt : float
+            Time since last frame, sent by the scene 
+            that the Behaviour is in.
+        
+        """
         pass
 
 class Transform(Component):
+    """
+    Class to hold data about a GameObject's transformation.
+
+    Attributes
+    ----------
+    gameObject : GameObject
+        GameObject that the component belongs to.
+    position : Vector3
+        Position of the Transform.
+    rotation : Vector3
+        Rotation of the Transform.
+    scale : Vector3
+        Scale of the Transform.
+    parent : Transform or None
+        Parent of the Transform. The hierarchical tree is 
+        actually formed by the Transform, not the GameObject.
+    children : list
+        List of children
+    
+    """
+
     def __init__(self):
         super(Transform, self).__init__()
         self.position = Vector3(0, 0, 0)
@@ -166,14 +249,38 @@ class Transform(Component):
         self.children = []
     
     def ReparentTo(self, parent):
+        """
+        Reparent a Transform.
+
+        Parameters
+        ----------
+        parent : Transform
+            The parent to reparent to.
+        
+        """
         if parent: parent.children.append(self); self.parent = parent
     
     def List(self):
+        """
+        Prints the Transform's full path from the root, then
+        lists the children in alphabetical order. This results in a
+        nice list of all GameObjects.
+        
+        """
         print(self.FullPath())
-        for child in self.children:
+        for child in sorted(self.children, key = lambda x: x.gameObject.name):
             child.List()
     
     def FullPath(self):
+        """
+        Gets the full path of the Transform.
+
+        Returns
+        -------
+        str
+            The full path of the Transform.
+        
+        """
         path = "/" + self.gameObject.name
         flag = self.parent is None
         parent = self.parent
@@ -182,10 +289,40 @@ class Transform(Component):
             parent = parent.parent
         return path
     
-    def __str__(self):
-        return f"<Transform position={self.position} rotation={self.rotation} scale={self.scale} path={self.FullPath()}>"
+    def __repr__(self):
+        """
+        Returns a string interpretation of the Transform.
+
+        Returns
+        -------
+        str
+            A string interpretation of the Transform. For example, the Main Camera would have
+            a string interpretation of <Transform position=<Vector3 x=0 y=0 z=0>
+            rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
+        
+        """
+        return "<Transform position=" + self.position + " rotation=" + self.rotation + 
+                " scale=" + self.scale + " path=\"" + self.FullPath() + "\">"
+    
+    __str__ = __repr__
 
 class Camera(Component):
+    """
+    Component to hold data about the camera in a scene.
+
+    Attributes
+    ----------
+    fov : int
+        Fov in degrees measured horizontally.
+    near : float
+        Distance of the near plane in the camera frustrum.
+    far : float
+        Distance of the far plane in the camera frustrum.
+    clearColor : tuple
+        Tuple of 4 floats of the clear color of the camera.
+        Color mode is RGBA.
+    
+    """
 
     fov = 90
     near = 0.5
@@ -196,16 +333,46 @@ class Camera(Component):
         super(Camera, self).__init__()
 
 class Light(Component):
+    """
+    (Experimental) Component to hold data about the light in a scene.
+
+    Notes
+    -----
+    Lighting is not working yet, so all MeshRenderers will only display a sillhouette.
+    
+    """
+
     def __init__(self):
         super(Light, self).__init__()
 
 class MeshRenderer(Component):
+    """
+    Component to render a mesh at the position of a transform.
+
+    Attributes
+    ----------
+    mesh : Mesh
+        Mesh that the MeshRenderer will render.
+    mat : Material
+        Material to use for the mesh
+
+    """
+
     def __init__(self):
         super(MeshRenderer, self).__init__()
         self.mesh = None
         self.mat = None
     
     def move(self, transform):
+        """
+        Move the transformation matrix according to a transform.
+
+        Parameters
+        ----------
+        transform : Transform
+            Transform to move the transformation matrix according to.
+
+        """
         glRotatef(transform.rotation[0], 1, 0, 0)
         glRotatef(transform.rotation[1], 0, 1, 0)
         glRotatef(transform.rotation[2], 0, 0, 1)
@@ -214,6 +381,19 @@ class MeshRenderer(Component):
                     transform.position[2])
 
     def render(self):
+        """
+        Render the mesh that the MeshRenderer has.
+
+        Notes
+        -----
+        It loops through the trianges in the mesh, then draws them. Each
+        triangle has the same material, and when rendered, the mesh will
+        be like a silhouette or shadow, do to the lack of lighting. When
+        `render` is called, the MeshRenderer will call `render` on its
+        own children, moving it accordingly. The `render` function
+        assumes that the transform was applied already.
+
+        """
         glBegin(GL_TRIANGLES)
         for index, triangle in enumerate(self.mesh.triangles):
             glNormal3fv(list(self.mesh.normals[index]))
@@ -231,5 +411,15 @@ class MeshRenderer(Component):
                 glPopMatrix()
 
 class Material:
+    """
+    Class to hold data on a material.
+
+    Attributes
+    ----------
+    color : list or tuple
+        A list or tuple of 4 floats that make up a RGBA color.
+
+    """
+
     def __init__(self, color):
         self.color = color
