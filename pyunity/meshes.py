@@ -1,3 +1,8 @@
+"""
+Module for prebuilt meshes.
+
+"""
+
 from .vector3 import Vector3
 
 class Mesh:
@@ -34,7 +39,7 @@ class Mesh:
         self.normals = normals
     
     @staticmethod
-    def quad(self, size):
+    def quad(size):
         """
         Creates a quadrilateral mesh.
 
@@ -60,7 +65,7 @@ class Mesh:
         )
     
     @staticmethod
-    def cube(self, size):
+    def cube(size):
         """
         Creates a cube mesh.
 
