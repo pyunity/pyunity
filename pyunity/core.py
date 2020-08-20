@@ -301,7 +301,7 @@ class Transform(Component):
             rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
         
         """
-        return "<Transform position=" + self.position + " rotation=" + self.rotation + 
+        return "<Transform position=" + self.position + " rotation=" + self.rotation + \
                 " scale=" + self.scale + " path=\"" + self.FullPath() + "\">"
     
     __str__ = __repr__
