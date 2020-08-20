@@ -8,6 +8,20 @@ tags = ["Default"]
 class Tag:
     """
     Class to group GameObjects together without referencing the tags.
+        
+    Parameters
+    ----------
+    tagNumOrName : str or int
+        Name or index of the tag
+    
+    Raises
+    ------
+    ValueError
+        If there is no tag name
+    IndexError
+        If there is no tag at the provided index
+    TypeError
+        If the argument is not a str or int
 
     Attributes
     ----------
@@ -38,24 +52,6 @@ class Tag:
         return len(tags) - 1
     
     def __init__(self, tagNumOrName):
-        """
-        Create a new tag
-        
-        Parameters
-        ----------
-        tagNumOrName : str or int
-            Name or index of the tag
-        
-        Raises
-        ------
-        ValueError
-            If there is no tag name
-        IndexError
-            If there is no tag at the provided index
-        TypeError
-            If the argument is not a str or int
-        
-        """
         if type(tagNumOrName) is str:
             self.tagName = tagNumOrName
             self.tag = tags.index(tagNumOrName)
@@ -68,6 +64,13 @@ class Tag:
 class GameObject:
     """
     Class to create a GameObject, which is an object with components.
+        
+    Parameters
+    ----------
+    name : str (Optional)
+        Name of GameObject
+    parent : GameObject or None
+        Parent of GameObject
 
     Attributes
     ----------
@@ -85,17 +88,6 @@ class GameObject:
     """
 
     def __init__(self, name = "GameObject", parent = None):
-        """
-        Create a new GameObject
-        
-        Parameters
-        ----------
-        name : str (Optional)
-            Name of GameObject
-        parent : GameObject or None
-            Parent of GameObject
-        
-        """
         self.name = name
         self.components = []
         self.AddComponent(Transform)

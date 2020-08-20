@@ -117,6 +117,14 @@
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">GameObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'GameObject'</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.GameObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to create a GameObject, which is an object with components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em> (</em><em>Optional</em><em>)</em>) – Name of GameObject</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject"><em>GameObject</em></a><em> or </em><em>None</em>) – Parent of GameObject</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="pyunity.core.GameObject.name">
 <code class="sig-name descname">name</code><a class="headerlink" href="#pyunity.core.GameObject.name" title="Permalink to this definition">¶</a></dt>
@@ -233,6 +241,18 @@ For all matches, do a manual loop.</p>
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Tag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tagNumOrName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to group GameObjects together without referencing the tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tagNumOrName</strong> (<em>str</em><em> or </em><em>int</em>) – Name or index of the tag</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If there is no tag name</p></li>
+<li><p><strong>IndexError</strong> – If there is no tag at the provided index</p></li>
+<li><p><strong>TypeError</strong> – If the argument is not a str or int</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="pyunity.core.Tag.tagName">
 <code class="sig-name descname">tagName</code><a class="headerlink" href="#pyunity.core.Tag.tagName" title="Permalink to this definition">¶</a></dt>
@@ -323,15 +343,57 @@ For all matches, do a manual loop.</p>
 <dt id="pyunity.meshes.Mesh">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.meshes.</code><code class="sig-name descname">Mesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">verts</span></em>, <em class="sig-param"><span class="n">triangles</span></em>, <em class="sig-param"><span class="n">normals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.meshes.Mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to create a mesh for rendering with a MeshRenderer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verts</strong> (<em>list</em>) – List of Vector3’s containing each vertex</p></li>
+<li><p><strong>triangles</strong> (<em>list</em>) – List of ints containing triangles joining up the vertexes.
+Each int is the index of a vertex above.</p></li>
+<li><p><strong>normals</strong> (<em>list</em>) – List of Vector3’s containing the normal of each triangle.
+Unlike Unity, PyUnity uses normals per triangle.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
-<dt id="pyunity.meshes.Mesh.cube">
-<code class="sig-name descname">cube</code><em class="property"> = &lt;pyunity.meshes.Mesh object&gt;</em><a class="headerlink" href="#pyunity.meshes.Mesh.cube" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-name descname">Same as Parameters</code></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
+<dt id="pyunity.meshes.Mesh.cube">
+<em class="property">static </em><code class="sig-name descname">cube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.meshes.Mesh.cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cube mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Side length of cube</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube centered at Vector3(0, 0, 0) that has a side length of <cite>size</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyunity.meshes.Mesh.quad">
-<code class="sig-name descname">quad</code><em class="property"> = &lt;pyunity.meshes.Mesh object&gt;</em><a class="headerlink" href="#pyunity.meshes.Mesh.quad" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">static </em><code class="sig-name descname">quad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.meshes.Mesh.quad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a quadrilateral mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Side length of quad</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A quad centered at Vector3(0, 0) with side length of <cite>size</cite>
+facing in the direction of the negative z axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
