@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.core module &#8212; PyUnity 0.0.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyunity.errors module" href="pyunity.errors.html" />
+    <link rel="prev" title="pyunity.window.pygameWindow module" href="pyunity.window.pygameWindow.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyunity.core">
+<span id="pyunity-core-module"></span><h1>pyunity.core module<a class="headerlink" href="#module-pyunity.core" title="Permalink to this headline">¶</a></h1>
+<p>Core classes for the PyUnity library.</p>
+<p>This module has some key classes used throughout PyUnity, and
+have to be in the same file due to references both ways. Usually
+when you create a scene, you should never create Components
+directly, instead add them with AddComponent.</p>
+<p class="rubric">Examples</p>
+<p>To create a GameObject with 2 children, one of which has its own child,
+and all have MeshRenderers:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">GLUT doesn&#39;t work, using GLFW</span>
+<span class="go">GLFW doesn&#39;t work, using Pygame</span>
+<span class="go">Loaded PyUnity version 0.0.1</span>
+<span class="go">Using window provider Pygame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Root&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child1&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">child1</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child2&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">child2</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Grandchild&quot;</span><span class="p">,</span> <span class="n">child2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">grandchild</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+<span class="go">/Root</span>
+<span class="go">/Root/Child1</span>
+<span class="go">/Root/Child2</span>
+<span class="go">/Root/Child2/Grandchild</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[&lt;Transform position=&lt;Vector3 x=-2 y=0 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B5E1B68&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">children</span>
+<span class="go">[&lt;Transform position=&lt;Vector3 x=0 y=5 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="pyunity.core.Behaviour">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Behaviour</code><a class="headerlink" href="#pyunity.core.Behaviour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Base class for behaviours that can be scripted.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Behaviour.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.core.Behaviour.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Behaviour.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.core.Behaviour.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Behaviour.Start">
+<code class="sig-name descname">Start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Behaviour.Start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called every time a scene is loaded up.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Behaviour.Update">
+<code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Behaviour.Update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called every frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Time since last frame, sent by the scene
+that the Behaviour is in.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Camera">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Camera</code><a class="headerlink" href="#pyunity.core.Camera" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Component to hold data about the camera in a scene.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Camera.fov">
+<code class="sig-name descname">fov</code><a class="headerlink" href="#pyunity.core.Camera.fov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fov in degrees measured horizontally. Defaults to 90.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Camera.near">
+<code class="sig-name descname">near</code><a class="headerlink" href="#pyunity.core.Camera.near" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance of the near plane in the camera frustrum. Defaults to 0.05.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Camera.far">
+<code class="sig-name descname">far</code><a class="headerlink" href="#pyunity.core.Camera.far" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance of the far plane in the camera frustrum. Defaults to 100.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Camera.clearColor">
+<code class="sig-name descname">clearColor</code><a class="headerlink" href="#pyunity.core.Camera.clearColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
+Color mode is RGBA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Component">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Component</code><a class="headerlink" href="#pyunity.core.Component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for built-in components.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Component.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.core.Component.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Component.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.core.Component.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Component.AddComponent">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">component</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Component.AddComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <cite>AddComponent</cite> on the component’s GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Component.GetComponent">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">component</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Component.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <cite>GetComponent</cite> on the component’s GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.GameObject">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">GameObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'GameObject'</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.GameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to create a GameObject, which is an object with components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of GameObject</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject"><em>GameObject</em></a><em> or </em><em>None</em>) – Parent of GameObject</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyunity.core.GameObject.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.components">
+<code class="sig-name descname">components</code><a class="headerlink" href="#pyunity.core.GameObject.components" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.parent">
+<code class="sig-name descname">parent</code><a class="headerlink" href="#pyunity.core.GameObject.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parent GameObject, if GameObject has one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.core.GameObject.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag that the GameObject has (defaults to tag 0 or Default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Tag" title="pyunity.core.Tag">Tag</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.core.GameObject.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that belongs to the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.GameObject.AddComponent">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.GameObject.AddComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a component to the GameObject.
+If it is a transform, set
+GameObject’s transform to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.GameObject.GetComponent">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.GameObject.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a component from the GameObject.
+Will return first match.
+For all matches, do a manual loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Light">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Light</code><a class="headerlink" href="#pyunity.core.Light" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>(Experimental) Component to hold data about the light in a scene.</p>
+<p class="rubric">Notes</p>
+<p>Lighting is not working yet, so all MeshRenderers will only display a sillhouette.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Material">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Material</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to hold data on a material.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Material.color">
+<code class="sig-name descname">color</code><a class="headerlink" href="#pyunity.core.Material.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list or tuple of 4 floats that make up a RGBA color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list or tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.MeshRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">MeshRenderer</code><a class="headerlink" href="#pyunity.core.MeshRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Component to render a mesh at the position of a transform.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.MeshRenderer.mesh">
+<code class="sig-name descname">mesh</code><a class="headerlink" href="#pyunity.core.MeshRenderer.mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mesh that the MeshRenderer will render.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.meshes.html#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.MeshRenderer.mat">
+<code class="sig-name descname">mat</code><a class="headerlink" href="#pyunity.core.MeshRenderer.mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Material to use for the mesh</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Material" title="pyunity.core.Material">Material</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.MeshRenderer.move">
+<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.MeshRenderer.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the transformation matrix according to a transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transform</strong> (<a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – Transform to move the transformation matrix according to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.MeshRenderer.render">
+<code class="sig-name descname">render</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.MeshRenderer.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render the mesh that the MeshRenderer has.</p>
+<p class="rubric">Notes</p>
+<p>It loops through the trianges in the mesh, then draws them. Each
+triangle has the same material, and when rendered, the mesh will
+be like a silhouette or shadow, do to the lack of lighting. When
+<cite>render</cite> is called, the MeshRenderer will call <cite>render</cite> on its
+own children, moving it accordingly. The <cite>render</cite> function
+assumes that the transform was applied already.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Tag">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Tag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tagNumOrName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to group GameObjects together without referencing the tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tagNumOrName</strong> (<em>str</em><em> or </em><em>int</em>) – Name or index of the tag</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If there is no tag name</p></li>
+<li><p><strong>IndexError</strong> – If there is no tag at the provided index</p></li>
+<li><p><strong>TypeError</strong> – If the argument is not a str or int</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.core.Tag.tagName">
+<code class="sig-name descname">tagName</code><a class="headerlink" href="#pyunity.core.Tag.tagName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Tag.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.core.Tag.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag index of the list of tags</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Tag.AddTag">
+<em class="property">static </em><code class="sig-name descname">AddTag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Tag.AddTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new tag to the tag list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tag</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The tag index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.core.Transform">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Transform</code><a class="headerlink" href="#pyunity.core.Transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Class to hold data about a GameObject’s transformation.</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.core.Transform.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.position">
+<code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.core.Transform.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.rotation">
+<code class="sig-name descname">rotation</code><a class="headerlink" href="#pyunity.core.Transform.rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.scale">
+<code class="sig-name descname">scale</code><a class="headerlink" href="#pyunity.core.Transform.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale of the Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.parent">
+<code class="sig-name descname">parent</code><a class="headerlink" href="#pyunity.core.Transform.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parent of the Transform. The hierarchical tree is
+actually formed by the Transform, not the GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.children">
+<code class="sig-name descname">children</code><a class="headerlink" href="#pyunity.core.Transform.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of children</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Transform.FullPath">
+<code class="sig-name descname">FullPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Transform.FullPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the full path of the Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The full path of the Transform.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Transform.List">
+<code class="sig-name descname">List</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Transform.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the Transform’s full path from the root, then
+lists the children in alphabetical order. This results in a
+nice list of all GameObjects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.core.Transform.ReparentTo">
+<code class="sig-name descname">ReparentTo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parent</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.core.Transform.ReparentTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reparent a Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – The parent to reparent to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyunity.html">pyunity package</a><ul>
+      <li>Previous: <a href="pyunity.window.pygameWindow.html" title="previous chapter">pyunity.window.pygameWindow module</a></li>
+      <li>Next: <a href="pyunity.errors.html" title="next chapter">pyunity.errors module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyunity.core.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
