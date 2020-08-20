@@ -25,6 +25,14 @@ pyunity.core module
    :undoc-members:
    :show-inheritance:
 
+pyunity.docstrings module
+-------------------------
+
+.. automodule:: pyunity.docstrings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyunity.errors module
 ---------------------
 
