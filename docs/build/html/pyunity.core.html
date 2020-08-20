@@ -35,6 +35,46 @@
             
   <div class="section" id="module-pyunity.core">
 <span id="pyunity-core-module"></span><h1>pyunity.core module<a class="headerlink" href="#module-pyunity.core" title="Permalink to this headline">¶</a></h1>
+<p>Core classes for the PyUnity library.</p>
+<p>This module has some key classes used throughout PyUnity, and
+have to be in the same file due to references both ways. Usually
+when you create a scene, you should never create Components
+directly, instead add them with AddComponent.</p>
+<p class="rubric">Examples</p>
+<p>To create a GameObject with 2 children, one of which has its own child,
+and all have MeshRenderers:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">GLUT doesn&#39;t work, using GLFW</span>
+<span class="go">GLFW doesn&#39;t work, using Pygame</span>
+<span class="go">Loaded PyUnity version 0.0.1</span>
+<span class="go">Using window provider Pygame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Root&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child1&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">child1</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child2&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">child2</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Grandchild&quot;</span><span class="p">,</span> <span class="n">child2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">grandchild</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+<span class="go">/Root</span>
+<span class="go">/Root/Child1</span>
+<span class="go">/Root/Child2</span>
+<span class="go">/Root/Child2/Grandchild</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[&lt;Transform position=&lt;Vector3 x=-2 y=0 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B5E1B68&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">children</span>
+<span class="go">[&lt;Transform position=&lt;Vector3 x=0 y=5 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt id="pyunity.core.Behaviour">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Behaviour</code><a class="headerlink" href="#pyunity.core.Behaviour" title="Permalink to this definition">¶</a></dt>

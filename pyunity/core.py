@@ -1,3 +1,49 @@
+"""
+Core classes for the PyUnity library.
+
+This module has some key classes used throughout PyUnity, and
+have to be in the same file due to references both ways. Usually
+when you create a scene, you should never create Components
+directly, instead add them with AddComponent.
+
+Examples
+--------
+To create a GameObject with 2 children, one of which has its own child,
+and all have MeshRenderers:
+
+    >>> from pyunity import *
+    GLUT doesn't work, using GLFW
+    GLFW doesn't work, using Pygame
+    Loaded PyUnity version 0.0.1
+    Using window provider Pygame
+    >>> mat = Material((1, 0, 0))
+    >>> root = GameObject("Root")
+    >>> child1 = GameObject("Child1", root)
+    >>> child1.transform.position = Vector3(-2, 0, 0)
+    >>> renderer = child1.AddComponent(MeshRenderer)
+    >>> renderer.mat = mat
+    >>> renderer.mesh = Mesh.cube(2)
+    >>> child2 = GameObject("Child2", root)
+    >>> renderer = child2.AddComponent(MeshRenderer)
+    >>> renderer.mat = mat
+    >>> renderer.mesh = Mesh.quad(1)
+    >>> grandchild = GameObject("Grandchild", child2)
+    >>> grandchild.transform.position = Vector3(0, 5, 0)
+    >>> renderer = grandchild.AddComponent(MeshRenderer)
+    >>> renderer.mat = mat
+    >>> renderer.mesh = Mesh.cube(3)
+    >>> root.transform.List()
+    /Root
+    /Root/Child1
+    /Root/Child2
+    /Root/Child2/Grandchild
+    >>> child1.components
+    [<Transform position=<Vector3 x=-2 y=0 z=0> rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0B5E1B68>]
+    >>> child2.transform.children
+    [<Transform position=<Vector3 x=0 y=5 z=0> rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Root/Child2/Grandchild">]
+
+"""
+
 from .vector3 import Vector3
 from .errors import *
 from .meshes import *
@@ -301,8 +347,8 @@ class Transform(Component):
             rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
         
         """
-        return "<Transform position=" + self.position + " rotation=" + self.rotation + \
-                " scale=" + self.scale + " path=\"" + self.FullPath() + "\">"
+        return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
+                " scale=" + str(self.scale) + " path=\"" + self.FullPath() + "\">"
     
     __str__ = __repr__
 
