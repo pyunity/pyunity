@@ -8,8 +8,6 @@ if os.name == "nt":
 else:
     links = []
 
-print(links)
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 

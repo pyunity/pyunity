@@ -1,5 +1,6 @@
 from .vector3 import Vector3
 from .errors import *
+from .meshes import *
 from OpenGL.GL import *
 
 tags = ["Default"]
@@ -236,12 +237,6 @@ class MeshRenderer(Component):
                 self.move(child)
                 renderer.render()
                 glPopMatrix()
-
-class Mesh:
-    def __init__(self, verts, triangles, normals):
-        self.verts = verts
-        self.triangles = triangles
-        self.normals = normals
 
 class Material:
     def __init__(self, color):
