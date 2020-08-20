@@ -13,7 +13,6 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
-import pyunity
 
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +22,7 @@ copyright = '2020, Ray Chen'
 author = 'Ray Chen'
 
 # The full version, including alpha/beta/rc tags
-release = pyunity.__version__
+release = "0.0.3"
 
 
 # -- General configuration ---------------------------------------------------
