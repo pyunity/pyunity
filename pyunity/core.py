@@ -67,7 +67,7 @@ class GameObject:
         
     Parameters
     ----------
-    name : str (Optional)
+    name : str, optional
         Name of GameObject
     parent : GameObject or None
         Parent of GameObject
@@ -313,24 +313,24 @@ class Camera(Component):
     Attributes
     ----------
     fov : int
-        Fov in degrees measured horizontally.
+        Fov in degrees measured horizontally. Defaults to 90.
     near : float
-        Distance of the near plane in the camera frustrum.
+        Distance of the near plane in the camera frustrum. Defaults to 0.05.
     far : float
-        Distance of the far plane in the camera frustrum.
+        Distance of the far plane in the camera frustrum. Defaults to 100.
     clearColor : tuple
-        Tuple of 4 floats of the clear color of the camera.
+        Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
         Color mode is RGBA.
     
     """
 
-    fov = 90
-    near = 0.5
-    far = 100
-    clearColor = (.1, .1, .1, 1)
-
     def __init__(self):
         super(Camera, self).__init__()
+        self.farfov = 90
+        self.farnear = 0.05
+        self.farfar = 100
+        self.farclearColor = (.1, .1, .1, 1)
+
 
 class Light(Component):
     """
