@@ -1,7 +1,7 @@
 @ECHO OFF
 
 python setup.py bdist_wheel sdist
-RMDIR /S /Q build /S /Q pyunity.egg-info /S /Q docs/build/html
+RMDIR /S /Q "build/" /S /Q "pyunity.egg-info/" /S /Q "docs/build/html/"
 sphinx-apidoc -F -M -o docs/source pyunity pyunity/config.py
 sphinx-build -b html docs/source docs/build/html
 git add .
