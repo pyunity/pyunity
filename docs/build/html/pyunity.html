@@ -356,9 +356,39 @@ Unlike Unity, PyUnity uses normals per triangle.</p></li>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt>
-<code class="sig-name descname">Same as Parameters</code></dt>
-<dd></dd></dl>
+<dt id="pyunity.meshes.Mesh.verts">
+<code class="sig-name descname">verts</code><a class="headerlink" href="#pyunity.meshes.Mesh.verts" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of Vector3’s containing each vertex</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.meshes.Mesh.triangles">
+<code class="sig-name descname">triangles</code><a class="headerlink" href="#pyunity.meshes.Mesh.triangles" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of ints containing triangles joining up the vertexes.
+Each int is the index of a vertex above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.meshes.Mesh.normals">
+<code class="sig-name descname">normals</code><a class="headerlink" href="#pyunity.meshes.Mesh.normals" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of Vector3’s containing the normal of each triangle.
+Unlike Unity, PyUnity uses normals per triangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.meshes.Mesh.cube">
