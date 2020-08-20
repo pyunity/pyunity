@@ -9,7 +9,7 @@ def main():
 
     cube = GameObject("Cube")
     renderer = cube.AddComponent(MeshRenderer)
-    renderer.mesh = Mesh.cube
+    renderer.mesh = Mesh.cube()
     renderer.mat = Material((255, 0, 0))
     cube.AddComponent(Rotator)
 
