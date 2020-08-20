@@ -76,7 +76,9 @@ class Mesh:
         
         """
         return Mesh(
-            [Vector3(x, y, z) for x in [-size / 2, size / 2] for y in [-size / 2, size / 2] for z in [-size / 2, size / 2]],
+            [Vector3(x, y, z)   for x in [-size / 2, size / 2] 
+                                for y in [-size / 2, size / 2]
+                                for z in [-size / 2, size / 2]],
             [
                 [0, 2, 1], [1, 2, 3], [4, 5, 6], [5, 7, 6], [0, 4, 2], [2, 4, 6],
                 [1, 3, 5], [3, 7, 5], [2, 6, 3], [3, 6, 7], [0, 1, 4], [4, 1, 5],
