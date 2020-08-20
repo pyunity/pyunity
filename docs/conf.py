@@ -12,12 +12,12 @@
 #
 # import os
 # import sys
-# sys.path.insert(0, "D:\\Ray\\Ray"s docs and txts...anythin!\\python\\pyunity\\pyunity")
+# sys.path.insert(0, os.path.abspath("../pyunity"))
 
 
 # -- Project information -----------------------------------------------------
 
-project = "PyUnity"
+project = "pyunity"
 copyright = "2020, Ray Chen"
 author = "Ray Chen"
 
@@ -71,4 +71,4 @@ html_static_path = ["_static"]
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-autodoc_mock_imports = ["pyunity", "OpenGL", "glfw", "pygame"]
+autodoc_mock_imports = ["OpenGL", "glfw", "pygame"]
