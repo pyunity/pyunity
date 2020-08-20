@@ -15,11 +15,6 @@ class Tag:
     tag : int
         Tag index of the list of tags
     
-    Methods
-    -------
-    static AddTag(name)
-        Adds a new tag with a name
-    
     """
 
     @staticmethod
@@ -85,13 +80,6 @@ class GameObject:
         Tag that the GameObject has (defaults to tag 0 or Default)
     transform : Transform
         Transform that belongs to the GameObject
-    
-    Methods
-    -------
-    AddComponent(componentClass)
-        Adds a component to the GameObject of type componentClass
-    GetComponent(componentClass)
-        Gets a reference to a component of the GameObject of type componentClass
     
     """
 
