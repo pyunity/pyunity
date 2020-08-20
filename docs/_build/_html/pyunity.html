@@ -120,40 +120,91 @@
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">GameObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'GameObject'</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to create a GameObject, which is an object with components.</p>
-<dl class="simple">
-<dt>name<span class="classifier">str</span></dt><dd><p>Name of the GameObject</p>
-</dd>
-<dt>components<span class="classifier">list</span></dt><dd><p>List of components</p>
-</dd>
-<dt>parent<span class="classifier">GameObject or None</span></dt><dd><p>Parent GameObject, if GameObject has one</p>
-</dd>
-<dt>tag<span class="classifier">Tag</span></dt><dd><p>Tag that the GameObject has (defaults to tag 0 or Default)</p>
-</dd>
-<dt>transform<span class="classifier">Transform</span></dt><dd><p>Transform that belongs to the GameObject</p>
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyunity.core.GameObject.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>AddComponent(componentClass)</dt><dd><p>Adds a component to the GameObject of type componentClass</p>
-</dd>
-<dt>GetComponent(componentClass)</dt><dd><p>Gets a reference to a component of the GameObject of type componentClass</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.components">
+<code class="sig-name descname">components</code><a class="headerlink" href="#pyunity.core.GameObject.components" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<dl class="py method">
-<dt id="pyunity.core.GameObject.AddComponent">
-<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.AddComponent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a component to the GameObject</p>
-<dl class="simple">
-<dt>componentClass<span class="classifier">Component</span></dt><dd><p>Component to add. Must inherit from <cite>Component</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.parent">
+<code class="sig-name descname">parent</code><a class="headerlink" href="#pyunity.core.GameObject.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parent GameObject, if GameObject has one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.core.GameObject.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag that the GameObject has (defaults to tag 0 or Default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Tag" title="pyunity.core.Tag">Tag</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.GameObject.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.core.GameObject.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that belongs to the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pyunity.core.GameObject.AddComponent">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.AddComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a component to the GameObject of type componentClass</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pyunity.core.GameObject.GetComponent">
 <code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.GameObject.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a reference to a component of the GameObject of type componentClass</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id0">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a component to the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id1">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a component from the GameObject</p>
-<dl class="simple">
-<dt>componentClass<span class="classifier">Component</span></dt><dd><p>Component to get. Must inherit from <cite>Component</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -199,26 +250,47 @@
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.core.</code><code class="sig-name descname">Tag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tagNumOrName</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.Tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to group GameObjects together without referencing the tags.</p>
-<dl class="simple">
-<dt>tagName<span class="classifier">str</span></dt><dd><p>Tag name</p>
-</dd>
-<dt>tag<span class="classifier">int</span></dt><dd><p>Tag index of the list of tags</p>
+<dl class="py attribute">
+<dt id="pyunity.core.Tag.tagName">
+<code class="sig-name descname">tagName</code><a class="headerlink" href="#pyunity.core.Tag.tagName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>static AddTag(name)</dt><dd><p>Adds a new tag with a name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Tag.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.core.Tag.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag index of the list of tags</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">static AddTag(name)</code></dt>
+<dd><p>Adds a new tag with a name</p>
+</dd></dl>
+
 <dl class="py method">
 <dt id="pyunity.core.Tag.AddTag">
 <em class="property">static </em><code class="sig-name descname">AddTag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Tag.AddTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.Tag.AddTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a new tag to the tag list.</p>
-<dl class="simple">
-<dt>name<span class="classifier">str</span></dt><dd><p>Name of the tag</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tag</p>
 </dd>
-</dl>
-<dl class="simple">
-<dt>int</dt><dd><p>The tag index</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The tag index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>

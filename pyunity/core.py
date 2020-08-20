@@ -115,7 +115,9 @@ class GameObject:
     
     def AddComponent(self, componentClass):
         """
-        Adds a component to the GameObject
+        Adds a component to the GameObject.
+        If it is a transform, set
+        GameObject's transform to it.
         
         Parameters
         ----------
@@ -139,7 +141,9 @@ class GameObject:
     
     def GetComponent(self, componentClass):
         """
-        Gets a component from the GameObject
+        Gets a component from the GameObject.
+        Will return first match.
+        For all matches, do a manual loop.
         
         Parameters
         ----------
@@ -168,7 +172,7 @@ class Behaviour(Component):
     def Start(self):
         pass
 
-    def Update(self):
+    def Update(self, dt):
         pass
 
 class Transform(Component):
