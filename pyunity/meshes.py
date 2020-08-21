@@ -61,7 +61,33 @@ class Mesh:
                 Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
-            [Vector3(0, 0, -1), Vector3(0, 0, -1)]
+            [Vector3(0, 0, 1), Vector3(0, 0, 1)]
+        )
+    
+    @staticmethod
+    def double_quad(size):
+        """
+        Creates a two-sided quadrilateral mesh.
+
+        Parameters
+        ----------
+        size : float
+            Side length of quad
+
+        Returns
+        -------
+        Mesh
+            A double-sided quad centered at Vector3(0, 0) with side length
+            of `size` facing in the direction of the negative z axis.
+        
+        """
+        return Mesh(
+            [
+                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
+                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
+            ],
+            [[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]],
+            [Vector3(0, 0, 1), Vector3(0, 0, 1), Vector3(0, 0, -1), Vector3(0, 0, -1)]
         )
     
     @staticmethod
@@ -85,12 +111,31 @@ class Mesh:
                                 for y in [-size / 2, size / 2]
                                 for z in [-size / 2, size / 2]],
             [
-                [0, 2, 1], [1, 2, 3], [4, 5, 6], [5, 7, 6], [0, 4, 2], [2, 4, 6],
-                [1, 3, 5], [3, 7, 5], [2, 6, 3], [3, 6, 7], [0, 1, 4], [4, 1, 5],
+                [0, 1, 2],
+                [1, 3, 2],
+                [4, 6, 5],
+                [5, 6, 7],
+                [0, 2, 4],
+                [2, 6, 4],
+                [1, 5, 3],
+                [3, 5, 7],
+                [2, 3, 6],
+                [3, 7, 6],
+                [0, 4, 1],
+                [1, 4, 5],
             ],
             [
-                Vector3(-1, 0, 0), Vector3(-1, 0, 0), Vector3(1, 0, 0), Vector3(1, 0, 0),
-                Vector3(0, 0, 1), Vector3(0, 0, 1), Vector3(0, 0, -1), Vector3(0, 0, -1),
-                Vector3(0, 1, 0), Vector3(0, 1, 0), Vector3(0, -1, 0), Vector3(0, -1, 0),
+                Vector3(-1, 0, 0),
+                Vector3(-1, 0, 0),
+                Vector3(1, 0, 0),
+                Vector3(1, 0, 0),
+                Vector3(0, 0, -1),
+                Vector3(0, 0, -1),
+                Vector3(0, 0, 1),
+                Vector3(0, 0, 1),
+                Vector3(0, 1, 0),
+                Vector3(0, 1, 0),
+                Vector3(0, -1, 0),
+                Vector3(0, -1, 0),
             ]
         )
