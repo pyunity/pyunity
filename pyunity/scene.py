@@ -6,17 +6,6 @@ from time import time
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-lights = [
-    GL_LIGHT0,
-    GL_LIGHT1,
-    GL_LIGHT2,
-    GL_LIGHT3,
-    GL_LIGHT4,
-    GL_LIGHT5,
-    GL_LIGHT6,
-    GL_LIGHT7
-]
-
 class SceneManager:
     """
     Class to manage scenes.
@@ -117,6 +106,18 @@ class SceneManager:
         return self.scenesByName[name]
 
 class Scene:
+
+    lights = [
+        GL_LIGHT0,
+        GL_LIGHT1,
+        GL_LIGHT2,
+        GL_LIGHT3,
+        GL_LIGHT4,
+        GL_LIGHT5,
+        GL_LIGHT6,
+        GL_LIGHT7
+    ]
+
     def __init__(self, name):
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
@@ -181,8 +182,8 @@ class Scene:
             light = gameObject.GetComponent(Light)
             if light:
                 color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
-                glLightfv(lights[light_num], GL_DIFFUSE, color)
-                glEnable(lights[light_num])
+                glLightfv(self.lights[light_num], GL_DIFFUSE, color)
+                glEnable(self.lights[light_num])
                 light_num += 1
         
         glColorMaterial(GL_FRONT, GL_EMISSION)
@@ -232,7 +233,7 @@ class Scene:
         for gameObject in self.gameObjects:
             light = gameObject.GetComponent(Light)
             if light:
-                glLightfv(lights[light_num], GL_POSITION, (*list(gameObject.transform.position), int(light.type)))
+                glLightfv(self.lights[light_num], GL_POSITION, (*list(gameObject.transform.position), int(light.type)))
                 light_num += 1
 
         for gameObject in self.rootGameObjects:
