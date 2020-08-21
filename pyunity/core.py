@@ -390,6 +390,8 @@ class Light(Component):
 
     def __init__(self):
         super(Light, self).__init__()
+        self.intensity = 50
+        self.type = 1
 
 class MeshRenderer(Component):
     """
@@ -443,9 +445,9 @@ class MeshRenderer(Component):
         glBegin(GL_TRIANGLES)
         for index, triangle in enumerate(self.mesh.triangles):
             glNormal3fv(list(self.mesh.normals[index]))
+            glColor3f(*self.mat.color)
             for vertex in triangle:
-                glColor3f(*self.mat.color)
-                glVertex3f(*list(self.mesh.verts[vertex] * -1))
+                glVertex3f(*list(self.mesh.verts[vertex]))
         glEnd()
         
         for child in self.transform.children:

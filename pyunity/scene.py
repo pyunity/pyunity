@@ -1,11 +1,21 @@
 from .core import *
 from . import config
 from .errors import *
+from time import time
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-from time import time
+lights = [
+    GL_LIGHT0,
+    GL_LIGHT1,
+    GL_LIGHT2,
+    GL_LIGHT3,
+    GL_LIGHT4,
+    GL_LIGHT5,
+    GL_LIGHT6,
+    GL_LIGHT7
+]
 
 class SceneManager:
     """
@@ -112,6 +122,7 @@ class Scene:
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         light = GameObject("Light")
         light.AddComponent(Light)
+        light.transform.position = Vector3(0, 3, 10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
     
@@ -163,17 +174,17 @@ class Scene:
         if config.faceCulling:
             glEnable(GL_CULL_FACE)
 
-        glLightfv(GL_LIGHT0, GL_POSITION, (1, 1, 0, 1))
-        glLightfv(GL_LIGHT0, GL_AMBIENT, (0, 0, 0, 1))
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
-        glLightfv(GL_LIGHT0, GL_SPECULAR, (1, 1, 1, 1))
-
-        # glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1, 1, 1, 1))
-        # glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, (0, 0, 0, 1))
-        # glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (.2, .2, .2, 1))
-        
         glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
+
+        light_num = 0
+        for gameObject in self.gameObjects:
+            light = gameObject.GetComponent(Light)
+            if light:
+                color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
+                glLightfv(lights[light_num], GL_DIFFUSE, color)
+                glEnable(lights[light_num])
+                light_num += 1
+        
         glColorMaterial(GL_FRONT, GL_EMISSION)
         glEnable(GL_COLOR_MATERIAL)
         
@@ -216,6 +227,13 @@ class Scene:
         glTranslatef(-self.mainCamera.transform.position[0],
                     -self.mainCamera.transform.position[1],
                     self.mainCamera.transform.position[2])
+
+        light_num = 0
+        for gameObject in self.gameObjects:
+            light = gameObject.GetComponent(Light)
+            if light:
+                glLightfv(lights[light_num], GL_POSITION, (*list(gameObject.transform.position), int(light.type)))
+                light_num += 1
 
         for gameObject in self.rootGameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
