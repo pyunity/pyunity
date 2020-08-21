@@ -8,20 +8,102 @@ from OpenGL.GLU import *
 from time import time
 
 class SceneManager:
+    """
+    Class to manage scenes.
+
+    Attributes
+    ----------
+    scenesByIndex : list
+        List of scenes
+    scenesByName : dict
+        Dictionary of scenes, with the scene
+        names as the keys.
+
+    """
+
     def __init__(self):
+        """
+        Create a scene manager.
+
+        """
         self.scenesByIndex = []
         self.scenesByName = {}
     
     def AddScene(self, sceneName):
+        """
+        Add a scene to the SceneManager. Pass
+        in a scene name to create a scene.
+
+        Parameters
+        ----------
+        sceneName : str
+            Name of the scene
+        
+        Returns
+        -------
+        Scene
+            Newly created scene
+        
+        Raises
+        ------
+        PyUnityException
+            If there already exists a scene called `sceneName`
+
+        """
+        if sceneName in self.scenesByName:
+            raise PyUnityException("SceneManager already contains scene \"" + \
+                sceneName + "\"")
         scene = Scene(sceneName)
         self.scenesByIndex.append(scene)
         self.scenesByName[sceneName] = scene
         return scene
     
     def GetSceneByIndex(self, index):
+        """
+        Get a scene by its index.
+
+        Parameters
+        ----------
+        index : int
+            Index of the scene
+        
+        Returns
+        -------
+        Scene
+            Specified scene at index `index`
+        
+        Raises
+        ------
+        IndexError
+            If there is no scene at the specified index
+
+        """
+        if len(self.scenesByIndex) <= index:
+            raise IndexError("There is no scene at index " + str(index))
         return self.scenesByIndex[index]
     
     def GetSceneByName(self, name):
+        """
+        Get a scene by its name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the scene
+        
+        Returns
+        -------
+        Scene
+            Specified scene with name of `name`
+        
+        Raises
+        ------
+        KeyError
+            If there is no scene called `name`
+
+        """
+        if name not in self.scenesByName:
+            raise KeyError("There is no scene called " + name)
         return self.scenesByName[name]
 
 class Scene:
@@ -74,21 +156,36 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Start()
         
-        self.window = config.windowProviders[config.windowProvider](config.size, self.name)
+        self.windowProvider = config.windowProviders[config.windowProvider]
+        self.window = self.windowProvider(config.size, self.name)
 
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
             glEnable(GL_CULL_FACE)
+
+        glLightfv(GL_LIGHT0, GL_POSITION, (1, 1, 0, 1))
+        glLightfv(GL_LIGHT0, GL_AMBIENT, (0, 0, 0, 1))
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
+        glLightfv(GL_LIGHT0, GL_SPECULAR, (1, 1, 1, 1))
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1, 1, 1, 1))
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, (0, 0, 0, 1))
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (.2, .2, .2, 1))
+        
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+        glEnable(GL_COLOR_MATERIAL)
         
         glClearColor(*self.mainCamera.clearColor)
 
         glMatrixMode(GL_PROJECTION)
-        gluPerspective(self.mainCamera.fov / config.size[0] * config.size[1], config.size[0] / config.size[1], self.mainCamera.near, self.mainCamera.far)
+        gluPerspective(
+            self.mainCamera.fov / config.size[0] * config.size[1],
+            config.size[0] / config.size[1],
+            self.mainCamera.near,
+            self.mainCamera.far)
         glMatrixMode(GL_MODELVIEW)
-
-        glLightfv(GL_LIGHT0, GL_POSITION,  (5, 5, 5, 1))
-        glLightfv(GL_LIGHT0, GL_AMBIENT, (0, 0, 0, 1))
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
 
         self.window.start(self.update)
     
@@ -109,11 +206,6 @@ class Scene:
         self.lastFrame = time()
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
-        glEnable(GL_COLOR_MATERIAL)
-        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
         glLoadIdentity()
         gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
@@ -132,7 +224,3 @@ class Scene:
                 self.transform(gameObject.transform)
                 renderer.render()
                 glPopMatrix()
-        
-        glDisable(GL_LIGHT0)
-        glDisable(GL_LIGHTING)
-        glDisable(GL_COLOR_MATERIAL)
