@@ -168,13 +168,13 @@ class Scene:
         glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1))
         glLightfv(GL_LIGHT0, GL_SPECULAR, (1, 1, 1, 1))
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1, 1, 1, 1))
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, (0, 0, 0, 1))
-        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (.2, .2, .2, 1))
+        # glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (1, 1, 1, 1))
+        # glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, (0, 0, 0, 1))
+        # glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (.2, .2, .2, 1))
         
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
-        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+        glColorMaterial(GL_FRONT, GL_EMISSION)
         glEnable(GL_COLOR_MATERIAL)
         
         glClearColor(*self.mainCamera.clearColor)
