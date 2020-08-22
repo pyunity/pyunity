@@ -5,3 +5,4 @@ python:
 install:
   - sudo apt-get install python3-pygame
   - pip install -r requirements.txt
+  - sudo apt-get update
