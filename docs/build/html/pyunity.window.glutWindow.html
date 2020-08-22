@@ -39,20 +39,23 @@
 <dt id="pyunity.window.glutWindow.Window">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.window.glutWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glutWindow.Window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A window provider that uses FreeGLUT.</p>
 <dl class="py method">
 <dt id="pyunity.window.glutWindow.Window.display">
 <code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glutWindow.Window.display" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.window.glutWindow.Window.schedule_update">
-<code class="sig-name descname">schedule_update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glutWindow.Window.schedule_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function to render in the scene.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.window.glutWindow.Window.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">updateFunc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glutWindow.Window.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Start the main loop of the window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>updateFunc</strong> (<em>function</em>) – The function that calls the OpenGL calls.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

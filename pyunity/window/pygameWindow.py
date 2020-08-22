@@ -6,11 +6,25 @@ pygame.init()
 from .. import config
 
 class Window:
+    """
+    A window provider that uses PyGame.
+    
+    """
+
     def __init__(self, size, name):
         self.window = pygame.display.set_mode(size, pygame.DOUBLEBUF | pygame.OPENGL)
         pygame.display.set_caption(name)
     
     def start(self, update_func):
+        """
+        Start the main loop of the window.
+
+        Parameters
+        ----------
+        updateFunc : function
+            The function that calls the OpenGL calls.
+        
+        """
         done = False
         clock = pygame.time.Clock()
         while not done:
