@@ -1,6 +1,8 @@
 # PyUnity
 ## Version 0.0.3 (in development)
 
+[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
+
 A Python implementation of the Unity Engine, that can be used with other Python modules, and supports different types of windowing. Still in development.
 
 ### How to use
