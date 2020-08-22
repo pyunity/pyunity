@@ -112,7 +112,7 @@ class Scene:
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         light = GameObject("Light")
         light.AddComponent(Light)
-        light.transform.position = Vector3(0, 3, 10)
+        light.transform.position = Vector3(0, 3, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
     
@@ -184,6 +184,8 @@ class Scene:
             if light:
                 color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
                 glLightfv(self.lights[light_num], GL_DIFFUSE, color)
+                glLightfv(self.lights[light_num], GL_CONSTANT_ATTENUATION, 0.1)
+                glLightfv(self.lights[light_num], GL_LINEAR_ATTENUATION, 0.05)
                 glEnable(self.lights[light_num])
                 light_num += 1
         
@@ -208,7 +210,7 @@ class Scene:
         glRotatef(transform.rotation[2], 0, 0, 1)
         glTranslatef(transform.position[0],
                     transform.position[1],
-                    transform.position[2])
+                    -transform.position[2])
 
     def update(self):
         for gameObject in self.gameObjects:
@@ -221,20 +223,24 @@ class Scene:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         glLoadIdentity()
-        gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0)
+        gluLookAt(
+            *(list(self.mainCamera.transform.position * Vector3(0, 0, -1))),
+            0, 0, -1,
+            0, 1, 0)
 
         glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
         glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
         glRotatef(self.mainCamera.transform.rotation[2], 0, 0, 1)
-        glTranslatef(-self.mainCamera.transform.position[0],
-                    -self.mainCamera.transform.position[1],
-                    self.mainCamera.transform.position[2])
+        # glTranslatef(-self.mainCamera.transform.position[0],
+        #             -self.mainCamera.transform.position[1],
+        #             self.mainCamera.transform.position[2])
 
         light_num = 0
         for gameObject in self.gameObjects:
             light = gameObject.GetComponent(Light)
             if light:
-                glLightfv(self.lights[light_num], GL_POSITION, (*list(gameObject.transform.position), int(light.type)))
+                pos = (*list(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
+                glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
 
         for gameObject in self.rootGameObjects:
