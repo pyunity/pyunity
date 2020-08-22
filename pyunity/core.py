@@ -12,7 +12,10 @@ To create a GameObject with 2 children, one of which has its own child,
 and all have MeshRenderers:
 
     >>> from pyunity import *
-    GLUT doesn't work, using GLFW
+    Loaded window providers
+    Loaded config
+    Trying FreeGLUT as a window provider
+    FreeGLUT doesn't work, using GLFW
     GLFW doesn't work, using Pygame
     Loaded PyUnity version 0.0.1
     Using window provider Pygame
