@@ -383,11 +383,7 @@ class Camera(Component):
 
 class Light(Component):
     """
-    (Experimental) Component to hold data about the light in a scene.
-
-    Notes
-    -----
-    Lighting is not working yet, so all MeshRenderers will only display a sillhouette.
+    Component to hold data about the light in a scene.
     
     """
 
@@ -449,6 +445,7 @@ class MeshRenderer(Component):
         for index, triangle in enumerate(self.mesh.triangles):
             glNormal3fv(list(self.mesh.normals[index]))
             glColor3f(*self.mat.color)
+            glMaterialfv(GL_FRONT, GL_SHININESS, (128))
             for vertex in triangle:
                 glVertex3f(*list(self.mesh.verts[vertex]))
         glEnd()

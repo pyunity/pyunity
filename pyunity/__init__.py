@@ -1,9 +1,12 @@
 """
 PyUnity
 =======
+Version 0.0.3 (in development)
 
-A Python port of the Unity Engine, written in
-pure Python.
+A Python implementation of the Unity Engine
+that can be used with other Python modules,
+and supports different types of windows.
+Still in development.
 
 How to use
 ----------
@@ -13,9 +16,10 @@ so:
 
     >>> from pyunity import *
 
-If you want debug information, set the
-PYUNITY_DEBUG_MODE environment variable to "1".
-This is the output:
+Debug information is turned on by default. If
+you want to turn it off, set the
+PYUNITY_DEBUG_MODE environment variable to "0".
+This is the output with debugging:
 
     >>> import os
     >>> os.environ["PYUNITY_DEBUG_MODE"] = "1"
@@ -27,6 +31,8 @@ This is the output:
     GLFW doesn't work, trying Pygame
     Loaded PyUnity version 0.0.3
     Using window provider Pygame
+
+Without debugging on, there is no output.
 
 The next step is to create a scene. The SceneManager
 has already been created, so add a scene like so:

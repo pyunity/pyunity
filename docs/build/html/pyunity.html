@@ -37,8 +37,11 @@
 <span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pyunity">
 <h2>PyUnity<a class="headerlink" href="#pyunity" title="Permalink to this headline">¶</a></h2>
-<p>A Python port of the Unity Engine, written in
-pure Python.</p>
+<p>Version 0.0.3 (in development)</p>
+<p>A Python implementation of the Unity Engine
+that can be used with other Python modules,
+and supports different types of windows.
+Still in development.</p>
 <div class="section" id="how-to-use">
 <h3>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h3>
 <p>The first step in using PyUnity is always
@@ -47,9 +50,10 @@ so:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
-<p>If you want debug information, set the
-PYUNITY_DEBUG_MODE environment variable to “1”.
-This is the output:</p>
+<p>Debug information is turned on by default. If
+you want to turn it off, set the
+PYUNITY_DEBUG_MODE environment variable to “0”.
+This is the output with debugging:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
@@ -62,6 +66,7 @@ This is the output:</p>
 <span class="go">Using window provider Pygame</span>
 </pre></div>
 </div>
+<p>Without debugging on, there is no output.</p>
 <p>The next step is to create a scene. The SceneManager
 has already been created, so add a scene like so:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene 1&quot;</span><span class="p">)</span>

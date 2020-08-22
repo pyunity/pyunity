@@ -274,7 +274,7 @@ class Vec3Const:
     Raises
     ------
     ValueError
-        If you try to change the value
+        If you try to change any values
     
     """
 
