@@ -24,13 +24,12 @@ This is the output with debugging:
     >>> import os
     >>> os.environ["PYUNITY_DEBUG_MODE"] = "1"
     >>> from pyunity import *
-    Loaded window providers
     Loaded config
     Trying FreeGLUT as a window provider
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
-    Loaded PyUnity version 0.0.3
     Using window provider Pygame
+    Loaded PyUnity version 0.0.3
 
 Without debugging on, there is no output.
 
@@ -87,41 +86,16 @@ own provider, create a class that has the following methods:
 import os
 from . import config
 from .core import *
-from .vector3 import Vector3
+from .vector3 import *
 from .scene import SceneManager
-from .errors import *
 
 __version__ = "0.0.3"
 
-try:
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print("Trying FreeGLUT as a window provider")
-    from OpenGL.GLUT import *
-    glutInit()
-    config.windowProvider = "glut"
-    w = "FreeGLUT"
-except Exception as e:
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print("FreeGLUT doesn't work, using GLFW")
-    try:
-        import glfw
-        if not glfw.init():
-            raise Exception
-        glfw.create_window(50, 50, "Test", None, None)
-        glfw.terminate()
-        config.windowProvider = "glfw"
-        w = "GLFW"
-    except Exception as e:
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-            print("GLFW doesn't work, using Pygame")
-        import pygame
-        if pygame.init()[0] == 0:
-            raise PyUnityException("No window provider found")
-        config.windowProvider = "pygame"
-        w = "Pygame"
-
 SceneManager = SceneManager()
+
+del core, errors, meshes, scene, vector3, window
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")
-    print(f"Using window provider {w}")
+
+del os

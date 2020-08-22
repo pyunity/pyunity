@@ -9,7 +9,7 @@ class Window:
 
     Raises
     ------
-    PyUnityException
+    pyunityException
         If the window creation fails
     
     """
@@ -20,7 +20,7 @@ class Window:
         self.window = glfw.create_window(*size, name, None, None)
         if not self.window:
             glfw.terminate()
-            raise PyUnityException("Cannot open GLFW window")
+            raise pyunityException("Cannot open GLFW window")
         
         glfw.make_context_current(self.window)
     

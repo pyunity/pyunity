@@ -1,7 +1,7 @@
 from pyunity import *
 from .scripts import *
 
-# TODO: Shadows https://www.swiftless.com/tutorials/opengl/basic_shadows.html
+# TODO: https://www.youtube.com/watch?v=eFxcAI85xeg&list=PLEETnX-uPtBXm1KEr_2zQ6K_0hoGH6JJ0&index=3
 
 def main():
     scene = SceneManager.AddScene("Scene")

@@ -1,4 +1,4 @@
-# PyUnity
+# pyunity
 ## Version 0.0.3 (in development)
 
 [![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
@@ -6,7 +6,7 @@
 A Python implementation of the Unity Engine, that can be used with other Python modules, and supports different types of windowing. Still in development.
 
 ### How to use
-The first step in using PyUnity is always
+The first step in using pyunity is always
 importing it. A standard way to import is like
 so:
 
@@ -14,19 +14,17 @@ so:
 
 Debug information is turned on by default. If
 you want to turn it off, set the
-PYUNITY_DEBUG_MODE environment variable to "0".
+pyunity_DEBUG_MODE environment variable to "0".
 This is the output with debugging:
 
     >>> import os
-    >>> os.environ["PYUNITY_DEBUG_MODE"] = "1"
+    >>> os.environ["pyunity_DEBUG_MODE"] = "1"
     >>> from pyunity import *
-    Loaded window providers
-    Loaded config
     Trying FreeGLUT as a window provider
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
-    Loaded PyUnity version 0.0.3
     Using window provider Pygame
+    Loaded pyunity version 0.0.3
 
 Without debugging on, there is no output.
 
@@ -59,7 +57,7 @@ is created is one of FreeGLUT, GLFW or Pygame, in which the
 precedence is as above.
 
 ### Behaviours
-To create your own PyUnity script, create a class that inherits
+To create your own pyunity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can't do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
