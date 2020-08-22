@@ -1,9 +1,0 @@
-language: python
-python:
-  - 3.8
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get build-dep -qq python3-pygame
-  - sudo apt-get install -qq python3-pygame
-install:
-  - pip install -r .travis_requirements.txt
