@@ -62,9 +62,9 @@ To create your own PyUnity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can't do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
-`AddComponent`_. Do not put anything in the `__init__` function,
+`AddComponent()`. Do not put anything in the `__init__` function,
 instead put it in `Start()`. The `Update()` function receives one
-parameter, `dt`_, which is the same as Time.deltaTime.
+parameter, `dt`, which is the same as Time.deltaTime.
 
 Windows
 -------
@@ -74,32 +74,7 @@ own provider, create a class that has the following methods:
 
 - `__init__`: initiate your window and check to see if it works.
 - `start`: start the main loop in your window. The first parameter
-            is `update_func`_, which is called when you want to do
-            the OpenGL calls.
-
-License
--------
-MIT License
-
-Copyright (c) 2020 Ray Chen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+    is `update_func`_, which is called when you want to do the OpenGL calls.
 
 """
 

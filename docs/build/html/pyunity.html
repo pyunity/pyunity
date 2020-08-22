@@ -96,9 +96,9 @@ precedence is as above.</p>
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can’t do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
-<a href="#id1"><span class="problematic" id="id2">`AddComponent`_</span></a>. Do not put anything in the <cite>__init__</cite> function,
+<cite>AddComponent()</cite>. Do not put anything in the <cite>__init__</cite> function,
 instead put it in <cite>Start()</cite>. The <cite>Update()</cite> function receives one
-parameter, <a href="#id3"><span class="problematic" id="id4">`dt`_</span></a>, which is the same as Time.deltaTime.</p>
+parameter, <cite>dt</cite>, which is the same as Time.deltaTime.</p>
 </div>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
@@ -108,32 +108,11 @@ own provider, create a class that has the following methods:</p>
 <ul class="simple">
 <li><p><cite>__init__</cite>: initiate your window and check to see if it works.</p></li>
 <li><dl class="simple">
-<dt><cite>start</cite>: start the main loop in your window. The first parameter</dt><dd><p>is <a href="#id5"><span class="problematic" id="id6">`update_func`_</span></a>, which is called when you want to do
-the OpenGL calls.</p>
+<dt><cite>start</cite>: start the main loop in your window. The first parameter</dt><dd><p>is <a href="#id1"><span class="problematic" id="id2">`update_func`_</span></a>, which is called when you want to do the OpenGL calls.</p>
 </dd>
 </dl>
 </li>
 </ul>
-</div>
-<div class="section" id="license">
-<h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
-<p>MIT License</p>
-<p>Copyright (c) 2020 Ray Chen</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
 </div>
 </div>
 <div class="section" id="subpackages">
@@ -190,7 +169,6 @@ SOFTWARE.</p>
 <li class="toctree-l3"><a class="reference internal" href="#how-to-use">How to use</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
