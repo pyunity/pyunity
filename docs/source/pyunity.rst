@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   pyunity.physics
    pyunity.window
 
 Submodules

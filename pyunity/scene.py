@@ -1,6 +1,7 @@
 from .core import *
 from . import config
 from .errors import *
+from . import physics
 from time import time
 
 from OpenGL.GL import *

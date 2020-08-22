@@ -88,12 +88,13 @@ from . import config
 from .core import *
 from .vector3 import *
 from .scene import SceneManager
+from .physics import *
 
 __version__ = "0.0.3"
 
 SceneManager = SceneManager()
 
-del core, errors, meshes, scene, vector3, window
+del core, errors, meshes, scene, vector3, window, physics
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")

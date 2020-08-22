@@ -1,5 +1,7 @@
 import math
 
+clamp = lambda x, _min, _max: min(_max, max(_min, x))
+
 class Vector3:
 
     def __init__(self, x, y, z):
@@ -7,8 +9,9 @@ class Vector3:
         self.y = y
         self.z = z
     
-    def __str__(self):
-        return f"<Vector3 x={self.x} y={self.y} z={self.z}>"
+    def __repr__(self):
+        return f"Vector3({self.x}, {self.y}, {self.z})"
+    __str__ = __repr__
     
     def __getitem__(self, i):
         if i == 0:
@@ -29,6 +32,9 @@ class Vector3:
 
     def __len__(self):
         return 3
+
+    def __abs__(self):
+        return Vector3(abs(self.x), abs(self.y), abs(self.z))
     
     def __eq__(self, other):
         if hasattr(other, "__getitem__") and len(other) == 3:
@@ -123,6 +129,41 @@ class Vector3:
             self.y *= other
             self.z *= other
         return self
+    
+    def __div__(self, other):
+        if isinstance(other, Vector3):
+            return Vector3(self.x / other.x, self.y / other.y, self.z / other.z)
+        if (hasattr(other, "__getitem__")):
+            return Vector3(self.x / other[0], self.y / other[1], self.z / other[2])
+        else:
+            return Vector3(self.x / other, self.y / other, self.z / other)
+    
+    def __imul__(self, other):
+        if isinstance(other, Vector3):
+            self.x /= other.x
+            self.y /= other.y
+            self.z /= other.z
+        elif (hasattr(other, "__getitem__")):
+            self.x /= other[0]
+            self.y /= other[1]
+            self.z /= other[2]
+        else:
+            self.x /= other
+            self.y /= other
+            self.z /= other
+        return self
+    
+    def copy(self):
+        """
+        Makes a copy of the Vector3
+
+        Returns
+        -------
+        Vector3
+            A shallow copy of the vector
+        
+        """
+        return Vector3(self.x, self.y, self.z)
     
     def get_length_sqrd(self): 
         """
@@ -225,6 +266,24 @@ class Vector3:
     
     int_tuple = property(__get_int_xyz, 
         doc="""Return the x, y and z values of this vector as ints""")
+    
+    def clamp(self, min, max):
+        """
+        Clamps a vector between two other vectors,
+        resulting in the vector being as close to the
+        edge of a bounding box created as possible.
+
+        Parameters
+        ----------
+        min : Vector3
+            Min vector
+        max : Vector3
+            Max vector
+        
+        """
+        self.x = clamp(self.x, min.x, max.x)
+        self.y = clamp(self.y, min.y, max.y)
+        self.z = clamp(self.z, min.z, max.z)
     
     @staticmethod
     def zero():
