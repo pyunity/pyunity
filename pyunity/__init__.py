@@ -74,7 +74,7 @@ own provider, create a class that has the following methods:
 
 - `__init__`: initiate your window and check to see if it works.
 - `start`: start the main loop in your window. The first parameter
-    is `update_func`_, which is called when you want to do the OpenGL calls.
+    is ``update_func``, which is called when you want to do the OpenGL calls.
 
 """
 
