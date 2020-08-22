@@ -3,4 +3,5 @@ python:
   - 3.8
 
 install:
+  - sudo apt-get install python3-pygame
   - pip install -r requirements.txt
