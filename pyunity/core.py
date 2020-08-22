@@ -291,9 +291,9 @@ class Transform(Component):
 
     def __init__(self):
         super(Transform, self).__init__()
-        self.position = Vector3(0, 0, 0)
-        self.rotation = Vector3(0, 0, 0)
-        self.scale = Vector3(1, 1, 1)
+        self.position = Vector3.zero()
+        self.rotation = Vector3.zero()
+        self.scale = Vector3.one()
         self.parent = None
         self.children = []
     

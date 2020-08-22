@@ -233,7 +233,7 @@ class Vector3:
     
     @staticmethod
     def one():
-        """A vector of zero length"""
+        """A vector of ones"""
         return Vector3(1, 1, 1)
     
     @staticmethod
@@ -267,6 +267,17 @@ class Vector3:
         return Vector3(0, -1, 0)
 
 class Vec3Const:
+    """
+    Class to hold constants of the static methods of
+    Vector3. None of the attributes can be changed.
+
+    Raises
+    ------
+    ValueError
+        If you try to change the value
+    
+    """
+
     zero = Vector3.zero()
     one = Vector3.one()
     up = Vector3.up()
@@ -275,3 +286,6 @@ class Vec3Const:
     right = Vector3.right()
     forward = Vector3.forward()
     back = Vector3.back()
+
+    def __setattr__(self, name, val):
+        raise ValueError(f"Cannot change the value of {name}: it is a constant")
