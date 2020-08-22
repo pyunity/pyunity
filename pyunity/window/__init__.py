@@ -15,10 +15,13 @@ own provider, create a class that has the following methods:
 
 """
 
-import os
-from .pygameWindow import Window as pygameWindow
-from .glutWindow import Window as glutWindow
-from .glfwWindow import Window as glfwWindow
-
-if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-    print("Loaded window providers")
+def LoadWindowProvider(win):
+    if win == "glut":
+        from .glutWindow import Window as glutWindow
+        return glutWindow
+    if win == "pygame":
+        from .pygameWindow import Window as pygameWindow
+        return pygameWindow
+    if win == "glfw":
+        from .glfwWindow import Window as glfwWindow
+        return glfwWindow

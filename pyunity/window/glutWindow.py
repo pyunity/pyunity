@@ -10,7 +10,9 @@ class Window:
     def __init__(self, size, name):
         glutInit()
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH)
-        glutInitWindowPosition(50, 50)
+        glutInitWindowPosition(
+            (glutGet(GLUT_SCREEN_WIDTH) - size[0]) // 2,
+            (glutGet(GLUT_SCREEN_HEIGHT) - size[1]) // 2)
         glutInitWindowSize(*config.size)
         glutCreateWindow(name)
     

@@ -263,7 +263,7 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Start()
         
-        self.windowProvider = config.windowProviders[config.windowProvider]
+        self.windowProvider = config.windowProvider
         self.window = self.windowProvider(config.size, self.name)
 
         glEnable(GL_DEPTH_TEST)
