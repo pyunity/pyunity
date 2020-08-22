@@ -35,9 +35,209 @@
   <div class="section" id="module-pyunity.vector3">
 <span id="pyunity-vector3-module"></span><h1>pyunity.vector3 module<a class="headerlink" href="#module-pyunity.vector3" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
+<dt id="pyunity.vector3.Vec3Const">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.vector3.</code><code class="sig-name descname">Vec3Const</code><a class="headerlink" href="#pyunity.vector3.Vec3Const" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.back">
+<code class="sig-name descname">back</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.down">
+<code class="sig-name descname">down</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.down" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.forward">
+<code class="sig-name descname">forward</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.left">
+<code class="sig-name descname">left</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.one">
+<code class="sig-name descname">one</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.one" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.right">
+<code class="sig-name descname">right</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.right" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.up">
+<code class="sig-name descname">up</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.vector3.Vec3Const.zero">
+<code class="sig-name descname">zero</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.zero" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="pyunity.vector3.Vector3">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.vector3.</code><code class="sig-name descname">Vector3</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">z</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.back">
+<em class="property">static </em><code class="sig-name descname">back</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.back" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative z axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.down">
+<em class="property">static </em><code class="sig-name descname">down</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative y axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.forward">
+<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the positive z axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.get_dist_sqrd">
+<code class="sig-name descname">get_dist_sqrd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.get_dist_sqrd" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance between this vector and the other vector, squared.
+It is more efficient to call this than to call <cite>get_distance</cite> and
+square it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The squared distance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.get_distance">
+<code class="sig-name descname">get_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.get_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance between this vector and the other vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The distance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.get_length">
+<code class="sig-name descname">get_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.get_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the length of the vector. See <cite>get_length_sqrd</cite>
+for details on optimizing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The length of the vector squared</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.get_length_sqrd">
+<code class="sig-name descname">get_length_sqrd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.get_length_sqrd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the length of the vector squared. This
+is much faster than finding the length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The length of the vector squared</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.int_tuple">
+<em class="property">property </em><code class="sig-name descname">int_tuple</code><a class="headerlink" href="#pyunity.vector3.Vector3.int_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the x, y and z values of this vector as ints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.left">
+<em class="property">static </em><code class="sig-name descname">left</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative x axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.length">
+<em class="property">property </em><code class="sig-name descname">length</code><a class="headerlink" href="#pyunity.vector3.Vector3.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the magnitude of the vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.normalize_return_length">
+<code class="sig-name descname">normalize_return_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.normalize_return_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the vector and return its length before the normalization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The length before the normalization</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.normalized">
+<code class="sig-name descname">normalized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a normalized copy of the vector, or Vector3(0, 0, 0)
+if the length is 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A normalized vector</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.one">
+<em class="property">static </em><code class="sig-name descname">one</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.one" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of zero length</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.perpendicular">
+<code class="sig-name descname">perpendicular</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.perpendicular" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.right">
+<em class="property">static </em><code class="sig-name descname">right</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the postive x axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.up">
+<em class="property">static </em><code class="sig-name descname">up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the postive y axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.vector3.Vector3.zero">
+<em class="property">static </em><code class="sig-name descname">zero</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of zero length</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>

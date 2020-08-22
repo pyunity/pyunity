@@ -1,3 +1,5 @@
+import math
+
 class Vector3:
 
     def __init__(self, x, y, z):
@@ -121,3 +123,155 @@ class Vector3:
             self.y *= other
             self.z *= other
         return self
+    
+    def get_length_sqrd(self): 
+        """
+        Gets the length of the vector squared. This
+        is much faster than finding the length.
+
+        Returns
+        -------
+        float
+            The length of the vector squared
+
+        """
+        return self.x ** 2 + self.y ** 2 + self.z ** 2
+
+    def get_length(self):
+        """
+        Gets the length of the vector. See `get_length_sqrd`
+        for details on optimizing.
+
+        Returns
+        -------
+        float
+            The length of the vector squared
+        
+        """
+        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+    
+    def __setlength(self, value):
+        length = self.get_length()
+        self.x *= value / length
+        self.y *= value / length
+        self.z *= value / length
+    
+    length = property(get_length, __setlength,
+        doc = """Gets or sets the magnitude of the vector""")
+    
+    def normalized(self):
+        """
+        Get a normalized copy of the vector, or Vector3(0, 0, 0)
+        if the length is 0.
+        
+        Returns
+        -------
+        Vector3
+            A normalized vector
+        
+        """
+        length = self.length
+        if length != 0:
+            return self / length
+        return Vec2d(self)
+    
+    def normalize_return_length(self):
+        """
+        Normalize the vector and return its length before the normalization
+        
+        Returns
+        -------
+        float
+            The length before the normalization
+        
+        """
+        length = self.length
+        if length != 0:
+            self.x /= length
+            self.y /= length
+        return length
+    
+    def perpendicular(self):
+        return Vec2d(-self.y, self.x)
+    
+    def get_distance(self, other):
+        """
+        The distance between this vector and the other vector
+        
+        Returns
+        -------
+        float
+            The distance
+        
+        """
+        return math.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
+
+    def get_dist_sqrd(self, other):
+        """
+        The distance between this vector and the other vector, squared.
+        It is more efficient to call this than to call `get_distance` and
+        square it.
+        
+        Returns
+        -------
+        float
+            The squared distance
+        
+        """
+        return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2
+    
+    def __get_int_xyz(self):
+        return int(self.x), int(self.y), int(self.z)
+    
+    int_tuple = property(__get_int_xyz, 
+        doc="""Return the x, y and z values of this vector as ints""")
+    
+    @staticmethod
+    def zero():
+        """A vector of zero length"""
+        return Vector3(0, 0, 0)
+    
+    @staticmethod
+    def one():
+        """A vector of zero length"""
+        return Vector3(1, 1, 1)
+    
+    @staticmethod
+    def forward():
+        """Vector3 pointing in the positive z axis"""
+        return Vector3(0, 0, 1)
+    
+    @staticmethod
+    def back():
+        """Vector3 pointing in the negative z axis"""
+        return Vector3(0, 0, -1)
+    
+    @staticmethod
+    def left():
+        """Vector3 pointing in the negative x axis"""
+        return Vector3(-1, 0, 0)
+    
+    @staticmethod
+    def right():
+        """Vector3 pointing in the postive x axis"""
+        return Vector3(1, 0, 0)
+    
+    @staticmethod
+    def up():
+        """Vector3 pointing in the postive y axis"""
+        return Vector3(0, 1, 0)
+    
+    @staticmethod
+    def down():
+        """Vector3 pointing in the negative y axis"""
+        return Vector3(0, -1, 0)
+
+class Vec3Const:
+    zero = Vector3.zero()
+    one = Vector3.one()
+    up = Vector3.up()
+    down = Vector3.down()
+    left = Vector3.left()
+    right = Vector3.right()
+    forward = Vector3.forward()
+    back = Vector3.back()
