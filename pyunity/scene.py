@@ -107,17 +107,6 @@ class SceneManager:
 
 class Scene:
 
-    lights = [
-        GL_LIGHT0,
-        GL_LIGHT1,
-        GL_LIGHT2,
-        GL_LIGHT3,
-        GL_LIGHT4,
-        GL_LIGHT5,
-        GL_LIGHT6,
-        GL_LIGHT7
-    ]
-
     def __init__(self, name):
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
@@ -161,6 +150,18 @@ class Scene:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
     
     def Run(self):
+        
+        self.lights = [
+            GL_LIGHT0,
+            GL_LIGHT1,
+            GL_LIGHT2,
+            GL_LIGHT3,
+            GL_LIGHT4,
+            GL_LIGHT5,
+            GL_LIGHT6,
+            GL_LIGHT7
+        ]
+
         self.lastFrame = time()
 
         for gameObject in self.gameObjects:
