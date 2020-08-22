@@ -426,7 +426,7 @@ class MeshRenderer(Component):
         glRotatef(transform.rotation[2], 0, 0, 1)
         glTranslatef(transform.position[0],
                     transform.position[1],
-                    transform.position[2])
+                    -transform.position[2])
 
     def render(self):
         """

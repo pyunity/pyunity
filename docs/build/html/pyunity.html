@@ -35,6 +35,107 @@
             
   <div class="section" id="module-pyunity">
 <span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyunity">
+<h2>PyUnity<a class="headerlink" href="#pyunity" title="Permalink to this headline">¶</a></h2>
+<p>A Python port of the Unity Engine, written in
+pure Python.</p>
+<div class="section" id="how-to-use">
+<h3>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h3>
+<p>The first step in using PyUnity is always
+importing it. A standard way to import is like
+so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>If you want debug information, set the
+PYUNITY_DEBUG_MODE environment variable to “1”.
+This is the output:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">Loaded window providers</span>
+<span class="go">Loaded config</span>
+<span class="go">Trying FreeGLUT as a window provider</span>
+<span class="go">FreeGLUT doesn&#39;t work, trying GLFW</span>
+<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
+<span class="go">Loaded PyUnity version 0.0.3</span>
+<span class="go">Using window provider Pygame</span>
+</pre></div>
+</div>
+<p>The next step is to create a scene. The SceneManager
+has already been created, so add a scene like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene 1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, let’s move the camera backwards 10 units.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, add a cube at the origin:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To see what you have added to the scene, call <cite>scene.List()</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+<span class="go">/Main Camera</span>
+<span class="go">/Light</span>
+<span class="go">/Cube</span>
+</pre></div>
+</div>
+<p>Finally, to run the scene, call <cite>scene.Run()</cite>. The window that
+is created is one of FreeGLUT, GLFW or Pygame, in which the
+precedence is as above.</p>
+</div>
+<div class="section" id="behaviours">
+<h3>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h3>
+<p>To create your own PyUnity script, create a class that inherits
+from Behaviour. Usually in Unity, you would put the class in its
+own file, but Python can’t do something like that, so put all of
+your scripts in one file. Then, to add a script, just use
+<a href="#id1"><span class="problematic" id="id2">`AddComponent`_</span></a>. Do not put anything in the <cite>__init__</cite> function,
+instead put it in <cite>Start()</cite>. The <cite>Update()</cite> function receives one
+parameter, <a href="#id3"><span class="problematic" id="id4">`dt`_</span></a>, which is the same as Time.deltaTime.</p>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>Only one window can be used at a time. The window is provided by
+one of three providers: FreeGLUT, GLFW and Pygame. To create your
+own provider, create a class that has the following methods:</p>
+<ul class="simple">
+<li><p><cite>__init__</cite>: initiate your window and check to see if it works.</p></li>
+<li><dl class="simple">
+<dt><cite>start</cite>: start the main loop in your window. The first parameter</dt><dd><p>is <a href="#id5"><span class="problematic" id="id6">`update_func`_</span></a>, which is called when you want to do
+the OpenGL calls.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="license">
+<h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
+<p>MIT License</p>
+<p>Copyright (c) 2020 Ray Chen</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+</div>
+</div>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -85,6 +186,13 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pyunity">PyUnity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use">How to use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
 </ul>
