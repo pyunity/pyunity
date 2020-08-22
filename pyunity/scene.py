@@ -106,6 +106,16 @@ class SceneManager:
         return self.scenesByName[name]
 
 class Scene:
+    """
+    Class to hold all of the GameObjects, and to run the whole
+    scene.
+
+    Notes
+    -----
+    Create a scene using the SceneManager, and don't create a scene
+    directly using this class.
+
+    """
 
     def __init__(self, name):
         self.name = name
@@ -117,40 +127,128 @@ class Scene:
         self.rootGameObjects = [self.mainCamera.gameObject, light]
     
     def Add(self, gameObject):
+        """
+        Add a GameObject to the scene.
+
+        Parameters
+        ----------
+        gameObject : GameObejct
+            The GameObject to add.
+        
+        """
         self.gameObjects.append(gameObject)
         if gameObject.transform.parent is None:
             self.rootGameObjects.append(gameObject)
     
     def Remove(self, gameObject):
-        if gameObject.name not in ["Main Camera"]:
+        """
+        Remove a GameObject from the scene.
+
+        Parameters
+        ----------
+        gameObject : GameObject
+            GameObject to remove.
+        
+        Raises
+        ------
+        PyUnityException
+            If the specified GameObject is the Main Camera.
+        
+        Notes
+        -----
+        The Main camera will not be removed.
+
+        """
+        if gameObject not in [self.mainCamera]:
             flag = False
             for go in self.gameObjects:
                 if go == gameObject:
                     flag = True
                     break
             if flag: self.gameObjects.remove(gameObject)
+        else:
+            raise PyUnityException("Cannot remove the Main Camera from the scene")
     
     def List(self):
+        """
+        Lists all the GameObjects currently in the scene.
+
+        """
         for gameObject in sorted(self.rootGameObjects, key = lambda x: x.name):
             gameObject.transform.List()
     
     def FindGameObjectsByName(self, name):
+        """
+        Finds all GameObjects matching the specified name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the GameObject
+
+        Returns
+        -------
+        list
+            List of the matching GameObjects
+        
+        """
         return [gameObject for gameObject in self.gameObjects if gameObject.name == name]
         
     def FindGameObjectsByTagName(self, name):
+        """
+        Finds all GameObjects with the specified tag name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the tag
+
+        Returns
+        -------
+        list
+            List of matching GameObjects
+
+        Raises
+        ------
+        GameObjectException
+            When there is no tag named `name`
+        
+        """
         if name in tags:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tagName == name]
         else:
             raise GameObjectException("No tag named " + name + "; create a new tag with Tag.AddTag")
         
     def FindGameObjectsByTagNumber(self, num):
+        """
+        Gets all GameObjects with a tag of tag `num`.
+
+        Parameters
+        ----------
+        num : int
+            Index of the tag
+
+        Returns
+        -------
+        list
+            List of matching GameObjects
+
+        Raises
+        ------
+        GameObjectException
+            If there is no tag with specified index.
+        
+        """
         if len(tags) > num:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
     
     def Run(self):
-        
+        """
+        Run the scene and create a window for it.
+
+        """
         self.lights = [
             GL_LIGHT0,
             GL_LIGHT1,
@@ -205,6 +303,15 @@ class Scene:
         self.window.start(self.update)
     
     def transform(self, transform):
+        """
+        Transform the matrix by a specified transform.
+
+        Parameters
+        ----------
+        transform : Transform
+            Transform to move
+        
+        """
         glRotatef(transform.rotation[0], 1, 0, 0)
         glRotatef(transform.rotation[1], 0, 1, 0)
         glRotatef(transform.rotation[2], 0, 0, 1)
@@ -213,6 +320,10 @@ class Scene:
                     -transform.position[2])
 
     def update(self):
+        """
+        Updating function to pass to the window provider.
+
+        """
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):

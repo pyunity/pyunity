@@ -39,10 +39,22 @@
 <dt id="pyunity.window.glfwWindow.Window">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.window.glfwWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glfwWindow.Window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A window provider that uses GLFW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the window creation fails</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="pyunity.window.glfwWindow.Window.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">updateFunc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.window.glfwWindow.Window.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Start the main loop of the window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>updateFunc</strong> (<em>function</em>) – The function that calls the OpenGL calls.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

@@ -4,6 +4,16 @@ from ..errors import *
 from .. import config
 
 class Window:
+    """
+    A window provider that uses GLFW.
+
+    Raises
+    ------
+    PyUnityException
+        If the window creation fails
+    
+    """
+
     def __init__(self, size, name):
         glfw.init()
 
@@ -15,6 +25,15 @@ class Window:
         glfw.make_context_current(self.window)
     
     def start(self, updateFunc):
+        """
+        Start the main loop of the window.
+
+        Parameters
+        ----------
+        updateFunc : function
+            The function that calls the OpenGL calls.
+        
+        """
         last = glfw.get_time()
         while not glfw.window_should_close(self.window):
             updateFunc()
