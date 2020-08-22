@@ -122,7 +122,7 @@ class Scene:
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         light = GameObject("Light")
         light.AddComponent(Light)
-        light.transform.position = Vector3(0, 3, -10)
+        light.transform.position = Vector3(10, 5, -5)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
     
@@ -153,10 +153,6 @@ class Scene:
         ------
         PyUnityException
             If the specified GameObject is the Main Camera.
-        
-        Notes
-        -----
-        The Main camera will not be removed.
 
         """
         if gameObject not in [self.mainCamera]:
@@ -282,8 +278,7 @@ class Scene:
             if light:
                 color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
                 glLightfv(self.lights[light_num], GL_DIFFUSE, color)
-                glLightfv(self.lights[light_num], GL_CONSTANT_ATTENUATION, 0.1)
-                glLightfv(self.lights[light_num], GL_LINEAR_ATTENUATION, 0.05)
+                glLightfv(self.lights[light_num], GL_SPECULAR, (1, 1, 1, 1))
                 glEnable(self.lights[light_num])
                 light_num += 1
         
@@ -342,9 +337,6 @@ class Scene:
         glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
         glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
         glRotatef(self.mainCamera.transform.rotation[2], 0, 0, 1)
-        # glTranslatef(-self.mainCamera.transform.position[0],
-        #             -self.mainCamera.transform.position[1],
-        #             self.mainCamera.transform.position[2])
 
         light_num = 0
         for gameObject in self.gameObjects:
