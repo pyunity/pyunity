@@ -6,7 +6,8 @@ from .scripts import *
 def main():
     scene = SceneManager.AddScene("Scene")
 
-    scene.mainCamera.transform.position = Vector3(0, 0, -10)
+    scene.mainCamera.transform.position = Vector3(0, 3, -10)
+    scene.mainCamera.transform.rotation = Vector3(20, 0, 0)
 
     cube = GameObject("Cube")
     renderer = cube.AddComponent(MeshRenderer)
