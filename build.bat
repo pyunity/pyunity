@@ -6,7 +6,6 @@ cd docs/source && move conf.py .. && cd ..
 del /Q source && move conf.py source && cd ..
 sphinx-apidoc -e -F -M -o docs/source pyunity pyunity/config.py
 sphinx-build -b html docs/source docs/build/html
-git clean -d -f -f
 git add .
 git commit -m %1
 git push

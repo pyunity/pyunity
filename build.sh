@@ -3,7 +3,6 @@ rm -rf build/ pyunity.egg-info/ docs/build/html/
 find docs/source/* ! -name conf.py -delete
 sphinx-apidoc -e F -M -o docs/source pyunity pyunity/config.py
 sphinx-build -b html docs/source docs/build/html
-git clean -d -f -f
 git add .
 git commit -m $1
 git push
