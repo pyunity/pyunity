@@ -38,6 +38,13 @@
 <dt id="pyunity.vector3.Vec3Const">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.vector3.</code><code class="sig-name descname">Vec3Const</code><a class="headerlink" href="#pyunity.vector3.Vec3Const" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to hold constants of the static methods of
+Vector3. None of the attributes can be changed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If you try to change the value</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="pyunity.vector3.Vec3Const.back">
 <code class="sig-name descname">back</code><em class="property"> = &lt;pyunity.vector3.Vector3 object&gt;</em><a class="headerlink" href="#pyunity.vector3.Vec3Const.back" title="Permalink to this definition">¶</a></dt>
@@ -212,7 +219,7 @@ if the length is 0.</p>
 <dl class="py method">
 <dt id="pyunity.vector3.Vector3.one">
 <em class="property">static </em><code class="sig-name descname">one</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.Vector3.one" title="Permalink to this definition">¶</a></dt>
-<dd><p>A vector of zero length</p>
+<dd><p>A vector of ones</p>
 </dd></dl>
 
 <dl class="py method">

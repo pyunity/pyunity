@@ -61,7 +61,7 @@ class Mesh:
                 Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
-            [Vector3(0, 0, 1), Vector3(0, 0, 1)]
+            [Vector3.forward(), Vector3.forward()]
         )
     
     @staticmethod
@@ -87,7 +87,7 @@ class Mesh:
                 Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]],
-            [Vector3(0, 0, 1), Vector3(0, 0, 1), Vector3(0, 0, -1), Vector3(0, 0, -1)]
+            [Vector3.forward(), Vector3.forward(), Vector3.back(), Vector3.back()]
         )
     
     @staticmethod
@@ -125,17 +125,17 @@ class Mesh:
                 [1, 4, 5],
             ],
             [
-                Vector3(-1, 0, 0),
-                Vector3(-1, 0, 0),
-                Vector3(1, 0, 0),
-                Vector3(1, 0, 0),
-                Vector3(0, 0, -1),
-                Vector3(0, 0, -1),
-                Vector3(0, 0, 1),
-                Vector3(0, 0, 1),
-                Vector3(0, 1, 0),
-                Vector3(0, 1, 0),
-                Vector3(0, -1, 0),
-                Vector3(0, -1, 0),
+                Vector3.left(),
+                Vector3.left(),
+                Vector3.right(),
+                Vector3.right(),
+                Vector3.back(),
+                Vector3.back(),
+                Vector3.forward(),
+                Vector3.forward(),
+                Vector3.up(),
+                Vector3.up(),
+                Vector3.down(),
+                Vector3.down(),
             ]
         )
