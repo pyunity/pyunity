@@ -276,9 +276,8 @@ class Scene:
         
         if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Physics is", "on" if self.physics else "off")
         
-        if os.environ["PYUNITY_NO_INTERACTIVE"] == "0":
-            self.windowProvider = config.windowProvider
-            self.window = self.windowProvider(config.size, self.name)
+        self.windowProvider = config.windowProvider
+        self.window = self.windowProvider(config.size, self.name)
 
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
@@ -311,8 +310,7 @@ class Scene:
 
         if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Scene \"" + self.name + "\" has started")
 
-        if os.environ["PYUNITY_NO_INTERACTIVE"] == "0":
-            self.window.start(self.update)
+        self.window.start(self.update)
     
     def transform(self, transform):
         """

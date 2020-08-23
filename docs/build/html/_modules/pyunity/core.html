@@ -412,7 +412,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="mi">90</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">near</span> <span class="o">=</span> <span class="mf">0.05</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">far</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span> <span class="o">=</span> <span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Light"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Light">[docs]</a><span class="k">class</span> <span class="nc">Light</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
@@ -481,7 +481,7 @@
             <span class="n">glColor3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
             <span class="n">glMaterialfv</span><span class="p">(</span><span class="n">GL_FRONT</span><span class="p">,</span> <span class="n">GL_SHININESS</span><span class="p">,</span> <span class="p">(</span><span class="mi">128</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">triangle</span><span class="p">:</span>
-                <span class="n">glVertex3f</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">[</span><span class="n">vertex</span><span class="p">]))</span>
+                <span class="n">glVertex3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">[</span><span class="n">vertex</span><span class="p">])</span>
         <span class="n">glEnd</span><span class="p">()</span>
         
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
