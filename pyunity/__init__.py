@@ -107,6 +107,7 @@ from .core import *
 from .vector3 import *
 from .scene import SceneManager
 from .physics import *
+from . import loader
 
 __version__ = "0.0.3"
 
