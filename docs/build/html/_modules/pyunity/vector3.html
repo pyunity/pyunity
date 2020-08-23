@@ -32,9 +32,18 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.vector3</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A class to store x, y and z values,</span>
+<span class="sd">with a lot of utility functions.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># TODO: division</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="n">clamp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">_min</span><span class="p">,</span> <span class="n">_max</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">_max</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">_min</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;Clamp a value between a minimum and a maximum&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Vector3"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3">[docs]</a><span class="k">class</span> <span class="nc">Vector3</span><span class="p">:</span>
 
@@ -251,8 +260,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
         <span class="k">if</span> <span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span> <span class="o">/</span> <span class="n">length</span>
-        <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">length</span> <span class="o">*</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
     
 <div class="viewcode-block" id="Vector3.normalize_return_length"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.normalize_return_length">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_return_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -322,9 +331,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="nb">min</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="nb">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Vector3.dot"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dot product of two vectors.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Vector3</span>
+<span class="sd">            Other vector</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Dot product of the two vectors</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span></div>
     
 <div class="viewcode-block" id="Vector3.cross"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cross product of two vectors</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Vector3</span>
+<span class="sd">            Other vector</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Vector3</span>
+<span class="sd">            Cross product of the two vectors</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
