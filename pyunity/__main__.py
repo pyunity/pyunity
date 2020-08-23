@@ -1,2 +1,2 @@
-from .examples import example1
-example1.main()
+from . import examples
+examples.show()
