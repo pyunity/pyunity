@@ -241,6 +241,23 @@ class Scene:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
+
+    def start_scripts(self):
+        self.lastFrame = time()
+
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                if isinstance(component, Behaviour):
+                    component.Start()
+
+        self.physics = any(
+            isinstance(
+                component, physics.Collider
+            ) for component in gameObject.components for gameObject in self.gameObjects
+        )
+        if self.physics:
+            self.collManager = physics.CollManager()
+            self.collManager.AddColliders(self)
     
     def Run(self):
         """
@@ -258,21 +275,7 @@ class Scene:
             GL_LIGHT7
         ]
 
-        self.lastFrame = time()
-
-        for gameObject in self.gameObjects:
-            for component in gameObject.components:
-                if isinstance(component, Behaviour):
-                    component.Start()
-
-        self.physics = any(
-            isinstance(
-                component, physics.Collider
-            ) for component in gameObject.components for gameObject in self.gameObjects
-        )
-        if self.physics:
-            self.collManager = physics.CollManager()
-            self.collManager.AddColliders(self)
+        self.start_scripts()
         
         if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Physics is", "on" if self.physics else "off")
         
@@ -329,11 +332,7 @@ class Scene:
                     transform.position[1],
                     -transform.position[2])
 
-    def update(self):
-        """
-        Updating function to pass to the window provider.
-
-        """
+    def update_scripts(self):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
@@ -343,6 +342,13 @@ class Scene:
             self.collManager.Step(max(time() - self.lastFrame, 0.001))
 
         self.lastFrame = time()
+
+    def update(self):
+        """
+        Updating function to pass to the window provider.
+
+        """
+        self.update_scripts()
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
