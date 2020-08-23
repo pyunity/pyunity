@@ -6,10 +6,31 @@ physics engine.
 
 from ..vector3 import *
 from ..core import *
+import math
 
-class Pair:
+infinity = math.inf
+"""A representation of infinity"""
+
+class PhysicMaterial:
     """
-    Class to store a pair of colliders together.
+    Class to store data on a collider's material.
+
+    Parameters
+    ----------
+    restitution : float
+        Bounciness of the material
+    friction : float
+        Friction of the material
+
+    """
+
+    def __init__(self, restitution = 0.75, friction = 1):
+        self.restitution = restitution
+        self.friction = friction
+
+class Manifold:
+    """
+    Class to store collision data.
 
     Parameters
     ----------
@@ -17,12 +38,18 @@ class Pair:
         The first collider
     b : Collider
         The second collider
+    normal : Vector3
+        The collision normal
+    penetration : float
+        How much the two colliders overlap
 
     """
 
-    def __init__(self, a, b):
+    def __init__(self, a, b, normal, penetration):
         self.a = a
         self.b = b
+        self.normal = normal
+        self.penetration = penetration
 
 class Collider(Component):
     """
@@ -35,6 +62,7 @@ class Collider(Component):
         super(Collider, self).__init__()
         self.mass = 100
         self.velocity = Vector3.zero()
+        self.physicMaterial = PhysicMaterial()
 
 class SphereCollider(Collider):
     """
@@ -90,8 +118,8 @@ class SphereCollider(Collider):
 
         Returns
         -------
-        Pair or None
-            Pair of colliders
+        Manifold or None
+            Collision data
         
         Notes
         -----
@@ -117,22 +145,30 @@ class SphereCollider(Collider):
         if isinstance(other, SphereCollider):
             objDistSqrd = abs(self.pos - other.pos).get_length_sqrd()
             radDistSqrd = (self.radius + other.radius) ** 2
-            return Pair(self, other) if objDistSqrd <= radDistSqrd else None
+            normal = self.pos - other.pos
+            penetration = radDistSqrd - objDistSqrd
+            return Manifold(self, other, normal, penetration) if objDistSqrd <= radDistSqrd else None
         elif isinstance(other, AABBoxCollider):
             inside = (other.min.x < self.pos.x < other.max.x and 
                     other.min.y < self.pos.y < other.max.y and
                     other.min.z < self.pos.z < other.max.z)
-            if not inside:
-                pos = self.pos.copy()
+            
+            pos = self.pos.copy()
+            if inside:
+                pos.x = other.min.x if pos.x - other.min.x < other.max.x - pos.x else other.max.x
+                pos.y = other.min.y if pos.y - other.min.y < other.max.y - pos.y else other.max.y
+                pos.z = other.min.z if pos.z - other.min.z < other.max.z - pos.z else other.max.z
+            else:
                 pos.clamp(other.min, other.max)
-                dist = (self.pos - pos).get_length_sqrd()
-                if dist > self.radius ** 2:
-                    return None
-            return Pair(self, other)
+            dist = (self.pos - pos).get_length_sqrd()
+            if not inside and dist > self.radius ** 2:
+                return None
+            return Manifold(self, other, self.pos - other.pos, self.radius - dist)
 
 class AABBoxCollider(Collider):
     """
-    An axis-aligned box collider.
+    An axis-aligned box collider that
+    cannot be deformed.
 
     """
 
@@ -182,8 +218,8 @@ class AABBoxCollider(Collider):
 
         Returns
         -------
-        Pair or None
-            Pair of colliders
+        Manifold or None
+            Collision data
         
         Notes
         -----
@@ -208,22 +244,55 @@ class AABBoxCollider(Collider):
         
         """
         if isinstance(other, AABBoxCollider):
-            if self.min.x > other.max.x or self.max.x < other.min.x: collided = False
-            elif self.min.y > other.max.y or self.max.y < other.min.y: collided = False
-            elif self.min.z > other.max.z or self.max.z < other.min.z: collided = False
-            else: collided = True
-            return None if not collided else Pair(self, other)
+            n = other.pos - self.pos
+
+            a_extent = (self.max.x - self.min.x) / 2
+            b_extent = (other.max.x - other.min.x) / 2
+            x_overlap = a_extent + b_extent - abs(n.x)
+            if x_overlap > 0:
+                a_extent = (self.max.y - self.min.y) / 2
+                b_extent = (other.max.y - other.min.y) / 2
+                y_overlap = a_extent + b_extent - abs(n.y)
+                if y_overlap > 0:
+                    a_extent = (self.max.z - self.min.z) / 2
+                    b_extent = (other.max.z - other.min.z) / 2
+                    z_overlap = a_extent + b_extent - abs(n.z)
+                    if z_overlap > 0:
+                        if x_overlap < y_overlap and x_overlap < z_overlap:
+                            if n.x < 0: normal = Vector3.left()
+                            else: normal = Vector3.right()
+                            penetration = x_overlap
+                        elif y_overlap < x_overlap and y_overlap < z_overlap:
+                            if n.y < 0: normal = Vector3.down()
+                            else: normal = Vector3.up()
+                            penetration = y_overlap
+                        else:
+                            if n.z < 0: normal = Vector3.back()
+                            else: normal = Vector3.forward()
+                            penetration = z_overlap
+                        return Manifold(self, other, normal, penetration)
+
+            # if self.min.x > other.max.x or self.max.x < other.min.x: collided = False
+            # elif self.min.y > other.max.y or self.max.y < other.min.y: collided = False
+            # elif self.min.z > other.max.z or self.max.z < other.min.z: collided = False
+            # else: collided = True
+
         elif isinstance(other, SphereCollider):
             inside = (self.min.x < other.pos.x < self.max.x and 
                     self.min.y < other.pos.y < self.max.y and
                     self.min.z < other.pos.z < self.max.z)
-            if not inside:
-                pos = other.pos.copy()
+            
+            pos = other.pos.copy()
+            if inside:
+                pos.x = self.min.x if pos.x - self.min.x < self.max.x - pos.x else self.max.x
+                pos.y = self.min.y if pos.y - self.min.y < self.max.y - pos.y else self.max.y
+                pos.z = self.min.z if pos.z - self.min.z < self.max.z - pos.z else self.max.z
+            else:
                 pos.clamp(self.min, self.max)
-                dist = (other.pos - pos).get_length_sqrd()
-                if dist > other.radius ** 2:
-                    return None
-            return Pair(self, other)
+            dist = (other.pos - pos).get_length_sqrd()
+            if not inside and dist > other.radius ** 2:
+                return None
+            return Manifold(self, other, self.pos - other.pos, other.radius - dist)
 
 class CollManager:
     """
@@ -262,19 +331,49 @@ class CollManager:
 
                 m = a.collidingWith(b) or b.collidingWith(a)
                 if m:
-                    normal = m.a.pos - m.b.pos
-                    a = 2 * m.b.mass / (m.a.mass + m.b.mass)
-                    b = (m.a.velocity - m.b.velocity).dot(normal) / normal.dot(normal)
-                    newVelA = m.a.velocity - a * b * normal
-                    
-                    normal = m.b.pos - m.a.pos
-                    a = 2 * m.a.mass / (m.a.mass + m.b.mass)
-                    b = (m.b.velocity - m.a.velocity).dot(normal) / normal.dot(normal)
-                    newVelB = m.b.velocity - a * b * normal
+                    e = min(m.a.physicMaterial.restitution, m.b.physicMaterial.restitution)
 
-                    m.a.velocity = newVelA
-                    m.b.velocity = newVelB
+                    normal = m.normal.copy()
+
+                    if math.isinf(m.a.mass): a = 0
+                    elif math.isinf(m.b.mass): a = 2
+                    else: a =2 * m.b.mass / (m.a.mass + m.b.mass)
+                    
+                    b = (m.a.velocity - m.b.velocity).dot(normal) / normal.dot(normal)
+                    velA = a * b * normal * (0.5 + e / 2)
+                    
+                    normal *= -1
+
+                    if math.isinf(m.a.mass): a = 2
+                    elif math.isinf(m.b.mass): a = 0
+                    else: a = 2 * m.a.mass / (m.a.mass + m.b.mass)
+                    
+                    b = (m.b.velocity - m.a.velocity).dot(normal) / normal.dot(normal)
+                    velB = a * b * normal * (0.5 + e / 2)
+
+                    m.a.velocity -= velA
+                    m.b.velocity -= velB
+
+                    # Friction
+                    rv = m.b.velocity - m.a.velocity
+                    t = (rv - rv.dot(m.normal) * m.normal).normalized()
+
+                    jt = rv.dot(t)
+                    jt /= 1 / m.a.mass + 1 / m.b.mass
+
+                    mu = (m.a.physicMaterial.friction + m.b.physicMaterial.friction) / 2
+                    if abs(jt) < j * mu:
+                        frictionImpulse = jt * t
+                    else:
+                        frictionImpulse = -j * t * mu
+                    
+                    m.a.velocity -= 1 / m.a.mass * frictionImpulse
+                    m.b.velocity += 1 / m.b.mass * frictionImpulse
     
+                    correction = m.penetration * (m.a.mass + m.b.mass) * 0.8 * m.normal
+                    m.a.pos -= 1 / m.a.mass * correction if not math.isinf(m.a.mass + m.b.mass) else 0
+                    m.b.pos += 1 / m.b.mass * correction if not math.isinf(m.a.mass + m.b.mass) else 0
+
     def Step(self, dt):
         """
         Steps through the simulation at a
@@ -294,5 +393,6 @@ class CollManager:
         for i in range(10):
             for collider in self.colliders:
                 collider.Move(dt / 10)
-                collider.transform.position = collider.pos
             self.CheckCollisions()
+        for collider in self.colliders:
+            collider.transform.position = collider.pos

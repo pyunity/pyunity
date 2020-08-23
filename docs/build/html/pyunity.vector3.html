@@ -34,6 +34,8 @@
             
   <div class="section" id="module-pyunity.vector3">
 <span id="pyunity-vector3-module"></span><h1>pyunity.vector3 module<a class="headerlink" href="#module-pyunity.vector3" title="Permalink to this headline">¶</a></h1>
+<p>A class to store x, y and z values,
+with a lot of utility functions.</p>
 <dl class="py class">
 <dt id="pyunity.vector3.Vector3">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.vector3.</code><code class="sig-name descname">Vector3</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">z</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.vector3.Vector3" title="Permalink to this definition">¶</a></dt>
@@ -77,12 +79,36 @@ edge of a bounding box created as possible.</p>
 <dl class="py method">
 <dt id="pyunity.vector3.Vector3.cross">
 <code class="sig-name descname">cross</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.vector3.Vector3.cross" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Cross product of two vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Other vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cross product of the two vectors</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.vector3.Vector3.dot">
 <code class="sig-name descname">dot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.vector3.Vector3.dot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Dot product of two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Other vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dot product of the two vectors</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.vector3.Vector3.down">
@@ -232,7 +258,8 @@ if the length is 0.</p>
 <dl class="py function">
 <dt id="pyunity.vector3.clamp">
 <code class="sig-prename descclassname">pyunity.vector3.</code><code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">_min</span></em>, <em class="sig-param"><span class="n">_max</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.vector3.clamp" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Clamp a value between a minimum and a maximum</p>
+</dd></dl>
 
 </div>
 

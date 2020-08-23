@@ -39,6 +39,14 @@
 similar concepts to the Unity
 Engine itself. Only supports
 non-rotated colliders.</p>
+<p>To create an immoveable object, use
+math.inf or the provided <cite>infinity</cite>
+variable. This will make the object
+not be able to move, unless you set
+an initial velocity. Then, the
+collider will either push everything
+it collides with, or bounces it back
+at twice the speed.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">collider</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">AABBoxCollider</span><span class="p">)</span>

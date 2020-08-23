@@ -40,17 +40,32 @@
 <p>A module used to load the window providers.</p>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
-<p>Only one window can be used at a time. The window is provided by
-one of three providers: FreeGLUT, GLFW and Pygame. To create your
-own provider, create a class that has the following methods:</p>
+<p>The window is provided by one of three
+providers: FreeGLUT, GLFW and Pygame.
+When you first import PyUnity, it checks
+to see if any of the three providers
+work. The testing order is as above, so
+Pygame is tested last.</p>
+<p>To create your own provider, create a
+class that has the following methods:</p>
 <ul class="simple">
-<li><p><cite>__init__</cite>: initiate your window and check to see if it works.</p></li>
 <li><dl class="simple">
-<dt><cite>start</cite>: start the main loop in your window. The first parameter</dt><dd><p>is <code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called when you want to do the OpenGL calls.</p>
+<dt><cite>__init__</cite>: initiate your window and</dt><dd><p>check to see if it works.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>start</cite>: start the main loop in your</dt><dd><p>window. The first parameter is
+<code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called
+when you want to do the OpenGL calls.</p>
 </dd>
 </dl>
 </li>
 </ul>
+<p>Check the source code of any of the window
+providers for an example. If you have a
+window provider, then please email it
+to me at <a class="reference external" href="mailto:tankimarshal2&#37;&#52;&#48;gmail&#46;com">tankimarshal2<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
 <dl class="py function">
 <dt id="pyunity.window.LoadWindowProvider">
 <code class="sig-prename descclassname">pyunity.window.</code><code class="sig-name descname">LoadWindowProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window.html#LoadWindowProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.LoadWindowProvider" title="Permalink to this definition">¶</a></dt>
