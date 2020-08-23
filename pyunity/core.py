@@ -378,7 +378,7 @@ class Camera(Component):
         self.fov = 90
         self.near = 0.05
         self.far = 100
-        self.clearColor = (.1, .1, .1, 1)
+        self.clearColor = (0, 0, 0, 1)
 
 
 class Light(Component):
