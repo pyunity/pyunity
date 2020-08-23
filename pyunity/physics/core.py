@@ -354,7 +354,6 @@ class CollManager:
                     m.a.velocity -= velA
                     m.b.velocity -= velB
 
-                    # Friction
                     rv = m.b.velocity - m.a.velocity
                     t = (rv - rv.dot(m.normal) * m.normal).normalized()
 

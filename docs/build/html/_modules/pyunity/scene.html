@@ -37,6 +37,7 @@
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">physics</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">OpenGL.GL</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">OpenGL.GLU</span> <span class="kn">import</span> <span class="o">*</span>
@@ -298,8 +299,16 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">CollManager</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">AddColliders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physics</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">component</span><span class="p">,</span> <span class="n">physics</span><span class="o">.</span><span class="n">Collider</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">CollManager</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">AddColliders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Physics is&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span> <span class="k">else</span> <span class="s2">&quot;off&quot;</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -333,6 +342,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">far</span><span class="p">)</span>
         <span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_MODELVIEW</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scene </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> has started&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="Scene.transform"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
@@ -362,7 +373,8 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         
@@ -382,7 +394,7 @@
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
             <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
-                <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
                 <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_POSITION</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
                 <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
 
