@@ -15,8 +15,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyunity.window package" href="pyunity.window.html" />
-    <link rel="prev" title="pyunity package" href="pyunity.html" />
+    <link rel="next" title="pyunity.physics.core module" href="pyunity.physics.core.html" />
+    <link rel="prev" title="pyunity.examples.example2 package" href="pyunity.examples.example2.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,56 +35,25 @@
             
   <div class="section" id="module-pyunity.physics">
 <span id="pyunity-physics-package"></span><h1>pyunity.physics package<a class="headerlink" href="#module-pyunity.physics" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="pyunity.physics.AABBoxCollider">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">AABBoxCollider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span></em>, <em class="sig-param"><span class="n">max</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.AABBoxCollider" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyunity.physics.Collider" title="pyunity.physics.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.Collider</span></code></a></p>
-<dl class="py method">
-<dt id="pyunity.physics.AABBoxCollider.collidingWith">
-<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.AABBoxCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="pyunity.physics.CollHandler">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">CollHandler</code><a class="headerlink" href="#pyunity.physics.CollHandler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="pyunity.physics.CollHandler.AddColliders">
-<code class="sig-name descname">AddColliders</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scene</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.CollHandler.AddColliders" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.physics.CollHandler.CheckCollisions">
-<code class="sig-name descname">CheckCollisions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.CollHandler.CheckCollisions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="pyunity.physics.Collider">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">Collider</code><a class="headerlink" href="#pyunity.physics.Collider" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="pyunity.physics.IntersectData">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">IntersectData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collided</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.IntersectData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="pyunity.physics.SphereCollider">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">SphereCollider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.SphereCollider" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyunity.physics.Collider" title="pyunity.physics.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.Collider</span></code></a></p>
-<dl class="py method">
-<dt id="pyunity.physics.SphereCollider.collidingWith">
-<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.SphereCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<p>A basic 3D Physics engine that uses
+similar concepts to the Unity
+Engine itself. Only supports
+non-rotated colliders.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collider</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">AABBoxCollider</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collider</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="o">-</span><span class="n">Vector3</span><span class="o">.</span><span class="n">one</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">one</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collider</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">right</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.physics.core.html">pyunity.physics.core module</a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -109,7 +78,11 @@
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyunity.html#pyunity">PyUnity</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.physics package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.examples.html">pyunity.examples package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.physics package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
 </ul>
 </li>
@@ -123,8 +96,8 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="pyunity.html">pyunity package</a><ul>
-      <li>Previous: <a href="pyunity.html" title="previous chapter">pyunity package</a></li>
-      <li>Next: <a href="pyunity.window.html" title="next chapter">pyunity.window package</a></li>
+      <li>Previous: <a href="pyunity.examples.example2.html" title="previous chapter">pyunity.examples.example2 package</a></li>
+      <li>Next: <a href="pyunity.physics.core.html" title="next chapter">pyunity.physics.core module</a></li>
   </ul></li>
   </ul></li>
 </ul>

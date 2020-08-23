@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.physics.core module &#8212; PyUnity 0.0.3 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyunity.window package" href="pyunity.window.html" />
+    <link rel="prev" title="pyunity.physics package" href="pyunity.physics.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyunity.physics.core">
+<span id="pyunity-physics-core-module"></span><h1>pyunity.physics.core module<a class="headerlink" href="#module-pyunity.physics.core" title="Permalink to this headline">¶</a></h1>
+<p>Core classes of the PyUnity
+physics engine.</p>
+<dl class="py class">
+<dt id="pyunity.physics.core.AABBoxCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">AABBoxCollider</code><a class="headerlink" href="#pyunity.physics.core.AABBoxCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>An axis-aligned box collider.</p>
+<dl class="py method">
+<dt id="pyunity.physics.core.AABBoxCollider.Move">
+<code class="sig-name descname">Move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.AABBoxCollider.Move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the whole collider by its velocity times
+the delta time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Delta time to move the velocity by</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.AABBoxCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span></em>, <em class="sig-param"><span class="n">max</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.AABBoxCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – The corner with the lowest coordinates.</p></li>
+<li><p><strong>max</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – The corner with the highest coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.AABBoxCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.AABBoxCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pair of colliders</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.Pair" title="pyunity.physics.core.Pair">Pair</a> or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another AABBoxCollider, the
+corners are checked to see if they are inside
+the other collider.</p>
+<p>To check against a SphereCollider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.core.CollManager">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">CollManager</code><a class="headerlink" href="#pyunity.physics.core.CollManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manage the collisions between all colliders.</p>
+<dl class="py method">
+<dt id="pyunity.physics.core.CollManager.AddColliders">
+<code class="sig-name descname">AddColliders</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scene</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.CollManager.AddColliders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all colliders from a specified scene.
+This overwrites the collider list, and so
+can be called whenever a new collider is
+added or removed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.CollManager.CheckCollisions">
+<code class="sig-name descname">CheckCollisions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.CollManager.CheckCollisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through every pair exactly once,
+then checks their collisions and
+resolves them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.CollManager.Step">
+<code class="sig-name descname">Step</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.CollManager.Step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Steps through the simulation at a
+given delta time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Delta time to step</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The simulation is stepped 10 times,
+so that it is more precise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.core.Collider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">Collider</code><a class="headerlink" href="#pyunity.physics.core.Collider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Collider base class. The default
+mass is 100.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.core.Pair">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">Pair</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.Pair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store a pair of colliders together.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – The first collider</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – The second collider</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.core.SphereCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">SphereCollider</code><a class="headerlink" href="#pyunity.physics.core.SphereCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>A spherical collider that cannot be
+deformed.</p>
+<dl class="py method">
+<dt id="pyunity.physics.core.SphereCollider.Move">
+<code class="sig-name descname">Move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.SphereCollider.Move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the whole collider by its velocity times
+the delta time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Delta time to move the velocity by</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.SphereCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.SphereCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>float</em>) – The radius of the collider.</p></li>
+<li><p><strong>offset</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Offset of the collider.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.core.SphereCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyunity.physics.core.SphereCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pair of colliders</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.Pair" title="pyunity.physics.core.Pair">Pair</a> or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another SphereCollider, the
+distance and the sum of the radii is checked.</p>
+<p>To check against an AABBoxColider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#pyunity">PyUnity</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyunity.examples.html">pyunity.examples package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pyunity.physics.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyunity.html">pyunity package</a><ul>
+  <li><a href="pyunity.physics.html">pyunity.physics package</a><ul>
+      <li>Previous: <a href="pyunity.physics.html" title="previous chapter">pyunity.physics package</a></li>
+      <li>Next: <a href="pyunity.window.html" title="next chapter">pyunity.window package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyunity.physics.core.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

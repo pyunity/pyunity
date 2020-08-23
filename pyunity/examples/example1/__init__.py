@@ -4,7 +4,7 @@ from .scripts import *
 # TODO: https://www.youtube.com/watch?v=eFxcAI85xeg&list=PLEETnX-uPtBXm1KEr_2zQ6K_0hoGH6JJ0&index=3
 
 def main():
-    scene = SceneManager.AddScene("Scene")
+    scene = SceneManager.AddScene("Scene1")
 
     scene.mainCamera.transform.position = Vector3(0, 3, -10)
     scene.mainCamera.transform.rotation = Vector3(20, 0, 0)

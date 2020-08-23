@@ -263,6 +263,9 @@ class Scene:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
+
+        self.collManager = physics.CollManager()
+        self.collManager.AddColliders(self)
         
         self.windowProvider = config.windowProvider
         self.window = self.windowProvider(config.size, self.name)
@@ -324,6 +327,8 @@ class Scene:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Update(max(time() - self.lastFrame, 0.001))
+
+        self.collManager.Step(max(time() - self.lastFrame, 0.001))
 
         self.lastFrame = time()
         
