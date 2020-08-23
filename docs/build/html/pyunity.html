@@ -42,8 +42,8 @@
 that can be used with other Python modules,
 and supports different types of windows.
 Still in development.</p>
-<div class="section" id="how-to-use">
-<h3>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="importing">
+<h3>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h3>
 <p>The first step in using PyUnity is always
 importing it. A standard way to import is like
 so:</p>
@@ -66,8 +66,12 @@ This is the output with debugging:</p>
 </pre></div>
 </div>
 <p>Without debugging on, there is no output.</p>
-<p>The next step is to create a scene. The SceneManager
-has already been created, so add a scene like so:</p>
+</div>
+<div class="section" id="scenes">
+<h3>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h3>
+<p>All PyUnity projects start with a scene. There
+is no way to change between scenes yet.</p>
+<p>To add a scene, do this:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene 1&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -91,8 +95,8 @@ has already been created, so add a scene like so:</p>
 </pre></div>
 </div>
 <p>Finally, to run the scene, call <cite>scene.Run()</cite>. The window that
-is created is one of FreeGLUT, GLFW or Pygame, in which the
-precedence is as above.</p>
+is created is one of FreeGLUT, GLFW or Pygame. The window is
+selected on startup (see Windows subheading).</p>
 </div>
 <div class="section" id="behaviours">
 <h3>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h3>
@@ -106,17 +110,32 @@ parameter, <cite>dt</cite>, which is the same as Time.deltaTime.</p>
 </div>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
-<p>Only one window can be used at a time. The window is provided by
-one of three providers: FreeGLUT, GLFW and Pygame. To create your
-own provider, create a class that has the following methods:</p>
+<p>The window is provided by one of three
+providers: FreeGLUT, GLFW and Pygame.
+When you first import PyUnity, it checks
+to see if any of the three providers
+work. The testing order is as above, so
+Pygame is tested last.</p>
+<p>To create your own provider, create a
+class that has the following methods:</p>
 <ul class="simple">
-<li><p><cite>__init__</cite>: initiate your window and check to see if it works.</p></li>
 <li><dl class="simple">
-<dt><cite>start</cite>: start the main loop in your window. The first parameter</dt><dd><p>is <code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called when you want to do the OpenGL calls.</p>
+<dt><cite>__init__</cite>: initiate your window and</dt><dd><p>check to see if it works.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>start</cite>: start the main loop in your</dt><dd><p>window. The first parameter is
+<code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called
+when you want to do the OpenGL calls.</p>
 </dd>
 </dl>
 </li>
 </ul>
+<p>Check the source code of any of the window
+providers for an example. If you have a
+window provider, then please email it
+to me at <a class="reference external" href="mailto:tankimarshal2&#37;&#52;&#48;gmail&#46;com">tankimarshal2<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
 </div>
 </div>
 <div class="section" id="subpackages">
@@ -181,7 +200,8 @@ own provider, create a class that has the following methods:</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pyunity">PyUnity</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-use">How to use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
 </ul>

@@ -8,8 +8,8 @@ that can be used with other Python modules,
 and supports different types of windows.
 Still in development.
 
-How to use
-----------
+Importing
+---------
 The first step in using PyUnity is always
 importing it. A standard way to import is like
 so:
@@ -33,8 +33,12 @@ This is the output with debugging:
 
 Without debugging on, there is no output.
 
-The next step is to create a scene. The SceneManager
-has already been created, so add a scene like so:
+Scenes
+------
+All PyUnity projects start with a scene. There
+is no way to change between scenes yet.
+
+To add a scene, do this:
 
     >>> scene = SceneManager.AddScene("Scene 1")
 
@@ -58,8 +62,8 @@ To see what you have added to the scene, call `scene.List()`:
     /Cube
 
 Finally, to run the scene, call `scene.Run()`. The window that
-is created is one of FreeGLUT, GLFW or Pygame, in which the
-precedence is as above.
+is created is one of FreeGLUT, GLFW or Pygame. The window is
+selected on startup (see Windows subheading).
 
 Behaviours
 ----------
@@ -73,13 +77,27 @@ parameter, `dt`, which is the same as Time.deltaTime.
 
 Windows
 -------
-Only one window can be used at a time. The window is provided by
-one of three providers: FreeGLUT, GLFW and Pygame. To create your
-own provider, create a class that has the following methods:
+The window is provided by one of three
+providers: FreeGLUT, GLFW and Pygame.
+When you first import PyUnity, it checks
+to see if any of the three providers
+work. The testing order is as above, so
+Pygame is tested last.
 
-- `__init__`: initiate your window and check to see if it works.
-- `start`: start the main loop in your window. The first parameter
-    is ``update_func``, which is called when you want to do the OpenGL calls.
+To create your own provider, create a
+class that has the following methods:
+
+- `__init__`: initiate your window and
+    check to see if it works.
+- `start`: start the main loop in your
+    window. The first parameter is
+    ``update_func``, which is called
+    when you want to do the OpenGL calls.
+
+Check the source code of any of the window
+providers for an example. If you have a
+window provider, then please email it
+to me at tankimarshal2@gmail.com.
 
 """
 

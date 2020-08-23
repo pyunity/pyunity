@@ -1,6 +1,15 @@
+"""
+A class to store x, y and z values,
+with a lot of utility functions.
+
+"""
+
+# TODO: division
+
 import math
 
 clamp = lambda x, _min, _max: min(_max, max(_min, x))
+"""Clamp a value between a minimum and a maximum"""
 
 class Vector3:
 
@@ -217,8 +226,8 @@ class Vector3:
         """
         length = self.length
         if length != 0:
-            return self / length
-        return Vector3(self)
+            return 1 / length * self
+        return self.copy()
     
     def normalize_return_length(self):
         """
@@ -288,9 +297,37 @@ class Vector3:
         self.z = clamp(self.z, min.z, max.z)
 
     def dot(self, other):
+        """
+        Dot product of two vectors.
+
+        Parameters
+        ----------
+        other : Vector3
+            Other vector
+
+        Returns
+        -------
+        float
+            Dot product of the two vectors
+        
+        """
         return self.x * other[0] + self.y * other[1] + self.z * other[2]
     
     def cross(self, other):
+        """
+        Cross product of two vectors
+
+        Parameters
+        ----------
+        other : Vector3
+            Other vector
+
+        Returns
+        -------
+        Vector3
+            Cross product of the two vectors
+        
+        """
         x = self.y * other[2] - self.z * other[1]
         y = self.z * other[0] - self.x * other[2]
         z = self.x * other[1] - self.y * other[0]

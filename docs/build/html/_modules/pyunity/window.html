@@ -39,13 +39,27 @@
 
 <span class="sd">Windows</span>
 <span class="sd">-------</span>
-<span class="sd">Only one window can be used at a time. The window is provided by</span>
-<span class="sd">one of three providers: FreeGLUT, GLFW and Pygame. To create your</span>
-<span class="sd">own provider, create a class that has the following methods:</span>
+<span class="sd">The window is provided by one of three</span>
+<span class="sd">providers: FreeGLUT, GLFW and Pygame.</span>
+<span class="sd">When you first import PyUnity, it checks</span>
+<span class="sd">to see if any of the three providers</span>
+<span class="sd">work. The testing order is as above, so</span>
+<span class="sd">Pygame is tested last.</span>
 
-<span class="sd">- `__init__`: initiate your window and check to see if it works.</span>
-<span class="sd">- `start`: start the main loop in your window. The first parameter</span>
-<span class="sd">    is ``update_func``, which is called when you want to do the OpenGL calls.</span>
+<span class="sd">To create your own provider, create a</span>
+<span class="sd">class that has the following methods:</span>
+
+<span class="sd">- `__init__`: initiate your window and</span>
+<span class="sd">    check to see if it works.</span>
+<span class="sd">- `start`: start the main loop in your</span>
+<span class="sd">    window. The first parameter is</span>
+<span class="sd">    ``update_func``, which is called</span>
+<span class="sd">    when you want to do the OpenGL calls.</span>
+
+<span class="sd">Check the source code of any of the window</span>
+<span class="sd">providers for an example. If you have a</span>
+<span class="sd">window provider, then please email it</span>
+<span class="sd">to me at tankimarshal2@gmail.com.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
