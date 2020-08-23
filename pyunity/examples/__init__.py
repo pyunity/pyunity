@@ -1,12 +1,17 @@
 from . import example1
 from . import example2
 from . import example3
+from . import example4
+from . import example5
+
 import sys
 
 example_list = [
     example1,
     example2,
     example3,
+    example4,
+    example5,
 ]
 
 def show():

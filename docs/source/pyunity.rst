@@ -23,6 +23,7 @@ Submodules
 
    pyunity.core
    pyunity.errors
+   pyunity.loader
    pyunity.meshes
    pyunity.scene
    pyunity.vector3
