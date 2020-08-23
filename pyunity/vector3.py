@@ -10,6 +10,7 @@ class Vector3:
         self.z = z
     
     def __repr__(self):
+        """String representation of the vector"""
         return f"Vector3({self.x}, {self.y}, {self.z})"
     __str__ = __repr__
     
@@ -35,6 +36,9 @@ class Vector3:
 
     def __abs__(self):
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
+    
+    def __neg__(self):
+        return Vector3(-self.x, -self.y, -self.z)
     
     def __eq__(self, other):
         if hasattr(other, "__getitem__") and len(other) == 3:
@@ -214,7 +218,7 @@ class Vector3:
         length = self.length
         if length != 0:
             return self / length
-        return Vec2d(self)
+        return Vector3(self)
     
     def normalize_return_length(self):
         """
@@ -230,10 +234,8 @@ class Vector3:
         if length != 0:
             self.x /= length
             self.y /= length
+            self.z /= length
         return length
-    
-    def perpendicular(self):
-        return Vec2d(-self.y, self.x)
     
     def get_distance(self, other):
         """
@@ -284,6 +286,15 @@ class Vector3:
         self.x = clamp(self.x, min.x, max.x)
         self.y = clamp(self.y, min.y, max.y)
         self.z = clamp(self.z, min.z, max.z)
+
+    def dot(self, other):
+        return self.x * other[0] + self.y * other[1] + self.z * other[2]
+    
+    def cross(self, other):
+        x = self.y * other[2] - self.z * other[1]
+        y = self.z * other[0] - self.x * other[2]
+        z = self.x * other[1] - self.y * other[0]
+        return Vector3(x, y, z)
     
     @staticmethod
     def zero():
