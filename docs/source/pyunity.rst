@@ -12,7 +12,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   pyunity.examples
    pyunity.physics
    pyunity.window
 
