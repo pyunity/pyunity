@@ -447,7 +447,7 @@ class MeshRenderer(Component):
             glColor3f(*self.mat.color)
             glMaterialfv(GL_FRONT, GL_SHININESS, (128))
             for vertex in triangle:
-                glVertex3f(*list(self.mesh.verts[vertex]))
+                glVertex3f(*self.mesh.verts[vertex])
         glEnd()
         
         for child in self.transform.children:
