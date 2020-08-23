@@ -3,6 +3,7 @@ from . import config
 from .errors import *
 from . import physics
 from time import time
+import os
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -264,11 +265,20 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Start()
 
-        self.collManager = physics.CollManager()
-        self.collManager.AddColliders(self)
+        self.physics = any(
+            isinstance(
+                component, physics.Collider
+            ) for component in gameObject.components for gameObject in self.gameObjects
+        )
+        if self.physics:
+            self.collManager = physics.CollManager()
+            self.collManager.AddColliders(self)
         
-        self.windowProvider = config.windowProvider
-        self.window = self.windowProvider(config.size, self.name)
+        if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Physics is", "on" if self.physics else "off")
+        
+        if os.environ["PYUNITY_NO_INTERACTIVE"] == "0":
+            self.windowProvider = config.windowProvider
+            self.window = self.windowProvider(config.size, self.name)
 
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
@@ -299,7 +309,10 @@ class Scene:
             self.mainCamera.far)
         glMatrixMode(GL_MODELVIEW)
 
-        self.window.start(self.update)
+        if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Scene \"" + self.name + "\" has started")
+
+        if os.environ["PYUNITY_NO_INTERACTIVE"] == "0":
+            self.window.start(self.update)
     
     def transform(self, transform):
         """
@@ -328,7 +341,8 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Update(max(time() - self.lastFrame, 0.001))
 
-        self.collManager.Step(max(time() - self.lastFrame, 0.001))
+        if self.physics:
+            self.collManager.Step(max(time() - self.lastFrame, 0.001))
 
         self.lastFrame = time()
         
@@ -348,7 +362,7 @@ class Scene:
         for gameObject in self.gameObjects:
             light = gameObject.GetComponent(Light)
             if light:
-                pos = (*list(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
+                pos = (*(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
 
