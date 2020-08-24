@@ -434,18 +434,16 @@ class MeshRenderer(Component):
         Notes
         -----
         It loops through the trianges in the mesh, then draws them. Each
-        triangle has the same material, and when rendered, the mesh will
-        be like a silhouette or shadow, do to the lack of lighting. When
-        `render` is called, the MeshRenderer will call `render` on its
-        own children, moving it accordingly. The `render` function
-        assumes that the transform was applied already.
+        triangle has the same material. When `render` is called, the
+        MeshRenderer will call `render` on its own children, moving it
+        accordingly. The `render` function assumes that the transform
+        was applied already.
 
         """
         glBegin(GL_TRIANGLES)
+        glColor3f(*self.mat.color)
         for index, triangle in enumerate(self.mesh.triangles):
             glNormal3fv(list(self.mesh.normals[index]))
-            glColor3f(*self.mat.color)
-            glMaterialfv(GL_FRONT, GL_SHININESS, (128))
             for vertex in triangle:
                 glVertex3f(*self.mesh.verts[vertex])
         glEnd()

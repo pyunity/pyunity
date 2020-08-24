@@ -41,5 +41,5 @@ class Window:
             update_func()
             pygame.display.flip()
             clock.tick(config.fps)
-        
-        exit()
+    
+    pygame.display.quit()
