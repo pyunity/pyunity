@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.physics.core &#8212; PyUnity 0.0.4 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyunity.physics.core</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Core classes of the PyUnity</span>
+<span class="sd">physics engine.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">..vector3</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">infinity</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+<span class="sd">&quot;&quot;&quot;A representation of infinity&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PhysicMaterial"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial">[docs]</a><span class="k">class</span> <span class="nc">PhysicMaterial</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store data on a collider&#39;s material.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    restitution : float</span>
+<span class="sd">        Bounciness of the material</span>
+<span class="sd">    friction : float</span>
+<span class="sd">        Friction of the material</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restitution</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">friction</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restitution</span> <span class="o">=</span> <span class="n">restitution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">friction</span> <span class="o">=</span> <span class="n">friction</span></div>
+
+<div class="viewcode-block" id="Manifold"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Manifold">[docs]</a><span class="k">class</span> <span class="nc">Manifold</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store collision data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : Collider</span>
+<span class="sd">        The first collider</span>
+<span class="sd">    b : Collider</span>
+<span class="sd">        The second collider</span>
+<span class="sd">    normal : Vector3</span>
+<span class="sd">        The collision normal</span>
+<span class="sd">    penetration : float</span>
+<span class="sd">        How much the two colliders overlap</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">penetration</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="n">normal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penetration</span> <span class="o">=</span> <span class="n">penetration</span></div>
+
+<div class="viewcode-block" id="Collider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Collider">[docs]</a><span class="k">class</span> <span class="nc">Collider</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collider base class. The default</span>
+<span class="sd">    mass is 100.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Collider</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physicMaterial</span> <span class="o">=</span> <span class="n">PhysicMaterial</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SphereCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider">[docs]</a><span class="k">class</span> <span class="nc">SphereCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A spherical collider that cannot be</span>
+<span class="sd">    deformed.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SphereCollider</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="SphereCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the size of the collider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        radius : float</span>
+<span class="sd">            The radius of the collider.</span>
+<span class="sd">        offset : Vector3</span>
+<span class="sd">            Offset of the collider.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">radius</span></div>
+    
+<div class="viewcode-block" id="SphereCollider.Move"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.Move">[docs]</a>    <span class="k">def</span> <span class="nf">Move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Moves the whole collider by its velocity times</span>
+<span class="sd">        the delta time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dt : float</span>
+<span class="sd">            Delta time to move the velocity by</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span></div>
+    
+<div class="viewcode-block" id="SphereCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to see if the collider is</span>
+<span class="sd">        colliding with another collider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Collider</span>
+<span class="sd">            Other collider to check against</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Manifold or None</span>
+<span class="sd">            Collision data</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        To check against another SphereCollider, the</span>
+<span class="sd">        distance and the sum of the radii is checked.</span>
+
+<span class="sd">        To check against an AABBoxColider, the check</span>
+<span class="sd">        is as follows:</span>
+
+<span class="sd">        1.  The sphere&#39;s center is checked to see if it</span>
+<span class="sd">            is inside the AABB.</span>
+<span class="sd">        #.  If it is, then the two are colliding.</span>
+<span class="sd">        #.  If it isn&#39;t, then a copy of the position is</span>
+<span class="sd">            clamped to the AABB&#39;s bounds.</span>
+<span class="sd">        #.  Finally, the distance between the clamped</span>
+<span class="sd">            position and the original position is</span>
+<span class="sd">            measured.</span>
+<span class="sd">        #.  If the distance is bigger than the sphere&#39;s</span>
+<span class="sd">            radius, then the two are colliding.</span>
+<span class="sd">        #.  If not, then they aren&#39;t colliding.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SphereCollider</span><span class="p">):</span>
+            <span class="n">objDistSqrd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span>
+            <span class="n">radDistSqrd</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span>
+            <span class="n">penetration</span> <span class="o">=</span> <span class="n">radDistSqrd</span> <span class="o">-</span> <span class="n">objDistSqrd</span>
+            <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">penetration</span><span class="p">)</span> <span class="k">if</span> <span class="n">objDistSqrd</span> <span class="o">&lt;=</span> <span class="n">radDistSqrd</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AABBoxCollider</span><span class="p">):</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> 
+                    <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span>
+                    <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+            
+            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">inside</span><span class="p">:</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="k">else</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="k">else</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="k">else</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">pos</span><span class="p">)</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">inside</span> <span class="ow">and</span> <span class="n">dist</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="AABBoxCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider">[docs]</a><span class="k">class</span> <span class="nc">AABBoxCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An axis-aligned box collider that</span>
+<span class="sd">    cannot be deformed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AABBoxCollider</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        
+<div class="viewcode-block" id="AABBoxCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the size of the collider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        min : Vector3</span>
+<span class="sd">            The corner with the lowest coordinates.</span>
+<span class="sd">        max : Vector3</span>
+<span class="sd">            The corner with the highest coordinates.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">((</span><span class="nb">min</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="nb">min</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="nb">min</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="AABBoxCollider.Move"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.Move">[docs]</a>    <span class="k">def</span> <span class="nf">Move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Moves the whole collider by its velocity times</span>
+<span class="sd">        the delta time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dt : float</span>
+<span class="sd">            Delta time to move the velocity by</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span></div>
+    
+<div class="viewcode-block" id="AABBoxCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to see if the collider is</span>
+<span class="sd">        colliding with another collider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Collider</span>
+<span class="sd">            Other collider to check against</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Manifold or None</span>
+<span class="sd">            Collision data</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        To check against another AABBoxCollider, the</span>
+<span class="sd">        corners are checked to see if they are inside</span>
+<span class="sd">        the other collider.</span>
+
+<span class="sd">        To check against a SphereCollider, the check</span>
+<span class="sd">        is as follows:</span>
+
+<span class="sd">        1.  The sphere&#39;s center is checked to see if it</span>
+<span class="sd">            is inside the AABB.</span>
+<span class="sd">        #.  If it is, then the two are colliding.</span>
+<span class="sd">        #.  If it isn&#39;t, then a copy of the position is</span>
+<span class="sd">            clamped to the AABB&#39;s bounds.</span>
+<span class="sd">        #.  Finally, the distance between the clamped</span>
+<span class="sd">            position and the original position is</span>
+<span class="sd">            measured.</span>
+<span class="sd">        #.  If the distance is bigger than the sphere&#39;s</span>
+<span class="sd">            radius, then the two are colliding.</span>
+<span class="sd">        #.  If not, then they aren&#39;t colliding.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AABBoxCollider</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+
+            <span class="n">a_extent</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">b_extent</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">x_overlap</span> <span class="o">=</span> <span class="n">a_extent</span> <span class="o">+</span> <span class="n">b_extent</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x_overlap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">a_extent</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">b_extent</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">y_overlap</span> <span class="o">=</span> <span class="n">a_extent</span> <span class="o">+</span> <span class="n">b_extent</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">y_overlap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">a_extent</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="n">b_extent</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="n">z_overlap</span> <span class="o">=</span> <span class="n">a_extent</span> <span class="o">+</span> <span class="n">b_extent</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">z_overlap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">x_overlap</span> <span class="o">&lt;</span> <span class="n">y_overlap</span> <span class="ow">and</span> <span class="n">x_overlap</span> <span class="o">&lt;</span> <span class="n">z_overlap</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">left</span><span class="p">()</span>
+                            <span class="k">else</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">right</span><span class="p">()</span>
+                            <span class="n">penetration</span> <span class="o">=</span> <span class="n">x_overlap</span>
+                        <span class="k">elif</span> <span class="n">y_overlap</span> <span class="o">&lt;</span> <span class="n">x_overlap</span> <span class="ow">and</span> <span class="n">y_overlap</span> <span class="o">&lt;</span> <span class="n">z_overlap</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">down</span><span class="p">()</span>
+                            <span class="k">else</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">up</span><span class="p">()</span>
+                            <span class="n">penetration</span> <span class="o">=</span> <span class="n">y_overlap</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">back</span><span class="p">()</span>
+                            <span class="k">else</span><span class="p">:</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+                            <span class="n">penetration</span> <span class="o">=</span> <span class="n">z_overlap</span>
+                        <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">penetration</span><span class="p">)</span>
+
+            <span class="c1"># if self.min.x &gt; other.max.x or self.max.x &lt; other.min.x: collided = False</span>
+            <span class="c1"># elif self.min.y &gt; other.max.y or self.max.y &lt; other.min.y: collided = False</span>
+            <span class="c1"># elif self.min.z &gt; other.max.z or self.max.z &lt; other.min.z: collided = False</span>
+            <span class="c1"># else: collided = True</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SphereCollider</span><span class="p">):</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+            
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">inside</span><span class="p">:</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">pos</span><span class="p">)</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">inside</span> <span class="ow">and</span> <span class="n">dist</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">radius</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="CollManager"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager">[docs]</a><span class="k">class</span> <span class="nc">CollManager</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manage the collisions between all colliders.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span> <span class="o">=</span> <span class="p">[]</span>
+    
+<div class="viewcode-block" id="CollManager.AddColliders"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.AddColliders">[docs]</a>    <span class="k">def</span> <span class="nf">AddColliders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all colliders from a specified scene.</span>
+<span class="sd">        This overwrites the collider list, and so</span>
+<span class="sd">        can be called whenever a new collider is</span>
+<span class="sd">        added or removed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="n">scene</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Collider</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CollManager.CheckCollisions"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.CheckCollisions">[docs]</a>    <span class="k">def</span> <span class="nf">CheckCollisions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Goes through every pair exactly once,</span>
+<span class="sd">        then checks their collisions and</span>
+<span class="sd">        resolves them.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">)):</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+                <span class="n">m</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">collidingWith</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="ow">or</span> <span class="n">b</span><span class="o">.</span><span class="n">collidingWith</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">restitution</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">restitution</span><span class="p">)</span>
+
+                    <span class="n">normal</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">elif</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
+                    
+                    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span> <span class="o">/</span> <span class="n">normal</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+                    <span class="n">velA</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">normal</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">e</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                    
+                    <span class="n">normal</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
+                    <span class="k">elif</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
+                    
+                    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span> <span class="o">/</span> <span class="n">normal</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+                    <span class="n">velB</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">normal</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">e</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+                    <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="n">velA</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="n">velB</span>
+
+                    <span class="n">rv</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">velocity</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">rv</span> <span class="o">-</span> <span class="n">rv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+
+                    <span class="n">jt</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                    <span class="n">jt</span> <span class="o">/=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span>
+
+                    <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">friction</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">friction</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">jt</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="o">*</span> <span class="n">mu</span><span class="p">:</span>
+                        <span class="n">frictionImpulse</span> <span class="o">=</span> <span class="n">jt</span> <span class="o">*</span> <span class="n">t</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">frictionImpulse</span> <span class="o">=</span> <span class="o">-</span><span class="n">j</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">mu</span>
+                    
+                    <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">frictionImpulse</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">velocity</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">frictionImpulse</span>
+    
+                    <span class="n">correction</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">penetration</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">pos</span> <span class="o">-=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">correction</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">correction</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="CollManager.Step"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.Step">[docs]</a>    <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Steps through the simulation at a</span>
+<span class="sd">        given delta time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dt : float</span>
+<span class="sd">            Delta time to step</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The simulation is stepped 10 times,</span>
+<span class="sd">        so that it is more precise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">collider</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">:</span>
+                <span class="n">collider</span><span class="o">.</span><span class="n">Move</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CheckCollisions</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">collider</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliders</span><span class="p">:</span>
+            <span class="n">collider</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">collider</span><span class="o">.</span><span class="n">pos</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyunity.html">pyunity package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

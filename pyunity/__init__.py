@@ -3,8 +3,7 @@ Version 0.0.4 (in development)
 ==============================
 
 A Python implementation of the Unity Engine
-that can be used with other Python modules,
-and supports different types of windows.
+that supports different types of windows.
 Still in development.
 
 Importing
@@ -130,6 +129,12 @@ from .physics import *
 from . import loader
 
 __version__ = "0.0.4"
+__copyright__ = "Copyright 2020 Ray Chen"
+__email__ = "tankimarshal2@gmail.com"
+__license__ = "MIT License"
+__summary__ = "A Python implementation of the Unity Engine that supports different types of windows."
+__title__ = "pyunity"
+__uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 SceneManager = SceneManager()
 
