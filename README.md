@@ -1,12 +1,16 @@
-# pyunity
-## Version 0.0.3 (in development)
+# PyUnity
 
 [![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
 
-A Python implementation of the Unity Engine, that can be used with other Python modules, and supports different types of windowing. Still in development.
+## Version 0.0.3 (in development)
 
-### How to use
-The first step in using pyunity is always
+A Python implementation of the Unity Engine
+that can be used with other Python modules,
+and supports different types of windows.
+Still in development.
+
+### Importing
+The first step in using PyUnity is always
 importing it. A standard way to import is like
 so:
 
@@ -14,22 +18,26 @@ so:
 
 Debug information is turned on by default. If
 you want to turn it off, set the
-pyunity_DEBUG_MODE environment variable to "0".
+PYUNITY_DEBUG_MODE environment variable to "0".
 This is the output with debugging:
 
     >>> import os
-    >>> os.environ["pyunity_DEBUG_MODE"] = "1"
+    >>> os.environ["PYUNITY_DEBUG_MODE"] = "1"
     >>> from pyunity import *
+    Loaded config
     Trying FreeGLUT as a window provider
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded pyunity version 0.0.3
+    Loaded PyUnity version 0.0.3
 
 Without debugging on, there is no output.
 
-The next step is to create a scene. The SceneManager
-has already been created, so add a scene like so:
+### Scenes
+All PyUnity projects start with a scene. There
+is no way to change between scenes yet.
+
+To add a scene, do this:
 
     >>> scene = SceneManager.AddScene("Scene 1")
 
@@ -53,11 +61,11 @@ To see what you have added to the scene, call `scene.List()`:
     /Cube
 
 Finally, to run the scene, call `scene.Run()`. The window that
-is created is one of FreeGLUT, GLFW or Pygame, in which the
-precedence is as above.
+is created is one of FreeGLUT, GLFW or Pygame. The window is
+selected on startup (see Windows subheading).
 
 ### Behaviours
-To create your own pyunity script, create a class that inherits
+To create your own PyUnity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can't do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
@@ -66,10 +74,46 @@ instead put it in `Start()`. The `Update()` function receives one
 parameter, `dt`, which is the same as Time.deltaTime.
 
 ### Windows
-Only one window can be used at a time. The window is provided by
-one of three providers: FreeGLUT, GLFW and Pygame. To create your
-own provider, create a class that has the following methods:
+The window is provided by one of three
+providers: GLFW, Pygame and FreeGLUT.
+When you first import PyUnity, it checks
+to see if any of the three providers
+work. The testing order is as above, so
+Pygame is tested last.
 
-- `__init__`: initiate your window and check to see if it works.
-- `start`: start the main loop in your window. The first parameter
-    is ``update_func``, which is called when you want to do the OpenGL calls.
+To create your own provider, create a
+class that has the following methods:
+
+- `__init__`: initiate your window and
+    check to see if it works.
+- `start`: start the main loop in your
+    window. The first parameter is
+    ``update_func``, which is called
+    when you want to do the OpenGL calls.
+
+Check the source code of any of the window
+providers for an example. If you have a
+window provider, then please create a new
+pull request.
+
+### Examples
+To run an example, import it like so:
+
+    >>> from pyunity.examples.example1 import main
+    Loaded config
+    Trying FreeGLUT as a window provider
+    FreeGLUT doesn't work, trying GLFW
+    GLFW doesn't work, trying Pygame
+    Using window provider Pygame
+    Loaded PyUnity version 0.0.3
+    >>> main()
+
+Or from the command line:
+
+    $ python -m pyunity 1
+
+The ``1`` just means to load example 1, and there
+are 5 examples. If you want to contribute an
+example, then please [create a new pull request)[https://github.com/rayzchen/pyunity/pulls].
+
+

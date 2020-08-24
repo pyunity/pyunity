@@ -40,7 +40,7 @@
 <span class="sd">Windows</span>
 <span class="sd">-------</span>
 <span class="sd">The window is provided by one of three</span>
-<span class="sd">providers: FreeGLUT, GLFW and Pygame.</span>
+<span class="sd">providers: GLFW, Pygame and FreeGLUT.</span>
 <span class="sd">When you first import PyUnity, it checks</span>
 <span class="sd">to see if any of the three providers</span>
 <span class="sd">work. The testing order is as above, so</span>
@@ -58,8 +58,8 @@
 
 <span class="sd">Check the source code of any of the window</span>
 <span class="sd">providers for an example. If you have a</span>
-<span class="sd">window provider, then please email it</span>
-<span class="sd">to me at tankimarshal2@gmail.com.</span>
+<span class="sd">window provider, then please create a new</span>
+<span class="sd">pull request.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -68,11 +68,13 @@
 <span class="kn">from</span> <span class="nn">..errors</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="glutCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.glutCheck">[docs]</a><span class="k">def</span> <span class="nf">glutCheck</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Checks to see if FreeGLUT works&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">OpenGL</span>
     <span class="n">OpenGL</span><span class="o">.</span><span class="n">GLUT</span><span class="o">.</span><span class="n">glutInit</span><span class="p">()</span>
     <span class="k">del</span> <span class="n">OpenGL</span></div>
 
 <div class="viewcode-block" id="glfwCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.glfwCheck">[docs]</a><span class="k">def</span> <span class="nf">glfwCheck</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Checks to see if GLFW works&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">glfw</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">glfw</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">Exception</span>
@@ -81,17 +83,18 @@
     <span class="k">del</span> <span class="n">glfw</span></div>
 
 <div class="viewcode-block" id="pygameCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.pygameCheck">[docs]</a><span class="k">def</span> <span class="nf">pygameCheck</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Checks to see if Pygame works&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">pygame</span>
     <span class="k">if</span> <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span>
     <span class="k">del</span> <span class="n">pygame</span></div>
 
 <div class="viewcode-block" id="LoadWindowProvider"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.LoadWindowProvider">[docs]</a><span class="k">def</span> <span class="nf">LoadWindowProvider</span><span class="p">():</span>
-    
+    <span class="sd">&quot;&quot;&quot;Loads an appropriate window provider to use&quot;&quot;&quot;</span>
     <span class="n">winfo</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;FreeGLUT&quot;</span><span class="p">,</span> <span class="n">glutCheck</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;GLFW&quot;</span><span class="p">,</span> <span class="n">glfwCheck</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;Pygame&quot;</span><span class="p">,</span> <span class="n">pygameCheck</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;FreeGLUT&quot;</span><span class="p">,</span> <span class="n">glutCheck</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">windowProvider</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -106,7 +109,6 @@
             <span class="n">checker</span><span class="p">()</span>
             <span class="n">windowProvider</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="n">failed</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">failed</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;doesn&#39;t work, trying&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
         
