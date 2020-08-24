@@ -35,9 +35,8 @@
             
   <div class="section" id="module-pyunity">
 <span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pyunity">
-<h2>PyUnity<a class="headerlink" href="#pyunity" title="Permalink to this headline">¶</a></h2>
-<p>Version 0.0.3 (in development)</p>
+<div class="section" id="version-0-0-3-in-development">
+<h2>Version 0.0.3 (in development)<a class="headerlink" href="#version-0-0-3-in-development" title="Permalink to this headline">¶</a></h2>
 <p>A Python implementation of the Unity Engine
 that can be used with other Python modules,
 and supports different types of windows.
@@ -111,7 +110,7 @@ parameter, <cite>dt</cite>, which is the same as Time.deltaTime.</p>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>The window is provided by one of three
-providers: FreeGLUT, GLFW and Pygame.
+providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
@@ -134,8 +133,27 @@ when you want to do the OpenGL calls.</p>
 </ul>
 <p>Check the source code of any of the window
 providers for an example. If you have a
-window provider, then please email it
-to me at <a class="reference external" href="mailto:tankimarshal2&#37;&#52;&#48;gmail&#46;com">tankimarshal2<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+window provider, then please create a new
+pull request.</p>
+<p class="rubric">Examples</p>
+<p>To run an example, import it like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity.examples.example1</span> <span class="kn">import</span> <span class="n">main</span>
+<span class="go">Loaded config</span>
+<span class="go">Trying FreeGLUT as a window provider</span>
+<span class="go">FreeGLUT doesn&#39;t work, trying GLFW</span>
+<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
+<span class="go">Using window provider Pygame</span>
+<span class="go">Loaded PyUnity version 0.0.3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Or from the command line:</p>
+<blockquote>
+<div><p>$ python -m pyunity 1</p>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">1</span></code> just means to load example 1, and there
+are 5 examples. If you want to contribute an
+example, then please create a new pull request.</p>
 </div>
 </div>
 <div class="section" id="subpackages">
@@ -200,7 +218,7 @@ to me at <a class="reference external" href="mailto:tankimarshal2&#37;&#52;&#48;
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pyunity">PyUnity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-3-in-development">Version 0.0.3 (in development)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>

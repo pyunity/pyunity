@@ -1,7 +1,6 @@
 """
-PyUnity
-=======
 Version 0.0.3 (in development)
+==============================
 
 A Python implementation of the Unity Engine
 that can be used with other Python modules,
@@ -78,7 +77,7 @@ parameter, `dt`, which is the same as Time.deltaTime.
 Windows
 -------
 The window is provided by one of three
-providers: FreeGLUT, GLFW and Pygame.
+providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
@@ -96,8 +95,29 @@ class that has the following methods:
 
 Check the source code of any of the window
 providers for an example. If you have a
-window provider, then please email it
-to me at tankimarshal2@gmail.com.
+window provider, then please create a new
+pull request.
+
+Examples
+--------
+To run an example, import it like so:
+
+    >>> from pyunity.examples.example1 import main
+    Loaded config
+    Trying FreeGLUT as a window provider
+    FreeGLUT doesn't work, trying GLFW
+    GLFW doesn't work, trying Pygame
+    Using window provider Pygame
+    Loaded PyUnity version 0.0.3
+    >>> main()
+
+Or from the command line:
+
+    $ python -m pyunity 1
+
+The ``1`` just means to load example 1, and there
+are 5 examples. If you want to contribute an
+example, then please create a new pull request.
 
 """
 

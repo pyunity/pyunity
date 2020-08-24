@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import os, pyunity
+import os, pyunity, readme
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
