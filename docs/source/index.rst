@@ -1,5 +1,5 @@
 .. pyunity documentation master file, created by
-   sphinx-quickstart on Mon Aug 24 20:20:34 2020.
+   sphinx-quickstart on Mon Aug 24 21:50:31 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

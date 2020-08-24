@@ -5,8 +5,7 @@
 ## Version 0.0.4 (in development)
 
 A Python implementation of the Unity Engine
-that can be used with other Python modules,
-and supports different types of windows.
+that supports different types of windows.
 Still in development.
 
 ### Importing
