@@ -393,11 +393,10 @@ For all matches, do a manual loop.</p>
 <dd><p>Render the mesh that the MeshRenderer has.</p>
 <p class="rubric">Notes</p>
 <p>It loops through the trianges in the mesh, then draws them. Each
-triangle has the same material, and when rendered, the mesh will
-be like a silhouette or shadow, do to the lack of lighting. When
-<cite>render</cite> is called, the MeshRenderer will call <cite>render</cite> on its
-own children, moving it accordingly. The <cite>render</cite> function
-assumes that the transform was applied already.</p>
+triangle has the same material. When <cite>render</cite> is called, the
+MeshRenderer will call <cite>render</cite> on its own children, moving it
+accordingly. The <cite>render</cite> function assumes that the transform
+was applied already.</p>
 </dd></dl>
 
 </dd></dl>

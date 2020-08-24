@@ -3,14 +3,14 @@ Module for all exceptions related to PyUnity.
 
 """
 
-class PyUnity(Exception):
+class PyUnityException(Exception):
     """Base class for PyUnity exceptions."""
     pass
 
-class ComponentException(PyUnity):
+class ComponentException(PyUnityException):
     """Class for PyUnity exceptions relating to components."""
     pass
 
-class GameObjectException(PyUnity):
+class GameObjectException(PyUnityException):
     """Class for PyUnity exceptions relating to GameObjects."""
     pass
