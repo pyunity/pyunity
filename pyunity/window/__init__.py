@@ -6,7 +6,7 @@ A module used to load the window providers.
 Windows
 -------
 The window is provided by one of three
-providers: FreeGLUT, GLFW and Pygame.
+providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
@@ -24,8 +24,8 @@ class that has the following methods:
 
 Check the source code of any of the window
 providers for an example. If you have a
-window provider, then please email it
-to me at tankimarshal2@gmail.com.
+window provider, then please create a new
+pull request.
 
 """
 
@@ -34,11 +34,13 @@ import OpenGL.GLUT, glfw, pygame
 from ..errors import *
 
 def glutCheck():
+    """Checks to see if FreeGLUT works"""
     global OpenGL
     OpenGL.GLUT.glutInit()
     del OpenGL
 
 def glfwCheck():
+    """Checks to see if GLFW works"""
     global glfw
     if not glfw.init():
         raise Exception
@@ -47,17 +49,18 @@ def glfwCheck():
     del glfw
 
 def pygameCheck():
+    """Checks to see if Pygame works"""
     global pygame
     if pygame.init()[0] == 0:
         raise Exception
     del pygame
 
 def LoadWindowProvider():
-    
+    """Loads an appropriate window provider to use"""
     winfo = [
-        ("FreeGLUT", glutCheck),
         ("GLFW", glfwCheck),
         ("Pygame", pygameCheck),
+        ("FreeGLUT", glutCheck),
     ]
 
     windowProvider = ""
@@ -72,7 +75,6 @@ def LoadWindowProvider():
             checker()
             windowProvider = name
         except Exception as e:
-            print(e)
             failed = bool(next)
             if not failed: print(name, "doesn't work, trying", next)
         
