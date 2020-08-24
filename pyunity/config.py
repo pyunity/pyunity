@@ -11,41 +11,7 @@ if os.environ["PYUNITY_DEBUG_MODE"] == "1":
 
 from . import window
 
-try:
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print("Trying FreeGLUT as a window provider")
-    import OpenGL.GLUT
-    OpenGL.GLUT.glutInit()
-    del OpenGL
-    windowProvider = "glut"
-    w = "FreeGLUT"
-except Exception as e:
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print("FreeGLUT doesn't work, using GLFW")
-    try:
-        import glfw
-        if not glfw.init():
-            raise Exception
-        glfw.create_window(50, 50, "Test", None, None)
-        glfw.terminate()
-        del glfw
-        windowProvider = "glfw"
-        w = "GLFW"
-    except Exception as e:
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-            print("GLFW doesn't work, using Pygame")
-        import pygame
-        if pygame.init()[0] == 0:
-            raise PyUnityException("No window provider found")
-        del pygame
-        windowProvider = "pygame"
-        w = "Pygame"
-
-windowProvider = window.LoadWindowProvider(windowProvider)
+windowProvider = window.LoadWindowProvider()
 
 del window
-
-if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-    print(f"Using window provider {w}")
-
 del os

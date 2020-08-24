@@ -468,18 +468,16 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        It loops through the trianges in the mesh, then draws them. Each</span>
-<span class="sd">        triangle has the same material, and when rendered, the mesh will</span>
-<span class="sd">        be like a silhouette or shadow, do to the lack of lighting. When</span>
-<span class="sd">        `render` is called, the MeshRenderer will call `render` on its</span>
-<span class="sd">        own children, moving it accordingly. The `render` function</span>
-<span class="sd">        assumes that the transform was applied already.</span>
+<span class="sd">        triangle has the same material. When `render` is called, the</span>
+<span class="sd">        MeshRenderer will call `render` on its own children, moving it</span>
+<span class="sd">        accordingly. The `render` function assumes that the transform</span>
+<span class="sd">        was applied already.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">glBegin</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">)</span>
+        <span class="n">glColor3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">triangle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">):</span>
             <span class="n">glNormal3fv</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">normals</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
-            <span class="n">glColor3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">glMaterialfv</span><span class="p">(</span><span class="n">GL_FRONT</span><span class="p">,</span> <span class="n">GL_SHININESS</span><span class="p">,</span> <span class="p">(</span><span class="mi">128</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">triangle</span><span class="p">:</span>
                 <span class="n">glVertex3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">[</span><span class="n">vertex</span><span class="p">])</span>
         <span class="n">glEnd</span><span class="p">()</span>

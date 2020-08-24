@@ -29,13 +29,66 @@ to me at tankimarshal2@gmail.com.
 
 """
 
-def LoadWindowProvider(win):
-    if win == "glut":
+import os
+import OpenGL.GLUT, glfw, pygame
+from ..errors import *
+
+def glutCheck():
+    global OpenGL
+    OpenGL.GLUT.glutInit()
+    del OpenGL
+
+def glfwCheck():
+    global glfw
+    if not glfw.init():
+        raise Exception
+    glfw.create_window(50, 50, "Test", None, None)
+    glfw.terminate()
+    del glfw
+
+def pygameCheck():
+    global pygame
+    if pygame.init()[0] == 0:
+        raise Exception
+    del pygame
+
+def LoadWindowProvider():
+    
+    winfo = [
+        ("FreeGLUT", glutCheck),
+        ("GLFW", glfwCheck),
+        ("Pygame", pygameCheck),
+    ]
+
+    windowProvider = ""
+    failed = False
+
+    for name, checker in winfo:
+        i = 0
+        next = winfo[i + 1][0] if i < len(winfo) else None
+        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+            print("Trying", name, "as a window provider")
+        try:
+            checker()
+            windowProvider = name
+        except Exception as e:
+            print(e)
+            failed = bool(next)
+            if not failed: print(name, "doesn't work, trying", next)
+        
+        if failed is None: raise PyUnityException("No window provider found")
+        if windowProvider: break
+        i += 1
+
+    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+        print(f"Using window provider {windowProvider}")
+
+    if windowProvider == "FreeGLUT":
         from .glutWindow import Window as glutWindow
         return glutWindow
-    if win == "pygame":
-        from .pygameWindow import Window as pygameWindow
-        return pygameWindow
-    if win == "glfw":
+    if windowProvider == "GLFW":
         from .glfwWindow import Window as glfwWindow
         return glfwWindow
+    if windowProvider == "Pygame":
+        from .pygameWindow import Window as pygameWindow
+        return pygameWindow
