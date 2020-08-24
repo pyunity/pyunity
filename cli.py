@@ -1,3 +1,2 @@
-from pyunity.examples.example1 import main
+from pyunity.examples.example5 import main
 main()
-print("h")
