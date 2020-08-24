@@ -1,5 +1,5 @@
 """
-Version 0.0.3 (in development)
+Version 0.0.4 (in development)
 ==============================
 
 A Python implementation of the Unity Engine
@@ -28,7 +28,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.3
+    Loaded PyUnity version 0.0.4
 
 Without debugging on, there is no output.
 
@@ -108,7 +108,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.3
+    Loaded PyUnity version 0.0.4
     >>> main()
 
 Or from the command line:
@@ -129,7 +129,7 @@ from .scene import SceneManager
 from .physics import *
 from . import loader
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 SceneManager = SceneManager()
 

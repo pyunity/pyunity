@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
 
-## Version 0.0.3 (in development)
+## Version 0.0.4 (in development)
 
 A Python implementation of the Unity Engine
 that can be used with other Python modules,
@@ -29,7 +29,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.3
+    Loaded PyUnity version 0.0.4
 
 Without debugging on, there is no output.
 
@@ -105,7 +105,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.3
+    Loaded PyUnity version 0.0.4
     >>> main()
 
 Or from the command line:
