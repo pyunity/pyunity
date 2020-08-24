@@ -1,8 +1,9 @@
 from pyunity import *
 from .scripts import *
+import os
 
 def main():
-    mesh = loader.LoadObj("pyunity/examples/example4/cube.obj")
+    mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cube.obj"))
 
     scene = SceneManager.AddScene("Scene")
 

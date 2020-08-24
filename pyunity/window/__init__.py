@@ -44,7 +44,7 @@ def glfwCheck():
     global glfw
     if not glfw.init():
         raise Exception
-    glfw.create_window(50, 50, "Test", None, None)
+    glfw.create_window(5, 5, "a", None, None)
     glfw.terminate()
     del glfw
 
