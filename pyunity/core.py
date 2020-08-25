@@ -388,7 +388,7 @@ class Light(Component):
 
     def __init__(self):
         super(Light, self).__init__()
-        self.intensity = 100
+        self.intensity = 50
         self.type = 1
 
 class MeshRenderer(Component):

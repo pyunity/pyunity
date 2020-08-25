@@ -33,12 +33,6 @@ import os
 import OpenGL.GLUT, glfw, pygame
 from ..errors import *
 
-def glutCheck():
-    """Checks to see if FreeGLUT works"""
-    global OpenGL
-    OpenGL.GLUT.glutInit()
-    del OpenGL
-
 def glfwCheck():
     """Checks to see if GLFW works"""
     global glfw
@@ -55,6 +49,12 @@ def pygameCheck():
         raise Exception
     del pygame
 
+def glutCheck():
+    """Checks to see if FreeGLUT works"""
+    global OpenGL
+    OpenGL.GLUT.glutInit()
+    del OpenGL
+
 def LoadWindowProvider():
     """Loads an appropriate window provider to use"""
     winfo = [
@@ -65,20 +65,21 @@ def LoadWindowProvider():
 
     windowProvider = ""
     failed = False
+    i = 0
 
     for name, checker in winfo:
-        i = 0
-        next = winfo[i + 1][0] if i < len(winfo) else None
+        next = winfo[i + 1][0] if i < len(winfo) - 1 else None
         if os.environ["PYUNITY_DEBUG_MODE"] == "1":
             print("Trying", name, "as a window provider")
         try:
             checker()
             windowProvider = name
         except Exception as e:
-            failed = bool(next)
-            if not failed: print(name, "doesn't work, trying", next)
+            failed = not bool(next)
+            if not failed and os.environ["PYUNITY_DEBUG_MODE"] == "1":
+                print(name, "doesn't work, trying", next)
         
-        if failed is None: raise PyUnityException("No window provider found")
+        if next is None: raise PyUnityException("No window provider found")
         if windowProvider: break
         i += 1
 
