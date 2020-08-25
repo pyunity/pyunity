@@ -40,6 +40,6 @@ def main():
 
     scene.Add(cube)
 
-    loader.SaveScene(scene)
+    loader.SaveScene(scene, __file__)
 
     scene.Run()

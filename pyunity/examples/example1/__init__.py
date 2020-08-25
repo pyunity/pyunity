@@ -17,7 +17,7 @@ def main():
 
     scene.List()
 
-    loader.SaveScene(scene)
+    loader.SaveScene(scene, __file__)
 
     scene.Run()
 
