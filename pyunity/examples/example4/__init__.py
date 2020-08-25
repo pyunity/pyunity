@@ -17,5 +17,7 @@ def main():
     renderer.mat = Material((255, 0, 0))
     
     scene.Add(cube)
+
+    loader.SaveScene(scene)
     
     scene.Run()
