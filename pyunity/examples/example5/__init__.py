@@ -17,5 +17,7 @@ def main():
     house.AddComponent(Rotator)
     
     scene.Add(house)
+
+    loader.SaveScene(scene)
     
     scene.Run()

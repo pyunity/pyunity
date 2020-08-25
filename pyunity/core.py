@@ -355,24 +355,6 @@ class Transform(Component):
     
     __str__ = __repr__
 
-    def ListAttributes(self):
-        """
-        Return a list of all the attributes
-        and what their values are.
-        Used when loading a scene.
-
-        Returns
-        -------
-        list
-            List of attributes and values
-        
-        """
-        return (
-            ("position", str(self.position)),
-            ("rotation", str(self.rotation)),
-            ("scale", str(self.scale))
-        )
-
 class Camera(Component):
     """
     Component to hold data about the camera in a scene.
@@ -398,25 +380,6 @@ class Camera(Component):
         self.far = 100
         self.clearColor = (0, 0, 0, 1)
 
-    def ListAttributes(self):
-        """
-        Return a list of all the attributes
-        and what their values are.
-        Used when loading a scene.
-
-        Returns
-        -------
-        list
-            List of attributes and values
-        
-        """
-        return (
-            ("fov", str(self.fov)),
-            ("near", str(self.near)),
-            ("far", str(self.far)),
-            ("clearColor", str(self.clearColor))
-        )
-
 class Light(Component):
     """
     Component to hold data about the light in a scene.
@@ -427,23 +390,6 @@ class Light(Component):
         super(Light, self).__init__()
         self.intensity = 100
         self.type = 1
-
-    def ListAttributes(self):
-        """
-        Return a list of all the attributes
-        and what their values are.
-        Used when loading a scene.
-
-        Returns
-        -------
-        list
-            List of attributes and values
-        
-        """
-        return (
-            ("intensity", str(self.intensity)),
-            ("type", str(self.type))
-        )
 
 class MeshRenderer(Component):
     """

@@ -42,4 +42,4 @@ class Window:
             pygame.display.flip()
             clock.tick(config.fps)
     
-    pygame.display.quit()
+        pygame.display.quit()

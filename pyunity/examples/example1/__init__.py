@@ -17,6 +17,8 @@ def main():
 
     scene.List()
 
+    loader.SaveScene(scene)
+
     scene.Run()
 
 if __name__ == "__main__":
