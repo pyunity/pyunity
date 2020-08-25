@@ -35,7 +35,7 @@
 <span></span><span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">from</span> <span class="nn">.meshes</span> <span class="kn">import</span> <span class="n">Mesh</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">pickle</span>
 
 <div class="viewcode-block" id="LoadObj"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.LoadObj">[docs]</a><span class="k">def</span> <span class="nf">LoadObj</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -80,28 +80,28 @@
     
     <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">normals</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="randomHex"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.randomHex">[docs]</a><span class="k">def</span> <span class="nf">randomHex</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a random hexadecimal string of length `length`.</span>
+<span class="c1"># def randomHex(length):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Returns a random hexadecimal string of length `length`.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    length : int</span>
-<span class="sd">        Length of string</span>
-<span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        A random hexadecimal string</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;%0&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">16</span> <span class="o">**</span> <span class="n">length</span><span class="p">)</span></div>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     length : int</span>
+<span class="c1">#         Length of string</span>
+    
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     str</span>
+<span class="c1">#         A random hexadecimal string</span>
+    
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     return (&quot;%0&quot; + str(length) + &quot;x&quot;) % random.randrange(16 ** length)</span>
 
-<div class="viewcode-block" id="AddHex"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.AddHex">[docs]</a><span class="k">def</span> <span class="nf">AddHex</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">randomHex</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">randomHex</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
-    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span></div>
+<span class="c1"># def AddHex(l, length):</span>
+<span class="c1">#     x = randomHex(length)</span>
+<span class="c1">#     while x in l: x = randomHex(length)</span>
+<span class="c1">#     l.append(x)</span>
+<span class="c1">#     return x</span>
 
 <div class="viewcode-block" id="SaveScene"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.SaveScene">[docs]</a><span class="k">def</span> <span class="nf">SaveScene</span><span class="p">(</span><span class="n">scene</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -113,14 +113,37 @@
 <span class="sd">        Scene to save</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">hexes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.scene&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="n">scene</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;GameObject (&quot;</span> <span class="o">+</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;) &quot;</span> <span class="o">+</span> <span class="n">AddHex</span><span class="p">(</span><span class="n">hexes</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;  Component &quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">component</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">AddHex</span><span class="p">(</span><span class="n">hexes</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">attrib</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">ListAttributes</span><span class="p">():</span>
-                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="n">attrib</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="n">attrib</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="c1"># hexes = []</span>
+    <span class="c1"># with open(scene.name + &quot;.scene&quot;, &quot;w+&quot;) as f:</span>
+    <span class="c1">#     for gameObject in scene.gameObjects:</span>
+    <span class="c1">#         f.write(&quot;GameObject (&quot; + gameObject.name + &quot;) &quot; + AddHex(hexes, 24) + &quot;:\n&quot;)</span>
+    <span class="c1">#         for component in gameObject.components:</span>
+    <span class="c1">#             f.write(&quot;  Component &quot; + type(component).__name__ + &quot; &quot; + AddHex(hexes, 24) + &quot;:\n&quot;)</span>
+    <span class="c1">#             for attrib in component.ListAttributes():</span>
+    <span class="c1">#                 f.write(&quot;    &quot; + attrib[0] + &quot;: &quot; + attrib[1] + &quot;\n&quot;)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.scene&quot;</span><span class="p">,</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LoadScene"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.LoadScene">[docs]</a><span class="k">def</span> <span class="nf">LoadScene</span><span class="p">(</span><span class="n">sceneName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a scene from a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sceneName : str</span>
+<span class="sd">        Name of the scene, without</span>
+<span class="sd">        the .scene extension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Scene</span>
+<span class="sd">        Loaded scene</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sceneName</span> <span class="o">+</span> <span class="s2">&quot;.scene&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scene</span></div>
 </pre></div>
 
           </div>

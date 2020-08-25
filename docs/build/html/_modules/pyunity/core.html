@@ -387,25 +387,7 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;Transform position=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; rotation=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">)</span> <span class="o">+</span> \
                 <span class="s2">&quot; scale=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; path=</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&gt;&quot;</span>
     
-    <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span>
-
-<div class="viewcode-block" id="Transform.ListAttributes"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.ListAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">ListAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the attributes</span>
-<span class="sd">        and what their values are.</span>
-<span class="sd">        Used when loading a scene.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        list</span>
-<span class="sd">            List of attributes and values</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;rotation&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">))</span>
-        <span class="p">)</span></div></div>
+    <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span></div>
 
 <div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -430,26 +412,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="mi">90</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">near</span> <span class="o">=</span> <span class="mf">0.05</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">far</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-<div class="viewcode-block" id="Camera.ListAttributes"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Camera.ListAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">ListAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the attributes</span>
-<span class="sd">        and what their values are.</span>
-<span class="sd">        Used when loading a scene.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        list</span>
-<span class="sd">            List of attributes and values</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;fov&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;near&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">near</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;far&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">far</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;clearColor&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span><span class="p">))</span>
-        <span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Light"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Light">[docs]</a><span class="k">class</span> <span class="nc">Light</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -460,24 +423,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Light</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">intensity</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="mi">1</span>
-
-<div class="viewcode-block" id="Light.ListAttributes"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Light.ListAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">ListAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the attributes</span>
-<span class="sd">        and what their values are.</span>
-<span class="sd">        Used when loading a scene.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        list</span>
-<span class="sd">            List of attributes and values</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;intensity&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intensity</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
-        <span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 <div class="viewcode-block" id="MeshRenderer"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.MeshRenderer">[docs]</a><span class="k">class</span> <span class="nc">MeshRenderer</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

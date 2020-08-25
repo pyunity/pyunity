@@ -1,7 +1,7 @@
 from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
-import random
+import random, pickle
 
 def LoadObj(filename):
     """
@@ -46,28 +46,28 @@ def LoadObj(filename):
     
     return Mesh(vertices, faces, normals)
 
-def randomHex(length):
-    """
-    Returns a random hexadecimal string of length `length`.
+# def randomHex(length):
+#     """
+#     Returns a random hexadecimal string of length `length`.
 
-    Parameters
-    ----------
-    length : int
-        Length of string
+#     Parameters
+#     ----------
+#     length : int
+#         Length of string
     
-    Returns
-    -------
-    str
-        A random hexadecimal string
+#     Returns
+#     -------
+#     str
+#         A random hexadecimal string
     
-    """
-    return ("%0" + str(length) + "x") % random.randrange(16 ** length)
+#     """
+#     return ("%0" + str(length) + "x") % random.randrange(16 ** length)
 
-def AddHex(l, length):
-    x = randomHex(length)
-    while x in l: x = randomHex(length)
-    l.append(x)
-    return x
+# def AddHex(l, length):
+#     x = randomHex(length)
+#     while x in l: x = randomHex(length)
+#     l.append(x)
+#     return x
 
 def SaveScene(scene):
     """
@@ -79,11 +79,34 @@ def SaveScene(scene):
         Scene to save
     
     """
-    hexes = []
-    with open(scene.name + ".scene", "w+") as f:
-        for gameObject in scene.gameObjects:
-            f.write("GameObject (" + gameObject.name + ") " + AddHex(hexes, 24) + ":\n")
-            for component in gameObject.components:
-                f.write("  Component " + type(component).__name__ + " " + AddHex(hexes, 24) + ":\n")
-                for attrib in component.ListAttributes():
-                    f.write("    " + attrib[0] + ": " + attrib[1] + "\n")
+    # hexes = []
+    # with open(scene.name + ".scene", "w+") as f:
+    #     for gameObject in scene.gameObjects:
+    #         f.write("GameObject (" + gameObject.name + ") " + AddHex(hexes, 24) + ":\n")
+    #         for component in gameObject.components:
+    #             f.write("  Component " + type(component).__name__ + " " + AddHex(hexes, 24) + ":\n")
+    #             for attrib in component.ListAttributes():
+    #                 f.write("    " + attrib[0] + ": " + attrib[1] + "\n")
+
+    with open(scene.name + ".scene", "wb+") as f:
+        pickle.dump(scene, f)
+
+def LoadScene(sceneName):
+    """
+    Load a scene from a file.
+
+    Parameters
+    ----------
+    sceneName : str
+        Name of the scene, without
+        the .scene extension
+
+    Returns
+    -------
+    Scene
+        Loaded scene
+    
+    """
+    with open(sceneName + ".scene", "rb") as f:
+        scene = pickle.load(f)
+    return scene
