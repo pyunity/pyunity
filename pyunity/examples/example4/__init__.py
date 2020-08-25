@@ -3,7 +3,9 @@ from .scripts import *
 import os
 
 def main():
+    print(__file__)
     mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cube.obj"))
+    loader.SaveMesh(mesh, "cube", __file__)
 
     scene = SceneManager.AddScene("Scene")
 
@@ -18,6 +20,6 @@ def main():
     
     scene.Add(cube)
 
-    loader.SaveScene(scene)
+    loader.SaveScene(scene, __file__)
     
     scene.Run()

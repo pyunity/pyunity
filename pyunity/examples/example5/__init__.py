@@ -4,10 +4,12 @@ import os
 
 def main():
     mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.abspath(__file__)), "house.obj"))
+    loader.SaveMesh(mesh, "house", os.path.dirname(os.path.realpath(__file__)))
 
     scene = SceneManager.AddScene("Scene")
 
     scene.mainCamera.transform.position = Vector3(0, 0, -20)
+    scene.gameObjects[1].GetComponent(Light).intensity = 100
 
     house = GameObject("House")
     house.transform.rotation = Vector3(0, 180, 0)
@@ -18,6 +20,6 @@ def main():
     
     scene.Add(house)
 
-    loader.SaveScene(scene)
+    loader.SaveScene(scene, __file__)
     
     scene.Run()
