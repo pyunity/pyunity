@@ -1,4 +1,8 @@
-pyunity package
+=============
+API reference
+=============
+
+PyUnity package
 ===============
 
 .. automodule:: pyunity
