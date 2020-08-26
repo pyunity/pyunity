@@ -49,7 +49,7 @@
             <span class="p">(</span><span class="n">glutGet</span><span class="p">(</span><span class="n">GLUT_SCREEN_HEIGHT</span><span class="p">)</span> <span class="o">-</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="o">*</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="n">glutCreateWindow</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">glutSetOption</span><span class="p">(</span><span class="n">GLUT_ACTION_ON_WINDOW_CLOSE</span><span class="p">,</span> <span class="n">GLUT_ACTION_CONTINUE_EXECUTION</span><span class="p">)</span>
+        <span class="n">glutSetOption</span><span class="p">(</span><span class="n">GLUT_ACTION_ON_WINDOW_CLOSE</span><span class="p">,</span> <span class="n">GLUT_ACTION_GLUTMAINLOOP_RETURNS</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glutWindow.html#pyunity.window.glutWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updateFunc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -69,11 +69,8 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;h1&quot;</span><span class="p">)</span></div>
     
     <span class="k">def</span> <span class="nf">__schedule_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">glutPostRedisplay</span><span class="p">()</span>
-            <span class="n">glutTimerFunc</span><span class="p">(</span><span class="mi">1000</span> <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">fps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__schedule_update</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">glutLeaveMainLoop</span><span class="p">()</span>
+        <span class="n">glutPostRedisplay</span><span class="p">()</span>
+        <span class="n">glutTimerFunc</span><span class="p">(</span><span class="mi">1000</span> <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">fps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__schedule_update</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Window.display"><a class="viewcode-back" href="../../../pyunity.window.glutWindow.html#pyunity.window.glutWindow.Window.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
