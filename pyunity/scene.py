@@ -369,7 +369,7 @@ class Scene:
                 pos = (*(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
-
+        
         for gameObject in self.rootGameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer:

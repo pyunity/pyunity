@@ -1,11 +1,5 @@
 from pyunity import *
 
-class Debugger(Behaviour):
-    a = 0
-    def Update(self, dt):
-        self.a += dt
-        if self.a > 0.2: print(self.transform.position); self.a = 0
-
 def main():
     scene = SceneManager.AddScene("Scene")
     
@@ -26,7 +20,6 @@ def main():
     scene.Add(cube)
     
     cube = GameObject("Cube 2")
-    cube.AddComponent(Debugger)
     cube.transform.position = Vector3(5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
