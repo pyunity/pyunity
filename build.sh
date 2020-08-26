@@ -1,6 +1,7 @@
 python setup.py bdist_wheel sdist
 rm -rf build/ pyunity.egg-info/ docs/build/html/
 find docs/source/* ! -name conf.py -delete
+cd docs
 sphinx-apidoc -e -F -M -o docs/source/ pyunity/ pyunity/config.py pyunity/examples/*
 sphinx-build -b html docs/source/ docs/build/html/
 git add .

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to pyunity’s documentation! &#8212; PyUnity 0.0.4 documentation</title>
+    <title>Welcome to PyUnity’s documentation! &#8212; PyUnity 0.0.4 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,7 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyunity package" href="pyunity.html" />
+    <link rel="next" title="Releases" href="releases.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,42 +33,71 @@
           <div class="body" role="main">
             
   <div class="section" id="welcome-to-pyunity-s-documentation">
-<h1>Welcome to pyunity’s documentation!<a class="headerlink" href="#welcome-to-pyunity-s-documentation" title="Permalink to this headline">¶</a></h1>
+<h1>Welcome to PyUnity’s documentation!<a class="headerlink" href="#welcome-to-pyunity-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>PyUnity is a Python implementation of the
+Unity Engine, written in C++. This is just
+a fun project and many features have been
+taken out to make it as easy as possible
+to create a scene and run it.</p>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>To install PyUnity, use pip:</p>
+<blockquote>
+<div><p>pip install pyunity</p>
+</div></blockquote>
+<p>Its dependencies are just OpenGL, Pygame and
+GLFW.</p>
+<p>Alternatively, you can clone the repository
+<a class="reference external" href="https://github.com/rayzchen/PyUnity">here</a>.
+Then run setup.py:</p>
+<blockquote>
+<div><p>python setup.py install</p>
+</div></blockquote>
+<p>Sometimes on Linux machines, Pygame cannot be
+installed via pip: in that case, use the
+package manager. For example, on Ubuntu:</p>
+<blockquote>
+<div><p>sudo apt-get install python3-pygame</p>
+</div></blockquote>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pyunity.html">pyunity package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-0-4-in-development">Version 0.0.4 (in development)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#importing">Importing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#scenes">Scenes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#behaviours">Behaviours</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#windows">Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases.html#v0-0-3">v0.0.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases.html#v0-0-2">v0.0.2</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.physics.html#submodules">Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-0-4-in-development">Version 0.0.4 (in development)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.html#importing">Importing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.html#scenes">Scenes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.html#behaviours">Behaviours</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.html#windows">Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.window.html#pyunity-window">pyunity.window</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.window.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -99,14 +128,17 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pyunity.html">pyunity package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="pyunity.html" title="next chapter">pyunity package</a></li>
+      <li>Next: <a href="releases.html" title="next chapter">Releases</a></li>
   </ul></li>
 </ul>
 </div>
