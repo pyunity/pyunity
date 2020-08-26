@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity package &#8212; PyUnity 0.0.4 documentation</title>
+    <title>API reference &#8212; PyUnity 0.0.4 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyunity.physics package" href="pyunity.physics.html" />
-    <link rel="prev" title="Welcome to pyunity’s documentation!" href="index.html" />
+    <link rel="prev" title="License" href="license.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,15 +33,17 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="module-pyunity">
-<span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="api-reference">
+<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyunity">
+<span id="pyunity-package"></span><h2>PyUnity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="version-0-0-4-in-development">
-<h2>Version 0.0.4 (in development)<a class="headerlink" href="#version-0-0-4-in-development" title="Permalink to this headline">¶</a></h2>
+<h3>Version 0.0.4 (in development)<a class="headerlink" href="#version-0-0-4-in-development" title="Permalink to this headline">¶</a></h3>
 <p>A Python implementation of the Unity Engine
 that supports different types of windows.
 Still in development.</p>
 <div class="section" id="importing">
-<h3>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h3>
+<h4>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h4>
 <p>The first step in using PyUnity is always
 importing it. A standard way to import is like
 so:</p>
@@ -66,7 +68,7 @@ This is the output with debugging:</p>
 <p>Without debugging on, there is no output.</p>
 </div>
 <div class="section" id="scenes">
-<h3>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h3>
+<h4>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h4>
 <p>All PyUnity projects start with a scene. There
 is no way to change between scenes yet.</p>
 <p>To add a scene, do this:</p>
@@ -97,7 +99,7 @@ is created is one of FreeGLUT, GLFW or Pygame. The window is
 selected on startup (see Windows subheading).</p>
 </div>
 <div class="section" id="behaviours">
-<h3>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h3>
+<h4>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h4>
 <p>To create your own PyUnity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can’t do something like that, so put all of
@@ -107,7 +109,7 @@ instead put it in <cite>Start()</cite>. The <cite>Update()</cite> function recei
 parameter, <cite>dt</cite>, which is the same as Time.deltaTime.</p>
 </div>
 <div class="section" id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
 <p>The window is provided by one of three
 providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
@@ -156,7 +158,7 @@ example, then please create a new pull request.</p>
 </div>
 </div>
 <div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<h3>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h3>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a><ul>
@@ -183,7 +185,7 @@ example, then please create a new pull request.</p>
 </div>
 </div>
 <div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h3>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h3>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
@@ -193,6 +195,7 @@ example, then please create a new pull request.</p>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -216,26 +219,32 @@ example, then please create a new pull request.</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#version-0-0-4-in-development">Version 0.0.4 (in development)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyunity">PyUnity package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-0-0-4-in-development">Version 0.0.4 (in development)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#importing">Importing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scenes">Scenes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#behaviours">Behaviours</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -246,7 +255,7 @@ example, then please create a new pull request.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to pyunity’s documentation!</a></li>
+      <li>Previous: <a href="license.html" title="previous chapter">License</a></li>
       <li>Next: <a href="pyunity.physics.html" title="next chapter">pyunity.physics package</a></li>
   </ul></li>
 </ul>
