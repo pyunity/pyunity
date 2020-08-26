@@ -21,7 +21,7 @@ for i in range(len(desc)):
         if "create a new pull request" in desc[i]:
             desc[i] = desc[i].replace(
                 "create a new pull request",
-                "[create a new pull request)[https://github.com/rayzchen/pyunity/pulls]"
+                "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
             )
         desc_new.append(desc[i])
 
