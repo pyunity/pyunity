@@ -15,7 +15,7 @@ class Window:
             (glutGet(GLUT_SCREEN_HEIGHT) - size[1]) // 2)
         glutInitWindowSize(*config.size)
         glutCreateWindow(name)
-        glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION)
+        glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS)
     
     def start(self, updateFunc):
         """
@@ -35,11 +35,8 @@ class Window:
         print("h1")
     
     def __schedule_update(self, t):
-        try:
-            glutPostRedisplay()
-            glutTimerFunc(1000 // config.fps, self.__schedule_update, 0)
-        except:
-            glutLeaveMainLoop()
+        glutPostRedisplay()
+        glutTimerFunc(1000 // config.fps, self.__schedule_update, 0)
     
     def display(self):
         """

@@ -1,5 +1,11 @@
 from pyunity import *
 
+class Debugger(Behaviour):
+    a = 0
+    def Update(self, dt):
+        self.a += dt
+        if self.a > 0.2: print(self.transform.position); self.a = 0
+
 def main():
     scene = SceneManager.AddScene("Scene")
     
@@ -13,19 +19,22 @@ def main():
     renderer.mat = Material((255, 0, 0))
     collider = cube.AddComponent(AABBoxCollider)
     collider.SetSize(Vector3(-6, -1, -1), Vector3(-4, 1, 1))
-    collider.velocity = Vector3(4, 0, 0)
-    collider.mass = infinity
+    rb = cube.AddComponent(Rigidbody)
+    rb.velocity = Vector3(4, 0, 0)
+    rb.mass = infinity
 
     scene.Add(cube)
     
     cube = GameObject("Cube 2")
+    cube.AddComponent(Debugger)
     cube.transform.position = Vector3(5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material((0, 0, 255))
     collider = cube.AddComponent(AABBoxCollider)
     collider.SetSize(Vector3(4, -1, -1), Vector3(6, 1, 1))
-    collider.velocity = Vector3(-4, 0, 0)
+    rb = cube.AddComponent(Rigidbody)
+    rb.velocity = Vector3(-4, 0, 0)
 
     scene.Add(cube)
     
@@ -36,10 +45,9 @@ def main():
     renderer.mat = Material((0, 255, 0))
     collider = cube.AddComponent(AABBoxCollider)
     collider.SetSize(Vector3(-1, -1, -7), Vector3(1, 1, -5))
-    collider.velocity = Vector3(0, 0, 4)
+    rb = cube.AddComponent(Rigidbody)
+    rb.velocity = Vector3(0, 0, 4)
 
     scene.Add(cube)
-
-    loader.SaveScene(scene, __file__)
 
     scene.Run()

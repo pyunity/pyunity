@@ -27,6 +27,7 @@ class Window:
         """
         done = False
         clock = pygame.time.Clock()
+        pygame.display.flip()
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
