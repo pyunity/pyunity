@@ -21,12 +21,24 @@ class PhysicMaterial:
         Bounciness of the material
     friction : float
         Friction of the material
+    
+    Attributes
+    ----------
+    restitution : float
+        Bounciness of the material
+    friction : float
+        Friction of the material
+    combine : int
+        Combining function. -1 means
+        minimum, 0 means average,
+        and 1 means maximum
 
     """
 
     def __init__(self, restitution = 0.75, friction = 1):
         self.restitution = restitution
         self.friction = friction
+        self.combine = -1
 
 class Manifold:
     """
@@ -53,21 +65,27 @@ class Manifold:
 
 class Collider(Component):
     """
-    Collider base class. The default
-    mass is 100.
+    Collider base class.
 
     """
-
-    def __init__(self):
-        super(Collider, self).__init__()
-        self.mass = 100
-        self.velocity = Vector3.zero()
-        self.physicMaterial = PhysicMaterial()
+    
+    pass
 
 class SphereCollider(Collider):
     """
     A spherical collider that cannot be
     deformed.
+
+    Attributes
+    ----------
+    min : Vector3
+        The corner with the lowest coordinates.
+    max : Vector3
+        The corner with the highest coordinates.
+    pos : Vector3
+        The center of the SphereCollider
+    radius : Vector3
+        The radius of the SphereCollider
     
     """
 
@@ -90,21 +108,6 @@ class SphereCollider(Collider):
         self.pos = offset + self.transform.position
         self.min = pos - radius
         self.max = pos + radius
-    
-    def Move(self, dt):
-        """
-        Moves the whole collider by its velocity times
-        the delta time.
-
-        Parameters
-        ----------
-        dt : float
-            Delta time to move the velocity by
-        
-        """
-        self.min += dt * self.velocity
-        self.max += dt * self.velocity
-        self.pos += dt * self.velocity
     
     def collidingWith(self, other):
         """
@@ -165,10 +168,40 @@ class SphereCollider(Collider):
                 return None
             return Manifold(self, other, self.pos - other.pos, self.radius - dist)
 
+    def CheckOverlap(self, other):
+        """
+        Checks to see if the bounding box
+        of two colliders overlap.
+
+        Parameters
+        ----------
+        other : Collider
+            Other collider to check against
+
+        Returns
+        -------
+        bool
+            Whether they are overlapping or not
+        
+        """
+        if self.min.x > other.max.x or self.max.x < other.min.x: return False
+        elif self.min.y > other.max.y or self.max.y < other.min.y: return False
+        elif self.min.z > other.max.z or self.max.z < other.min.z: return False
+        else: return True
+
 class AABBoxCollider(Collider):
     """
     An axis-aligned box collider that
     cannot be deformed.
+
+    Attributes
+    ----------
+    min : Vector3
+        The corner with the lowest coordinates.
+    max : Vector3
+        The corner with the highest coordinates.
+    pos : Vector3
+        The center of the AABBoxCollider
 
     """
 
@@ -190,21 +223,6 @@ class AABBoxCollider(Collider):
         self.min = min
         self.max = max
         self.pos = Vector3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2)
-    
-    def Move(self, dt):
-        """
-        Moves the whole collider by its velocity times
-        the delta time.
-
-        Parameters
-        ----------
-        dt : float
-            Delta time to move the velocity by
-        
-        """
-        self.min += dt * self.velocity
-        self.max += dt * self.velocity
-        self.pos += dt * self.velocity
     
     def collidingWith(self, other):
         """
@@ -272,11 +290,6 @@ class AABBoxCollider(Collider):
                             penetration = z_overlap
                         return Manifold(self, other, normal, penetration)
 
-            # if self.min.x > other.max.x or self.max.x < other.min.x: collided = False
-            # elif self.min.y > other.max.y or self.max.y < other.min.y: collided = False
-            # elif self.min.z > other.max.z or self.max.z < other.min.z: collided = False
-            # else: collided = True
-
         elif isinstance(other, SphereCollider):
             inside = (self.min.x < other.pos.x < self.max.x and 
                     self.min.y < other.pos.y < self.max.y and
@@ -294,28 +307,180 @@ class AABBoxCollider(Collider):
                 return None
             return Manifold(self, other, self.pos - other.pos, other.radius - dist)
 
-class CollManager:
+    def CheckOverlap(self, other):
+        """
+        Checks to see if the bounding box
+        of two colliders overlap.
+
+        Parameters
+        ----------
+        other : Collider
+            Other collider to check against
+
+        Returns
+        -------
+        bool
+            Whether they are overlapping or not
+        
+        """
+        if self.min.x > other.max.x or self.max.x < other.min.x: return False
+        elif self.min.y > other.max.y or self.max.y < other.min.y: return False
+        elif self.min.z > other.max.z or self.max.z < other.min.z: return False
+        else: return True
+
+class Rigidbody(Component):
     """
-    Manage the collisions between all colliders.
+    Class to let a GameObject follow physics
+    rules.
+
+    Attributes
+    ----------
+    mass : int or float
+        Mass of the Rigidbody. Defaults
+        to 100
+    velocity : Vector3
+        Velocity of the Rigidbody
+    physicMaterial : PhysicMaterial
+        Physics material of the Rigidbody
+    position : Vector3
+        Position of the Rigidbody. It is
+        assigned to its GameObject's
+        position when the CollHandler is
+        created
 
     """
 
     def __init__(self):
-        self.colliders = []
+        super(Rigidbody, self).__init__()
+        self.mass = 100
+        self.velocity = Vector3.zero()
+        self.physicMaterial = PhysicMaterial()
     
-    def AddColliders(self, scene):
+    def Move(self, dt):
         """
-        Get all colliders from a specified scene.
-        This overwrites the collider list, and so
-        can be called whenever a new collider is
-        added or removed.
+        Moves all colliders on the GameObject by
+        the Rigidbody's velocity times the delta
+        time.
+
+        Parameters
+        ----------
+        dt : float
+            Time to simulate movement by
+        
+        """
+        self.position += dt * self.velocity
+        for component in self.gameObject.components:
+            if isinstance(component, Collider):
+                component.min += dt * self.velocity
+                component.max += dt * self.velocity
+                component.pos += dt * self.velocity
+    
+    def MovePos(self, offset):
+        """
+        Moves the rigidbody and its colliders
+        by an offset.
+
+        Parameters
+        ----------
+        offset : Vector3
+            Offset to move
+        
+        """
+        self.position += offset
+        for component in self.gameObject.components:
+            if isinstance(component, Collider):
+                component.min += offset
+                component.max += offset
+                component.pos += offset
+
+class CollManager:
+    """
+    Manages the collisions between all colliders.
+
+    Attributes
+    ----------
+    rigidbodies : dict
+        Dictionary of rigidbodies andthe colliders
+        on the gameObject that the Rigidbody belongs
+        to
+    dummyRigidbody : Rigidbody
+        A dummy rigidbody used when a GameObject has
+        colliders but no rigidbody. It has infinite
+        mass
+
+    """
+
+    def __init__(self):
+        self.rigidbodies = {}
+        self.dummyRigidbody = Rigidbody()
+        self.dummyRigidbody.mass = infinity
+    
+    def AddPhysicsInfo(self, scene):
+        """
+        Get all colliders and rigidbodies from a
+        specified scene. This overwrites the
+        collider and rigidbody lists, and so can
+        be called whenever a new collider or
+        rigidbody is added or removed.
+
+        Parameters
+        ----------
+        scene : Scene
+            Scene to search for physics info
+        
+        Notes
+        -----
+        This function will overwrite the
+        pre-existing dictionary of
+        rigidbodies. When there are colliders
+        but no rigidbody is on the GameObject,
+        then they are placed in the dictionary
+        with a dummy Rigidbody that has
+        infinite mass and a default physic
+        material. Thus, they cannot move.
 
         """
-        self.colliders = []
+        self.rigidbodies = {}
+        dummies = []
         for gameObject in scene.gameObjects:
-            for component in gameObject.components:
-                if isinstance(component, Collider):
-                    self.colliders.append(component)
+            if gameObject.GetComponent(Collider):
+                colliders = []
+                for component in gameObject.components:
+                    if isinstance(component, Collider):
+                        colliders.append(component)
+                
+                rb = gameObject.GetComponent(Rigidbody)
+                if rb is None: dummies += colliders; continue
+                else: rb.position = rb.transform.position
+                self.rigidbodies[rb] = colliders
+        
+        self.rigidbodies[self.dummyRigidbody] = dummies
+    
+    def GetRestitution(self, a, b):
+        """
+        Get the restitution needed for
+        two rigidbodies, based on their
+        combine function/
+
+        Parameters
+        ----------
+        a : Rigidbody
+            Rigidbody 1
+        b : Rigidbody
+            Rigidbody 2
+
+        Returns
+        -------
+        float
+            Restitution
+        
+        """
+        if a.physicMaterial.combine + b.physicMaterial.combine < 0:
+            return min(a.physicMaterial.restitution, b.physicMaterial.restitution)
+        elif a.physicMaterial.combine + b.physicMaterial.combine > 0:
+            return max(a.physicMaterial.restitution, b.physicMaterial.restitution)
+        else:
+            return (a.physicMaterial.restitution + b.physicMaterial.restitution) / 2
 
     def CheckCollisions(self):
         """
@@ -324,54 +489,60 @@ class CollManager:
         resolves them.
 
         """
-        for i in range(0, len(self.colliders) - 1):
-            for j in range(i + 1, len(self.colliders)):
-                a = self.colliders[i]
-                b = self.colliders[j]
+        for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
+            for y, rbB in zip(range(x + 1, len(self.rigidbodies)), list(self.rigidbodies.keys())[x + 1:]):
+                for colliderA in self.rigidbodies[rbA]:
+                    for colliderB in self.rigidbodies[rbB]:
+                        m = colliderA.CheckOverlap(colliderB) and colliderA.collidingWith(colliderB)
+                        if m:
+                            e = self.GetRestitution(rbA, rbB)
 
-                m = a.collidingWith(b) or b.collidingWith(a)
-                if m:
-                    e = min(m.a.physicMaterial.restitution, m.b.physicMaterial.restitution)
+                            normal = m.normal.copy()
 
-                    normal = m.normal.copy()
+                            if math.isinf(rbA.mass): a = 0
+                            elif math.isinf(rbB.mass): a = 2
+                            else: a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
 
-                    if math.isinf(m.a.mass): a = 0
-                    elif math.isinf(m.b.mass): a = 2
-                    else: a =2 * m.b.mass / (m.a.mass + m.b.mass)
-                    
-                    b = (m.a.velocity - m.b.velocity).dot(normal) / normal.dot(normal)
-                    velA = a * b * normal * (0.5 + e / 2)
-                    
-                    normal *= -1
+                            b = (rbA.velocity - rbB.velocity).dot(normal) / normal.dot(normal)
+                            velA = a * b * normal
 
-                    if math.isinf(m.a.mass): a = 2
-                    elif math.isinf(m.b.mass): a = 0
-                    else: a = 2 * m.a.mass / (m.a.mass + m.b.mass)
-                    
-                    b = (m.b.velocity - m.a.velocity).dot(normal) / normal.dot(normal)
-                    velB = a * b * normal * (0.5 + e / 2)
+                            normal *= -1
 
-                    m.a.velocity -= velA
-                    m.b.velocity -= velB
+                            if math.isinf(rbA.mass): a = 2
+                            elif math.isinf(rbB.mass): a = 0
+                            else: a = (1 + e) * rbA.mass / (rbA.mass + rbB.mass)
 
-                    rv = m.b.velocity - m.a.velocity
-                    t = (rv - rv.dot(m.normal) * m.normal).normalized()
+                            b = (rbB.velocity - rbA.velocity).dot(normal) / normal.dot(normal)
+                            velB = a * b * normal
 
-                    jt = rv.dot(t)
-                    jt /= 1 / m.a.mass + 1 / m.b.mass
+                            rbA.velocity -= velA
+                            rbB.velocity -= velB
 
-                    mu = (m.a.physicMaterial.friction + m.b.physicMaterial.friction) / 2
-                    if abs(jt) < j * mu:
-                        frictionImpulse = jt * t
-                    else:
-                        frictionImpulse = -j * t * mu
-                    
-                    m.a.velocity -= 1 / m.a.mass * frictionImpulse
-                    m.b.velocity += 1 / m.b.mass * frictionImpulse
-    
-                    correction = m.penetration * (m.a.mass + m.b.mass) * 0.8 * m.normal
-                    m.a.pos -= 1 / m.a.mass * correction if not math.isinf(m.a.mass + m.b.mass) else 0
-                    m.b.pos += 1 / m.b.mass * correction if not math.isinf(m.a.mass + m.b.mass) else 0
+                            # rv = rbB.velocity - rbA.velocity
+                            # t = (rv - rv.dot(m.normal) * m.normal).normalized()
+
+                            # jt = rv.dot(t)
+                            # jt /= 1 / rbA.mass + 1 / rbB.mass
+                            
+                            # if math.isinf(rbA.mass + rbB.mass): j = 0
+                            # else:
+                            #     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
+                            #     j /= 1 / rbA.mass + 1 / rbB.mass
+
+                            # mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
+                            # if abs(jt) < j * mu:
+                            #     frictionImpulse = jt * t
+                            # else:
+                            #     frictionImpulse = -j * t * mu
+                            
+                            # rbA.velocity -= 1 / rbA.mass * frictionImpulse
+                            # rbB.velocity += 1 / rbB.mass * frictionImpulse
+
+                            correction = m.penetration * (rbA.mass + rbB.mass) * 0.8 * m.normal
+                            rbA.MovePos(
+                                -1 / rbA.mass * correction if not math.isinf(rbA.mass + rbB.mass) else 0)
+                            rbB.MovePos(
+                                1 / rbB.mass * correction if not math.isinf(rbA.mass + rbB.mass) else 0)
 
     def Step(self, dt):
         """
@@ -390,8 +561,8 @@ class CollManager:
 
         """
         for i in range(10):
-            for collider in self.colliders:
-                collider.Move(dt / 10)
+            for rb in self.rigidbodies:
+                rb.Move(dt / 10)
             self.CheckCollisions()
-        for collider in self.colliders:
-            collider.transform.position = collider.pos
+        for rb in self.rigidbodies:
+            rb.transform.position = rb.position

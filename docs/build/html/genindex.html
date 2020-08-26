@@ -64,16 +64,16 @@
 </li>
       <li><a href="pyunity.scene.html#pyunity.scene.Scene.Add">Add() (pyunity.scene.Scene method)</a>
 </li>
-      <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.AddColliders">AddColliders() (pyunity.physics.core.CollManager method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.core.html#pyunity.core.Component.AddComponent">AddComponent() (pyunity.core.Component method)</a>
 
       <ul>
         <li><a href="pyunity.core.html#pyunity.core.GameObject.AddComponent">(pyunity.core.GameObject method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.AddPhysicsInfo">AddPhysicsInfo() (pyunity.physics.core.CollManager method)</a>
+</li>
       <li><a href="pyunity.scene.html#pyunity.scene.SceneManager.AddScene">AddScene() (pyunity.scene.SceneManager method)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Tag.AddTag">AddTag() (pyunity.core.Tag static method)</a>
@@ -100,6 +100,12 @@
 </li>
       <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.CheckCollisions">CheckCollisions() (pyunity.physics.core.CollManager method)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.CheckOverlap">CheckOverlap() (pyunity.physics.core.AABBoxCollider method)</a>
+
+      <ul>
+        <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.CheckOverlap">(pyunity.physics.core.SphereCollider method)</a>
+</li>
+      </ul></li>
       <li><a href="pyunity.core.html#pyunity.core.Transform.children">children (pyunity.core.Transform attribute)</a>
 </li>
       <li><a href="pyunity.vector3.html#pyunity.vector3.clamp">clamp() (in module pyunity.vector3)</a>
@@ -123,6 +129,8 @@
       <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager">CollManager (class in pyunity.physics.core)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Material.color">color (pyunity.core.Material attribute)</a>
+</li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial.combine">combine (pyunity.physics.core.PhysicMaterial attribute)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Component">Component (class in pyunity.core)</a>
 </li>
@@ -152,6 +160,8 @@
 </li>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.down">down() (pyunity.vector3.Vector3 static method)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.dummyRigidbody">dummyRigidbody (pyunity.physics.core.CollManager attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -164,13 +174,15 @@
 </li>
       <li><a href="pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagName">FindGameObjectsByTagName() (pyunity.scene.Scene method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagNumber">FindGameObjectsByTagNumber() (pyunity.scene.Scene method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.forward">forward() (pyunity.vector3.Vector3 static method)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Camera.fov">fov (pyunity.core.Camera attribute)</a>
+</li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial.friction">friction (pyunity.physics.core.PhysicMaterial attribute)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Transform.FullPath">FullPath() (pyunity.core.Transform method)</a>
 </li>
@@ -196,10 +208,10 @@
 </li>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.get_distance">get_distance() (pyunity.vector3.Vector3 method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.get_length">get_length() (pyunity.vector3.Vector3 method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.get_length_sqrd">get_length_sqrd() (pyunity.vector3.Vector3 method)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Component.GetComponent">GetComponent() (pyunity.core.Component method)</a>
@@ -208,6 +220,8 @@
         <li><a href="pyunity.core.html#pyunity.core.GameObject.GetComponent">(pyunity.core.GameObject method)</a>
 </li>
       </ul></li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.GetRestitution">GetRestitution() (pyunity.physics.core.CollManager method)</a>
+</li>
       <li><a href="pyunity.scene.html#pyunity.scene.SceneManager.GetSceneByIndex">GetSceneByIndex() (pyunity.scene.SceneManager method)</a>
 </li>
       <li><a href="pyunity.scene.html#pyunity.scene.SceneManager.GetSceneByName">GetSceneByName() (pyunity.scene.SceneManager method)</a>
@@ -264,16 +278,30 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.physics.core.html#pyunity.physics.core.Manifold">Manifold (class in pyunity.physics.core)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.mass">mass (pyunity.physics.core.Rigidbody attribute)</a>
+</li>
       <li><a href="pyunity.core.html#pyunity.core.MeshRenderer.mat">mat (pyunity.core.MeshRenderer attribute)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Material">Material (class in pyunity.core)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.max">max (pyunity.physics.core.AABBoxCollider attribute)</a>
+
+      <ul>
+        <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.max">(pyunity.physics.core.SphereCollider attribute)</a>
+</li>
+      </ul></li>
       <li><a href="pyunity.meshes.html#pyunity.meshes.Mesh">Mesh (class in pyunity.meshes)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.MeshRenderer.mesh">mesh (pyunity.core.MeshRenderer attribute)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.MeshRenderer">MeshRenderer (class in pyunity.core)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.min">min (pyunity.physics.core.AABBoxCollider attribute)</a>
+
+      <ul>
+        <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.min">(pyunity.physics.core.SphereCollider attribute)</a>
+</li>
+      </ul></li>
       <li>
     module
 
@@ -309,12 +337,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.core.html#pyunity.core.MeshRenderer.move">move() (pyunity.core.MeshRenderer method)</a>
 </li>
-      <li><a href="pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.Move">Move() (pyunity.physics.core.AABBoxCollider method)</a>
-
-      <ul>
-        <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.Move">(pyunity.physics.core.SphereCollider method)</a>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.Move">Move() (pyunity.physics.core.Rigidbody method)</a>
 </li>
-      </ul></li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.MovePos">MovePos() (pyunity.physics.core.Rigidbody method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -355,8 +381,20 @@
       </ul></li>
       <li><a href="pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial">PhysicMaterial (class in pyunity.physics.core)</a>
 </li>
-      <li><a href="pyunity.core.html#pyunity.core.Transform.position">position (pyunity.core.Transform attribute)</a>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.physicMaterial">physicMaterial (pyunity.physics.core.Rigidbody attribute)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.pos">pos (pyunity.physics.core.AABBoxCollider attribute)</a>
+
+      <ul>
+        <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.pos">(pyunity.physics.core.SphereCollider attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyunity.core.html#pyunity.core.Transform.position">position (pyunity.core.Transform attribute)</a>
+
+      <ul>
+        <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.position">(pyunity.physics.core.Rigidbody attribute)</a>
+</li>
+      </ul></li>
       <li><a href="pyunity.window.html#pyunity.window.pygameCheck">pygameCheck() (in module pyunity.window)</a>
 </li>
       <li>
@@ -394,6 +432,8 @@
         <li><a href="pyunity.meshes.html#module-pyunity.meshes">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pyunity.physics
 
@@ -401,8 +441,6 @@
         <li><a href="pyunity.physics.html#module-pyunity.physics">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pyunity.physics.core
 
@@ -468,15 +506,23 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.SphereCollider.radius">radius (pyunity.physics.core.SphereCollider attribute)</a>
+</li>
       <li><a href="pyunity.scene.html#pyunity.scene.Scene.Remove">Remove() (pyunity.scene.Scene method)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.MeshRenderer.render">render() (pyunity.core.MeshRenderer method)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Transform.ReparentTo">ReparentTo() (pyunity.core.Transform method)</a>
 </li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial.restitution">restitution (pyunity.physics.core.PhysicMaterial attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyunity.vector3.html#pyunity.vector3.Vector3.right">right() (pyunity.vector3.Vector3 static method)</a>
+</li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.CollManager.rigidbodies">rigidbodies (pyunity.physics.core.CollManager attribute)</a>
+</li>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody">Rigidbody (class in pyunity.physics.core)</a>
 </li>
       <li><a href="pyunity.core.html#pyunity.core.Transform.rotation">rotation (pyunity.core.Transform attribute)</a>
 </li>
@@ -584,6 +630,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyunity.physics.core.html#pyunity.physics.core.Rigidbody.velocity">velocity (pyunity.physics.core.Rigidbody attribute)</a>
+</li>
       <li><a href="pyunity.meshes.html#pyunity.meshes.Mesh.verts">verts (pyunity.meshes.Mesh attribute)</a>
 </li>
   </ul></td>

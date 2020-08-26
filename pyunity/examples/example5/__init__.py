@@ -19,7 +19,5 @@ def main():
     house.AddComponent(Rotator)
     
     scene.Add(house)
-
-    loader.SaveScene(scene, __file__)
     
     scene.Run()

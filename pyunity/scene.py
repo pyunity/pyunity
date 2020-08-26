@@ -257,7 +257,7 @@ class Scene:
         )
         if self.physics:
             self.collManager = physics.CollManager()
-            self.collManager.AddColliders(self)
+            self.collManager.AddPhysicsInfo(self)
     
     def Run(self):
         """
@@ -275,10 +275,6 @@ class Scene:
             GL_LIGHT7
         ]
 
-        self.start_scripts()
-        
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Physics is", "on" if self.physics else "off")
-        
         self.windowProvider = config.windowProvider
         self.window = self.windowProvider(config.size, self.name)
 
@@ -311,7 +307,11 @@ class Scene:
             self.mainCamera.far)
         glMatrixMode(GL_MODELVIEW)
 
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1": print("Scene \"" + self.name + "\" has started")
+        self.start_scripts()
+        
+        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+            print("Physics is", "on" if self.physics else "off")
+            print("Scene \"" + self.name + "\" has started")
 
         self.window.start(self.update)
     
