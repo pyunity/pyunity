@@ -460,7 +460,7 @@ class CollManager:
         """
         Get the restitution needed for
         two rigidbodies, based on their
-        combine function/
+        combine function
 
         Parameters
         ----------
@@ -562,7 +562,9 @@ class CollManager:
         """
         for i in range(10):
             for rb in self.rigidbodies:
-                rb.Move(dt / 10)
+                if rb is not self.dummyRigidbody:
+                    rb.Move(dt / 10)
             self.CheckCollisions()
         for rb in self.rigidbodies:
-            rb.transform.position = rb.position
+            if rb is not self.dummyRigidbody:
+                rb.transform.position = rb.position

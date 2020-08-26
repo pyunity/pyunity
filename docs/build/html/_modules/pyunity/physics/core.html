@@ -494,7 +494,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the restitution needed for</span>
 <span class="sd">        two rigidbodies, based on their</span>
-<span class="sd">        combine function/</span>
+<span class="sd">        combine function</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -596,10 +596,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">rb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rigidbodies</span><span class="p">:</span>
-                <span class="n">rb</span><span class="o">.</span><span class="n">Move</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">rb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dummyRigidbody</span><span class="p">:</span>
+                    <span class="n">rb</span><span class="o">.</span><span class="n">Move</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">CheckCollisions</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">rb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rigidbodies</span><span class="p">:</span>
-            <span class="n">rb</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">position</span></div></div>
+            <span class="k">if</span> <span class="n">rb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dummyRigidbody</span><span class="p">:</span>
+                <span class="n">rb</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">position</span></div></div>
 </pre></div>
 
           </div>
