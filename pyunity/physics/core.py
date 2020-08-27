@@ -531,25 +531,25 @@ class CollManager:
                             rbA.velocity -= velA
                             rbB.velocity -= velB
 
-                            # rv = rbB.velocity - rbA.velocity
-                            # t = (rv - rv.dot(m.normal) * m.normal).normalized()
+                            rv = rbB.velocity - rbA.velocity
+                            t = (rv - rv.dot(m.normal) * m.normal).normalized()
 
-                            # jt = rv.dot(t)
-                            # jt /= 1 / rbA.mass + 1 / rbB.mass
+                            jt = rv.dot(t)
+                            jt /= 1 / rbA.mass + 1 / rbB.mass
                             
-                            # if math.isinf(rbA.mass + rbB.mass): j = 0
-                            # else:
-                            #     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
-                            #     j /= 1 / rbA.mass + 1 / rbB.mass
+                            if math.isinf(rbA.mass + rbB.mass): j = 0
+                            else:
+                                j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
+                                j /= 1 / rbA.mass + 1 / rbB.mass
 
-                            # mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
-                            # if abs(jt) < j * mu:
-                            #     frictionImpulse = jt * t
-                            # else:
-                            #     frictionImpulse = -j * t * mu
+                            mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
+                            if abs(jt) < j * mu:
+                                frictionImpulse = jt * t
+                            else:
+                                frictionImpulse = -j * t * mu
                             
-                            # rbA.velocity -= 1 / rbA.mass * frictionImpulse
-                            # rbB.velocity += 1 / rbB.mass * frictionImpulse
+                            rbA.velocity -= 1 / rbA.mass * frictionImpulse
+                            rbB.velocity += 1 / rbB.mass * frictionImpulse
 
                             correction = m.penetration * (rbA.mass + rbB.mass) * 0.8 * m.normal
                             rbA.MovePos(
