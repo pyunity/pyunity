@@ -19,6 +19,9 @@ New features:
 - Fixed window loading
 - Auto README.md updater
 
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.0.4
+
 v0.0.3
 ======
 More basic things added.
