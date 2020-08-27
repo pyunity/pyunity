@@ -17,7 +17,7 @@ and all have MeshRenderers:
     GLFW doesn't work, trying Pygame
     Trying Pygame as a window provider
     Using window provider Pygame
-    Loaded PyUnity version 0.0.4
+    Loaded PyUnity version 0.0.5
     >>> mat = Material((1, 0, 0))
     >>> root = GameObject("Root")
     >>> child1 = GameObject("Child1", root)
