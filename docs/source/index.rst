@@ -10,7 +10,7 @@ Installing
 ----------
 To install PyUnity, use pip:
 
-   pip install pyunity
+   > pip install pyunity
 
 Its dependencies are just OpenGL, Pygame and
 GLFW.
@@ -19,13 +19,13 @@ Alternatively, you can clone the repository
 `here <https://github.com/rayzchen/PyUnity>`_.
 Then run setup.py:
 
-   python setup.py install
+   > python setup.py install
 
 Sometimes on Linux machines, Pygame cannot be
 installed via pip: in that case, use the
 package manager. For example, on Ubuntu:
 
-   sudo apt-get install python3-pygame
+   > sudo apt-get install python3-pygame
 
 .. toctree::
    :maxdepth: 4

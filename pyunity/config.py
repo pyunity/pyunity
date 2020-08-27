@@ -13,5 +13,4 @@ from . import window
 
 windowProvider = window.LoadWindowProvider()
 
-del window
-del os
+del window, os

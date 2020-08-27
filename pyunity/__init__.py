@@ -86,11 +86,11 @@ To create your own provider, create a
 class that has the following methods:
 
 - `__init__`: initiate your window and
-    check to see if it works.
+  check to see if it works.
 - `start`: start the main loop in your
-    window. The first parameter is
-    ``update_func``, which is called
-    when you want to do the OpenGL calls.
+  window. The first parameter is
+  ``update_func``, which is called
+  when you want to do the OpenGL calls.
 
 Check the source code of any of the window
 providers for an example. If you have a
@@ -112,7 +112,7 @@ To run an example, import it like so:
 
 Or from the command line:
 
-    $ python -m pyunity 1
+    > python -m pyunity 1
 
 The ``1`` just means to load example 1, and there
 are 5 examples. If you want to contribute an
@@ -121,7 +121,6 @@ example, then please create a new pull request.
 """
 
 import os
-from . import config
 from .core import *
 from .vector3 import *
 from .scene import SceneManager
@@ -137,10 +136,9 @@ __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 SceneManager = SceneManager()
-
-del core, errors, meshes, scene, vector3, window, physics
+"""Manages all scene additions and changes"""
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")
 
-del os
+del core, errors, meshes, scene, vector3, window, physics, os

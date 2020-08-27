@@ -119,18 +119,12 @@ Pygame is tested last.</p>
 <p>To create your own provider, create a
 class that has the following methods:</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt><cite>__init__</cite>: initiate your window and</dt><dd><p>check to see if it works.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><cite>start</cite>: start the main loop in your</dt><dd><p>window. The first parameter is
+<li><p><cite>__init__</cite>: initiate your window and
+check to see if it works.</p></li>
+<li><p><cite>start</cite>: start the main loop in your
+window. The first parameter is
 <code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called
-when you want to do the OpenGL calls.</p>
-</dd>
-</dl>
-</li>
+when you want to do the OpenGL calls.</p></li>
 </ul>
 <p>Check the source code of any of the window
 providers for an example. If you have a
@@ -150,11 +144,17 @@ pull request.</p>
 </div>
 <p>Or from the command line:</p>
 <blockquote>
-<div><p>$ python -m pyunity 1</p>
+<div><p>&gt; python -m pyunity 1</p>
 </div></blockquote>
 <p>The <code class="docutils literal notranslate"><span class="pre">1</span></code> just means to load example 1, and there
 are 5 examples. If you want to contribute an
 example, then please create a new pull request.</p>
+<dl class="py data">
+<dt id="pyunity.SceneManager">
+<code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">SceneManager</code><em class="property"> = &lt;pyunity.scene.SceneManager object&gt;</em><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.SceneManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages all scene additions and changes</p>
+</dd></dl>
+
 </div>
 </div>
 <div class="section" id="subpackages">
@@ -162,6 +162,7 @@ example, then please create a new pull request.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.physics.html#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyunity.physics.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.physics.core.html">pyunity.physics.core module</a></li>
 </ul>

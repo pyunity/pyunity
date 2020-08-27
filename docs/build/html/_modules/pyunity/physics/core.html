@@ -40,6 +40,7 @@
 
 <span class="kn">from</span> <span class="nn">..vector3</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
 <span class="n">infinity</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
@@ -389,6 +390,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">physicMaterial</span> <span class="o">=</span> <span class="n">PhysicMaterial</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gravity</span> <span class="o">=</span> <span class="kc">True</span>
     
 <div class="viewcode-block" id="Rigidbody.Move"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.Move">[docs]</a>    <span class="k">def</span> <span class="nf">Move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -402,12 +405,16 @@
 <span class="sd">            Time to simulate movement by</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gravity</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">+=</span> <span class="n">config</span><span class="o">.</span><span class="n">gravity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">dt</span>
         <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Collider</span><span class="p">):</span>
-                <span class="n">component</span><span class="o">.</span><span class="n">min</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
-                <span class="n">component</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span>
-                <span class="n">component</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span></div>
+                <span class="n">component</span><span class="o">.</span><span class="n">min</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">dt</span>
+                <span class="n">component</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">dt</span>
+                <span class="n">component</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*</span> <span class="n">dt</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span></div>
     
 <div class="viewcode-block" id="Rigidbody.MovePos"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.MovePos">[docs]</a>    <span class="k">def</span> <span class="nf">MovePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -425,7 +432,13 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Collider</span><span class="p">):</span>
                 <span class="n">component</span><span class="o">.</span><span class="n">min</span> <span class="o">+=</span> <span class="n">offset</span>
                 <span class="n">component</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="n">offset</span>
-                <span class="n">component</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">offset</span></div></div>
+                <span class="n">component</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">offset</span></div>
+    
+<div class="viewcode-block" id="Rigidbody.AddForce"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.AddForce">[docs]</a>    <span class="k">def</span> <span class="nf">AddForce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">+=</span> <span class="n">force</span></div>
+    
+<div class="viewcode-block" id="Rigidbody.AddImpulse"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.AddImpulse">[docs]</a>    <span class="k">def</span> <span class="nf">AddImpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impulse</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">+=</span> <span class="n">impulse</span></div></div>
 
 <div class="viewcode-block" id="CollManager"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager">[docs]</a><span class="k">class</span> <span class="nc">CollManager</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>

@@ -42,7 +42,7 @@
 <span class="kn">from</span> <span class="nn">OpenGL.GL</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">OpenGL.GLU</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
+<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to manage scenes.</span>
 
@@ -64,7 +64,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span> <span class="o">=</span> <span class="p">{}</span>
     
-<div class="viewcode-block" id="SceneManager.AddScene"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.SceneManager.AddScene">[docs]</a>    <span class="k">def</span> <span class="nf">AddScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sceneName</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.AddScene"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.SceneManager.AddScene">[docs]</a>    <span class="k">def</span> <span class="nf">AddScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sceneName</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a scene to the SceneManager. Pass</span>
 <span class="sd">        in a scene name to create a scene.</span>
@@ -93,7 +93,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">sceneName</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="k">return</span> <span class="n">scene</span></div>
     
-<div class="viewcode-block" id="SceneManager.GetSceneByIndex"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.SceneManager.GetSceneByIndex">[docs]</a>    <span class="k">def</span> <span class="nf">GetSceneByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.GetSceneByIndex"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.SceneManager.GetSceneByIndex">[docs]</a>    <span class="k">def</span> <span class="nf">GetSceneByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a scene by its index.</span>
 
@@ -117,7 +117,7 @@
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;There is no scene at index &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">[</span><span class="n">index</span><span class="p">]</span></div>
     
-<div class="viewcode-block" id="SceneManager.GetSceneByName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.SceneManager.GetSceneByName">[docs]</a>    <span class="k">def</span> <span class="nf">GetSceneByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.GetSceneByName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.SceneManager.GetSceneByName">[docs]</a>    <span class="k">def</span> <span class="nf">GetSceneByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a scene by its name.</span>
 
@@ -141,7 +141,7 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;There is no scene called &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div></div>
 
-<div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
+<div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to hold all of the GameObjects, and to run the whole</span>
 <span class="sd">    scene.</span>
@@ -162,7 +162,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">gameObject</span><span class="p">,</span> <span class="n">light</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">gameObject</span><span class="p">,</span> <span class="n">light</span><span class="p">]</span>
     
-<div class="viewcode-block" id="Scene.Add"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Add">[docs]</a>    <span class="k">def</span> <span class="nf">Add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.Add"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.Add">[docs]</a>    <span class="k">def</span> <span class="nf">Add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a GameObject to the scene.</span>
 
@@ -176,7 +176,7 @@
         <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Scene.Remove"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Remove">[docs]</a>    <span class="k">def</span> <span class="nf">Remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.Remove"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.Remove">[docs]</a>    <span class="k">def</span> <span class="nf">Remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a GameObject from the scene.</span>
 
@@ -201,7 +201,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;Cannot remove the Main Camera from the scene&quot;</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Scene.List"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.List"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lists all the GameObjects currently in the scene.</span>
 
@@ -209,7 +209,7 @@
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
             <span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">List</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="Scene.FindGameObjectsByName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.FindGameObjectsByName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.FindGameObjectsByName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds all GameObjects matching the specified name.</span>
 
@@ -226,7 +226,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">gameObject</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">]</span></div>
         
-<div class="viewcode-block" id="Scene.FindGameObjectsByTagName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.FindGameObjectsByTagName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.FindGameObjectsByTagName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds all GameObjects with the specified tag name.</span>
 
@@ -251,7 +251,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span><span class="s2">&quot;No tag named &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="Scene.FindGameObjectsByTagNumber"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagNumber">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.FindGameObjectsByTagNumber"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.FindGameObjectsByTagNumber">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets all GameObjects with a tag of tag `num`.</span>
 
@@ -276,7 +276,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span><span class="s2">&quot;No tag at index &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Scene.start_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.start_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">start_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.start_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.start_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">start_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
@@ -293,7 +293,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">CollManager</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">AddPhysicsInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Scene.Run"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Run">[docs]</a>    <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.Run"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.Run">[docs]</a>    <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the scene and create a window for it.</span>
 
@@ -349,7 +349,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Scene.transform"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.transform"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform the matrix by a specified transform.</span>
 
@@ -366,7 +366,7 @@
                     <span class="n">transform</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                     <span class="o">-</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Scene.update_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.update_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">update_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.update_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.update_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">update_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
@@ -377,7 +377,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updating function to pass to the window provider.</span>
 
