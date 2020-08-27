@@ -46,13 +46,12 @@
 <span class="sd">and all have MeshRenderers:</span>
 
 <span class="sd">    &gt;&gt;&gt; from pyunity import *</span>
-<span class="sd">    Loaded window providers</span>
 <span class="sd">    Loaded config</span>
-<span class="sd">    Trying FreeGLUT as a window provider</span>
-<span class="sd">    FreeGLUT doesn&#39;t work, using GLFW</span>
-<span class="sd">    GLFW doesn&#39;t work, using Pygame</span>
-<span class="sd">    Loaded PyUnity version 0.0.1</span>
+<span class="sd">    Trying GLFW as a window provider</span>
+<span class="sd">    GLFW doesn&#39;t work, trying Pygame</span>
+<span class="sd">    Trying Pygame as a window provider</span>
 <span class="sd">    Using window provider Pygame</span>
+<span class="sd">    Loaded PyUnity version 0.0.4</span>
 <span class="sd">    &gt;&gt;&gt; mat = Material((1, 0, 0))</span>
 <span class="sd">    &gt;&gt;&gt; root = GameObject(&quot;Root&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; child1 = GameObject(&quot;Child1&quot;, root)</span>
@@ -75,9 +74,9 @@
 <span class="sd">    /Root/Child2</span>
 <span class="sd">    /Root/Child2/Grandchild</span>
 <span class="sd">    &gt;&gt;&gt; child1.components</span>
-<span class="sd">    [&lt;Transform position=&lt;Vector3 x=-2 y=0 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B5E1B68&gt;]</span>
+<span class="sd">    [&lt;Transform position=Vector3(-2, 0, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0C1F0310&gt;]</span>
 <span class="sd">    &gt;&gt;&gt; child2.transform.children</span>
-<span class="sd">    [&lt;Transform position=&lt;Vector3 x=0 y=5 z=0&gt; rotation=&lt;Vector3 x=0 y=0 z=0&gt; scale=&lt;Vector3 x=1 y=1 z=1&gt; path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
+<span class="sd">    [&lt;Transform position=Vector3(0, 5, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -87,6 +86,7 @@
 <span class="kn">from</span> <span class="nn">OpenGL.GL</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Default&quot;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;List of current tags&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Tag"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Tag">[docs]</a><span class="k">class</span> <span class="nc">Tag</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -194,7 +194,7 @@
                 <span class="s2">&quot;Cannot add &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">componentClass</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to the GameObject; it is not a component&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
-                <span class="ow">not</span> <span class="p">(</span><span class="n">componentClass</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Transform</span><span class="p">,</span> <span class="n">Camera</span><span class="p">)</span> <span class="ow">and</span> 
+                <span class="ow">not</span> <span class="p">(</span><span class="n">componentClass</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Transform</span><span class="p">,</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Light</span><span class="p">,</span> <span class="n">MeshRenderer</span><span class="p">)</span> <span class="ow">and</span> 
                 <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">componentClass</span><span class="p">)</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">))):</span>
             <span class="n">component</span> <span class="o">=</span> <span class="n">componentClass</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>

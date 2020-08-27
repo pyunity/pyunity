@@ -16,11 +16,24 @@ at twice the speed.
 Example
 -------
 
->>> cube = GameObject("Cube")
->>> collider = cube.AddComponent(AABBoxCollider)
->>> collider.SetSize(-Vector3.one(), Vector3.one())
->>> collider.velocity = Vector3.right()
+    >>> cube = GameObject("Cube")
+    >>> collider = cube.AddComponent(AABBoxCollider)
+    >>> collider.SetSize(-Vector3.one(), Vector3.one())
+    >>> collider.velocity = Vector3.right()
+
+Configuration
+-------------
+If you want to change some configurations, import
+the config file like so:
+
+    >>> from pyunity.physics import config
+
+Inside the config file there are some configurations:
+
+- `gravity` is the gravity of the whole system. It only
+  affects Rigidbodies that have `gravity` set to True.
 
 """
 
 from .core import *
+del config
