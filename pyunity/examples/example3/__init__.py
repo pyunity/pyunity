@@ -15,6 +15,7 @@ def main():
     collider.SetSize(Vector3(-6, -1, -1), Vector3(-4, 1, 1))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(4, 0, 0)
+    rb.gravity = False
     rb.mass = infinity
 
     scene.Add(cube)
@@ -28,6 +29,7 @@ def main():
     collider.SetSize(Vector3(4, -1, -1), Vector3(6, 1, 1))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(-4, 0, 0)
+    rb.gravity = False
 
     scene.Add(cube)
     
@@ -40,6 +42,7 @@ def main():
     collider.SetSize(Vector3(-1, -1, -7), Vector3(1, 1, -5))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(0, 0, 4)
+    rb.gravity = False
 
     scene.Add(cube)
 

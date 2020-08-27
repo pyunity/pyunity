@@ -6,6 +6,7 @@ physics engine.
 
 from ..vector3 import *
 from ..core import *
+from . import config
 import math
 
 infinity = math.inf
@@ -355,6 +356,8 @@ class Rigidbody(Component):
         self.mass = 100
         self.velocity = Vector3.zero()
         self.physicMaterial = PhysicMaterial()
+        self.force = Vector3.zero()
+        self.gravity = True
     
     def Move(self, dt):
         """
@@ -368,12 +371,16 @@ class Rigidbody(Component):
             Time to simulate movement by
         
         """
-        self.position += dt * self.velocity
+        if self.gravity: self.force += config.gravity
+        self.velocity += self.force * (1 / self.mass) * dt
+        self.position += self.velocity * dt
         for component in self.gameObject.components:
             if isinstance(component, Collider):
-                component.min += dt * self.velocity
-                component.max += dt * self.velocity
-                component.pos += dt * self.velocity
+                component.min += self.velocity * dt
+                component.max += self.velocity * dt
+                component.pos += self.velocity * dt
+        
+        self.force = Vector3.zero()
     
     def MovePos(self, offset):
         """
@@ -392,6 +399,12 @@ class Rigidbody(Component):
                 component.min += offset
                 component.max += offset
                 component.pos += offset
+    
+    def AddForce(self, force):
+        self.force += force
+    
+    def AddImpulse(self, impulse):
+        self.velocity += impulse
 
 class CollManager:
     """

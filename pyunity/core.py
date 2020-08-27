@@ -12,13 +12,12 @@ To create a GameObject with 2 children, one of which has its own child,
 and all have MeshRenderers:
 
     >>> from pyunity import *
-    Loaded window providers
     Loaded config
-    Trying FreeGLUT as a window provider
-    FreeGLUT doesn't work, using GLFW
-    GLFW doesn't work, using Pygame
-    Loaded PyUnity version 0.0.1
+    Trying GLFW as a window provider
+    GLFW doesn't work, trying Pygame
+    Trying Pygame as a window provider
     Using window provider Pygame
+    Loaded PyUnity version 0.0.4
     >>> mat = Material((1, 0, 0))
     >>> root = GameObject("Root")
     >>> child1 = GameObject("Child1", root)
@@ -41,9 +40,9 @@ and all have MeshRenderers:
     /Root/Child2
     /Root/Child2/Grandchild
     >>> child1.components
-    [<Transform position=<Vector3 x=-2 y=0 z=0> rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0B5E1B68>]
+    [<Transform position=Vector3(-2, 0, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0C1F0310>]
     >>> child2.transform.children
-    [<Transform position=<Vector3 x=0 y=5 z=0> rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Root/Child2/Grandchild">]
+    [<Transform position=Vector3(0, 5, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child2/Grandchild">]
 
 """
 
@@ -53,6 +52,7 @@ from .meshes import *
 from OpenGL.GL import *
 
 tags = ["Default"]
+"""List of current tags"""
 
 class Tag:
     """
@@ -160,7 +160,7 @@ class GameObject:
                 "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component"
             )
         if (
-                not (componentClass in (Transform, Camera) and 
+                not (componentClass in (Transform, Camera, Light, MeshRenderer) and 
                 any(isinstance(component, componentClass) for component in self.components))):
             component = componentClass()
             self.components.append(component)
