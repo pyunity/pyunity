@@ -135,9 +135,6 @@ __summary__ = "A Python implementation of the Unity Engine that supports differe
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-SceneManager = SceneManager()
-"""Manages all scene additions and changes"""
-
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")
 
