@@ -3,7 +3,6 @@ from .scripts import *
 import os
 
 def main():
-    print(__file__)
     mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cube.obj"))
 
     scene = SceneManager.AddScene("Scene")

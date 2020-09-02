@@ -159,9 +159,9 @@ class GameObject:
             raise ComponentError(
                 "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component"
             )
-        if (
-                not (componentClass in (Transform, Camera, Light, MeshRenderer) and 
-                any(isinstance(component, componentClass) for component in self.components))):
+        if not (
+                componentClass in (Transform, Camera, Light, MeshRenderer) and 
+                any(isinstance(component, componentClass) for component in self.components)):
             component = componentClass()
             self.components.append(component)
             if componentClass is Transform:
