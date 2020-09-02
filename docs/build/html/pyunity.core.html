@@ -376,26 +376,9 @@ For all matches, do a manual loop.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyunity.core.MeshRenderer.move">
-<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#MeshRenderer.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.MeshRenderer.move" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move the transformation matrix according to a transform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>transform</strong> (<a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – Transform to move the transformation matrix according to.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="pyunity.core.MeshRenderer.render">
 <code class="sig-name descname">render</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#MeshRenderer.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.core.MeshRenderer.render" title="Permalink to this definition">¶</a></dt>
 <dd><p>Render the mesh that the MeshRenderer has.</p>
-<p class="rubric">Notes</p>
-<p>It loops through the trianges in the mesh, then draws them. Each
-triangle has the same material. When <cite>render</cite> is called, the
-MeshRenderer will call <cite>render</cite> on its own children, moving it
-accordingly. The <cite>render</cite> function assumes that the transform
-was applied already.</p>
 </dd></dl>
 
 </dd></dl>
@@ -477,7 +460,7 @@ was applied already.</p>
 <dl class="py attribute">
 <dt id="pyunity.core.Transform.position">
 <code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.core.Transform.position" title="Permalink to this definition">¶</a></dt>
-<dd><p>Position of the Transform.</p>
+<dd><p>Position of the Transform in world space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
@@ -488,7 +471,7 @@ was applied already.</p>
 <dl class="py attribute">
 <dt id="pyunity.core.Transform.rotation">
 <code class="sig-name descname">rotation</code><a class="headerlink" href="#pyunity.core.Transform.rotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotation of the Transform.</p>
+<dd><p>Rotation of the Transform in world space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
@@ -499,7 +482,40 @@ was applied already.</p>
 <dl class="py attribute">
 <dt id="pyunity.core.Transform.scale">
 <code class="sig-name descname">scale</code><a class="headerlink" href="#pyunity.core.Transform.scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scale of the Transform.</p>
+<dd><p>Scale of the Transform in world space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.localPosition">
+<code class="sig-name descname">localPosition</code><a class="headerlink" href="#pyunity.core.Transform.localPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Transform in local space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.localRotation">
+<code class="sig-name descname">localRotation</code><a class="headerlink" href="#pyunity.core.Transform.localRotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in local space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.core.Transform.localScale">
+<code class="sig-name descname">localScale</code><a class="headerlink" href="#pyunity.core.Transform.localScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale of the Transform in local space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
@@ -562,6 +578,21 @@ nice list of all GameObjects.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt id="id0">
+<em class="property">property </em><code class="sig-name descname">position</code><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="id1">
+<em class="property">property </em><code class="sig-name descname">rotation</code><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="id2">
+<em class="property">property </em><code class="sig-name descname">scale</code><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

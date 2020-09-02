@@ -40,6 +40,7 @@
 
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">from</span> <span class="nn">.meshes</span> <span class="kn">import</span> <span class="n">Mesh</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">meshes</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.scene</span> <span class="kn">import</span> <span class="n">SceneManager</span>
 <span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
@@ -256,6 +257,14 @@
     <span class="n">SceneManager</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
     <span class="n">SceneManager</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">sceneName</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span>
     <span class="k">return</span> <span class="n">scene</span></div>
+
+<div class="viewcode-block" id="Primitives"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.Primitives">[docs]</a><span class="k">class</span> <span class="nc">Primitives</span><span class="p">:</span>
+    <span class="n">__path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">LoadObj</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/cube.obj&quot;</span><span class="p">))</span>
+    <span class="n">quad</span> <span class="o">=</span> <span class="n">LoadObj</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/quad.obj&quot;</span><span class="p">))</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">LoadObj</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/sphere.obj&quot;</span><span class="p">))</span>
+    <span class="n">capsule</span> <span class="o">=</span> <span class="n">LoadObj</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/capsule.obj&quot;</span><span class="p">))</span>
+    <span class="n">cylinder</span> <span class="o">=</span> <span class="n">LoadObj</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/cylinder.obj&quot;</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
