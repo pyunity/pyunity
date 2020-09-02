@@ -4,6 +4,7 @@ Module for prebuilt meshes.
 """
 
 from .vector3 import Vector3
+from . import loader
 import os
 
 class Mesh:
@@ -140,3 +141,13 @@ class Mesh:
                 Vector3.down(),
             ]
         )
+
+class Primitive:
+    __path = os.path.dirname(os.path.realpath(__file__))
+    meshes = [
+        loader.LoadObj(os.path.join(__path, "primitives/cube.obj")),
+        loader.LoadObj(os.path.join(__path, "primitives/quad.obj")),
+        loader.LoadObj(os.path.join(__path, "primitives/sphere.obj")),
+        loader.LoadObj(os.path.join(__path, "primitives/capsule.obj")),
+        loader.LoadObj(os.path.join(__path, "primitives/cylinder.obj")),
+    ]

@@ -4,6 +4,8 @@ with a lot of utility functions.
 
 """
 
+# print(*[[x, y, z] for x in [-1, 1] for y in [-1, 1] for z in [-1, 1]], sep="\n")
+
 # TODO: division
 
 import math
