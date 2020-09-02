@@ -546,11 +546,15 @@
 
                             <span class="n">normal</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+                            <span class="n">rv</span> <span class="o">=</span> <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span>
+                            <span class="n">velAlongNormal</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">velAlongNormal</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">continue</span>
+                            <span class="n">b</span> <span class="o">=</span> <span class="n">velAlongNormal</span> <span class="o">/</span> <span class="n">normal</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
                             <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
                             <span class="k">elif</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
                             <span class="k">else</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
 
-                            <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span> <span class="o">/</span> <span class="n">normal</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
                             <span class="n">velA</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">normal</span>
 
                             <span class="n">normal</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
@@ -558,32 +562,31 @@
                             <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
                             <span class="k">elif</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
                             <span class="k">else</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">/</span> <span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span>
-
-                            <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span> <span class="o">/</span> <span class="n">normal</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+                            
                             <span class="n">velB</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">normal</span>
 
                             <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="n">velA</span>
                             <span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="n">velB</span>
 
-                            <span class="n">rv</span> <span class="o">=</span> <span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span>
-                            <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">rv</span> <span class="o">-</span> <span class="n">rv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+                            <span class="c1"># rv = rbB.velocity - rbA.velocity</span>
+                            <span class="c1"># t = (rv - rv.dot(m.normal) * m.normal).normalized()</span>
 
-                            <span class="n">jt</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-                            <span class="n">jt</span> <span class="o">/=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span>
+                            <span class="c1"># jt = rv.dot(t)</span>
+                            <span class="c1"># jt /= 1 / rbA.mass + 1 / rbB.mass</span>
                             
-                            <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">):</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
-                            <span class="k">else</span><span class="p">:</span>
-                                <span class="n">j</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
-                                <span class="n">j</span> <span class="o">/=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span>
+                            <span class="c1"># if math.isinf(rbA.mass + rbB.mass): j = 0</span>
+                            <span class="c1"># else:</span>
+                            <span class="c1">#     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)</span>
+                            <span class="c1">#     j /= 1 / rbA.mass + 1 / rbB.mass</span>
 
-                            <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">friction</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">friction</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">jt</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="o">*</span> <span class="n">mu</span><span class="p">:</span>
-                                <span class="n">frictionImpulse</span> <span class="o">=</span> <span class="n">jt</span> <span class="o">*</span> <span class="n">t</span>
-                            <span class="k">else</span><span class="p">:</span>
-                                <span class="n">frictionImpulse</span> <span class="o">=</span> <span class="o">-</span><span class="n">j</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">mu</span>
+                            <span class="c1"># mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2</span>
+                            <span class="c1"># if abs(jt) &lt; j * mu:</span>
+                            <span class="c1">#     frictionImpulse = jt * t</span>
+                            <span class="c1"># else:</span>
+                            <span class="c1">#     frictionImpulse = -j * t * mu</span>
                             
-                            <span class="n">rbA</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">frictionImpulse</span>
-                            <span class="n">rbB</span><span class="o">.</span><span class="n">velocity</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">frictionImpulse</span>
+                            <span class="c1"># rbA.velocity -= 1 / rbA.mass * frictionImpulse</span>
+                            <span class="c1"># rbB.velocity += 1 / rbB.mass * frictionImpulse</span>
 
                             <span class="n">correction</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">penetration</span> <span class="o">*</span> <span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">normal</span>
                             <span class="n">rbA</span><span class="o">.</span><span class="n">MovePos</span><span class="p">(</span>

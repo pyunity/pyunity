@@ -107,10 +107,18 @@ class SceneManager:
             raise KeyError("There is no scene called " + name)
         return self.scenesByName[name]
 
+SceneManager = SceneManager()
+"""Manages all scene additions and changes"""
+
 class Scene:
     """
     Class to hold all of the GameObjects, and to run the whole
     scene.
+
+    Parameters
+    ----------
+    name : str
+        Name of the scene
 
     Notes
     -----
@@ -243,6 +251,10 @@ class Scene:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
 
     def start_scripts(self):
+        """
+        Start the scripts in the Scene.
+
+        """
         self.lastFrame = time()
 
         for gameObject in self.gameObjects:
@@ -259,9 +271,10 @@ class Scene:
             self.collManager = physics.CollManager()
             self.collManager.AddPhysicsInfo(self)
     
-    def Run(self):
+    def Start(self):
         """
-        Run the scene and create a window for it.
+        Start the internal parts of the
+        Scene.
 
         """
         self.lights = [
@@ -274,9 +287,6 @@ class Scene:
             GL_LIGHT6,
             GL_LIGHT7
         ]
-
-        self.windowProvider = config.windowProvider
-        self.window = self.windowProvider(config.size, self.name)
 
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
@@ -312,7 +322,15 @@ class Scene:
         if os.environ["PYUNITY_DEBUG_MODE"] == "1":
             print("Physics is", "on" if self.physics else "off")
             print("Scene \"" + self.name + "\" has started")
+    
+    def Run(self):
+        """
+        Run the scene and create a window for it.
 
+        """
+        self.windowProvider = config.windowProvider
+        self.window = self.windowProvider(config.size, self.name)
+        self.Start()
         self.window.start(self.update)
     
     def transform(self, transform):
