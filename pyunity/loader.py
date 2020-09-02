@@ -6,6 +6,7 @@ and saving PyUnity meshes and scenes.
 
 from .vector3 import Vector3
 from .meshes import Mesh
+from . import meshes
 from .core import *
 from .scene import SceneManager
 import random, pickle, sys, os
@@ -222,3 +223,11 @@ def LoadScene(sceneName, filePath = None):
     SceneManager.scenesByIndex.append(scene)
     SceneManager.scenesByName[sceneName] = scene
     return scene
+
+class Primitives:
+    __path = os.path.dirname(os.path.realpath(__file__))
+    cube = LoadObj(os.path.join(__path, "primitives/cube.obj"))
+    quad = LoadObj(os.path.join(__path, "primitives/quad.obj"))
+    sphere = LoadObj(os.path.join(__path, "primitives/sphere.obj"))
+    capsule = LoadObj(os.path.join(__path, "primitives/capsule.obj"))
+    cylinder = LoadObj(os.path.join(__path, "primitives/cylinder.obj"))

@@ -276,11 +276,17 @@ class Transform(Component):
     gameObject : GameObject
         GameObject that the component belongs to.
     position : Vector3
-        Position of the Transform.
+        Position of the Transform in world space.
     rotation : Vector3
-        Rotation of the Transform.
+        Rotation of the Transform in world space.
     scale : Vector3
-        Scale of the Transform.
+        Scale of the Transform in world space.
+    localPosition : Vector3
+        Position of the Transform in local space.
+    localRotation : Vector3
+        Rotation of the Transform in local space.
+    localScale : Vector3
+        Scale of the Transform in local space.
     parent : Transform or None
         Parent of the Transform. The hierarchical tree is 
         actually formed by the Transform, not the GameObject.
@@ -291,11 +297,47 @@ class Transform(Component):
 
     def __init__(self):
         super(Transform, self).__init__()
-        self.position = Vector3.zero()
-        self.rotation = Vector3.zero()
-        self.scale = Vector3.one()
+        self.localPosition = Vector3.zero()
+        self.localRotation = Vector3.zero()
+        self.localScale = Vector3.one()
         self.parent = None
         self.children = []
+    
+    @property
+    def position(self):
+        if self.parent is None: return self.localPosition
+        else: return self.parent.position + self.localPosition
+    
+    @position.setter
+    def position(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException("Cannot set position to object of type \"" + type(value).__name__)
+        
+        self.localPosition = value if self.parent is None else value - self.parent.position
+    
+    @property
+    def rotation(self):
+        if self.parent is None: return self.localRotation
+        else: return self.parent.rotation + self.localRotation
+    
+    @rotation.setter
+    def rotation(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException("Cannot set rotation to object of type \"" + type(value).__name__)
+        
+        self.localRotation = value if self.parent is None else value - self.parent.rotation
+    
+    @property
+    def scale(self):
+        if self.parent is None: return self.localScale
+        else: return self.parent.scale + self.localScale
+    
+    @scale.setter
+    def scale(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException("Cannot set scale to object of type \"" + type(value).__name__)
+        
+        self.localScale = value if self.parent is None else value - self.parent.scale
     
     def ReparentTo(self, parent):
         """
@@ -408,35 +450,10 @@ class MeshRenderer(Component):
         super(MeshRenderer, self).__init__()
         self.mesh = None
         self.mat = None
-    
-    def move(self, transform):
-        """
-        Move the transformation matrix according to a transform.
-
-        Parameters
-        ----------
-        transform : Transform
-            Transform to move the transformation matrix according to.
-
-        """
-        glRotatef(transform.rotation[0], 1, 0, 0)
-        glRotatef(transform.rotation[1], 0, 1, 0)
-        glRotatef(transform.rotation[2], 0, 0, 1)
-        glTranslatef(transform.position[0],
-                    transform.position[1],
-                    -transform.position[2])
 
     def render(self):
         """
         Render the mesh that the MeshRenderer has.
-
-        Notes
-        -----
-        It loops through the trianges in the mesh, then draws them. Each
-        triangle has the same material. When `render` is called, the
-        MeshRenderer will call `render` on its own children, moving it
-        accordingly. The `render` function assumes that the transform
-        was applied already.
 
         """
         glBegin(GL_TRIANGLES)
@@ -446,14 +463,6 @@ class MeshRenderer(Component):
             for vertex in triangle:
                 glVertex3f(*self.mesh.verts[vertex])
         glEnd()
-        
-        for child in self.transform.children:
-            renderer = child.GetComponent(MeshRenderer)
-            if renderer:
-                glPushMatrix()
-                self.move(child)
-                renderer.render()
-                glPopMatrix()
 
 class Material:
     """
