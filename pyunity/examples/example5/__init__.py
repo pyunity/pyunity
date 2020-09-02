@@ -1,6 +1,9 @@
 from pyunity import *
-from .scripts import *
 import os
+
+class Rotator(Behaviour):
+    def Update(self, dt):
+        self.transform.rotation += Vector3(0, 90, 0) * dt
 
 def main():
     mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.abspath(__file__)), "house.obj"))
@@ -20,3 +23,6 @@ def main():
     scene.Add(house)
     
     scene.Run()
+
+if __name__ == "__main__":
+    main()

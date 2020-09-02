@@ -381,7 +381,7 @@ class Scene:
         glLoadIdentity()
         gluLookAt(
             *(list(self.mainCamera.transform.position * Vector3(0, 0, -1))),
-            0, 0, -1,
+            *(list(self.mainCamera.transform.position * Vector3(0, 0, -1) - Vector3.forward())),
             0, 1, 0)
 
         glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
@@ -396,7 +396,7 @@ class Scene:
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
         
-        for gameObject in self.rootGameObjects:
+        for gameObject in self.gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer:
                 glPushMatrix()
