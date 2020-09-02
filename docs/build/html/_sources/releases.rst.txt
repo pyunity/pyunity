@@ -2,7 +2,7 @@
 Releases
 ========
 
-v0.0.5
+v0.0.4
 ======
 Physics update.
 
@@ -18,6 +18,9 @@ New features:
 - Pushed GLUT to the end of the list so that it has the least priority
 - Fixed window loading
 - Auto README.md updater
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.0.4
 
 v0.0.3
 ======

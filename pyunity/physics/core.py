@@ -512,11 +512,15 @@ class CollManager:
 
                             normal = m.normal.copy()
 
+                            rv = rbA.velocity - rbB.velocity
+                            velAlongNormal = rv.dot(normal)
+                            if velAlongNormal < 0: continue
+                            b = velAlongNormal / normal.dot(normal)
+
                             if math.isinf(rbA.mass): a = 0
                             elif math.isinf(rbB.mass): a = 2
                             else: a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
 
-                            b = (rbA.velocity - rbB.velocity).dot(normal) / normal.dot(normal)
                             velA = a * b * normal
 
                             normal *= -1
@@ -524,32 +528,31 @@ class CollManager:
                             if math.isinf(rbA.mass): a = 2
                             elif math.isinf(rbB.mass): a = 0
                             else: a = (1 + e) * rbA.mass / (rbA.mass + rbB.mass)
-
-                            b = (rbB.velocity - rbA.velocity).dot(normal) / normal.dot(normal)
+                            
                             velB = a * b * normal
 
                             rbA.velocity -= velA
                             rbB.velocity -= velB
 
-                            rv = rbB.velocity - rbA.velocity
-                            t = (rv - rv.dot(m.normal) * m.normal).normalized()
+                            # rv = rbB.velocity - rbA.velocity
+                            # t = (rv - rv.dot(m.normal) * m.normal).normalized()
 
-                            jt = rv.dot(t)
-                            jt /= 1 / rbA.mass + 1 / rbB.mass
+                            # jt = rv.dot(t)
+                            # jt /= 1 / rbA.mass + 1 / rbB.mass
                             
-                            if math.isinf(rbA.mass + rbB.mass): j = 0
-                            else:
-                                j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
-                                j /= 1 / rbA.mass + 1 / rbB.mass
+                            # if math.isinf(rbA.mass + rbB.mass): j = 0
+                            # else:
+                            #     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
+                            #     j /= 1 / rbA.mass + 1 / rbB.mass
 
-                            mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
-                            if abs(jt) < j * mu:
-                                frictionImpulse = jt * t
-                            else:
-                                frictionImpulse = -j * t * mu
+                            # mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
+                            # if abs(jt) < j * mu:
+                            #     frictionImpulse = jt * t
+                            # else:
+                            #     frictionImpulse = -j * t * mu
                             
-                            rbA.velocity -= 1 / rbA.mass * frictionImpulse
-                            rbB.velocity += 1 / rbB.mass * frictionImpulse
+                            # rbA.velocity -= 1 / rbA.mass * frictionImpulse
+                            # rbB.velocity += 1 / rbB.mass * frictionImpulse
 
                             correction = m.penetration * (rbA.mass + rbB.mass) * 0.8 * m.normal
                             rbA.MovePos(
