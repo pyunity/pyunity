@@ -3,6 +3,7 @@ from . import example2
 from . import example3
 from . import example4
 from . import example5
+from ..scene import SceneManager
 
 import sys
 
@@ -15,5 +16,12 @@ example_list = [
 ]
 
 def show():
-    num = 0 if len(sys.argv) < 2 else int(sys.argv[1]) - 1
-    example_list[num].main()
+    if len(sys.argv) == 1: num = 0
+    else: num = int(sys.argv[1])
+    if not num:
+        for index, example in enumerate(example_list):
+            print("\nExample", index + 1)
+            example.main()
+            SceneManager.RemoveScene(SceneManager.GetSceneByName("Scene"))
+    else:
+        example_list[num - 1].main()

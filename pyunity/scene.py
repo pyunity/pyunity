@@ -106,6 +106,14 @@ class SceneManager:
         if name not in self.scenesByName:
             raise KeyError("There is no scene called " + name)
         return self.scenesByName[name]
+    
+    def RemoveScene(self, scene):
+        if not isinstance(scene, Scene):
+            raise PyUnityException("The provided scene is not of type Scene")
+        if scene not in self.scenesByIndex:
+            raise PyUnityException("Scene \"" + scene.name + "\" is not part of the SceneManager")
+        self.scenesByIndex.remove(scene)
+        self.scenesByName.pop(scene.name)
 
 SceneManager = SceneManager()
 """Manages all scene additions and changes"""
