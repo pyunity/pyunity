@@ -228,6 +228,7 @@ class Primitives:
     __path = os.path.dirname(os.path.realpath(__file__))
     cube = LoadObj(os.path.join(__path, "primitives/cube.obj"))
     quad = LoadObj(os.path.join(__path, "primitives/quad.obj"))
+    double_quad = LoadObj(os.path.join(__path, "primitives/double_quad.obj"))
     sphere = LoadObj(os.path.join(__path, "primitives/sphere.obj"))
     capsule = LoadObj(os.path.join(__path, "primitives/capsule.obj"))
     cylinder = LoadObj(os.path.join(__path, "primitives/cylinder.obj"))
