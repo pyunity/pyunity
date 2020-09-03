@@ -8,7 +8,7 @@ with a lot of utility functions.
 
 # TODO: division
 
-import math
+import math, operator
 
 clamp = lambda x, _min, _max: min(_max, max(_min, x))
 """Clamp a value between a minimum and a maximum"""
@@ -44,12 +44,6 @@ class Vector3:
 
     def __len__(self):
         return 3
-
-    def __abs__(self):
-        return Vector3(abs(self.x), abs(self.y), abs(self.z))
-    
-    def __neg__(self):
-        return Vector3(-self.x, -self.y, -self.z)
     
     def __eq__(self, other):
         if hasattr(other, "__getitem__") and len(other) == 3:
@@ -65,6 +59,34 @@ class Vector3:
 
     def __nonzero__(self):
         return self.x != 0 or self.y != 0 or self.z != 0
+    
+    def _o2(self, other, f):
+        """Any two-operator operation where the left operand is a Vector3"""
+        if isinstance(other, Vector3):
+            return Vector3(f(self.x, other.x), f(self.y, other.y), f(self.z, other.z))
+        elif hasattr(other, "__getitem__"):
+            return Vector3(f(self.x, other[0]), f(self.y, other[1]), f(self.z, other[2]))
+        else:
+            return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
+    
+    def _r_o2(self, other, f):
+        """Any two-operator operation where the right operand is a Vector3"""
+        if hasattr(other, "__getitem__"):
+            return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
+        else:
+            return Vector3(f(other, self.x), f(other, self.y), f(other, self.z))
+    
+    def _io(self, other, f):
+        """Inplace operator"""
+        if hasattr(other, "__getitem__"):
+            self.x = f(self.x, other[0])
+            self.y = f(self.y, other[1])
+            self.z = f(self.z, other[2])
+        else:
+            self.x = f(self.x, other)
+            self.y = f(self.y, other)
+            self.z = f(self.z, other)
+        return self
     
     def __add__(self, other):
         if isinstance(other, Vector3):
@@ -167,6 +189,76 @@ class Vector3:
             self.y /= other
             self.z /= other
         return self
+    
+    def __div__(self, other):
+        return self._o2(other, operator.div)
+    def __rdiv__(self, other):
+        return self._r_o2(other, operator.div)
+    def __idiv__(self, other):
+        return self._io(other, operator.div)
+
+    def __floordiv__(self, other):
+        return self._o2(other, operator.floordiv)
+    def __rfloordiv__(self, other):
+        return self._r_o2(other, operator.floordiv)
+    def __ifloordiv__(self, other):
+        return self._io(other, operator.floordiv)
+
+    def __truediv__(self, other):
+        return self._o2(other, operator.truediv)
+    def __rtruediv__(self, other):
+        return self._r_o2(other, operator.truediv)
+    def __itruediv__(self, other):
+        return self._io(other, operator.truediv)
+    
+    def __mod__(self, other):
+        return self._o2(other, operator.mod)
+    def __rmod__(self, other):
+        return self._r_o2(other, operator.mod)
+
+    def __divmod__(self, other):
+        return self._o2(other, divmod)
+    def __rdivmod__(self, other):
+        return self._r_o2(other, divmod)
+    
+    def __pow__(self, other):
+        return self._o2(other, operator.pow)
+    def __rpow__(self, other):
+        return self._r_o2(other, operator.pow)
+    
+    def __lshift__(self, other):
+        return self._o2(other, operator.lshift)
+    def __rlshift__(self, other):
+        return self._r_o2(other, operator.lshift)
+
+    def __rshift__(self, other):
+        return self._o2(other, operator.rshift)
+    def __rrshift__(self, other):
+        return self._r_o2(other, operator.rshift)
+    
+    def __and__(self, other):
+        return self._o2(other, operator.and_)
+    __rand__ = __and__
+    
+    def __or__(self, other):
+        return self._o2(other, operator.or_)
+    __ror__ = __or__
+
+    def __xor__(self, other):
+        return self._o2(other, operator.xor)
+    __rxor__ = __xor__
+    
+    def __neg__(self):
+        return Vector3(operator.neg(self.x), operator.neg(self.y), operator.neg(self.z))
+
+    def __pos__(self):
+        return Vector3(operator.pos(self.x), operator.pos(self.y), operator.pos(self.y))
+
+    def __abs__(self):
+        return Vector3(abs(self.x), abs(self.y), abs(self.z))
+
+    def __invert__(self):
+        return Vec2d(-self.x, -self.y, -self.z)
     
     def copy(self):
         """
