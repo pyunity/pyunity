@@ -81,6 +81,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
+<span class="kn">from</span> <span class="nn">.quaternion</span> <span class="kn">import</span> <span class="n">Quaternion</span>
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.meshes</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">OpenGL.GL</span> <span class="kn">import</span> <span class="o">*</span>
@@ -311,13 +312,19 @@
 <span class="sd">        GameObject that the component belongs to.</span>
 <span class="sd">    position : Vector3</span>
 <span class="sd">        Position of the Transform in world space.</span>
-<span class="sd">    rotation : Vector3</span>
+<span class="sd">    eulerAngles : Vector3</span>
+<span class="sd">        Rotation of the Transform in world space.</span>
+<span class="sd">        It is measured in degrees around x, y, and z.</span>
+<span class="sd">    rotation : Quaternion</span>
 <span class="sd">        Rotation of the Transform in world space.</span>
 <span class="sd">    scale : Vector3</span>
 <span class="sd">        Scale of the Transform in world space.</span>
 <span class="sd">    localPosition : Vector3</span>
 <span class="sd">        Position of the Transform in local space.</span>
-<span class="sd">    localRotation : Vector3</span>
+<span class="sd">    localEulerAngles : Quaternion</span>
+<span class="sd">        Rotation of the Transform in local space.</span>
+<span class="sd">        It is measured in degrees around x, y, and z.</span>
+<span class="sd">    localRotation : Quaternion</span>
 <span class="sd">        Rotation of the Transform in local space.</span>
 <span class="sd">    localScale : Vector3</span>
 <span class="sd">        Scale of the Transform in local space.</span>
