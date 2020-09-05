@@ -1,4 +1,5 @@
 import math
+from .vector3 import Vector3
 
 class Quaternion:
     def __init__(self, w, x, y, z):
@@ -63,14 +64,14 @@ class Quaternion:
         self.w = value[0]
         self.x, self.y, self.z = -value[1], -value[2], -value[3]
     
+    def RotateVector(self, vector):
+        return self * Quaternion(0, *vector) * self.conjugate
+    
     @staticmethod
     def FromAxis(angle, axis):
         cos = math.cos(math.radians(angle / 2))
         sin = math.sin(math.radians(angle / 2))
         return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
-    
-    def RotateVector(self, vector):
-        return self * Quaternion(0, *vector) * self.conjugate
     
     @property
     def angleAxisPair(self):
@@ -83,3 +84,29 @@ class Quaternion:
         cos = math.cos(math.radians(angle / 2))
         sin = math.sin(math.radians(angle / 2))
         self.w, self.x, self.y, self.z = cos, axis[0] * sin, axis[1] * sin, axis[2] * sin
+    
+    @staticmethod
+    def Euler(x, y, z):
+        a = Quaternion.FromAxis(x, Vector3.right())
+        b = Quaternion.FromAxis(y, Vector3.up())
+        c = Quaternion.FromAxis(z, Vector3.forward())
+        return a * b * c
+    
+    @property
+    def eulerAngles(self):
+        a = math.atan2(2 * (self.w * self.x + self.y * self.z), 1 - 2 * (self.x ** 2 + self.y ** 2))
+        b = math.asin(2 * (self.w * self.y - self.z * self.w))
+        c = math.atan2(2 * (self.w * self.z + self.x * self.y), 1 - 2 * (self.y ** 2 + self.z ** 2))
+        return Vector3(a, b, c) / math.pi * 180
+    
+    @eulerAngles.setter
+    def eulerAngles(self, value):
+        a = Quaternion.FromAxis(value[0], Vector3.right())
+        b = Quaternion.FromAxis(value[1], Vector3.up())
+        c = Quaternion.FromAxis(value[2], Vector3.forward())
+        x = a * b * c
+        self.w, self.x, self.y, self.z = x
+    
+    @staticmethod
+    def identity():
+        return Quaternion(0, 0, 0, 1)
