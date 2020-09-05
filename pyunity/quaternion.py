@@ -94,12 +94,12 @@ class Quaternion:
     
     @property
     def eulerAngles(self):
-        p = -math.asin(-2 * self.y * self.z - 2 * self.w * self.x)
+        p = -math.asin(-2 * (self.y * self.z + self.w * self.x))
         if math.cos(p) != 0:
             h = -math.atan2(2 * self.x * self.z - 2 * self.w * self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
-            b = -math.atan2(2 * self.x * self.y - 2 * self.w * self.z, 1 - 2 * self.x ** 2 - 2 * self.z ** 2)
+            b = -math.atan2(self.x * self.y - self.w * self.z, 1/2 - self.x ** 2 - self.z ** 2)
         else:
-            h = -math.atan2(-2 * self.x * self.z - 2 * self.w * self.y, 1 - 2 * self.y ** 2 - 2 * self.z ** 2)
+            h = -math.atan2(-self.x * self.z - self.w * self.y, 1/2 - self.y ** 2 - self.z ** 2)
             b = 0
         
         return Vector3(math.degrees(p), math.degrees(h), math.degrees(b))
