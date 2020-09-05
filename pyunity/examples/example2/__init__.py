@@ -4,7 +4,7 @@ def main():
     scene = SceneManager.AddScene("Scene")
     
     scene.mainCamera.transform.position = Vector3(0, 3, -10)
-    scene.mainCamera.transform.rotation = Vector3(20, 0, 0)
+    scene.mainCamera.transform.eulerAngles = Vector3(20, 0, 0)
     
     cube = GameObject("Cube")
     cube.transform.position = Vector3(2, 0, 0)

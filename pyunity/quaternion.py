@@ -77,6 +77,7 @@ class Quaternion:
     def angleAxisPair(self):
         angle = math.degrees(math.acos(self.w)) * 2
         sin = math.sin(math.radians(angle / 2))
+        if not sin: sin = math.inf
         return (angle, self.x / sin, self.y / sin, self.z / sin)
     
     @angleAxisPair.setter
@@ -90,7 +91,7 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return a * b * c
+        return c * a * b
     
     @property
     def eulerAngles(self):
@@ -106,10 +107,10 @@ class Quaternion:
     
     @eulerAngles.setter
     def eulerAngles(self, value):
-        a = Quaternion.FromAxis(value[0], Vector3.right())
-        b = Quaternion.FromAxis(value[1], Vector3.up())
-        c = Quaternion.FromAxis(value[2], Vector3.forward())
-        self.w, self.x, self.y, self.z = a * b * c
+        a = Quaternion.FromAxis(value.x, Vector3.right())
+        b = Quaternion.FromAxis(value.y, Vector3.up())
+        c = Quaternion.FromAxis(value.z, Vector3.forward())
+        self.w, self.x, self.y, self.z = c * a * b
     
     @staticmethod
     def identity():

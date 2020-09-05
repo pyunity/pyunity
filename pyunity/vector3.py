@@ -285,27 +285,17 @@ class Vector3:
         """
         return self.x ** 2 + self.y ** 2 + self.z ** 2
 
-    def get_length(self):
-        """
-        Gets the length of the vector. See `get_length_sqrd`
-        for details on optimizing.
-
-        Returns
-        -------
-        float
-            The length of the vector squared
-        
-        """
+    @property
+    def length(self):
+        """Gets or sets the magnitude of the vector"""
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
     
-    def __setlength(self, value):
+    @length.setter
+    def length(self, value):
         length = self.get_length()
         self.x *= value / length
         self.y *= value / length
         self.z *= value / length
-    
-    length = property(get_length, __setlength,
-        doc = """Gets or sets the magnitude of the vector""")
     
     def normalized(self):
         """
@@ -366,11 +356,15 @@ class Vector3:
         """
         return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2
     
-    def __get_int_xyz(self):
+    @property
+    def int_tuple(self):
+        """Return the x, y and z values of this vector as ints"""
         return int(self.x), int(self.y), int(self.z)
     
-    int_tuple = property(__get_int_xyz, 
-        doc="""Return the x, y and z values of this vector as ints""")
+    @property
+    def rounded(self):
+        """Return the x, y and z values of this vector rounded to the nearest integer"""
+        return round(self.x), round(self.y), round(self.z)
     
     def clamp(self, min, max):
         """

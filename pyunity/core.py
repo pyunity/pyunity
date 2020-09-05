@@ -305,7 +305,7 @@ class Transform(Component):
     def __init__(self):
         super(Transform, self).__init__()
         self.localPosition = Vector3.zero()
-        self.localRotation = Vector3.zero()
+        self.localRotation = Quaternion.identity()
         self.localScale = Vector3.one()
         self.parent = None
         self.children = []
@@ -313,7 +313,7 @@ class Transform(Component):
     @property
     def position(self):
         if self.parent is None: return self.localPosition
-        else: return self.parent.position + self.localPosition
+        else: return self.parent.position + self.localRotation.RotateVector(self.localPosition)
     
     @position.setter
     def position(self, value):
@@ -325,14 +325,30 @@ class Transform(Component):
     @property
     def rotation(self):
         if self.parent is None: return self.localRotation
-        else: return self.parent.rotation + self.localRotation
+        else: return self.localRotation * self.parent.rotation
     
     @rotation.setter
     def rotation(self, value):
-        if not isinstance(value, Vector3):
+        if not isinstance(value, Quaternion):
             raise PyUnityException("Cannot set rotation to object of type \"" + type(value).__name__)
         
-        self.localRotation = value if self.parent is None else value - self.parent.rotation
+        self.localRotation = value if self.parent is None else value * self.parent.rotation.conjugate
+    
+    @property
+    def localEulerAngles(self):
+        return self.localRotation.eulerAngles
+    
+    @localEulerAngles.setter
+    def localEulerAngles(self, value):
+        self.localRotation.eulerAngles = value
+    
+    @property
+    def eulerAngles(self):
+        return self.rotation.eulerAngles
+    
+    @eulerAngles.setter
+    def eulerAngles(self, value):
+        self.rotation.eulerAngles = value
     
     @property
     def scale(self):

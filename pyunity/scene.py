@@ -351,9 +351,7 @@ class Scene:
             Transform to move
         
         """
-        glRotatef(transform.rotation[0], 1, 0, 0)
-        glRotatef(transform.rotation[1], 0, 1, 0)
-        glRotatef(transform.rotation[2], 0, 0, 1)
+        glRotatef(*transform.rotation.angleAxisPair)
         glTranslatef(transform.position[0],
                     transform.position[1],
                     -transform.position[2])
@@ -384,9 +382,7 @@ class Scene:
             *(list(self.mainCamera.transform.position * Vector3(0, 0, -1) - Vector3.forward())),
             0, 1, 0)
 
-        glRotatef(self.mainCamera.transform.rotation[0], 1, 0, 0)
-        glRotatef(self.mainCamera.transform.rotation[1], 0, 1, 0)
-        glRotatef(self.mainCamera.transform.rotation[2], 0, 0, 1)
+        glRotatef(*self.mainCamera.transform.rotation.angleAxisPair)
 
         light_num = 0
         for gameObject in self.gameObjects:
