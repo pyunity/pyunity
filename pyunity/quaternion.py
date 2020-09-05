@@ -113,4 +113,4 @@ class Quaternion:
     
     @staticmethod
     def identity():
-        return Quaternion(0, 0, 0, 1)
+        return Quaternion(1, 0, 0, 0)
