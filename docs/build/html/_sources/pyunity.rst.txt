@@ -31,3 +31,4 @@ Submodules
    pyunity.meshes
    pyunity.scene
    pyunity.vector3
+   pyunity.quaternion
