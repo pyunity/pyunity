@@ -47,6 +47,7 @@ and all have MeshRenderers:
 """
 
 from .vector3 import Vector3
+from .quaternion import Quaternion
 from .errors import *
 from .meshes import *
 from OpenGL.GL import *
@@ -277,13 +278,19 @@ class Transform(Component):
         GameObject that the component belongs to.
     position : Vector3
         Position of the Transform in world space.
-    rotation : Vector3
+    eulerAngles : Vector3
+        Rotation of the Transform in world space.
+        It is measured in degrees around x, y, and z.
+    rotation : Quaternion
         Rotation of the Transform in world space.
     scale : Vector3
         Scale of the Transform in world space.
     localPosition : Vector3
         Position of the Transform in local space.
-    localRotation : Vector3
+    localEulerAngles : Quaternion
+        Rotation of the Transform in local space.
+        It is measured in degrees around x, y, and z.
+    localRotation : Quaternion
         Rotation of the Transform in local space.
     localScale : Vector3
         Scale of the Transform in local space.

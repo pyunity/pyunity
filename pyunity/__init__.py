@@ -139,4 +139,4 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")
 
-del core, errors, meshes, scene, vector3, window, physics, os
+del core, vector3, quaternion, window, physics, os
