@@ -3,7 +3,7 @@ import os
 
 class Rotator(Behaviour):
     def Update(self, dt):
-        self.transform.eulerAngles += Vector3(45, 90, 135) * dt
+        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
     mesh = loader.LoadObj(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cube.obj"))
