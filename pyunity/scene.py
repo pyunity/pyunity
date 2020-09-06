@@ -378,10 +378,11 @@ class Scene:
 
         glLoadIdentity()
         gluLookAt(
-            *(list(self.mainCamera.transform.position * Vector3(0, 0, -1))),
-            *(list(self.mainCamera.transform.position * Vector3(0, 0, -1) - Vector3.forward())),
+            0, 0, 0,
+            0, 0, -1,
             0, 1, 0)
 
+        glTranslatef(*(self.mainCamera.transform.position * Vector3(-1, -1, 0)))
         glRotatef(*self.mainCamera.transform.rotation.angleAxisPair)
 
         light_num = 0
