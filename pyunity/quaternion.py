@@ -2,6 +2,21 @@ import math
 from .vector3 import Vector3
 
 class Quaternion:
+    """
+    Class to represent a 4D Quaternion.
+
+    Parameters
+    ----------
+    w : float
+        Real value of Quaternion
+    x : float
+        x coordinate of Quaternion
+    y : float
+        y coordinate of Quaternion
+    z : float
+        z coordinate of Quaternion
+    
+    """
     def __init__(self, w, x, y, z):
         self.w = w
         self.x = x
@@ -9,6 +24,7 @@ class Quaternion:
         self.z = z
     
     def __repr__(self):
+        """String representation of the quaternion"""
         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
     __str__ = __repr__
     
@@ -56,15 +72,35 @@ class Quaternion:
             return Quaternion(w, x, y, z)
 
     def copy(self):
+        """
+        Deep copy of the Quaternion.
+
+        Returns
+        -------
+        Quaternion
+            A deep copy
+        
+        """
         return Quaternion(self.w, self.x, self.y, self.z)
     
     def normalized(self):
+        """
+        A normalized Quaternion, for rotations.
+        If the length is 0, then the identity
+        quaternion is returned.
+
+        Returns
+        -------
+        Quaternion
+            A unit quaternion
+        """
         length = math.sqrt(self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2)
         if length: return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
         else: return Quaternion.identity()
     
     @property
     def conjugate(self):
+        """The conjugate of a unit quaternion"""
         return Quaternion(self.w, -self.x, -self.y, -self.z)
     
     @conjugate.setter
@@ -73,10 +109,22 @@ class Quaternion:
         self.x, self.y, self.z = -value[1], -value[2], -value[3]
     
     def RotateVector(self, vector):
+        """Rotate a vector by the quaternion"""
         return self * Quaternion(0, *vector) * self.conjugate
     
     @staticmethod
     def FromAxis(angle, a):
+        """
+        Create a quaternion from an angle and an axis.
+
+        Parameters
+        ----------
+        angle : float
+            Angle to rotate
+        a : Vector3
+            Axis to rotate about
+
+        """
         axis = a.normalized()
         cos = math.cos(math.radians(angle / 2))
         sin = math.sin(math.radians(angle / 2))
@@ -84,6 +132,16 @@ class Quaternion:
     
     @property
     def angleAxisPair(self):
+        """
+        Gets or sets the angle and axis pair.
+
+        Notes
+        -----
+        When getting, it returns a tuple in the
+        form of ``(angle, x, y, z)``. When setting,
+        assign like ``q.eulerAngles = (angle, vector)``.
+        
+        """
         angle = math.degrees(math.acos(self.w)) * 2
         sin = math.sin(math.radians(angle / 2))
         if not sin: sin = math.inf
@@ -98,6 +156,20 @@ class Quaternion:
     
     @staticmethod
     def Euler(vector):
+        """
+        Create a quaternion using Euler rotations.
+
+        Parameters
+        ----------
+        vector : Vector3
+            Euler rotations
+
+        Returns
+        -------
+        Quaternion
+            Generated quaternion
+        
+        """
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
@@ -105,6 +177,7 @@ class Quaternion:
     
     @property
     def eulerAngles(self):
+        """Gets or sets the Euler Angles of the quaternion"""
         p = -math.asin(-2 * (self.y * self.z + self.w * self.x))
         if math.cos(p) != 0:
             h = -math.atan2(2 * self.x * self.z - 2 * self.w * self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
@@ -124,4 +197,5 @@ class Quaternion:
     
     @staticmethod
     def identity():
+        """Identity quaternion representing no rotation"""
         return Quaternion(1, 0, 0, 0)
