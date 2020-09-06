@@ -50,7 +50,8 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">glfw</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-
+        
+        <span class="n">glfw</span><span class="o">.</span><span class="n">window_hint</span><span class="p">(</span><span class="n">glfw</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">,</span> <span class="n">glfw</span><span class="o">.</span><span class="n">FALSE</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">glfw</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="o">*</span><span class="n">size</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">:</span>
             <span class="n">glfw</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
@@ -110,7 +111,9 @@
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../../pyunity.html">pyunity</a><ul>
   <li><a href="../window.html">pyunity.window</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
   </ul></li>

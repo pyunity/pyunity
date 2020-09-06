@@ -366,6 +366,15 @@ class Scene:
             self.collManager.Step(max(time() - self.lastFrame, 0.001))
 
         self.lastFrame = time()
+    
+    def render(self):
+        for gameObject in self.gameObjects:
+            renderer = gameObject.GetComponent(MeshRenderer)
+            if renderer:
+                glPushMatrix()
+                self.transform(gameObject.transform)
+                renderer.render()
+                glPopMatrix()
 
     def update(self):
         """
@@ -393,10 +402,4 @@ class Scene:
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
         
-        for gameObject in self.gameObjects:
-            renderer = gameObject.GetComponent(MeshRenderer)
-            if renderer:
-                glPushMatrix()
-                self.transform(gameObject.transform)
-                renderer.render()
-                glPopMatrix()
+        self.render()

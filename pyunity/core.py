@@ -320,7 +320,8 @@ class Transform(Component):
         if not isinstance(value, Vector3):
             raise PyUnityException("Cannot set position to object of type \"" + type(value).__name__)
         
-        self.localPosition = value if self.parent is None else value - self.parent.position
+        if self.parent is None: self.localPosition = value
+        else: self.localRotation.conjugate.RotateVector(value - self.parent.position)
     
     @property
     def rotation(self):
