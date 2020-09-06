@@ -15,10 +15,25 @@ clamp = lambda x, _min, _max: min(_max, max(_min, x))
 
 class Vector3:
 
-    def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
+    def __init__(self, x_or_list = None, y = None, z = None):
+        if x_or_list != None:
+            if y == None:
+                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y") and hasattr(x_or_list, "z"):
+                    self.x = x_or_list.x
+                    self.y = x_or_list.y
+                    self.z = x_or_list.z
+                else:
+                    self.x = x_or_list[0]
+                    self.y = x_or_list[1]
+                    self.z = x_or_list[2]
+            else:
+                self.x = x_or_list
+                self.y = y
+                self.z = z
+        else:
+            self.x = 0
+            self.y = 0
+            self.z = 0
     
     def __repr__(self):
         """String representation of the vector"""

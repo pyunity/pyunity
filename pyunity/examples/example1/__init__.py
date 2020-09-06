@@ -1,13 +1,8 @@
 from pyunity import *
 
 class Rotator(Behaviour):
-    a = 0
     def Update(self, dt):
-        if self.a == 1:
-            self.transform.rotation *= Quaternion.Euler(Vector3(45, 90, 135) * dt)
-            print(self.transform.eulerAngles.rounded)
-            self.a = 0
-        self.a += 1
+        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
     scene = SceneManager.AddScene("Scene")
