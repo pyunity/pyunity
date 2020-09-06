@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
 
-## Version 0.0.5 (in development)
+## Version 0.0.6 (in development)
 
 A Python implementation of the Unity Engine
 that supports different types of windows.
@@ -25,7 +25,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.5
+    Loaded PyUnity version 0.0.6
 
 If debugging is off, there is no output:
 
@@ -106,7 +106,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.0.5
+    Loaded PyUnity version 0.0.6
     >>> main()
 
 Or from the command line:
