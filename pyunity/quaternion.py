@@ -54,6 +54,14 @@ class Quaternion:
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
+
+    def copy(self):
+        return Quaternion(self.w, self.x, self.y, self.z)
+    
+    def normalized(self):
+        length = math.sqrt(self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2)
+        if length: return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
+        else: return Quaternion.identity()
     
     @property
     def conjugate(self):
@@ -68,7 +76,8 @@ class Quaternion:
         return self * Quaternion(0, *vector) * self.conjugate
     
     @staticmethod
-    def FromAxis(angle, axis):
+    def FromAxis(angle, a):
+        axis = a.normalized()
         cos = math.cos(math.radians(angle / 2))
         sin = math.sin(math.radians(angle / 2))
         return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
@@ -82,6 +91,7 @@ class Quaternion:
     
     @angleAxisPair.setter
     def angleAxisPair(self, value):
+        angle, axis = value
         cos = math.cos(math.radians(angle / 2))
         sin = math.sin(math.radians(angle / 2))
         self.w, self.x, self.y, self.z = cos, axis[0] * sin, axis[1] * sin, axis[2] * sin
