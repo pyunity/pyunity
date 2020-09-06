@@ -132,6 +132,13 @@ from .scene import SceneManager
 from .physics import *
 from . import loader
 
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time()
+        func(*args, **kwargs)
+        print(round(time() - start, 3))
+    return wrapper
+
 __version__ = "0.0.6"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"

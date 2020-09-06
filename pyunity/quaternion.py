@@ -110,7 +110,7 @@ class Quaternion:
     
     def RotateVector(self, vector):
         """Rotate a vector by the quaternion"""
-        return self * Quaternion(0, *vector) * self.conjugate
+        return Vector3(self * Quaternion(0, *vector) * self.conjugate)
     
     @staticmethod
     def FromAxis(angle, a):
