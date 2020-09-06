@@ -16,7 +16,8 @@ class Window:
 
     def __init__(self, size, name):
         glfw.init()
-
+        
+        glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
         self.window = glfw.create_window(*size, name, None, None)
         if not self.window:
             glfw.terminate()
