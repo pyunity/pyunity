@@ -54,18 +54,21 @@ so:</p>
 you want to turn it off, set the
 PYUNITY_DEBUG_MODE environment variable to “0”.
 This is the output with debugging:</p>
+<blockquote>
+<div><p>Loaded config
+Trying FreeGLUT as a window provider
+FreeGLUT doesn’t work, trying GLFW
+GLFW doesn’t work, trying Pygame
+Using window provider Pygame
+Loaded PyUnity version 0.0.5</p>
+</div></blockquote>
+<p>If debugging is off, there is no output:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="go">Loaded config</span>
-<span class="go">Trying FreeGLUT as a window provider</span>
-<span class="go">FreeGLUT doesn&#39;t work, trying GLFW</span>
-<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
-<span class="go">Using window provider Pygame</span>
-<span class="go">Loaded PyUnity version 0.0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># No output</span>
 </pre></div>
 </div>
-<p>Without debugging on, there is no output.</p>
 </div>
 <div class="section" id="scenes">
 <h4>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h4>
@@ -96,7 +99,7 @@ is no way to change between scenes yet.</p>
 </div>
 <p>Finally, to run the scene, call <cite>scene.Run()</cite>. The window that
 is created is one of FreeGLUT, GLFW or Pygame. The window is
-selected on startup (see Windows subheading).</p>
+selected on module initialization (see Windows subheading).</p>
 </div>
 <div class="section" id="behaviours">
 <h4>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h4>
@@ -147,8 +150,10 @@ pull request.</p>
 <div><p>&gt; python -m pyunity 1</p>
 </div></blockquote>
 <p>The 1 just means to load example 1, and there
-are 5 examples. If you want to contribute an
-example, then please create a new pull request.</p>
+are 5 examples. To load all examples one by
+one, do not specify a number. If you want to
+contribute an example, then please create a
+new pull request.</p>
 </div>
 </div>
 <div class="section" id="subpackages">

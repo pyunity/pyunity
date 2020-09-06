@@ -6,43 +6,43 @@ have to be in the same file due to references both ways. Usually
 when you create a scene, you should never create Components
 directly, instead add them with AddComponent.
 
-Examples
---------
+Example
+-------
 To create a GameObject with 2 children, one of which has its own child,
 and all have MeshRenderers:
 
-    >>> from pyunity import *
+    >>> from pyunity import * # Import
     Loaded config
     Trying GLFW as a window provider
     GLFW doesn't work, trying Pygame
     Trying Pygame as a window provider
     Using window provider Pygame
     Loaded PyUnity version 0.0.5
-    >>> mat = Material((1, 0, 0))
-    >>> root = GameObject("Root")
-    >>> child1 = GameObject("Child1", root)
-    >>> child1.transform.position = Vector3(-2, 0, 0)
-    >>> renderer = child1.AddComponent(MeshRenderer)
-    >>> renderer.mat = mat
-    >>> renderer.mesh = Mesh.cube(2)
-    >>> child2 = GameObject("Child2", root)
-    >>> renderer = child2.AddComponent(MeshRenderer)
-    >>> renderer.mat = mat
-    >>> renderer.mesh = Mesh.quad(1)
-    >>> grandchild = GameObject("Grandchild", child2)
-    >>> grandchild.transform.position = Vector3(0, 5, 0)
-    >>> renderer = grandchild.AddComponent(MeshRenderer)
-    >>> renderer.mat = mat
-    >>> renderer.mesh = Mesh.cube(3)
-    >>> root.transform.List()
+    >>> mat = Material((255, 0, 0)) # Create a default material
+    >>> root = GameObject("Root") # Create a root GameObjects
+    >>> child1 = GameObject("Child1", root) # Create a child
+    >>> child1.transform.position = Vector3(-2, 0, 0) # Move the child
+    >>> renderer = child1.AddComponent(MeshRenderer) # Add a renderer
+    >>> renderer.mat = mat # Add a material
+    >>> renderer.mesh = Mesh.cube(2) # Add a mesh
+    >>> child2 = GameObject("Child2", root) # Create another child
+    >>> renderer = child2.AddComponent(MeshRenderer) # Add a renderer
+    >>> renderer.mat = mat # Add a material
+    >>> renderer.mesh = Mesh.quad(1) # Add a mesh
+    >>> grandchild = GameObject("Grandchild", child2) # Add a grandchild
+    >>> grandchild.transform.position = Vector3(0, 5, 0) # Move the grandchild
+    >>> renderer = grandchild.AddComponent(MeshRenderer) # Add a renderer
+    >>> renderer.mat = mat # Add a material
+    >>> renderer.mesh = Mesh.cube(3) # Add a mesh
+    >>> root.transform.List() # List all GameObjects
     /Root
     /Root/Child1
     /Root/Child2
     /Root/Child2/Grandchild
-    >>> child1.components
-    [<Transform position=Vector3(-2, 0, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0AAB5A90>]
-    >>> child2.transform.children
-    [<Transform position=Vector3(0, 5, 0) rotation=Vector3(0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child2/Grandchild">]
+    >>> child1.components # List child1's components
+    [<Transform position=Vector3(0, -2, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0AE3F688>]
+    >>> child2.transform.children # List child2's children
+    [<Transform position=Vector3(0, 0, 5) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path="/Root/Child2/Grandchild">]
 
 """
 
@@ -50,7 +50,7 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import *
-from OpenGL.GL import *
+from OpenGL import GL as gl
 
 tags = ["Default"]
 """List of current tags"""
@@ -479,13 +479,13 @@ class MeshRenderer(Component):
         Render the mesh that the MeshRenderer has.
 
         """
-        glBegin(GL_TRIANGLES)
-        glColor3f(*self.mat.color)
+        gl.glBegin(gl.GL_TRIANGLES)
+        gl.glColor3f(*self.mat.color)
         for index, triangle in enumerate(self.mesh.triangles):
-            glNormal3fv(list(self.mesh.normals[index]))
+            gl.glNormal3fv(list(self.mesh.normals[index]))
             for vertex in triangle:
-                glVertex3f(*self.mesh.verts[vertex])
-        glEnd()
+                gl.glVertex3f(*self.mesh.verts[vertex])
+        gl.glEnd()
 
 class Material:
     """

@@ -1,2 +1,2 @@
-from pyunity.examples.example5 import main
-main()
+from pyunity.examples import show
+show()

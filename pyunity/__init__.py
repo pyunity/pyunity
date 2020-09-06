@@ -19,9 +19,6 @@ you want to turn it off, set the
 PYUNITY_DEBUG_MODE environment variable to "0".
 This is the output with debugging:
 
-    >>> import os
-    >>> os.environ["PYUNITY_DEBUG_MODE"] = "1"
-    >>> from pyunity import *
     Loaded config
     Trying FreeGLUT as a window provider
     FreeGLUT doesn't work, trying GLFW
@@ -29,7 +26,12 @@ This is the output with debugging:
     Using window provider Pygame
     Loaded PyUnity version 0.0.5
 
-Without debugging on, there is no output.
+If debugging is off, there is no output:
+
+    >>> import os
+    >>> os.environ["PYUNITY_DEBUG_MODE"] = "0"
+    >>> from pyunity import *
+    >>> # No output
 
 Scenes
 ------
@@ -61,7 +63,7 @@ To see what you have added to the scene, call `scene.List()`:
 
 Finally, to run the scene, call `scene.Run()`. The window that
 is created is one of FreeGLUT, GLFW or Pygame. The window is
-selected on startup (see Windows subheading).
+selected on module initialization (see Windows subheading).
 
 Behaviours
 ----------
@@ -115,8 +117,10 @@ Or from the command line:
     > python -m pyunity 1
 
 The 1 just means to load example 1, and there
-are 5 examples. If you want to contribute an
-example, then please create a new pull request.
+are 5 examples. To load all examples one by
+one, do not specify a number. If you want to
+contribute an example, then please create a
+new pull request.
 
 """
 
@@ -139,4 +143,4 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print(f"Loaded PyUnity version {__version__}")
 
-del core, vector3, quaternion, window, physics, os
+del core, scene, math, errors, operator, gl, vector3, quaternion, window, physics, os
