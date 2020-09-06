@@ -2,7 +2,7 @@
 Releases
 ========
 
-v0.0.5
+v0.0.6
 ======
 Transform updates, with new features extending
 GameObject positioning.
@@ -19,7 +19,7 @@ Features:
 - Vector division
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.5
+https://github.com/rayzchen/pyunity/releases/tag/0.0.6
 
 v0.0.4
 ======

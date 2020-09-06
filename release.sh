@@ -1,2 +1,2 @@
-twine upload --repository testpypi dist/pyunity-0.0.5*
-twine upload dist/pyunity-0.0.5*
+twine upload --repository testpypi dist/pyunity-0.0.6*
+twine upload dist/pyunity-0.0.6*
