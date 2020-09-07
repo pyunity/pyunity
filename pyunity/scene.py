@@ -140,7 +140,7 @@ class Scene:
         self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         light = GameObject("Light")
         light.AddComponent(Light)
-        light.transform.position = Vector3(10, 5, -5)
+        light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
     
@@ -391,9 +391,6 @@ class Scene:
             0, 0, -1,
             0, 1, 0)
 
-        glTranslatef(*(self.mainCamera.transform.position * Vector3(-1, -1, 0)))
-        glRotatef(*self.mainCamera.transform.rotation.angleAxisPair)
-
         light_num = 0
         for gameObject in self.gameObjects:
             light = gameObject.GetComponent(Light)
@@ -401,5 +398,8 @@ class Scene:
                 pos = (*(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
+
+        glRotatef(*self.mainCamera.transform.rotation.angleAxisPair)
+        glTranslatef(*(self.mainCamera.transform.position * Vector3(-1, -1, 1)))
         
         self.render()
