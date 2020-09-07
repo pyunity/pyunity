@@ -19,7 +19,7 @@ Features:
 - Vector division
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.6
+https://github.com/rayzchen/pyunity/releases/tag/0.0.5
 
 v0.0.4
 ======
