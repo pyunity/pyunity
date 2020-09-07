@@ -2,7 +2,7 @@
 Releases
 ========
 
-v0.0.6
+v0.0.5
 ======
 Transform updates, with new features extending
 GameObject positioning.
