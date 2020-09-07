@@ -43,9 +43,12 @@ setup(
     url = "https://github/rayzchen/PyUnity",
     packages = find_packages(),
     classifiers = [
-        "Programming Language :: Python :: 3.7",
+        "Development Status :: 3 - Alpha",
+        "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows :: Windows 10",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     install_requires = [
         "glfw",
