@@ -10,17 +10,16 @@ def main():
 
     scene = SceneManager.AddScene("Scene")
 
-    scene.mainCamera.transform.localPositions = Vector3(0, 3, -10)
-    scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
+    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
 
     cube = GameObject("Cube")
     cube.AddComponent(Rotator)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = mesh
     renderer.mat = Material((255, 0, 0))
-    
     scene.Add(cube)
     
+    scene.List()
     scene.Run()
 
 if __name__ == "__main__":
