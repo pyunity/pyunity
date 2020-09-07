@@ -114,7 +114,7 @@ Or from the command line:
     > python -m pyunity 1
 
 The 1 just means to load example 1, and there
-are 5 examples. To load all examples one by
+are 6 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please create a
 new pull request.
