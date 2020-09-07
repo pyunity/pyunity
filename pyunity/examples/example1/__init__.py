@@ -7,8 +7,7 @@ class Rotator(Behaviour):
 def main():
     scene = SceneManager.AddScene("Scene")
 
-    scene.mainCamera.transform.position = Vector3(0, 3, -10)
-    scene.mainCamera.transform.eulerAngles = Vector3(20, 0, 0)
+    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
 
     cube = GameObject("Cube")
     renderer = cube.AddComponent(MeshRenderer)

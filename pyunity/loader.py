@@ -108,7 +108,10 @@ def SaveMesh(mesh, name, filePath = None):
     filePath : str, optional
         Pass in `__file__` to save in
         directory of script, otherwise
-        pass in a directory. If not
+        pass in the path of where you
+        want to save the file. For example, if you
+        want to save in C:\Downloads, then give
+        "C:\Downloads\mesh.mesh". If not
         specified, then the mesh is saved
         in the cwd.
     
@@ -226,9 +229,9 @@ def LoadScene(sceneName, filePath = None):
 
 class Primitives:
     __path = os.path.dirname(os.path.realpath(__file__))
-    cube = LoadObj(os.path.join(__path, "primitives/cube.obj"))
-    quad = LoadObj(os.path.join(__path, "primitives/quad.obj"))
-    double_quad = LoadObj(os.path.join(__path, "primitives/double_quad.obj"))
-    sphere = LoadObj(os.path.join(__path, "primitives/sphere.obj"))
-    capsule = LoadObj(os.path.join(__path, "primitives/capsule.obj"))
-    cylinder = LoadObj(os.path.join(__path, "primitives/cylinder.obj"))
+    cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
+    quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
+    double_quad = LoadMesh(os.path.join(__path, "primitives/double_quad.mesh"))
+    sphere = LoadMesh(os.path.join(__path, "primitives/sphere.mesh"))
+    capsule = LoadMesh(os.path.join(__path, "primitives/capsule.mesh"))
+    cylinder = LoadMesh(os.path.join(__path, "primitives/cylinder.mesh"))

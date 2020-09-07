@@ -3,11 +3,11 @@ from pyunity import *
 def main():
     scene = SceneManager.AddScene("Scene")
     
-    scene.mainCamera.transform.position = Vector3(0, 0, -20)
-    scene.mainCamera.transform.eulerAngles = Vector3(20, 0, 0)
+    scene.mainCamera.transform.localPosition = Vector3(0, 6, -20)
+    scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
     
     cube = GameObject("Cube")
-    cube.transform.position = Vector3(-5, 0, 0)
+    cube.transform.localPosition = Vector3(-5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material((255, 0, 0))
@@ -21,7 +21,7 @@ def main():
     scene.Add(cube)
     
     cube = GameObject("Cube 2")
-    cube.transform.position = Vector3(5, 0, 0)
+    cube.transform.localPosition = Vector3(5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material((0, 0, 255))
@@ -34,7 +34,7 @@ def main():
     scene.Add(cube)
     
     cube = GameObject("Cube 3")
-    cube.transform.position = Vector3(0, 0, -6)
+    cube.transform.localPosition = Vector3(0, 0, -6)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material((0, 255, 0))
