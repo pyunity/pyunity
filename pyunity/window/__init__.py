@@ -64,7 +64,7 @@ def LoadWindowProvider():
     ]
 
     windowProvider = ""
-    failed = False
+    success = True
     i = 0
 
     for name, checker in winfo:
@@ -75,8 +75,8 @@ def LoadWindowProvider():
             checker()
             windowProvider = name
         except Exception as e:
-            failed = not bool(next)
-            if not failed and os.environ["PYUNITY_DEBUG_MODE"] == "1":
+            success = bool(next)
+            if success and os.environ["PYUNITY_DEBUG_MODE"] == "1":
                 print(name, "doesn't work, trying", next)
         
         if next is None: raise PyUnityException("No window provider found")
