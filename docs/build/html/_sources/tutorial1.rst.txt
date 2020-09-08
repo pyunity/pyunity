@@ -61,3 +61,59 @@ program it all! To start, we need to import PyUnity.
 The output beneath the import is just debug statement, you
 can turn it off with the environment variable
 ``PYUNITY_DEBUG_INFO`` set to ``0``.
+
+Now we have loaded the module, we can start creating our
+GameObjects. To create a GameObject, use the ``GameObject``
+class:
+
+   >>> root = GameObject("Root")
+
+Then we can change its position by accessing its transform.
+All GameObjects have references to their transform. Here's
+how to make the GameObject positioned 1 unit up, 2 units to
+the right and 3 units forward:
+
+   >>> root.transform.localPosition = Vector3(2, 1, 3)
+
+A Vector3 is just a way to represent a 3D vector. In PyUnity
+the coordinate system is a left-hand Y-axis up system, which
+is essentially what OpenGL uses, but with the Z-axis flipped.
+
+Then to add a child to the GameObject, specify the parent
+GameObject as the second argument:
+
+   >>> child1 = GameObject("Child1", root)
+   >>> child2 = GameObject("Child2", root)
+
+Notes
+-----
+Accessing the ``localPosition``, ``localRotation`` and
+``localScale`` attributes are faster than using the ``position``,
+``rotation`` and ``scale`` properties. Use the local attributes
+whenever you can.
+
+Rotation
+========
+Rotation is measured in Quaternions. Do not worry about these,
+because they use some very complex maths. All you need to know
+are these methods:
+
+#. To make a Quaternion that represents no rotation, use
+   ``Quaternion.identity()``. This just means no rotation.
+#. To make a Quaternion from an axis and angle, use the
+   ``Quaternion.FromAxis()`` method. What this does is it
+   creates a Quaternion that represents a rotation around
+   an axis clockwise, by ``angle`` degrees. The axis
+   does not need to be normalized.
+#. To make a Quaternion from Euler angles, use
+   ``Quaternion.Euler``. This creates a Quaternion from
+   Euler angles, where it is rotated on the Z-axis first,
+   then the X-axis, and finally the Y-axis.
+
+Transforms also have ``localEulerAngles`` and ``eulerAngles``
+properties, which just represent the Euler angles of the
+rotation Quaternions. If you don't know what to do, only use
+the ``localEulerAngles`` property.
+
+In the next tutorial, we'll be covering how to render things
+and use a Scene.
