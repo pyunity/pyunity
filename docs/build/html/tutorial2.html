@@ -15,6 +15,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Tutorial 1: The Basics" href="tutorial1.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -118,6 +120,38 @@ to our scene, otherwise we can’t see it in the window:</p>
 </div>
 <p>Then, to run our scene, we use <code class="docutils literal notranslate"><span class="pre">scene.Run()</span></code>. And now we have
 a cube:</p>
+<img alt="_images/cube.png" src="_images/cube.png" />
+<p>To see it better, let’s move the camera up a bit and tilt it
+downwards. Replace the third line with this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localEulerAngles</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can see it better:</p>
+<img alt="_images/cube2.png" src="_images/cube2.png" />
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If you want to see what you’ve done already, then you can use
+a number of debugging methods. The first is to call <cite>scene.List()</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+<span class="go">/Main Camera</span>
+<span class="go">/Light</span>
+<span class="go">/Cube</span>
+</pre></div>
+</div>
+<p>This lists all the Gameobjects in the scene. Then, let’s check
+the cube’s components:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[&lt;Transform position=Vector3(0, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path=&quot;/Cube&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B170CA0&gt;]</span>
+</pre></div>
+</div>
+<p>Finally, let’s check the Main Camera’s transform.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span>
+<span class="go">&lt;Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path=&quot;/Main Camera&quot;&gt;</span>
+</pre></div>
+</div>
+<p>Next tutorial, we’ll be covering scripts and Behaviours.</p>
 </div>
 </div>
 
@@ -139,9 +173,19 @@ a cube:</p>
 
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial1.html">Tutorial 1: The Basics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 2: Rendering in Scenes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#meshes">Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-meshrenderer">The MeshRenderer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a></li>
 </ul>
@@ -150,6 +194,10 @@ a cube:</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="tutorials.html">Tutorials</a><ul>
+      <li>Previous: <a href="tutorial1.html" title="previous chapter">Tutorial 1: The Basics</a></li>
+      <li>Next: <a href="license.html" title="next chapter">License</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
