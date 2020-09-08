@@ -60,7 +60,7 @@ program it all! To start, we need to import PyUnity.
 
 The output beneath the import is just debug statement, you
 can turn it off with the environment variable
-``PYUNITY_DEBUG_INFO`` set to ``0``.
+``PYUNITY_DEBUG_INFO`` set to ``"0"``.
 
 Now we have loaded the module, we can start creating our
 GameObjects. To create a GameObject, use the ``GameObject``
@@ -69,7 +69,10 @@ class:
    >>> root = GameObject("Root")
 
 Then we can change its position by accessing its transform.
-All GameObjects have references to their transform. Here's
+All GameObjects have references to their transform by the
+``transform`` attribute, and all components have a reference
+to the GameObject and the Transform that they belong to, by
+the ``gameObject`` and ``transform`` attributes. Here's
 how to make the GameObject positioned 1 unit up, 2 units to
 the right and 3 units forward:
 

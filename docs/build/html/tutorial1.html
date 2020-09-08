@@ -87,7 +87,7 @@ program it all! To start, we need to import PyUnity.</p>
 </div>
 <p>The output beneath the import is just debug statement, you
 can turn it off with the environment variable
-<code class="docutils literal notranslate"><span class="pre">PYUNITY_DEBUG_INFO</span></code> set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">PYUNITY_DEBUG_INFO</span></code> set to <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code>.</p>
 <p>Now we have loaded the module, we can start creating our
 GameObjects. To create a GameObject, use the <code class="docutils literal notranslate"><span class="pre">GameObject</span></code>
 class:</p>
@@ -95,7 +95,10 @@ class:</p>
 </pre></div>
 </div>
 <p>Then we can change its position by accessing its transform.
-All GameObjects have references to their transform. Here’s
+All GameObjects have references to their transform by the
+<code class="docutils literal notranslate"><span class="pre">transform</span></code> attribute, and all components have a reference
+to the GameObject and the Transform that they belong to, by
+the <code class="docutils literal notranslate"><span class="pre">gameObject</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> attributes. Here’s
 how to make the GameObject positioned 1 unit up, 2 units to
 the right and 3 units forward:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
