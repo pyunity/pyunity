@@ -3,7 +3,7 @@ from . import config
 from .errors import *
 from . import physics
 from time import time
-import os
+import os, math
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -23,10 +23,6 @@ class SceneManager:
     """
 
     def __init__(self):
-        """
-        Create a scene manager.
-
-        """
         self.scenesByIndex = []
         self.scenesByName = {}
     
@@ -108,8 +104,24 @@ class SceneManager:
         return self.scenesByName[name]
     
     def RemoveScene(self, scene):
+        """
+        Removes a scene from the SceneManager.
+
+        Parameters
+        ----------
+        scene : Scene
+            Scene to remove
+
+        Raises
+        ------
+        TypeError
+            If the provided scene is not type Scene
+        PyUnityException
+            If the scene is not part of the SceneManager
+        
+        """
         if not isinstance(scene, Scene):
-            raise PyUnityException("The provided scene is not of type Scene")
+            raise TypeError("The provided scene is not of type Scene")
         if scene not in self.scenesByIndex:
             raise PyUnityException("Scene \"" + scene.name + "\" is not part of the SceneManager")
         self.scenesByIndex.remove(scene)
@@ -184,10 +196,7 @@ class Scene:
             raise PyUnityException("Cannot remove the Main Camera from the scene")
     
     def List(self):
-        """
-        Lists all the GameObjects currently in the scene.
-
-        """
+        """Lists all the GameObjects currently in the scene."""
         for gameObject in sorted(self.rootGameObjects, key = lambda x: x.name):
             gameObject.transform.List()
     
@@ -257,12 +266,51 @@ class Scene:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException("No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
+    
+    def inside_frustrum(self, renderer):
+        """
+        Check if the renderer's mesh can be
+        seen by the main camera.
 
+        Parameters
+        ----------
+        renderer : MeshRenderer
+            Renderer to test
+
+        Returns
+        -------
+        bool
+            If the mesh can be seen
+        
+        """
+        mesh = renderer.mesh
+        pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
+        directionX = self.mainCamera.transform.rotation.RotateVector(Vector3.right()) * Vector3(1, 1, -1)
+        directionY = self.mainCamera.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
+        directionZ = self.mainCamera.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
+        parent = renderer.transform.parent.position if renderer.transform.parent else Vector3.zero()
+        rpmin = parent + renderer.transform.rotation.RotateVector(mesh.min - renderer.transform.localPosition) - pos
+        rpmax = parent + renderer.transform.rotation.RotateVector(mesh.max - renderer.transform.localPosition) - pos
+
+        minZ = rpmin.dot(directionZ)
+        maxZ = rpmax.dot(directionZ)
+        if minZ > self.mainCamera.near or maxZ < self.mainCamera.far:
+            return True
+
+        minY = rpmin.dot(directionY)
+        maxY = rpmax.dot(directionY)
+        hmin = minZ * 2 * math.tan(math.radians(self.mainCamera.fov / config.size[0] * config.size[1] / 2))
+        hmax = maxZ * 2 * math.tan(math.radians(self.mainCamera.fov / config.size[0] * config.size[1] / 2))
+        if minY > -hmin / 2 or maxY < hmax / 2:
+            return True
+        
+        minX = rpmin.dot(directionX)
+        maxX = rpmax.dot(directionX)
+        wmin, wmax = hmin * config.size[0] / config.size[1], hmax * config.size[0] / config.size[1]
+        return minX > -wmin / 2 or maxX < wmax / 2
+    
     def start_scripts(self):
-        """
-        Start the scripts in the Scene.
-
-        """
+        """Start the scripts in the Scene."""
         self.lastFrame = time()
 
         for gameObject in self.gameObjects:
@@ -295,6 +343,9 @@ class Scene:
             GL_LIGHT6,
             GL_LIGHT7
         ]
+
+        self.mainCamera.lastPos = Vector3.zero()
+        self.mainCamera.lastRot = Quaternion.identity()
 
         glEnable(GL_DEPTH_TEST)
         if config.faceCulling:
@@ -332,10 +383,7 @@ class Scene:
             print("Scene \"" + self.name + "\" has started")
     
     def Run(self):
-        """
-        Run the scene and create a window for it.
-
-        """
+        """Run the scene and create a window for it."""
         self.windowProvider = config.windowProvider
         self.window = self.windowProvider(config.size, self.name)
         self.Start()
@@ -357,6 +405,7 @@ class Scene:
                     -transform.position[2])
 
     def update_scripts(self):
+        """Updates all scripts in the scene."""
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
@@ -368,38 +417,38 @@ class Scene:
         self.lastFrame = time()
     
     def render(self):
+        """Renders all GameObjects with MeshRenderers."""
         for gameObject in self.gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
-            if renderer:
+            if renderer and self.inside_frustrum(renderer):
                 glPushMatrix()
                 self.transform(gameObject.transform)
                 renderer.render()
                 glPopMatrix()
 
     def update(self):
-        """
-        Updating function to pass to the window provider.
-
-        """
+        """Updating function to pass to the window provider."""
         self.update_scripts()
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         glLoadIdentity()
-        gluLookAt(
-            0, 0, 0,
-            0, 0, -1,
-            0, 1, 0)
 
         light_num = 0
         for gameObject in self.gameObjects:
             light = gameObject.GetComponent(Light)
             if light:
-                pos = (*(gameObject.transform.position * Vector3(0, 0, -1)), int(light.type))
+                pos = (*(gameObject.transform.position * Vector3(1, 1, -1)), int(light.type))
                 glLightfv(self.lights[light_num], GL_POSITION, pos)
                 light_num += 1
 
-        glRotatef(*self.mainCamera.transform.rotation.angleAxisPair)
-        glTranslatef(*(self.mainCamera.transform.position * Vector3(-1, -1, 1)))
+        if (self.mainCamera.lastPos != self.mainCamera.transform.position or
+                self.mainCamera.lastRot != self.mainCamera.transform.rotation):
+            pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
+            look = pos + self.mainCamera.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
+            up = self.mainCamera.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
+            gluLookAt(*pos, *look, *up)
+            self.mainCamera.lastPos = self.mainCamera.transform.position
+            self.mainCamera.lastRot = self.mainCamera.transform.rotation
         
         self.render()

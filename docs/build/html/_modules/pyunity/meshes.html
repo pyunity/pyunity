@@ -32,10 +32,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.meshes</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Module for prebuilt meshes.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module for prebuilt meshes.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -72,6 +69,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">verts</span> <span class="o">=</span> <span class="n">verts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">triangles</span> <span class="o">=</span> <span class="n">triangles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">normals</span> <span class="o">=</span> <span class="n">normals</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">verts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
+            
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
     
 <div class="viewcode-block" id="Mesh.quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.quad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">quad</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
