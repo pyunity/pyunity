@@ -91,4 +91,37 @@ The full code:
 Then, to run our scene, we use ``scene.Run()``. And now we have
 a cube:
 
-.. image::
+.. image:: _static/cube.png
+
+To see it better, let's move the camera up a bit and tilt it
+downwards. Replace the third line with this:
+
+   >>> scene.mainCamera.transform.localPosition = Vector3(0, 3, -10)
+   >>> scene.mainCamera.transform.localEulerAngles = Vector3(15, 0, 0)
+
+Now we can see it better:
+
+.. image:: _static/cube2.png
+
+Debugging
+=========
+If you want to see what you've done already, then you can use
+a number of debugging methods. The first is to call `scene.List()`:
+
+   >>> scene.List()
+   /Main Camera
+   /Light
+   /Cube
+
+This lists all the Gameobjects in the scene. Then, let's check
+the cube's components:
+
+   >>> cube.components
+   [<Transform position=Vector3(0, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Cube">, <pyunity.core.MeshRenderer object at 0x0B170CA0>]
+
+Finally, let's check the Main Camera's transform.
+
+   >>> scene.mainCamera.transform
+   <Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path="/Main Camera">
+
+Next tutorial, we'll be covering scripts and Behaviours.
