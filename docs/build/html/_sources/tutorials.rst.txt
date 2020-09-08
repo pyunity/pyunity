@@ -11,4 +11,5 @@ comfortable with using Python.
    :maxdepth: 2
    :caption: Contents:
 
-   tutorial1.rst
+   tutorial1
+   tutorial2
