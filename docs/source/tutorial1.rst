@@ -19,17 +19,17 @@ some features have been removed.
 Basic concepts
 ==============
 In PyUnity, everything will belong to a
-GameObject. A GameObject is an object that
+`GameObject`. A `GameObject` is an object that
 has lots of different things on it that will
-affect the GameObject and other GameObjects.
-Each GameObject has its own Components, which
+affect the `GameObject` and other `GameObjects`.
+Each `GameObject` has its own `Component`s, which
 are like the hardware in a computer. These
-Components can do all sorts of things.
+`Component`s can do all sorts of things.
 
-Each GameObject has a special component called
-a Transform. A Transform holds information about
-the GameObject's position, rotation and scale.
-A Transform can also have other Transforms as
-children, and the children Transforms will have
+Each `GameObject` has a special component called
+a `Transform`. A `Transform` holds information about
+the `GameObject`'s position, rotation and scale.
+A `Transform` can also have other `Transform`s as
+children, and the children `Transforms` will have
 their position, rotation and scale affected by
 the parent.
