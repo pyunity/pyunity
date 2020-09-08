@@ -53,7 +53,7 @@ and all have MeshRenderers:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># Create a default material</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Root&quot;</span><span class="p">)</span> <span class="c1"># Create a root GameObjects</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child1&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span> <span class="c1"># Create a child</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Move the child</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Move the child</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">child1</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span> <span class="c1"># Add a renderer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span> <span class="c1"># Add a material</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Add a mesh</span>
@@ -62,7 +62,7 @@ and all have MeshRenderers:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span> <span class="c1"># Add a material</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add a mesh</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Grandchild&quot;</span><span class="p">,</span> <span class="n">child2</span><span class="p">)</span> <span class="c1"># Add a grandchild</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Move the grandchild</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">grandchild</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Move the grandchild</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">grandchild</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span> <span class="c1"># Add a renderer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span> <span class="c1"># Add a material</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># Add a mesh</span>
@@ -72,9 +72,9 @@ and all have MeshRenderers:</p>
 <span class="go">/Root/Child2</span>
 <span class="go">/Root/Child2/Grandchild</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span><span class="o">.</span><span class="n">components</span> <span class="c1"># List child1&#39;s components</span>
-<span class="go">[&lt;Transform position=Vector3(0, -2, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0AE3F688&gt;]</span>
+<span class="go">[&lt;Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B14FCB8&gt;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">children</span> <span class="c1"># List child2&#39;s children</span>
-<span class="go">[&lt;Transform position=Vector3(0, 0, 5) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
+<span class="go">[&lt;Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
 </pre></div>
 </div>
 <dl class="py class">
@@ -458,69 +458,12 @@ For all matches, do a manual loop.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="pyunity.core.Transform.position">
-<code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.core.Transform.position" title="Permalink to this definition">¶</a></dt>
-<dd><p>Position of the Transform in world space.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="pyunity.core.Transform.eulerAngles">
-<code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#pyunity.core.Transform.eulerAngles" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotation of the Transform in world space.
-It is measured in degrees around x, y, and z.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="pyunity.core.Transform.rotation">
-<code class="sig-name descname">rotation</code><a class="headerlink" href="#pyunity.core.Transform.rotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotation of the Transform in world space.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.quaternion.html#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="pyunity.core.Transform.scale">
-<code class="sig-name descname">scale</code><a class="headerlink" href="#pyunity.core.Transform.scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scale of the Transform in world space.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt id="pyunity.core.Transform.localPosition">
 <code class="sig-name descname">localPosition</code><a class="headerlink" href="#pyunity.core.Transform.localPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Position of the Transform in local space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="pyunity.core.Transform.localEulerAngles">
-<code class="sig-name descname">localEulerAngles</code><a class="headerlink" href="#pyunity.core.Transform.localEulerAngles" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotation of the Transform in local space.
-It is measured in degrees around x, y, and z.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.quaternion.html#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -604,29 +547,36 @@ nice list of all GameObjects.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="id0">
-<em class="property">property </em><code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pyunity.core.Transform.eulerAngles">
+<em class="property">property </em><code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#pyunity.core.Transform.eulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in world space.
+It is measured in degrees around x, y, and z.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt id="id1">
-<em class="property">property </em><code class="sig-name descname">localEulerAngles</code><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pyunity.core.Transform.localEulerAngles">
+<em class="property">property </em><code class="sig-name descname">localEulerAngles</code><a class="headerlink" href="#pyunity.core.Transform.localEulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in local space.
+It is measured in degrees around x, y, and z.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt id="id2">
-<em class="property">property </em><code class="sig-name descname">position</code><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pyunity.core.Transform.position">
+<em class="property">property </em><code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.core.Transform.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Transform in world space.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt id="id3">
-<em class="property">property </em><code class="sig-name descname">rotation</code><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pyunity.core.Transform.rotation">
+<em class="property">property </em><code class="sig-name descname">rotation</code><a class="headerlink" href="#pyunity.core.Transform.rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in world space.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt id="id4">
-<em class="property">property </em><code class="sig-name descname">scale</code><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pyunity.core.Transform.scale">
+<em class="property">property </em><code class="sig-name descname">scale</code><a class="headerlink" href="#pyunity.core.Transform.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale of the Transform in world space.</p>
+</dd></dl>
 
 </dd></dl>
 

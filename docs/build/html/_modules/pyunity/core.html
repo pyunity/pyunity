@@ -55,7 +55,7 @@
 <span class="sd">    &gt;&gt;&gt; mat = Material((255, 0, 0)) # Create a default material</span>
 <span class="sd">    &gt;&gt;&gt; root = GameObject(&quot;Root&quot;) # Create a root GameObjects</span>
 <span class="sd">    &gt;&gt;&gt; child1 = GameObject(&quot;Child1&quot;, root) # Create a child</span>
-<span class="sd">    &gt;&gt;&gt; child1.transform.position = Vector3(-2, 0, 0) # Move the child</span>
+<span class="sd">    &gt;&gt;&gt; child1.transform.localPosition = Vector3(-2, 0, 0) # Move the child</span>
 <span class="sd">    &gt;&gt;&gt; renderer = child1.AddComponent(MeshRenderer) # Add a renderer</span>
 <span class="sd">    &gt;&gt;&gt; renderer.mat = mat # Add a material</span>
 <span class="sd">    &gt;&gt;&gt; renderer.mesh = Mesh.cube(2) # Add a mesh</span>
@@ -64,7 +64,7 @@
 <span class="sd">    &gt;&gt;&gt; renderer.mat = mat # Add a material</span>
 <span class="sd">    &gt;&gt;&gt; renderer.mesh = Mesh.quad(1) # Add a mesh</span>
 <span class="sd">    &gt;&gt;&gt; grandchild = GameObject(&quot;Grandchild&quot;, child2) # Add a grandchild</span>
-<span class="sd">    &gt;&gt;&gt; grandchild.transform.position = Vector3(0, 5, 0) # Move the grandchild</span>
+<span class="sd">    &gt;&gt;&gt; grandchild.transform.localPosition = Vector3(0, 5, 0) # Move the grandchild</span>
 <span class="sd">    &gt;&gt;&gt; renderer = grandchild.AddComponent(MeshRenderer) # Add a renderer</span>
 <span class="sd">    &gt;&gt;&gt; renderer.mat = mat # Add a material</span>
 <span class="sd">    &gt;&gt;&gt; renderer.mesh = Mesh.cube(3) # Add a mesh</span>
@@ -74,9 +74,9 @@
 <span class="sd">    /Root/Child2</span>
 <span class="sd">    /Root/Child2/Grandchild</span>
 <span class="sd">    &gt;&gt;&gt; child1.components # List child1&#39;s components</span>
-<span class="sd">    [&lt;Transform position=Vector3(0, -2, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0AE3F688&gt;]</span>
+<span class="sd">    [&lt;Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path=&quot;/Root/Child1&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B14FCB8&gt;]</span>
 <span class="sd">    &gt;&gt;&gt; child2.transform.children # List child2&#39;s children</span>
-<span class="sd">    [&lt;Transform position=Vector3(0, 0, 5) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
+<span class="sd">    [&lt;Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path=&quot;/Root/Child2/Grandchild&quot;&gt;]</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -310,20 +310,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    gameObject : GameObject</span>
 <span class="sd">        GameObject that the component belongs to.</span>
-<span class="sd">    position : Vector3</span>
-<span class="sd">        Position of the Transform in world space.</span>
-<span class="sd">    eulerAngles : Vector3</span>
-<span class="sd">        Rotation of the Transform in world space.</span>
-<span class="sd">        It is measured in degrees around x, y, and z.</span>
-<span class="sd">    rotation : Quaternion</span>
-<span class="sd">        Rotation of the Transform in world space.</span>
-<span class="sd">    scale : Vector3</span>
-<span class="sd">        Scale of the Transform in world space.</span>
 <span class="sd">    localPosition : Vector3</span>
 <span class="sd">        Position of the Transform in local space.</span>
-<span class="sd">    localEulerAngles : Quaternion</span>
-<span class="sd">        Rotation of the Transform in local space.</span>
-<span class="sd">        It is measured in degrees around x, y, and z.</span>
 <span class="sd">    localRotation : Quaternion</span>
 <span class="sd">        Rotation of the Transform in local space.</span>
 <span class="sd">    localScale : Vector3</span>
@@ -346,6 +334,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Position of the Transform in world space.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localPosition</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">localRotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">localPosition</span><span class="p">)</span>
     
@@ -359,6 +348,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rotation of the Transform in world space.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localRotation</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localRotation</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">rotation</span>
     
@@ -371,6 +361,11 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">localEulerAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotation of the Transform in local space.</span>
+<span class="sd">        It is measured in degrees around x, y, and z.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localRotation</span><span class="o">.</span><span class="n">eulerAngles</span>
     
     <span class="nd">@localEulerAngles</span><span class="o">.</span><span class="n">setter</span>
@@ -379,6 +374,11 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eulerAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotation of the Transform in world space.</span>
+<span class="sd">        It is measured in degrees around x, y, and z.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">eulerAngles</span>
     
     <span class="nd">@eulerAngles</span><span class="o">.</span><span class="n">setter</span>
@@ -387,6 +387,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Scale of the Transform in world space.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">localScale</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">scale</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">localScale</span>
     
@@ -510,10 +511,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="MeshRenderer.render"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.MeshRenderer.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Render the mesh that the MeshRenderer has.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Render the mesh that the MeshRenderer has.&quot;&quot;&quot;</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glBegin</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_TRIANGLES</span><span class="p">)</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glColor3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">triangle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">):</span>
