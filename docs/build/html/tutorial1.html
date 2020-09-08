@@ -49,19 +49,45 @@ some features have been removed.</p>
 <div class="section" id="basic-concepts">
 <h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
 <p>In PyUnity, everything will belong to a
-GameObject. A GameObject is an object that
+GameObject. A GameObject is a named object that
 has lots of different things on it that will
 affect the GameObject and other GameObjects.
 Each GameObject has its own Components, which
 are like the hardware in a computer. These
 Components can do all sorts of things.</p>
+</div>
+<div class="section" id="transforms">
+<h2>Transforms<a class="headerlink" href="#transforms" title="Permalink to this headline">¶</a></h2>
 <p>Each GameObject has a special component called
 a Transform. A Transform holds information about
-the GameObject’s position, rotation and scale.
-A Transform can also have other Transforms as
-children, and the children Transforms will have
-their position, rotation and scale affected by
-the parent.</p>
+the GameObject’s position, rotation and scale.</p>
+<p>A Transform can also have a child. This child is
+also a GameObject’s component. All transforms will
+have a localPosition, localRotation and localScale,
+which are all relative to their parent. In addition,
+all Transforms will have a <code class="docutils literal notranslate"><span class="pre">position</span></code>, <code class="docutils literal notranslate"><span class="pre">rotation</span></code> and
+<code class="docutils literal notranslate"><span class="pre">scale</span></code> property which is measured in global space.</p>
+<p>For example, if there is a Transform at 1 unit up from
+the origin, and its child had a <code class="docutils literal notranslate"><span class="pre">localPosition</span></code> of
+1 unit right, then the child would have a <code class="docutils literal notranslate"><span class="pre">position</span></code> of
+1 unit up and 1 unit to the right.</p>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<p>All of that has now been established, so let’s start to
+program it all! To start, we need to import PyUnity.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">Loaded config</span>
+<span class="go">Trying GLFW as a window provider</span>
+<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
+<span class="go">Trying Pygame as a window provider</span>
+<span class="go">Using window provider Pygame</span>
+<span class="go">Loaded PyUnity version 0.0.6</span>
+</pre></div>
+</div>
+<p>The output beneath the import is just debug statement, you
+can turn it off with the environment variable
+<code class="docutils literal notranslate"><span class="pre">PYUNITY_DEBUG_INFO</span></code> set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </div>
 </div>
 
@@ -89,6 +115,8 @@ the parent.</p>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 1: The Basics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-is-pyunity">What is PyUnity?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-concepts">Basic concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforms">Transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
 </ul>
