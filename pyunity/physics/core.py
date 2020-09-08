@@ -65,10 +65,7 @@ class Manifold:
         self.penetration = penetration
 
 class Collider(Component):
-    """
-    Collider base class.
-
-    """
+    """Collider base class."""
     
     pass
 
@@ -401,9 +398,37 @@ class Rigidbody(Component):
                 component.pos += offset
     
     def AddForce(self, force):
+        """
+        Apply a force to the center of the Rigidbody.
+
+        Parameters
+        ----------
+        force : Vector3
+            Force to apply
+        
+        Notes
+        -----
+        A force is a gradual change in velocity, whereas
+        an impulse is just a jump in velocity.
+
+        """
         self.force += force
     
     def AddImpulse(self, impulse):
+        """
+        Apply an impulse to the center of the Rigidbody.
+
+        Parameters
+        ----------
+        impulse : Vector3
+            Impulse to apply
+        
+        Notes
+        -----
+        A force is a gradual change in velocity, whereas
+        an impulse is just a jump in velocity.
+        
+        """
         self.velocity += impulse
 
 class CollManager:

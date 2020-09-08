@@ -1,7 +1,4 @@
-"""
-Module for all exceptions related to PyUnity.
-
-"""
+"""Module for all exceptions related to PyUnity."""
 
 class PyUnityException(Exception):
     """Base class for PyUnity exceptions."""

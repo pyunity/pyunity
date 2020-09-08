@@ -1,7 +1,4 @@
-"""
-Module for prebuilt meshes.
-
-"""
+"""Module for prebuilt meshes."""
 
 from .vector3 import Vector3
 import os
@@ -38,6 +35,16 @@ class Mesh:
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
+
+        self.min, self.max = Vector3.zero(), Vector3.zero()
+        for vert in verts:
+            if vert.x < self.min.x: self.min.x = vert.x
+            if vert.y < self.min.y: self.min.y = vert.y
+            if vert.z < self.min.z: self.min.z = vert.z
+            
+            if vert.x > self.max.x: self.max.x = vert.x
+            if vert.y > self.max.y: self.max.y = vert.y
+            if vert.z > self.max.z: self.max.z = vert.z
     
     @staticmethod
     def quad(size):

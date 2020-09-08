@@ -133,6 +133,11 @@ from .physics import *
 from . import loader
 
 def timer(func):
+    """
+    Use this decorator to print how long
+    a function takes.
+
+    """
     def wrapper(*args, **kwargs):
         start = time()
         func(*args, **kwargs)

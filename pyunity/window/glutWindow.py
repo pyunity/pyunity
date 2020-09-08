@@ -2,10 +2,7 @@ from OpenGL.GLUT import *
 from .. import config
 
 class Window:
-    """
-    A window provider that uses FreeGLUT.
-    
-    """
+    """A window provider that uses FreeGLUT."""
 
     def __init__(self, size, name):
         glutInit()
@@ -15,7 +12,6 @@ class Window:
             (glutGet(GLUT_SCREEN_HEIGHT) - size[1]) // 2)
         glutInitWindowSize(*config.size)
         glutCreateWindow(name)
-        glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS)
     
     def start(self, updateFunc):
         """
@@ -30,18 +26,15 @@ class Window:
         self.updateFunc = updateFunc
         glutDisplayFunc(self.display)
 
-        glutTimerFunc(1000 // config.fps, self.__schedule_update, 0)
+        self.schedule_update()
         glutMainLoop()
-        print("h1")
     
-    def __schedule_update(self, t):
+    def schedule_update(self, t):
+        """Starts the window refreshing."""
         glutPostRedisplay()
-        glutTimerFunc(1000 // config.fps, self.__schedule_update, 0)
+        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
     
     def display(self):
-        """
-        Function to render in the scene.
-
-        """
+        """Function to render in the scene."""
         self.updateFunc()
         glutSwapBuffers()

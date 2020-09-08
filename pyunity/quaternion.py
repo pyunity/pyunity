@@ -142,10 +142,10 @@ class Quaternion:
         assign like ``q.eulerAngles = (angle, vector)``.
         
         """
-        angle = math.degrees(math.acos(self.w)) * 2
-        sin = math.sin(math.radians(angle / 2))
+        angle = math.degrees(math.acos(self.w))
+        sin = math.sin(math.radians(angle))
         if not sin: sin = math.inf
-        return (angle, self.x / sin, self.y / sin, self.z / sin)
+        return (angle * 2, self.x / sin, self.y / sin, self.z / sin)
     
     @angleAxisPair.setter
     def angleAxisPair(self, value):

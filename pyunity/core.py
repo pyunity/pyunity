@@ -21,7 +21,7 @@ and all have MeshRenderers:
     >>> mat = Material((255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
-    >>> child1.transform.position = Vector3(-2, 0, 0) # Move the child
+    >>> child1.transform.localPosition = Vector3(-2, 0, 0) # Move the child
     >>> renderer = child1.AddComponent(MeshRenderer) # Add a renderer
     >>> renderer.mat = mat # Add a material
     >>> renderer.mesh = Mesh.cube(2) # Add a mesh
@@ -30,7 +30,7 @@ and all have MeshRenderers:
     >>> renderer.mat = mat # Add a material
     >>> renderer.mesh = Mesh.quad(1) # Add a mesh
     >>> grandchild = GameObject("Grandchild", child2) # Add a grandchild
-    >>> grandchild.transform.position = Vector3(0, 5, 0) # Move the grandchild
+    >>> grandchild.transform.localPosition = Vector3(0, 5, 0) # Move the grandchild
     >>> renderer = grandchild.AddComponent(MeshRenderer) # Add a renderer
     >>> renderer.mat = mat # Add a material
     >>> renderer.mesh = Mesh.cube(3) # Add a mesh
@@ -40,9 +40,9 @@ and all have MeshRenderers:
     /Root/Child2
     /Root/Child2/Grandchild
     >>> child1.components # List child1's components
-    [<Transform position=Vector3(0, -2, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0AE3F688>]
+    [<Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(2, 2, 2) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0B14FCB8>]
     >>> child2.transform.children # List child2's children
-    [<Transform position=Vector3(0, 0, 5) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path="/Root/Child2/Grandchild">]
+    [<Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(3, 3, 3) path="/Root/Child2/Grandchild">]
 
 """
 
@@ -276,20 +276,8 @@ class Transform(Component):
     ----------
     gameObject : GameObject
         GameObject that the component belongs to.
-    position : Vector3
-        Position of the Transform in world space.
-    eulerAngles : Vector3
-        Rotation of the Transform in world space.
-        It is measured in degrees around x, y, and z.
-    rotation : Quaternion
-        Rotation of the Transform in world space.
-    scale : Vector3
-        Scale of the Transform in world space.
     localPosition : Vector3
         Position of the Transform in local space.
-    localEulerAngles : Quaternion
-        Rotation of the Transform in local space.
-        It is measured in degrees around x, y, and z.
     localRotation : Quaternion
         Rotation of the Transform in local space.
     localScale : Vector3
@@ -312,6 +300,7 @@ class Transform(Component):
     
     @property
     def position(self):
+        """Position of the Transform in world space."""
         if self.parent is None: return self.localPosition
         else: return self.parent.position + self.localRotation.RotateVector(self.localPosition)
     
@@ -325,6 +314,7 @@ class Transform(Component):
     
     @property
     def rotation(self):
+        """Rotation of the Transform in world space."""
         if self.parent is None: return self.localRotation
         else: return self.localRotation * self.parent.rotation
     
@@ -337,6 +327,11 @@ class Transform(Component):
     
     @property
     def localEulerAngles(self):
+        """
+        Rotation of the Transform in local space.
+        It is measured in degrees around x, y, and z.
+
+        """
         return self.localRotation.eulerAngles
     
     @localEulerAngles.setter
@@ -345,6 +340,11 @@ class Transform(Component):
     
     @property
     def eulerAngles(self):
+        """
+        Rotation of the Transform in world space.
+        It is measured in degrees around x, y, and z.
+
+        """
         return self.rotation.eulerAngles
     
     @eulerAngles.setter
@@ -353,6 +353,7 @@ class Transform(Component):
     
     @property
     def scale(self):
+        """Scale of the Transform in world space."""
         if self.parent is None: return self.localScale
         else: return self.parent.scale + self.localScale
     
@@ -476,10 +477,7 @@ class MeshRenderer(Component):
         self.mat = None
 
     def render(self):
-        """
-        Render the mesh that the MeshRenderer has.
-
-        """
+        """Render the mesh that the MeshRenderer has."""
         gl.glBegin(gl.GL_TRIANGLES)
         gl.glColor3f(*self.mat.color)
         for index, triangle in enumerate(self.mesh.triangles):
