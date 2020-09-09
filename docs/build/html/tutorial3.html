@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scripts and Behaviours &#8212; PyUnity 0.0.6 documentation</title>
+    <title>Tutorial 3: Scripts and Behaviours &#8212; PyUnity 0.0.6 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,6 +15,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Tutorial 2: Rendering in Scenes" href="tutorial2.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -31,8 +33,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="scripts-and-behaviours">
-<h1>Scripts and Behaviours<a class="headerlink" href="#scripts-and-behaviours" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="tutorial-3-scripts-and-behaviours">
+<h1>Tutorial 3: Scripts and Behaviours<a class="headerlink" href="#tutorial-3-scripts-and-behaviours" title="Permalink to this headline">¶</a></h1>
 <p>Last tutorial we covered rendering meshes. In
 this tutorial we will be seeing how to make 2
 GameObjects interact with each other.</p>
@@ -68,6 +70,51 @@ That will be called on the start of the scene:</p>
 <span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+=</span> <span class="n">dt</span>
 </pre></div>
 </div>
+<p>The example above will print in seconds how long
+it had been since the start of the Scene.</p>
+<p>With this, you can create all sorts of Components,
+and because Behaviour is subclassed from
+Component, you can add a Behaviour to a GameObject
+with <code class="docutils literal notranslate"><span class="pre">AddComponent</span></code>. This creates a spinning
+cube:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Rotator</span><span class="p">(</span><span class="n">Behaviour</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">Update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localEulerAngles</span> <span class="o">+=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">135</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">Rotator</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is a debugging Behaviour, which prints out the
+change in position, rotation and scale each 10
+frames:</p>
+<blockquote>
+<div><dl>
+<dt>class Debugger(Behaviour):</dt><dd><p>lastPos = Vector3.zero()
+lastRot = Quaternion.identity()
+lastScl = Vector3.one()
+a = 0</p>
+<dl>
+<dt>def Update(self, dt):</dt><dd><p>self.a += 1
+if self.a == 10:</p>
+<blockquote>
+<div><p>print(self.transform.position - self.lastPos)
+print(self.transform.rotation.conjugate * self.lastRot)
+print(self.transform.scale / self.lastScl)
+self.a = 0</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>In the next tutorial we’ll be looking at physics.</p>
 </div>
 </div>
 
@@ -89,9 +136,17 @@ That will be called on the start of the scene:</p>
 
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial1.html">Tutorial 1: The Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial2.html">Tutorial 2: Rendering in Scenes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 3: Scripts and Behaviours</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a></li>
 </ul>
@@ -100,6 +155,10 @@ That will be called on the start of the scene:</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="tutorials.html">Tutorials</a><ul>
+      <li>Previous: <a href="tutorial2.html" title="previous chapter">Tutorial 2: Rendering in Scenes</a></li>
+      <li>Next: <a href="license.html" title="next chapter">License</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
