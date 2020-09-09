@@ -13,3 +13,4 @@ comfortable with using Python.
 
    tutorial1
    tutorial2
+   tutorial3
