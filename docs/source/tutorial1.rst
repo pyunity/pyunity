@@ -88,12 +88,11 @@ GameObject as the second argument:
    >>> child1 = GameObject("Child1", root)
    >>> child2 = GameObject("Child2", root)
 
-Notes
------
-Accessing the ``localPosition``, ``localRotation`` and
+
+*Note: Accessing the ``localPosition``, ``localRotation`` and
 ``localScale`` attributes are faster than using the ``position``,
 ``rotation`` and ``scale`` properties. Use the local attributes
-whenever you can.
+whenever you can.*
 
 Rotation
 ========
