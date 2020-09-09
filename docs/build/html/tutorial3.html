@@ -94,26 +94,21 @@ cube:</p>
 <p>This is a debugging Behaviour, which prints out the
 change in position, rotation and scale each 10
 frames:</p>
-<blockquote>
-<div><dl>
-<dt>class Debugger(Behaviour):</dt><dd><p>lastPos = Vector3.zero()
-lastRot = Quaternion.identity()
-lastScl = Vector3.one()
-a = 0</p>
-<dl>
-<dt>def Update(self, dt):</dt><dd><p>self.a += 1
-if self.a == 10:</p>
-<blockquote>
-<div><p>print(self.transform.position - self.lastPos)
-print(self.transform.rotation.conjugate * self.lastRot)
-print(self.transform.scale / self.lastScl)
-self.a = 0</p>
-</div></blockquote>
-</dd>
-</dl>
-</dd>
-</dl>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Behaviour</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">lastPos</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">lastRot</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">lastScl</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">Update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastPos</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">conjugate</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastRot</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastScl</span><span class="p">)</span>
+<span class="gp">... </span>            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
 <p>In the next tutorial we’ll be looking at physics.</p>
 </div>
 </div>
