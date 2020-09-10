@@ -59,9 +59,31 @@ the Behaviour is on by 90 degrees each second
 around the y-axis. The <code class="docutils literal notranslate"><span class="pre">Update</span></code> function takes
 1 argument: <code class="docutils literal notranslate"><span class="pre">dt</span></code> which is how many seconds has
 passed since last frame.</p>
-<p>With a Behaviour, never define the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>
-function, but you can use the <code class="docutils literal notranslate"><span class="pre">Start</span></code> function.
-That will be called on the start of the scene:</p>
+</div>
+<div class="section" id="behaviours-vs-components">
+<h2>Behaviours vs Components<a class="headerlink" href="#behaviours-vs-components" title="Permalink to this headline">¶</a></h2>
+<p>Look at the code for the Component class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Component</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">GetComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">AddComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A Component has 2 attributes: <code class="docutils literal notranslate"><span class="pre">gameObject</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code>.
+This is set whenever the Component is added to a GameObject.
+A Behaviour is subclassed from a Component and so has the
+same attributes. Each frame, the Scene will call the <code class="docutils literal notranslate"><span class="pre">Update</span></code>
+function on all Behaviours, passing the time since the last
+frame in seconds.</p>
+<p>When you want to do something at the start of the Scene, use
+the <code class="docutils literal notranslate"><span class="pre">Start</span></code> function. That will be called right at the start
+of the scene, when <code class="docutils literal notranslate"><span class="pre">scene.Run()</span></code> is called.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyBehaviour</span><span class="p">(</span><span class="n">Behaviour</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">Start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -71,12 +93,18 @@ That will be called on the start of the scene:</p>
 </pre></div>
 </div>
 <p>The example above will print in seconds how long
-it had been since the start of the Scene.</p>
+it had been since the start of the Scene. Please
+note that the order in which all Behaviours’
+<code class="docutils literal notranslate"><span class="pre">Start</span></code> functions will be the orders of the
+GameObjects.</p>
 <p>With this, you can create all sorts of Components,
 and because Behaviour is subclassed from
 Component, you can add a Behaviour to a GameObject
-with <code class="docutils literal notranslate"><span class="pre">AddComponent</span></code>. This creates a spinning
-cube:</p>
+with <code class="docutils literal notranslate"><span class="pre">AddComponent</span></code>.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>This creates a spinning cube:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Rotator</span><span class="p">(</span><span class="n">Behaviour</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">Update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localEulerAngles</span> <span class="o">+=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">135</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
@@ -138,6 +166,8 @@ frames:</p>
 <li class="toctree-l2"><a class="reference internal" href="tutorial2.html">Tutorial 2: Rendering in Scenes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 3: Scripts and Behaviours</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#behaviours-vs-components">Behaviours vs Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
