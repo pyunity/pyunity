@@ -355,15 +355,15 @@ class Transform(Component):
     def scale(self):
         """Scale of the Transform in world space."""
         if self.parent is None: return self.localScale
-        else: return self.parent.scale + self.localScale
+        else: return self.parent.scale * self.localScale
     
     @scale.setter
     def scale(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException("Cannot set scale to object of type \"" + type(value).__name__)
-        
-        self.localScale = value if self.parent is None else value - self.parent.scale
-    
+        if self.parent is None or not bool(self.parent.scale): self.localScale = value
+        else: value / self.parent.scale
+
     def ReparentTo(self, parent):
         """
         Reparent a Transform.

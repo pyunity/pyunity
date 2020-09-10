@@ -93,8 +93,8 @@ of the scene, when <code class="docutils literal notranslate"><span class="pre">
 </pre></div>
 </div>
 <p>The example above will print in seconds how long
-it had been since the start of the Scene. Please
-note that the order in which all Behaviours’
+it had been since the start of the Scene. Note
+that the order in which all Behaviours’
 <code class="docutils literal notranslate"><span class="pre">Start</span></code> functions will be the orders of the
 GameObjects.</p>
 <p>With this, you can create all sorts of Components,
@@ -137,6 +137,23 @@ frames:</p>
 <span class="gp">...</span>
 </pre></div>
 </div>
+<p>Note that the printed output for non-moving things
+would be as so:</p>
+<blockquote>
+<div><p>Vector3(0, 0, 0)
+Quaternion(1, 0, 0, 0)
+Vector3(1, 1, 1)
+Vector3(0, 0, 0)
+Quaternion(1, 0, 0, 0)
+Vector3(1, 1, 1)
+Vector3(0, 0, 0)
+Quaternion(1, 0, 0, 0)
+Vector3(1, 1, 1)
+…</p>
+</div></blockquote>
+<p>This means no rotation, position or scale change.
+It will break when you set the scale to
+<code class="docutils literal notranslate"><span class="pre">Vector3(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p>
 <p>In the next tutorial we’ll be looking at physics.</p>
 </div>
 </div>

@@ -64,8 +64,8 @@ of the scene, when ``scene.Run()`` is called.
    ...         self.a += dt
 
 The example above will print in seconds how long
-it had been since the start of the Scene. Please
-note that the order in which all Behaviours'
+it had been since the start of the Scene. Note
+that the order in which all Behaviours'
 ``Start`` functions will be the orders of the
 GameObjects.
 
@@ -109,5 +109,23 @@ frames:
    ...             print(self.transform.scale / self.lastScl)
    ...             self.a = 0
    ...
+
+Note that the printed output for non-moving things
+would be as so:
+
+   Vector3(0, 0, 0)
+   Quaternion(1, 0, 0, 0)
+   Vector3(1, 1, 1)
+   Vector3(0, 0, 0)
+   Quaternion(1, 0, 0, 0)
+   Vector3(1, 1, 1)
+   Vector3(0, 0, 0)
+   Quaternion(1, 0, 0, 0)
+   Vector3(1, 1, 1)
+   ...
+
+This means no rotation, position or scale change.
+It will break when you set the scale to
+``Vector3(0, 0, 0)``.
 
 In the next tutorial we'll be looking at physics.

@@ -72,7 +72,7 @@ class Vector3:
         else:
             return True
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self.x != 0 or self.y != 0 or self.z != 0
     
     def _o2(self, other, f):
