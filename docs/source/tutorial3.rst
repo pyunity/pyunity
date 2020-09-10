@@ -52,6 +52,10 @@ same attributes. Each frame, the Scene will call the ``Update``
 function on all Behaviours, passing the time since the last
 frame in seconds.
 
+When you want to do something at the start of the Scene, use
+the ``Start`` function. That will be called right at the start
+of the scene, when ``scene.Run()`` is called.
+
    >>> class MyBehaviour(Behaviour):
    ...     def Start(self):
    ...         self.a = 0
@@ -60,7 +64,10 @@ frame in seconds.
    ...         self.a += dt
 
 The example above will print in seconds how long
-it had been since the start of the Scene.
+it had been since the start of the Scene. Please
+note that the order in which all Behaviours'
+``Start`` functions will be the orders of the
+GameObjects.
 
 With this, you can create all sorts of Components,
 and because Behaviour is subclassed from
