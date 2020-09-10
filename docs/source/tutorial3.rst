@@ -45,7 +45,31 @@ it had been since the start of the Scene.
 With this, you can create all sorts of Components,
 and because Behaviour is subclassed from
 Component, you can add a Behaviour to a GameObject
-with ``AddComponent``. This creates a spinning
+with ``AddComponent``.
+
+Behaviours vs Components
+========================
+A Behaviour is a Component, and so it will of course
+have the attributes that a Component has. Look at the
+code for the Component class:
+
+.. code-block:: python
+
+   class Component:
+       def __init__(self):
+           self.gameObject = None
+           self.transform = None
+    
+       def GetComponent(self, component):
+           return self.gameObject.GetComponent(component)
+    
+       def AddComponent(self, component):
+           return self.gameObject.AddComponent(component)
+
+Examples
+========
+
+This creates a spinning
 cube:
 
    >>> class Rotator(Behaviour):
