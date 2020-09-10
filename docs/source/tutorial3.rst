@@ -28,9 +28,29 @@ around the y-axis. The ``Update`` function takes
 1 argument: ``dt`` which is how many seconds has
 passed since last frame.
 
-With a Behaviour, never define the ``__init__``
-function, but you can use the ``Start`` function.
-That will be called on the start of the scene:
+Behaviours vs Components
+========================
+Look at the code for the Component class:
+
+.. code-block:: python
+
+   class Component:
+       def __init__(self):
+           self.gameObject = None
+           self.transform = None
+    
+       def GetComponent(self, component):
+           return self.gameObject.GetComponent(component)
+    
+       def AddComponent(self, component):
+           return self.gameObject.AddComponent(component)
+
+A Component has 2 attributes: ``gameObject`` and ``transform``.
+This is set whenever the Component is added to a GameObject.
+A Behaviour is subclassed from a Component and so has the
+same attributes. Each frame, the Scene will call the ``Update``
+function on all Behaviours, passing the time since the last
+frame in seconds.
 
    >>> class MyBehaviour(Behaviour):
    ...     def Start(self):
@@ -47,30 +67,10 @@ and because Behaviour is subclassed from
 Component, you can add a Behaviour to a GameObject
 with ``AddComponent``.
 
-Behaviours vs Components
-========================
-A Behaviour is a Component, and so it will of course
-have the attributes that a Component has. Look at the
-code for the Component class:
-
-.. code-block:: python
-
-   class Component:
-       def __init__(self):
-           self.gameObject = None
-           self.transform = None
-    
-       def GetComponent(self, component):
-           return self.gameObject.GetComponent(component)
-    
-       def AddComponent(self, component):
-           return self.gameObject.AddComponent(component)
-
 Examples
 ========
 
-This creates a spinning
-cube:
+This creates a spinning cube:
 
    >>> class Rotator(Behaviour):
    ...     def Update(self, dt):
