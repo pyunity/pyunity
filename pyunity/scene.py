@@ -400,9 +400,8 @@ class Scene:
         
         """
         glRotatef(*transform.rotation.angleAxisPair)
-        glTranslatef(transform.position[0],
-                    transform.position[1],
-                    -transform.position[2])
+        glScalef(*transform.scale)
+        glTranslatef(*(transform.position * Vector3(1, 1, -1)))
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
