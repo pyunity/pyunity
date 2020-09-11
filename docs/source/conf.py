@@ -62,3 +62,4 @@ html_static_path = ["_static"]
 autodoc_mock_imports = ["pygame", "glfw", "OpenGL"]
 
 viewcode_enable_epub = True
+pygments_style = "friendly"
