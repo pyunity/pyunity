@@ -96,19 +96,20 @@ This is a debugging Behaviour, which prints out the
 change in position, rotation and scale each 10
 frames:
 
-   >>> class Debugger(Behaviour):
-   ...     lastPos = Vector3.zero()
-   ...     lastRot = Quaternion.identity()
-   ...     lastScl = Vector3.one()
-   ...     a = 0
-   ...     def Update(self, dt):
-   ...         self.a += 1
-   ...         if self.a == 10:
-   ...             print(self.transform.position - self.lastPos)
-   ...             print(self.transform.rotation.conjugate * self.lastRot)
-   ...             print(self.transform.scale / self.lastScl)
-   ...             self.a = 0
-   ...
+.. code-block:: python
+
+   class Debugger(Behaviour):
+       lastPos = Vector3.zero()
+       lastRot = Quaternion.identity()
+       lastScl = Vector3.one()
+       a = 0
+       def Update(self, dt):
+           self.a += 1
+           if self.a == 10:
+               print(self.transform.position - self.lastPos)
+               print(self.transform.rotation.conjugate * self.lastRot)
+               print(self.transform.scale / self.lastScl)
+               self.a = 0
 
 Note that the printed output for non-moving things
 would be as so:
