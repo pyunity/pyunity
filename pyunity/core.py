@@ -50,7 +50,8 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import *
-from OpenGL import GL as gl
+if os.environ["PYUNITY_INTERACTIVE"] == "1":
+    from OpenGL import GL as gl
 
 tags = ["Default"]
 """List of current tags"""
