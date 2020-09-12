@@ -273,7 +273,7 @@ class Vector3:
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
 
     def __invert__(self):
-        return Vec2d(-self.x, -self.y, -self.z)
+        return Vector3(-self.x, -self.y, -self.z)
     
     def copy(self):
         """
