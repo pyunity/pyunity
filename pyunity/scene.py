@@ -322,7 +322,7 @@ class Scene:
         self.physics = any(
             isinstance(
                 component, physics.Collider
-            ) for component in gameObject.components for gameObject in self.gameObjects
+            ) for gameObject in self.gameObjects for component in gameObject.components
         )
         if self.physics:
             self.collManager = physics.CollManager()

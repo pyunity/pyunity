@@ -46,6 +46,7 @@ and all have MeshRenderers:
 
 """
 
+from . import config; del config
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *

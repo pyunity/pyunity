@@ -356,7 +356,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">physics</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
             <span class="nb">isinstance</span><span class="p">(</span>
                 <span class="n">component</span><span class="p">,</span> <span class="n">physics</span><span class="o">.</span><span class="n">Collider</span>
-            <span class="p">)</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">CollManager</span><span class="p">()</span>
