@@ -448,13 +448,14 @@
 
 <div class="viewcode-block" id="Scene.update_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.update_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">update_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Updates all scripts in the scene.&quot;&quot;&quot;</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
-                    <span class="n">component</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
+                    <span class="n">component</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
     

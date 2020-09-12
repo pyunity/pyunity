@@ -414,13 +414,14 @@ class Scene:
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
+        dt = max(time() - self.lastFrame, 0.001)
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    component.Update(max(time() - self.lastFrame, 0.001))
+                    component.Update(dt)
 
         if self.physics:
-            self.collManager.Step(max(time() - self.lastFrame, 0.001))
+            self.collManager.Step(dt)
 
         self.lastFrame = time()
     
