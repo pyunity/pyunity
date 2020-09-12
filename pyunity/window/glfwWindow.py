@@ -1,8 +1,6 @@
 import glfw, time
 from ..errors import *
 
-from .. import config
-
 class Window:
     """
     A window provider that uses GLFW.
@@ -41,8 +39,8 @@ class Window:
             glfw.swap_buffers(self.window)
             glfw.poll_events()
 
-            while (glfw.get_time() < last + 1 / config.fps):
+            while (glfw.get_time() < last + 1 / 60):
                 pass
 
-            last += 1 / config.fps
+            last += 1 / 60
         glfw.terminate()
