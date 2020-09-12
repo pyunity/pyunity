@@ -3,8 +3,6 @@ os.environ["SDL_VIDEO_CENTERED"] = "1"
 
 pygame.init()
 
-from .. import config
-
 class Window:
     """
     A window provider that uses PyGame.
@@ -41,6 +39,6 @@ class Window:
             
             update_func()
             pygame.display.flip()
-            clock.tick(config.fps)
+            clock.tick(60)
     
         pygame.display.quit()
