@@ -1,5 +1,4 @@
 from OpenGL.GLUT import *
-from .. import config
 
 class Window:
     """A window provider that uses FreeGLUT."""
@@ -32,7 +31,7 @@ class Window:
     def schedule_update(self, t):
         """Starts the window refreshing."""
         glutPostRedisplay()
-        glutTimerFunc(1000 // config.fps, self.schedule_update, 0)
+        glutTimerFunc(1000 // 60, self.schedule_update, 0)
     
     def display(self):
         """Function to render in the scene."""

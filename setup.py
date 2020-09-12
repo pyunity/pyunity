@@ -1,5 +1,10 @@
 from setuptools import setup, find_packages
-import os, pyunity
+import os, sys, subprocess, pyunity
+
+def _run_command(cmd):
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=sys.stderr)
+    process.communicate()
+    return process.wait()
 
 desc = pyunity.__doc__.split("\n")
 desc_new = [
@@ -31,6 +36,27 @@ with open("README.md", "w") as f:
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+print("Updating cythonize packages...")
+for path, subdirs, files in os.walk("pyunity"):
+    for name in files:
+        p = os.path.join(path, name)
+        if "__" in name:
+            continue
+        if not name.lower().endswith(".py"):
+            continue
+        print("Cythonizing " + name)
+        _run_command("cythonize --3str -q -i " + p)
+        print("Done")
+print("Cythonized packages updated")
+print("Removing C files")
+for path, subdirs, files in os.walk(os.getcwd()):
+    for name in files:
+        p = os.path.join(path, name)
+        name = p[1 + len(os.getcwd()):].replace("\\", "/")
+        if name.lower().endswith(".c"):
+            os.remove(p)
+print("Done")
 
 setup(
     name = "pyunity",
