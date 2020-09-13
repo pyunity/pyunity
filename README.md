@@ -1,6 +1,6 @@
 # PyUnity
 
-[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)](https://img.shields.io/badge/python-3-blue.svg?v=1) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.0.5...master)
 
 ## Version 0.0.6 (in development)
 
