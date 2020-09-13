@@ -9,8 +9,18 @@ def _run_command(cmd):
 desc = pyunity.__doc__.split("\n")
 desc_new = [
     "# PyUnity", "",
-    "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]" + \
-        "(https://pyunity.readthedocs.io/en/latest/?badge=latest)"
+    "".join([
+        "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
+        "(https://pyunity.readthedocs.io/en/latest/?badge=latest) ",
+        "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
+        "(https://pypi.python.org/pypi/pyunity)",
+        "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
+        "(https://pypi.python.org/pypi/pyunity) ",
+        "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
+        "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
+        "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg",
+        ")](https://github.com/rayzchen/pyunity/compare/0.0.5...master)",
+    ])
 ]
 skip = 0
 for i in range(len(desc)):
@@ -37,26 +47,27 @@ with open("README.md", "w") as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-print("Updating cythonize packages...")
-for path, subdirs, files in os.walk("pyunity"):
-    for name in files:
-        p = os.path.join(path, name)
-        if "__" in name:
-            continue
-        if not name.lower().endswith(".py"):
-            continue
-        print("Cythonizing " + name)
-        _run_command("cythonize --3str -q -i " + p)
-        print("Done")
-print("Cythonized packages updated")
-print("Removing C files")
-for path, subdirs, files in os.walk(os.getcwd()):
-    for name in files:
-        p = os.path.join(path, name)
-        name = p[1 + len(os.getcwd()):].replace("\\", "/")
-        if name.lower().endswith(".c"):
-            os.remove(p)
-print("Done")
+if "CYTHON" in os.environ:
+    print("Updating cythonize packages...")
+    for path, subdirs, files in os.walk("pyunity"):
+        for name in files:
+            p = os.path.join(path, name)
+            if "__" in name:
+                continue
+            if not name.lower().endswith(".py"):
+                continue
+            print("Cythonizing " + name)
+            _run_command("cythonize --3str -q -i " + p)
+            print("Done")
+    print("Cythonized packages updated")
+    print("Removing C files")
+    for path, subdirs, files in os.walk(os.getcwd()):
+        for name in files:
+            p = os.path.join(path, name)
+            name = p[1 + len(os.getcwd()):].replace("\\", "/")
+            if name.lower().endswith(".c"):
+                os.remove(p)
+    print("Done")
 
 setup(
     name = "pyunity",
