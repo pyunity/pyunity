@@ -1,5 +1,5 @@
-from setuptools import setup, find_packages
-import os, sys, subprocess, pyunity
+from setuptools import setup, find_packages, Extension
+import os, sys, subprocess, pyunity, glob, shutil
 
 def _run_command(cmd):
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=sys.stderr)
@@ -46,28 +46,26 @@ with open("README.md", "w") as f:
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+    
+if os.path.exists("src"): shutil.rmtree("src")  
+for dirpath, dirs, files in os.walk("pyunity"):
+    for file in files:
+        if file.lower().endswith(".py") or file.endswith(".mesh"):
+            print(file)
+            if file.startswith("__") or file.endswith(".mesh"):
+                srcPath = os.path.join(dirpath, file)
+                op = shutil.copy
+            else:
+                os.system("cythonize -3 -q " + os.path.join(dirpath, file))
+                srcPath = os.path.join(dirpath, file)[:-2] + "c"
+                op = shutil.move
+            destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+            try: os.makedirs(destPath)
+            except: pass
+            op(srcPath, destPath)
 
-if "CYTHON" in os.environ:
-    print("Updating cythonize packages...")
-    for path, subdirs, files in os.walk("pyunity"):
-        for name in files:
-            p = os.path.join(path, name)
-            if "__" in name:
-                continue
-            if not name.lower().endswith(".py"):
-                continue
-            print("Cythonizing " + name)
-            _run_command("cythonize --3str -q -i " + p)
-            print("Done")
-    print("Cythonized packages updated")
-    print("Removing C files")
-    for path, subdirs, files in os.walk(os.getcwd()):
-        for name in files:
-            p = os.path.join(path, name)
-            name = p[1 + len(os.getcwd()):].replace("\\", "/")
-            if name.lower().endswith(".c"):
-                os.remove(p)
-    print("Done")
+c_files = glob.glob("src/**/*.c", recursive = True)
+mesh_files = glob.glob("src/**/*.mesh", recursive = True)
 
 setup(
     name = "pyunity",
@@ -78,7 +76,6 @@ setup(
     long_description = long_description,
     long_description_content_type = "text/markdown",
     url = "https://github/rayzchen/PyUnity",
-    packages = find_packages(),
     classifiers = [
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
@@ -93,4 +90,9 @@ setup(
         "pyopengl",
     ],
     python_requires = '>=3.7',
+    package_dir = {"pyunity": "src"},
+    packages = ["pyunity"] + ["pyunity." + package for package in find_packages(where = "src")],
+    ext_package = "pyunity",
+    ext_modules = [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
+    package_data = {"pyunity": [file[4:] for file in mesh_files]},
 )
