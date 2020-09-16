@@ -50,7 +50,7 @@
 
 <span class="sd">Debug information is turned on by default. If</span>
 <span class="sd">you want to turn it off, set the</span>
-<span class="sd">PYUNITY_DEBUG_MODE environment variable to &quot;0&quot;.</span>
+<span class="sd">PYUNITY_DEBUG_MODE environment variable to ``&quot;0&quot;``.</span>
 <span class="sd">This is the output with debugging:</span>
 
 <span class="sd">    Loaded config</span>
@@ -88,14 +88,14 @@
 <span class="sd">    &gt;&gt;&gt; renderer.mat = Material((255, 0, 0))</span>
 <span class="sd">    &gt;&gt;&gt; scene.Add(cube)</span>
 
-<span class="sd">To see what you have added to the scene, call `scene.List()`:</span>
+<span class="sd">To see what you have added to the scene, call ``scene.List()``:</span>
 
 <span class="sd">    &gt;&gt;&gt; scene.List()</span>
 <span class="sd">    /Main Camera</span>
 <span class="sd">    /Light</span>
 <span class="sd">    /Cube</span>
 
-<span class="sd">Finally, to run the scene, call `scene.Run()`. The window that</span>
+<span class="sd">Finally, to run the scene, call ``scene.Run()``. The window that</span>
 <span class="sd">is created is one of FreeGLUT, GLFW or Pygame. The window is</span>
 <span class="sd">selected on module initialization (see Windows subheading).</span>
 
@@ -105,9 +105,9 @@
 <span class="sd">from Behaviour. Usually in Unity, you would put the class in its</span>
 <span class="sd">own file, but Python can&#39;t do something like that, so put all of</span>
 <span class="sd">your scripts in one file. Then, to add a script, just use</span>
-<span class="sd">`AddComponent()`. Do not put anything in the `__init__` function,</span>
-<span class="sd">instead put it in `Start()`. The `Update()` function receives one</span>
-<span class="sd">parameter, `dt`, which is the same as Time.deltaTime.</span>
+<span class="sd">``AddComponent()``. Do not put anything in the ``__init__`` function,</span>
+<span class="sd">instead put it in ``Start()``. The ``Update()`` function receives one</span>
+<span class="sd">parameter, ``dt``, which is the same as ``Time.deltaTime``.</span>
 
 <span class="sd">Windows</span>
 <span class="sd">-------</span>
@@ -150,7 +150,7 @@
 
 <span class="sd">    &gt; python -m pyunity 1</span>
 
-<span class="sd">The 1 just means to load example 1, and there</span>
+<span class="sd">The ``1`` just means to load example 1, and there</span>
 <span class="sd">are 6 examples. To load all examples one by</span>
 <span class="sd">one, do not specify a number. If you want to</span>
 <span class="sd">contribute an example, then please create a</span>
