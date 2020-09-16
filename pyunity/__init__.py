@@ -1,5 +1,5 @@
 """
-Version 0.1.0 (in development)
+Version 0.2.0 (in development)
 ==============================
 
 A Python implementation of the Unity Engine
@@ -24,7 +24,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.1.0
+    Loaded PyUnity version 0.2.0
 
 If debugging is off, there is no output:
 
@@ -109,7 +109,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.1.0
+    Loaded PyUnity version 0.2.0
     >>> main()
 
 Or from the command line:
@@ -144,7 +144,7 @@ def timer(func):
         print(round(time() - start, 3))
     return wrapper
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"

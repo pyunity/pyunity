@@ -1,5 +1,5 @@
 Cython update, where everything is cythonized.
-First big update
+First big update.
 
 Features:
 
