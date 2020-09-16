@@ -46,23 +46,24 @@ with open("README.md", "w") as f:
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
-    
-if os.path.exists("src"): shutil.rmtree("src")  
-for dirpath, dirs, files in os.walk("pyunity"):
-    for file in files:
-        if file.lower().endswith(".py") or file.endswith(".mesh"):
-            print(file)
-            if file.startswith("__") or file.endswith(".mesh"):
-                srcPath = os.path.join(dirpath, file)
-                op = shutil.copy
-            else:
-                os.system("cythonize -3 -q " + os.path.join(dirpath, file))
-                srcPath = os.path.join(dirpath, file)[:-2] + "c"
-                op = shutil.move
-            destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-            try: os.makedirs(destPath)
-            except: pass
-            op(srcPath, destPath)
+
+if "a" not in os.environ:
+    if os.path.exists("src"): shutil.rmtree("src")
+    for dirpath, dirs, files in os.walk("pyunity"):
+        for file in files:
+            if file.lower().endswith(".py") or file.endswith(".mesh"):
+                print(file)
+                if file.startswith("__") or file.endswith(".mesh"):
+                    srcPath = os.path.join(dirpath, file)
+                    op = shutil.copy
+                else:
+                    os.system("cythonize -3 -q " + os.path.join(dirpath, file))
+                    srcPath = os.path.join(dirpath, file)[:-2] + "c"
+                    op = shutil.move
+                destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+                try: os.makedirs(destPath)
+                except: pass
+                op(srcPath, destPath)
 
 c_files = glob.glob("src/**/*.c", recursive = True)
 mesh_files = glob.glob("src/**/*.mesh", recursive = True)
