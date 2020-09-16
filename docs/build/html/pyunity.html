@@ -52,7 +52,7 @@ so:</p>
 </div>
 <p>Debug information is turned on by default. If
 you want to turn it off, set the
-PYUNITY_DEBUG_MODE environment variable to “0”.
+PYUNITY_DEBUG_MODE environment variable to <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code>.
 This is the output with debugging:</p>
 <blockquote>
 <div><p>Loaded config
@@ -90,14 +90,14 @@ is no way to change between scenes yet.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To see what you have added to the scene, call <cite>scene.List()</cite>:</p>
+<p>To see what you have added to the scene, call <code class="docutils literal notranslate"><span class="pre">scene.List()</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
 <span class="go">/Main Camera</span>
 <span class="go">/Light</span>
 <span class="go">/Cube</span>
 </pre></div>
 </div>
-<p>Finally, to run the scene, call <cite>scene.Run()</cite>. The window that
+<p>Finally, to run the scene, call <code class="docutils literal notranslate"><span class="pre">scene.Run()</span></code>. The window that
 is created is one of FreeGLUT, GLFW or Pygame. The window is
 selected on module initialization (see Windows subheading).</p>
 </div>
@@ -107,9 +107,9 @@ selected on module initialization (see Windows subheading).</p>
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can’t do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
-<cite>AddComponent()</cite>. Do not put anything in the <cite>__init__</cite> function,
-instead put it in <cite>Start()</cite>. The <cite>Update()</cite> function receives one
-parameter, <cite>dt</cite>, which is the same as Time.deltaTime.</p>
+<code class="docutils literal notranslate"><span class="pre">AddComponent()</span></code>. Do not put anything in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function,
+instead put it in <code class="docutils literal notranslate"><span class="pre">Start()</span></code>. The <code class="docutils literal notranslate"><span class="pre">Update()</span></code> function receives one
+parameter, <code class="docutils literal notranslate"><span class="pre">dt</span></code>, which is the same as <code class="docutils literal notranslate"><span class="pre">Time.deltaTime</span></code>.</p>
 </div>
 <div class="section" id="windows">
 <h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
@@ -149,7 +149,7 @@ pull request.</p>
 <blockquote>
 <div><p>&gt; python -m pyunity 1</p>
 </div></blockquote>
-<p>The 1 just means to load example 1, and there
+<p>The <code class="docutils literal notranslate"><span class="pre">1</span></code> just means to load example 1, and there
 are 6 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please create a
