@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)](https://img.shields.io/badge/python-3-blue.svg?v=1) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.0.5...master)
 
-## Version 0.1.0 (in development)
+## Version 0.2.0 (in development)
 
 A Python implementation of the Unity Engine
 that supports different types of windows.
@@ -25,7 +25,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.1.0
+    Loaded PyUnity version 0.2.0
 
 If debugging is off, there is no output:
 
@@ -106,7 +106,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.1.0
+    Loaded PyUnity version 0.2.0
     >>> main()
 
 Or from the command line:
