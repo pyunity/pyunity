@@ -17,7 +17,7 @@ so:
 
 Debug information is turned on by default. If
 you want to turn it off, set the
-PYUNITY_DEBUG_MODE environment variable to "0".
+PYUNITY_DEBUG_MODE environment variable to ``"0"``.
 This is the output with debugging:
 
     Loaded config
@@ -54,14 +54,14 @@ Finally, add a cube at the origin:
     >>> renderer.mat = Material((255, 0, 0))
     >>> scene.Add(cube)
 
-To see what you have added to the scene, call `scene.List()`:
+To see what you have added to the scene, call ``scene.List()``:
 
     >>> scene.List()
     /Main Camera
     /Light
     /Cube
 
-Finally, to run the scene, call `scene.Run()`. The window that
+Finally, to run the scene, call ``scene.Run()``. The window that
 is created is one of FreeGLUT, GLFW or Pygame. The window is
 selected on module initialization (see Windows subheading).
 
@@ -70,9 +70,9 @@ To create your own PyUnity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
 own file, but Python can't do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
-`AddComponent()`. Do not put anything in the `__init__` function,
-instead put it in `Start()`. The `Update()` function receives one
-parameter, `dt`, which is the same as Time.deltaTime.
+``AddComponent()``. Do not put anything in the ``__init__`` function,
+instead put it in ``Start()``. The ``Update()`` function receives one
+parameter, ``dt``, which is the same as ``Time.deltaTime``.
 
 ### Windows
 The window is provided by one of three
@@ -113,7 +113,7 @@ Or from the command line:
 
     > python -m pyunity 1
 
-The 1 just means to load example 1, and there
+The ``1`` just means to load example 1, and there
 are 6 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please create a
