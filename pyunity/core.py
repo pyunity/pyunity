@@ -159,7 +159,7 @@ class GameObject:
         
         """
         if not issubclass(componentClass, Component):
-            raise ComponentError(
+            raise ComponentException(
                 "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component"
             )
         if not (
@@ -174,7 +174,7 @@ class GameObject:
             component.transform = self.transform
             return component
         else:
-            raise ComponentError(
+            raise ComponentException(
                 "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it already has one"
             )
     
