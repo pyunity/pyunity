@@ -33,9 +33,10 @@ class Window:
             The function that calls the OpenGL calls.
         
         """
+        self.updateFunc = updateFunc
         last = glfw.get_time()
         while not glfw.window_should_close(self.window):
-            updateFunc()
+            self.updateFunc()
             glfw.swap_buffers(self.window)
             glfw.poll_events()
 
