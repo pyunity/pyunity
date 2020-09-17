@@ -1,53 +1,51 @@
 from setuptools import setup, find_packages, Extension
-import os, sys, subprocess, pyunity, glob, shutil
+import os, sys, subprocess, glob, shutil
 
 def _run_command(cmd):
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=sys.stderr)
     process.communicate()
     return process.wait()
 
-desc = pyunity.__doc__.split("\n")
-desc_new = [
-    "# PyUnity", "",
-    "".join([
-        "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
-        "(https://pyunity.readthedocs.io/en/latest/?badge=latest) ",
-        "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
-        "(https://pypi.python.org/pypi/pyunity)",
-        "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
-        "(https://pypi.python.org/pypi/pyunity) ",
-        "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
-        "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
-        "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg",
-        ")](https://github.com/rayzchen/pyunity/compare/0.0.5...master)",
-    ])
-]
-skip = 0
-for i in range(len(desc)):
-    if skip: skip = 0; continue
-    if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
-        if desc[i + 1][0] == "-":
-            desc_new.append("### " + desc[i])
-            skip = 1
-        elif desc[i + 1][0] == "=":
-            desc_new.append("## " + desc[i])
-            skip = 1
-    else:
-        if "create a new pull request" in desc[i]:
-            desc[i] = desc[i].replace(
-                "create a new pull request",
-                "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
-            )
-        desc_new.append(desc[i])
-
-with open("README.md", "w") as f:
-    for line in desc_new:
-        f.write(line + "\n")
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
 if "a" not in os.environ:
+    import pyunity
+    desc = pyunity.__doc__.split("\n")
+    desc_new = [
+        "# PyUnity", "",
+        "".join([
+            "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
+            "(https://pyunity.readthedocs.io/en/latest/?badge=latest) ",
+            "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
+            "(https://pypi.python.org/pypi/pyunity)",
+            "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
+            "(https://pypi.python.org/pypi/pyunity) ",
+            "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
+            "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
+            "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg",
+            ")](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+        ])
+    ]
+    skip = 0
+    for i in range(len(desc)):
+        if skip: skip = 0; continue
+        if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
+            if desc[i + 1][0] == "-":
+                desc_new.append("### " + desc[i])
+                skip = 1
+            elif desc[i + 1][0] == "=":
+                desc_new.append("## " + desc[i])
+                skip = 1
+        else:
+            if "create a new pull request" in desc[i]:
+                desc[i] = desc[i].replace(
+                    "create a new pull request",
+                    "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
+                )
+            desc_new.append(desc[i])
+
+    with open("README.md", "w") as f:
+        for line in desc_new:
+            f.write(line + "\n")
+
     if os.path.exists("src"): shutil.rmtree("src")
     for dirpath, dirs, files in os.walk("pyunity"):
         for file in files:
@@ -65,12 +63,15 @@ if "a" not in os.environ:
                 except: pass
                 op(srcPath, destPath)
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 c_files = glob.glob("src/**/*.c", recursive = True)
 mesh_files = glob.glob("src/**/*.mesh", recursive = True)
 
 setup(
     name = "pyunity",
-    version = pyunity.__version__,
+    version = "0.2.0",
     author = "Ray Chen",
     author_email = "tankimarshal2@gmail.com",
     description = "A Python implementation of the Unity Engine",
