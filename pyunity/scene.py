@@ -26,6 +26,7 @@ class SceneManager:
     def __init__(self):
         self.scenesByIndex = []
         self.scenesByName = {}
+        self.window = None
     
     def AddScene(self, sceneName):
         """
@@ -124,9 +125,36 @@ class SceneManager:
         if not isinstance(scene, Scene):
             raise TypeError("The provided scene is not of type Scene")
         if scene not in self.scenesByIndex:
-            raise PyUnityException("Scene \"" + scene.name + "\" is not part of the SceneManager")
+            raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
         self.scenesByIndex.remove(scene)
         self.scenesByName.pop(scene.name)
+    
+    def LoadSceneByName(self, name):
+        if not isinstance(name, str):
+            raise TypeError(f"\"{str(name)}\" is not a string")
+        if name not in self.scenesByName:
+            raise PyUnityException(f"There is no scene named \"{name}\"")
+        self.LoadScene(self.scenesByName[name])
+    
+    def LoadSceneByIndex(self, index):
+        if not isinstance(index, int):
+            raise TypeError(f"\"{str(index)}\" is not an integer")
+        if index >= len(self.scenesByIndex):
+            raise PyUnityException(f"There is no scene at index \"{index}\"")
+        self.LoadScene(self.scenesByIndex[index])
+    
+    def LoadScene(self, scene):
+        self.runningScene = scene
+        if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
+            self.window = config.windowProvider(config.size, scene.name)
+            scene.Start()
+            self.window.start(scene.update)
+        else:
+            scene.Start()
+            if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                self.window.update_func = scene.update
+            else:
+                scene.no_interactive()
 
 SceneManager = SceneManager()
 """Manages all scene additions and changes"""
@@ -290,8 +318,10 @@ class Scene:
         directionY = self.mainCamera.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
         directionZ = self.mainCamera.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
         parent = renderer.transform.parent.position if renderer.transform.parent else Vector3.zero()
-        rpmin = parent + renderer.transform.rotation.RotateVector(mesh.min - renderer.transform.localPosition) - pos
-        rpmax = parent + renderer.transform.rotation.RotateVector(mesh.max - renderer.transform.localPosition) - pos
+        rpmin = renderer.transform.rotation.RotateVector(mesh.min - renderer.transform.localPosition)
+        rpmax = renderer.transform.rotation.RotateVector(mesh.max - renderer.transform.localPosition)
+        rpmin += parent - pos
+        rpmax += parent - pos
 
         minZ = rpmin.dot(directionZ)
         maxZ = rpmax.dot(directionZ)
@@ -442,8 +472,12 @@ class Scene:
         done = False
         clock = pygame.time.Clock()
         while not done:
-            self.update_scripts()
-            clock.tick(config.fps)
+            try:
+                self.update_scripts()
+                clock.tick(config.fps)
+            except KeyboardInterrupt:
+                print("Exiting")
+                done = True
 
     def update(self):
         """Updating function to pass to the window provider."""
