@@ -34,6 +34,10 @@ Notes:
         > set a=1
         > python setup.py install
 
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.1.0
+
+
 v0.0.5
 ======
 Transform updates, with new features extending
