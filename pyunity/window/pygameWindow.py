@@ -23,6 +23,7 @@ class Window:
             The function that calls the OpenGL calls.
         
         """
+        self.update_func = update_func
         done = False
         clock = pygame.time.Clock()
         pygame.display.flip()
@@ -37,7 +38,7 @@ class Window:
                 done = True
                 break
             
-            update_func()
+            self.update_func()
             pygame.display.flip()
             clock.tick(60)
     

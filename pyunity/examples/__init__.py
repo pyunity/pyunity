@@ -1,5 +1,5 @@
 from . import (
-    example1, example2, example3, example4, example5, example6
+    example1, example2, example3, example4, example5, example6, example7
 )
 from ..scene import SceneManager
 
@@ -12,6 +12,7 @@ example_list = [
     example4,
     example5,
     example6,
+    example7,
 ]
 
 def show():
