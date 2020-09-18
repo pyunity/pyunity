@@ -935,27 +935,9 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 #define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
 #endif
 
-/* PyObjectFormatSimple.proto */
-#if CYTHON_COMPILING_IN_PYPY
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        PyObject_Format(s, f))
-#elif PY_MAJOR_VERSION < 3
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        likely(PyString_CheckExact(s)) ? PyUnicode_FromEncodedObject(s, NULL, "strict") :\
-        PyObject_Format(s, f))
-#elif CYTHON_USE_TYPE_SLOTS
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        likely(PyLong_CheckExact(s)) ? PyLong_Type.tp_str(s) :\
-        likely(PyFloat_CheckExact(s)) ? PyFloat_Type.tp_str(s) :\
-        PyObject_Format(s, f))
-#else
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        PyObject_Format(s, f))
-#endif
+/* PyObjectFormatAndDecref.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatSimpleAndDecref(PyObject* s, PyObject* f);
+static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatAndDecref(PyObject* s, PyObject* f);
 
 /* IncludeStringH.proto */
 #include <string.h>
@@ -1870,7 +1852,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion___init__(CYTHON_UNU
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
  */
 
 /* Python wrapper */
@@ -1904,7 +1886,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
   /* "pyunity/quaternion.py":28
  *     def __repr__(self):
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"             # <<<<<<<<<<<<<<
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)             # <<<<<<<<<<<<<<
  *     __str__ = __repr__
  * 
  */
@@ -1919,7 +1901,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Quaternion);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_w); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_4), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -1933,7 +1915,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_x); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_5), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -1947,7 +1929,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
   PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_4), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -1961,7 +1943,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
   PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u_);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_z); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_5), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -1985,7 +1967,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_2__repr__(CYTHON_UN
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
  */
 
   /* function exit code */
@@ -7053,7 +7035,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
  */
   __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
@@ -7645,7 +7627,7 @@ if (!__Pyx_RefNanny) {
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_10quaternion_10Quaternion_3__repr__, 0, __pyx_n_s_Quaternion___repr, NULL, __pyx_n_s_pyunity_quaternion, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7654,7 +7636,7 @@ if (!__Pyx_RefNanny) {
 
   /* "pyunity/quaternion.py":29
  *         """String representation of the quaternion"""
- *         return f"Quaternion({self.w}, {self.x}, {self.y}, {self.z})"
+ *         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
  *     __str__ = __repr__             # <<<<<<<<<<<<<<
  * 
  *     def __getitem__(self, i):
@@ -8317,6 +8299,25 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
     return PyObject_SetAttr(obj, attr_name, value);
 }
 #endif
+
+/* PyObjectFormatAndDecref */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatSimpleAndDecref(PyObject* s, PyObject* f) {
+    if (unlikely(!s)) return NULL;
+    if (likely(PyUnicode_CheckExact(s))) return s;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyString_CheckExact(s))) {
+        PyObject *result = PyUnicode_FromEncodedObject(s, NULL, "strict");
+        Py_DECREF(s);
+        return result;
+    }
+    #endif
+    return __Pyx_PyObject_FormatAndDecref(s, f);
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatAndDecref(PyObject* s, PyObject* f) {
+    PyObject *result = PyObject_Format(s, f);
+    Py_DECREF(s);
+    return result;
+}
 
 /* JoinPyUnicode */
 static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,

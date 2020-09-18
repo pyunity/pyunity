@@ -1146,35 +1146,6 @@ static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* k
 #define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
 #endif
 
-/* PyObjectFormatSimple.proto */
-#if CYTHON_COMPILING_IN_PYPY
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        PyObject_Format(s, f))
-#elif PY_MAJOR_VERSION < 3
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        likely(PyString_CheckExact(s)) ? PyUnicode_FromEncodedObject(s, NULL, "strict") :\
-        PyObject_Format(s, f))
-#elif CYTHON_USE_TYPE_SLOTS
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        likely(PyLong_CheckExact(s)) ? PyLong_Type.tp_str(s) :\
-        likely(PyFloat_CheckExact(s)) ? PyFloat_Type.tp_str(s) :\
-        PyObject_Format(s, f))
-#else
-    #define __Pyx_PyObject_FormatSimple(s, f) (\
-        likely(PyUnicode_CheckExact(s)) ? (Py_INCREF(s), s) :\
-        PyObject_Format(s, f))
-#endif
-
-/* IncludeStringH.proto */
-#include <string.h>
-
-/* JoinPyUnicode.proto */
-static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,
-                                      Py_UCS4 max_char);
-
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
@@ -1185,6 +1156,9 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
 #define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
 #define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
 #endif
+
+/* IncludeStringH.proto */
+#include <string.h>
 
 /* BytesEquals.proto */
 static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
@@ -1724,14 +1698,13 @@ static const char __pyx_k_No_tag_at_index[] = "No tag at index ";
 static const char __pyx_k_Scene_transform[] = "Scene.transform";
 static const char __pyx_k_glColorMaterial[] = "glColorMaterial";
 static const char __pyx_k_inside_frustrum[] = "inside_frustrum";
-static const char __pyx_k_is_not_a_string[] = "\" is not a string";
 static const char __pyx_k_rootGameObjects[] = "rootGameObjects";
 static const char __pyx_k_LoadSceneByIndex[] = "LoadSceneByIndex";
 static const char __pyx_k_PyUnityException[] = "PyUnityException";
 static const char __pyx_k_pyunity_scene_py[] = "pyunity\\scene.py";
 static const char __pyx_k_GL_COLOR_MATERIAL[] = "GL_COLOR_MATERIAL";
 static const char __pyx_k_KeyboardInterrupt[] = "KeyboardInterrupt";
-static const char __pyx_k_is_not_an_integer[] = "\" is not an integer";
+static const char __pyx_k_r_is_not_a_string[] = "\"%r\" is not a string";
 static const char __pyx_k_PYUNITY_DEBUG_MODE[] = "PYUNITY_DEBUG_MODE";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_GL_COLOR_BUFFER_BIT[] = "GL_COLOR_BUFFER_BIT";
@@ -1740,33 +1713,34 @@ static const char __pyx_k_GameObjectException[] = "GameObjectException";
 static const char __pyx_k_PYUNITY_INTERACTIVE[] = "PYUNITY_INTERACTIVE";
 static const char __pyx_k_SceneManager___init[] = "SceneManager.__init__";
 static const char __pyx_k_Scene_start_scripts[] = "Scene.start_scripts";
+static const char __pyx_k_r_is_not_an_integer[] = "\"%r\" is not an integer";
 static const char __pyx_k_Scene_no_interactive[] = "Scene.no_interactive";
 static const char __pyx_k_Scene_update_scripts[] = "Scene.update_scripts";
 static const char __pyx_k_FindGameObjectsByName[] = "FindGameObjectsByName";
 static const char __pyx_k_SceneManager_AddScene[] = "SceneManager.AddScene";
 static const char __pyx_k_Scene_inside_frustrum[] = "Scene.inside_frustrum";
 static const char __pyx_k_SceneManager_LoadScene[] = "SceneManager.LoadScene";
-static const char __pyx_k_There_is_no_scene_named[] = "There is no scene named \"";
 static const char __pyx_k_FindGameObjectsByTagName[] = "FindGameObjectsByTagName";
 static const char __pyx_k_SceneManager_RemoveScene[] = "SceneManager.RemoveScene";
 static const char __pyx_k_Scene_List_locals_lambda[] = "Scene.List.<locals>.<lambda>";
 static const char __pyx_k_There_is_no_scene_called[] = "There is no scene called ";
+static const char __pyx_k_There_is_no_scene_named_s[] = "There is no scene named \"%s\"";
 static const char __pyx_k_FindGameObjectsByTagNumber[] = "FindGameObjectsByTagNumber";
 static const char __pyx_k_There_is_no_scene_at_index[] = "There is no scene at index ";
 static const char __pyx_k_SceneManager_GetSceneByName[] = "SceneManager.GetSceneByName";
 static const char __pyx_k_Scene_FindGameObjectsByName[] = "Scene.FindGameObjectsByName";
 static const char __pyx_k_SceneManager_GetSceneByIndex[] = "SceneManager.GetSceneByIndex";
 static const char __pyx_k_SceneManager_LoadSceneByName[] = "SceneManager.LoadSceneByName";
-static const char __pyx_k_There_is_no_scene_at_index_2[] = "There is no scene at index \"";
+static const char __pyx_k_There_is_no_scene_at_index_d[] = "There is no scene at index \"%d\"";
 static const char __pyx_k_SceneManager_LoadSceneByIndex[] = "SceneManager.LoadSceneByIndex";
 static const char __pyx_k_Scene_FindGameObjectsByTagName[] = "Scene.FindGameObjectsByTagName";
 static const char __pyx_k_Class_to_hold_all_of_the_GameOb[] = "\n    Class to hold all of the GameObjects, and to run the whole\n    scene.\n\n    Parameters\n    ----------\n    name : str\n        Name of the scene\n\n    Notes\n    -----\n    Create a scene using the SceneManager, and don't create a scene\n    directly using this class.\n\n    ";
 static const char __pyx_k_Class_to_manage_scenes_Attribut[] = "\n    Class to manage scenes.\n\n    Attributes\n    ----------\n    scenesByIndex : list\n        List of scenes\n    scenesByName : dict\n        Dictionary of scenes, with the scene\n        names as the keys.\n\n    ";
 static const char __pyx_k_create_a_new_tag_with_Tag_AddTa[] = "; create a new tag with Tag.AddTag";
-static const char __pyx_k_is_not_part_of_the_SceneManager[] = "\" is not part of the SceneManager";
 static const char __pyx_k_Cannot_remove_the_Main_Camera_fr[] = "Cannot remove the Main Camera from the scene";
 static const char __pyx_k_SceneManager_already_contains_sc[] = "SceneManager already contains scene \"";
 static const char __pyx_k_Scene_FindGameObjectsByTagNumber[] = "Scene.FindGameObjectsByTagNumber";
+static const char __pyx_k_Scene_s_is_not_part_of_the_Scene[] = "Scene \"%s\" is not part of the SceneManager";
 static const char __pyx_k_Scene_start_scripts_locals_genex[] = "Scene.start_scripts.<locals>.genexpr";
 static const char __pyx_k_The_provided_scene_is_not_of_typ[] = "The provided scene is not of type Scene";
 static PyObject *__pyx_kp_u_;
@@ -1862,6 +1836,7 @@ static PyObject *__pyx_n_s_Scene___init;
 static PyObject *__pyx_n_s_Scene_inside_frustrum;
 static PyObject *__pyx_n_s_Scene_no_interactive;
 static PyObject *__pyx_n_s_Scene_render;
+static PyObject *__pyx_kp_u_Scene_s_is_not_part_of_the_Scene;
 static PyObject *__pyx_n_s_Scene_start_scripts;
 static PyObject *__pyx_n_s_Scene_start_scripts_locals_genex;
 static PyObject *__pyx_n_s_Scene_transform;
@@ -1871,9 +1846,9 @@ static PyObject *__pyx_n_s_Start;
 static PyObject *__pyx_n_s_Step;
 static PyObject *__pyx_kp_u_The_provided_scene_is_not_of_typ;
 static PyObject *__pyx_kp_u_There_is_no_scene_at_index;
-static PyObject *__pyx_kp_u_There_is_no_scene_at_index_2;
+static PyObject *__pyx_kp_u_There_is_no_scene_at_index_d;
 static PyObject *__pyx_kp_u_There_is_no_scene_called;
-static PyObject *__pyx_kp_u_There_is_no_scene_named;
+static PyObject *__pyx_kp_u_There_is_no_scene_named_s;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_Update;
 static PyObject *__pyx_n_s_Vector3;
@@ -1936,9 +1911,6 @@ static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_init_2;
 static PyObject *__pyx_n_s_inside_frustrum;
 static PyObject *__pyx_n_s_intensity;
-static PyObject *__pyx_kp_u_is_not_a_string;
-static PyObject *__pyx_kp_u_is_not_an_integer;
-static PyObject *__pyx_kp_u_is_not_part_of_the_SceneManager;
 static PyObject *__pyx_n_s_key;
 static PyObject *__pyx_n_s_lastFrame;
 static PyObject *__pyx_n_s_lastPos;
@@ -1981,6 +1953,8 @@ static PyObject *__pyx_n_s_pygame;
 static PyObject *__pyx_n_s_pyunity_scene;
 static PyObject *__pyx_kp_s_pyunity_scene_py;
 static PyObject *__pyx_n_s_qualname;
+static PyObject *__pyx_kp_u_r_is_not_a_string;
+static PyObject *__pyx_kp_u_r_is_not_an_integer;
 static PyObject *__pyx_n_s_radians;
 static PyObject *__pyx_n_s_remove;
 static PyObject *__pyx_n_s_render;
@@ -2851,10 +2825,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  Py_ssize_t __pyx_t_6;
-  Py_UCS4 __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_6 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2879,7 +2850,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
  *         if not isinstance(scene, Scene):
  *             raise TypeError("The provided scene is not of type Scene")             # <<<<<<<<<<<<<<
  *         if scene not in self.scenesByIndex:
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  */
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -2900,7 +2871,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
  *         if not isinstance(scene, Scene):
  *             raise TypeError("The provided scene is not of type Scene")
  *         if scene not in self.scenesByIndex:             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  *         self.scenesByIndex.remove(scene)
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
@@ -2913,36 +2884,16 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
     /* "pyunity/scene.py":128
  *             raise TypeError("The provided scene is not of type Scene")
  *         if scene not in self.scenesByIndex:
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")             # <<<<<<<<<<<<<<
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)             # <<<<<<<<<<<<<<
  *         self.scenesByIndex.remove(scene)
  *         self.scenesByName.pop(scene.name)
  */
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = 0;
-    __pyx_t_7 = 127;
-    __Pyx_INCREF(__pyx_kp_u_Scene_2);
-    __pyx_t_6 += 7;
-    __Pyx_GIVEREF(__pyx_kp_u_Scene_2);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Scene_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 128, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_FormatSimple(__pyx_t_8, __pyx_empty_unicode); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_7 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_9) > __pyx_t_7) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_9) : __pyx_t_7;
-    __pyx_t_6 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_9);
-    __Pyx_GIVEREF(__pyx_t_9);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_9);
-    __pyx_t_9 = 0;
-    __Pyx_INCREF(__pyx_kp_u_is_not_part_of_the_SceneManager);
-    __pyx_t_6 += 33;
-    __Pyx_GIVEREF(__pyx_kp_u_is_not_part_of_the_SceneManager);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_is_not_part_of_the_SceneManager);
-    __pyx_t_9 = __Pyx_PyUnicode_Join(__pyx_t_5, 3, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 128, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_6 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_Scene_s_is_not_part_of_the_Scene, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -2954,9 +2905,9 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
         __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_9);
+    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2968,54 +2919,54 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
  *         if not isinstance(scene, Scene):
  *             raise TypeError("The provided scene is not of type Scene")
  *         if scene not in self.scenesByIndex:             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  *         self.scenesByIndex.remove(scene)
  */
   }
 
   /* "pyunity/scene.py":129
  *         if scene not in self.scenesByIndex:
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  *         self.scenesByIndex.remove(scene)             # <<<<<<<<<<<<<<
  *         self.scenesByName.pop(scene.name)
  * 
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_remove); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 129, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_remove); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_9);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
     if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_9, function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_4, __pyx_v_scene) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_v_scene);
+  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_v_scene) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_scene);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/scene.py":130
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  *         self.scenesByIndex.remove(scene)
  *         self.scenesByName.pop(scene.name)             # <<<<<<<<<<<<<<
  * 
  *     def LoadSceneByName(self, name):
  */
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 130, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_pop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_pop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 130, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
     __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
@@ -3026,9 +2977,9 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_9);
+  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3049,8 +3000,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("pyunity.scene.SceneManager.RemoveScene", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3064,7 +3014,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_8RemoveScene(CYTHON_UNU
  * 
  *     def LoadSceneByName(self, name):             # <<<<<<<<<<<<<<
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  */
 
 /* Python wrapper */
@@ -3138,11 +3088,9 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_10LoadSceneByName(CYTHO
   int __pyx_t_1;
   int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  Py_UCS4 __pyx_t_5;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3152,7 +3100,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_10LoadSceneByName(CYTHO
  * 
  *     def LoadSceneByName(self, name):
  *         if not isinstance(name, str):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  *         if name not in self.scenesByName:
  */
   __pyx_t_1 = PyUnicode_Check(__pyx_v_name); 
@@ -3162,160 +3110,120 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_10LoadSceneByName(CYTHO
     /* "pyunity/scene.py":134
  *     def LoadSceneByName(self, name):
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")             # <<<<<<<<<<<<<<
+ *             raise TypeError("\"%r\" is not a string" % name)             # <<<<<<<<<<<<<<
  *         if name not in self.scenesByName:
- *             raise PyUnityException(f"There is no scene named \"{name}\"")
+ *             raise PyUnityException("There is no scene named \"%s\"" % name)
  */
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_r_is_not_a_string, __pyx_v_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = 0;
-    __pyx_t_5 = 127;
-    __Pyx_INCREF(__pyx_kp_u_);
-    __pyx_t_4 += 1;
-    __Pyx_GIVEREF(__pyx_kp_u_);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
-    __pyx_t_4 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_6);
-    __pyx_t_6 = 0;
-    __Pyx_INCREF(__pyx_kp_u_is_not_a_string);
-    __pyx_t_4 += 17;
-    __Pyx_GIVEREF(__pyx_kp_u_is_not_a_string);
-    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u_is_not_a_string);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_ERR(0, 134, __pyx_L1_error)
 
     /* "pyunity/scene.py":133
  * 
  *     def LoadSceneByName(self, name):
  *         if not isinstance(name, str):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  *         if name not in self.scenesByName:
  */
   }
 
   /* "pyunity/scene.py":135
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  *         if name not in self.scenesByName:             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"There is no scene named \"{name}\"")
+ *             raise PyUnityException("There is no scene named \"%s\"" % name)
  *         self.LoadScene(self.scenesByName[name])
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_name, __pyx_t_3, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_name, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (unlikely(__pyx_t_1)) {
 
     /* "pyunity/scene.py":136
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  *         if name not in self.scenesByName:
- *             raise PyUnityException(f"There is no scene named \"{name}\"")             # <<<<<<<<<<<<<<
+ *             raise PyUnityException("There is no scene named \"%s\"" % name)             # <<<<<<<<<<<<<<
  *         self.LoadScene(self.scenesByName[name])
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = 0;
-    __pyx_t_5 = 127;
-    __Pyx_INCREF(__pyx_kp_u_There_is_no_scene_named);
-    __pyx_t_4 += 25;
-    __Pyx_GIVEREF(__pyx_kp_u_There_is_no_scene_named);
-    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_u_There_is_no_scene_named);
-    __pyx_t_8 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_5;
-    __pyx_t_4 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_8);
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_8);
-    __pyx_t_8 = 0;
-    __Pyx_INCREF(__pyx_kp_u_);
-    __pyx_t_4 += 1;
-    __Pyx_GIVEREF(__pyx_kp_u_);
-    PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_kp_u_);
-    __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_7, 3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_There_is_no_scene_named_s, __pyx_v_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_8);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_ERR(0, 136, __pyx_L1_error)
 
     /* "pyunity/scene.py":135
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  *         if name not in self.scenesByName:             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"There is no scene named \"{name}\"")
+ *             raise PyUnityException("There is no scene named \"%s\"" % name)
  *         self.LoadScene(self.scenesByName[name])
  */
   }
 
   /* "pyunity/scene.py":137
  *         if name not in self.scenesByName:
- *             raise PyUnityException(f"There is no scene named \"{name}\"")
+ *             raise PyUnityException("There is no scene named \"%s\"" % name)
  *         self.LoadScene(self.scenesByName[name])             # <<<<<<<<<<<<<<
  * 
  *     def LoadSceneByIndex(self, index):
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_LoadScene); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_LoadScene); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByName); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_8)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "pyunity/scene.py":132
  *         self.scenesByName.pop(scene.name)
  * 
  *     def LoadSceneByName(self, name):             # <<<<<<<<<<<<<<
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  */
 
   /* function exit code */
@@ -3323,9 +3231,9 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_10LoadSceneByName(CYTHO
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("pyunity.scene.SceneManager.LoadSceneByName", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3339,7 +3247,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_10LoadSceneByName(CYTHO
  * 
  *     def LoadSceneByIndex(self, index):             # <<<<<<<<<<<<<<
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  */
 
 /* Python wrapper */
@@ -3413,11 +3321,10 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_12LoadSceneByIndex(CYTH
   int __pyx_t_1;
   int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  Py_UCS4 __pyx_t_5;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3427,7 +3334,7 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_12LoadSceneByIndex(CYTH
  * 
  *     def LoadSceneByIndex(self, index):
  *         if not isinstance(index, int):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  *         if index >= len(self.scenesByIndex):
  */
   __pyx_t_1 = PyInt_Check(__pyx_v_index); 
@@ -3437,165 +3344,125 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_12LoadSceneByIndex(CYTH
     /* "pyunity/scene.py":141
  *     def LoadSceneByIndex(self, index):
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")             # <<<<<<<<<<<<<<
+ *             raise TypeError("\"%r\" is not an integer" % index)             # <<<<<<<<<<<<<<
  *         if index >= len(self.scenesByIndex):
- *             raise PyUnityException(f"There is no scene at index \"{index}\"")
+ *             raise PyUnityException("There is no scene at index \"%d\"" % index)
  */
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_r_is_not_an_integer, __pyx_v_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = 0;
-    __pyx_t_5 = 127;
-    __Pyx_INCREF(__pyx_kp_u_);
-    __pyx_t_4 += 1;
-    __Pyx_GIVEREF(__pyx_kp_u_);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
-    __pyx_t_4 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_6);
-    __pyx_t_6 = 0;
-    __Pyx_INCREF(__pyx_kp_u_is_not_an_integer);
-    __pyx_t_4 += 19;
-    __Pyx_GIVEREF(__pyx_kp_u_is_not_an_integer);
-    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u_is_not_an_integer);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_ERR(0, 141, __pyx_L1_error)
 
     /* "pyunity/scene.py":140
  * 
  *     def LoadSceneByIndex(self, index):
  *         if not isinstance(index, int):             # <<<<<<<<<<<<<<
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  *         if index >= len(self.scenesByIndex):
  */
   }
 
   /* "pyunity/scene.py":142
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  *         if index >= len(self.scenesByIndex):             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"There is no scene at index \"{index}\"")
+ *             raise PyUnityException("There is no scene at index \"%d\"" % index)
  *         self.LoadScene(self.scenesByIndex[index])
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyObject_Length(__pyx_t_4); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyObject_RichCompare(__pyx_v_index, __pyx_t_4, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_v_index, __pyx_t_3, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (unlikely(__pyx_t_2)) {
 
     /* "pyunity/scene.py":143
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  *         if index >= len(self.scenesByIndex):
- *             raise PyUnityException(f"There is no scene at index \"{index}\"")             # <<<<<<<<<<<<<<
+ *             raise PyUnityException("There is no scene at index \"%d\"" % index)             # <<<<<<<<<<<<<<
  *         self.LoadScene(self.scenesByIndex[index])
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = 0;
-    __pyx_t_5 = 127;
-    __Pyx_INCREF(__pyx_kp_u_There_is_no_scene_at_index_2);
-    __pyx_t_4 += 28;
-    __Pyx_GIVEREF(__pyx_kp_u_There_is_no_scene_at_index_2);
-    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_u_There_is_no_scene_at_index_2);
-    __pyx_t_8 = __Pyx_PyObject_FormatSimple(__pyx_v_index, __pyx_empty_unicode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_5;
-    __pyx_t_4 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_8);
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_8);
-    __pyx_t_8 = 0;
-    __Pyx_INCREF(__pyx_kp_u_);
-    __pyx_t_4 += 1;
-    __Pyx_GIVEREF(__pyx_kp_u_);
-    PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_kp_u_);
-    __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_7, 3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_There_is_no_scene_at_index_d, __pyx_v_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
       if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
         __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
+    __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_ERR(0, 143, __pyx_L1_error)
 
     /* "pyunity/scene.py":142
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  *         if index >= len(self.scenesByIndex):             # <<<<<<<<<<<<<<
- *             raise PyUnityException(f"There is no scene at index \"{index}\"")
+ *             raise PyUnityException("There is no scene at index \"%d\"" % index)
  *         self.LoadScene(self.scenesByIndex[index])
  */
   }
 
   /* "pyunity/scene.py":144
  *         if index >= len(self.scenesByIndex):
- *             raise PyUnityException(f"There is no scene at index \"{index}\"")
+ *             raise PyUnityException("There is no scene at index \"%d\"" % index)
  *         self.LoadScene(self.scenesByIndex[index])             # <<<<<<<<<<<<<<
  * 
  *     def LoadScene(self, scene):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_LoadScene); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_LoadScene); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_scenesByIndex); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_8)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_6 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "pyunity/scene.py":139
  *         self.LoadScene(self.scenesByName[name])
  * 
  *     def LoadSceneByIndex(self, index):             # <<<<<<<<<<<<<<
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  */
 
   /* function exit code */
@@ -3603,9 +3470,9 @@ static PyObject *__pyx_pf_7pyunity_5scene_12SceneManager_12LoadSceneByIndex(CYTH
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("pyunity.scene.SceneManager.LoadSceneByIndex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -11466,6 +11333,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Scene_inside_frustrum, __pyx_k_Scene_inside_frustrum, sizeof(__pyx_k_Scene_inside_frustrum), 0, 0, 1, 1},
   {&__pyx_n_s_Scene_no_interactive, __pyx_k_Scene_no_interactive, sizeof(__pyx_k_Scene_no_interactive), 0, 0, 1, 1},
   {&__pyx_n_s_Scene_render, __pyx_k_Scene_render, sizeof(__pyx_k_Scene_render), 0, 0, 1, 1},
+  {&__pyx_kp_u_Scene_s_is_not_part_of_the_Scene, __pyx_k_Scene_s_is_not_part_of_the_Scene, sizeof(__pyx_k_Scene_s_is_not_part_of_the_Scene), 0, 1, 0, 0},
   {&__pyx_n_s_Scene_start_scripts, __pyx_k_Scene_start_scripts, sizeof(__pyx_k_Scene_start_scripts), 0, 0, 1, 1},
   {&__pyx_n_s_Scene_start_scripts_locals_genex, __pyx_k_Scene_start_scripts_locals_genex, sizeof(__pyx_k_Scene_start_scripts_locals_genex), 0, 0, 1, 1},
   {&__pyx_n_s_Scene_transform, __pyx_k_Scene_transform, sizeof(__pyx_k_Scene_transform), 0, 0, 1, 1},
@@ -11475,9 +11343,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Step, __pyx_k_Step, sizeof(__pyx_k_Step), 0, 0, 1, 1},
   {&__pyx_kp_u_The_provided_scene_is_not_of_typ, __pyx_k_The_provided_scene_is_not_of_typ, sizeof(__pyx_k_The_provided_scene_is_not_of_typ), 0, 1, 0, 0},
   {&__pyx_kp_u_There_is_no_scene_at_index, __pyx_k_There_is_no_scene_at_index, sizeof(__pyx_k_There_is_no_scene_at_index), 0, 1, 0, 0},
-  {&__pyx_kp_u_There_is_no_scene_at_index_2, __pyx_k_There_is_no_scene_at_index_2, sizeof(__pyx_k_There_is_no_scene_at_index_2), 0, 1, 0, 0},
+  {&__pyx_kp_u_There_is_no_scene_at_index_d, __pyx_k_There_is_no_scene_at_index_d, sizeof(__pyx_k_There_is_no_scene_at_index_d), 0, 1, 0, 0},
   {&__pyx_kp_u_There_is_no_scene_called, __pyx_k_There_is_no_scene_called, sizeof(__pyx_k_There_is_no_scene_called), 0, 1, 0, 0},
-  {&__pyx_kp_u_There_is_no_scene_named, __pyx_k_There_is_no_scene_named, sizeof(__pyx_k_There_is_no_scene_named), 0, 1, 0, 0},
+  {&__pyx_kp_u_There_is_no_scene_named_s, __pyx_k_There_is_no_scene_named_s, sizeof(__pyx_k_There_is_no_scene_named_s), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_Update, __pyx_k_Update, sizeof(__pyx_k_Update), 0, 0, 1, 1},
   {&__pyx_n_s_Vector3, __pyx_k_Vector3, sizeof(__pyx_k_Vector3), 0, 0, 1, 1},
@@ -11540,9 +11408,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init_2, __pyx_k_init_2, sizeof(__pyx_k_init_2), 0, 0, 1, 1},
   {&__pyx_n_s_inside_frustrum, __pyx_k_inside_frustrum, sizeof(__pyx_k_inside_frustrum), 0, 0, 1, 1},
   {&__pyx_n_s_intensity, __pyx_k_intensity, sizeof(__pyx_k_intensity), 0, 0, 1, 1},
-  {&__pyx_kp_u_is_not_a_string, __pyx_k_is_not_a_string, sizeof(__pyx_k_is_not_a_string), 0, 1, 0, 0},
-  {&__pyx_kp_u_is_not_an_integer, __pyx_k_is_not_an_integer, sizeof(__pyx_k_is_not_an_integer), 0, 1, 0, 0},
-  {&__pyx_kp_u_is_not_part_of_the_SceneManager, __pyx_k_is_not_part_of_the_SceneManager, sizeof(__pyx_k_is_not_part_of_the_SceneManager), 0, 1, 0, 0},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
   {&__pyx_n_s_lastFrame, __pyx_k_lastFrame, sizeof(__pyx_k_lastFrame), 0, 0, 1, 1},
   {&__pyx_n_s_lastPos, __pyx_k_lastPos, sizeof(__pyx_k_lastPos), 0, 0, 1, 1},
@@ -11585,6 +11450,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyunity_scene, __pyx_k_pyunity_scene, sizeof(__pyx_k_pyunity_scene), 0, 0, 1, 1},
   {&__pyx_kp_s_pyunity_scene_py, __pyx_k_pyunity_scene_py, sizeof(__pyx_k_pyunity_scene_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
+  {&__pyx_kp_u_r_is_not_a_string, __pyx_k_r_is_not_a_string, sizeof(__pyx_k_r_is_not_a_string), 0, 1, 0, 0},
+  {&__pyx_kp_u_r_is_not_an_integer, __pyx_k_r_is_not_an_integer, sizeof(__pyx_k_r_is_not_an_integer), 0, 1, 0, 0},
   {&__pyx_n_s_radians, __pyx_k_radians, sizeof(__pyx_k_radians), 0, 0, 1, 1},
   {&__pyx_n_s_remove, __pyx_k_remove, sizeof(__pyx_k_remove), 0, 0, 1, 1},
   {&__pyx_n_s_render, __pyx_k_render, sizeof(__pyx_k_render), 0, 0, 1, 1},
@@ -11648,7 +11515,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         if not isinstance(scene, Scene):
  *             raise TypeError("The provided scene is not of type Scene")             # <<<<<<<<<<<<<<
  *         if scene not in self.scenesByIndex:
- *             raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+ *             raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
  */
   __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_The_provided_scene_is_not_of_typ); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
@@ -11763,7 +11630,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *     def LoadSceneByName(self, name):             # <<<<<<<<<<<<<<
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  */
   __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
@@ -11775,7 +11642,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *     def LoadSceneByIndex(self, index):             # <<<<<<<<<<<<<<
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  */
   __pyx_tuple__21 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_index); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
@@ -12547,7 +12414,7 @@ if (!__Pyx_RefNanny) {
  * 
  *     def LoadSceneByName(self, name):             # <<<<<<<<<<<<<<
  *         if not isinstance(name, str):
- *             raise TypeError(f"\"{str(name)}\" is not a string")
+ *             raise TypeError("\"%r\" is not a string" % name)
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5scene_12SceneManager_11LoadSceneByName, 0, __pyx_n_s_SceneManager_LoadSceneByName, NULL, __pyx_n_s_pyunity_scene, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -12559,7 +12426,7 @@ if (!__Pyx_RefNanny) {
  * 
  *     def LoadSceneByIndex(self, index):             # <<<<<<<<<<<<<<
  *         if not isinstance(index, int):
- *             raise TypeError(f"\"{str(index)}\" is not an integer")
+ *             raise TypeError("\"%r\" is not an integer" % index)
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5scene_12SceneManager_13LoadSceneByIndex, 0, __pyx_n_s_SceneManager_LoadSceneByIndex, NULL, __pyx_n_s_pyunity_scene, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -13795,68 +13662,6 @@ static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
     return __Pyx_PyObject_GetIndex(obj, key);
 }
 #endif
-
-/* JoinPyUnicode */
-static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,
-                                      CYTHON_UNUSED Py_UCS4 max_char) {
-#if CYTHON_USE_UNICODE_INTERNALS && CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    PyObject *result_uval;
-    int result_ukind;
-    Py_ssize_t i, char_pos;
-    void *result_udata;
-#if CYTHON_PEP393_ENABLED
-    result_uval = PyUnicode_New(result_ulength, max_char);
-    if (unlikely(!result_uval)) return NULL;
-    result_ukind = (max_char <= 255) ? PyUnicode_1BYTE_KIND : (max_char <= 65535) ? PyUnicode_2BYTE_KIND : PyUnicode_4BYTE_KIND;
-    result_udata = PyUnicode_DATA(result_uval);
-#else
-    result_uval = PyUnicode_FromUnicode(NULL, result_ulength);
-    if (unlikely(!result_uval)) return NULL;
-    result_ukind = sizeof(Py_UNICODE);
-    result_udata = PyUnicode_AS_UNICODE(result_uval);
-#endif
-    char_pos = 0;
-    for (i=0; i < value_count; i++) {
-        int ukind;
-        Py_ssize_t ulength;
-        void *udata;
-        PyObject *uval = PyTuple_GET_ITEM(value_tuple, i);
-        if (unlikely(__Pyx_PyUnicode_READY(uval)))
-            goto bad;
-        ulength = __Pyx_PyUnicode_GET_LENGTH(uval);
-        if (unlikely(!ulength))
-            continue;
-        if (unlikely(char_pos + ulength < 0))
-            goto overflow;
-        ukind = __Pyx_PyUnicode_KIND(uval);
-        udata = __Pyx_PyUnicode_DATA(uval);
-        if (!CYTHON_PEP393_ENABLED || ukind == result_ukind) {
-            memcpy((char *)result_udata + char_pos * result_ukind, udata, (size_t) (ulength * result_ukind));
-        } else {
-            #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030300F0 || defined(_PyUnicode_FastCopyCharacters)
-            _PyUnicode_FastCopyCharacters(result_uval, char_pos, uval, 0, ulength);
-            #else
-            Py_ssize_t j;
-            for (j=0; j < ulength; j++) {
-                Py_UCS4 uchar = __Pyx_PyUnicode_READ(ukind, udata, j);
-                __Pyx_PyUnicode_WRITE(result_ukind, result_udata, char_pos+j, uchar);
-            }
-            #endif
-        }
-        char_pos += ulength;
-    }
-    return result_uval;
-overflow:
-    PyErr_SetString(PyExc_OverflowError, "join() result is too long for a Python string");
-bad:
-    Py_DECREF(result_uval);
-    return NULL;
-#else
-    result_ulength++;
-    value_count++;
-    return PyUnicode_Join(__pyx_empty_unicode, value_tuple);
-#endif
-}
 
 /* DictGetItem */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY

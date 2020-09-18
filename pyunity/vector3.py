@@ -37,7 +37,7 @@ class Vector3:
     
     def __repr__(self):
         """String representation of the vector"""
-        return f"Vector3({self.x}, {self.y}, {self.z})"
+        return "Vector3(%r, %r, %r)" % (self.x, self.y, self.z)
     __str__ = __repr__
     
     def __getitem__(self, i):
