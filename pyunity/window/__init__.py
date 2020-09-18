@@ -84,7 +84,7 @@ def LoadWindowProvider():
         i += 1
 
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print(f"Using window provider {windowProvider}")
+        print("Using window provider", windowProvider)
 
     if windowProvider == "FreeGLUT":
         from .glutWindow import Window as glutWindow
