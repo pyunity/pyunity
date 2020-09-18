@@ -125,22 +125,22 @@ class SceneManager:
         if not isinstance(scene, Scene):
             raise TypeError("The provided scene is not of type Scene")
         if scene not in self.scenesByIndex:
-            raise PyUnityException(f"Scene \"{scene.name}\" is not part of the SceneManager")
+            raise PyUnityException("Scene \"%s\" is not part of the SceneManager" % scene.name)
         self.scenesByIndex.remove(scene)
         self.scenesByName.pop(scene.name)
     
     def LoadSceneByName(self, name):
         if not isinstance(name, str):
-            raise TypeError(f"\"{str(name)}\" is not a string")
+            raise TypeError("\"%r\" is not a string" % name)
         if name not in self.scenesByName:
-            raise PyUnityException(f"There is no scene named \"{name}\"")
+            raise PyUnityException("There is no scene named \"%s\"" % name)
         self.LoadScene(self.scenesByName[name])
     
     def LoadSceneByIndex(self, index):
         if not isinstance(index, int):
-            raise TypeError(f"\"{str(index)}\" is not an integer")
+            raise TypeError("\"%r\" is not an integer" % index)
         if index >= len(self.scenesByIndex):
-            raise PyUnityException(f"There is no scene at index \"{index}\"")
+            raise PyUnityException("There is no scene at index \"%d\"" % index)
         self.LoadScene(self.scenesByIndex[index])
     
     def LoadScene(self, scene):
