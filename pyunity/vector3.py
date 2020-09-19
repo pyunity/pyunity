@@ -236,11 +236,6 @@ class Vector3:
     def __rdivmod__(self, other):
         return self._r_o2(other, divmod)
     
-    def __pow__(self, other):
-        return self._o2(other, operator.pow)
-    def __rpow__(self, other):
-        return self._r_o2(other, operator.pow)
-    
     def __lshift__(self, other):
         return self._o2(other, operator.lshift)
     def __rlshift__(self, other):

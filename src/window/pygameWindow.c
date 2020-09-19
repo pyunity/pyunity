@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "pyunity.window.pygameWindow",
+        "name": "pyunity.window.pygamewindow",
         "sources": [
-            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\pygameWindow.py"
+            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\pygamewindow.py"
         ]
     },
-    "module_name": "pyunity.window.pygameWindow"
+    "module_name": "pyunity.window.pygamewindow"
 }
 END: Cython Metadata */
 
@@ -610,8 +610,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__pyunity__window__pygameWindow
-#define __PYX_HAVE_API__pyunity__window__pygameWindow
+#define __PYX_HAVE__pyunity__window__pygamewindow
+#define __PYX_HAVE_API__pyunity__window__pygamewindow
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\window\\pygameWindow.py",
+  "pyunity\\window\\pygamewindow.py",
 };
 
 /*--- Type declarations ---*/
@@ -1229,12 +1229,12 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'pyunity.window.pygameWindow' */
-#define __Pyx_MODULE_NAME "pyunity.window.pygameWindow"
-extern int __pyx_module_is_main_pyunity__window__pygameWindow;
-int __pyx_module_is_main_pyunity__window__pygameWindow = 0;
+/* Module declarations from 'pyunity.window.pygamewindow' */
+#define __Pyx_MODULE_NAME "pyunity.window.pygamewindow"
+extern int __pyx_module_is_main_pyunity__window__pygamewindow;
+int __pyx_module_is_main_pyunity__window__pygamewindow = 0;
 
-/* Implementation of 'pyunity.window.pygameWindow' */
+/* Implementation of 'pyunity.window.pygamewindow' */
 static const char __pyx_k_1[] = "1";
 static const char __pyx_k_os[] = "os";
 static const char __pyx_k_doc[] = "__doc__";
@@ -1285,8 +1285,8 @@ static const char __pyx_k_Window_start[] = "Window.start";
 static const char __pyx_k_Window___init[] = "Window.__init__";
 static const char __pyx_k_SDL_VIDEO_CENTERED[] = "SDL_VIDEO_CENTERED";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_pyunity_window_pygameWindow[] = "pyunity.window.pygameWindow";
-static const char __pyx_k_pyunity_window_pygameWindow_py[] = "pyunity\\window\\pygameWindow.py";
+static const char __pyx_k_pyunity_window_pygamewindow[] = "pyunity.window.pygamewindow";
+static const char __pyx_k_pyunity_window_pygamewindow_py[] = "pyunity\\window\\pygamewindow.py";
 static const char __pyx_k_A_window_provider_that_uses_PyG[] = "\n    A window provider that uses PyGame.\n    \n    ";
 static PyObject *__pyx_kp_u_1;
 static PyObject *__pyx_kp_s_A_window_provider_that_uses_PyG;
@@ -1326,8 +1326,8 @@ static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pressed;
 static PyObject *__pyx_n_s_pygame;
-static PyObject *__pyx_n_s_pyunity_window_pygameWindow;
-static PyObject *__pyx_kp_s_pyunity_window_pygameWindow_py;
+static PyObject *__pyx_n_s_pyunity_window_pygamewindow;
+static PyObject *__pyx_kp_s_pyunity_window_pygamewindow_py;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_quit;
 static PyObject *__pyx_n_s_self;
@@ -1341,8 +1341,8 @@ static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_type;
 static PyObject *__pyx_n_s_update_func;
 static PyObject *__pyx_n_s_window;
-static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name); /* proto */
-static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_update_func); /* proto */
+static PyObject *__pyx_pf_7pyunity_6window_12pygamewindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name); /* proto */
+static PyObject *__pyx_pf_7pyunity_6window_12pygamewindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_update_func); /* proto */
 static PyObject *__pyx_int_60;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
@@ -1350,7 +1350,7 @@ static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
 /* Late includes */
 
-/* "pyunity/window/pygameWindow.py":12
+/* "pyunity/window/pygamewindow.py":12
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -1359,9 +1359,9 @@ static PyObject *__pyx_codeobj__4;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_7pyunity_6window_12pygameWindow_6Window_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_12pygameWindow_6Window_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_6window_12pygamewindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_6window_12pygamewindow_6Window_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_12pygamewindow_6Window_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_6window_12pygamewindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_size = 0;
   PyObject *__pyx_v_name = 0;
@@ -1423,18 +1423,18 @@ static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_1__init__(PyOb
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 12, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pyunity.window.pygameWindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.pygamewindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(__pyx_self, __pyx_v_self, __pyx_v_size, __pyx_v_name);
+  __pyx_r = __pyx_pf_7pyunity_6window_12pygamewindow_6Window___init__(__pyx_self, __pyx_v_self, __pyx_v_size, __pyx_v_name);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name) {
+static PyObject *__pyx_pf_7pyunity_6window_12pygamewindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1448,7 +1448,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pyunity/window/pygameWindow.py":13
+  /* "pyunity/window/pygamewindow.py":13
  * 
  *     def __init__(self, size, name):
  *         self.window = pygame.display.set_mode(size, pygame.DOUBLEBUF | pygame.OPENGL)             # <<<<<<<<<<<<<<
@@ -1527,7 +1527,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_window, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":14
+  /* "pyunity/window/pygamewindow.py":14
  *     def __init__(self, size, name):
  *         self.window = pygame.display.set_mode(size, pygame.DOUBLEBUF | pygame.OPENGL)
  *         pygame.display.set_caption(name)             # <<<<<<<<<<<<<<
@@ -1559,7 +1559,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":12
+  /* "pyunity/window/pygamewindow.py":12
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -1576,7 +1576,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pyunity.window.pygameWindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.pygamewindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1584,7 +1584,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   return __pyx_r;
 }
 
-/* "pyunity/window/pygameWindow.py":16
+/* "pyunity/window/pygamewindow.py":16
  *         pygame.display.set_caption(name)
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
@@ -1593,10 +1593,10 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_6window_12pygameWindow_6Window_2start[] = "\n        Start the main loop of the window.\n\n        Parameters\n        ----------\n        updateFunc : function\n            The function that calls the OpenGL calls.\n        \n        ";
-static PyMethodDef __pyx_mdef_7pyunity_6window_12pygameWindow_6Window_3start = {"start", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_6window_12pygameWindow_6Window_2start};
-static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_6window_12pygamewindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_7pyunity_6window_12pygamewindow_6Window_2start[] = "\n        Start the main loop of the window.\n\n        Parameters\n        ----------\n        updateFunc : function\n            The function that calls the OpenGL calls.\n        \n        ";
+static PyMethodDef __pyx_mdef_7pyunity_6window_12pygamewindow_6Window_3start = {"start", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_12pygamewindow_6Window_3start, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_6window_12pygamewindow_6Window_2start};
+static PyObject *__pyx_pw_7pyunity_6window_12pygamewindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_update_func = 0;
   int __pyx_lineno = 0;
@@ -1647,18 +1647,18 @@ static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start(PyObjec
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pyunity.window.pygameWindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.pygamewindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(__pyx_self, __pyx_v_self, __pyx_v_update_func);
+  __pyx_r = __pyx_pf_7pyunity_6window_12pygamewindow_6Window_2start(__pyx_self, __pyx_v_self, __pyx_v_update_func);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_update_func) {
+static PyObject *__pyx_pf_7pyunity_6window_12pygamewindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_update_func) {
   int __pyx_v_done;
   PyObject *__pyx_v_clock = NULL;
   PyObject *__pyx_v_event = NULL;
@@ -1679,7 +1679,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("start", 0);
 
-  /* "pyunity/window/pygameWindow.py":26
+  /* "pyunity/window/pygamewindow.py":26
  * 
  *         """
  *         self.update_func = update_func             # <<<<<<<<<<<<<<
@@ -1688,7 +1688,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_update_func, __pyx_v_update_func) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":27
+  /* "pyunity/window/pygamewindow.py":27
  *         """
  *         self.update_func = update_func
  *         done = False             # <<<<<<<<<<<<<<
@@ -1697,7 +1697,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
   __pyx_v_done = 0;
 
-  /* "pyunity/window/pygameWindow.py":28
+  /* "pyunity/window/pygamewindow.py":28
  *         self.update_func = update_func
  *         done = False
  *         clock = pygame.time.Clock()             # <<<<<<<<<<<<<<
@@ -1730,7 +1730,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   __pyx_v_clock = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":29
+  /* "pyunity/window/pygamewindow.py":29
  *         done = False
  *         clock = pygame.time.Clock()
  *         pygame.display.flip()             # <<<<<<<<<<<<<<
@@ -1762,7 +1762,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":30
+  /* "pyunity/window/pygamewindow.py":30
  *         clock = pygame.time.Clock()
  *         pygame.display.flip()
  *         while not done:             # <<<<<<<<<<<<<<
@@ -1773,7 +1773,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __pyx_t_4 = ((!(__pyx_v_done != 0)) != 0);
     if (!__pyx_t_4) break;
 
-    /* "pyunity/window/pygameWindow.py":31
+    /* "pyunity/window/pygamewindow.py":31
  *         pygame.display.flip()
  *         while not done:
  *             for event in pygame.event.get():             # <<<<<<<<<<<<<<
@@ -1846,7 +1846,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
       __Pyx_XDECREF_SET(__pyx_v_event, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "pyunity/window/pygameWindow.py":32
+      /* "pyunity/window/pygamewindow.py":32
  *         while not done:
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
@@ -1867,7 +1867,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_4) {
 
-        /* "pyunity/window/pygameWindow.py":33
+        /* "pyunity/window/pygamewindow.py":33
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:
  *                     done = True             # <<<<<<<<<<<<<<
@@ -1876,7 +1876,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
         __pyx_v_done = 1;
 
-        /* "pyunity/window/pygameWindow.py":32
+        /* "pyunity/window/pygamewindow.py":32
  *         while not done:
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
@@ -1885,7 +1885,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
       }
 
-      /* "pyunity/window/pygameWindow.py":31
+      /* "pyunity/window/pygamewindow.py":31
  *         pygame.display.flip()
  *         while not done:
  *             for event in pygame.event.get():             # <<<<<<<<<<<<<<
@@ -1895,7 +1895,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":35
+    /* "pyunity/window/pygamewindow.py":35
  *                     done = True
  * 
  *             pressed = pygame.key.get_pressed()             # <<<<<<<<<<<<<<
@@ -1928,7 +1928,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __Pyx_XDECREF_SET(__pyx_v_pressed, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":36
+    /* "pyunity/window/pygamewindow.py":36
  * 
  *             pressed = pygame.key.get_pressed()
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]             # <<<<<<<<<<<<<<
@@ -1967,7 +1967,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __Pyx_XDECREF_SET(__pyx_v_alt_pressed, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":37
+    /* "pyunity/window/pygamewindow.py":37
  *             pressed = pygame.key.get_pressed()
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):             # <<<<<<<<<<<<<<
@@ -2009,7 +2009,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __pyx_L11_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "pyunity/window/pygameWindow.py":38
+      /* "pyunity/window/pygamewindow.py":38
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
  *                 done = True             # <<<<<<<<<<<<<<
@@ -2018,7 +2018,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
       __pyx_v_done = 1;
 
-      /* "pyunity/window/pygameWindow.py":39
+      /* "pyunity/window/pygamewindow.py":39
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
  *                 done = True
  *                 break             # <<<<<<<<<<<<<<
@@ -2027,7 +2027,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
       goto __pyx_L4_break;
 
-      /* "pyunity/window/pygameWindow.py":37
+      /* "pyunity/window/pygamewindow.py":37
  *             pressed = pygame.key.get_pressed()
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):             # <<<<<<<<<<<<<<
@@ -2036,7 +2036,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
     }
 
-    /* "pyunity/window/pygameWindow.py":41
+    /* "pyunity/window/pygamewindow.py":41
  *                 break
  * 
  *             self.update_func()             # <<<<<<<<<<<<<<
@@ -2062,7 +2062,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":42
+    /* "pyunity/window/pygamewindow.py":42
  * 
  *             self.update_func()
  *             pygame.display.flip()             # <<<<<<<<<<<<<<
@@ -2094,7 +2094,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":43
+    /* "pyunity/window/pygamewindow.py":43
  *             self.update_func()
  *             pygame.display.flip()
  *             clock.tick(60)             # <<<<<<<<<<<<<<
@@ -2122,7 +2122,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   }
   __pyx_L4_break:;
 
-  /* "pyunity/window/pygameWindow.py":45
+  /* "pyunity/window/pygamewindow.py":45
  *             clock.tick(60)
  * 
  *         pygame.display.quit()             # <<<<<<<<<<<<<<
@@ -2152,7 +2152,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":16
+  /* "pyunity/window/pygamewindow.py":16
  *         pygame.display.set_caption(name)
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
@@ -2168,7 +2168,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("pyunity.window.pygameWindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.pygamewindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_clock);
@@ -2187,17 +2187,17 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_pygameWindow(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_pygamewindow(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_pygameWindow},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_pygamewindow},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "pygameWindow",
+    "pygamewindow",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -2264,8 +2264,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pressed, __pyx_k_pressed, sizeof(__pyx_k_pressed), 0, 0, 1, 1},
   {&__pyx_n_s_pygame, __pyx_k_pygame, sizeof(__pyx_k_pygame), 0, 0, 1, 1},
-  {&__pyx_n_s_pyunity_window_pygameWindow, __pyx_k_pyunity_window_pygameWindow, sizeof(__pyx_k_pyunity_window_pygameWindow), 0, 0, 1, 1},
-  {&__pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_k_pyunity_window_pygameWindow_py, sizeof(__pyx_k_pyunity_window_pygameWindow_py), 0, 0, 1, 0},
+  {&__pyx_n_s_pyunity_window_pygamewindow, __pyx_k_pyunity_window_pygamewindow, sizeof(__pyx_k_pyunity_window_pygamewindow), 0, 0, 1, 1},
+  {&__pyx_kp_s_pyunity_window_pygamewindow_py, __pyx_k_pyunity_window_pygamewindow_py, sizeof(__pyx_k_pyunity_window_pygamewindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_quit, __pyx_k_quit, sizeof(__pyx_k_quit), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -2289,7 +2289,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyunity/window/pygameWindow.py":12
+  /* "pyunity/window/pygamewindow.py":12
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -2299,9 +2299,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_name); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_n_s_init_2, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygamewindow_py, __pyx_n_s_init_2, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 12, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":16
+  /* "pyunity/window/pygamewindow.py":16
  *         pygame.display.set_caption(name)
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
@@ -2311,7 +2311,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__3 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_update_func, __pyx_n_s_done, __pyx_n_s_clock, __pyx_n_s_event, __pyx_n_s_pressed, __pyx_n_s_alt_pressed); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_n_s_start, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygamewindow_py, __pyx_n_s_start, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2410,11 +2410,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initpygameWindow(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initpygameWindow(void)
+__Pyx_PyMODINIT_FUNC initpygamewindow(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initpygamewindow(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_pygameWindow(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_pygameWindow(void)
+__Pyx_PyMODINIT_FUNC PyInit_pygamewindow(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_pygamewindow(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -2481,7 +2481,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_pygameWindow(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_pygamewindow(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -2494,7 +2494,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_pygameWindow(PyObject *__pyx_pyini
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'pygameWindow' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'pygamewindow' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -2509,7 +2509,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_pygameWindow(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_pygamewindow(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -2548,7 +2548,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("pygameWindow", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("pygamewindow", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -2566,14 +2566,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_pyunity__window__pygameWindow) {
+  if (__pyx_module_is_main_pyunity__window__pygamewindow) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "pyunity.window.pygameWindow")) {
-      if (unlikely(PyDict_SetItemString(modules, "pyunity.window.pygameWindow", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "pyunity.window.pygamewindow")) {
+      if (unlikely(PyDict_SetItemString(modules, "pyunity.window.pygamewindow", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -2594,7 +2594,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "pyunity/window/pygameWindow.py":1
+  /* "pyunity/window/pygamewindow.py":1
  * import pygame, os             # <<<<<<<<<<<<<<
  * os.environ["SDL_VIDEO_CENTERED"] = "1"
  * 
@@ -2608,7 +2608,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":2
+  /* "pyunity/window/pygamewindow.py":2
  * import pygame, os
  * os.environ["SDL_VIDEO_CENTERED"] = "1"             # <<<<<<<<<<<<<<
  * 
@@ -2622,7 +2622,7 @@ if (!__Pyx_RefNanny) {
   if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_SDL_VIDEO_CENTERED, __pyx_kp_u_1) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":4
+  /* "pyunity/window/pygamewindow.py":4
  * os.environ["SDL_VIDEO_CENTERED"] = "1"
  * 
  * pygame.init()             # <<<<<<<<<<<<<<
@@ -2639,41 +2639,41 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":6
+  /* "pyunity/window/pygamewindow.py":6
  * pygame.init()
  * 
  * class Window:             # <<<<<<<<<<<<<<
  *     """
  *     A window provider that uses PyGame.
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Window, __pyx_n_s_Window, (PyObject *) NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_kp_s_A_window_provider_that_uses_PyG); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Window, __pyx_n_s_Window, (PyObject *) NULL, __pyx_n_s_pyunity_window_pygamewindow, __pyx_kp_s_A_window_provider_that_uses_PyG); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "pyunity/window/pygameWindow.py":12
+  /* "pyunity/window/pygamewindow.py":12
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
  *         self.window = pygame.display.set_mode(size, pygame.DOUBLEBUF | pygame.OPENGL)
  *         pygame.display.set_caption(name)
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_1__init__, 0, __pyx_n_s_Window___init, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygamewindow_6Window_1__init__, 0, __pyx_n_s_Window___init, NULL, __pyx_n_s_pyunity_window_pygamewindow, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init_2, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":16
+  /* "pyunity/window/pygamewindow.py":16
  *         pygame.display.set_caption(name)
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
  *         """
  *         Start the main loop of the window.
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygamewindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_pygamewindow, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_start, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":6
+  /* "pyunity/window/pygamewindow.py":6
  * pygame.init()
  * 
  * class Window:             # <<<<<<<<<<<<<<
@@ -2686,7 +2686,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":1
+  /* "pyunity/window/pygamewindow.py":1
  * import pygame, os             # <<<<<<<<<<<<<<
  * os.environ["SDL_VIDEO_CENTERED"] = "1"
  * 
@@ -2704,11 +2704,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init pyunity.window.pygameWindow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init pyunity.window.pygamewindow", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init pyunity.window.pygameWindow");
+    PyErr_SetString(PyExc_ImportError, "init pyunity.window.pygamewindow");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

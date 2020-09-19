@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "pyunity.window.glfwWindow",
+        "name": "pyunity.window.glfwwindow",
         "sources": [
-            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\glfwWindow.py"
+            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\glfwwindow.py"
         ]
     },
-    "module_name": "pyunity.window.glfwWindow"
+    "module_name": "pyunity.window.glfwwindow"
 }
 END: Cython Metadata */
 
@@ -610,8 +610,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__pyunity__window__glfwWindow
-#define __PYX_HAVE_API__pyunity__window__glfwWindow
+#define __PYX_HAVE__pyunity__window__glfwwindow
+#define __PYX_HAVE_API__pyunity__window__glfwwindow
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\window\\glfwWindow.py",
+  "pyunity\\window\\glfwwindow.py",
 };
 
 /*--- Type declarations ---*/
@@ -1206,12 +1206,12 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'pyunity.window.glfwWindow' */
-#define __Pyx_MODULE_NAME "pyunity.window.glfwWindow"
-extern int __pyx_module_is_main_pyunity__window__glfwWindow;
-int __pyx_module_is_main_pyunity__window__glfwWindow = 0;
+/* Module declarations from 'pyunity.window.glfwwindow' */
+#define __Pyx_MODULE_NAME "pyunity.window.glfwwindow"
+extern int __pyx_module_is_main_pyunity__window__glfwwindow;
+int __pyx_module_is_main_pyunity__window__glfwwindow = 0;
 
-/* Implementation of 'pyunity.window.glfwWindow' */
+/* Implementation of 'pyunity.window.glfwwindow' */
 static const char __pyx_k_[] = "*";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_glfw[] = "glfw";
@@ -1250,8 +1250,8 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_window_should_close[] = "window_should_close";
 static const char __pyx_k_make_context_current[] = "make_context_current";
 static const char __pyx_k_Cannot_open_GLFW_window[] = "Cannot open GLFW window";
-static const char __pyx_k_pyunity_window_glfwWindow[] = "pyunity.window.glfwWindow";
-static const char __pyx_k_pyunity_window_glfwWindow_py[] = "pyunity\\window\\glfwWindow.py";
+static const char __pyx_k_pyunity_window_glfwwindow[] = "pyunity.window.glfwwindow";
+static const char __pyx_k_pyunity_window_glfwwindow_py[] = "pyunity\\window\\glfwwindow.py";
 static const char __pyx_k_A_window_provider_that_uses_GLF[] = "\n    A window provider that uses GLFW.\n\n    Raises\n    ------\n    pyunityException\n        If the window creation fails\n    \n    ";
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_s_A_window_provider_that_uses_GLF;
@@ -1280,8 +1280,8 @@ static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_poll_events;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pyunityException;
-static PyObject *__pyx_n_s_pyunity_window_glfwWindow;
-static PyObject *__pyx_kp_s_pyunity_window_glfwWindow_py;
+static PyObject *__pyx_n_s_pyunity_window_glfwwindow;
+static PyObject *__pyx_kp_s_pyunity_window_glfwwindow_py;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_size;
@@ -1294,15 +1294,15 @@ static PyObject *__pyx_n_s_updateFunc;
 static PyObject *__pyx_n_s_window;
 static PyObject *__pyx_n_s_window_hint;
 static PyObject *__pyx_n_s_window_should_close;
-static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name); /* proto */
-static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_updateFunc); /* proto */
+static PyObject *__pyx_pf_7pyunity_6window_10glfwwindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name); /* proto */
+static PyObject *__pyx_pf_7pyunity_6window_10glfwwindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_updateFunc); /* proto */
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_codeobj__3;
 static PyObject *__pyx_codeobj__5;
 /* Late includes */
 
-/* "pyunity/window/glfwWindow.py":15
+/* "pyunity/window/glfwwindow.py":15
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -1311,9 +1311,9 @@ static PyObject *__pyx_codeobj__5;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_7pyunity_6window_10glfwWindow_6Window_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_10glfwWindow_6Window_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_6window_10glfwwindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_6window_10glfwwindow_6Window_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_10glfwwindow_6Window_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_6window_10glfwwindow_6Window_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_size = 0;
   PyObject *__pyx_v_name = 0;
@@ -1375,18 +1375,18 @@ static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_1__init__(PyObje
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pyunity.window.glfwWindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.glfwwindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(__pyx_self, __pyx_v_self, __pyx_v_size, __pyx_v_name);
+  __pyx_r = __pyx_pf_7pyunity_6window_10glfwwindow_6Window___init__(__pyx_self, __pyx_v_self, __pyx_v_size, __pyx_v_name);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name) {
+static PyObject *__pyx_pf_7pyunity_6window_10glfwwindow_6Window___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_name) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1403,7 +1403,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pyunity/window/glfwWindow.py":16
+  /* "pyunity/window/glfwwindow.py":16
  * 
  *     def __init__(self, size, name):
  *         glfw.init()             # <<<<<<<<<<<<<<
@@ -1432,7 +1432,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":18
+  /* "pyunity/window/glfwwindow.py":18
  *         glfw.init()
  * 
  *         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)             # <<<<<<<<<<<<<<
@@ -1505,7 +1505,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":19
+  /* "pyunity/window/glfwwindow.py":19
  * 
  *         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
  *         self.window = glfw.create_window(*size, name, None, None)             # <<<<<<<<<<<<<<
@@ -1541,7 +1541,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_window, __pyx_t_7) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pyunity/window/glfwWindow.py":20
+  /* "pyunity/window/glfwwindow.py":20
  *         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
  *         self.window = glfw.create_window(*size, name, None, None)
  *         if not self.window:             # <<<<<<<<<<<<<<
@@ -1555,7 +1555,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   __pyx_t_9 = ((!__pyx_t_8) != 0);
   if (unlikely(__pyx_t_9)) {
 
-    /* "pyunity/window/glfwWindow.py":21
+    /* "pyunity/window/glfwwindow.py":21
  *         self.window = glfw.create_window(*size, name, None, None)
  *         if not self.window:
  *             glfw.terminate()             # <<<<<<<<<<<<<<
@@ -1584,7 +1584,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pyunity/window/glfwWindow.py":22
+    /* "pyunity/window/glfwwindow.py":22
  *         if not self.window:
  *             glfw.terminate()
  *             raise pyunityException("Cannot open GLFW window")             # <<<<<<<<<<<<<<
@@ -1612,7 +1612,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __PYX_ERR(0, 22, __pyx_L1_error)
 
-    /* "pyunity/window/glfwWindow.py":20
+    /* "pyunity/window/glfwwindow.py":20
  *         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
  *         self.window = glfw.create_window(*size, name, None, None)
  *         if not self.window:             # <<<<<<<<<<<<<<
@@ -1621,7 +1621,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
  */
   }
 
-  /* "pyunity/window/glfwWindow.py":24
+  /* "pyunity/window/glfwwindow.py":24
  *             raise pyunityException("Cannot open GLFW window")
  * 
  *         glfw.make_context_current(self.window)             # <<<<<<<<<<<<<<
@@ -1653,7 +1653,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pyunity/window/glfwWindow.py":15
+  /* "pyunity/window/glfwwindow.py":15
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -1671,7 +1671,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("pyunity.window.glfwWindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.glfwwindow.Window.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1679,7 +1679,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
   return __pyx_r;
 }
 
-/* "pyunity/window/glfwWindow.py":26
+/* "pyunity/window/glfwwindow.py":26
  *         glfw.make_context_current(self.window)
  * 
  *     def start(self, updateFunc):             # <<<<<<<<<<<<<<
@@ -1688,10 +1688,10 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window___init__(CYTHON_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_6window_10glfwWindow_6Window_2start[] = "\n        Start the main loop of the window.\n\n        Parameters\n        ----------\n        updateFunc : function\n            The function that calls the OpenGL calls.\n        \n        ";
-static PyMethodDef __pyx_mdef_7pyunity_6window_10glfwWindow_6Window_3start = {"start", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_10glfwWindow_6Window_3start, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_6window_10glfwWindow_6Window_2start};
-static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_6window_10glfwwindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_7pyunity_6window_10glfwwindow_6Window_2start[] = "\n        Start the main loop of the window.\n\n        Parameters\n        ----------\n        updateFunc : function\n            The function that calls the OpenGL calls.\n        \n        ";
+static PyMethodDef __pyx_mdef_7pyunity_6window_10glfwwindow_6Window_3start = {"start", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_6window_10glfwwindow_6Window_3start, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_6window_10glfwwindow_6Window_2start};
+static PyObject *__pyx_pw_7pyunity_6window_10glfwwindow_6Window_3start(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_updateFunc = 0;
   int __pyx_lineno = 0;
@@ -1742,18 +1742,18 @@ static PyObject *__pyx_pw_7pyunity_6window_10glfwWindow_6Window_3start(PyObject 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 26, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pyunity.window.glfwWindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.glfwwindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(__pyx_self, __pyx_v_self, __pyx_v_updateFunc);
+  __pyx_r = __pyx_pf_7pyunity_6window_10glfwwindow_6Window_2start(__pyx_self, __pyx_v_self, __pyx_v_updateFunc);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_updateFunc) {
+static PyObject *__pyx_pf_7pyunity_6window_10glfwwindow_6Window_2start(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_updateFunc) {
   PyObject *__pyx_v_last = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1768,7 +1768,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("start", 0);
 
-  /* "pyunity/window/glfwWindow.py":36
+  /* "pyunity/window/glfwwindow.py":36
  * 
  *         """
  *         self.updateFunc = updateFunc             # <<<<<<<<<<<<<<
@@ -1777,7 +1777,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_updateFunc, __pyx_v_updateFunc) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "pyunity/window/glfwWindow.py":37
+  /* "pyunity/window/glfwwindow.py":37
  *         """
  *         self.updateFunc = updateFunc
  *         last = glfw.get_time()             # <<<<<<<<<<<<<<
@@ -1807,7 +1807,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
   __pyx_v_last = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":38
+  /* "pyunity/window/glfwwindow.py":38
  *         self.updateFunc = updateFunc
  *         last = glfw.get_time()
  *         while not glfw.window_should_close(self.window):             # <<<<<<<<<<<<<<
@@ -1843,7 +1843,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
     __pyx_t_6 = ((!__pyx_t_5) != 0);
     if (!__pyx_t_6) break;
 
-    /* "pyunity/window/glfwWindow.py":39
+    /* "pyunity/window/glfwwindow.py":39
  *         last = glfw.get_time()
  *         while not glfw.window_should_close(self.window):
  *             self.updateFunc()             # <<<<<<<<<<<<<<
@@ -1869,7 +1869,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/window/glfwWindow.py":40
+    /* "pyunity/window/glfwwindow.py":40
  *         while not glfw.window_should_close(self.window):
  *             self.updateFunc()
  *             glfw.swap_buffers(self.window)             # <<<<<<<<<<<<<<
@@ -1901,7 +1901,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/window/glfwWindow.py":41
+    /* "pyunity/window/glfwwindow.py":41
  *             self.updateFunc()
  *             glfw.swap_buffers(self.window)
  *             glfw.poll_events()             # <<<<<<<<<<<<<<
@@ -1930,7 +1930,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/window/glfwWindow.py":43
+    /* "pyunity/window/glfwwindow.py":43
  *             glfw.poll_events()
  * 
  *             while (glfw.get_time() < last + 1 / 60):             # <<<<<<<<<<<<<<
@@ -1971,7 +1971,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
       if (!__pyx_t_6) break;
     }
 
-    /* "pyunity/window/glfwWindow.py":46
+    /* "pyunity/window/glfwwindow.py":46
  *                 pass
  * 
  *             last += 1 / 60             # <<<<<<<<<<<<<<
@@ -1986,7 +1986,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
     __pyx_t_2 = 0;
   }
 
-  /* "pyunity/window/glfwWindow.py":47
+  /* "pyunity/window/glfwwindow.py":47
  * 
  *             last += 1 / 60
  *         glfw.terminate()             # <<<<<<<<<<<<<<
@@ -2013,7 +2013,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/glfwWindow.py":26
+  /* "pyunity/window/glfwwindow.py":26
  *         glfw.make_context_current(self.window)
  * 
  *     def start(self, updateFunc):             # <<<<<<<<<<<<<<
@@ -2029,7 +2029,7 @@ static PyObject *__pyx_pf_7pyunity_6window_10glfwWindow_6Window_2start(CYTHON_UN
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pyunity.window.glfwWindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyunity.window.glfwwindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_last);
@@ -2172,17 +2172,17 @@ bad:
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_glfwWindow(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_glfwwindow(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_glfwWindow},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_glfwwindow},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "glfwWindow",
+    "glfwwindow",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -2238,8 +2238,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_poll_events, __pyx_k_poll_events, sizeof(__pyx_k_poll_events), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pyunityException, __pyx_k_pyunityException, sizeof(__pyx_k_pyunityException), 0, 0, 1, 1},
-  {&__pyx_n_s_pyunity_window_glfwWindow, __pyx_k_pyunity_window_glfwWindow, sizeof(__pyx_k_pyunity_window_glfwWindow), 0, 0, 1, 1},
-  {&__pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_k_pyunity_window_glfwWindow_py, sizeof(__pyx_k_pyunity_window_glfwWindow_py), 0, 0, 1, 0},
+  {&__pyx_n_s_pyunity_window_glfwwindow, __pyx_k_pyunity_window_glfwwindow, sizeof(__pyx_k_pyunity_window_glfwwindow), 0, 0, 1, 1},
+  {&__pyx_kp_s_pyunity_window_glfwwindow_py, __pyx_k_pyunity_window_glfwwindow_py, sizeof(__pyx_k_pyunity_window_glfwwindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
@@ -2262,7 +2262,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyunity/window/glfwWindow.py":15
+  /* "pyunity/window/glfwwindow.py":15
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
@@ -2272,9 +2272,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_name); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_n_s_init_2, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwwindow_py, __pyx_n_s_init_2, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 15, __pyx_L1_error)
 
-  /* "pyunity/window/glfwWindow.py":26
+  /* "pyunity/window/glfwwindow.py":26
  *         glfw.make_context_current(self.window)
  * 
  *     def start(self, updateFunc):             # <<<<<<<<<<<<<<
@@ -2284,7 +2284,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_updateFunc, __pyx_n_s_last); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_n_s_start, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwwindow_py, __pyx_n_s_start, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2382,11 +2382,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initglfwWindow(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initglfwWindow(void)
+__Pyx_PyMODINIT_FUNC initglfwwindow(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initglfwwindow(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_glfwWindow(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_glfwWindow(void)
+__Pyx_PyMODINIT_FUNC PyInit_glfwwindow(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_glfwwindow(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -2453,7 +2453,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_glfwWindow(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_glfwwindow(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -2466,7 +2466,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_glfwWindow(PyObject *__pyx_pyinit_
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'glfwWindow' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'glfwwindow' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -2481,7 +2481,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_glfwWindow(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_glfwwindow(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -2520,7 +2520,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("glfwWindow", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("glfwwindow", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -2538,14 +2538,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_pyunity__window__glfwWindow) {
+  if (__pyx_module_is_main_pyunity__window__glfwwindow) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "pyunity.window.glfwWindow")) {
-      if (unlikely(PyDict_SetItemString(modules, "pyunity.window.glfwWindow", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "pyunity.window.glfwwindow")) {
+      if (unlikely(PyDict_SetItemString(modules, "pyunity.window.glfwwindow", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -2566,7 +2566,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "pyunity/window/glfwWindow.py":1
+  /* "pyunity/window/glfwwindow.py":1
  * import glfw, time             # <<<<<<<<<<<<<<
  * from ..errors import *
  * 
@@ -2580,7 +2580,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":2
+  /* "pyunity/window/glfwwindow.py":2
  * import glfw, time
  * from ..errors import *             # <<<<<<<<<<<<<<
  * 
@@ -2597,41 +2597,41 @@ if (!__Pyx_RefNanny) {
   if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/glfwWindow.py":4
+  /* "pyunity/window/glfwwindow.py":4
  * from ..errors import *
  * 
  * class Window:             # <<<<<<<<<<<<<<
  *     """
  *     A window provider that uses GLFW.
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Window, __pyx_n_s_Window, (PyObject *) NULL, __pyx_n_s_pyunity_window_glfwWindow, __pyx_kp_s_A_window_provider_that_uses_GLF); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Window, __pyx_n_s_Window, (PyObject *) NULL, __pyx_n_s_pyunity_window_glfwwindow, __pyx_kp_s_A_window_provider_that_uses_GLF); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "pyunity/window/glfwWindow.py":15
+  /* "pyunity/window/glfwwindow.py":15
  *     """
  * 
  *     def __init__(self, size, name):             # <<<<<<<<<<<<<<
  *         glfw.init()
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_10glfwWindow_6Window_1__init__, 0, __pyx_n_s_Window___init, NULL, __pyx_n_s_pyunity_window_glfwWindow, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_10glfwwindow_6Window_1__init__, 0, __pyx_n_s_Window___init, NULL, __pyx_n_s_pyunity_window_glfwwindow, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init_2, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":26
+  /* "pyunity/window/glfwwindow.py":26
  *         glfw.make_context_current(self.window)
  * 
  *     def start(self, updateFunc):             # <<<<<<<<<<<<<<
  *         """
  *         Start the main loop of the window.
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_10glfwWindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_glfwWindow, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_10glfwwindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_glfwwindow, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_start, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/glfwWindow.py":4
+  /* "pyunity/window/glfwwindow.py":4
  * from ..errors import *
  * 
  * class Window:             # <<<<<<<<<<<<<<
@@ -2644,7 +2644,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/glfwWindow.py":1
+  /* "pyunity/window/glfwwindow.py":1
  * import glfw, time             # <<<<<<<<<<<<<<
  * from ..errors import *
  * 
@@ -2662,11 +2662,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init pyunity.window.glfwWindow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init pyunity.window.glfwwindow", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init pyunity.window.glfwWindow");
+    PyErr_SetString(PyExc_ImportError, "init pyunity.window.glfwwindow");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
