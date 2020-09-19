@@ -3,5 +3,5 @@
 /**/__pycache__
 /**/venv
 /**/.vscode
-/**/*.egg-info
-/**/*.egg
+/*.egg-info
+/build

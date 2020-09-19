@@ -1,10 +1,6 @@
 from setuptools import setup, find_packages, Extension
-import os, sys, subprocess, glob, shutil
-
-def _run_command(cmd):
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=sys.stderr)
-    process.communicate()
-    return process.wait()
+import os, glob, shutil
+if "cython" not in os.environ: os.environ["cython"] = "1"
 
 if "a" not in os.environ:
     import pyunity
@@ -20,8 +16,8 @@ if "a" not in os.environ:
             "(https://pypi.python.org/pypi/pyunity) ",
             "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
             "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
-            "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.0.5.svg",
-            ")](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+            "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
+            "0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
         ])
     ]
     skip = 0
@@ -46,28 +42,47 @@ if "a" not in os.environ:
         for line in desc_new:
             f.write(line + "\n")
 
-    if os.path.exists("src"): shutil.rmtree("src")
-    for dirpath, dirs, files in os.walk("pyunity"):
-        for file in files:
-            if file.lower().endswith(".py") or file.endswith(".mesh"):
-                print(file)
-                if file.startswith("__") or file.endswith(".mesh"):
-                    srcPath = os.path.join(dirpath, file)
-                    op = shutil.copy
-                else:
-                    os.system("cythonize -3 -q " + os.path.join(dirpath, file))
-                    srcPath = os.path.join(dirpath, file)[:-2] + "c"
-                    op = shutil.move
-                destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-                try: os.makedirs(destPath)
-                except: pass
-                op(srcPath, destPath)
+    if os.environ["cython"] == "1":
+        if os.path.exists("src"): shutil.rmtree("src")
+        for dirpath, dirs, files in os.walk("pyunity"):
+            for f in files:
+                file = f.lower()
+                if file.endswith(".py") or file.endswith(".mesh"):
+                    print(file)
+                    if file.startswith("__") or file.endswith(".mesh"):
+                        srcPath = os.path.join(dirpath, file)
+                        op = shutil.copy
+                    else:
+                        # shutil.copy(os.path.join("ext", os.path.join(dirpath, file)[8:-1]) + "xd",
+                        #             os.path.join(dirpath, file)[:-1] + "xd")
+                        os.system("cythonize -3 -q " + os.path.join(dirpath, file))
+                        # os.remove(os.path.join(dirpath, file)[:-1] + "xd")
+                        srcPath = os.path.join(dirpath, file)[:-2] + "c"
+                        op = shutil.move
+                    destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+                    try: os.makedirs(destPath)
+                    except: pass
+                    op(srcPath, destPath)
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-c_files = glob.glob("src/**/*.c", recursive = True)
-mesh_files = glob.glob("src/**/*.mesh", recursive = True)
+if os.environ["cython"] == "1":
+    c_files = glob.glob("src/**/*.c", recursive = True)
+    mesh_files = glob.glob("src/**/*.mesh", recursive = True)
+    config = {
+        "package_dir": {"pyunity": "src"},
+        "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where = "src")],
+        "ext_package": "pyunity",
+        "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
+        "package_data": {"pyunity": [file[4:] for file in mesh_files]},
+    }
+else:
+    mesh_files = glob.glob("pyunity/**/*.mesh", recursive = True)
+    config = {
+        "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where = "pyunity")],
+        "package_data": {"pyunity": [file[8:] for file in mesh_files]},
+    }
 
 setup(
     name = "pyunity",
@@ -92,9 +107,5 @@ setup(
         "pyopengl",
     ],
     python_requires = '>=3.7',
-    package_dir = {"pyunity": "src"},
-    packages = ["pyunity"] + ["pyunity." + package for package in find_packages(where = "src")],
-    ext_package = "pyunity",
-    ext_modules = [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
-    package_data = {"pyunity": [file[4:] for file in mesh_files]},
+    **config,
 )
