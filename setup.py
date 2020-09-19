@@ -45,8 +45,7 @@ if "a" not in os.environ:
     if os.environ["cython"] == "1":
         if os.path.exists("src"): shutil.rmtree("src")
         for dirpath, dirs, files in os.walk("pyunity"):
-            for f in files:
-                file = f.lower()
+            for file in files:
                 if file.endswith(".py") or file.endswith(".mesh"):
                     print(file)
                     if file.startswith("__") or file.endswith(".mesh"):
