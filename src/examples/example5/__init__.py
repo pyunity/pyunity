@@ -11,7 +11,6 @@ def main():
     scene = SceneManager.AddScene("Scene")
 
     scene.mainCamera.transform.localPosition = Vector3(0, 0, -20)
-    # scene.gameObjects[1].GetComponent(Light).intensity = 100
 
     house = GameObject("House")
     house.transform.eulerAngles = Vector3(0, 180, 0)

@@ -9,8 +9,9 @@ class Window:
     
     """
 
-    def __init__(self, size, name):
-        self.window = pygame.display.set_mode(size, pygame.DOUBLEBUF | pygame.OPENGL)
+    def __init__(self, config, name):
+        self.config = config
+        self.window = pygame.display.set_mode(config.size, pygame.DOUBLEBUF | pygame.OPENGL)
         pygame.display.set_caption(name)
     
     def start(self, update_func):
@@ -40,6 +41,6 @@ class Window:
             
             self.update_func()
             pygame.display.flip()
-            clock.tick(60)
+            clock.tick(self.config.fps)
     
         pygame.display.quit()

@@ -3,7 +3,8 @@ from OpenGL.GLUT import *
 class Window:
     """A window provider that uses FreeGLUT."""
 
-    def __init__(self, size, name):
+    def __init__(self, config, name):
+        self.config = config
         glutInit()
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH)
         glutInitWindowPosition(
@@ -31,7 +32,7 @@ class Window:
     def schedule_update(self, t):
         """Starts the window refreshing."""
         glutPostRedisplay()
-        glutTimerFunc(1000 // 60, self.schedule_update, 0)
+        glutTimerFunc(1000 // self.config.fps, self.schedule_update, 0)
     
     def display(self):
         """Function to render in the scene."""

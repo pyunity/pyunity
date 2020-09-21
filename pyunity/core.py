@@ -195,6 +195,11 @@ class GameObject:
                 return component
         
         return None
+    
+    def __repr__(self):
+        return "<GameObject name=" + repr(self.name) + " components=" + \
+            str(list(map(lambda x: type(x).__name__, self.components))) + ">"
+    __str__ = __repr__
 
 class Component:
     """
@@ -457,7 +462,7 @@ class Light(Component):
 
     def __init__(self):
         super(Light, self).__init__()
-        self.intensity = 50
+        self.intensity = 100
         self.type = 1
 
 class MeshRenderer(Component):
@@ -481,9 +486,9 @@ class MeshRenderer(Component):
     def render(self):
         """Render the mesh that the MeshRenderer has."""
         gl.glBegin(gl.GL_TRIANGLES)
-        gl.glColor3f(*self.mat.color)
-        for index, triangle in enumerate(self.mesh.triangles):
-            gl.glNormal3fv(list(self.mesh.normals[index]))
+        gl.glColor3f(self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
+        for triangle, normal in zip(self.mesh.triangles, self.mesh.normals):
+            gl.glNormal3f(*normal)
             for vertex in triangle:
                 gl.glVertex3f(*self.mesh.verts[vertex])
         gl.glEnd()
