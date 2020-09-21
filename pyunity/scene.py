@@ -146,7 +146,7 @@ class SceneManager:
     def LoadScene(self, scene):
         self.runningScene = scene
         if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.window = config.windowProvider(config.size, scene.name)
+            self.window = config.windowProvider(config, scene.name)
             scene.Start()
             self.window.start(scene.update)
         else:
@@ -380,27 +380,6 @@ class Scene:
         self.mainCamera.lastRot = Quaternion.identity()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            glEnable(GL_DEPTH_TEST)
-            if config.faceCulling:
-                glEnable(GL_CULL_FACE)
-
-            glEnable(GL_LIGHTING)
-
-            light_num = 0
-            for gameObject in self.gameObjects:
-                light = gameObject.GetComponent(Light)
-                if light:
-                    color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
-                    glLightfv(self.lights[light_num], GL_DIFFUSE, color)
-                    glLightfv(self.lights[light_num], GL_SPECULAR, (1, 1, 1, 1))
-                    glEnable(self.lights[light_num])
-                    light_num += 1
-            
-            glColorMaterial(GL_FRONT, GL_EMISSION)
-            glEnable(GL_COLOR_MATERIAL)
-            
-            glClearColor(*self.mainCamera.clearColor)
-
             glMatrixMode(GL_PROJECTION)
             gluPerspective(
                 self.mainCamera.fov / config.size[0] * config.size[1],
@@ -408,6 +387,22 @@ class Scene:
                 self.mainCamera.near,
                 self.mainCamera.far)
             glMatrixMode(GL_MODELVIEW)
+
+            light_num = 0
+            for gameObject in self.gameObjects:
+                light = gameObject.GetComponent(Light)
+                if light:
+                    color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
+                    glLightfv(self.lights[light_num], GL_AMBIENT, (0, 0, 0, 1))
+                    glLightfv(self.lights[light_num], GL_DIFFUSE, color)
+                    # glLightfv(self.lights[light_num], GL_SPECULAR, (1, 1, 1, 1))
+                    light_num += 1
+            
+            glClearColor(*self.mainCamera.clearColor)
+
+            glEnable(GL_DEPTH_TEST)
+            if config.faceCulling:
+                glEnable(GL_CULL_FACE)
 
         self.start_scripts()
         
@@ -419,7 +414,10 @@ class Scene:
         """Run the scene and create a window for it."""
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.windowProvider = config.windowProvider
-            self.window = self.windowProvider(config.size, self.name)
+            self.window = self.windowProvider(config, self.name)
+        else:
+            import pygame
+            pygame.init()
         
         self.Start()
 
@@ -467,7 +465,6 @@ class Scene:
     
     def no_interactive(self):
         import pygame
-        pygame.init()
 
         done = False
         clock = pygame.time.Clock()
@@ -488,12 +485,17 @@ class Scene:
 
             glLoadIdentity()
 
+            glEnable(GL_LIGHTING)
+            glEnable(GL_COLOR_MATERIAL)
+            glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
+
             light_num = 0
             for gameObject in self.gameObjects:
                 light = gameObject.GetComponent(Light)
                 if light:
+                    glEnable(self.lights[light_num])
                     pos = (*(gameObject.transform.position * Vector3(1, 1, -1)), int(light.type))
-                    glLightfv(self.lights[light_num], GL_POSITION, pos)
+                    glLight(self.lights[light_num], GL_POSITION, pos)
                     light_num += 1
 
             if (self.mainCamera.lastPos != self.mainCamera.transform.position or
@@ -506,3 +508,13 @@ class Scene:
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
             
             self.render()
+
+            light_num = 0
+            for gameObject in self.gameObjects:
+                light = gameObject.GetComponent(Light)
+                if light:
+                    glDisable(self.lights[light_num])
+                    light_num += 1
+            
+            glDisable(GL_LIGHTING)
+            glDisable(GL_COLOR_MATERIAL)
