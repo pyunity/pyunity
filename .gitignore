@@ -4,4 +4,4 @@
 /**/venv
 /**/.vscode
 /*.egg-info
-/build
+/**/.doctrees
