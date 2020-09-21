@@ -12,11 +12,12 @@ class Window:
     
     """
 
-    def __init__(self, size, name):
+    def __init__(self, config, name):
+        self.config = config
         glfw.init()
         
         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
-        self.window = glfw.create_window(*size, name, None, None)
+        self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
             glfw.terminate()
             raise pyunityException("Cannot open GLFW window")
@@ -40,8 +41,8 @@ class Window:
             glfw.swap_buffers(self.window)
             glfw.poll_events()
 
-            while (glfw.get_time() < last + 1 / 60):
+            while (glfw.get_time() < last + 1 / self.config.fps):
                 pass
 
-            last += 1 / 60
+            last += 1 / self.config.fps
         glfw.terminate()

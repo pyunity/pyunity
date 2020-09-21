@@ -43,8 +43,9 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">OPENGL</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">OPENGL</span><span class="p">)</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_func</span><span class="p">):</span>
@@ -74,7 +75,7 @@
             
             <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span><span class="p">()</span>
             <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
-            <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
     
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div></div>
 </pre></div>
