@@ -180,7 +180,7 @@
     <span class="k">def</span> <span class="nf">LoadScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">runningScene</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -414,27 +414,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastRot</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">faceCulling</span><span class="p">:</span>
-                <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_CULL_FACE</span><span class="p">)</span>
-
-            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_LIGHTING</span><span class="p">)</span>
-
-            <span class="n">light_num</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
-                <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
-                    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_DIFFUSE</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
-                    <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_SPECULAR</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-                    <span class="n">glEnable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">])</span>
-                    <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
-            
-            <span class="n">glColorMaterial</span><span class="p">(</span><span class="n">GL_FRONT</span><span class="p">,</span> <span class="n">GL_EMISSION</span><span class="p">)</span>
-            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_COLOR_MATERIAL</span><span class="p">)</span>
-            
-            <span class="n">glClearColor</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">clearColor</span><span class="p">)</span>
-
             <span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_PROJECTION</span><span class="p">)</span>
             <span class="n">gluPerspective</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -442,6 +421,22 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">near</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">far</span><span class="p">)</span>
             <span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_MODELVIEW</span><span class="p">)</span>
+
+            <span class="n">light_num</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
+                <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_AMBIENT</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_DIFFUSE</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+                    <span class="c1"># glLightfv(self.lights[light_num], GL_SPECULAR, (1, 1, 1, 1))</span>
+                    <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="n">glClearColor</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">clearColor</span><span class="p">)</span>
+
+            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">faceCulling</span><span class="p">:</span>
+                <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_CULL_FACE</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">start_scripts</span><span class="p">()</span>
         
@@ -453,7 +448,10 @@
         <span class="sd">&quot;&quot;&quot;Run the scene and create a window for it.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pygame</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
 
@@ -501,7 +499,6 @@
     
 <div class="viewcode-block" id="Scene.no_interactive"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.no_interactive">[docs]</a>    <span class="k">def</span> <span class="nf">no_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">pygame</span>
-        <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
         <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
@@ -522,12 +519,17 @@
 
             <span class="n">glLoadIdentity</span><span class="p">()</span>
 
+            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_LIGHTING</span><span class="p">)</span>
+            <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_COLOR_MATERIAL</span><span class="p">)</span>
+            <span class="n">glColorMaterial</span><span class="p">(</span><span class="n">GL_FRONT</span><span class="p">,</span> <span class="n">GL_AMBIENT_AND_DIFFUSE</span><span class="p">)</span>
+
             <span class="n">light_num</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
                 <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
+                    <span class="n">glEnable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">])</span>
                     <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
-                    <span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_POSITION</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+                    <span class="n">glLight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">GL_POSITION</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
                     <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastPos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="ow">or</span>
@@ -539,7 +541,17 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastPos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastRot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span>
             
-            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+
+            <span class="n">light_num</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
+                <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
+                    <span class="n">glDisable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">])</span>
+                    <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="n">glDisable</span><span class="p">(</span><span class="n">GL_LIGHTING</span><span class="p">)</span>
+            <span class="n">glDisable</span><span class="p">(</span><span class="n">GL_COLOR_MATERIAL</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
