@@ -85,7 +85,7 @@ class Tag:
     """
 
     @staticmethod
-    def AddTag(self, name):
+    def AddTag(name):
         """
         Add a new tag to the tag list.
         
@@ -130,8 +130,6 @@ class GameObject:
         Name of the GameObject
     components : list
         List of components
-    parent : GameObject or None
-        Parent GameObject, if GameObject has one
     tag : Tag
         Tag that the GameObject has (defaults to tag 0 or Default)
     transform : Transform
