@@ -52,10 +52,10 @@ if "a" not in os.environ:
                         srcPath = os.path.join(dirpath, file)
                         op = shutil.copy
                     else:
-                        # shutil.copy(os.path.join("ext", os.path.join(dirpath, file)[8:-1]) + "xd",
-                        #             os.path.join(dirpath, file)[:-1] + "xd")
+                        shutil.copy(os.path.join("ext", os.path.join(dirpath, file)[8:-1]) + "xd",
+                                    os.path.join(dirpath, file)[:-1] + "xd")
                         os.system("cythonize -3 -q " + os.path.join(dirpath, file))
-                        # os.remove(os.path.join(dirpath, file)[:-1] + "xd")
+                        os.remove(os.path.join(dirpath, file)[:-1] + "xd")
                         srcPath = os.path.join(dirpath, file)[:-2] + "c"
                         op = shutil.move
                     destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
