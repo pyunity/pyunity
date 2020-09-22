@@ -44,6 +44,9 @@ if "a" not in os.environ:
 
     if os.environ["cython"] == "1":
         if os.path.exists("src"): shutil.rmtree("src")
+        pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
+        for f in pxd_files:
+            shutil.copy(f, os.path.join("pyunity", f[4:]))
         for dirpath, dirs, files in os.walk("pyunity"):
             for file in files:
                 if file.endswith(".py") or file.endswith(".mesh"):
@@ -62,6 +65,8 @@ if "a" not in os.environ:
                     try: os.makedirs(destPath)
                     except: pass
                     op(srcPath, destPath)
+        for f in pxd_files:
+            os.remove(os.path.join("pyunity", f[4:]))
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
