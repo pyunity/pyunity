@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\window\\glutWindow.py",
+  "glutWindow.py",
 };
 
 /*--- Type declarations ---*/
@@ -1269,6 +1269,7 @@ static const char __pyx_k_Window_start[] = "Window.start";
 static const char __pyx_k_glutMainLoop[] = "glutMainLoop";
 static const char __pyx_k_Window___init[] = "Window.__init__";
 static const char __pyx_k_glutTimerFunc[] = "glutTimerFunc";
+static const char __pyx_k_glutWindow_py[] = "glutWindow.py";
 static const char __pyx_k_Window_display[] = "Window.display";
 static const char __pyx_k_glutDisplayFunc[] = "glutDisplayFunc";
 static const char __pyx_k_glutSwapBuffers[] = "glutSwapBuffers";
@@ -1283,7 +1284,6 @@ static const char __pyx_k_glutInitDisplayMode[] = "glutInitDisplayMode";
 static const char __pyx_k_Window_schedule_update[] = "Window.schedule_update";
 static const char __pyx_k_glutInitWindowPosition[] = "glutInitWindowPosition";
 static const char __pyx_k_pyunity_window_glutWindow[] = "pyunity.window.glutWindow";
-static const char __pyx_k_pyunity_window_glutWindow_py[] = "pyunity\\window\\glutWindow.py";
 static const char __pyx_k_A_window_provider_that_uses_Free[] = "A window provider that uses FreeGLUT.";
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_s_A_window_provider_that_uses_Free;
@@ -1313,6 +1313,7 @@ static PyObject *__pyx_n_s_glutMainLoop;
 static PyObject *__pyx_n_s_glutPostRedisplay;
 static PyObject *__pyx_n_s_glutSwapBuffers;
 static PyObject *__pyx_n_s_glutTimerFunc;
+static PyObject *__pyx_kp_s_glutWindow_py;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_main;
@@ -1322,7 +1323,6 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pyunity_window_glutWindow;
-static PyObject *__pyx_kp_s_pyunity_window_glutWindow_py;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_schedule_update;
 static PyObject *__pyx_n_s_self;
@@ -2452,6 +2452,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_glutPostRedisplay, __pyx_k_glutPostRedisplay, sizeof(__pyx_k_glutPostRedisplay), 0, 0, 1, 1},
   {&__pyx_n_s_glutSwapBuffers, __pyx_k_glutSwapBuffers, sizeof(__pyx_k_glutSwapBuffers), 0, 0, 1, 1},
   {&__pyx_n_s_glutTimerFunc, __pyx_k_glutTimerFunc, sizeof(__pyx_k_glutTimerFunc), 0, 0, 1, 1},
+  {&__pyx_kp_s_glutWindow_py, __pyx_k_glutWindow_py, sizeof(__pyx_k_glutWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -2461,7 +2462,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pyunity_window_glutWindow, __pyx_k_pyunity_window_glutWindow, sizeof(__pyx_k_pyunity_window_glutWindow), 0, 0, 1, 1},
-  {&__pyx_kp_s_pyunity_window_glutWindow_py, __pyx_k_pyunity_window_glutWindow_py, sizeof(__pyx_k_pyunity_window_glutWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_schedule_update, __pyx_k_schedule_update, sizeof(__pyx_k_schedule_update), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -2490,7 +2490,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_config, __pyx_n_s_name); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glutWindow_py, __pyx_n_s_init, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glutWindow_py, __pyx_n_s_init, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 6, __pyx_L1_error)
 
   /* "pyunity/window/glutWindow.py":16
  *         glutCreateWindow(name)
@@ -2502,7 +2502,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_updateFunc); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glutWindow_py, __pyx_n_s_start, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glutWindow_py, __pyx_n_s_start, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 16, __pyx_L1_error)
 
   /* "pyunity/window/glutWindow.py":32
  *         glutMainLoop()
@@ -2514,7 +2514,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__6 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_t); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glutWindow_py, __pyx_n_s_schedule_update, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glutWindow_py, __pyx_n_s_schedule_update, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 32, __pyx_L1_error)
 
   /* "pyunity/window/glutWindow.py":37
  *         glutTimerFunc(1000 // self.config.fps, self.schedule_update, 0)
@@ -2526,7 +2526,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glutWindow_py, __pyx_n_s_display, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glutWindow_py, __pyx_n_s_display, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\window\\pygameWindow.py",
+  "pygameWindow.py",
 };
 
 /*--- Type declarations ---*/
@@ -1285,10 +1285,10 @@ static const char __pyx_k_set_caption[] = "set_caption";
 static const char __pyx_k_update_func[] = "update_func";
 static const char __pyx_k_Window_start[] = "Window.start";
 static const char __pyx_k_Window___init[] = "Window.__init__";
+static const char __pyx_k_pygameWindow_py[] = "pygameWindow.py";
 static const char __pyx_k_SDL_VIDEO_CENTERED[] = "SDL_VIDEO_CENTERED";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_pyunity_window_pygameWindow[] = "pyunity.window.pygameWindow";
-static const char __pyx_k_pyunity_window_pygameWindow_py[] = "pyunity\\window\\pygameWindow.py";
 static const char __pyx_k_A_window_provider_that_uses_PyG[] = "\n    A window provider that uses PyGame.\n    \n    ";
 static PyObject *__pyx_kp_u_1;
 static PyObject *__pyx_kp_s_A_window_provider_that_uses_PyG;
@@ -1330,8 +1330,8 @@ static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pressed;
 static PyObject *__pyx_n_s_pygame;
+static PyObject *__pyx_kp_s_pygameWindow_py;
 static PyObject *__pyx_n_s_pyunity_window_pygameWindow;
-static PyObject *__pyx_kp_s_pyunity_window_pygameWindow_py;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_quit;
 static PyObject *__pyx_n_s_self;
@@ -2290,8 +2290,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pressed, __pyx_k_pressed, sizeof(__pyx_k_pressed), 0, 0, 1, 1},
   {&__pyx_n_s_pygame, __pyx_k_pygame, sizeof(__pyx_k_pygame), 0, 0, 1, 1},
+  {&__pyx_kp_s_pygameWindow_py, __pyx_k_pygameWindow_py, sizeof(__pyx_k_pygameWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_pyunity_window_pygameWindow, __pyx_k_pyunity_window_pygameWindow, sizeof(__pyx_k_pyunity_window_pygameWindow), 0, 0, 1, 1},
-  {&__pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_k_pyunity_window_pygameWindow_py, sizeof(__pyx_k_pyunity_window_pygameWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_quit, __pyx_k_quit, sizeof(__pyx_k_quit), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -2325,7 +2325,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_config, __pyx_n_s_name); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_n_s_init_2, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_init_2, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 12, __pyx_L1_error)
 
   /* "pyunity/window/pygameWindow.py":17
  *         pygame.display.set_caption(name)
@@ -2337,7 +2337,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__3 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_update_func, __pyx_n_s_done, __pyx_n_s_clock, __pyx_n_s_event, __pyx_n_s_pressed, __pyx_n_s_alt_pressed); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_pygameWindow_py, __pyx_n_s_start, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_start, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
