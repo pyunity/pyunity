@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\config.py",
+  "config.py",
 };
 
 /*--- Type declarations ---*/

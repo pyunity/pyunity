@@ -821,7 +821,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pyunity\\window\\glfwWindow.py",
+  "glfwWindow.py",
 };
 
 /*--- Type declarations ---*/
@@ -1247,13 +1247,13 @@ static const char __pyx_k_Window_start[] = "Window.start";
 static const char __pyx_k_swap_buffers[] = "swap_buffers";
 static const char __pyx_k_Window___init[] = "Window.__init__";
 static const char __pyx_k_create_window[] = "create_window";
+static const char __pyx_k_glfwWindow_py[] = "glfwWindow.py";
 static const char __pyx_k_pyunityException[] = "pyunityException";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_window_should_close[] = "window_should_close";
 static const char __pyx_k_make_context_current[] = "make_context_current";
 static const char __pyx_k_Cannot_open_GLFW_window[] = "Cannot open GLFW window";
 static const char __pyx_k_pyunity_window_glfwWindow[] = "pyunity.window.glfwWindow";
-static const char __pyx_k_pyunity_window_glfwWindow_py[] = "pyunity\\window\\glfwWindow.py";
 static const char __pyx_k_A_window_provider_that_uses_GLF[] = "\n    A window provider that uses GLFW.\n\n    Raises\n    ------\n    pyunityException\n        If the window creation fails\n    \n    ";
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_s_A_window_provider_that_uses_GLF;
@@ -1271,6 +1271,7 @@ static PyObject *__pyx_n_s_errors;
 static PyObject *__pyx_n_s_fps;
 static PyObject *__pyx_n_s_get_time;
 static PyObject *__pyx_n_s_glfw;
+static PyObject *__pyx_kp_s_glfwWindow_py;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_init_2;
@@ -1285,7 +1286,6 @@ static PyObject *__pyx_n_s_poll_events;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pyunityException;
 static PyObject *__pyx_n_s_pyunity_window_glfwWindow;
-static PyObject *__pyx_kp_s_pyunity_window_glfwWindow_py;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_size;
@@ -2256,6 +2256,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_fps, __pyx_k_fps, sizeof(__pyx_k_fps), 0, 0, 1, 1},
   {&__pyx_n_s_get_time, __pyx_k_get_time, sizeof(__pyx_k_get_time), 0, 0, 1, 1},
   {&__pyx_n_s_glfw, __pyx_k_glfw, sizeof(__pyx_k_glfw), 0, 0, 1, 1},
+  {&__pyx_kp_s_glfwWindow_py, __pyx_k_glfwWindow_py, sizeof(__pyx_k_glfwWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_init_2, __pyx_k_init_2, sizeof(__pyx_k_init_2), 0, 0, 1, 1},
@@ -2270,7 +2271,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pyunityException, __pyx_k_pyunityException, sizeof(__pyx_k_pyunityException), 0, 0, 1, 1},
   {&__pyx_n_s_pyunity_window_glfwWindow, __pyx_k_pyunity_window_glfwWindow, sizeof(__pyx_k_pyunity_window_glfwWindow), 0, 0, 1, 1},
-  {&__pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_k_pyunity_window_glfwWindow_py, sizeof(__pyx_k_pyunity_window_glfwWindow_py), 0, 0, 1, 0},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
@@ -2303,7 +2303,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_config, __pyx_n_s_name); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_n_s_init_2, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glfwWindow_py, __pyx_n_s_init_2, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 15, __pyx_L1_error)
 
   /* "pyunity/window/glfwWindow.py":27
  *         glfw.make_context_current(self.window)
@@ -2315,7 +2315,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_updateFunc, __pyx_n_s_last); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pyunity_window_glfwWindow_py, __pyx_n_s_start, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glfwWindow_py, __pyx_n_s_start, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
