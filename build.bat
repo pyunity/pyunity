@@ -8,3 +8,4 @@ git add .
 git commit -m %1
 git push
 )
+py -m pip install "dist/0.2.0/pyunity-0.2.0-cp38-cp38-win32.whl" --upgrade
