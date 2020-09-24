@@ -44,9 +44,9 @@ if "a" not in os.environ:
 
     if os.environ["cython"] == "1":
         if os.path.exists("src"): shutil.rmtree("src")
-        pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
-        for f in pxd_files:
-            shutil.copy(f, os.path.join("pyunity", f[4:]))
+        # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
+        # for f in pxd_files:
+        #     shutil.copy(f, os.path.join("pyunity", f[4:]))
         for dirpath, dirs, files in os.walk("pyunity"):
             for file in files:
                 if file.endswith(".py") or file.endswith(".mesh"):
@@ -55,8 +55,6 @@ if "a" not in os.environ:
                         srcPath = os.path.join(dirpath, file)
                         op = shutil.copy
                     else:
-                        shutil.copy(os.path.join("ext", os.path.join(dirpath, file)[8:-1]) + "xd",
-                                    os.path.join(dirpath, file)[:-1] + "xd")
                         loc = os.getcwd()
                         os.chdir(dirpath)
                         os.system("cythonize -3 -q " + file)
@@ -67,8 +65,8 @@ if "a" not in os.environ:
                     try: os.makedirs(destPath)
                     except: pass
                     op(srcPath, destPath)
-        for f in pxd_files:
-            os.remove(os.path.join("pyunity", f[4:]))
+        # for f in pxd_files:
+        #     os.remove(os.path.join("pyunity", f[4:]))
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
