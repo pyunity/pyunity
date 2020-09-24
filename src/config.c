@@ -1117,17 +1117,11 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 /* CheckBinaryVersion.proto */
 static int __Pyx_check_binary_version(void);
 
-/* VoidPtrExport.proto */
-static int __Pyx_ExportVoidPtr(PyObject *name, void *p, const char *sig);
-
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'pyunity.config' */
-static int __pyx_v_7pyunity_6config_fps;
-static int __pyx_v_7pyunity_6config_faceCulling;
-static PyObject *__pyx_v_7pyunity_6config_size = 0;
 #define __Pyx_MODULE_NAME "pyunity.config"
 extern int __pyx_module_is_main_pyunity__config;
 int __pyx_module_is_main_pyunity__config = 0;
@@ -1147,7 +1141,6 @@ static const char __pyx_k_print[] = "print";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_window[] = "window";
 static const char __pyx_k_environ[] = "environ";
-static const char __pyx_k_pyx_capi[] = "__pyx_capi__";
 static const char __pyx_k_faceCulling[] = "faceCulling";
 static const char __pyx_k_Loaded_config[] = "Loaded config";
 static const char __pyx_k_windowProvider[] = "windowProvider";
@@ -1173,11 +1166,11 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_print;
-static PyObject *__pyx_n_s_pyx_capi;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_window;
 static PyObject *__pyx_n_s_windowProvider;
+static PyObject *__pyx_int_60;
 static PyObject *__pyx_int_500;
 static PyObject *__pyx_int_800;
 static PyObject *__pyx_tuple_;
@@ -1247,7 +1240,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_capi, __pyx_k_pyx_capi, sizeof(__pyx_k_pyx_capi), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_window, __pyx_k_window, sizeof(__pyx_k_window), 0, 0, 1, 1},
@@ -1295,6 +1287,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_60 = PyInt_FromLong(60); if (unlikely(!__pyx_int_60)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_500 = PyInt_FromLong(500); if (unlikely(!__pyx_int_500)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_800 = PyInt_FromLong(800); if (unlikely(!__pyx_int_800)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
@@ -1314,26 +1307,16 @@ static int __Pyx_modinit_global_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_global_init_code", 0);
   /*--- Global init code ---*/
-  __pyx_v_7pyunity_6config_size = ((PyObject*)Py_None); Py_INCREF(Py_None);
   __Pyx_RefNannyFinishContext();
   return 0;
 }
 
 static int __Pyx_modinit_variable_export_code(void) {
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_export_code", 0);
   /*--- Variable export code ---*/
-  if (__Pyx_ExportVoidPtr(__pyx_n_s_fps, (void *)&__pyx_v_7pyunity_6config_fps, "int") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportVoidPtr(__pyx_n_s_faceCulling, (void *)&__pyx_v_7pyunity_6config_faceCulling, "int") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportVoidPtr(__pyx_n_s_size, (void *)&__pyx_v_7pyunity_6config_size, "PyObject *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 static int __Pyx_modinit_function_export_code(void) {
@@ -1570,7 +1553,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Global type/function init code ---*/
   (void)__Pyx_modinit_global_init_code();
-  if (unlikely(__Pyx_modinit_variable_export_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  (void)__Pyx_modinit_variable_export_code();
   (void)__Pyx_modinit_function_export_code();
   (void)__Pyx_modinit_type_init_code();
   (void)__Pyx_modinit_type_import_code();
@@ -1662,10 +1645,7 @@ if (!__Pyx_RefNanny) {
  * fps = 60
  * faceCulling = True
  */
-  __Pyx_INCREF(__pyx_tuple_);
-  __Pyx_XGOTREF(__pyx_v_7pyunity_6config_size);
-  __Pyx_DECREF_SET(__pyx_v_7pyunity_6config_size, __pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_size, __pyx_tuple_) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
 
   /* "pyunity/config.py":7
  * 
@@ -1674,7 +1654,7 @@ if (!__Pyx_RefNanny) {
  * faceCulling = True
  * 
  */
-  __pyx_v_7pyunity_6config_fps = 60;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_fps, __pyx_int_60) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
 
   /* "pyunity/config.py":8
  * size = (800, 500)
@@ -1683,7 +1663,7 @@ if (!__Pyx_RefNanny) {
  * 
  * if os.environ["PYUNITY_DEBUG_MODE"] == "1":
  */
-  __pyx_v_7pyunity_6config_faceCulling = 1;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_faceCulling, Py_True) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
 
   /* "pyunity/config.py":10
  * faceCulling = True
@@ -3172,37 +3152,6 @@ static int __Pyx_check_binary_version(void) {
         return PyErr_WarnEx(NULL, message, 1);
     }
     return 0;
-}
-
-/* VoidPtrExport */
-static int __Pyx_ExportVoidPtr(PyObject *name, void *p, const char *sig) {
-    PyObject *d;
-    PyObject *cobj = 0;
-    d = PyDict_GetItem(__pyx_d, __pyx_n_s_pyx_capi);
-    Py_XINCREF(d);
-    if (!d) {
-        d = PyDict_New();
-        if (!d)
-            goto bad;
-        if (__Pyx_PyObject_SetAttrStr(__pyx_m, __pyx_n_s_pyx_capi, d) < 0)
-            goto bad;
-    }
-#if PY_VERSION_HEX >= 0x02070000
-    cobj = PyCapsule_New(p, sig, 0);
-#else
-    cobj = PyCObject_FromVoidPtrAndDesc(p, (void *)sig, 0);
-#endif
-    if (!cobj)
-        goto bad;
-    if (PyDict_SetItem(d, name, cobj) < 0)
-        goto bad;
-    Py_DECREF(cobj);
-    Py_DECREF(d);
-    return 0;
-bad:
-    Py_XDECREF(cobj);
-    Py_XDECREF(d);
-    return -1;
 }
 
 /* InitStrings */
