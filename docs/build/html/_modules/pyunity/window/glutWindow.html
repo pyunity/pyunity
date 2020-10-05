@@ -47,17 +47,17 @@
         <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="o">*</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="n">glutCreateWindow</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glutWindow.html#pyunity.window.glutWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updateFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glutWindow.html#pyunity.window.glutWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start the main loop of the window.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        updateFunc : function</span>
+<span class="sd">        update_func : function</span>
 <span class="sd">            The function that calls the OpenGL calls.</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">updateFunc</span> <span class="o">=</span> <span class="n">updateFunc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">update_func</span>
         <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">schedule_update</span><span class="p">()</span>
@@ -70,7 +70,7 @@
     
 <div class="viewcode-block" id="Window.display"><a class="viewcode-back" href="../../../pyunity.window.glutWindow.html#pyunity.window.glutWindow.Window.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Function to render in the scene.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">updateFunc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span><span class="p">()</span>
         <span class="n">glutSwapBuffers</span><span class="p">()</span></div></div>
 </pre></div>
 

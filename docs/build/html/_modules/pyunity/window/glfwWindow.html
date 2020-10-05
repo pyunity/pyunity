@@ -58,20 +58,20 @@
         
         <span class="n">glfw</span><span class="o">.</span><span class="n">make_context_current</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glfwWindow.html#pyunity.window.glfwWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updateFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.glfwWindow.html#pyunity.window.glfwWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start the main loop of the window.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        updateFunc : function</span>
+<span class="sd">        update_func : function</span>
 <span class="sd">            The function that calls the OpenGL calls.</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">updateFunc</span> <span class="o">=</span> <span class="n">updateFunc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">update_func</span>
         <span class="n">last</span> <span class="o">=</span> <span class="n">glfw</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">glfw</span><span class="o">.</span><span class="n">window_should_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">updateFunc</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span><span class="p">()</span>
             <span class="n">glfw</span><span class="o">.</span><span class="n">swap_buffers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
             <span class="n">glfw</span><span class="o">.</span><span class="n">poll_events</span><span class="p">()</span>
 

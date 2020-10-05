@@ -24,20 +24,20 @@ class Window:
         
         glfw.make_context_current(self.window)
     
-    def start(self, updateFunc):
+    def start(self, update_func):
         """
         Start the main loop of the window.
 
         Parameters
         ----------
-        updateFunc : function
+        update_func : function
             The function that calls the OpenGL calls.
         
         """
-        self.updateFunc = updateFunc
+        self.update_func = update_func
         last = glfw.get_time()
         while not glfw.window_should_close(self.window):
-            self.updateFunc()
+            self.update_func()
             glfw.swap_buffers(self.window)
             glfw.poll_events()
 

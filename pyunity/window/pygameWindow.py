@@ -20,7 +20,7 @@ class Window:
 
         Parameters
         ----------
-        updateFunc : function
+        update_func : function
             The function that calls the OpenGL calls.
         
         """
