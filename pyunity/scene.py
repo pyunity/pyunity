@@ -381,6 +381,7 @@ class Scene:
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             glMatrixMode(GL_PROJECTION)
+            glLoadIdentity()
             gluPerspective(
                 self.mainCamera.fov / config.size[0] * config.size[1],
                 config.size[0] / config.size[1],
@@ -460,6 +461,7 @@ class Scene:
             if renderer and self.inside_frustrum(renderer):
                 glPushMatrix()
                 self.transform(gameObject.transform)
+                # print(glGetFloatv(GL_PROJECTION_MATRIX))
                 renderer.render()
                 glPopMatrix()
     
