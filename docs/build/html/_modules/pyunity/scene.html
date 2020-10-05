@@ -415,6 +415,7 @@
 
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
             <span class="n">glMatrixMode</span><span class="p">(</span><span class="n">GL_PROJECTION</span><span class="p">)</span>
+            <span class="n">glLoadIdentity</span><span class="p">()</span>
             <span class="n">gluPerspective</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -494,6 +495,7 @@
             <span class="k">if</span> <span class="n">renderer</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">inside_frustrum</span><span class="p">(</span><span class="n">renderer</span><span class="p">):</span>
                 <span class="n">glPushMatrix</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
+                <span class="c1"># print(glGetFloatv(GL_PROJECTION_MATRIX))</span>
                 <span class="n">renderer</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                 <span class="n">glPopMatrix</span><span class="p">()</span></div>
     
