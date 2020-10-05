@@ -24,7 +24,7 @@ def main():
     cube2 = GameObject("Cube 2")
     renderer = cube2.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material((255, 0, 0))
+    renderer.mat = Material((0, 0, 255))
     scene2.Add(cube2)
 
     SceneManager.LoadScene(scene)
