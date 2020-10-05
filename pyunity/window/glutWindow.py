@@ -13,17 +13,17 @@ class Window:
         glutInitWindowSize(*config.size)
         glutCreateWindow(name)
     
-    def start(self, updateFunc):
+    def start(self, update_func):
         """
         Start the main loop of the window.
 
         Parameters
         ----------
-        updateFunc : function
+        update_func : function
             The function that calls the OpenGL calls.
         
         """
-        self.updateFunc = updateFunc
+        self.update_func = update_func
         glutDisplayFunc(self.display)
 
         self.schedule_update()
@@ -36,5 +36,5 @@ class Window:
     
     def display(self):
         """Function to render in the scene."""
-        self.updateFunc()
+        self.update_func()
         glutSwapBuffers()
