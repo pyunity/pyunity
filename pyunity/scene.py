@@ -3,7 +3,7 @@ from . import config
 from .errors import *
 from . import physics
 from time import time
-import os, math
+import os, math, copy
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL.GL import *
@@ -130,21 +130,80 @@ class SceneManager:
         self.scenesByName.pop(scene.name)
     
     def LoadSceneByName(self, name):
+        """
+        Loads a scene by its name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the scene
+
+        Raises
+        ------
+        TypeError
+            When the provided name is not a string
+        PyUnityException
+            When there is no scene named ``name``
+        
+        """
         if not isinstance(name, str):
             raise TypeError("\"%r\" is not a string" % name)
         if name not in self.scenesByName:
             raise PyUnityException("There is no scene named \"%s\"" % name)
-        self.LoadScene(self.scenesByName[name])
+        self.__loadScene(copy.deepcopy(self.scenesByName[name]))
     
     def LoadSceneByIndex(self, index):
+        """
+        Loads a scene by its index of when it was added
+        to the SceneManager.
+
+        Parameters
+        ----------
+        index : int
+            Index of the scene
+
+        Raises
+        ------
+        TypeError
+            When the provided index is not an integer
+        PyUnityException
+            When there is no scene at index ``index``
+        
+        """
         if not isinstance(index, int):
             raise TypeError("\"%r\" is not an integer" % index)
         if index >= len(self.scenesByIndex):
             raise PyUnityException("There is no scene at index \"%d\"" % index)
-        self.LoadScene(self.scenesByIndex[index])
+        self.__loadScene(copy.deepcopy(self.scenesByIndex[index]))
     
     def LoadScene(self, scene):
-        self.runningScene = scene
+        """
+        Load a scene by a reference.
+
+        Parameters
+        ----------
+        scene : Scene
+            Scene to be loaded
+
+        Raises
+        ------
+        TypeError
+            When the scene is not of type `Scene`
+        PyUnityException
+            When the scene is not part of the SceneManager.
+            This is checked because the SceneManager
+            has to make some checks before the scene
+            can be run.
+        
+        """
+        if not isinstance(scene, Scene):
+            raise TypeError("The provided Scene \"%s\" is not an integer" % scene.name)
+        if scene not in self.scenesByIndex:
+            raise PyUnityException("The provided scene is not part of the SceneManager")
+        self.__loadScene(copy.deepcopy(scene))
+    
+    def __loadScene(self, scene):
+        self.__running_scene = scene
         if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.window = config.windowProvider(config, scene.name)
             scene.Start()
@@ -155,6 +214,11 @@ class SceneManager:
                 self.window.update_func = scene.update
             else:
                 scene.no_interactive()
+    
+    @property
+    def CurrentScene(self):
+        """Gets the current scene being run"""
+        return self.__running_scene
 
 SceneManager = SceneManager()
 """Manages all scene additions and changes"""
@@ -461,7 +525,6 @@ class Scene:
             if renderer and self.inside_frustrum(renderer):
                 glPushMatrix()
                 self.transform(gameObject.transform)
-                # print(glGetFloatv(GL_PROJECTION_MATRIX))
                 renderer.render()
                 glPopMatrix()
     
