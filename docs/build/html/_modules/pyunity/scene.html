@@ -37,7 +37,7 @@
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">physics</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">copy</span>
 
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">OpenGL.GL</span> <span class="kn">import</span> <span class="o">*</span>
@@ -164,21 +164,80 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">LoadSceneByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a scene by its name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of the scene</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            When the provided name is not a string</span>
+<span class="sd">        PyUnityException</span>
+<span class="sd">            When there is no scene named ``name``</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%r</span><span class="se">\&quot;</span><span class="s2"> is not a string&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;There is no scene named </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">LoadScene</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
     
     <span class="k">def</span> <span class="nf">LoadSceneByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a scene by its index of when it was added</span>
+<span class="sd">        to the SceneManager.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : int</span>
+<span class="sd">            Index of the scene</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            When the provided index is not an integer</span>
+<span class="sd">        PyUnityException</span>
+<span class="sd">            When there is no scene at index ``index``</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%r</span><span class="se">\&quot;</span><span class="s2"> is not an integer&quot;</span> <span class="o">%</span> <span class="n">index</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;There is no scene at index </span><span class="se">\&quot;</span><span class="si">%d</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">index</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">LoadScene</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
     
     <span class="k">def</span> <span class="nf">LoadScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">runningScene</span> <span class="o">=</span> <span class="n">scene</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a scene by a reference.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scene : Scene</span>
+<span class="sd">            Scene to be loaded</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            When the scene is not of type `Scene`</span>
+<span class="sd">        PyUnityException</span>
+<span class="sd">            When the scene is not part of the SceneManager.</span>
+<span class="sd">            This is checked because the SceneManager</span>
+<span class="sd">            has to make some checks before the scene</span>
+<span class="sd">            can be run.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">Scene</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The provided Scene </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> is not an integer&quot;</span> <span class="o">%</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scene</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;The provided scene is not part of the SceneManager&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">scene</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">__loadScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__running_scene</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
@@ -188,7 +247,12 @@
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">update</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">scene</span><span class="o">.</span><span class="n">no_interactive</span><span class="p">()</span></div>
+                <span class="n">scene</span><span class="o">.</span><span class="n">no_interactive</span><span class="p">()</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">CurrentScene</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the current scene being run&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__running_scene</span></div>
 
 <span class="n">SceneManager</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="p">()</span>
 <span class="sd">&quot;&quot;&quot;Manages all scene additions and changes&quot;&quot;&quot;</span>
@@ -495,7 +559,6 @@
             <span class="k">if</span> <span class="n">renderer</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">inside_frustrum</span><span class="p">(</span><span class="n">renderer</span><span class="p">):</span>
                 <span class="n">glPushMatrix</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
-                <span class="c1"># print(glGetFloatv(GL_PROJECTION_MATRIX))</span>
                 <span class="n">renderer</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                 <span class="n">glPopMatrix</span><span class="p">()</span></div>
     
