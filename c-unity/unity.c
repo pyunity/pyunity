@@ -1,4 +1,5 @@
 #include <cstring>
+#include "properties.h"
 #include "unity.h"
 
 GameObject::GameObject(const char name[]) {
@@ -15,4 +16,8 @@ GameObject::GameObject(const char name[], GameObject* parent) {
 
 Transform::Transform(Transform* parent) {
 	this->parent = parent;
+}
+
+template <class T> T* GameObject::AddComponent() {
+    return new T();
 }
