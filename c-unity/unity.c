@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<string> tags = vector<string> {"Default"};
+vector<const char*> tags = vector<const char*> {"Default"};
 
 template <class T> int indexOf(vector<T> arr, T item) {
     auto it = find(arr.begin(), arr.end(), item);
@@ -16,8 +16,8 @@ template <class T> int indexOf(vector<T> arr, T item) {
     }
 }
 
-Tag::Tag(string tagName) {
-    this->tagName = tagName;
+Tag::Tag(const char tagName[]) {
+    strcpy(this->tagName, tagName);
     this->tag = indexOf(tags, tagName);
 }
 

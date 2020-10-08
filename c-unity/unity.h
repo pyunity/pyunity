@@ -11,9 +11,9 @@ class Transform;
 
 class Tag {
     public:
-        std::string tagName;
-        std::string tag;
-        Tag(std::string tagName);
+        char tagName[20];
+        int tag;
+        Tag(const char tagName[]);
         Tag(int tagNum);
 };
 
