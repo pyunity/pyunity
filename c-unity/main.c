@@ -4,7 +4,6 @@
 int main() {
 	GameObject* a = new GameObject("1");
 	GameObject* b = new GameObject("2", a);
-	GameObject* b_parent = b->transform->parent->gameObject;
-	printf("%s %s %s", a->name, b->name, b_parent->name);
+	printf("%s %s %s", a->name, b->name, b->transform->parent->gameObject->name);
 	return 0;
 }
