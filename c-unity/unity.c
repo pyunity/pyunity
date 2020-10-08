@@ -1,6 +1,7 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <stdio.h>
 #include "properties.h"
 #include "unity.h"
 
@@ -27,7 +28,7 @@ Tag::Tag(int tagNum) {
     strcpy(this->tagName, tags[tagNum]);
 }
 
-static int Tag::AddTag(const char tagName[]) {
+int Tag::AddTag(const char tagName[]) {
 	int idx = indexOf(tags, tagName);
 	if (idx == -1) {
 		tags.push_back(tagName);
@@ -39,20 +40,53 @@ static int Tag::AddTag(const char tagName[]) {
 
 GameObject::GameObject(const char name[]) {
 	strcpy(this->name, name);
-	this->transform = new Transform(NULL);
-	this->transform->gameObject = this;
+	this->AddComponent<Transform>();
 }
 
 GameObject::GameObject(const char name[], GameObject* parent) {
 	strcpy(this->name, name);
-	this->transform = new Transform(parent->transform);
-	this->transform->gameObject = this;
-}
-
-Transform::Transform(Transform* parent) {
-	this->parent = parent;
+	this->AddComponent<Transform>();
+    if (parent && parent->transform) {
+        printf("%d\n", parent->transform);
+        this->transform->ReparentTo(parent->transform);
+    }
 }
 
 template <class T> T* GameObject::AddComponent() {
-    return new T();
+    T* component;
+    if (typeid(T) == typeid(Transform)) {
+        for (int i = 0; i < this->components.size(); i++) {
+            if (typeid(components[i]) == typeid(T)) {
+                printf(
+                    "WARNING: Cannot add %s to the GameObject; it already has one\n",
+                    typeid(T).name());
+                return NULL;
+            }
+        }
+    }
+    component = new T();
+    this->components.push_back(component);
+    if (typeid(T) == typeid(Transform)) {
+        this->transform = component;
+    }
+    
+    component->gameObject = this;
+    component->transform = this->transform;
+    return component;
+}
+
+Transform::Transform() {}
+
+void Transform::ReparentTo(Transform* parent) {
+    if (this->parent) {
+        vector<Transform*> children_vector = this->parent->children;
+        int index = indexOf(children_vector, this);
+        if (index != -1) {
+            children_vector.erase(children_vector.begin() + index);
+        }
+    }
+    if (parent) {
+        parent->children.push_back(this);
+        this->parent = parent;
+    }
 }

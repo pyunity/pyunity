@@ -21,7 +21,7 @@ class Tag {
 class GameObject {
 	public:
 		char name[20];
-        std::vector<Component> components;
+        std::vector<Component*> components;
 		Transform* transform;
 		GameObject(const char name[]);
 		GameObject(const char name[], GameObject* parent);
@@ -34,11 +34,13 @@ class Component {
 		Transform* transform;
 };
 
-class Transform : Component {
+class Transform : public Component {
 	public:
 		GameObject* gameObject;
+        std::vector<Transform*> children;
 		Transform* parent;
-		Transform(Transform* parent);
+		Transform();
+        void ReparentTo(Transform* parent);
 };
 
 #endif
