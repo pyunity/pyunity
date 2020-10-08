@@ -15,6 +15,7 @@ class Tag {
         int tag;
         Tag(const char tagName[]);
         Tag(int tagNum);
+		static int AddTag(const char tagName[]);
 };
 
 class GameObject {

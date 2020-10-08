@@ -1,5 +1,6 @@
 #include <cstring>
 #include <vector>
+#include <algorithm>
 #include "properties.h"
 #include "unity.h"
 
@@ -19,6 +20,21 @@ template <class T> int indexOf(vector<T> arr, T item) {
 Tag::Tag(const char tagName[]) {
     strcpy(this->tagName, tagName);
     this->tag = indexOf(tags, tagName);
+}
+
+Tag::Tag(int tagNum) {
+    this->tag = tagNum;
+    strcpy(this->tagName, tags[tagNum]);
+}
+
+static int Tag::AddTag(const char tagName[]) {
+	int idx = indexOf(tags, tagName);
+	if (idx == -1) {
+		tags.push_back(tagName);
+		return indexOf(tags, tagName);
+	} else {
+		return idx;
+	}
 }
 
 GameObject::GameObject(const char name[]) {
