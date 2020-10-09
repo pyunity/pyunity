@@ -5,11 +5,9 @@
 #include "properties.h"
 #include "unity.h"
 
-using namespace std;
+std::vector<const char*> tags = std::vector<const char*> {"Default"};
 
-vector<const char*> tags = vector<const char*> {"Default"};
-
-template <class T> int indexOf(vector<T> arr, T item) {
+template <class T> int indexOf(std::vector<T> arr, T item) {
     auto it = find(arr.begin(), arr.end(), item);
     if (it != arr.end()) {
         return distance(arr.begin(), it);
@@ -47,7 +45,6 @@ GameObject::GameObject(const char name[], GameObject* parent) {
 	strcpy(this->name, name);
 	this->AddComponent<Transform>();
     if (parent && parent->transform) {
-        printf("%d\n", parent->transform);
         this->transform->ReparentTo(parent->transform);
     }
 }
@@ -79,7 +76,7 @@ Transform::Transform() {}
 
 void Transform::ReparentTo(Transform* parent) {
     if (this->parent) {
-        vector<Transform*> children_vector = this->parent->children;
+        std::vector<Transform*> children_vector = this->parent->children;
         int index = indexOf(children_vector, this);
         if (index != -1) {
             children_vector.erase(children_vector.begin() + index);
