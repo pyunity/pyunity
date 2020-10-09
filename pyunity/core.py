@@ -379,7 +379,9 @@ class Transform(Component):
             The parent to reparent to.
         
         """
-        if parent: parent.children.append(self); self.parent = parent
+        if self.parent: self.parent.children.remove(self)
+        if parent: parent.childre.append(self)
+        self.parent = parent
     
     def List(self):
         """
