@@ -50,10 +50,10 @@ GameObject::GameObject(const char name[], GameObject* parent) {
 }
 
 template <class T> T* GameObject::AddComponent() {
-    T* component;
-    if (typeid(T) == typeid(Transform)) {
-        for (int i = 0; i < this->components.size(); i++) {
-            if (typeid(components[i]) == typeid(T)) {
+    T* component = new T();
+    if (std::is_same<T, Transform>::value) {
+        for (Component* check : this->components) {
+            if (check->type_name == component->type_name) {
                 printf(
                     "WARNING: Cannot add %s to the GameObject; it already has one\n",
                     typeid(T).name());
@@ -61,7 +61,6 @@ template <class T> T* GameObject::AddComponent() {
             }
         }
     }
-    component = new T();
     this->components.push_back(component);
     if (typeid(T) == typeid(Transform)) {
         this->transform = component;

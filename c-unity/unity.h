@@ -30,12 +30,14 @@ class GameObject {
 
 class Component {
 	public:
+		static constexpr const char* const type_name = "Component";
 		GameObject* gameObject;
 		Transform* transform;
 };
 
 class Transform : public Component {
 	public:
+		static constexpr const char* const type_name = "Transform";
 		GameObject* gameObject;
         std::vector<Transform*> children;
 		Transform* parent;
