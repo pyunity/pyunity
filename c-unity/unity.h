@@ -25,7 +25,9 @@ class GameObject {
 		Transform* transform;
 		GameObject(const char name[]);
 		GameObject(const char name[], GameObject* parent);
+		Tag* tag;
         template <class T> T* AddComponent();
+        template <class T> T* GetComponent();
 };
 
 class Component {
