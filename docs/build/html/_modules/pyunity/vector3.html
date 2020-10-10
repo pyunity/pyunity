@@ -337,9 +337,10 @@
     <span class="nd">@length</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_length</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
     
 <div class="viewcode-block" id="Vector3.normalized"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
