@@ -22,3 +22,13 @@
 
 
     #define PROPERTY(Class, Type, Name) PROPERTY_GEN(Class, Type, Name, get_##Name, set_##Name)
+
+// template <class T> class Property {
+	// private:
+		// float getter() const {return 0;};
+		// T& setter(float);
+		// T& operator=(const float i) {return this->setter();}
+		// friend T;
+	// public:
+		// operator float() const {return this->getter();}
+// };
