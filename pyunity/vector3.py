@@ -303,9 +303,10 @@ class Vector3:
     @length.setter
     def length(self, value):
         length = self.get_length()
-        self.x *= value / length
-        self.y *= value / length
-        self.z *= value / length
+        if length != 0:
+            self.x *= value / length
+            self.y *= value / length
+            self.z *= value / length
     
     def normalized(self):
         """
