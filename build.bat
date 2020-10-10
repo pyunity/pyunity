@@ -4,7 +4,7 @@ python setup.py build -c mingw32 bdist_wheel -d "dist/0.2.0/" sdist -d "dist/0.2
 RMDIR /S /Q "pyunity.egg-info/" "docs/build/html/"
 SET a=1
 py -3.7 setup.py build -c mingw32 bdist_wheel -d "dist/0.2.0/"
-SET a=0
+SET a=
 RMDIR /S /Q "pyunity.egg-info/" "build/"
 sphinx-build -T -E -b html docs/source docs/build/html
 IF NOT [%1] == [] (
