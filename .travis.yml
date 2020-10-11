@@ -1,7 +1,6 @@
 language: python
 jobs:
   include:
-  include:
     - name: "Python: 3.6"
       os: osx
       language: shell
@@ -45,5 +44,5 @@ install:
   - pip3 install cython wheel pyopengl glfw pygame
 script:
   # - python prepare.py
-  - python setup.py bdist_wheel sdist
+  - python setup.py bdist_wheel sdist || python3 setup.py bdist_wheel sdist
 
