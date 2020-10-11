@@ -41,7 +41,7 @@
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
-<span class="sd">    pyunityException</span>
+<span class="sd">    PyUnityException</span>
 <span class="sd">        If the window creation fails</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -54,7 +54,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">glfw</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="o">*</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">:</span>
             <span class="n">glfw</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-            <span class="k">raise</span> <span class="n">pyunityException</span><span class="p">(</span><span class="s2">&quot;Cannot open GLFW window&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;Cannot open GLFW window&quot;</span><span class="p">)</span>
         
         <span class="n">glfw</span><span class="o">.</span><span class="n">make_context_current</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
     
