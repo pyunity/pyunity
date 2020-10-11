@@ -44,6 +44,6 @@ install:
   - pip3 install cython wheel pyopengl glfw pygame
 script:
   - set a=1
-  - python prepare.py
-  - python setup.py bdist_wheel sdist || python3 setup.py bdist_wheel sdist
+  - python prepare.py -x
+  - python setup.py bdist_wheel || python3 setup.py bdist_wheel
   - mv dist/* .. || move dist\* ..
