@@ -47,8 +47,8 @@ script:
   - set a=1
   - python prepare.py -x || python3 prepare.py -x
   - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
-  - git checkout HEAD .
+  - git checkout master
   - mv ../pyunity*.whl dist/0.2.0
   - git add .
-  - git commit -m "Built on Travis CI
+  - git commit -m "Built on Travis CI"
   - git push
