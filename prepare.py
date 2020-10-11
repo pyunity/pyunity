@@ -15,6 +15,8 @@ desc_new = [
         "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
         "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
         "0.1.0.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+        "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
+        "(https://travis-ci.org/rayzchen/pyunity)",
     ])
 ]
 skip = 0
