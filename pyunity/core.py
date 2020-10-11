@@ -380,7 +380,7 @@ class Transform(Component):
         
         """
         if self.parent: self.parent.children.remove(self)
-        if parent: parent.childre.append(self)
+        if parent: parent.childrens.append(self)
         self.parent = parent
     
     def List(self):
