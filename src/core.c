@@ -1530,7 +1530,6 @@ static const char __pyx_k_sorted[] = "sorted";
 static const char __pyx_k_vertex[] = "vertex";
 static const char __pyx_k_Default[] = "Default";
 static const char __pyx_k_Vector3[] = "Vector3";
-static const char __pyx_k_childre[] = "childre";
 static const char __pyx_k_core_py[] = "core.py";
 static const char __pyx_k_environ[] = "environ";
 static const char __pyx_k_genexpr[] = "genexpr";
@@ -1553,6 +1552,7 @@ static const char __pyx_k_Behaviour[] = "Behaviour";
 static const char __pyx_k_Component[] = "Component";
 static const char __pyx_k_Transform[] = "Transform";
 static const char __pyx_k_TypeError[] = "TypeError";
+static const char __pyx_k_childrens[] = "childrens";
 static const char __pyx_k_component[] = "component";
 static const char __pyx_k_conjugate[] = "conjugate";
 static const char __pyx_k_glColor3f[] = "glColor3f";
@@ -1720,8 +1720,8 @@ static PyObject *__pyx_n_s__6;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_child;
-static PyObject *__pyx_n_s_childre;
 static PyObject *__pyx_n_s_children;
+static PyObject *__pyx_n_s_childrens;
 static PyObject *__pyx_n_s_clearColor;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_close;
@@ -5616,7 +5616,7 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_22ReparentTo(CYTHON_UNUSED P
  * 
  *         """
  *         if self.parent: self.parent.children.remove(self)             # <<<<<<<<<<<<<<
- *         if parent: parent.childre.append(self)
+ *         if parent: parent.childrens.append(self)
  *         self.parent = parent
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
@@ -5653,13 +5653,13 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_22ReparentTo(CYTHON_UNUSED P
   /* "pyunity/core.py":383
  *         """
  *         if self.parent: self.parent.children.remove(self)
- *         if parent: parent.childre.append(self)             # <<<<<<<<<<<<<<
+ *         if parent: parent.childrens.append(self)             # <<<<<<<<<<<<<<
  *         self.parent = parent
  * 
  */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_parent); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 383, __pyx_L1_error)
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parent, __pyx_n_s_childre); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 383, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parent, __pyx_n_s_childrens); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 383, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_self); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 383, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5667,7 +5667,7 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_22ReparentTo(CYTHON_UNUSED P
 
   /* "pyunity/core.py":384
  *         if self.parent: self.parent.children.remove(self)
- *         if parent: parent.childre.append(self)
+ *         if parent: parent.childrens.append(self)
  *         self.parent = parent             # <<<<<<<<<<<<<<
  * 
  *     def List(self):
@@ -7693,8 +7693,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_child, __pyx_k_child, sizeof(__pyx_k_child), 0, 0, 1, 1},
-  {&__pyx_n_s_childre, __pyx_k_childre, sizeof(__pyx_k_childre), 0, 0, 1, 1},
   {&__pyx_n_s_children, __pyx_k_children, sizeof(__pyx_k_children), 0, 0, 1, 1},
+  {&__pyx_n_s_childrens, __pyx_k_childrens, sizeof(__pyx_k_childrens), 0, 0, 1, 1},
   {&__pyx_n_s_clearColor, __pyx_k_clearColor, sizeof(__pyx_k_clearColor), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
