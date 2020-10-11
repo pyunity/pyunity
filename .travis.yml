@@ -43,6 +43,7 @@ jobs:
 install:
   - pip3 install cython wheel pyopengl glfw pygame
 script:
-  # - python prepare.py
+  - set a=1
+  - python prepare.py
   - python setup.py bdist_wheel sdist || python3 setup.py bdist_wheel sdist
-
+  - mv dist/* .. || move dist\* ..
