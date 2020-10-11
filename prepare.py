@@ -1,7 +1,7 @@
 import os, glob, shutil, sys
 if "cython" not in os.environ: os.environ["cython"] = "1"
 
-if "a" not in os.environ:
+if len(sys.argv) == 1:
     import pyunity
     desc = pyunity.__doc__.split("\n")
     desc_new = [
