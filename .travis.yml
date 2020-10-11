@@ -44,6 +44,6 @@ jobs:
 install:
   - pip3 install cython wheel pyopengl glfw pygame
 script:
-  - python prepare.py
+  # - python prepare.py
   - python setup.py bdist_wheel sdist
 
