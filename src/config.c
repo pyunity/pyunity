@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.config",
         "sources": [
-            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\config.py"
+            "/home/runner/pyunity/pyunity/config.py"
         ]
     },
     "module_name": "pyunity.config"

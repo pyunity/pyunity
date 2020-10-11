@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.glfwWindow",
         "sources": [
-            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\glfwWindow.py"
+            "/home/runner/pyunity/pyunity/window/glfwWindow.py"
         ]
     },
     "module_name": "pyunity.window.glfwWindow"
