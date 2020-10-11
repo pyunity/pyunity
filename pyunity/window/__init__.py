@@ -31,6 +31,7 @@ pull request.
 
 import os
 import OpenGL.GLUT, glfw, pygame
+glfw.ERROR_REPORTING = True
 from ..errors import *
 
 def glfwCheck():

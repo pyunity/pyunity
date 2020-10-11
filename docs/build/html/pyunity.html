@@ -72,9 +72,8 @@ Loaded PyUnity version 0.2.0</p>
 </div>
 <div class="section" id="scenes">
 <h4>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h4>
-<p>All PyUnity projects start with a scene. There
-is no way to change between scenes yet.</p>
-<p>To add a scene, do this:</p>
+<p>All PyUnity projects start with a scene. To add
+a scene, do this:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene 1&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -122,9 +121,9 @@ Pygame is tested last.</p>
 <p>To create your own provider, create a
 class that has the following methods:</p>
 <ul class="simple">
-<li><p><cite>__init__</cite>: initiate your window and
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__</span></code>: initiate your window and
 check to see if it works.</p></li>
-<li><p><cite>start</cite>: start the main loop in your
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code>: start the main loop in your
 window. The first parameter is
 <code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called
 when you want to do the OpenGL calls.</p></li>
