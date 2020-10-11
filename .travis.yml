@@ -42,9 +42,9 @@ jobs:
         - choco install python --version 3.8.0
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 install:
-  - python -m pip install --upgrade pip
-  - python -m pip install cython wheel pyopengl glfw pygame
+  - pip3 install --upgrade pip
+  - pip3 install cython wheel pyopengl glfw pygame
 script:
   - python prepare.py
-  - python setup.py bdist_wheel
+  - python setup.py bdist_wheel sdist
 
