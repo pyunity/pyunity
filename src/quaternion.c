@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.quaternion",
         "sources": [
-            "/home/runner/01hj1gbh0941/pyunity/quaternion.py"
+            "/home/runner/deggkm580nh/pyunity/quaternion.py"
         ]
     },
     "module_name": "pyunity.quaternion"

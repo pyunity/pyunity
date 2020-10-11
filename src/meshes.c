@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.meshes",
         "sources": [
-            "/home/runner/01hj1gbh0941/pyunity/meshes.py"
+            "/home/runner/deggkm580nh/pyunity/meshes.py"
         ]
     },
     "module_name": "pyunity.meshes"
