@@ -1,5 +1,6 @@
 @ECHO OFF
 
+python prepare.py
 python setup.py build -c mingw32 bdist_wheel -d "dist/0.2.0/" sdist -d "dist/0.2.0/"
 RMDIR /S /Q "pyunity.egg-info/" "docs/build/html/"
 SET a=1
