@@ -1,48 +1,57 @@
 from setuptools import setup, find_packages, Extension
-import os, glob, shutil
-if "cython" not in os.environ: os.environ["cython"] = "1"
+import os, glob, shutil, sys
+if "cython" not in os.environ:
+    os.environ["cython"] = str(int("sdist" not in sys.argv))
 
 if "a" not in os.environ:
-    import pyunity
-    desc = pyunity.__doc__.split("\n")
-    desc_new = [
-        "# PyUnity", "",
-        "".join([
-            "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
-            "(https://pyunity.readthedocs.io/en/latest/?badge=latest) ",
-            "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
-            "(https://pypi.python.org/pypi/pyunity)",
-            "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
-            "(https://pypi.python.org/pypi/pyunity) ",
-            "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
-            "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
-            "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
-            "0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
-        ])
-    ]
-    skip = 0
-    for i in range(len(desc)):
-        if skip: skip = 0; continue
-        if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
-            if desc[i + 1][0] == "-":
-                desc_new.append("### " + desc[i])
-                skip = 1
-            elif desc[i + 1][0] == "=":
-                desc_new.append("## " + desc[i])
-                skip = 1
-        else:
-            if "create a new pull request" in desc[i]:
-                desc[i] = desc[i].replace(
-                    "create a new pull request",
-                    "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
-                )
-            desc_new.append(desc[i])
+    try:
+        import pyunity
+    except ModuleNotFoundError:
+        pass
+    else:
+        desc = pyunity.__doc__.split("\n")
+        desc_new = [
+            "# PyUnity", "",
+            "".join([
+                "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
+                "(https://pyunity.readthedocs.io/en/latest/?badge=latest) ",
+                "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
+                "(https://pypi.python.org/pypi/pyunity)",
+                "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
+                "(https://pypi.python.org/pypi/pyunity) ",
+                "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
+                "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
+                "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
+                "0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+            ])
+        ]
+        skip = 0
+        for i in range(len(desc)):
+            if skip: skip = 0; continue
+            if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
+                if desc[i + 1][0] == "-":
+                    desc_new.append("### " + desc[i])
+                    skip = 1
+                elif desc[i + 1][0] == "=":
+                    desc_new.append("## " + desc[i])
+                    skip = 1
+            else:
+                if "create a new pull request" in desc[i]:
+                    desc[i] = desc[i].replace(
+                        "create a new pull request",
+                        "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
+                    )
+                desc_new.append(desc[i])
 
-    with open("README.md", "w") as f:
-        for line in desc_new:
-            f.write(line + "\n")
+        with open("README.md", "w") as f:
+            for line in desc_new:
+                f.write(line + "\n")
 
     if os.environ["cython"] == "1":
+        try:
+            import Cython
+        except ModuleNotFoundError:
+            raise Exception("Cython is needed to create CPython extensions.")
         if os.path.exists("src"): shutil.rmtree("src")
         # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
         # for f in pxd_files:
