@@ -14,7 +14,7 @@ desc_new = [
         "[![Python version](https://img.shields.io/badge/python-3-blue.svg?v=1)]",
         "(https://img.shields.io/badge/python-3-blue.svg?v=1) ",
         "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
-        "0.0.5.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+        "0.1.0.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
     ])
 ]
 skip = 0
