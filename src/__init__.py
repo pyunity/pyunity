@@ -35,10 +35,8 @@ If debugging is off, there is no output:
 
 Scenes
 ------
-All PyUnity projects start with a scene. There
-is no way to change between scenes yet.
-
-To add a scene, do this:
+All PyUnity projects start with a scene. To add
+a scene, do this:
 
     >>> scene = SceneManager.AddScene("Scene 1")
 
@@ -87,9 +85,9 @@ Pygame is tested last.
 To create your own provider, create a
 class that has the following methods:
 
-- `__init__`: initiate your window and
+- ``__init__``: initiate your window and
   check to see if it works.
-- `start`: start the main loop in your
+- ``start``: start the main loop in your
   window. The first parameter is
   ``update_func``, which is called
   when you want to do the OpenGL calls.
