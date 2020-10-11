@@ -28,27 +28,23 @@ jobs:
       language: shell
       before_install:
         - choco install python --version 3.6.0
-        - python -m pip install --upgrade pip
-        - pip3 install pygame
       env: PATH=/c/Python36:/c/Python36/Scripts:$PATH
     - name: "Python 3.7.0 on Windows"
       os: windows
       language: shell
       before_install:
         - choco install python --version 3.7.0
-        - python -m pip install --upgrade pip
-        - pip3 install pygame
       env: PATH=/c/Python37:/c/Python37/Scripts:$PATH
     - name: "Python 3.8.0 on Windows"
       os: windows
       language: shell
       before_install:
         - choco install python --version 3.8.0
-        - python -m pip install --upgrade pip
-        - pip3 install pygame
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 install:
-  - pip3 install --upgrade pip
-  - pip3 install cython wheel pyopengl glfw
-script: python3 setup.py bdist_wheel || python setup.py bdist_wheel
+  - python -m pip install --upgrade pip
+  - python -m pip install cython wheel pyopengl glfw pygame
+script:
+  - python prepare.py
+  - python setup.py bdist_wheel
 
