@@ -48,7 +48,8 @@ script:
   - python prepare.py -x || python3 prepare.py -x
   - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
   - git checkout master
-  - rm -rf build/ pyunity.egg-info/
+  - rm -rf *
+  - git checkout HEAD .
   - mv ../pyunity*.whl dist/0.2.0
   - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
   - git config --global user.name "rayzchen"
