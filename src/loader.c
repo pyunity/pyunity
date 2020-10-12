@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.loader",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/loader.py"
+            "/home/runner/pyunity/pyunity/loader.py"
         ]
     },
     "module_name": "pyunity.loader"

@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.errors",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/errors.py"
+            "/home/runner/pyunity/pyunity/errors.py"
         ]
     },
     "module_name": "pyunity.errors"

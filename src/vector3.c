@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.vector3",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/vector3.py"
+            "/home/runner/pyunity/pyunity/vector3.py"
         ]
     },
     "module_name": "pyunity.vector3"

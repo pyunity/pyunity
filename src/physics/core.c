@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.physics.core",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/physics/core.py"
+            "/home/runner/pyunity/pyunity/physics/core.py"
         ]
     },
     "module_name": "pyunity.physics.core"

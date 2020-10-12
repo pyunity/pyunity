@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.config",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/config.py"
+            "/home/runner/pyunity/pyunity/config.py"
         ]
     },
     "module_name": "pyunity.config"

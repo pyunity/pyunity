@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.core",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/core.py"
+            "/home/runner/pyunity/pyunity/core.py"
         ]
     },
     "module_name": "pyunity.core"
