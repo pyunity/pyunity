@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.pygameWindow",
         "sources": [
-            "/home/runner/deggkm580nh/pyunity/window/pygameWindow.py"
+            "/home/runner/pyunity/pyunity/window/pygameWindow.py"
         ]
     },
     "module_name": "pyunity.window.pygameWindow"
