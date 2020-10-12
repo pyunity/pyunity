@@ -49,6 +49,7 @@ script:
   - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
   - git checkout master
   - mv ../pyunity*.whl dist/0.2.0
+  - git remote set-url origin https://rayzchen:b4766ee2974832d2c1fd6dbb545253aca9c6b9e9@github.com/rayzchen/pyunity.git
   - git add .
   - git commit -m "Built on Travis CI"
   - git push
