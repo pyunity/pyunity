@@ -49,8 +49,5 @@ script:
   - git config --global user.email "tankimarshal2@gmail.com"
   - git add .
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER [ci skip]"
-  - git fetch
-  - git merge -X theirs
-  - git remote prune origin
-  - git gc --prune=now
+  - git pull
   - git push --set-upstream origin releases
