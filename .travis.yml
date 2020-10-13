@@ -38,9 +38,9 @@ script:
   - set a=1
   - python prepare.py -x || python3 prepare.py -x
   - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
-  - git checkout -b releases --track origin/releases
   - mv ../pyunity*.whl 0.2.0/
   - git fetch
+  - git checkout -b releases --track origin/releases
   - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
   - git config --global user.name "rayzchen"
   - git config --global user.email "tankimarshal2@gmail.com"
