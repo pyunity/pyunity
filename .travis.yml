@@ -1,24 +1,10 @@
 language: python
 jobs:
   include:
-    - name: "Python: 3.6"
-      os: osx
-      language: shell
-      python: 3.6
-      cache:
-        - directories:
-          - $HOME/Library/Caches/pip
-    - name: "Python: 3.7"
+    - name: "Python 3.7.1 on OSX"
       os: osx
       language: shell
       python: 3.7
-      cache:
-        - directories:
-          - $HOME/Library/Caches/pip
-    - name: "Python: 3.8"
-      os: osx
-      language: shell
-      python: 3.8
       cache:
         - directories:
           - $HOME/Library/Caches/pip
