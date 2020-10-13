@@ -57,4 +57,4 @@ script:
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER [ci skip]"
   - git pull
   - git merge -X theirs
-  - git push --set-upstream origin master
+  - git push --set-upstream origin test
