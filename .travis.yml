@@ -41,21 +41,18 @@ jobs:
         - choco install python --version 3.8.0
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 install:
-  - pip3 install cython wheel pyopengl glfw pygame
+  - pip3 install cython wheel
 script:
-  # - git pull
   - set a=1
   - python prepare.py -x || python3 prepare.py -x
   - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
-  # - git checkout master
-  # - rm -rf *
-  # - git checkout HEAD .
-  - mv ../pyunity*.whl dist/0.2.0
-  # - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
-  # - git config --global user.name "rayzchen"
-  # - git config --global user.email "tankimarshal2@gmail.com"
-  # - git add .
-  # - git commit -m "Travis build $TRAVIS_BUILD_NUMBER"
-  # - git pull
-  # - git merge -X theirs
-  # - git push --set-upstream origin master
+  - git checkout releases
+  - mv ../pyunity*.whl 0.2.0/
+  - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
+  - git config --global user.name "rayzchen"
+  - git config --global user.email "tankimarshal2@gmail.com"
+  - git add .
+  - git commit -m "Travis build $TRAVIS_BUILD_NUMBER [ci skip]"
+  - git fetch
+  - git merge -X theirs
+  - git push --set-upstream origin releases
