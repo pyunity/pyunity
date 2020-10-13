@@ -47,6 +47,7 @@ script:
   - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
   - git config --global user.name "rayzchen"
   - git config --global user.email "tankimarshal2@gmail.com"
+  - git config pull.rebase true
   - git add .
   - git commit -m "Travis build $TRAVIS_BUILD_NUMBER [ci skip]"
   - git pull
