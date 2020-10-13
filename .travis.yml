@@ -1,6 +1,12 @@
 language: python
 jobs:
   include:
+    - name: "Python 3.8.0 on Xenial Linux"
+      python: 3.8
+    - name: "Python 3.7.0 on Xenial Linux"
+      python: 3.7
+    - name: "Python 3.6.0 on Xenial Linux"
+      python: 3.6
     - name: "Python 3.7.1 on OSX"
       os: osx
       language: shell
