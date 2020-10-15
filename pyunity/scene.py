@@ -1,3 +1,4 @@
+from .audio import *
 from .core import *
 from . import config
 from .errors import *
@@ -208,6 +209,7 @@ class SceneManager:
             self.window = config.windowProvider(config, scene.name)
             scene.Start()
             self.window.start(scene.update)
+            self.window = None
         else:
             scene.Start()
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -412,6 +414,8 @@ class Scene:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
+                elif isinstance(component, AudioSource) and component.PlayOnStart:
+                    component.Play()
 
         self.physics = any(
             isinstance(
