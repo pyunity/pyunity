@@ -11,3 +11,7 @@ class ComponentException(PyUnityException):
 class GameObjectException(PyUnityException):
     """Class for PyUnity exceptions relating to GameObjects."""
     pass
+
+class PyUnityWarning(Warning):
+    """Base class for PyUnity warnings."""
+    pass
