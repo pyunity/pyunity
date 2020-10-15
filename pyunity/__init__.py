@@ -123,6 +123,7 @@ new pull request.
 """
 
 import os
+from .audio import *
 from .core import *
 from .vector3 import *
 from .quaternion import *
