@@ -16,10 +16,9 @@ def main():
     cube.AddComponent(Rotator)
 
     scene.Add(cube)
-
+    
     scene.List()
-
-    scene.Run()
+    SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":
     main()
