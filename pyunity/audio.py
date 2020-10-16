@@ -14,7 +14,6 @@ class AudioClip:
             if os.path.exists(file):
                 if file.endswith(".ogg"):
                     self.file = file
-                    self.sound = pygame.mixer.Sound(file)
                 else:
                     raise PyUnityException("Cannot use an audio file that is not of type OGG")
         else:
@@ -24,7 +23,6 @@ class AudioSource(Component):
     def __init__(self):
         super(AudioSource, self).__init__()
         self.clip = None
-        self.channel = pygame.mixer.Channel(0)
         self.PlayOnStart = True
     
     def SetClip(self, clip):

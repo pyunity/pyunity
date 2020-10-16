@@ -414,8 +414,12 @@ class Scene:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
-                elif isinstance(component, AudioSource) and component.PlayOnStart:
-                    component.Play()
+                elif isinstance(component, AudioSource):
+                    component.channel = pygame.mixer.Channel(0)
+                    if component.clip:
+                        component.clip.sound = pygame.mixer.Sound(component.clip.file)
+                    if component.PlayOnStart:
+                        component.Play()
 
         self.physics = any(
             isinstance(
