@@ -46,7 +46,7 @@ def main():
 
     scene.Add(cube)
 
-    scene.Run()
+    SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":
     main()

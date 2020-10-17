@@ -6,7 +6,7 @@ def main():
     path = os.path.realpath(os.path.dirname(__file__))
     clip = AudioClip(os.path.join(path, "explode.ogg"))
     scene.mainCamera.AddComponent(AudioSource).SetClip(clip)
-    scene.Run()
+    SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":
     main()
