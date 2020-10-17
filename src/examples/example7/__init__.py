@@ -2,11 +2,10 @@ from pyunity import *
 
 class Switch(Behaviour):
     a = 3
-    scene2 = None
     def Update(self, dt):
         self.a -= dt
         if self.a < 0:
-            SceneManager.LoadScene(self.scene2)
+            SceneManager.LoadSceneByIndex(1)
 
 def main():
     scene = SceneManager.AddScene("Scene")
