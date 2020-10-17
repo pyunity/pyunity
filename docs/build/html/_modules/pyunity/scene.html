@@ -243,6 +243,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
@@ -447,8 +448,12 @@
             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">)</span> <span class="ow">and</span> <span class="n">component</span><span class="o">.</span><span class="n">PlayOnStart</span><span class="p">:</span>
-                    <span class="n">component</span><span class="o">.</span><span class="n">Play</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
+                    <span class="n">component</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Channel</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="p">:</span>
+                        <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">PlayOnStart</span><span class="p">:</span>
+                        <span class="n">component</span><span class="o">.</span><span class="n">Play</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">physics</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
             <span class="nb">isinstance</span><span class="p">(</span>
@@ -549,6 +554,11 @@
             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">Loop</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">PlayOnStart</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">channel</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">component</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">get_busy</span><span class="p">():</span>
+                                <span class="n">component</span><span class="o">.</span><span class="n">Play</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
