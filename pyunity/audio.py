@@ -24,6 +24,7 @@ class AudioSource(Component):
         super(AudioSource, self).__init__()
         self.clip = None
         self.PlayOnStart = True
+        self.Loop = False
     
     def SetClip(self, clip):
         if not isinstance(clip, AudioClip):
