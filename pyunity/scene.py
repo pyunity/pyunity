@@ -520,6 +520,11 @@ class Scene:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Update(dt)
+                elif isinstance(component, AudioSource):
+                    if component.Loop:
+                        if component.PlayOnStart:
+                            if component.channel and not component.channel.get_busy():
+                                component.Play()
 
         if self.physics:
             self.collManager.Step(dt)
