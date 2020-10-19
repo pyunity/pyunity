@@ -1,10 +1,7 @@
 from setuptools import setup, find_packages, Extension
 import os, glob, shutil, sys
 if "cython" not in os.environ:
-    if "sdist" not in sys.argv:
-        os.environ["cython"] = "1"
-    else:
-        os.environ["cython"] = "0"
+    os.environ["cython"] = "1"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
