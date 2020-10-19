@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial 1: The Basics &#8212; PyUnity 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial 2: Rendering in Scenes" href="tutorial2.html" />
+    <link rel="prev" title="Tutorials" href="tutorials.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial-1-the-basics">
+<h1>Tutorial 1: The Basics<a class="headerlink" href="#tutorial-1-the-basics" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial you will be learning
+the basics to using PyUnity, and
+understanding some key concepts.</p>
+<div class="section" id="what-is-pyunity">
+<h2>What is PyUnity?<a class="headerlink" href="#what-is-pyunity" title="Permalink to this headline">¶</a></h2>
+<p>PyUnity is a Python port of the
+<a class="reference external" href="https://unity.com/">UnityEngine</a>, which was originally written
+in C++. PyUnity has been modified to be
+easy to use in Python, which means that
+some features have been removed.</p>
+</div>
+<div class="section" id="basic-concepts">
+<h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<p>In PyUnity, everything will belong to a
+GameObject. A GameObject is a named object that
+has lots of different things on it that will
+affect the GameObject and other GameObjects.
+Each GameObject has its own Components, which
+are like the hardware in a computer. These
+Components can do all sorts of things.</p>
+</div>
+<div class="section" id="transforms">
+<h2>Transforms<a class="headerlink" href="#transforms" title="Permalink to this headline">¶</a></h2>
+<p>Each GameObject has a special component called
+a Transform. A Transform holds information about
+the GameObject’s position, rotation and scale.</p>
+<p>A Transform can also have a child. This child is
+also a GameObject’s component. All transforms will
+have a localPosition, localRotation and localScale,
+which are all relative to their parent. In addition,
+all Transforms will have a <code class="docutils literal notranslate"><span class="pre">position</span></code>, <code class="docutils literal notranslate"><span class="pre">rotation</span></code> and
+<code class="docutils literal notranslate"><span class="pre">scale</span></code> property which is measured in global space.</p>
+<p>For example, if there is a Transform at 1 unit up from
+the origin, and its child had a <code class="docutils literal notranslate"><span class="pre">localPosition</span></code> of
+1 unit right, then the child would have a <code class="docutils literal notranslate"><span class="pre">position</span></code> of
+1 unit up and 1 unit to the right.</p>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<p>All of that has now been established, so let’s start to
+program it all! To start, we need to import PyUnity.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">Loaded config</span>
+<span class="go">Trying GLFW as a window provider</span>
+<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
+<span class="go">Trying Pygame as a window provider</span>
+<span class="go">Using window provider Pygame</span>
+<span class="go">Loaded PyUnity version 0.2.0</span>
+</pre></div>
+</div>
+<p>The output beneath the import is just debug statement, you
+can turn it off with the environment variable
+<code class="docutils literal notranslate"><span class="pre">PYUNITY_DEBUG_INFO</span></code> set to <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code>.</p>
+<p>Now we have loaded the module, we can start creating our
+GameObjects. To create a GameObject, use the <code class="docutils literal notranslate"><span class="pre">GameObject</span></code>
+class:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Root&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we can change its position by accessing its transform.
+All GameObjects have references to their transform by the
+<code class="docutils literal notranslate"><span class="pre">transform</span></code> attribute, and all components have a reference
+to the GameObject and the Transform that they belong to, by
+the <code class="docutils literal notranslate"><span class="pre">gameObject</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code> attributes. Here’s
+how to make the GameObject positioned 1 unit up, 2 units to
+the right and 3 units forward:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">root</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A Vector3 is just a way to represent a 3D vector. In PyUnity
+the coordinate system is a left-hand Y-axis up system, which
+is essentially what OpenGL uses, but with the Z-axis flipped.</p>
+<p>Then to add a child to the GameObject, specify the parent
+GameObject as the second argument:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child1&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child2</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child2&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: Accessing the <code class="docutils literal notranslate"><span class="pre">localPosition</span></code>, <code class="docutils literal notranslate"><span class="pre">localRotation</span></code> and
+<code class="docutils literal notranslate"><span class="pre">localScale</span></code> attributes are faster than using the <code class="docutils literal notranslate"><span class="pre">position</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rotation</span></code> and <code class="docutils literal notranslate"><span class="pre">scale</span></code> properties. Use the local attributes
+whenever you can.</p>
+</div>
+<div class="section" id="rotation">
+<h2>Rotation<a class="headerlink" href="#rotation" title="Permalink to this headline">¶</a></h2>
+<p>Rotation is measured in Quaternions. Do not worry about these,
+because they use some very complex maths. All you need to know
+are these methods:</p>
+<ol class="arabic simple">
+<li><p>To make a Quaternion that represents no rotation, use
+<code class="docutils literal notranslate"><span class="pre">Quaternion.identity()</span></code>. This just means no rotation.</p></li>
+<li><p>To make a Quaternion from an axis and angle, use the
+<code class="docutils literal notranslate"><span class="pre">Quaternion.FromAxis()</span></code> method. What this does is it
+creates a Quaternion that represents a rotation around
+an axis clockwise, by <code class="docutils literal notranslate"><span class="pre">angle</span></code> degrees. The axis
+does not need to be normalized.</p></li>
+<li><p>To make a Quaternion from Euler angles, use
+<code class="docutils literal notranslate"><span class="pre">Quaternion.Euler</span></code>. This creates a Quaternion from
+Euler angles, where it is rotated on the Z-axis first,
+then the X-axis, and finally the Y-axis.</p></li>
+</ol>
+<p>Transforms also have <code class="docutils literal notranslate"><span class="pre">localEulerAngles</span></code> and <code class="docutils literal notranslate"><span class="pre">eulerAngles</span></code>
+properties, which just represent the Euler angles of the
+rotation Quaternions. If you don’t know what to do, only use
+the <code class="docutils literal notranslate"><span class="pre">localEulerAngles</span></code> property.</p>
+<p>In the next tutorial, we’ll be covering how to render things
+and use a Scene.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 1: The Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-pyunity">What is PyUnity?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-concepts">Basic concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforms">Transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotation">Rotation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial2.html">Tutorial 2: Rendering in Scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial3.html">Tutorial 3: Scripts and Behaviours</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="tutorials.html">Tutorials</a><ul>
+      <li>Previous: <a href="tutorials.html" title="previous chapter">Tutorials</a></li>
+      <li>Next: <a href="tutorial2.html" title="next chapter">Tutorial 2: Rendering in Scenes</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/tutorial1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

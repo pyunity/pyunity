@@ -37,7 +37,7 @@ if len(sys.argv) == 1:
                     "create a new pull request",
                     "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
                 )
-            desc_new.append(desc[i])
+            desc_new.append(desc[i].replace("::", ":"))
 
     with open("README.md", "w") as f:
         for line in desc_new:

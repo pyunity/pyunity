@@ -25,6 +25,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pyunity.audio
    pyunity.core
    pyunity.errors
    pyunity.loader
