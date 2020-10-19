@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.window.glutWindow module &#8212; PyUnity 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyunity.window.pygameWindow module" href="pyunity.window.pygameWindow.html" />
+    <link rel="prev" title="pyunity.window.glfwWindow module" href="pyunity.window.glfwWindow.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyunity.window.glutWindow">
+<span id="pyunity-window-glutwindow-module"></span><h1>pyunity.window.glutWindow module<a class="headerlink" href="#module-pyunity.window.glutWindow" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyunity.window.glutWindow.Window">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.window.glutWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glutWindow.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glutWindow.Window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A window provider that uses FreeGLUT.</p>
+<dl class="py method">
+<dt id="pyunity.window.glutWindow.Window.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glutWindow.html#Window.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glutWindow.Window.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to render in the scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.window.glutWindow.Window.schedule_update">
+<code class="sig-name descname">schedule_update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glutWindow.html#Window.schedule_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glutWindow.Window.schedule_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the window refreshing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.window.glutWindow.Window.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">update_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glutWindow.html#Window.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glutWindow.Window.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the main loop of the window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>update_func</strong> (<em>function</em>) – The function that calls the OpenGL calls.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-2-0-in-development">Version 0.2.0 (in development)</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyunity.html">API reference</a><ul>
+  <li><a href="pyunity.window.html">pyunity.window package</a><ul>
+      <li>Previous: <a href="pyunity.window.glfwWindow.html" title="previous chapter">pyunity.window.glfwWindow module</a></li>
+      <li>Next: <a href="pyunity.window.pygameWindow.html" title="next chapter">pyunity.window.pygameWindow module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyunity.window.glutWindow.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -29,7 +29,7 @@ Notes:
 - When installing with ``setup.py``, you can set
   the environment variable ``a`` to anything but
   an empty string, this will disable recreating
-  the c files. For example:
+  the c files. For example::
 
         > set a=1
         > python setup.py install

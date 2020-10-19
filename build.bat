@@ -2,10 +2,10 @@
 
 python prepare.py
 python setup.py build -c mingw32 bdist_wheel -d "dist/0.2.0/" sdist -d "dist/0.2.0/"
-RMDIR /S /Q "pyunity.egg-info/" "docs/build/html/"
+RMDIR /S /Q "pyunity.egg-info/" "docs/en/"
 py -3.7 setup.py build -c mingw32 bdist_wheel -d "dist/0.2.0/"
 RMDIR /S /Q "pyunity.egg-info/" "build/"
-sphinx-build -T -E -b html docs/source docs/build/html
+sphinx-build -T -E -b html docs/source docs/en
 IF NOT [%1] == [] (
 git add .
 git commit -m %1

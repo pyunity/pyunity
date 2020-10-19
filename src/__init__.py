@@ -17,7 +17,7 @@ so:
 Debug information is turned on by default. If
 you want to turn it off, set the
 PYUNITY_DEBUG_MODE environment variable to ``"0"``.
-This is the output with debugging:
+This is the output with debugging::
 
     Loaded config
     Trying FreeGLUT as a window provider
