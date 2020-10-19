@@ -112,7 +112,7 @@ frames:
                self.a = 0
 
 Note that the printed output for non-moving things
-would be as so:
+would be as so::
 
    Vector3(0, 0, 0)
    Quaternion(1, 0, 0, 0)

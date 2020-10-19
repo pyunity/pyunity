@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.quaternion module &#8212; PyUnity 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyunity.vector3 module" href="pyunity.vector3.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyunity.quaternion">
+<span id="pyunity-quaternion-module"></span><h1>pyunity.quaternion module<a class="headerlink" href="#module-pyunity.quaternion" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyunity.quaternion.Quaternion">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.quaternion.</code><code class="sig-name descname">Quaternion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">z</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to represent a 4D Quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>w</strong> (<em>float</em>) – Real value of Quaternion</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – x coordinate of Quaternion</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – y coordinate of Quaternion</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – z coordinate of Quaternion</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.Euler">
+<em class="property">static </em><code class="sig-name descname">Euler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.Euler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.Euler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quaternion using Euler rotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vector</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Euler rotations</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Generated quaternion</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.FromAxis">
+<em class="property">static </em><code class="sig-name descname">FromAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.FromAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.FromAxis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quaternion from an angle and an axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>float</em>) – Angle to rotate</p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Axis to rotate about</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.RotateVector">
+<code class="sig-name descname">RotateVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.RotateVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.RotateVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a vector by the quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.angleAxisPair">
+<em class="property">property </em><code class="sig-name descname">angleAxisPair</code><a class="headerlink" href="#pyunity.quaternion.Quaternion.angleAxisPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the angle and axis pair.</p>
+<p class="rubric">Notes</p>
+<p>When getting, it returns a tuple in the
+form of <code class="docutils literal notranslate"><span class="pre">(angle,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code>. When setting,
+assign like <code class="docutils literal notranslate"><span class="pre">q.eulerAngles</span> <span class="pre">=</span> <span class="pre">(angle,</span> <span class="pre">vector)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.conjugate">
+<em class="property">property </em><code class="sig-name descname">conjugate</code><a class="headerlink" href="#pyunity.quaternion.Quaternion.conjugate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The conjugate of a unit quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deep copy of the Quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A deep copy</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.eulerAngles">
+<em class="property">property </em><code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#pyunity.quaternion.Quaternion.eulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the Euler Angles of the quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.identity">
+<em class="property">static </em><code class="sig-name descname">identity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity quaternion representing no rotation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.quaternion.Quaternion.normalized">
+<code class="sig-name descname">normalized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.normalized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.quaternion.Quaternion.normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>A normalized Quaternion, for rotations.
+If the length is 0, then the identity
+quaternion is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A unit quaternion</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-2-0-in-development">Version 0.2.0 (in development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">pyunity.quaternion module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyunity.html">API reference</a><ul>
+      <li>Previous: <a href="pyunity.vector3.html" title="previous chapter">pyunity.vector3 module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyunity.quaternion.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

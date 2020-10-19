@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial 2: Rendering in Scenes &#8212; PyUnity 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial 3: Scripts and Behaviours" href="tutorial3.html" />
+    <link rel="prev" title="Tutorial 1: The Basics" href="tutorial1.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial-2-rendering-in-scenes">
+<h1>Tutorial 2: Rendering in Scenes<a class="headerlink" href="#tutorial-2-rendering-in-scenes" title="Permalink to this headline">¶</a></h1>
+<p>Last tutorial we covered some basic concepts
+on GameObjects and Transforms, and this time
+we’ll be looking at how to render things in
+a window.</p>
+<div class="section" id="scenes">
+<h2>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h2>
+<p>A Scene is like a page to draw on: you can
+add things, remove things and change things.
+To create a scene, you can call
+<code class="docutils literal notranslate"><span class="pre">SceneManager.AddScene</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In your newly created scene, you have 2 GameObjects:
+a Main Camera, and a Light. These two things can be
+moved around like normal GameObjects.</p>
+<p>Next, let’s move the camera back 10 units:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scene.mainCamera</span></code> references the Camera Component
+on the Main Camera, so we can access the Transform
+by using its <code class="docutils literal notranslate"><span class="pre">transform</span></code> attribute.</p>
+</div>
+<div class="section" id="meshes">
+<h2>Meshes<a class="headerlink" href="#meshes" title="Permalink to this headline">¶</a></h2>
+<p>To render anything, we need a model of it. Let’s say
+we want to create a cube. Then we need a model of a
+cube, or what’s called a mesh. Meshes have 3 pieces
+of data: the vertices (or points), the faces and the
+normals. Normals are just vectors saying which way
+the face is pointing.</p>
+<p>For this, we don’t want to have to create our own
+mesh. Fortunately there is a method called
+<code class="docutils literal notranslate"><span class="pre">Mesh.cube</span></code> which creates a cube for us. Here it
+is:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cubeMesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">2</span></code> means to create a cube with side lengths of
+2. Then, to render this mesh, we need a new Component.</p>
+</div>
+<div class="section" id="the-meshrenderer">
+<h2>The MeshRenderer<a class="headerlink" href="#the-meshrenderer" title="Permalink to this headline">¶</a></h2>
+<p>The MeshRenderer is a Component that can render a mesh
+in the scene. To add a new Component, we can use
+a method called <code class="docutils literal notranslate"><span class="pre">AddComponent</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;cube&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can give our renderer the cube mesh from before.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">cubeMesh</span>
+</pre></div>
+</div>
+<p>Finally, we need a Material to use. To create a Material,
+we need to specify a colour in RGB.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Here I used a red material. Finally we need to add the cube
+to our scene, otherwise we can’t see it in the window:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The full code:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="go">Loaded config</span>
+<span class="go">Trying GLFW as a window provider</span>
+<span class="go">GLFW doesn&#39;t work, trying Pygame</span>
+<span class="go">Trying Pygame as a window provider</span>
+<span class="go">Using window provider Pygame</span>
+<span class="go">Loaded PyUnity version 0.2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">AddScene</span><span class="p">(</span><span class="s2">&quot;Scene&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cubeMesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">cube</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">MeshRenderer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">cubeMesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">renderer</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, to run our scene, we use <code class="docutils literal notranslate"><span class="pre">scene.Run()</span></code>. And now we have
+a cube:</p>
+<img alt="_images/cube.png" src="_images/cube.png" />
+<p>To see it better, let’s move the camera up a bit and tilt it
+downwards. Replace the third line with this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localEulerAngles</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can see it better:</p>
+<img alt="_images/cube2.png" src="_images/cube2.png" />
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If you want to see what you’ve done already, then you can use
+a number of debugging methods. The first is to call <cite>scene.List()</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+<span class="go">/Main Camera</span>
+<span class="go">/Light</span>
+<span class="go">/Cube</span>
+</pre></div>
+</div>
+<p>This lists all the Gameobjects in the scene. Then, let’s check
+the cube’s components:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cube</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[&lt;Transform position=Vector3(0, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path=&quot;/Cube&quot;&gt;, &lt;pyunity.core.MeshRenderer object at 0x0B170CA0&gt;]</span>
+</pre></div>
+</div>
+<p>Finally, let’s check the Main Camera’s transform.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scene</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span>
+<span class="go">&lt;Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path=&quot;/Main Camera&quot;&gt;</span>
+</pre></div>
+</div>
+<p>Next tutorial, we’ll be covering scripts and Behaviours.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial1.html">Tutorial 1: The Basics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorial 2: Rendering in Scenes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#meshes">Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-meshrenderer">The MeshRenderer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial3.html">Tutorial 3: Scripts and Behaviours</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.html">API reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="tutorials.html">Tutorials</a><ul>
+      <li>Previous: <a href="tutorial1.html" title="previous chapter">Tutorial 1: The Basics</a></li>
+      <li>Next: <a href="tutorial3.html" title="next chapter">Tutorial 3: Scripts and Behaviours</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/tutorial2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
