@@ -5,6 +5,7 @@ if "PYUNITY_INTERACTIVE" not in os.environ: os.environ["PYUNITY_INTERACTIVE"] = 
 size = (800, 500)
 fps = 60
 faceCulling = True
+audio = True
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print("Loaded config")
