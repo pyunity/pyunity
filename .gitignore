@@ -1,7 +1,8 @@
-/**/*.pyc
-/**/*.pyo
-/**/__pycache__
-/**/venv
-/**/.vscode
-/*.egg-info
-/**/.doctrees
+**/*.pyc
+**/*.pyo
+**/__pycache__
+**/venv
+**/.vscode
+*.egg-info
+build
+**/.doctrees
