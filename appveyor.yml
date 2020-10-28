@@ -1,8 +1,7 @@
 image: Ubuntu
 
 install:
-  - sudo apt install -y python3.8
-  - python --version || python3.8 --version
+  - sudo apt install -y python3.7
 
 test_script:
   - set a=1
