@@ -2,7 +2,7 @@ image: Ubuntu
 
 install:
   - sudo apt install -y python3.7
-  - pip3 install cython wheel sphinx
+  - pip3 install cython wheel sphinx || pip install cython wheel sphinx
 
 test_script:
   - set a=1
