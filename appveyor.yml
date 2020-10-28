@@ -1,7 +1,7 @@
 image: Ubuntu
 
 install:
-  - sudo apt install python3.8
+  - sudo apt install -y python3.8
   - python --version || python3.8 --version
 
 test_script:
