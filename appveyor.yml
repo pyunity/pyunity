@@ -2,12 +2,12 @@ image: Ubuntu
 
 install:
   - sudo apt install -y python3.7
-  - pip3 install cython wheel sphinx || pip install cython wheel sphinx
+  - python -m pip install cython wheel sphinx || python3 -m pip install cython wheel sphinx
 
 test_script:
   - set a=1
   - python prepare.py -x || python3 prepare.py -x
-  - python setup.py bdist_wheel -d .. || python3 se
+  - python setup.py bdist_wheel -d .. || python3 setup.py bdist_wheel -d ..
   - sphinx-build -T -E -b html docs/source docs/en
 
 build: off
