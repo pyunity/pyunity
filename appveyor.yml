@@ -1,0 +1,12 @@
+environment:
+  matrix:
+    - PYTHON_VERSION: "3.8.5"
+
+install:
+  - set a=1
+  - python prepare.py -x || python3 prepare.py -x
+  - python setup.py bdist_wheel -d .. || python3 se
+  - sphinx-build -T -E -b html docs/source docs/en
+
+build: off
+skip_branch_with_pr: true
