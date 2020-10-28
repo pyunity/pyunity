@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.audio",
         "sources": [
-            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\audio.py"
+            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\audio.py"
         ]
     },
     "module_name": "pyunity.audio"
@@ -904,10 +904,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
 /* RaiseDoubleKeywords.proto */
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
 
@@ -916,53 +912,9 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
@@ -1010,6 +962,54 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 #define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyObjectSetAttrStr.proto */
 #if CYTHON_USE_TYPE_SLOTS
@@ -1074,6 +1074,22 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
+
+/* GetTopmostException.proto */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
+#endif
+
+/* SaveResetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+#else
+#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
+#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
+#endif
 
 /* FetchCommonType.proto */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
@@ -1158,6 +1174,27 @@ static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases,
 static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
                                       PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
 
+/* FastTypeChecks.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_TypeCheck(obj, type) __Pyx_IsSubtype(Py_TYPE(obj), (PyTypeObject *)type)
+static CYTHON_INLINE int __Pyx_IsSubtype(PyTypeObject *a, PyTypeObject *b);
+static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches(PyObject *err, PyObject *type);
+static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObject *type1, PyObject *type2);
+#else
+#define __Pyx_TypeCheck(obj, type) PyObject_TypeCheck(obj, (PyTypeObject *)type)
+#define __Pyx_PyErr_GivenExceptionMatches(err, type) PyErr_GivenExceptionMatches(err, type)
+#define __Pyx_PyErr_GivenExceptionMatches2(err, type1, type2) (PyErr_GivenExceptionMatches(err, type1) || PyErr_GivenExceptionMatches(err, type2))
+#endif
+#define __Pyx_PyException_Check(obj) __Pyx_TypeCheck(obj, PyExc_Exception)
+
+/* GetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_GetException(type, value, tb)  __Pyx__GetException(__pyx_tstate, type, value, tb)
+static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#else
+static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
+#endif
+
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
 #define __Pyx_CLineForTraceback(tstate, c_line)  (((CYTHON_CLINE_IN_TRACEBACK)) ? c_line : 0)
@@ -1193,19 +1230,6 @@ static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
-/* FastTypeChecks.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_TypeCheck(obj, type) __Pyx_IsSubtype(Py_TYPE(obj), (PyTypeObject *)type)
-static CYTHON_INLINE int __Pyx_IsSubtype(PyTypeObject *a, PyTypeObject *b);
-static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches(PyObject *err, PyObject *type);
-static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObject *type1, PyObject *type2);
-#else
-#define __Pyx_TypeCheck(obj, type) PyObject_TypeCheck(obj, (PyTypeObject *)type)
-#define __Pyx_PyErr_GivenExceptionMatches(err, type) PyErr_GivenExceptionMatches(err, type)
-#define __Pyx_PyErr_GivenExceptionMatches2(err, type1, type2) (PyErr_GivenExceptionMatches(err, type1) || PyErr_GivenExceptionMatches(err, type2))
-#endif
-#define __Pyx_PyException_Check(obj) __Pyx_TypeCheck(obj, PyExc_Exception)
-
 /* CStringEquals.proto */
 static CYTHON_INLINE int __Pyx_StrEq(const char *, const char *);
 
@@ -1232,11 +1256,13 @@ static const char __pyx_k_ogg[] = ".ogg";
 static const char __pyx_k_Loop[] = "Loop";
 static const char __pyx_k_Play[] = "Play";
 static const char __pyx_k_Stop[] = "Stop";
+static const char __pyx_k_args[] = "args";
 static const char __pyx_k_clip[] = "clip";
 static const char __pyx_k_core[] = "core";
 static const char __pyx_k_file[] = "file";
 static const char __pyx_k_hide[] = "hide";
 static const char __pyx_k_init[] = "__init__";
+static const char __pyx_k_item[] = "item";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_path[] = "path";
@@ -1247,20 +1273,25 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_warn[] = "warn";
 static const char __pyx_k_Pause[] = "Pause";
 static const char __pyx_k_Sound[] = "Sound";
+static const char __pyx_k_audio[] = "audio";
+static const char __pyx_k_error[] = "error";
 static const char __pyx_k_mixer[] = "mixer";
 static const char __pyx_k_pause[] = "pause";
 static const char __pyx_k_sound[] = "sound";
 static const char __pyx_k_super[] = "super";
+static const char __pyx_k_config[] = "config";
 static const char __pyx_k_errors[] = "errors";
 static const char __pyx_k_exists[] = "exists";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_init_2[] = "init";
+static const char __pyx_k_kwargs[] = "kwargs";
 static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_pygame[] = "pygame";
 static const char __pyx_k_SetClip[] = "SetClip";
 static const char __pyx_k_UnPause[] = "UnPause";
 static const char __pyx_k_channel[] = "channel";
 static const char __pyx_k_environ[] = "environ";
+static const char __pyx_k_getattr[] = "__getattr__";
 static const char __pyx_k_prepare[] = "__prepare__";
 static const char __pyx_k_unpause[] = "unpause";
 static const char __pyx_k_SetSound[] = "SetSound";
@@ -1284,14 +1315,19 @@ static const char __pyx_k_AudioSource_Pause[] = "AudioSource.Pause";
 static const char __pyx_k_AudioClip_SetSound[] = "AudioClip.SetSound";
 static const char __pyx_k_AudioSource___init[] = "AudioSource.__init__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_AudioClip___getattr[] = "AudioClip.__getattr__";
 static const char __pyx_k_AudioSource_SetClip[] = "AudioSource.SetClip";
 static const char __pyx_k_AudioSource_UnPause[] = "AudioSource.UnPause";
+static const char __pyx_k_AudioSource___getattr[] = "AudioSource.__getattr__";
 static const char __pyx_k_AudioSource_has_no_clip[] = "AudioSource has no clip";
+static const char __pyx_k_Cannot_load_pygame_mixer[] = "Cannot load pygame mixer";
 static const char __pyx_k_PYGAME_HIDE_SUPPORT_PROMPT[] = "PYGAME_HIDE_SUPPORT_PROMPT";
 static const char __pyx_k_Argument_1_Expected_str_got_r[] = "Argument 1: Expected str, got %r";
-static const char __pyx_k_Class_to_store_information_abou[] = "\n    Class to store information about an audio file.\n    \n    Attributes\n    ----------\n    file : str\n        Name of the file\n    sound : pygame.mixer.Sound\n        Sound file that can be played with\n        a ``pygame.mixer.Channel``.\n        Only set when the AudioClip is in\n        an ``AudioSource`` n a running scene.\n    \n    ";
-static const char __pyx_k_Manages_playback_on_an_AudioSou[] = "\n    Manages playback on an AudioSource.\n    \n    Attributes\n    ----------\n    clip : AudioClip\n        Clip to play. Best way to set the clip\n        is to use the ``SetClip`` function.\n    PlayOnStart : bool\n        Whether it plays on start or not.\n    Loop : bool\n        Whether it loops or not. This is not\n        fully supported.\n    \n    ";
+static const char __pyx_k_Class_to_store_information_abou[] = "\n        Class to store information about an audio file.\n        \n        Attributes\n        ----------\n        file : str\n            Name of the file\n        sound : pygame.mixer.Sound\n            Sound file that can be played with\n            a ``pygame.mixer.Channel``.\n            Only set when the AudioClip is in\n            an ``AudioSource`` n a running scene.\n        \n        ";
+static const char __pyx_k_Manages_playback_on_an_AudioSou[] = "\n        Manages playback on an AudioSource.\n        \n        Attributes\n        ----------\n        clip : AudioClip\n            Clip to play. Best way to set the clip\n            is to use the ``SetClip`` function.\n        PlayOnStart : bool\n            Whether it plays on start or not.\n        Loop : bool\n            Whether it loops or not. This is not\n            fully supported.\n        \n        ";
 static const char __pyx_k_Argument_1_Expected_AudioClip_go[] = "Argument 1: Expected AudioClip, got %r";
+static const char __pyx_k_Cannot_use_AudioClip_pygame_mixe[] = "Cannot use AudioClip: pygame.mixer cannot be loaded";
+static const char __pyx_k_Cannot_use_AudioSource_pygame_mi[] = "Cannot use AudioSource: pygame.mixer cannot be loaded";
 static const char __pyx_k_Cannot_use_an_audio_file_that_is[] = "Cannot use an audio file that is not of type OGG";
 static const char __pyx_k_Classes_to_manage_the_playback_o[] = "Classes to manage the playback of audio.";
 static PyObject *__pyx_n_s_;
@@ -1299,6 +1335,7 @@ static PyObject *__pyx_kp_u_Argument_1_Expected_AudioClip_go;
 static PyObject *__pyx_kp_u_Argument_1_Expected_str_got_r;
 static PyObject *__pyx_n_s_AudioClip;
 static PyObject *__pyx_n_s_AudioClip_SetSound;
+static PyObject *__pyx_n_s_AudioClip___getattr;
 static PyObject *__pyx_n_s_AudioClip___init;
 static PyObject *__pyx_n_s_AudioSource;
 static PyObject *__pyx_n_s_AudioSource_Pause;
@@ -1306,8 +1343,12 @@ static PyObject *__pyx_n_s_AudioSource_Play;
 static PyObject *__pyx_n_s_AudioSource_SetClip;
 static PyObject *__pyx_n_s_AudioSource_Stop;
 static PyObject *__pyx_n_s_AudioSource_UnPause;
+static PyObject *__pyx_n_s_AudioSource___getattr;
 static PyObject *__pyx_n_s_AudioSource___init;
 static PyObject *__pyx_kp_u_AudioSource_has_no_clip;
+static PyObject *__pyx_kp_u_Cannot_load_pygame_mixer;
+static PyObject *__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe;
+static PyObject *__pyx_kp_u_Cannot_use_AudioSource_pygame_mi;
 static PyObject *__pyx_kp_u_Cannot_use_an_audio_file_that_is;
 static PyObject *__pyx_kp_s_Class_to_store_information_abou;
 static PyObject *__pyx_n_s_Component;
@@ -1325,22 +1366,29 @@ static PyObject *__pyx_n_s_Sound;
 static PyObject *__pyx_n_s_Stop;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_UnPause;
+static PyObject *__pyx_n_s_args;
+static PyObject *__pyx_n_s_audio;
 static PyObject *__pyx_kp_s_audio_py;
 static PyObject *__pyx_n_s_channel;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_clip;
+static PyObject *__pyx_n_s_config;
 static PyObject *__pyx_n_s_core;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_endswith;
 static PyObject *__pyx_n_s_environ;
+static PyObject *__pyx_n_s_error;
 static PyObject *__pyx_n_s_errors;
 static PyObject *__pyx_n_s_exists;
 static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_getattr;
 static PyObject *__pyx_n_u_hide;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_init_2;
 static PyObject *__pyx_n_s_io;
+static PyObject *__pyx_n_s_item;
+static PyObject *__pyx_n_s_kwargs;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_mixer;
@@ -1364,14 +1412,18 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_unpause;
 static PyObject *__pyx_n_s_warn;
 static PyObject *__pyx_n_s_warnings;
-static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2SetClip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_clip); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_item); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_item); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_4__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_6SetSound(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6SetClip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_clip); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8Play(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Pause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_12UnPause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_14Stop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__6;
@@ -1380,6 +1432,10 @@ static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__14;
 static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__22;
+static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_codeobj__3;
 static PyObject *__pyx_codeobj__5;
 static PyObject *__pyx_codeobj__7;
@@ -1388,13 +1444,17 @@ static PyObject *__pyx_codeobj__11;
 static PyObject *__pyx_codeobj__13;
 static PyObject *__pyx_codeobj__15;
 static PyObject *__pyx_codeobj__17;
+static PyObject *__pyx_codeobj__19;
+static PyObject *__pyx_codeobj__21;
+static PyObject *__pyx_codeobj__23;
+static PyObject *__pyx_codeobj__25;
 /* Late includes */
 
-/* "pyunity/audio.py":26
- *     """
- * 
- *     def __init__(self, file):             # <<<<<<<<<<<<<<
- *         self.SetSound(file)
+/* "pyunity/audio.py":15
+ *     config.audio = False
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
  * 
  */
 
@@ -1402,6 +1462,724 @@ static PyObject *__pyx_codeobj__17;
 static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_7pyunity_5audio_9AudioClip_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_9AudioClip_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_args = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_kwargs = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
+  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (PyTuple_GET_SIZE(__pyx_args) > 1) {
+    __pyx_v_args = PyTuple_GetSlice(__pyx_args, 1, PyTuple_GET_SIZE(__pyx_args));
+    if (unlikely(!__pyx_v_args)) {
+      __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+      __Pyx_RefNannyFinishContext();
+      return NULL;
+    }
+    __Pyx_GOTREF(__pyx_v_args);
+  } else {
+    __pyx_v_args = __pyx_empty_tuple; __Pyx_INCREF(__pyx_empty_tuple);
+  }
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,0};
+    PyObject* values[1] = {0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        default:
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+    }
+    __pyx_v_self = values[0];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
+  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_AddTraceback("pyunity.audio.AudioClip.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip___init__(__pyx_self, __pyx_v_self, __pyx_v_args, __pyx_v_kwargs);
+
+  /* function exit code */
+  __Pyx_XDECREF(__pyx_v_args);
+  __Pyx_XDECREF(__pyx_v_kwargs);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "pyunity/audio.py":16
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)             # <<<<<<<<<<<<<<
+ * 
+ *         def __getattr__(self, item):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    __Pyx_GIVEREF(__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyunity/audio.py":15
+ *     config.audio = False
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyunity.audio.AudioClip.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyunity/audio.py":18
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_5audio_9AudioClip_3__getattr__ = {"__getattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_9AudioClip_3__getattr__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_item = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__getattr__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_item,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_item)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__getattr__", 1, 2, 2, 1); __PYX_ERR(0, 18, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__getattr__") < 0)) __PYX_ERR(0, 18, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_item = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__getattr__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 18, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyunity.audio.AudioClip.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip_2__getattr__(__pyx_self, __pyx_v_self, __pyx_v_item);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_item) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__getattr__", 0);
+
+  /* "pyunity/audio.py":19
+ * 
+ *         def __getattr__(self, item):
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)             # <<<<<<<<<<<<<<
+ * 
+ *     class AudioSource(Component):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    __Pyx_GIVEREF(__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_Cannot_use_AudioClip_pygame_mixe);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyunity/audio.py":18
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyunity.audio.AudioClip.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyunity/audio.py":22
+ * 
+ *     class AudioSource(Component):
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_11AudioSource_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_args = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_kwargs = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
+  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (PyTuple_GET_SIZE(__pyx_args) > 1) {
+    __pyx_v_args = PyTuple_GetSlice(__pyx_args, 1, PyTuple_GET_SIZE(__pyx_args));
+    if (unlikely(!__pyx_v_args)) {
+      __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+      __Pyx_RefNannyFinishContext();
+      return NULL;
+    }
+    __Pyx_GOTREF(__pyx_v_args);
+  } else {
+    __pyx_v_args = __pyx_empty_tuple; __Pyx_INCREF(__pyx_empty_tuple);
+  }
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,0};
+    PyObject* values[1] = {0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        default:
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+    }
+    __pyx_v_self = values[0];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
+  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_AddTraceback("pyunity.audio.AudioSource.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource___init__(__pyx_self, __pyx_v_self, __pyx_v_args, __pyx_v_kwargs);
+
+  /* function exit code */
+  __Pyx_XDECREF(__pyx_v_args);
+  __Pyx_XDECREF(__pyx_v_kwargs);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "pyunity/audio.py":23
+ *     class AudioSource(Component):
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)             # <<<<<<<<<<<<<<
+ * 
+ *         def __getattr__(self, item):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    __Pyx_GIVEREF(__pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyunity/audio.py":22
+ * 
+ *     class AudioSource(Component):
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyunity.audio.AudioSource.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyunity/audio.py":25
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * else:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_3__getattr__ = {"__getattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_11AudioSource_3__getattr__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_item = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__getattr__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_item,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_item)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__getattr__", 1, 2, 2, 1); __PYX_ERR(0, 25, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__getattr__") < 0)) __PYX_ERR(0, 25, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_item = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__getattr__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 25, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyunity.audio.AudioSource.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_2__getattr__(__pyx_self, __pyx_v_self, __pyx_v_item);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_item) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__getattr__", 0);
+
+  /* "pyunity/audio.py":26
+ * 
+ *         def __getattr__(self, item):
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)             # <<<<<<<<<<<<<<
+ * else:
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    __Pyx_GIVEREF(__pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_kp_u_Cannot_use_AudioSource_pygame_mi);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyunity/audio.py":25
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * else:
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyunity.audio.AudioSource.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyunity/audio.py":45
+ *         """
+ * 
+ *         def __init__(self, file):             # <<<<<<<<<<<<<<
+ *             self.SetSound(file)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_5__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_5audio_9AudioClip_5__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_9AudioClip_5__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_5__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_file = 0;
   int __pyx_lineno = 0;
@@ -1433,11 +2211,11 @@ static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_1__init__(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 26, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 45, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 26, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 45, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1450,20 +2228,20 @@ static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_1__init__(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 26, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 45, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyunity.audio.AudioClip.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip___init__(__pyx_self, __pyx_v_self, __pyx_v_file);
+  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip_4__init__(__pyx_self, __pyx_v_self, __pyx_v_file);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file) {
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_4__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1474,14 +2252,14 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pyunity/audio.py":27
+  /* "pyunity/audio.py":46
  * 
- *     def __init__(self, file):
- *         self.SetSound(file)             # <<<<<<<<<<<<<<
+ *         def __init__(self, file):
+ *             self.SetSound(file)             # <<<<<<<<<<<<<<
  * 
- *     def SetSound(self, file):
+ *         def SetSound(self, file):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_SetSound); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_SetSound); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -1495,16 +2273,16 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyOb
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_file) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_file);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":26
- *     """
+  /* "pyunity/audio.py":45
+ *         """
  * 
- *     def __init__(self, file):             # <<<<<<<<<<<<<<
- *         self.SetSound(file)
+ *         def __init__(self, file):             # <<<<<<<<<<<<<<
+ *             self.SetSound(file)
  * 
  */
 
@@ -1523,19 +2301,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip___init__(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":29
- *         self.SetSound(file)
+/* "pyunity/audio.py":48
+ *             self.SetSound(file)
  * 
- *     def SetSound(self, file):             # <<<<<<<<<<<<<<
- *         """
- *         Changes the audio file.
+ *         def SetSound(self, file):             # <<<<<<<<<<<<<<
+ *             """
+ *             Changes the audio file.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3SetSound(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_5audio_9AudioClip_2SetSound[] = "\n        Changes the audio file.\n        \n        Parameters\n        ----------\n        file : str\n            Name of the audio file\n            Must be a .ogg file, which can work\n            on any platform.\n        \n        Raises\n        ------\n        PyUnityException\n            If the provided file is not an OGG\n            audio file\n        TypeError\n            If the provided file is not of type str\n        \n        ";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_9AudioClip_3SetSound = {"SetSound", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_9AudioClip_3SetSound, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_5audio_9AudioClip_2SetSound};
-static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3SetSound(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_7SetSound(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_7pyunity_5audio_9AudioClip_6SetSound[] = "\n            Changes the audio file.\n            \n            Parameters\n            ----------\n            file : str\n                Name of the audio file\n                Must be a .ogg file, which can work\n                on any platform.\n            \n            Raises\n            ------\n            PyUnityException\n                If the provided file is not an OGG\n                audio file\n            TypeError\n                If the provided file is not of type str\n            \n            ";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_9AudioClip_7SetSound = {"SetSound", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_9AudioClip_7SetSound, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_5audio_9AudioClip_6SetSound};
+static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_7SetSound(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_file = 0;
   int __pyx_lineno = 0;
@@ -1567,11 +2345,11 @@ static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3SetSound(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SetSound", 1, 2, 2, 1); __PYX_ERR(0, 29, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SetSound", 1, 2, 2, 1); __PYX_ERR(0, 48, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SetSound") < 0)) __PYX_ERR(0, 29, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SetSound") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1584,20 +2362,20 @@ static PyObject *__pyx_pw_7pyunity_5audio_9AudioClip_3SetSound(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("SetSound", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("SetSound", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 48, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyunity.audio.AudioClip.SetSound", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(__pyx_self, __pyx_v_self, __pyx_v_file);
+  __pyx_r = __pyx_pf_7pyunity_5audio_9AudioClip_6SetSound(__pyx_self, __pyx_v_self, __pyx_v_file);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file) {
+static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_6SetSound(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_file) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1611,30 +2389,30 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SetSound", 0);
 
-  /* "pyunity/audio.py":49
+  /* "pyunity/audio.py":68
  * 
- *         """
- *         if isinstance(file, str):             # <<<<<<<<<<<<<<
- *             if os.path.exists(file):
- *                 if file.endswith(".ogg"):
+ *             """
+ *             if isinstance(file, str):             # <<<<<<<<<<<<<<
+ *                 if os.path.exists(file):
+ *                     if file.endswith(".ogg"):
  */
   __pyx_t_1 = PyUnicode_Check(__pyx_v_file); 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (likely(__pyx_t_2)) {
 
-    /* "pyunity/audio.py":50
- *         """
- *         if isinstance(file, str):
- *             if os.path.exists(file):             # <<<<<<<<<<<<<<
- *                 if file.endswith(".ogg"):
- *                     self.file = file
+    /* "pyunity/audio.py":69
+ *             """
+ *             if isinstance(file, str):
+ *                 if os.path.exists(file):             # <<<<<<<<<<<<<<
+ *                     if file.endswith(".ogg"):
+ *                         self.file = file
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_os); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_os); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_exists); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_exists); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -1649,21 +2427,21 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_file) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_file);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (__pyx_t_2) {
 
-      /* "pyunity/audio.py":51
- *         if isinstance(file, str):
- *             if os.path.exists(file):
- *                 if file.endswith(".ogg"):             # <<<<<<<<<<<<<<
- *                     self.file = file
- *                     if hasattr(self, "sound"):
+      /* "pyunity/audio.py":70
+ *             if isinstance(file, str):
+ *                 if os.path.exists(file):
+ *                     if file.endswith(".ogg"):             # <<<<<<<<<<<<<<
+ *                         self.file = file
+ *                         if hasattr(self, "sound"):
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_endswith); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_endswith); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_5 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1677,49 +2455,49 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
       }
       __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_u_ogg) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_u_ogg);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (likely(__pyx_t_2)) {
 
-        /* "pyunity/audio.py":52
- *             if os.path.exists(file):
- *                 if file.endswith(".ogg"):
- *                     self.file = file             # <<<<<<<<<<<<<<
- *                     if hasattr(self, "sound"):
- *                         self.sound = pygame.mixer.Sound(self.file)
+        /* "pyunity/audio.py":71
+ *                 if os.path.exists(file):
+ *                     if file.endswith(".ogg"):
+ *                         self.file = file             # <<<<<<<<<<<<<<
+ *                         if hasattr(self, "sound"):
+ *                             self.sound = pygame.mixer.Sound(self.file)
  */
-        if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_file, __pyx_v_file) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+        if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_file, __pyx_v_file) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
 
-        /* "pyunity/audio.py":53
- *                 if file.endswith(".ogg"):
- *                     self.file = file
- *                     if hasattr(self, "sound"):             # <<<<<<<<<<<<<<
- *                         self.sound = pygame.mixer.Sound(self.file)
- *                 else:
+        /* "pyunity/audio.py":72
+ *                     if file.endswith(".ogg"):
+ *                         self.file = file
+ *                         if hasattr(self, "sound"):             # <<<<<<<<<<<<<<
+ *                             self.sound = pygame.mixer.Sound(self.file)
+ *                     else:
  */
-        __pyx_t_2 = __Pyx_HasAttr(__pyx_v_self, __pyx_n_u_sound); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 53, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_HasAttr(__pyx_v_self, __pyx_n_u_sound); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 72, __pyx_L1_error)
         __pyx_t_1 = (__pyx_t_2 != 0);
         if (__pyx_t_1) {
 
-          /* "pyunity/audio.py":54
- *                     self.file = file
- *                     if hasattr(self, "sound"):
- *                         self.sound = pygame.mixer.Sound(self.file)             # <<<<<<<<<<<<<<
- *                 else:
- *                     raise PyUnityException("Cannot use an audio file that is not of type OGG")
+          /* "pyunity/audio.py":73
+ *                         self.file = file
+ *                         if hasattr(self, "sound"):
+ *                             self.sound = pygame.mixer.Sound(self.file)             # <<<<<<<<<<<<<<
+ *                     else:
+ *                         raise PyUnityException("Cannot use an audio file that is not of type OGG")
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_mixer); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_mixer); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_Sound); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_Sound); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_file); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_file); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __pyx_t_6 = NULL;
           if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1734,40 +2512,40 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
           __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sound, __pyx_t_3) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sound, __pyx_t_3) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-          /* "pyunity/audio.py":53
- *                 if file.endswith(".ogg"):
- *                     self.file = file
- *                     if hasattr(self, "sound"):             # <<<<<<<<<<<<<<
- *                         self.sound = pygame.mixer.Sound(self.file)
- *                 else:
+          /* "pyunity/audio.py":72
+ *                     if file.endswith(".ogg"):
+ *                         self.file = file
+ *                         if hasattr(self, "sound"):             # <<<<<<<<<<<<<<
+ *                             self.sound = pygame.mixer.Sound(self.file)
+ *                     else:
  */
         }
 
-        /* "pyunity/audio.py":51
- *         if isinstance(file, str):
- *             if os.path.exists(file):
- *                 if file.endswith(".ogg"):             # <<<<<<<<<<<<<<
- *                     self.file = file
- *                     if hasattr(self, "sound"):
+        /* "pyunity/audio.py":70
+ *             if isinstance(file, str):
+ *                 if os.path.exists(file):
+ *                     if file.endswith(".ogg"):             # <<<<<<<<<<<<<<
+ *                         self.file = file
+ *                         if hasattr(self, "sound"):
  */
         goto __pyx_L5;
       }
 
-      /* "pyunity/audio.py":56
- *                         self.sound = pygame.mixer.Sound(self.file)
- *                 else:
- *                     raise PyUnityException("Cannot use an audio file that is not of type OGG")             # <<<<<<<<<<<<<<
- *         else:
- *             raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
+      /* "pyunity/audio.py":75
+ *                             self.sound = pygame.mixer.Sound(self.file)
+ *                     else:
+ *                         raise PyUnityException("Cannot use an audio file that is not of type OGG")             # <<<<<<<<<<<<<<
+ *             else:
+ *                 raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
  */
       /*else*/ {
-        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityException); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -1781,62 +2559,62 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
         }
         __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_u_Cannot_use_an_audio_file_that_is) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_u_Cannot_use_an_audio_file_that_is);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
+        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_Raise(__pyx_t_3, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(0, 56, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_L5:;
 
-      /* "pyunity/audio.py":50
- *         """
- *         if isinstance(file, str):
- *             if os.path.exists(file):             # <<<<<<<<<<<<<<
- *                 if file.endswith(".ogg"):
- *                     self.file = file
+      /* "pyunity/audio.py":69
+ *             """
+ *             if isinstance(file, str):
+ *                 if os.path.exists(file):             # <<<<<<<<<<<<<<
+ *                     if file.endswith(".ogg"):
+ *                         self.file = file
  */
     }
 
-    /* "pyunity/audio.py":49
+    /* "pyunity/audio.py":68
  * 
- *         """
- *         if isinstance(file, str):             # <<<<<<<<<<<<<<
- *             if os.path.exists(file):
- *                 if file.endswith(".ogg"):
+ *             """
+ *             if isinstance(file, str):             # <<<<<<<<<<<<<<
+ *                 if os.path.exists(file):
+ *                     if file.endswith(".ogg"):
  */
     goto __pyx_L3;
   }
 
-  /* "pyunity/audio.py":58
- *                     raise PyUnityException("Cannot use an audio file that is not of type OGG")
- *         else:
- *             raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":77
+ *                         raise PyUnityException("Cannot use an audio file that is not of type OGG")
+ *             else:
+ *                 raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)             # <<<<<<<<<<<<<<
  * 
- * class AudioSource(Component):
+ *     class AudioSource(Component):
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_file)), __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_file)), __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_Argument_1_Expected_str_got_r, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_Argument_1_Expected_str_got_r, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 58, __pyx_L1_error)
+    __PYX_ERR(0, 77, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "pyunity/audio.py":29
- *         self.SetSound(file)
+  /* "pyunity/audio.py":48
+ *             self.SetSound(file)
  * 
- *     def SetSound(self, file):             # <<<<<<<<<<<<<<
- *         """
- *         Changes the audio file.
+ *         def SetSound(self, file):             # <<<<<<<<<<<<<<
+ *             """
+ *             Changes the audio file.
  */
 
   /* function exit code */
@@ -1855,29 +2633,29 @@ static PyObject *__pyx_pf_7pyunity_5audio_9AudioClip_2SetSound(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":77
- *     """
+/* "pyunity/audio.py":96
+ *         """
  * 
- *     def __init__(self):             # <<<<<<<<<<<<<<
- *         super(AudioSource, self).__init__()
- *         self.clip = None
+ *         def __init__(self):             # <<<<<<<<<<<<<<
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_1__init__ = {"__init__", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_1__init__, METH_O, 0};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_5__init__(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_5__init__ = {"__init__", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_5__init__, METH_O, 0};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_5__init__(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource___init__(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_4__init__(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1888,16 +2666,16 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pyunity/audio.py":78
+  /* "pyunity/audio.py":97
  * 
- *     def __init__(self):
- *         super(AudioSource, self).__init__()             # <<<<<<<<<<<<<<
- *         self.clip = None
- *         self.PlayOnStart = True
+ *         def __init__(self):
+ *             super(AudioSource, self).__init__()             # <<<<<<<<<<<<<<
+ *             self.clip = None
+ *             self.PlayOnStart = True
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_AudioSource); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_AudioSource); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -1905,10 +2683,10 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED P
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_self);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1923,44 +2701,44 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED P
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":79
- *     def __init__(self):
- *         super(AudioSource, self).__init__()
- *         self.clip = None             # <<<<<<<<<<<<<<
- *         self.PlayOnStart = True
- *         self.Loop = False
+  /* "pyunity/audio.py":98
+ *         def __init__(self):
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None             # <<<<<<<<<<<<<<
+ *             self.PlayOnStart = True
+ *             self.Loop = False
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_clip, Py_None) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_clip, Py_None) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
 
-  /* "pyunity/audio.py":80
- *         super(AudioSource, self).__init__()
- *         self.clip = None
- *         self.PlayOnStart = True             # <<<<<<<<<<<<<<
- *         self.Loop = False
+  /* "pyunity/audio.py":99
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None
+ *             self.PlayOnStart = True             # <<<<<<<<<<<<<<
+ *             self.Loop = False
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_PlayOnStart, Py_True) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_PlayOnStart, Py_True) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
 
-  /* "pyunity/audio.py":81
- *         self.clip = None
- *         self.PlayOnStart = True
- *         self.Loop = False             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":100
+ *             self.clip = None
+ *             self.PlayOnStart = True
+ *             self.Loop = False             # <<<<<<<<<<<<<<
  * 
- *     def SetClip(self, clip):
+ *         def SetClip(self, clip):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_Loop, Py_False) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_Loop, Py_False) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
 
-  /* "pyunity/audio.py":77
- *     """
+  /* "pyunity/audio.py":96
+ *         """
  * 
- *     def __init__(self):             # <<<<<<<<<<<<<<
- *         super(AudioSource, self).__init__()
- *         self.clip = None
+ *         def __init__(self):             # <<<<<<<<<<<<<<
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None
  */
 
   /* function exit code */
@@ -1978,19 +2756,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource___init__(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":83
- *         self.Loop = False
+/* "pyunity/audio.py":102
+ *             self.Loop = False
  * 
- *     def SetClip(self, clip):             # <<<<<<<<<<<<<<
- *         """
- *         Sets the clip to play.
+ *         def SetClip(self, clip):             # <<<<<<<<<<<<<<
+ *             """
+ *             Sets the clip to play.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3SetClip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_5audio_11AudioSource_2SetClip[] = "\n        Sets the clip to play.\n        \n        Parameters\n        ----------\n        clip : AudioClip\n            Clip to set\n        \n        Raises\n        ------\n        TypeError\n            If the provided clip is not of type AudioClip\n        \n        ";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_3SetClip = {"SetClip", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_11AudioSource_3SetClip, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_5audio_11AudioSource_2SetClip};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3SetClip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_7SetClip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_7pyunity_5audio_11AudioSource_6SetClip[] = "\n            Sets the clip to play.\n            \n            Parameters\n            ----------\n            clip : AudioClip\n                Clip to set\n            \n            Raises\n            ------\n            TypeError\n                If the provided clip is not of type AudioClip\n            \n            ";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_7SetClip = {"SetClip", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_5audio_11AudioSource_7SetClip, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_5audio_11AudioSource_6SetClip};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_7SetClip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_clip = 0;
   int __pyx_lineno = 0;
@@ -2022,11 +2800,11 @@ static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3SetClip(PyObject *__pyx
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_clip)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SetClip", 1, 2, 2, 1); __PYX_ERR(0, 83, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SetClip", 1, 2, 2, 1); __PYX_ERR(0, 102, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SetClip") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SetClip") < 0)) __PYX_ERR(0, 102, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2039,20 +2817,20 @@ static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_3SetClip(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("SetClip", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 83, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("SetClip", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 102, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyunity.audio.AudioSource.SetClip", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_2SetClip(__pyx_self, __pyx_v_self, __pyx_v_clip);
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_6SetClip(__pyx_self, __pyx_v_self, __pyx_v_clip);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2SetClip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_clip) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6SetClip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_clip) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2064,63 +2842,63 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2SetClip(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SetClip", 0);
 
-  /* "pyunity/audio.py":98
+  /* "pyunity/audio.py":117
  * 
- *         """
- *         if not isinstance(clip, AudioClip):             # <<<<<<<<<<<<<<
- *             raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
- *         self.clip = clip
+ *             """
+ *             if not isinstance(clip, AudioClip):             # <<<<<<<<<<<<<<
+ *                 raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
+ *             self.clip = clip
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_AudioClip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_AudioClip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_IsInstance(__pyx_v_clip, __pyx_t_1); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_2 = PyObject_IsInstance(__pyx_v_clip, __pyx_t_1); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((!(__pyx_t_2 != 0)) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "pyunity/audio.py":99
- *         """
- *         if not isinstance(clip, AudioClip):
- *             raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)             # <<<<<<<<<<<<<<
- *         self.clip = clip
+    /* "pyunity/audio.py":118
+ *             """
+ *             if not isinstance(clip, AudioClip):
+ *                 raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)             # <<<<<<<<<<<<<<
+ *             self.clip = clip
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_clip)), __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(__pyx_v_clip)), __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_Argument_1_Expected_AudioClip_go, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_Argument_1_Expected_AudioClip_go, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 99, __pyx_L1_error)
+    __PYX_ERR(0, 118, __pyx_L1_error)
 
-    /* "pyunity/audio.py":98
+    /* "pyunity/audio.py":117
  * 
- *         """
- *         if not isinstance(clip, AudioClip):             # <<<<<<<<<<<<<<
- *             raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
- *         self.clip = clip
+ *             """
+ *             if not isinstance(clip, AudioClip):             # <<<<<<<<<<<<<<
+ *                 raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
+ *             self.clip = clip
  */
   }
 
-  /* "pyunity/audio.py":100
- *         if not isinstance(clip, AudioClip):
- *             raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
- *         self.clip = clip             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":119
+ *             if not isinstance(clip, AudioClip):
+ *                 raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
+ *             self.clip = clip             # <<<<<<<<<<<<<<
  * 
- *     def Play(self):
+ *         def Play(self):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_clip, __pyx_v_clip) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_clip, __pyx_v_clip) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
 
-  /* "pyunity/audio.py":83
- *         self.Loop = False
+  /* "pyunity/audio.py":102
+ *             self.Loop = False
  * 
- *     def SetClip(self, clip):             # <<<<<<<<<<<<<<
- *         """
- *         Sets the clip to play.
+ *         def SetClip(self, clip):             # <<<<<<<<<<<<<<
+ *             """
+ *             Sets the clip to play.
  */
 
   /* function exit code */
@@ -2137,30 +2915,30 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_2SetClip(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":102
- *         self.clip = clip
+/* "pyunity/audio.py":121
+ *             self.clip = clip
  * 
- *     def Play(self):             # <<<<<<<<<<<<<<
- *         """Plays the current clip."""
- *         if self.clip is None:
+ *         def Play(self):             # <<<<<<<<<<<<<<
+ *             """Plays the current clip."""
+ *             if self.clip is None:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_5Play(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_7pyunity_5audio_11AudioSource_4Play[] = "Plays the current clip.";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_5Play = {"Play", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_5Play, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_4Play};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_5Play(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_9Play(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_7pyunity_5audio_11AudioSource_8Play[] = "Plays the current clip.";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_9Play = {"Play", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_9Play, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_8Play};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_9Play(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Play (wrapper)", 0);
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_4Play(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_8Play(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8Play(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2176,33 +2954,33 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Play", 0);
 
-  /* "pyunity/audio.py":104
- *     def Play(self):
- *         """Plays the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+  /* "pyunity/audio.py":123
+ *         def Play(self):
+ *             """Plays the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pyunity/audio.py":105
- *         """Plays the current clip."""
- *         if self.clip is None:
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
- *         else:
- *             self.channel.play(self.clip.sound)
+    /* "pyunity/audio.py":124
+ *             """Plays the current clip."""
+ *             if self.clip is None:
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 self.channel.play(self.clip.sound)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -2219,7 +2997,7 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2228,14 +3006,14 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 105, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 124, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2246,39 +3024,39 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/audio.py":104
- *     def Play(self):
- *         """Plays the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+    /* "pyunity/audio.py":123
+ *         def Play(self):
+ *             """Plays the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
     goto __pyx_L3;
   }
 
-  /* "pyunity/audio.py":107
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
- *             self.channel.play(self.clip.sound)             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":126
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
+ *                 self.channel.play(self.clip.sound)             # <<<<<<<<<<<<<<
  * 
- *     def Pause(self):
+ *         def Pause(self):
  */
   /*else*/ {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_play); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_play); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sound); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sound); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -2294,19 +3072,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pyunity/audio.py":102
- *         self.clip = clip
+  /* "pyunity/audio.py":121
+ *             self.clip = clip
  * 
- *     def Play(self):             # <<<<<<<<<<<<<<
- *         """Plays the current clip."""
- *         if self.clip is None:
+ *         def Play(self):             # <<<<<<<<<<<<<<
+ *             """Plays the current clip."""
+ *             if self.clip is None:
  */
 
   /* function exit code */
@@ -2326,30 +3104,30 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_4Play(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":109
- *             self.channel.play(self.clip.sound)
+/* "pyunity/audio.py":128
+ *                 self.channel.play(self.clip.sound)
  * 
- *     def Pause(self):             # <<<<<<<<<<<<<<
- *         """Pauses the current clip."""
- *         if self.clip is None:
+ *         def Pause(self):             # <<<<<<<<<<<<<<
+ *             """Pauses the current clip."""
+ *             if self.clip is None:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_7Pause(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_7pyunity_5audio_11AudioSource_6Pause[] = "Pauses the current clip.";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_7Pause = {"Pause", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_7Pause, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_6Pause};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_7Pause(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_11Pause(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_7pyunity_5audio_11AudioSource_10Pause[] = "Pauses the current clip.";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_11Pause = {"Pause", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_11Pause, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_10Pause};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_11Pause(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Pause (wrapper)", 0);
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_6Pause(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_10Pause(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Pause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2365,33 +3143,33 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Pause", 0);
 
-  /* "pyunity/audio.py":111
- *     def Pause(self):
- *         """Pauses the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+  /* "pyunity/audio.py":130
+ *         def Pause(self):
+ *             """Pauses the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pyunity/audio.py":112
- *         """Pauses the current clip."""
- *         if self.clip is None:
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
- *         else:
- *             self.channel.pause()
+    /* "pyunity/audio.py":131
+ *             """Pauses the current clip."""
+ *             if self.clip is None:
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 self.channel.pause()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -2408,7 +3186,7 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2417,14 +3195,14 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 131, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2435,34 +3213,34 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/audio.py":111
- *     def Pause(self):
- *         """Pauses the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+    /* "pyunity/audio.py":130
+ *         def Pause(self):
+ *             """Pauses the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
     goto __pyx_L3;
   }
 
-  /* "pyunity/audio.py":114
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
- *             self.channel.pause()             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":133
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
+ *                 self.channel.pause()             # <<<<<<<<<<<<<<
  * 
- *     def UnPause(self):
+ *         def UnPause(self):
  */
   /*else*/ {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pause); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pause); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -2477,19 +3255,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pyunity/audio.py":109
- *             self.channel.play(self.clip.sound)
+  /* "pyunity/audio.py":128
+ *                 self.channel.play(self.clip.sound)
  * 
- *     def Pause(self):             # <<<<<<<<<<<<<<
- *         """Pauses the current clip."""
- *         if self.clip is None:
+ *         def Pause(self):             # <<<<<<<<<<<<<<
+ *             """Pauses the current clip."""
+ *             if self.clip is None:
  */
 
   /* function exit code */
@@ -2509,30 +3287,30 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_6Pause(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":116
- *             self.channel.pause()
+/* "pyunity/audio.py":135
+ *                 self.channel.pause()
  * 
- *     def UnPause(self):             # <<<<<<<<<<<<<<
- *         """Unpauses the current clip."""
- *         if self.clip is None:
+ *         def UnPause(self):             # <<<<<<<<<<<<<<
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_9UnPause(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_7pyunity_5audio_11AudioSource_8UnPause[] = "Unpauses the current clip.";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_9UnPause = {"UnPause", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_9UnPause, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_8UnPause};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_9UnPause(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_13UnPause(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_7pyunity_5audio_11AudioSource_12UnPause[] = "Unpauses the current clip.";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_13UnPause = {"UnPause", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_13UnPause, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_12UnPause};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_13UnPause(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("UnPause (wrapper)", 0);
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_12UnPause(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_12UnPause(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2548,33 +3326,33 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("UnPause", 0);
 
-  /* "pyunity/audio.py":118
- *     def UnPause(self):
- *         """Unpauses the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+  /* "pyunity/audio.py":137
+ *         def UnPause(self):
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pyunity/audio.py":119
- *         """Unpauses the current clip."""
- *         if self.clip is None:
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
- *         else:
- *             self.channel.unpause()
+    /* "pyunity/audio.py":138
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 self.channel.unpause()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -2591,7 +3369,7 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2600,14 +3378,14 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2618,34 +3396,34 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/audio.py":118
- *     def UnPause(self):
- *         """Unpauses the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+    /* "pyunity/audio.py":137
+ *         def UnPause(self):
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
     goto __pyx_L3;
   }
 
-  /* "pyunity/audio.py":121
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
- *             self.channel.unpause()             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":140
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
+ *                 self.channel.unpause()             # <<<<<<<<<<<<<<
  * 
- *     def Stop(self):
+ *         def Stop(self):
  */
   /*else*/ {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_unpause); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_unpause); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -2660,19 +3438,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pyunity/audio.py":116
- *             self.channel.pause()
+  /* "pyunity/audio.py":135
+ *                 self.channel.pause()
  * 
- *     def UnPause(self):             # <<<<<<<<<<<<<<
- *         """Unpauses the current clip."""
- *         if self.clip is None:
+ *         def UnPause(self):             # <<<<<<<<<<<<<<
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:
  */
 
   /* function exit code */
@@ -2692,30 +3470,30 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_8UnPause(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pyunity/audio.py":123
- *             self.channel.unpause()
+/* "pyunity/audio.py":142
+ *                 self.channel.unpause()
  * 
- *     def Stop(self):             # <<<<<<<<<<<<<<
- *         """Stop the current clip."""
- *         if self.clip is None:
+ *         def Stop(self):             # <<<<<<<<<<<<<<
+ *             """Stop the current clip."""
+ *             if self.clip is None:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_11Stop(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_7pyunity_5audio_11AudioSource_10Stop[] = "Stop the current clip.";
-static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_11Stop = {"Stop", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_11Stop, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_10Stop};
-static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_11Stop(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_15Stop(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_7pyunity_5audio_11AudioSource_14Stop[] = "Stop the current clip.";
+static PyMethodDef __pyx_mdef_7pyunity_5audio_11AudioSource_15Stop = {"Stop", (PyCFunction)__pyx_pw_7pyunity_5audio_11AudioSource_15Stop, METH_O, __pyx_doc_7pyunity_5audio_11AudioSource_14Stop};
+static PyObject *__pyx_pw_7pyunity_5audio_11AudioSource_15Stop(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Stop (wrapper)", 0);
-  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_10Stop(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7pyunity_5audio_11AudioSource_14Stop(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_14Stop(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2731,33 +3509,33 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Stop", 0);
 
-  /* "pyunity/audio.py":125
- *     def Stop(self):
- *         """Stop the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+  /* "pyunity/audio.py":144
+ *         def Stop(self):
+ *             """Stop the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_clip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pyunity/audio.py":126
- *         """Stop the current clip."""
- *         if self.clip is None:
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
- *         else:
- *             self.channel.stop()
+    /* "pyunity/audio.py":145
+ *             """Stop the current clip."""
+ *             if self.clip is None:
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 self.channel.stop()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -2774,7 +3552,7 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyO
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2783,14 +3561,14 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyO
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_kp_u_AudioSource_has_no_clip, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 126, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2801,32 +3579,32 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyO
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/audio.py":125
- *     def Stop(self):
- *         """Stop the current clip."""
- *         if self.clip is None:             # <<<<<<<<<<<<<<
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
+    /* "pyunity/audio.py":144
+ *         def Stop(self):
+ *             """Stop the current clip."""
+ *             if self.clip is None:             # <<<<<<<<<<<<<<
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
  */
     goto __pyx_L3;
   }
 
-  /* "pyunity/audio.py":128
- *             warnings.warn("AudioSource has no clip", PyUnityWarning)
- *         else:
- *             self.channel.stop()             # <<<<<<<<<<<<<<
+  /* "pyunity/audio.py":147
+ *                 warnings.warn("AudioSource has no clip", PyUnityWarning)
+ *             else:
+ *                 self.channel.stop()             # <<<<<<<<<<<<<<
  */
   /*else*/ {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_channel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stop); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stop); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -2841,19 +3619,19 @@ static PyObject *__pyx_pf_7pyunity_5audio_11AudioSource_10Stop(CYTHON_UNUSED PyO
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pyunity/audio.py":123
- *             self.channel.unpause()
+  /* "pyunity/audio.py":142
+ *                 self.channel.unpause()
  * 
- *     def Stop(self):             # <<<<<<<<<<<<<<
- *         """Stop the current clip."""
- *         if self.clip is None:
+ *         def Stop(self):             # <<<<<<<<<<<<<<
+ *             """Stop the current clip."""
+ *             if self.clip is None:
  */
 
   /* function exit code */
@@ -3052,6 +3830,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Argument_1_Expected_str_got_r, __pyx_k_Argument_1_Expected_str_got_r, sizeof(__pyx_k_Argument_1_Expected_str_got_r), 0, 1, 0, 0},
   {&__pyx_n_s_AudioClip, __pyx_k_AudioClip, sizeof(__pyx_k_AudioClip), 0, 0, 1, 1},
   {&__pyx_n_s_AudioClip_SetSound, __pyx_k_AudioClip_SetSound, sizeof(__pyx_k_AudioClip_SetSound), 0, 0, 1, 1},
+  {&__pyx_n_s_AudioClip___getattr, __pyx_k_AudioClip___getattr, sizeof(__pyx_k_AudioClip___getattr), 0, 0, 1, 1},
   {&__pyx_n_s_AudioClip___init, __pyx_k_AudioClip___init, sizeof(__pyx_k_AudioClip___init), 0, 0, 1, 1},
   {&__pyx_n_s_AudioSource, __pyx_k_AudioSource, sizeof(__pyx_k_AudioSource), 0, 0, 1, 1},
   {&__pyx_n_s_AudioSource_Pause, __pyx_k_AudioSource_Pause, sizeof(__pyx_k_AudioSource_Pause), 0, 0, 1, 1},
@@ -3059,8 +3838,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AudioSource_SetClip, __pyx_k_AudioSource_SetClip, sizeof(__pyx_k_AudioSource_SetClip), 0, 0, 1, 1},
   {&__pyx_n_s_AudioSource_Stop, __pyx_k_AudioSource_Stop, sizeof(__pyx_k_AudioSource_Stop), 0, 0, 1, 1},
   {&__pyx_n_s_AudioSource_UnPause, __pyx_k_AudioSource_UnPause, sizeof(__pyx_k_AudioSource_UnPause), 0, 0, 1, 1},
+  {&__pyx_n_s_AudioSource___getattr, __pyx_k_AudioSource___getattr, sizeof(__pyx_k_AudioSource___getattr), 0, 0, 1, 1},
   {&__pyx_n_s_AudioSource___init, __pyx_k_AudioSource___init, sizeof(__pyx_k_AudioSource___init), 0, 0, 1, 1},
   {&__pyx_kp_u_AudioSource_has_no_clip, __pyx_k_AudioSource_has_no_clip, sizeof(__pyx_k_AudioSource_has_no_clip), 0, 1, 0, 0},
+  {&__pyx_kp_u_Cannot_load_pygame_mixer, __pyx_k_Cannot_load_pygame_mixer, sizeof(__pyx_k_Cannot_load_pygame_mixer), 0, 1, 0, 0},
+  {&__pyx_kp_u_Cannot_use_AudioClip_pygame_mixe, __pyx_k_Cannot_use_AudioClip_pygame_mixe, sizeof(__pyx_k_Cannot_use_AudioClip_pygame_mixe), 0, 1, 0, 0},
+  {&__pyx_kp_u_Cannot_use_AudioSource_pygame_mi, __pyx_k_Cannot_use_AudioSource_pygame_mi, sizeof(__pyx_k_Cannot_use_AudioSource_pygame_mi), 0, 1, 0, 0},
   {&__pyx_kp_u_Cannot_use_an_audio_file_that_is, __pyx_k_Cannot_use_an_audio_file_that_is, sizeof(__pyx_k_Cannot_use_an_audio_file_that_is), 0, 1, 0, 0},
   {&__pyx_kp_s_Class_to_store_information_abou, __pyx_k_Class_to_store_information_abou, sizeof(__pyx_k_Class_to_store_information_abou), 0, 0, 1, 0},
   {&__pyx_n_s_Component, __pyx_k_Component, sizeof(__pyx_k_Component), 0, 0, 1, 1},
@@ -3078,22 +3861,29 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Stop, __pyx_k_Stop, sizeof(__pyx_k_Stop), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_UnPause, __pyx_k_UnPause, sizeof(__pyx_k_UnPause), 0, 0, 1, 1},
+  {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
+  {&__pyx_n_s_audio, __pyx_k_audio, sizeof(__pyx_k_audio), 0, 0, 1, 1},
   {&__pyx_kp_s_audio_py, __pyx_k_audio_py, sizeof(__pyx_k_audio_py), 0, 0, 1, 0},
   {&__pyx_n_s_channel, __pyx_k_channel, sizeof(__pyx_k_channel), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_clip, __pyx_k_clip, sizeof(__pyx_k_clip), 0, 0, 1, 1},
+  {&__pyx_n_s_config, __pyx_k_config, sizeof(__pyx_k_config), 0, 0, 1, 1},
   {&__pyx_n_s_core, __pyx_k_core, sizeof(__pyx_k_core), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_endswith, __pyx_k_endswith, sizeof(__pyx_k_endswith), 0, 0, 1, 1},
   {&__pyx_n_s_environ, __pyx_k_environ, sizeof(__pyx_k_environ), 0, 0, 1, 1},
+  {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
   {&__pyx_n_s_errors, __pyx_k_errors, sizeof(__pyx_k_errors), 0, 0, 1, 1},
   {&__pyx_n_s_exists, __pyx_k_exists, sizeof(__pyx_k_exists), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_getattr, __pyx_k_getattr, sizeof(__pyx_k_getattr), 0, 0, 1, 1},
   {&__pyx_n_u_hide, __pyx_k_hide, sizeof(__pyx_k_hide), 0, 1, 0, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_init_2, __pyx_k_init_2, sizeof(__pyx_k_init_2), 0, 0, 1, 1},
   {&__pyx_n_s_io, __pyx_k_io, sizeof(__pyx_k_io), 0, 0, 1, 1},
+  {&__pyx_n_s_item, __pyx_k_item, sizeof(__pyx_k_item), 0, 0, 1, 1},
+  {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_mixer, __pyx_k_mixer, sizeof(__pyx_k_mixer), 0, 0, 1, 1},
@@ -3120,8 +3910,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 58, __pyx_L1_error)
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 97, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3131,101 +3921,149 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyunity/audio.py":26
- *     """
+  /* "pyunity/audio.py":45
+ *         """
  * 
- *     def __init__(self, file):             # <<<<<<<<<<<<<<
- *         self.SetSound(file)
+ *         def __init__(self, file):             # <<<<<<<<<<<<<<
+ *             self.SetSound(file)
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_file); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_file); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 45, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 45, __pyx_L1_error)
 
-  /* "pyunity/audio.py":29
- *         self.SetSound(file)
+  /* "pyunity/audio.py":48
+ *             self.SetSound(file)
  * 
- *     def SetSound(self, file):             # <<<<<<<<<<<<<<
- *         """
- *         Changes the audio file.
+ *         def SetSound(self, file):             # <<<<<<<<<<<<<<
+ *             """
+ *             Changes the audio file.
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_file); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_file); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_SetSound, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_SetSound, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 48, __pyx_L1_error)
 
-  /* "pyunity/audio.py":77
- *     """
+  /* "pyunity/audio.py":96
+ *         """
  * 
- *     def __init__(self):             # <<<<<<<<<<<<<<
- *         super(AudioSource, self).__init__()
- *         self.clip = None
+ *         def __init__(self):             # <<<<<<<<<<<<<<
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 77, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 77, __pyx_L1_error)
-
-  /* "pyunity/audio.py":83
- *         self.Loop = False
- * 
- *     def SetClip(self, clip):             # <<<<<<<<<<<<<<
- *         """
- *         Sets the clip to play.
- */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_clip); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_SetClip, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 96, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 96, __pyx_L1_error)
 
   /* "pyunity/audio.py":102
- *         self.clip = clip
+ *             self.Loop = False
  * 
- *     def Play(self):             # <<<<<<<<<<<<<<
- *         """Plays the current clip."""
- *         if self.clip is None:
+ *         def SetClip(self, clip):             # <<<<<<<<<<<<<<
+ *             """
+ *             Sets the clip to play.
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_clip); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_SetClip, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 102, __pyx_L1_error)
+
+  /* "pyunity/audio.py":121
+ *             self.clip = clip
+ * 
+ *         def Play(self):             # <<<<<<<<<<<<<<
+ *             """Plays the current clip."""
+ *             if self.clip is None:
+ */
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Play, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Play, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 121, __pyx_L1_error)
 
-  /* "pyunity/audio.py":109
- *             self.channel.play(self.clip.sound)
+  /* "pyunity/audio.py":128
+ *                 self.channel.play(self.clip.sound)
  * 
- *     def Pause(self):             # <<<<<<<<<<<<<<
- *         """Pauses the current clip."""
- *         if self.clip is None:
+ *         def Pause(self):             # <<<<<<<<<<<<<<
+ *             """Pauses the current clip."""
+ *             if self.clip is None:
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Pause, 109, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Pause, 128, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 128, __pyx_L1_error)
 
-  /* "pyunity/audio.py":116
- *             self.channel.pause()
+  /* "pyunity/audio.py":135
+ *                 self.channel.pause()
  * 
- *     def UnPause(self):             # <<<<<<<<<<<<<<
- *         """Unpauses the current clip."""
- *         if self.clip is None:
+ *         def UnPause(self):             # <<<<<<<<<<<<<<
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_UnPause, 116, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_UnPause, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 135, __pyx_L1_error)
 
-  /* "pyunity/audio.py":123
- *             self.channel.unpause()
+  /* "pyunity/audio.py":142
+ *                 self.channel.unpause()
  * 
- *     def Stop(self):             # <<<<<<<<<<<<<<
- *         """Stop the current clip."""
- *         if self.clip is None:
+ *         def Stop(self):             # <<<<<<<<<<<<<<
+ *             """Stop the current clip."""
+ *             if self.clip is None:
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Stop, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_Stop, 142, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 142, __pyx_L1_error)
+
+  /* "pyunity/audio.py":15
+ *     config.audio = False
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+  __pyx_tuple__18 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 15, __pyx_L1_error)
+
+  /* "pyunity/audio.py":18
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_getattr, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 18, __pyx_L1_error)
+
+  /* "pyunity/audio.py":22
+ * 
+ *     class AudioSource(Component):
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+  __pyx_tuple__22 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_init, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 22, __pyx_L1_error)
+
+  /* "pyunity/audio.py":25
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * else:
+ */
+  __pyx_tuple__24 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_item); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_audio_py, __pyx_n_s_getattr, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3402,6 +4240,13 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_audio(PyObject *__pyx_pyinit_modul
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  int __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3512,268 +4357,516 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/audio.py":3
  * """Classes to manage the playback of audio."""
  * 
- * from .errors import *             # <<<<<<<<<<<<<<
- * import _io, os, warnings
+ * import _io, os, warnings             # <<<<<<<<<<<<<<
  * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+ * from .errors import *
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_);
-  __Pyx_GIVEREF(__pyx_n_s_);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_errors, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 3, __pyx_L1_error);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_warnings, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/audio.py":4
  * 
+ * import _io, os, warnings
+ * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"             # <<<<<<<<<<<<<<
  * from .errors import *
- * import _io, os, warnings             # <<<<<<<<<<<<<<
- * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
- * import pygame
+ * from .core import *
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_io, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_environ); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_io, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_os, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_warnings, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_PYGAME_HIDE_SUPPORT_PROMPT, __pyx_n_u_hide) < 0)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/audio.py":5
- * from .errors import *
- * import _io, os, warnings
- * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"             # <<<<<<<<<<<<<<
- * import pygame
- * pygame.mixer.init()
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_PYGAME_HIDE_SUPPORT_PROMPT, __pyx_n_u_hide) < 0)) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "pyunity/audio.py":6
  * import _io, os, warnings
  * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
- * import pygame             # <<<<<<<<<<<<<<
- * pygame.mixer.init()
+ * from .errors import *             # <<<<<<<<<<<<<<
  * from .core import *
+ * from .config import *
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pygame, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "pyunity/audio.py":7
- * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
- * import pygame
- * pygame.mixer.init()             # <<<<<<<<<<<<<<
- * from .core import *
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mixer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "pyunity/audio.py":8
- * import pygame
- * pygame.mixer.init()
- * from .core import *             # <<<<<<<<<<<<<<
- * 
- * class AudioClip:
- */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_);
   __Pyx_GIVEREF(__pyx_n_s_);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_core, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_errors, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":10
+  /* "pyunity/audio.py":6
+ * os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+ * from .errors import *
+ * from .core import *             # <<<<<<<<<<<<<<
+ * from .config import *
+ * import pygame
+ */
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_);
+  __Pyx_GIVEREF(__pyx_n_s_);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_core, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "pyunity/audio.py":7
+ * from .errors import *
  * from .core import *
- * 
- * class AudioClip:             # <<<<<<<<<<<<<<
- *     """
- *     Class to store information about an audio file.
+ * from .config import *             # <<<<<<<<<<<<<<
+ * import pygame
+ * try:
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_AudioClip, __pyx_n_s_AudioClip, (PyObject *) NULL, __pyx_n_s_pyunity_audio, __pyx_kp_s_Class_to_store_information_abou); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_);
+  __Pyx_GIVEREF(__pyx_n_s_);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_config, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-
-  /* "pyunity/audio.py":26
- *     """
- * 
- *     def __init__(self, file):             # <<<<<<<<<<<<<<
- *         self.SetSound(file)
- * 
- */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_1__init__, 0, __pyx_n_s_AudioClip___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":29
- *         self.SetSound(file)
- * 
- *     def SetSound(self, file):             # <<<<<<<<<<<<<<
- *         """
- *         Changes the audio file.
- */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_3SetSound, 0, __pyx_n_s_AudioClip_SetSound, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_SetSound, __pyx_t_2) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "pyunity/audio.py":10
+  /* "pyunity/audio.py":8
  * from .core import *
- * 
- * class AudioClip:             # <<<<<<<<<<<<<<
- *     """
- *     Class to store information about an audio file.
+ * from .config import *
+ * import pygame             # <<<<<<<<<<<<<<
+ * try:
+ *     pygame.mixer.init()
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AudioClip, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioClip, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pygame, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":60
- *             raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
- * 
- * class AudioSource(Component):             # <<<<<<<<<<<<<<
- *     """
- *     Manages playback on an AudioSource.
+  /* "pyunity/audio.py":9
+ * from .config import *
+ * import pygame
+ * try:             # <<<<<<<<<<<<<<
+ *     pygame.mixer.init()
+ * except pygame.error:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Component); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_AudioSource, __pyx_n_s_AudioSource, (PyObject *) NULL, __pyx_n_s_pyunity_audio, __pyx_kp_s_Manages_playback_on_an_AudioSou); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ExceptionSave(&__pyx_t_3, &__pyx_t_4, &__pyx_t_5);
+    __Pyx_XGOTREF(__pyx_t_3);
+    __Pyx_XGOTREF(__pyx_t_4);
+    __Pyx_XGOTREF(__pyx_t_5);
+    /*try:*/ {
 
-  /* "pyunity/audio.py":77
- *     """
- * 
- *     def __init__(self):             # <<<<<<<<<<<<<<
- *         super(AudioSource, self).__init__()
- *         self.clip = None
+      /* "pyunity/audio.py":10
+ * import pygame
+ * try:
+ *     pygame.mixer.init()             # <<<<<<<<<<<<<<
+ * except pygame.error:
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_1__init__, 0, __pyx_n_s_AudioSource___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L2_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mixer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L2_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L2_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L2_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/audio.py":83
- *         self.Loop = False
+      /* "pyunity/audio.py":9
+ * from .config import *
+ * import pygame
+ * try:             # <<<<<<<<<<<<<<
+ *     pygame.mixer.init()
+ * except pygame.error:
+ */
+    }
+
+    /* "pyunity/audio.py":29
+ * else:
  * 
- *     def SetClip(self, clip):             # <<<<<<<<<<<<<<
+ *     class AudioClip:             # <<<<<<<<<<<<<<
  *         """
- *         Sets the clip to play.
+ *         Class to store information about an audio file.
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_3SetClip, 0, __pyx_n_s_AudioSource_SetClip, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_SetClip, __pyx_t_4) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    /*else:*/ {
+      __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_AudioClip, __pyx_n_s_AudioClip, (PyObject *) NULL, __pyx_n_s_pyunity_audio, __pyx_kp_s_Class_to_store_information_abou); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_2);
 
-  /* "pyunity/audio.py":102
- *         self.clip = clip
+      /* "pyunity/audio.py":45
+ *         """
  * 
- *     def Play(self):             # <<<<<<<<<<<<<<
- *         """Plays the current clip."""
- *         if self.clip is None:
+ *         def __init__(self, file):             # <<<<<<<<<<<<<<
+ *             self.SetSound(file)
+ * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_5Play, 0, __pyx_n_s_AudioSource_Play, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Play, __pyx_t_4) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_5__init__, 0, __pyx_n_s_AudioClip___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 45, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":109
- *             self.channel.play(self.clip.sound)
+      /* "pyunity/audio.py":48
+ *             self.SetSound(file)
  * 
- *     def Pause(self):             # <<<<<<<<<<<<<<
- *         """Pauses the current clip."""
- *         if self.clip is None:
+ *         def SetSound(self, file):             # <<<<<<<<<<<<<<
+ *             """
+ *             Changes the audio file.
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_7Pause, 0, __pyx_n_s_AudioSource_Pause, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Pause, __pyx_t_4) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_7SetSound, 0, __pyx_n_s_AudioClip_SetSound, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_SetSound, __pyx_t_1) < 0) __PYX_ERR(0, 48, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/audio.py":116
- *             self.channel.pause()
+      /* "pyunity/audio.py":29
+ * else:
  * 
- *     def UnPause(self):             # <<<<<<<<<<<<<<
- *         """Unpauses the current clip."""
- *         if self.clip is None:
+ *     class AudioClip:             # <<<<<<<<<<<<<<
+ *         """
+ *         Class to store information about an audio file.
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_9UnPause, 0, __pyx_n_s_AudioSource_UnPause, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_UnPause, __pyx_t_4) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AudioClip, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioClip, __pyx_t_1) < 0) __PYX_ERR(0, 29, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/audio.py":123
- *             self.channel.unpause()
+      /* "pyunity/audio.py":79
+ *                 raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
  * 
- *     def Stop(self):             # <<<<<<<<<<<<<<
- *         """Stop the current clip."""
- *         if self.clip is None:
+ *     class AudioSource(Component):             # <<<<<<<<<<<<<<
+ *         """
+ *         Manages playback on an AudioSource.
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_11Stop, 0, __pyx_n_s_AudioSource_Stop, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Stop, __pyx_t_4) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Component); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_6 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_AudioSource, __pyx_n_s_AudioSource, (PyObject *) NULL, __pyx_n_s_pyunity_audio, __pyx_kp_s_Manages_playback_on_an_AudioSou); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_6);
 
-  /* "pyunity/audio.py":60
- *             raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
+      /* "pyunity/audio.py":96
+ *         """
  * 
- * class AudioSource(Component):             # <<<<<<<<<<<<<<
- *     """
- *     Manages playback on an AudioSource.
+ *         def __init__(self):             # <<<<<<<<<<<<<<
+ *             super(AudioSource, self).__init__()
+ *             self.clip = None
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_AudioSource, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioSource, __pyx_t_4) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_5__init__, 0, __pyx_n_s_AudioSource___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 96, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_init, __pyx_t_7) < 0) __PYX_ERR(0, 96, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":102
+ *             self.Loop = False
+ * 
+ *         def SetClip(self, clip):             # <<<<<<<<<<<<<<
+ *             """
+ *             Sets the clip to play.
+ */
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_7SetClip, 0, __pyx_n_s_AudioSource_SetClip, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 102, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_SetClip, __pyx_t_7) < 0) __PYX_ERR(0, 102, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":121
+ *             self.clip = clip
+ * 
+ *         def Play(self):             # <<<<<<<<<<<<<<
+ *             """Plays the current clip."""
+ *             if self.clip is None:
+ */
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_9Play, 0, __pyx_n_s_AudioSource_Play, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 121, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_Play, __pyx_t_7) < 0) __PYX_ERR(0, 121, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":128
+ *                 self.channel.play(self.clip.sound)
+ * 
+ *         def Pause(self):             # <<<<<<<<<<<<<<
+ *             """Pauses the current clip."""
+ *             if self.clip is None:
+ */
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_11Pause, 0, __pyx_n_s_AudioSource_Pause, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 128, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_Pause, __pyx_t_7) < 0) __PYX_ERR(0, 128, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":135
+ *                 self.channel.pause()
+ * 
+ *         def UnPause(self):             # <<<<<<<<<<<<<<
+ *             """Unpauses the current clip."""
+ *             if self.clip is None:
+ */
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_13UnPause, 0, __pyx_n_s_AudioSource_UnPause, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_UnPause, __pyx_t_7) < 0) __PYX_ERR(0, 135, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":142
+ *                 self.channel.unpause()
+ * 
+ *         def Stop(self):             # <<<<<<<<<<<<<<
+ *             """Stop the current clip."""
+ *             if self.clip is None:
+ */
+      __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_15Stop, 0, __pyx_n_s_AudioSource_Stop, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 142, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_SetNameInClass(__pyx_t_6, __pyx_n_s_Stop, __pyx_t_7) < 0) __PYX_ERR(0, 142, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "pyunity/audio.py":79
+ *                 raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
+ * 
+ *     class AudioSource(Component):             # <<<<<<<<<<<<<<
+ *         """
+ *         Manages playback on an AudioSource.
+ */
+      __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_AudioSource, __pyx_t_1, __pyx_t_6, NULL, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioSource, __pyx_t_7) < 0) __PYX_ERR(0, 79, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    }
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    goto __pyx_L7_try_end;
+    __pyx_L2_error:;
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "pyunity/audio.py":11
+ * try:
+ *     pygame.mixer.init()
+ * except pygame.error:             # <<<<<<<<<<<<<<
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)
+ *     config.audio = False
+ */
+    __Pyx_ErrFetch(&__pyx_t_1, &__pyx_t_2, &__pyx_t_6);
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_pygame); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 11, __pyx_L4_except_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_error); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 11, __pyx_L4_except_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_9 = __Pyx_PyErr_GivenExceptionMatches(__pyx_t_1, __pyx_t_8);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_ErrRestore(__pyx_t_1, __pyx_t_2, __pyx_t_6);
+    __pyx_t_1 = 0; __pyx_t_2 = 0; __pyx_t_6 = 0;
+    if (__pyx_t_9) {
+      __Pyx_AddTraceback("pyunity.audio", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_2, &__pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GOTREF(__pyx_t_1);
+
+      /* "pyunity/audio.py":12
+ *     pygame.mixer.init()
+ * except pygame.error:
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)             # <<<<<<<<<<<<<<
+ *     config.audio = False
+ *     class AudioClip:
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_warnings); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 12, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_warn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 12, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_PyUnityWarning); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 12, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 12, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_INCREF(__pyx_kp_u_Cannot_load_pygame_mixer);
+      __Pyx_GIVEREF(__pyx_kp_u_Cannot_load_pygame_mixer);
+      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_kp_u_Cannot_load_pygame_mixer);
+      __Pyx_GIVEREF(__pyx_t_8);
+      PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_8);
+      __pyx_t_8 = 0;
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 12, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+
+      /* "pyunity/audio.py":13
+ * except pygame.error:
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)
+ *     config.audio = False             # <<<<<<<<<<<<<<
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_config); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 13, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_audio, Py_False) < 0) __PYX_ERR(0, 13, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+
+      /* "pyunity/audio.py":14
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)
+ *     config.audio = False
+ *     class AudioClip:             # <<<<<<<<<<<<<<
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ */
+      __pyx_t_8 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_AudioClip, __pyx_n_s_AudioClip, (PyObject *) NULL, __pyx_n_s_pyunity_audio, (PyObject *) NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 14, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+
+      /* "pyunity/audio.py":15
+ *     config.audio = False
+ *     class AudioClip:
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+      __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_1__init__, 0, __pyx_n_s_AudioClip___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 15, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      if (__Pyx_SetNameInClass(__pyx_t_8, __pyx_n_s_init, __pyx_t_10) < 0) __PYX_ERR(0, 15, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+      /* "pyunity/audio.py":18
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+      __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_9AudioClip_3__getattr__, 0, __pyx_n_s_AudioClip___getattr, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 18, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      if (__Pyx_SetNameInClass(__pyx_t_8, __pyx_n_s_getattr, __pyx_t_10) < 0) __PYX_ERR(0, 18, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+      /* "pyunity/audio.py":14
+ *     warnings.warn("Cannot load pygame mixer", PyUnityWarning)
+ *     config.audio = False
+ *     class AudioClip:             # <<<<<<<<<<<<<<
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ */
+      __pyx_t_10 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_AudioClip, __pyx_empty_tuple, __pyx_t_8, NULL, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 14, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioClip, __pyx_t_10) < 0) __PYX_ERR(0, 14, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+
+      /* "pyunity/audio.py":21
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *     class AudioSource(Component):             # <<<<<<<<<<<<<<
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_Component); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_GIVEREF(__pyx_t_8);
+      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8);
+      __pyx_t_8 = 0;
+      __pyx_t_8 = __Pyx_CalculateMetaclass(NULL, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_7 = __Pyx_Py3MetaclassPrepare(__pyx_t_8, __pyx_t_10, __pyx_n_s_AudioSource, __pyx_n_s_AudioSource, (PyObject *) NULL, __pyx_n_s_pyunity_audio, (PyObject *) NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+
+      /* "pyunity/audio.py":22
+ * 
+ *     class AudioSource(Component):
+ *         def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ */
+      __pyx_t_11 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_1__init__, 0, __pyx_n_s_AudioSource___init, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 22, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      if (__Pyx_SetNameInClass(__pyx_t_7, __pyx_n_s_init, __pyx_t_11) < 0) __PYX_ERR(0, 22, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+      /* "pyunity/audio.py":25
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *         def __getattr__(self, item):             # <<<<<<<<<<<<<<
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ * else:
+ */
+      __pyx_t_11 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_5audio_11AudioSource_3__getattr__, 0, __pyx_n_s_AudioSource___getattr, NULL, __pyx_n_s_pyunity_audio, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      if (__Pyx_SetNameInClass(__pyx_t_7, __pyx_n_s_getattr, __pyx_t_11) < 0) __PYX_ERR(0, 25, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+      /* "pyunity/audio.py":21
+ *             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+ * 
+ *     class AudioSource(Component):             # <<<<<<<<<<<<<<
+ *         def __init__(self, *args, **kwargs):
+ *             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+ */
+      __pyx_t_11 = __Pyx_Py3ClassCreate(__pyx_t_8, __pyx_n_s_AudioSource, __pyx_t_10, __pyx_t_7, NULL, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      if (PyDict_SetItem(__pyx_d, __pyx_n_s_AudioSource, __pyx_t_11) < 0) __PYX_ERR(0, 21, __pyx_L4_except_error)
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      goto __pyx_L3_exception_handled;
+    }
+    goto __pyx_L4_except_error;
+    __pyx_L4_except_error:;
+
+    /* "pyunity/audio.py":9
+ * from .config import *
+ * import pygame
+ * try:             # <<<<<<<<<<<<<<
+ *     pygame.mixer.init()
+ * except pygame.error:
+ */
+    __Pyx_XGIVEREF(__pyx_t_3);
+    __Pyx_XGIVEREF(__pyx_t_4);
+    __Pyx_XGIVEREF(__pyx_t_5);
+    __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_4, __pyx_t_5);
+    goto __pyx_L1_error;
+    __pyx_L3_exception_handled:;
+    __Pyx_XGIVEREF(__pyx_t_3);
+    __Pyx_XGIVEREF(__pyx_t_4);
+    __Pyx_XGIVEREF(__pyx_t_5);
+    __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_4, __pyx_t_5);
+    __pyx_L7_try_end:;
+  }
 
   /* "pyunity/audio.py":1
  * """Classes to manage the playback of audio."""             # <<<<<<<<<<<<<<
  * 
- * from .errors import *
+ * import _io, os, warnings
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -3781,8 +4874,11 @@ if (!__Pyx_RefNanny) {
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init pyunity.audio", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -3846,32 +4942,6 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
 #endif
     }
     return result;
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
 }
 
 /* RaiseDoubleKeywords */
@@ -3990,28 +5060,92 @@ bad:
     return -1;
 }
 
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
     } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+        num_expected = num_max;
+        more_or_less = "at most";
     }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
 }
 #endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
 
 /* PyFunctionFastCall */
 #if CYTHON_FAST_PYCALL
@@ -4132,6 +5266,29 @@ done:
 #endif
 #endif
 
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
 /* PyObjectCall */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
@@ -4240,67 +5397,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return result;
 }
 #endif
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
 
 /* PyObjectSetAttrStr */
 #if CYTHON_USE_TYPE_SLOTS
@@ -4616,6 +5712,62 @@ bad:
     Py_XDECREF(empty_dict);
     return module;
 }
+
+/* GetTopmostException */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem *
+__Pyx_PyErr_GetTopmostException(PyThreadState *tstate)
+{
+    _PyErr_StackItem *exc_info = tstate->exc_info;
+    while ((exc_info->exc_type == NULL || exc_info->exc_type == Py_None) &&
+           exc_info->previous_item != NULL)
+    {
+        exc_info = exc_info->previous_item;
+    }
+    return exc_info;
+}
+#endif
+
+/* SaveResetException */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    #if CYTHON_USE_EXC_INFO_STACK
+    _PyErr_StackItem *exc_info = __Pyx_PyErr_GetTopmostException(tstate);
+    *type = exc_info->exc_type;
+    *value = exc_info->exc_value;
+    *tb = exc_info->exc_traceback;
+    #else
+    *type = tstate->exc_type;
+    *value = tstate->exc_value;
+    *tb = tstate->exc_traceback;
+    #endif
+    Py_XINCREF(*type);
+    Py_XINCREF(*value);
+    Py_XINCREF(*tb);
+}
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    #if CYTHON_USE_EXC_INFO_STACK
+    _PyErr_StackItem *exc_info = tstate->exc_info;
+    tmp_type = exc_info->exc_type;
+    tmp_value = exc_info->exc_value;
+    tmp_tb = exc_info->exc_traceback;
+    exc_info->exc_type = type;
+    exc_info->exc_value = value;
+    exc_info->exc_traceback = tb;
+    #else
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = type;
+    tstate->exc_value = value;
+    tstate->exc_traceback = tb;
+    #endif
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+#endif
 
 /* FetchCommonType */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type) {
@@ -5379,6 +6531,180 @@ static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObj
     return result;
 }
 
+/* FastTypeChecks */
+#if CYTHON_COMPILING_IN_CPYTHON
+static int __Pyx_InBases(PyTypeObject *a, PyTypeObject *b) {
+    while (a) {
+        a = a->tp_base;
+        if (a == b)
+            return 1;
+    }
+    return b == &PyBaseObject_Type;
+}
+static CYTHON_INLINE int __Pyx_IsSubtype(PyTypeObject *a, PyTypeObject *b) {
+    PyObject *mro;
+    if (a == b) return 1;
+    mro = a->tp_mro;
+    if (likely(mro)) {
+        Py_ssize_t i, n;
+        n = PyTuple_GET_SIZE(mro);
+        for (i = 0; i < n; i++) {
+            if (PyTuple_GET_ITEM(mro, i) == (PyObject *)b)
+                return 1;
+        }
+        return 0;
+    }
+    return __Pyx_InBases(a, b);
+}
+#if PY_MAJOR_VERSION == 2
+static int __Pyx_inner_PyErr_GivenExceptionMatches2(PyObject *err, PyObject* exc_type1, PyObject* exc_type2) {
+    PyObject *exception, *value, *tb;
+    int res;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&exception, &value, &tb);
+    res = exc_type1 ? PyObject_IsSubclass(err, exc_type1) : 0;
+    if (unlikely(res == -1)) {
+        PyErr_WriteUnraisable(err);
+        res = 0;
+    }
+    if (!res) {
+        res = PyObject_IsSubclass(err, exc_type2);
+        if (unlikely(res == -1)) {
+            PyErr_WriteUnraisable(err);
+            res = 0;
+        }
+    }
+    __Pyx_ErrRestore(exception, value, tb);
+    return res;
+}
+#else
+static CYTHON_INLINE int __Pyx_inner_PyErr_GivenExceptionMatches2(PyObject *err, PyObject* exc_type1, PyObject *exc_type2) {
+    int res = exc_type1 ? __Pyx_IsSubtype((PyTypeObject*)err, (PyTypeObject*)exc_type1) : 0;
+    if (!res) {
+        res = __Pyx_IsSubtype((PyTypeObject*)err, (PyTypeObject*)exc_type2);
+    }
+    return res;
+}
+#endif
+static int __Pyx_PyErr_GivenExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
+    Py_ssize_t i, n;
+    assert(PyExceptionClass_Check(exc_type));
+    n = PyTuple_GET_SIZE(tuple);
+#if PY_MAJOR_VERSION >= 3
+    for (i=0; i<n; i++) {
+        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+    }
+#endif
+    for (i=0; i<n; i++) {
+        PyObject *t = PyTuple_GET_ITEM(tuple, i);
+        #if PY_MAJOR_VERSION < 3
+        if (likely(exc_type == t)) return 1;
+        #endif
+        if (likely(PyExceptionClass_Check(t))) {
+            if (__Pyx_inner_PyErr_GivenExceptionMatches2(exc_type, NULL, t)) return 1;
+        } else {
+        }
+    }
+    return 0;
+}
+static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches(PyObject *err, PyObject* exc_type) {
+    if (likely(err == exc_type)) return 1;
+    if (likely(PyExceptionClass_Check(err))) {
+        if (likely(PyExceptionClass_Check(exc_type))) {
+            return __Pyx_inner_PyErr_GivenExceptionMatches2(err, NULL, exc_type);
+        } else if (likely(PyTuple_Check(exc_type))) {
+            return __Pyx_PyErr_GivenExceptionMatchesTuple(err, exc_type);
+        } else {
+        }
+    }
+    return PyErr_GivenExceptionMatches(err, exc_type);
+}
+static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObject *exc_type1, PyObject *exc_type2) {
+    assert(PyExceptionClass_Check(exc_type1));
+    assert(PyExceptionClass_Check(exc_type2));
+    if (likely(err == exc_type1 || err == exc_type2)) return 1;
+    if (likely(PyExceptionClass_Check(err))) {
+        return __Pyx_inner_PyErr_GivenExceptionMatches2(err, exc_type1, exc_type2);
+    }
+    return (PyErr_GivenExceptionMatches(err, exc_type1) || PyErr_GivenExceptionMatches(err, exc_type2));
+}
+#endif
+
+/* GetException */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb)
+#else
+static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb)
+#endif
+{
+    PyObject *local_type, *local_value, *local_tb;
+#if CYTHON_FAST_THREAD_STATE
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    local_type = tstate->curexc_type;
+    local_value = tstate->curexc_value;
+    local_tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+#else
+    PyErr_Fetch(&local_type, &local_value, &local_tb);
+#endif
+    PyErr_NormalizeException(&local_type, &local_value, &local_tb);
+#if CYTHON_FAST_THREAD_STATE
+    if (unlikely(tstate->curexc_type))
+#else
+    if (unlikely(PyErr_Occurred()))
+#endif
+        goto bad;
+    #if PY_MAJOR_VERSION >= 3
+    if (local_tb) {
+        if (unlikely(PyException_SetTraceback(local_value, local_tb) < 0))
+            goto bad;
+    }
+    #endif
+    Py_XINCREF(local_tb);
+    Py_XINCREF(local_type);
+    Py_XINCREF(local_value);
+    *type = local_type;
+    *value = local_value;
+    *tb = local_tb;
+#if CYTHON_FAST_THREAD_STATE
+    #if CYTHON_USE_EXC_INFO_STACK
+    {
+        _PyErr_StackItem *exc_info = tstate->exc_info;
+        tmp_type = exc_info->exc_type;
+        tmp_value = exc_info->exc_value;
+        tmp_tb = exc_info->exc_traceback;
+        exc_info->exc_type = local_type;
+        exc_info->exc_value = local_value;
+        exc_info->exc_traceback = local_tb;
+    }
+    #else
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = local_type;
+    tstate->exc_value = local_value;
+    tstate->exc_traceback = local_tb;
+    #endif
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+#else
+    PyErr_SetExcInfo(local_type, local_value, local_tb);
+#endif
+    return 0;
+bad:
+    *type = 0;
+    *value = 0;
+    *tb = 0;
+    Py_XDECREF(local_type);
+    Py_XDECREF(local_value);
+    Py_XDECREF(local_tb);
+    return -1;
+}
+
 /* CLineInTraceback */
 #ifndef CYTHON_CLINE_IN_TRACEBACK
 static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int c_line) {
@@ -6016,106 +7342,6 @@ raise_neg_overflow:
         "can't convert negative value to int");
     return (int) -1;
 }
-
-/* FastTypeChecks */
-#if CYTHON_COMPILING_IN_CPYTHON
-static int __Pyx_InBases(PyTypeObject *a, PyTypeObject *b) {
-    while (a) {
-        a = a->tp_base;
-        if (a == b)
-            return 1;
-    }
-    return b == &PyBaseObject_Type;
-}
-static CYTHON_INLINE int __Pyx_IsSubtype(PyTypeObject *a, PyTypeObject *b) {
-    PyObject *mro;
-    if (a == b) return 1;
-    mro = a->tp_mro;
-    if (likely(mro)) {
-        Py_ssize_t i, n;
-        n = PyTuple_GET_SIZE(mro);
-        for (i = 0; i < n; i++) {
-            if (PyTuple_GET_ITEM(mro, i) == (PyObject *)b)
-                return 1;
-        }
-        return 0;
-    }
-    return __Pyx_InBases(a, b);
-}
-#if PY_MAJOR_VERSION == 2
-static int __Pyx_inner_PyErr_GivenExceptionMatches2(PyObject *err, PyObject* exc_type1, PyObject* exc_type2) {
-    PyObject *exception, *value, *tb;
-    int res;
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&exception, &value, &tb);
-    res = exc_type1 ? PyObject_IsSubclass(err, exc_type1) : 0;
-    if (unlikely(res == -1)) {
-        PyErr_WriteUnraisable(err);
-        res = 0;
-    }
-    if (!res) {
-        res = PyObject_IsSubclass(err, exc_type2);
-        if (unlikely(res == -1)) {
-            PyErr_WriteUnraisable(err);
-            res = 0;
-        }
-    }
-    __Pyx_ErrRestore(exception, value, tb);
-    return res;
-}
-#else
-static CYTHON_INLINE int __Pyx_inner_PyErr_GivenExceptionMatches2(PyObject *err, PyObject* exc_type1, PyObject *exc_type2) {
-    int res = exc_type1 ? __Pyx_IsSubtype((PyTypeObject*)err, (PyTypeObject*)exc_type1) : 0;
-    if (!res) {
-        res = __Pyx_IsSubtype((PyTypeObject*)err, (PyTypeObject*)exc_type2);
-    }
-    return res;
-}
-#endif
-static int __Pyx_PyErr_GivenExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
-    Py_ssize_t i, n;
-    assert(PyExceptionClass_Check(exc_type));
-    n = PyTuple_GET_SIZE(tuple);
-#if PY_MAJOR_VERSION >= 3
-    for (i=0; i<n; i++) {
-        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
-    }
-#endif
-    for (i=0; i<n; i++) {
-        PyObject *t = PyTuple_GET_ITEM(tuple, i);
-        #if PY_MAJOR_VERSION < 3
-        if (likely(exc_type == t)) return 1;
-        #endif
-        if (likely(PyExceptionClass_Check(t))) {
-            if (__Pyx_inner_PyErr_GivenExceptionMatches2(exc_type, NULL, t)) return 1;
-        } else {
-        }
-    }
-    return 0;
-}
-static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches(PyObject *err, PyObject* exc_type) {
-    if (likely(err == exc_type)) return 1;
-    if (likely(PyExceptionClass_Check(err))) {
-        if (likely(PyExceptionClass_Check(exc_type))) {
-            return __Pyx_inner_PyErr_GivenExceptionMatches2(err, NULL, exc_type);
-        } else if (likely(PyTuple_Check(exc_type))) {
-            return __Pyx_PyErr_GivenExceptionMatchesTuple(err, exc_type);
-        } else {
-        }
-    }
-    return PyErr_GivenExceptionMatches(err, exc_type);
-}
-static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObject *exc_type1, PyObject *exc_type2) {
-    assert(PyExceptionClass_Check(exc_type1));
-    assert(PyExceptionClass_Check(exc_type2));
-    if (likely(err == exc_type1 || err == exc_type2)) return 1;
-    if (likely(PyExceptionClass_Check(err))) {
-        return __Pyx_inner_PyErr_GivenExceptionMatches2(err, exc_type1, exc_type2);
-    }
-    return (PyErr_GivenExceptionMatches(err, exc_type1) || PyErr_GivenExceptionMatches(err, exc_type2));
-}
-#endif
 
 /* CStringEquals */
 static CYTHON_INLINE int __Pyx_StrEq(const char *s1, const char *s2) {
