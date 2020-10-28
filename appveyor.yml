@@ -1,6 +1,4 @@
-environment:
-  matrix:
-    - PYTHON_VERSION: "3.8.5"
+image: Ubuntu
 
 install:
   - sudo apt install python3.8
