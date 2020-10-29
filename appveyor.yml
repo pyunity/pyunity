@@ -26,7 +26,7 @@ for:
         - platform: "Linux"
     image: Ubuntu
     install:
-      - source $venv/bin/activate
+      - $venv/bin/activate
       - python -m pip install cython wheel sphinx
   -
     matrix:
