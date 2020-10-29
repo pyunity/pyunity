@@ -23,7 +23,7 @@ for:
   -
     matrix:
       only:
-        platform: "Linux"
+        - platform: "Linux"
     image: Ubuntu
     install:
       - source $venv/bin/activate
@@ -31,7 +31,7 @@ for:
   -
     matrix:
       only:
-        platform: "Windows"
+        - platform: "Windows"
     image: Visual Studio 2017
     install:
       - $venv/Scripts/activate
