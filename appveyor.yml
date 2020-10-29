@@ -1,17 +1,41 @@
-image: Ubuntu
-
 environment:
   matrix:
     - version: "3.8"
+      platform: "Linux"
       venv: "../../venv3.8"
     - version: "3.7"
+      platform: "Linux"
       venv: "../../venv3.7"
     - version: "3.6"
+      platform: "Linux"
+      venv: "../../venv3.6"
+    - version: "3.8"
+      platform: "Windows"
+      venv: "../../venv3.8"
+    - version: "3.7"
+      platform: "Windows"
+      venv: "../../venv3.7"
+    - version: "3.6"
+      platform: "Windows"
       venv: "../../venv3.6"
 
-install:
-  - source $venv/bin/activate
-  - python -m pip install cython wheel sphinx
+for:
+  -
+    matrix:
+      only:
+        platform: "Linux"
+    image: Ubuntu
+    install:
+      - source $venv/bin/activate
+      - python -m pip install cython wheel sphinx
+  -
+    matrix:
+      only:
+        platform: "Windows"
+    image: Visual Studio 2017
+    install:
+      - $venv/Scripts/activate
+      - python -m pip install cython wheel sphinx
 
 test_script:
   - set a=1
