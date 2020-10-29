@@ -24,7 +24,7 @@ for:
       only:
         - image: Visual Studio 2017
     install:
-      - start %venv%\Scripts\activate
+      - doskey python=py -%version%
       - python -m pip install cython wheel sphinx
 
 test_script:
