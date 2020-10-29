@@ -1,7 +1,7 @@
 image: Ubuntu
 
 install:
-  - sudo apt install -y python3.7
+  - sudo apt install -y python3.7 python3.7-pip
   - easy_install pip
   - python3 -m pip install cython wheel sphinx
 
