@@ -1,8 +1,7 @@
 image: Ubuntu
 
 install:
-  - sudo apt install -y python3.7
-  - python3.7 -m ensurepip
+  - sudo apt install -y python3.7 python3.7-venv
   - python3 -m pip install cython wheel sphinx
 
 test_script:
