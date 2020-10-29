@@ -3,11 +3,11 @@ image: Ubuntu
 environment:
   matrix:
     - version: "3.8"
-      venv: "$HOME/venv3.8"
+      venv: "../..//venv3.8"
     - version: "3.7"
-      venv: "$HOME/venv3.7"
+      venv: "../..//venv3.7"
     - version: "3.6"
-      venv: "$HOME/venv3.6"
+      venv: "../../venv3.6"
 
 install:
   - source $venv/bin/activate
