@@ -26,7 +26,7 @@ for:
         - platform: "Linux"
     image: Ubuntu
     install:
-      - $venv/bin/activate
+      - %venv%\bin\activate
       - python -m pip install cython wheel sphinx
   -
     matrix:
@@ -34,7 +34,7 @@ for:
         - platform: "Windows"
     image: Visual Studio 2017
     install:
-      - $venv/Scripts/activate
+      - %venv%\Scripts\activate
       - python -m pip install cython wheel sphinx
 
 test_script:
