@@ -1,7 +1,7 @@
 image: Ubuntu
 
 install:
-  - export $HOME/venv3.8/bin/activate
+  - source $HOME/venv3.8/bin/activate
   - python -m pip install cython wheel sphinx
 
 test_script:
