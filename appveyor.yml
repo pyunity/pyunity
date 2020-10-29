@@ -1,9 +1,8 @@
 image: Ubuntu
 
 install:
-  - sudo apt-get update
-  - sudo apt-get install -y python3.7 python-pip-whl
-  - python3 -m pip install cython wheel sphinx
+  - export $HOME/venv3.8/bin/activate
+  - python -m pip install cython wheel sphinx
 
 test_script:
   - set a=1
