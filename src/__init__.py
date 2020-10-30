@@ -122,6 +122,14 @@ new pull request.
 
 """
 
+__version__ = "0.2.0"
+__copyright__ = "Copyright 2020 Ray Chen"
+__email__ = "tankimarshal2@gmail.com"
+__license__ = "MIT License"
+__summary__ = "A Python implementation of the Unity Engine that supports different types of windows."
+__title__ = "pyunity"
+__uri__ = "https://pyunity.readthedocs.io/en/latest/"
+
 import os
 from .audio import *
 from .core import *
@@ -142,14 +150,6 @@ def timer(func):
         func(*args, **kwargs)
         print(round(time() - start, 3))
     return wrapper
-
-__version__ = "0.2.0"
-__copyright__ = "Copyright 2020 Ray Chen"
-__email__ = "tankimarshal2@gmail.com"
-__license__ = "MIT License"
-__summary__ = "A Python implementation of the Unity Engine that supports different types of windows."
-__title__ = "pyunity"
-__uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print("Loaded PyUnity version %s" % __version__)

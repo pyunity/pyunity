@@ -37,6 +37,7 @@ setup(
         "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows :: Windows 10",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
@@ -48,6 +49,6 @@ setup(
         "pygame",
         "pyopengl",
     ],
-    python_requires = '>=3.7',
+    python_requires = '>=3.6',
     **config,
 )

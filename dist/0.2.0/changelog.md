@@ -5,7 +5,8 @@ Features:
 - Scene changing
 - FPS changes
 - Better error handling
-- Travis CI integration
+- Travis CI and AppVeyor integration
 - Simple audio handling
 - Changelogs in the dist folder of master
 - Releases branch for builds from Travis
+- Python 3.6 support
