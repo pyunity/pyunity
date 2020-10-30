@@ -1,7 +1,7 @@
 import os, glob, shutil, sys
 if "cython" not in os.environ: os.environ["cython"] = "1"
 
-if "a" not in os.environ:
+if len(sys.argv) > 1:
     import pyunity
     desc = pyunity.__doc__.split("\n")
     desc_new = [
@@ -19,6 +19,8 @@ if "a" not in os.environ:
             "0.1.0.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
             "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
             "(https://travis-ci.org/rayzchen/pyunity)",
+            "[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)]",
+            "(https://ci.appveyor.com/project/rayzchen/pyunity)",
         ])
     ]
     skip = 0

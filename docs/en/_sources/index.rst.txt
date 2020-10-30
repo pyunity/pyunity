@@ -8,7 +8,7 @@ to create a scene and run it.
 
 Installing
 ----------
-To install PyUnity, use pip:
+To install PyUnity, use pip::
 
    > pip install pyunity
 
@@ -23,7 +23,7 @@ Then run setup.py:
 
 Sometimes on Linux machines, Pygame cannot be
 installed via pip: in that case, use the
-package manager. For example, on Ubuntu:
+package manager. For example, on Ubuntu::
 
    > sudo apt-get install python3-pygame
 
