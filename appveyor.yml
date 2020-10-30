@@ -32,7 +32,7 @@ for:
       only:
         - image: Visual Studio 2017
     install:
-      - "%windows_location% -m pip install virtualenv"
+      # - "%windows_location% -m pip install virtualenv"
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx
