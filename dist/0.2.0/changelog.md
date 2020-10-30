@@ -10,3 +10,4 @@ Features:
 - Changelogs in the dist folder of master
 - Releases branch for builds from Travis
 - Python 3.6 support
+- 1 more example, bringing the total to 8
