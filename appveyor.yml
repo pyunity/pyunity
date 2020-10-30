@@ -6,13 +6,13 @@ image:
 environment:
   matrix:
     - version: "3.8"
-      venv: "~/venv3.8"
+      venv: "../../venv3.8"
       windows_location: "C:\\Python38\\python"
     - version: "3.7"
-      venv: "~/venv3.7"
+      venv: "../../venv3.7"
       windows_location: "C:\\Python37\\python"
     - version: "3.6"
-      venv: "~/venv3.6"
+      venv: "../../venv3.6"
       windows_location: "C:\\Python36\\python"
 
 test_script:
