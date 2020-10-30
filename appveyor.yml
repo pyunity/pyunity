@@ -17,7 +17,7 @@ environment:
 
 test_script:
   - set a=1
-  - python prepare.py -x
+  - python prepare.py
   - python setup.py bdist_wheel
   - sphinx-build -T -E -b html docs/source docs/en
 
