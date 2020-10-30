@@ -1,3 +1,5 @@
+A CI integration update, with automated building from Appveyor and Travis CI.
+
 Features:
 
 - Shaded faces with crisp colours
