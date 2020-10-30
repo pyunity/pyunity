@@ -60,7 +60,7 @@ if os.environ["cython"] == "1":
             *glob.glob("pyunity/**/*.ogg", recursive = True)]:
         dirpath, file = os.path.split(path)
         print(file)
-        if file.startswith("__") or file.endswith(".mesh"):
+        if file.startswith("__") or file.endswith(".mesh") or file.endswith(".ogg"):
             srcPath = os.path.join(dirpath, file)
             op = shutil.copy
         else:
