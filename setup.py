@@ -8,24 +8,24 @@ with open("README.md", "r") as fh:
 
 if os.environ["cython"] == "1":
     c_files = glob.glob("src/**/*.c", recursive = True)
-    mesh_files = glob.glob("src/**/*.mesh", recursive = True)
+    data_files = glob.glob("src/**/*.mesh", recursive = True) + glob.glob("src/**/*.ogg", recursive = True)
     config = {
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where = "src")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
-        "package_data": {"pyunity": [file[4:] for file in mesh_files]},
+        "package_data": {"pyunity": [file[4:] for file in data_files]},
     }
 else:
-    mesh_files = glob.glob("pyunity/**/*.mesh", recursive = True)
+    data_files = glob.glob("src/**/*.mesh", recursive = True) + glob.glob("src/**/*.ogg", recursive = True)
     config = {
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where = "pyunity")],
-        "package_data": {"pyunity": [file[8:] for file in mesh_files]},
+        "package_data": {"pyunity": [file[8:] for file in data_files]},
     }
 
 setup(
     name = "pyunity",
-    version = "0.2.0",
+    version = "0.2.1",
     author = "Ray Chen",
     author_email = "tankimarshal2@gmail.com",
     description = "A Python implementation of the Unity Engine",

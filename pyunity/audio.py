@@ -73,6 +73,8 @@ else:
                             self.sound = pygame.mixer.Sound(self.file)
                     else:
                         raise PyUnityException("Cannot use an audio file that is not of type OGG")
+                else:
+                    raise PyUnityException("Cannot find file: " + file)
             else:
                 raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
 
