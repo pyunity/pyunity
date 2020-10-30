@@ -56,7 +56,8 @@ if os.environ["cython"] == "1":
     #     shutil.copy(f, os.path.join("pyunity", f[4:]))
     for path in [
             *glob.glob("pyunity/**/*.py", recursive = True),
-            *glob.glob("pyunity/**/*.mesh", recursive = True)]:
+            *glob.glob("pyunity/**/*.mesh", recursive = True),
+            *glob.glob("pyunity/**/*.ogg", recursive = True)]:
         dirpath, file = os.path.split(path)
         print(file)
         if file.startswith("__") or file.endswith(".mesh"):
