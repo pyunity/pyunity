@@ -26,7 +26,12 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx
+      - python -m pip install cython wheel sphinx auditwheel
+    test_script:
+      - python prepare.py -x
+      - python setup.py bdist_wheel
+      - auditwheel repair dist/pyunity-0.2.0*.whl
+      - sphinx-build -T -E -b html docs/source docs/en
   - matrix:
       only:
         - image: Visual Studio 2017
