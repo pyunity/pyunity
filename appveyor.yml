@@ -24,8 +24,8 @@ for:
       only:
         - image: Visual Studio 2017
     install:
-      - doskey python=py -%version%
-      - python -m pip install cython wheel sphinx
+      - doskey python3=py -%version%
+      - python3 -m pip install cython wheel sphinx
 
 test_script:
   - set a=1
