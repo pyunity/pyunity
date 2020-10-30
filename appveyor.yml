@@ -7,17 +7,16 @@ environment:
   matrix:
     - version: "3.8"
       venv: "../../venv3.8"
-      windows_location: "C:\\Python38\\python"
+      windows_location: "C:\\Python38-x64\\python"
     - version: "3.7"
       venv: "../../venv3.7"
-      windows_location: "C:\\Python37\\python"
+      windows_location: "C:\\Python37-x64\\python"
     - version: "3.6"
       venv: "../../venv3.6"
-      windows_location: "C:\\Python36\\python"
+      windows_location: "C:\\Python36-x64\\python"
 
 test_script:
-  - set a=1
-  - python prepare.py
+  - python prepare.py -x
   - python setup.py bdist_wheel
   - sphinx-build -T -E -b html docs/source docs/en
 
