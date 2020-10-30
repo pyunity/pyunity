@@ -1,15 +1,16 @@
 image:
   - Visual Studio 2017
   - Ubuntu
+  - macos
 
 environment:
   matrix:
     - version: "3.8"
-      venv: "../../venv3.8"
+      venv: "~/venv3.8"
     - version: "3.7"
-      venv: "../../venv3.7"
+      venv: "~/venv3.7"
     - version: "3.6"
-      venv: "../../venv3.6"
+      venv: "~/venv3.6"
 
 for:
   -
@@ -24,13 +25,20 @@ for:
       only:
         - image: Visual Studio 2017
     install:
-      - doskey python3=py -%version%
-      - python3 -m pip install cython wheel sphinx
+      - doskey python=py -%version%
+      - python -m pip install cython wheel sphinx
+  -
+    matrix:
+      only:
+        - image: macos
+    install:
+      - source $venv/bin/activate
+      - python -m pip install cython wheel sphinx
 
 test_script:
   - set a=1
-  - python3 prepare.py -x
-  - python3 setup.py bdist_wheel -d ..
+  - python prepare.py -x
+  - python setup.py bdist_wheel -d ..
   - sphinx-build -T -E -b html docs/source docs/en
 
 build: off
