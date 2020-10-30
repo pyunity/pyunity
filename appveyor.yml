@@ -7,13 +7,13 @@ environment:
   matrix:
     - version: "3.8"
       venv: "~/venv3.8"
-      winodws_location: "C:\\Python38\\python"
+      windows_location: "C:\\Python38\\python"
     - version: "3.7"
       venv: "~/venv3.7"
-      winodws_location: "C:\\Python37\\python"
+      windows_location: "C:\\Python37\\python"
     - version: "3.6"
       venv: "~/venv3.6"
-      winodws_location: "C:\\Python36\\python"
+      windows_location: "C:\\Python36\\python"
 
 test_script:
   - set a=1
