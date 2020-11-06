@@ -52,13 +52,13 @@ class Quaternion:
         return 4
     
     def __eq__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 3:
+        if hasattr(other, "__getitem__") and len(other) == 4:
             return self.w == other[0] and self.x == other[1] and self.y == other[2] and self.z == other[3]
         else:
             return False
             
     def __ne__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 3:
+        if hasattr(other, "__getitem__") and len(other) == 4:
             return self.w != other[0] or self.x != other[1] or self.y != other[2] or self.z != other[3]
         else:
             return True
