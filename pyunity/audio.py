@@ -20,6 +20,7 @@ except pygame.error:
             
     class AudioSource(Component):
         def __init__(self, *args, **kwargs):
+            super(AudioSource, self).__init__()
             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
         
         def __getattr__(self, item):

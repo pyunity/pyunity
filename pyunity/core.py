@@ -46,6 +46,8 @@ and all have MeshRenderers:
 
 """
 
+# __all__ = ["Behaviour", "Camera", "Component", "GameObject", "Light", "Material", "MeshRenderer", "Tag", "Transform", "tags"]
+
 from . import config; del config
 from .vector3 import Vector3
 from .quaternion import Quaternion

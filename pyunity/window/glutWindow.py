@@ -26,7 +26,7 @@ class Window:
         self.update_func = update_func
         glutDisplayFunc(self.display)
 
-        self.schedule_update()
+        self.schedule_update(0)
         glutMainLoop()
     
     def schedule_update(self, t):
