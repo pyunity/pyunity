@@ -58,7 +58,7 @@ class Quaternion:
             return False
             
     def __ne__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 4:
+        if hasattr(other, "__getitem__") and len(other) == 3:
             return self.w != other[0] or self.x != other[1] or self.y != other[2] or self.z != other[3]
         else:
             return True
@@ -142,10 +142,9 @@ class Quaternion:
         assign like ``q.eulerAngles = (angle, vector)``.
         
         """
-        angle = math.degrees(math.acos(self.w))
-        sin = math.sin(math.radians(angle))
-        if not sin: sin = math.inf
-        return (angle * 2, self.x / sin, self.y / sin, self.z / sin)
+        magnitude = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        angle = math.degrees(math.atan2(magnitude, self.w))
+        return (angle * 2, self.x * magnitude, self.y * magnitude, self.z * magnitude)
     
     @angleAxisPair.setter
     def angleAxisPair(self, value):
