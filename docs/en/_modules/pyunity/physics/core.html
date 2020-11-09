@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.physics.core &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.physics.core &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -38,6 +38,8 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PhysicMaterial&quot;</span><span class="p">,</span> <span class="s2">&quot;Collider&quot;</span><span class="p">,</span> <span class="s2">&quot;SphereCollider&quot;</span><span class="p">,</span> <span class="s2">&quot;AABBoxCollider&quot;</span><span class="p">,</span> <span class="s2">&quot;Rigidbody&quot;</span><span class="p">,</span> <span class="s2">&quot;CollManager&quot;</span><span class="p">,</span> <span class="s2">&quot;infinity&quot;</span><span class="p">]</span>
+
 <span class="kn">from</span> <span class="nn">..vector3</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span>
@@ -46,7 +48,7 @@
 <span class="n">infinity</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
 <span class="sd">&quot;&quot;&quot;A representation of infinity&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PhysicMaterial"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.PhysicMaterial">[docs]</a><span class="k">class</span> <span class="nc">PhysicMaterial</span><span class="p">:</span>
+<div class="viewcode-block" id="PhysicMaterial"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.PhysicMaterial">[docs]</a><span class="k">class</span> <span class="nc">PhysicMaterial</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to store data on a collider&#39;s material.</span>
 
@@ -75,7 +77,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">friction</span> <span class="o">=</span> <span class="n">friction</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></div>
 
-<div class="viewcode-block" id="Manifold"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Manifold">[docs]</a><span class="k">class</span> <span class="nc">Manifold</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">Manifold</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to store collision data.</span>
 
@@ -96,14 +98,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="n">normal</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">penetration</span> <span class="o">=</span> <span class="n">penetration</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penetration</span> <span class="o">=</span> <span class="n">penetration</span>
 
-<div class="viewcode-block" id="Collider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Collider">[docs]</a><span class="k">class</span> <span class="nc">Collider</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Collider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Collider">[docs]</a><span class="k">class</span> <span class="nc">Collider</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Collider base class.&quot;&quot;&quot;</span>
     
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="SphereCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider">[docs]</a><span class="k">class</span> <span class="nc">SphereCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
+<div class="viewcode-block" id="SphereCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.SphereCollider">[docs]</a><span class="k">class</span> <span class="nc">SphereCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A spherical collider that cannot be</span>
 <span class="sd">    deformed.</span>
@@ -124,7 +126,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SphereCollider</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     
-<div class="viewcode-block" id="SphereCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<div class="viewcode-block" id="SphereCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.SphereCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the size of the collider.</span>
 
@@ -141,7 +143,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">radius</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">radius</span></div>
     
-<div class="viewcode-block" id="SphereCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="SphereCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.SphereCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check to see if the collider is</span>
 <span class="sd">        colliding with another collider.</span>
@@ -200,7 +202,7 @@
                 <span class="k">return</span> <span class="kc">None</span>
             <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SphereCollider.CheckOverlap"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.SphereCollider.CheckOverlap">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="SphereCollider.CheckOverlap"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.SphereCollider.CheckOverlap">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks to see if the bounding box</span>
 <span class="sd">        of two colliders overlap.</span>
@@ -221,7 +223,7 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span></div></div>
 
-<div class="viewcode-block" id="AABBoxCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider">[docs]</a><span class="k">class</span> <span class="nc">AABBoxCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
+<div class="viewcode-block" id="AABBoxCollider"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.AABBoxCollider">[docs]</a><span class="k">class</span> <span class="nc">AABBoxCollider</span><span class="p">(</span><span class="n">Collider</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An axis-aligned box collider that</span>
 <span class="sd">    cannot be deformed.</span>
@@ -240,7 +242,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">AABBoxCollider</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         
-<div class="viewcode-block" id="AABBoxCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<div class="viewcode-block" id="AABBoxCollider.SetSize"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.AABBoxCollider.SetSize">[docs]</a>    <span class="k">def</span> <span class="nf">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the size of the collider.</span>
 
@@ -256,7 +258,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">((</span><span class="nb">min</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="nb">min</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="nb">min</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="nb">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="AABBoxCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="AABBoxCollider.collidingWith"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.AABBoxCollider.collidingWith">[docs]</a>    <span class="k">def</span> <span class="nf">collidingWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check to see if the collider is</span>
 <span class="sd">        colliding with another collider.</span>
@@ -339,7 +341,7 @@
                 <span class="k">return</span> <span class="kc">None</span>
             <span class="k">return</span> <span class="n">Manifold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AABBoxCollider.CheckOverlap"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.AABBoxCollider.CheckOverlap">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="AABBoxCollider.CheckOverlap"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.AABBoxCollider.CheckOverlap">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks to see if the bounding box</span>
 <span class="sd">        of two colliders overlap.</span>
@@ -360,7 +362,7 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">True</span></div></div>
 
-<div class="viewcode-block" id="Rigidbody"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody">[docs]</a><span class="k">class</span> <span class="nc">Rigidbody</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Rigidbody"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Rigidbody">[docs]</a><span class="k">class</span> <span class="nc">Rigidbody</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to let a GameObject follow physics</span>
 <span class="sd">    rules.</span>
@@ -390,7 +392,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gravity</span> <span class="o">=</span> <span class="kc">True</span>
     
-<div class="viewcode-block" id="Rigidbody.Move"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.Move">[docs]</a>    <span class="k">def</span> <span class="nf">Move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<div class="viewcode-block" id="Rigidbody.Move"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Rigidbody.Move">[docs]</a>    <span class="k">def</span> <span class="nf">Move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Moves all colliders on the GameObject by</span>
 <span class="sd">        the Rigidbody&#39;s velocity times the delta</span>
@@ -413,7 +415,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="Rigidbody.MovePos"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.MovePos">[docs]</a>    <span class="k">def</span> <span class="nf">MovePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<div class="viewcode-block" id="Rigidbody.MovePos"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Rigidbody.MovePos">[docs]</a>    <span class="k">def</span> <span class="nf">MovePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Moves the rigidbody and its colliders</span>
 <span class="sd">        by an offset.</span>
@@ -431,7 +433,7 @@
                 <span class="n">component</span><span class="o">.</span><span class="n">max</span> <span class="o">+=</span> <span class="n">offset</span>
                 <span class="n">component</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">offset</span></div>
     
-<div class="viewcode-block" id="Rigidbody.AddForce"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.AddForce">[docs]</a>    <span class="k">def</span> <span class="nf">AddForce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">):</span>
+<div class="viewcode-block" id="Rigidbody.AddForce"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Rigidbody.AddForce">[docs]</a>    <span class="k">def</span> <span class="nf">AddForce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a force to the center of the Rigidbody.</span>
 
@@ -448,7 +450,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">force</span> <span class="o">+=</span> <span class="n">force</span></div>
     
-<div class="viewcode-block" id="Rigidbody.AddImpulse"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.Rigidbody.AddImpulse">[docs]</a>    <span class="k">def</span> <span class="nf">AddImpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impulse</span><span class="p">):</span>
+<div class="viewcode-block" id="Rigidbody.AddImpulse"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.Rigidbody.AddImpulse">[docs]</a>    <span class="k">def</span> <span class="nf">AddImpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impulse</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply an impulse to the center of the Rigidbody.</span>
 
@@ -465,7 +467,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">+=</span> <span class="n">impulse</span></div></div>
 
-<div class="viewcode-block" id="CollManager"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager">[docs]</a><span class="k">class</span> <span class="nc">CollManager</span><span class="p">:</span>
+<div class="viewcode-block" id="CollManager"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.CollManager">[docs]</a><span class="k">class</span> <span class="nc">CollManager</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the collisions between all colliders.</span>
 
@@ -487,7 +489,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dummyRigidbody</span> <span class="o">=</span> <span class="n">Rigidbody</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dummyRigidbody</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="n">infinity</span>
     
-<div class="viewcode-block" id="CollManager.AddPhysicsInfo"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.AddPhysicsInfo">[docs]</a>    <span class="k">def</span> <span class="nf">AddPhysicsInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
+<div class="viewcode-block" id="CollManager.AddPhysicsInfo"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.CollManager.AddPhysicsInfo">[docs]</a>    <span class="k">def</span> <span class="nf">AddPhysicsInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all colliders and rigidbodies from a</span>
 <span class="sd">        specified scene. This overwrites the</span>
@@ -528,7 +530,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">rigidbodies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dummyRigidbody</span><span class="p">]</span> <span class="o">=</span> <span class="n">dummies</span></div>
     
-<div class="viewcode-block" id="CollManager.GetRestitution"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.GetRestitution">[docs]</a>    <span class="k">def</span> <span class="nf">GetRestitution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="CollManager.GetRestitution"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.CollManager.GetRestitution">[docs]</a>    <span class="k">def</span> <span class="nf">GetRestitution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the restitution needed for</span>
 <span class="sd">        two rigidbodies, based on their</span>
@@ -554,7 +556,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">restitution</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">physicMaterial</span><span class="o">.</span><span class="n">restitution</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="CollManager.CheckCollisions"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.CheckCollisions">[docs]</a>    <span class="k">def</span> <span class="nf">CheckCollisions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CollManager.CheckCollisions"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.CollManager.CheckCollisions">[docs]</a>    <span class="k">def</span> <span class="nf">CheckCollisions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Goes through every pair exactly once,</span>
 <span class="sd">        then checks their collisions and</span>
@@ -619,7 +621,7 @@
                             <span class="n">rbB</span><span class="o">.</span><span class="n">MovePos</span><span class="p">(</span>
                                 <span class="mi">1</span> <span class="o">/</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">correction</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">rbA</span><span class="o">.</span><span class="n">mass</span> <span class="o">+</span> <span class="n">rbB</span><span class="o">.</span><span class="n">mass</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CollManager.Step"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.physics.core.CollManager.Step">[docs]</a>    <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<div class="viewcode-block" id="CollManager.Step"><a class="viewcode-back" href="../../../pyunity.physics.core.html#pyunity.CollManager.Step">[docs]</a>    <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Steps through the simulation at a</span>
 <span class="sd">        given delta time.</span>
@@ -674,8 +676,6 @@
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../../index.html">Module code</a><ul>
-  <li><a href="../../pyunity.html">pyunity</a><ul>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

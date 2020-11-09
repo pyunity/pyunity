@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.physics package &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.physics package &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -66,6 +66,504 @@ the config file like so:</p>
 <li><p><cite>gravity</cite> is the gravity of the whole system. It only
 affects Rigidbodies that have <cite>gravity</cite> set to True.</p></li>
 </ul>
+<dl class="py class">
+<dt id="pyunity.physics.AABBoxCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">AABBoxCollider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.AABBoxCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.physics.core.html#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>An axis-aligned box collider that
+cannot be deformed.</p>
+<dl class="py attribute">
+<dt id="pyunity.physics.AABBoxCollider.min">
+<code class="sig-name descname">min</code><a class="headerlink" href="#pyunity.physics.AABBoxCollider.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the lowest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.AABBoxCollider.max">
+<code class="sig-name descname">max</code><a class="headerlink" href="#pyunity.physics.AABBoxCollider.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the highest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.AABBoxCollider.pos">
+<code class="sig-name descname">pos</code><a class="headerlink" href="#pyunity.physics.AABBoxCollider.pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center of the AABBoxCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.AABBoxCollider.CheckOverlap">
+<code class="sig-name descname">CheckOverlap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.CheckOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.AABBoxCollider.CheckOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the bounding box
+of two colliders overlap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether they are overlapping or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.AABBoxCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span></em>, <em class="sig-param"><span class="n">max</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.SetSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.AABBoxCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the lowest coordinates.</p></li>
+<li><p><strong>max</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the highest coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.AABBoxCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.collidingWith"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.AABBoxCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Collision data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Manifold or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another AABBoxCollider, the
+corners are checked to see if they are inside
+the other collider.</p>
+<p>To check against a SphereCollider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.CollManager">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">CollManager</code><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.CollManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the collisions between all colliders.</p>
+<dl class="py attribute">
+<dt id="pyunity.physics.CollManager.rigidbodies">
+<code class="sig-name descname">rigidbodies</code><a class="headerlink" href="#pyunity.physics.CollManager.rigidbodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of rigidbodies andthe colliders
+on the gameObject that the Rigidbody belongs
+to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.CollManager.dummyRigidbody">
+<code class="sig-name descname">dummyRigidbody</code><a class="headerlink" href="#pyunity.physics.CollManager.dummyRigidbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dummy rigidbody used when a GameObject has
+colliders but no rigidbody. It has infinite
+mass</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody">Rigidbody</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.CollManager.AddPhysicsInfo">
+<code class="sig-name descname">AddPhysicsInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scene</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.AddPhysicsInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.CollManager.AddPhysicsInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all colliders and rigidbodies from a
+specified scene. This overwrites the
+collider and rigidbody lists, and so can
+be called whenever a new collider or
+rigidbody is added or removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scene</strong> (<a class="reference internal" href="pyunity.scene.html#pyunity.scene.Scene" title="pyunity.scene.Scene"><em>Scene</em></a>) – Scene to search for physics info</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function will overwrite the
+pre-existing dictionary of
+rigidbodies. When there are colliders
+but no rigidbody is on the GameObject,
+then they are placed in the dictionary
+with a dummy Rigidbody that has
+infinite mass and a default physic
+material. Thus, they cannot move.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.CollManager.CheckCollisions">
+<code class="sig-name descname">CheckCollisions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.CheckCollisions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.CollManager.CheckCollisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through every pair exactly once,
+then checks their collisions and
+resolves them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.CollManager.GetRestitution">
+<code class="sig-name descname">GetRestitution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.GetRestitution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.CollManager.GetRestitution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the restitution needed for
+two rigidbodies, based on their
+combine function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 1</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Restitution</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.CollManager.Step">
+<code class="sig-name descname">Step</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.CollManager.Step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Steps through the simulation at a
+given delta time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Delta time to step</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The simulation is stepped 10 times,
+so that it is more precise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.Collider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">Collider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#Collider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Collider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Collider base class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.PhysicMaterial">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">PhysicMaterial</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">restitution</span><span class="o">=</span><span class="default_value">0.75</span></em>, <em class="sig-param"><span class="n">friction</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#PhysicMaterial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.PhysicMaterial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store data on a collider’s material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>restitution</strong> (<em>float</em>) – Bounciness of the material</p></li>
+<li><p><strong>friction</strong> (<em>float</em>) – Friction of the material</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.physics.PhysicMaterial.restitution">
+<code class="sig-name descname">restitution</code><a class="headerlink" href="#pyunity.physics.PhysicMaterial.restitution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounciness of the material</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.PhysicMaterial.friction">
+<code class="sig-name descname">friction</code><a class="headerlink" href="#pyunity.physics.PhysicMaterial.friction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Friction of the material</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.PhysicMaterial.combine">
+<code class="sig-name descname">combine</code><a class="headerlink" href="#pyunity.physics.PhysicMaterial.combine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combining function. -1 means
+minimum, 0 means average,
+and 1 means maximum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.Rigidbody">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">Rigidbody</code><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Rigidbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Class to let a GameObject follow physics
+rules.</p>
+<dl class="py attribute">
+<dt id="pyunity.physics.Rigidbody.mass">
+<code class="sig-name descname">mass</code><a class="headerlink" href="#pyunity.physics.Rigidbody.mass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mass of the Rigidbody. Defaults
+to 100</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.Rigidbody.velocity">
+<code class="sig-name descname">velocity</code><a class="headerlink" href="#pyunity.physics.Rigidbody.velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Velocity of the Rigidbody</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.Rigidbody.physicMaterial">
+<code class="sig-name descname">physicMaterial</code><a class="headerlink" href="#pyunity.physics.Rigidbody.physicMaterial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Physics material of the Rigidbody</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.PhysicMaterial" title="pyunity.PhysicMaterial">PhysicMaterial</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.Rigidbody.position">
+<code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.physics.Rigidbody.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Rigidbody. It is
+assigned to its GameObject’s
+position when the CollHandler is
+created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.Rigidbody.AddForce">
+<code class="sig-name descname">AddForce</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.AddForce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Rigidbody.AddForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a force to the center of the Rigidbody.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Force to apply</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A force is a gradual change in velocity, whereas
+an impulse is just a jump in velocity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.Rigidbody.AddImpulse">
+<code class="sig-name descname">AddImpulse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">impulse</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.AddImpulse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Rigidbody.AddImpulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply an impulse to the center of the Rigidbody.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>impulse</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Impulse to apply</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A force is a gradual change in velocity, whereas
+an impulse is just a jump in velocity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.Rigidbody.Move">
+<code class="sig-name descname">Move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.Move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Rigidbody.Move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves all colliders on the GameObject by
+the Rigidbody’s velocity times the delta
+time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Time to simulate movement by</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.Rigidbody.MovePos">
+<code class="sig-name descname">MovePos</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.MovePos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.Rigidbody.MovePos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the rigidbody and its colliders
+by an offset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>offset</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset to move</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.physics.SphereCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.</code><code class="sig-name descname">SphereCollider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.SphereCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.physics.core.html#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>A spherical collider that cannot be
+deformed.</p>
+<dl class="py attribute">
+<dt id="pyunity.physics.SphereCollider.min">
+<code class="sig-name descname">min</code><a class="headerlink" href="#pyunity.physics.SphereCollider.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the lowest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.SphereCollider.max">
+<code class="sig-name descname">max</code><a class="headerlink" href="#pyunity.physics.SphereCollider.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the highest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.SphereCollider.pos">
+<code class="sig-name descname">pos</code><a class="headerlink" href="#pyunity.physics.SphereCollider.pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center of the SphereCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.physics.SphereCollider.radius">
+<code class="sig-name descname">radius</code><a class="headerlink" href="#pyunity.physics.SphereCollider.radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the SphereCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.SphereCollider.CheckOverlap">
+<code class="sig-name descname">CheckOverlap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.CheckOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.SphereCollider.CheckOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the bounding box
+of two colliders overlap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether they are overlapping or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.SphereCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.SetSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.SphereCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>float</em>) – The radius of the collider.</p></li>
+<li><p><strong>offset</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset of the collider.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.physics.SphereCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.collidingWith"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.SphereCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Collision data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Manifold or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another SphereCollider, the
+distance and the sum of the radii is checked.</p>
+<p>To check against an AABBoxColider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
@@ -101,7 +599,7 @@ affects Rigidbodies that have <cite>gravity</cite> set to True.</p></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-2-1-in-development">Version 0.2.1 (in development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">pyunity.physics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>

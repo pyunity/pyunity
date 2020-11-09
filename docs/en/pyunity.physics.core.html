@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.physics.core module &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.physics.core module &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -49,7 +49,7 @@ cannot be deformed.</p>
 <dd><p>The corner with the lowest coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -60,7 +60,7 @@ cannot be deformed.</p>
 <dd><p>The corner with the highest coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -71,7 +71,7 @@ cannot be deformed.</p>
 <dd><p>The center of the AABBoxCollider</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -83,7 +83,7 @@ cannot be deformed.</p>
 of two colliders overlap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Whether they are overlapping or not</p>
@@ -101,8 +101,8 @@ of two colliders overlap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – The corner with the lowest coordinates.</p></li>
-<li><p><strong>max</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – The corner with the highest coordinates.</p></li>
+<li><p><strong>min</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the lowest coordinates.</p></li>
+<li><p><strong>max</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the highest coordinates.</p></li>
 </ul>
 </dd>
 </dl>
@@ -115,13 +115,13 @@ of two colliders overlap.</p>
 colliding with another collider.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Collision data</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.Manifold" title="pyunity.physics.core.Manifold">Manifold</a> or None</p>
+<dd class="field-odd"><p>Manifold or None</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -173,7 +173,7 @@ colliders but no rigidbody. It has infinite
 mass</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.Rigidbody" title="pyunity.physics.core.Rigidbody">Rigidbody</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody">Rigidbody</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,8 +219,8 @@ combine function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference internal" href="#pyunity.physics.core.Rigidbody" title="pyunity.physics.core.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 1</p></li>
-<li><p><strong>b</strong> (<a class="reference internal" href="#pyunity.physics.core.Rigidbody" title="pyunity.physics.core.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 2</p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 1</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="pyunity.html#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -254,23 +254,6 @@ so that it is more precise.</p>
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">Collider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#Collider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.core.Collider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
 <p>Collider base class.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="pyunity.physics.core.Manifold">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.physics.core.</code><code class="sig-name descname">Manifold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">normal</span></em>, <em class="sig-param"><span class="n">penetration</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Manifold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.physics.core.Manifold" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to store collision data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – The first collider</p></li>
-<li><p><strong>b</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – The second collider</p></li>
-<li><p><strong>normal</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – The collision normal</p></li>
-<li><p><strong>penetration</strong> (<em>float</em>) – How much the two colliders overlap</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -347,7 +330,7 @@ to 100</p>
 <dd><p>Velocity of the Rigidbody</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -358,7 +341,7 @@ to 100</p>
 <dd><p>Physics material of the Rigidbody</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.PhysicMaterial" title="pyunity.physics.core.PhysicMaterial">PhysicMaterial</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.PhysicMaterial" title="pyunity.PhysicMaterial">PhysicMaterial</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -372,7 +355,7 @@ position when the CollHandler is
 created</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -383,7 +366,7 @@ created</p>
 <dd><p>Apply a force to the center of the Rigidbody.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>force</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Force to apply</p>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Force to apply</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -397,7 +380,7 @@ an impulse is just a jump in velocity.</p>
 <dd><p>Apply an impulse to the center of the Rigidbody.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>impulse</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Impulse to apply</p>
+<dd class="field-odd"><p><strong>impulse</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Impulse to apply</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -425,7 +408,7 @@ time.</p>
 by an offset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>offset</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Offset to move</p>
+<dd class="field-odd"><p><strong>offset</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset to move</p>
 </dd>
 </dl>
 </dd></dl>
@@ -444,7 +427,7 @@ deformed.</p>
 <dd><p>The corner with the lowest coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -455,7 +438,7 @@ deformed.</p>
 <dd><p>The corner with the highest coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -466,7 +449,7 @@ deformed.</p>
 <dd><p>The center of the SphereCollider</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -477,7 +460,7 @@ deformed.</p>
 <dd><p>The radius of the SphereCollider</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -489,7 +472,7 @@ deformed.</p>
 of two colliders overlap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Whether they are overlapping or not</p>
@@ -508,7 +491,7 @@ of two colliders overlap.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>radius</strong> (<em>float</em>) – The radius of the collider.</p></li>
-<li><p><strong>offset</strong> (<a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3"><em>Vector3</em></a>) – Offset of the collider.</p></li>
+<li><p><strong>offset</strong> (<a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset of the collider.</p></li>
 </ul>
 </dd>
 </dl>
@@ -521,13 +504,13 @@ of two colliders overlap.</p>
 colliding with another collider.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="pyunity.html#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Collision data</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.physics.core.Manifold" title="pyunity.physics.core.Manifold">Manifold</a> or None</p>
+<dd class="field-odd"><p>Manifold or None</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -584,7 +567,7 @@ radius, then the two are colliding.</p></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-2-1-in-development">Version 0.2.1 (in development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>

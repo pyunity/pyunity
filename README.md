@@ -1,8 +1,8 @@
 # PyUnity
 
-[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.2.1...master)[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)](https://travis-ci.org/rayzchen/pyunity)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
+[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.3.0.svg)](https://github.com/rayzchen/pyunity/compare/0.3.0...master)[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)](https://travis-ci.org/rayzchen/pyunity)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
 
-## Version 0.2.1 (in development)
+## Version 0.3.0 (in development)
 
 A Python implementation of the Unity Engine
 that supports different types of windows.
@@ -25,7 +25,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.2.1
+    Loaded PyUnity version 0.3.0
 
 If debugging is off, there is no output:
 
@@ -104,7 +104,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.2.1
+    Loaded PyUnity version 0.3.0
     >>> main()
 
 Or from the command line:

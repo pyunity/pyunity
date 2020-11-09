@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.audio &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.audio &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -32,13 +32,20 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.audio</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Classes to manage the playback of audio.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classes to manage the playback of audio.</span>
+<span class="sd">It uses the pygame.mixer library, and if</span>
+<span class="sd">it cannot be initialized, then </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AudioClip&quot;</span><span class="p">,</span> <span class="s2">&quot;AudioSource&quot;</span><span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">_io</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">warnings</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYGAME_HIDE_SUPPORT_PROMPT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;hide&quot;</span>
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">pygame</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
@@ -51,16 +58,23 @@
         
         <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Cannot use AudioClip: pygame.mixer cannot be loaded&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Cannot use AudioClip: pygame.mixer cannot be loaded&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
             
     <span class="k">class</span> <span class="nc">AudioSource</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">AudioSource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Cannot use AudioSource: pygame.mixer cannot be loaded&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
         
         <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Cannot use AudioSource: pygame.mixer cannot be loaded&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Cannot use AudioSource: pygame.mixer cannot be loaded&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
 
-<div class="viewcode-block" id="AudioClip"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioClip">[docs]</a>    <span class="k">class</span> <span class="nc">AudioClip</span><span class="p">:</span>
+<div class="viewcode-block" id="AudioClip"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioClip">[docs]</a>    <span class="k">class</span> <span class="nc">AudioClip</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class to store information about an audio file.</span>
 <span class="sd">        </span>
@@ -79,7 +93,7 @@
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">SetSound</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         
-<div class="viewcode-block" id="AudioClip.SetSound"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioClip.SetSound">[docs]</a>        <span class="k">def</span> <span class="nf">SetSound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioClip.SetSound"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioClip.SetSound">[docs]</a>        <span class="k">def</span> <span class="nf">SetSound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Changes the audio file.</span>
 <span class="sd">            </span>
@@ -112,7 +126,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument 1: Expected str, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="AudioSource"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource">[docs]</a>    <span class="k">class</span> <span class="nc">AudioSource</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource">[docs]</a>    <span class="k">class</span> <span class="nc">AudioSource</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Manages playback on an AudioSource.</span>
 <span class="sd">        </span>
@@ -135,7 +149,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">PlayOnStart</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Loop</span> <span class="o">=</span> <span class="kc">False</span>
         
-<div class="viewcode-block" id="AudioSource.SetClip"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource.SetClip">[docs]</a>        <span class="k">def</span> <span class="nf">SetClip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clip</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource.SetClip"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource.SetClip">[docs]</a>        <span class="k">def</span> <span class="nf">SetClip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clip</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Sets the clip to play.</span>
 <span class="sd">            </span>
@@ -154,28 +168,28 @@
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument 1: Expected AudioClip, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">clip</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="o">=</span> <span class="n">clip</span></div>
         
-<div class="viewcode-block" id="AudioSource.Play"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource.Play">[docs]</a>        <span class="k">def</span> <span class="nf">Play</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource.Play"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource.Play">[docs]</a>        <span class="k">def</span> <span class="nf">Play</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Plays the current clip.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;AudioSource has no clip&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sound</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="AudioSource.Pause"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource.Pause">[docs]</a>        <span class="k">def</span> <span class="nf">Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource.Pause"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource.Pause">[docs]</a>        <span class="k">def</span> <span class="nf">Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Pauses the current clip.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;AudioSource has no clip&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span></div>
         
-<div class="viewcode-block" id="AudioSource.UnPause"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource.UnPause">[docs]</a>        <span class="k">def</span> <span class="nf">UnPause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource.UnPause"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource.UnPause">[docs]</a>        <span class="k">def</span> <span class="nf">UnPause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Unpauses the current clip.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;AudioSource has no clip&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">unpause</span><span class="p">()</span></div>
         
-<div class="viewcode-block" id="AudioSource.Stop"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.audio.AudioSource.Stop">[docs]</a>        <span class="k">def</span> <span class="nf">Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AudioSource.Stop"><a class="viewcode-back" href="../../pyunity.audio.html#pyunity.AudioSource.Stop">[docs]</a>        <span class="k">def</span> <span class="nf">Stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Stop the current clip.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;AudioSource has no clip&quot;</span><span class="p">,</span> <span class="n">PyUnityWarning</span><span class="p">)</span>
@@ -212,8 +226,6 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
-  <li><a href="../pyunity.html">pyunity</a><ul>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

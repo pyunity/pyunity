@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.core &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.core &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -51,7 +51,7 @@
 <span class="sd">    GLFW doesn&#39;t work, trying Pygame</span>
 <span class="sd">    Trying Pygame as a window provider</span>
 <span class="sd">    Using window provider Pygame</span>
-<span class="sd">    Loaded PyUnity version 0.2.1</span>
+<span class="sd">    Loaded PyUnity version 0.3.0</span>
 <span class="sd">    &gt;&gt;&gt; mat = Material((255, 0, 0)) # Create a default material</span>
 <span class="sd">    &gt;&gt;&gt; root = GameObject(&quot;Root&quot;) # Create a root GameObjects</span>
 <span class="sd">    &gt;&gt;&gt; child1 = GameObject(&quot;Child1&quot;, root) # Create a child</span>
@@ -80,7 +80,9 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span><span class="p">;</span> <span class="k">del</span> <span class="n">config</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Behaviour&quot;</span><span class="p">,</span> <span class="s2">&quot;Camera&quot;</span><span class="p">,</span> <span class="s2">&quot;Component&quot;</span><span class="p">,</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">,</span> <span class="s2">&quot;Light&quot;</span><span class="p">,</span> <span class="s2">&quot;Material&quot;</span><span class="p">,</span> <span class="s2">&quot;MeshRenderer&quot;</span><span class="p">,</span> <span class="s2">&quot;Tag&quot;</span><span class="p">,</span> <span class="s2">&quot;Transform&quot;</span><span class="p">,</span> <span class="s2">&quot;tags&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">from</span> <span class="nn">.quaternion</span> <span class="kn">import</span> <span class="n">Quaternion</span>
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
@@ -91,7 +93,7 @@
 <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Default&quot;</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;List of current tags&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Tag"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Tag">[docs]</a><span class="k">class</span> <span class="nc">Tag</span><span class="p">:</span>
+<div class="viewcode-block" id="Tag"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Tag">[docs]</a><span class="k">class</span> <span class="nc">Tag</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to group GameObjects together without referencing the tags.</span>
 <span class="sd">        </span>
@@ -118,7 +120,7 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Tag.AddTag"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Tag.AddTag">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Tag.AddTag"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Tag.AddTag">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">AddTag</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a new tag to the tag list.</span>
@@ -147,7 +149,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument 1: expected str or int, got &quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">tagNumOrName</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GameObject"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.GameObject">[docs]</a><span class="k">class</span> <span class="nc">GameObject</span><span class="p">:</span>
+<div class="viewcode-block" id="GameObject"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.GameObject">[docs]</a><span class="k">class</span> <span class="nc">GameObject</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to create a GameObject, which is an object with components.</span>
 <span class="sd">        </span>
@@ -178,7 +180,7 @@
         <span class="k">if</span> <span class="n">parent</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">ReparentTo</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">Tag</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     
-<div class="viewcode-block" id="GameObject.AddComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.GameObject.AddComponent">[docs]</a>    <span class="k">def</span> <span class="nf">AddComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">componentClass</span><span class="p">):</span>
+<div class="viewcode-block" id="GameObject.AddComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.GameObject.AddComponent">[docs]</a>    <span class="k">def</span> <span class="nf">AddComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">componentClass</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a component to the GameObject.</span>
 <span class="sd">        If it is a transform, set</span>
@@ -210,7 +212,7 @@
                 <span class="s2">&quot;Cannot add &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">componentClass</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to the GameObject; it already has one&quot;</span>
             <span class="p">)</span></div>
     
-<div class="viewcode-block" id="GameObject.GetComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.GameObject.GetComponent">[docs]</a>    <span class="k">def</span> <span class="nf">GetComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">componentClass</span><span class="p">):</span>
+<div class="viewcode-block" id="GameObject.GetComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.GameObject.GetComponent">[docs]</a>    <span class="k">def</span> <span class="nf">GetComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">componentClass</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets a component from the GameObject.</span>
 <span class="sd">        Will return first match.</span>
@@ -233,7 +235,7 @@
             <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
     <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span></div>
 
-<div class="viewcode-block" id="Component"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Component">[docs]</a><span class="k">class</span> <span class="nc">Component</span><span class="p">:</span>
+<div class="viewcode-block" id="Component"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Component">[docs]</a><span class="k">class</span> <span class="nc">Component</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for built-in components.</span>
 
@@ -250,7 +252,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="kc">None</span>
     
-<div class="viewcode-block" id="Component.GetComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Component.GetComponent">[docs]</a>    <span class="k">def</span> <span class="nf">GetComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+<div class="viewcode-block" id="Component.GetComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Component.GetComponent">[docs]</a>    <span class="k">def</span> <span class="nf">GetComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls `GetComponent` on the component&#39;s GameObject.</span>
 <span class="sd">        </span>
@@ -262,7 +264,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">component</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Component.AddComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Component.AddComponent">[docs]</a>    <span class="k">def</span> <span class="nf">AddComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+<div class="viewcode-block" id="Component.AddComponent"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Component.AddComponent">[docs]</a>    <span class="k">def</span> <span class="nf">AddComponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls `AddComponent` on the component&#39;s GameObject.</span>
 <span class="sd">        </span>
@@ -274,7 +276,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">component</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Behaviour"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Behaviour">[docs]</a><span class="k">class</span> <span class="nc">Behaviour</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Behaviour"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Behaviour">[docs]</a><span class="k">class</span> <span class="nc">Behaviour</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for behaviours that can be scripted.</span>
 
@@ -287,14 +289,14 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Behaviour.Start"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Behaviour.Start">[docs]</a>    <span class="k">def</span> <span class="nf">Start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Behaviour.Start"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Behaviour.Start">[docs]</a>    <span class="k">def</span> <span class="nf">Start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called every time a scene is loaded up.</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Behaviour.Update"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Behaviour.Update">[docs]</a>    <span class="k">def</span> <span class="nf">Update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<div class="viewcode-block" id="Behaviour.Update"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Behaviour.Update">[docs]</a>    <span class="k">def</span> <span class="nf">Update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called every frame.</span>
 
@@ -307,7 +309,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
 
-<div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to hold data about a GameObject&#39;s transformation.</span>
 
@@ -403,7 +405,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">scale</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">localScale</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">value</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">scale</span>
 
-<div class="viewcode-block" id="Transform.ReparentTo"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.ReparentTo">[docs]</a>    <span class="k">def</span> <span class="nf">ReparentTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<div class="viewcode-block" id="Transform.ReparentTo"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Transform.ReparentTo">[docs]</a>    <span class="k">def</span> <span class="nf">ReparentTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reparent a Transform.</span>
 
@@ -417,7 +419,7 @@
         <span class="k">if</span> <span class="n">parent</span><span class="p">:</span> <span class="n">parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span></div>
     
-<div class="viewcode-block" id="Transform.List"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Transform.List"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Transform.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints the Transform&#39;s full path from the root, then</span>
 <span class="sd">        lists the children in alphabetical order. This results in a</span>
@@ -428,7 +430,7 @@
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">gameObject</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
             <span class="n">child</span><span class="o">.</span><span class="n">List</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="Transform.FullPath"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.FullPath">[docs]</a>    <span class="k">def</span> <span class="nf">FullPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Transform.FullPath"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Transform.FullPath">[docs]</a>    <span class="k">def</span> <span class="nf">FullPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the full path of the Transform.</span>
 
@@ -463,7 +465,7 @@
     
     <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span></div>
 
-<div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Component to hold data about the camera in a scene.</span>
 
@@ -488,7 +490,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">far</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clearColor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Light"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Light">[docs]</a><span class="k">class</span> <span class="nc">Light</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="Light"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Light">[docs]</a><span class="k">class</span> <span class="nc">Light</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Component to hold data about the light in a scene.</span>
 <span class="sd">    </span>
@@ -499,7 +501,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">intensity</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="MeshRenderer"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.MeshRenderer">[docs]</a><span class="k">class</span> <span class="nc">MeshRenderer</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="viewcode-block" id="MeshRenderer"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.MeshRenderer">[docs]</a><span class="k">class</span> <span class="nc">MeshRenderer</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Component to render a mesh at the position of a transform.</span>
 
@@ -517,7 +519,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="MeshRenderer.render"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.MeshRenderer.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MeshRenderer.render"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.MeshRenderer.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Render the mesh that the MeshRenderer has.&quot;&quot;&quot;</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glBegin</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_TRIANGLES</span><span class="p">)</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glColor3f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">255</span><span class="p">)</span>
@@ -527,7 +529,7 @@
                 <span class="n">gl</span><span class="o">.</span><span class="n">glVertex3f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">[</span><span class="n">vertex</span><span class="p">])</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glEnd</span><span class="p">()</span></div></div>
 
-<div class="viewcode-block" id="Material"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Material">[docs]</a><span class="k">class</span> <span class="nc">Material</span><span class="p">:</span>
+<div class="viewcode-block" id="Material"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.Material">[docs]</a><span class="k">class</span> <span class="nc">Material</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to hold data on a material.</span>
 
@@ -571,8 +573,6 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
-  <li><a href="../pyunity.html">pyunity</a><ul>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
