@@ -38,7 +38,7 @@ after_success:
   - git checkout .
   - git checkout -b releases --track origin/releases
   - git clean -d -f -f
-  - mv ../pyunity*.whl 0.2.1/
+  - mv ../pyunity*.whl 0.3.0/
   - git remote set-url origin https://rayzchen:${GH_TOKEN}@github.com/rayzchen/pyunity.git
   - git config --global user.name "rayzchen"
   - git config --global user.email "tankimarshal2@gmail.com"

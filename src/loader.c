@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.loader",
         "sources": [
-            "/data/data/com.termux/files/home/pyunity/pyunity/loader.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\loader.py"
         ]
     },
     "module_name": "pyunity.loader"

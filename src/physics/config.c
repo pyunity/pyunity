@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.physics.config",
         "sources": [
-            "/data/data/com.termux/files/home/pyunity/pyunity/physics/config.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\physics\\config.py"
         ]
     },
     "module_name": "pyunity.physics.config"

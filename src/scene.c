@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.scene",
         "sources": [
-            "/data/data/com.termux/files/home/pyunity/pyunity/scene.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\scene.py"
         ]
     },
     "module_name": "pyunity.scene"

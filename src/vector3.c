@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.vector3",
         "sources": [
-            "/data/data/com.termux/files/home/pyunity/pyunity/vector3.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\vector3.py"
         ]
     },
     "module_name": "pyunity.vector3"
