@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.window.pygameWindow module &#8212; PyUnity 0.3.0 documentation</title>
+    <title>pyunity.physics.config module &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyunity.audio module" href="pyunity.audio.html" />
-    <link rel="prev" title="pyunity.window.glutWindow module" href="pyunity.window.glutWindow.html" />
+    <link rel="next" title="pyunity.physics.core module" href="pyunity.physics.core.html" />
+    <link rel="prev" title="pyunity.physics package" href="pyunity.physics.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,26 +33,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="module-pyunity.window.pygameWindow">
-<span id="pyunity-window-pygamewindow-module"></span><h1>pyunity.window.pygameWindow module<a class="headerlink" href="#module-pyunity.window.pygameWindow" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="pyunity.window.pygameWindow.Window">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.window.pygameWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/pygameWindow.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.pygameWindow.Window" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A window provider that uses PyGame.</p>
-<dl class="py method">
-<dt id="pyunity.window.pygameWindow.Window.start">
-<code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">update_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/pygameWindow.html#Window.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.pygameWindow.Window.start" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start the main loop of the window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>update_func</strong> (<em>function</em>) – The function that calls the OpenGL calls.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="module-pyunity.physics.config">
+<span id="pyunity-physics-config-module"></span><h1>pyunity.physics.config module<a class="headerlink" href="#module-pyunity.physics.config" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -80,12 +62,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="pyunity.window.html#pyunity-window">pyunity.window</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="pyunity.window.html#submodules">Submodules</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pyunity.physics.html#configuration">Configuration</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="pyunity.physics.html#submodules">Submodules</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyunity.html#submodules">Submodules</a></li>
@@ -98,9 +80,9 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="pyunity.html">pyunity package</a><ul>
-  <li><a href="pyunity.window.html">pyunity.window package</a><ul>
-      <li>Previous: <a href="pyunity.window.glutWindow.html" title="previous chapter">pyunity.window.glutWindow module</a></li>
-      <li>Next: <a href="pyunity.audio.html" title="next chapter">pyunity.audio module</a></li>
+  <li><a href="pyunity.physics.html">pyunity.physics package</a><ul>
+      <li>Previous: <a href="pyunity.physics.html" title="previous chapter">pyunity.physics package</a></li>
+      <li>Next: <a href="pyunity.physics.core.html" title="next chapter">pyunity.physics.core module</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -136,7 +118,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="_sources/pyunity.window.pygameWindow.rst.txt"
+      <a href="_sources/pyunity.physics.config.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
