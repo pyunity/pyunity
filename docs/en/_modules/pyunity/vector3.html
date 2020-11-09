@@ -47,7 +47,7 @@
 <span class="n">clamp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">_min</span><span class="p">,</span> <span class="n">_max</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">_max</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">_min</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 <span class="sd">&quot;&quot;&quot;Clamp a value between a minimum and a maximum&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Vector3"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3">[docs]</a><span class="k">class</span> <span class="nc">Vector3</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector3"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3">[docs]</a><span class="k">class</span> <span class="nc">Vector3</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_or_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">x_or_list</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -304,7 +304,7 @@
     <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Vector3.copy"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.copy"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Makes a copy of the Vector3</span>
 
@@ -316,7 +316,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.get_length_sqrd"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.get_length_sqrd">[docs]</a>    <span class="k">def</span> <span class="nf">get_length_sqrd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+<div class="viewcode-block" id="Vector3.get_length_sqrd"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.get_length_sqrd">[docs]</a>    <span class="k">def</span> <span class="nf">get_length_sqrd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the length of the vector squared. This</span>
 <span class="sd">        is much faster than finding the length.</span>
@@ -342,7 +342,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">length</span>
     
-<div class="viewcode-block" id="Vector3.normalized"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.normalized"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a normalized copy of the vector, or Vector3(0, 0, 0)</span>
 <span class="sd">        if the length is 0.</span>
@@ -358,7 +358,7 @@
             <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">length</span> <span class="o">*</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="Vector3.normalize_return_length"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.normalize_return_length">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_return_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.normalize_return_length"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.normalize_return_length">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_return_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Normalize the vector and return its length before the normalization</span>
 <span class="sd">        </span>
@@ -375,7 +375,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/=</span> <span class="n">length</span>
         <span class="k">return</span> <span class="n">length</span></div>
     
-<div class="viewcode-block" id="Vector3.get_distance"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.get_distance">[docs]</a>    <span class="k">def</span> <span class="nf">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.get_distance"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.get_distance">[docs]</a>    <span class="k">def</span> <span class="nf">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The distance between this vector and the other vector</span>
 <span class="sd">        </span>
@@ -387,7 +387,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Vector3.get_dist_sqrd"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.get_dist_sqrd">[docs]</a>    <span class="k">def</span> <span class="nf">get_dist_sqrd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.get_dist_sqrd"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.get_dist_sqrd">[docs]</a>    <span class="k">def</span> <span class="nf">get_dist_sqrd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The distance between this vector and the other vector, squared.</span>
 <span class="sd">        It is more efficient to call this than to call `get_distance` and</span>
@@ -411,7 +411,7 @@
         <span class="sd">&quot;&quot;&quot;Return the x, y and z values of this vector rounded to the nearest integer&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Vector3.clamp"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.clamp"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clamps a vector between two other vectors,</span>
 <span class="sd">        resulting in the vector being as close to the</span>
@@ -429,7 +429,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="nb">min</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="nb">max</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="nb">min</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="nb">max</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Vector3.dot"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.dot"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dot product of two vectors.</span>
 
@@ -446,7 +446,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span></div>
     
-<div class="viewcode-block" id="Vector3.cross"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector3.cross"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cross product of two vectors</span>
 
@@ -466,42 +466,42 @@
         <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.zero"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.zero">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.zero"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.zero">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">zero</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;A vector of zero length&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.one"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.one">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.one"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.one">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">one</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;A vector of ones&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.forward"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.forward">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.forward"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.forward">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the positive z axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.back"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.back">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.back"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.back">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">back</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the negative z axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.left"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.left">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.left"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.left">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">left</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the negative x axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.right"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.right">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.right"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.right">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">right</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the postive x axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.up"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.up">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.up"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.up">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">up</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the postive y axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Vector3.down"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.Vector3.down">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector3.down"><a class="viewcode-back" href="../../pyunity.vector3.html#pyunity.vector3.Vector3.down">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">down</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Vector3 pointing in the negative y axis&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div></div>
@@ -528,7 +528,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../releases.html">Releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">pyunity package</a></li>
 </ul>
 
 <div class="relations">

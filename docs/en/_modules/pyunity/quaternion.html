@@ -37,7 +37,7 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 
-<div class="viewcode-block" id="Quaternion"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion">[docs]</a><span class="k">class</span> <span class="nc">Quaternion</span><span class="p">:</span>
+<div class="viewcode-block" id="Quaternion"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion">[docs]</a><span class="k">class</span> <span class="nc">Quaternion</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to represent a 4D Quaternion.</span>
 
@@ -107,7 +107,7 @@
             <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">w</span>
             <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Quaternion.copy"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Quaternion.copy"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deep copy of the Quaternion.</span>
 
@@ -119,7 +119,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Quaternion.normalized"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Quaternion.normalized"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A normalized Quaternion, for rotations.</span>
 <span class="sd">        If the length is 0, then the identity</span>
@@ -144,11 +144,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">value</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
     
-<div class="viewcode-block" id="Quaternion.RotateVector"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.RotateVector">[docs]</a>    <span class="k">def</span> <span class="nf">RotateVector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<div class="viewcode-block" id="Quaternion.RotateVector"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.RotateVector">[docs]</a>    <span class="k">def</span> <span class="nf">RotateVector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Rotate a vector by the quaternion&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">vector</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">conjugate</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Quaternion.FromAxis"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.FromAxis">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Quaternion.FromAxis"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.FromAxis">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">FromAxis</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a quaternion from an angle and an axis.</span>
@@ -189,7 +189,7 @@
         <span class="n">sin</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">cos</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span>
     
-<div class="viewcode-block" id="Quaternion.Euler"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.Euler">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Quaternion.Euler"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.Euler">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">Euler</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a quaternion using Euler rotations.</span>
@@ -230,7 +230,7 @@
         <span class="n">c</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">FromAxis</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
     
-<div class="viewcode-block" id="Quaternion.identity"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.Quaternion.identity">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Quaternion.identity"><a class="viewcode-back" href="../../pyunity.quaternion.html#pyunity.quaternion.Quaternion.identity">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">identity</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Identity quaternion representing no rotation&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div></div>
@@ -257,7 +257,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../releases.html">Releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">pyunity package</a></li>
 </ul>
 
 <div class="relations">

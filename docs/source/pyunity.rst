@@ -1,8 +1,4 @@
-=============
-API reference
-=============
-
-PyUnity package
+pyunity package
 ===============
 
 .. automodule:: pyunity
@@ -30,6 +26,6 @@ Submodules
    pyunity.errors
    pyunity.loader
    pyunity.meshes
+   pyunity.quaternion
    pyunity.scene
    pyunity.vector3
-   pyunity.quaternion
