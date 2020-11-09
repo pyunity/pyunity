@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API reference &#8212; PyUnity 0.2.1 documentation</title>
+    <title>API reference &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -37,8 +37,8 @@
 <h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-pyunity">
 <span id="pyunity-package"></span><h2>PyUnity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="version-0-2-1-in-development">
-<h3>Version 0.2.1 (in development)<a class="headerlink" href="#version-0-2-1-in-development" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="version-0-3-0-in-development">
+<h3>Version 0.3.0 (in development)<a class="headerlink" href="#version-0-3-0-in-development" title="Permalink to this headline">¶</a></h3>
 <p>A Python implementation of the Unity Engine
 that supports different types of windows.
 Still in development.</p>
@@ -59,7 +59,7 @@ This is the output with debugging:</p>
 <span class="n">FreeGLUT</span> <span class="n">doesn</span><span class="s1">&#39;t work, trying GLFW</span>
 <span class="n">GLFW</span> <span class="n">doesn</span><span class="s1">&#39;t work, trying Pygame</span>
 <span class="n">Using</span> <span class="n">window</span> <span class="n">provider</span> <span class="n">Pygame</span>
-<span class="n">Loaded</span> <span class="n">PyUnity</span> <span class="n">version</span> <span class="mf">0.2</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">Loaded</span> <span class="n">PyUnity</span> <span class="n">version</span> <span class="mf">0.3</span><span class="o">.</span><span class="mi">0</span>
 </pre></div>
 </div>
 <p>If debugging is off, there is no output:</p>
@@ -140,7 +140,7 @@ pull request.</p>
 <span class="go">FreeGLUT doesn&#39;t work, trying GLFW</span>
 <span class="go">GLFW doesn&#39;t work, trying Pygame</span>
 <span class="go">Using window provider Pygame</span>
-<span class="go">Loaded PyUnity version 0.2.1</span>
+<span class="go">Loaded PyUnity version 0.3.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -153,11 +153,1554 @@ are 8 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please create a
 new pull request.</p>
-<dl class="py function">
-<dt id="pyunity.timer">
-<code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">timer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity.html#timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.timer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use this decorator to print how long
-a function takes.</p>
+<dl class="py class">
+<dt id="pyunity.AABBoxCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">AABBoxCollider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AABBoxCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.physics.core.html#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>An axis-aligned box collider that
+cannot be deformed.</p>
+<dl class="py attribute">
+<dt id="pyunity.AABBoxCollider.min">
+<code class="sig-name descname">min</code><a class="headerlink" href="#pyunity.AABBoxCollider.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the lowest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.AABBoxCollider.max">
+<code class="sig-name descname">max</code><a class="headerlink" href="#pyunity.AABBoxCollider.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the highest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.AABBoxCollider.pos">
+<code class="sig-name descname">pos</code><a class="headerlink" href="#pyunity.AABBoxCollider.pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center of the AABBoxCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AABBoxCollider.CheckOverlap">
+<code class="sig-name descname">CheckOverlap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.CheckOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AABBoxCollider.CheckOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the bounding box
+of two colliders overlap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether they are overlapping or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AABBoxCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span></em>, <em class="sig-param"><span class="n">max</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.SetSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AABBoxCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the lowest coordinates.</p></li>
+<li><p><strong>max</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – The corner with the highest coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AABBoxCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#AABBoxCollider.collidingWith"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AABBoxCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Collision data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Manifold or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another AABBoxCollider, the
+corners are checked to see if they are inside
+the other collider.</p>
+<p>To check against a SphereCollider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.AudioClip">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">AudioClip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioClip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store information about an audio file.</p>
+<dl class="py attribute">
+<dt id="pyunity.AudioClip.file">
+<code class="sig-name descname">file</code><a class="headerlink" href="#pyunity.AudioClip.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.AudioClip.sound">
+<code class="sig-name descname">sound</code><a class="headerlink" href="#pyunity.AudioClip.sound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sound file that can be played with
+a <code class="docutils literal notranslate"><span class="pre">pygame.mixer.Channel</span></code>.
+Only set when the AudioClip is in
+an <code class="docutils literal notranslate"><span class="pre">AudioSource</span></code> n a running scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pygame.mixer.Sound</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioClip.SetSound">
+<code class="sig-name descname">SetSound</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip.SetSound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioClip.SetSound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the audio file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – Name of the audio file
+Must be a .ogg file, which can work
+on any platform.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the provided file is not an OGG
+    audio file</p></li>
+<li><p><strong>TypeError</strong> – If the provided file is not of type str</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.AudioSource">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">AudioSource</code><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Manages playback on an AudioSource.</p>
+<dl class="py attribute">
+<dt id="pyunity.AudioSource.clip">
+<code class="sig-name descname">clip</code><a class="headerlink" href="#pyunity.AudioSource.clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clip to play. Best way to set the clip
+is to use the <code class="docutils literal notranslate"><span class="pre">SetClip</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.AudioClip" title="pyunity.AudioClip">AudioClip</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.AudioSource.PlayOnStart">
+<code class="sig-name descname">PlayOnStart</code><a class="headerlink" href="#pyunity.AudioSource.PlayOnStart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether it plays on start or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.AudioSource.Loop">
+<code class="sig-name descname">Loop</code><a class="headerlink" href="#pyunity.AudioSource.Loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether it loops or not. This is not
+fully supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioSource.Pause">
+<code class="sig-name descname">Pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource.Pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pauses the current clip.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioSource.Play">
+<code class="sig-name descname">Play</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource.Play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plays the current clip.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioSource.SetClip">
+<code class="sig-name descname">SetClip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.SetClip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource.SetClip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the clip to play.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>clip</strong> (<a class="reference internal" href="#pyunity.AudioClip" title="pyunity.AudioClip"><em>AudioClip</em></a>) – Clip to set</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the provided clip is not of type AudioClip</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioSource.Stop">
+<code class="sig-name descname">Stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource.Stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the current clip.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.AudioSource.UnPause">
+<code class="sig-name descname">UnPause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.UnPause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.AudioSource.UnPause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpauses the current clip.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Behaviour">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Behaviour</code><a class="reference internal" href="_modules/pyunity/core.html#Behaviour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Behaviour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Base class for behaviours that can be scripted.</p>
+<dl class="py attribute">
+<dt id="pyunity.Behaviour.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.Behaviour.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Behaviour.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.Behaviour.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Behaviour.Start">
+<code class="sig-name descname">Start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Behaviour.Start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Behaviour.Start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called every time a scene is loaded up.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Behaviour.Update">
+<code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Behaviour.Update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Behaviour.Update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called every frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Time since last frame, sent by the scene
+that the Behaviour is in.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Camera">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Camera</code><a class="reference internal" href="_modules/pyunity/core.html#Camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Camera" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Component to hold data about the camera in a scene.</p>
+<dl class="py attribute">
+<dt id="pyunity.Camera.fov">
+<code class="sig-name descname">fov</code><a class="headerlink" href="#pyunity.Camera.fov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fov in degrees measured horizontally. Defaults to 90.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Camera.near">
+<code class="sig-name descname">near</code><a class="headerlink" href="#pyunity.Camera.near" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance of the near plane in the camera frustrum. Defaults to 0.05.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Camera.far">
+<code class="sig-name descname">far</code><a class="headerlink" href="#pyunity.Camera.far" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance of the far plane in the camera frustrum. Defaults to 100.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Camera.clearColor">
+<code class="sig-name descname">clearColor</code><a class="headerlink" href="#pyunity.Camera.clearColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
+Color mode is RGBA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.CollManager">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">CollManager</code><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.CollManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the collisions between all colliders.</p>
+<dl class="py attribute">
+<dt id="pyunity.CollManager.rigidbodies">
+<code class="sig-name descname">rigidbodies</code><a class="headerlink" href="#pyunity.CollManager.rigidbodies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of rigidbodies andthe colliders
+on the gameObject that the Rigidbody belongs
+to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.CollManager.dummyRigidbody">
+<code class="sig-name descname">dummyRigidbody</code><a class="headerlink" href="#pyunity.CollManager.dummyRigidbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dummy rigidbody used when a GameObject has
+colliders but no rigidbody. It has infinite
+mass</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Rigidbody" title="pyunity.Rigidbody">Rigidbody</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.CollManager.AddPhysicsInfo">
+<code class="sig-name descname">AddPhysicsInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scene</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.AddPhysicsInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.CollManager.AddPhysicsInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all colliders and rigidbodies from a
+specified scene. This overwrites the
+collider and rigidbody lists, and so can
+be called whenever a new collider or
+rigidbody is added or removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scene</strong> (<a class="reference internal" href="pyunity.scene.html#pyunity.scene.Scene" title="pyunity.scene.Scene"><em>Scene</em></a>) – Scene to search for physics info</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function will overwrite the
+pre-existing dictionary of
+rigidbodies. When there are colliders
+but no rigidbody is on the GameObject,
+then they are placed in the dictionary
+with a dummy Rigidbody that has
+infinite mass and a default physic
+material. Thus, they cannot move.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.CollManager.CheckCollisions">
+<code class="sig-name descname">CheckCollisions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.CheckCollisions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.CollManager.CheckCollisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through every pair exactly once,
+then checks their collisions and
+resolves them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.CollManager.GetRestitution">
+<code class="sig-name descname">GetRestitution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.GetRestitution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.CollManager.GetRestitution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the restitution needed for
+two rigidbodies, based on their
+combine function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 1</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#pyunity.Rigidbody" title="pyunity.Rigidbody"><em>Rigidbody</em></a>) – Rigidbody 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Restitution</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.CollManager.Step">
+<code class="sig-name descname">Step</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#CollManager.Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.CollManager.Step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Steps through the simulation at a
+given delta time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Delta time to step</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The simulation is stepped 10 times,
+so that it is more precise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Collider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Collider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#Collider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Collider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Collider base class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Component">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Component</code><a class="reference internal" href="_modules/pyunity/core.html#Component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for built-in components.</p>
+<dl class="py attribute">
+<dt id="pyunity.Component.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.Component.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Component.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.Component.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Component.AddComponent">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">component</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Component.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Component.AddComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <cite>AddComponent</cite> on the component’s GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference internal" href="#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Component.GetComponent">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">component</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Component.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Component.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <cite>GetComponent</cite> on the component’s GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.GameObject">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">GameObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'GameObject'</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.GameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to create a GameObject, which is an object with components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of GameObject</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.GameObject" title="pyunity.GameObject"><em>GameObject</em></a><em> or </em><em>None</em>) – Parent of GameObject</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.GameObject.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#pyunity.GameObject.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.GameObject.components">
+<code class="sig-name descname">components</code><a class="headerlink" href="#pyunity.GameObject.components" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.GameObject.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.GameObject.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag that the GameObject has (defaults to tag 0 or Default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Tag" title="pyunity.Tag">Tag</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.GameObject.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#pyunity.GameObject.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform that belongs to the GameObject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.GameObject.AddComponent">
+<code class="sig-name descname">AddComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.AddComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.GameObject.AddComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a component to the GameObject.
+If it is a transform, set
+GameObject’s transform to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.GameObject.GetComponent">
+<code class="sig-name descname">GetComponent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">componentClass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#GameObject.GetComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.GameObject.GetComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a component from the GameObject.
+Will return first match.
+For all matches, do a manual loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Light">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Light</code><a class="reference internal" href="_modules/pyunity/core.html#Light"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Light" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Component to hold data about the light in a scene.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Material">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Material</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Material"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to hold data on a material.</p>
+<dl class="py attribute">
+<dt id="pyunity.Material.color">
+<code class="sig-name descname">color</code><a class="headerlink" href="#pyunity.Material.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list or tuple of 4 floats that make up a RGBA color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list or tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Mesh">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Mesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">verts</span></em>, <em class="sig-param"><span class="n">triangles</span></em>, <em class="sig-param"><span class="n">normals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/meshes.html#Mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to create a mesh for rendering with a MeshRenderer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verts</strong> (<em>list</em>) – List of Vector3’s containing each vertex</p></li>
+<li><p><strong>triangles</strong> (<em>list</em>) – List of ints containing triangles joining up the vertexes.
+Each int is the index of a vertex above.</p></li>
+<li><p><strong>normals</strong> (<em>list</em>) – List of Vector3’s containing the normal of each triangle.
+Unlike Unity, PyUnity uses normals per triangle.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.Mesh.verts">
+<code class="sig-name descname">verts</code><a class="headerlink" href="#pyunity.Mesh.verts" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of Vector3’s containing each vertex</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Mesh.triangles">
+<code class="sig-name descname">triangles</code><a class="headerlink" href="#pyunity.Mesh.triangles" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of ints containing triangles joining up the vertexes.
+Each int is the index of a vertex above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Mesh.normals">
+<code class="sig-name descname">normals</code><a class="headerlink" href="#pyunity.Mesh.normals" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of Vector3’s containing the normal of each triangle.
+Unlike Unity, PyUnity uses normals per triangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Mesh.cube">
+<em class="property">static </em><code class="sig-name descname">cube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/meshes.html#Mesh.cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Mesh.cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cube mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Side length of cube</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube centered at Vector3(0, 0, 0) that has a side length of <cite>size</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Mesh.double_quad">
+<em class="property">static </em><code class="sig-name descname">double_quad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/meshes.html#Mesh.double_quad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Mesh.double_quad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a two-sided quadrilateral mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Side length of quad</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A double-sided quad centered at Vector3(0, 0) with side length
+of <cite>size</cite> facing in the direction of the negative z axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Mesh.quad">
+<em class="property">static </em><code class="sig-name descname">quad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/meshes.html#Mesh.quad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Mesh.quad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a quadrilateral mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>float</em>) – Side length of quad</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A quad centered at Vector3(0, 0) with side length of <cite>size</cite>
+facing in the direction of the negative z axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.MeshRenderer">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">MeshRenderer</code><a class="reference internal" href="_modules/pyunity/core.html#MeshRenderer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.MeshRenderer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Component to render a mesh at the position of a transform.</p>
+<dl class="py attribute">
+<dt id="pyunity.MeshRenderer.mesh">
+<code class="sig-name descname">mesh</code><a class="headerlink" href="#pyunity.MeshRenderer.mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mesh that the MeshRenderer will render.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.MeshRenderer.mat">
+<code class="sig-name descname">mat</code><a class="headerlink" href="#pyunity.MeshRenderer.mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Material to use for the mesh</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Material" title="pyunity.Material">Material</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.MeshRenderer.render">
+<code class="sig-name descname">render</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#MeshRenderer.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.MeshRenderer.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render the mesh that the MeshRenderer has.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.PhysicMaterial">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">PhysicMaterial</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">restitution</span><span class="o">=</span><span class="default_value">0.75</span></em>, <em class="sig-param"><span class="n">friction</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#PhysicMaterial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.PhysicMaterial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store data on a collider’s material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>restitution</strong> (<em>float</em>) – Bounciness of the material</p></li>
+<li><p><strong>friction</strong> (<em>float</em>) – Friction of the material</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.PhysicMaterial.restitution">
+<code class="sig-name descname">restitution</code><a class="headerlink" href="#pyunity.PhysicMaterial.restitution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounciness of the material</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.PhysicMaterial.friction">
+<code class="sig-name descname">friction</code><a class="headerlink" href="#pyunity.PhysicMaterial.friction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Friction of the material</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.PhysicMaterial.combine">
+<code class="sig-name descname">combine</code><a class="headerlink" href="#pyunity.PhysicMaterial.combine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combining function. -1 means
+minimum, 0 means average,
+and 1 means maximum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Quaternion">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Quaternion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">z</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to represent a 4D Quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>w</strong> (<em>float</em>) – Real value of Quaternion</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – x coordinate of Quaternion</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – y coordinate of Quaternion</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – z coordinate of Quaternion</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyunity.Quaternion.Euler">
+<em class="property">static </em><code class="sig-name descname">Euler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.Euler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.Euler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quaternion using Euler rotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vector</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Euler rotations</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Generated quaternion</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Quaternion" title="pyunity.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.FromAxis">
+<em class="property">static </em><code class="sig-name descname">FromAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.FromAxis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.FromAxis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quaternion from an angle and an axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>float</em>) – Angle to rotate</p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Axis to rotate about</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.RotateVector">
+<code class="sig-name descname">RotateVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.RotateVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.RotateVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a vector by the quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.angleAxisPair">
+<em class="property">property </em><code class="sig-name descname">angleAxisPair</code><a class="headerlink" href="#pyunity.Quaternion.angleAxisPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the angle and axis pair.</p>
+<p class="rubric">Notes</p>
+<p>When getting, it returns a tuple in the
+form of <code class="docutils literal notranslate"><span class="pre">(angle,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code>. When setting,
+assign like <code class="docutils literal notranslate"><span class="pre">q.eulerAngles</span> <span class="pre">=</span> <span class="pre">(angle,</span> <span class="pre">vector)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.conjugate">
+<em class="property">property </em><code class="sig-name descname">conjugate</code><a class="headerlink" href="#pyunity.Quaternion.conjugate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The conjugate of a unit quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deep copy of the Quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A deep copy</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.Quaternion" title="pyunity.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.eulerAngles">
+<em class="property">property </em><code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#pyunity.Quaternion.eulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the Euler Angles of the quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.identity">
+<em class="property">static </em><code class="sig-name descname">identity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity quaternion representing no rotation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Quaternion.normalized">
+<code class="sig-name descname">normalized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/quaternion.html#Quaternion.normalized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Quaternion.normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>A normalized Quaternion, for rotations.
+If the length is 0, then the identity
+quaternion is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A unit quaternion</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.Quaternion" title="pyunity.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Rigidbody">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Rigidbody</code><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Rigidbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Class to let a GameObject follow physics
+rules.</p>
+<dl class="py attribute">
+<dt id="pyunity.Rigidbody.mass">
+<code class="sig-name descname">mass</code><a class="headerlink" href="#pyunity.Rigidbody.mass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mass of the Rigidbody. Defaults
+to 100</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Rigidbody.velocity">
+<code class="sig-name descname">velocity</code><a class="headerlink" href="#pyunity.Rigidbody.velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Velocity of the Rigidbody</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Rigidbody.physicMaterial">
+<code class="sig-name descname">physicMaterial</code><a class="headerlink" href="#pyunity.Rigidbody.physicMaterial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Physics material of the Rigidbody</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.PhysicMaterial" title="pyunity.PhysicMaterial">PhysicMaterial</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Rigidbody.position">
+<code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.Rigidbody.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Rigidbody. It is
+assigned to its GameObject’s
+position when the CollHandler is
+created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Rigidbody.AddForce">
+<code class="sig-name descname">AddForce</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.AddForce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Rigidbody.AddForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a force to the center of the Rigidbody.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Force to apply</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A force is a gradual change in velocity, whereas
+an impulse is just a jump in velocity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Rigidbody.AddImpulse">
+<code class="sig-name descname">AddImpulse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">impulse</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.AddImpulse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Rigidbody.AddImpulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply an impulse to the center of the Rigidbody.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>impulse</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Impulse to apply</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A force is a gradual change in velocity, whereas
+an impulse is just a jump in velocity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Rigidbody.Move">
+<code class="sig-name descname">Move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.Move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Rigidbody.Move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves all colliders on the GameObject by
+the Rigidbody’s velocity times the delta
+time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>float</em>) – Time to simulate movement by</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Rigidbody.MovePos">
+<code class="sig-name descname">MovePos</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#Rigidbody.MovePos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Rigidbody.MovePos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the rigidbody and its colliders
+by an offset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>offset</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset to move</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.SphereCollider">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">SphereCollider</code><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.SphereCollider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.physics.core.html#pyunity.physics.core.Collider" title="pyunity.physics.core.Collider"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.physics.core.Collider</span></code></a></p>
+<p>A spherical collider that cannot be
+deformed.</p>
+<dl class="py attribute">
+<dt id="pyunity.SphereCollider.min">
+<code class="sig-name descname">min</code><a class="headerlink" href="#pyunity.SphereCollider.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the lowest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.SphereCollider.max">
+<code class="sig-name descname">max</code><a class="headerlink" href="#pyunity.SphereCollider.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corner with the highest coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.SphereCollider.pos">
+<code class="sig-name descname">pos</code><a class="headerlink" href="#pyunity.SphereCollider.pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center of the SphereCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.SphereCollider.radius">
+<code class="sig-name descname">radius</code><a class="headerlink" href="#pyunity.SphereCollider.radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the SphereCollider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.SphereCollider.CheckOverlap">
+<code class="sig-name descname">CheckOverlap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.CheckOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.SphereCollider.CheckOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the bounding box
+of two colliders overlap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether they are overlapping or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.SphereCollider.SetSize">
+<code class="sig-name descname">SetSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">offset</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.SetSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.SphereCollider.SetSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of the collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>float</em>) – The radius of the collider.</p></li>
+<li><p><strong>offset</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Offset of the collider.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.SphereCollider.collidingWith">
+<code class="sig-name descname">collidingWith</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/physics/core.html#SphereCollider.collidingWith"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.SphereCollider.collidingWith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if the collider is
+colliding with another collider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Collider" title="pyunity.Collider"><em>Collider</em></a>) – Other collider to check against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Collision data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Manifold or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To check against another SphereCollider, the
+distance and the sum of the radii is checked.</p>
+<p>To check against an AABBoxColider, the check
+is as follows:</p>
+<ol class="arabic simple">
+<li><p>The sphere’s center is checked to see if it
+is inside the AABB.</p></li>
+<li><p>If it is, then the two are colliding.</p></li>
+<li><p>If it isn’t, then a copy of the position is
+clamped to the AABB’s bounds.</p></li>
+<li><p>Finally, the distance between the clamped
+position and the original position is
+measured.</p></li>
+<li><p>If the distance is bigger than the sphere’s
+radius, then the two are colliding.</p></li>
+<li><p>If not, then they aren’t colliding.</p></li>
+</ol>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Tag">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Tag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tagNumOrName</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to group GameObjects together without referencing the tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tagNumOrName</strong> (<em>str</em><em> or </em><em>int</em>) – Name or index of the tag</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If there is no tag name</p></li>
+<li><p><strong>IndexError</strong> – If there is no tag at the provided index</p></li>
+<li><p><strong>TypeError</strong> – If the argument is not a str or int</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="pyunity.Tag.tagName">
+<code class="sig-name descname">tagName</code><a class="headerlink" href="#pyunity.Tag.tagName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Tag.tag">
+<code class="sig-name descname">tag</code><a class="headerlink" href="#pyunity.Tag.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag index of the list of tags</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Tag.AddTag">
+<em class="property">static </em><code class="sig-name descname">AddTag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Tag.AddTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Tag.AddTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new tag to the tag list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tag</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The tag index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Transform">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Transform</code><a class="reference internal" href="_modules/pyunity/core.html#Transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
+<p>Class to hold data about a GameObject’s transformation.</p>
+<dl class="py attribute">
+<dt id="pyunity.Transform.gameObject">
+<code class="sig-name descname">gameObject</code><a class="headerlink" href="#pyunity.Transform.gameObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>GameObject that the component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Transform.localPosition">
+<code class="sig-name descname">localPosition</code><a class="headerlink" href="#pyunity.Transform.localPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Transform in local space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Transform.localRotation">
+<code class="sig-name descname">localRotation</code><a class="headerlink" href="#pyunity.Transform.localRotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in local space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Quaternion" title="pyunity.Quaternion">Quaternion</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Transform.localScale">
+<code class="sig-name descname">localScale</code><a class="headerlink" href="#pyunity.Transform.localScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale of the Transform in local space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Transform.parent">
+<code class="sig-name descname">parent</code><a class="headerlink" href="#pyunity.Transform.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parent of the Transform. The hierarchical tree is
+actually formed by the Transform, not the GameObject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Transform" title="pyunity.Transform">Transform</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.Transform.children">
+<code class="sig-name descname">children</code><a class="headerlink" href="#pyunity.Transform.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of children</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.FullPath">
+<code class="sig-name descname">FullPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Transform.FullPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Transform.FullPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the full path of the Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The full path of the Transform.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.List">
+<code class="sig-name descname">List</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Transform.List"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Transform.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the Transform’s full path from the root, then
+lists the children in alphabetical order. This results in a
+nice list of all GameObjects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.ReparentTo">
+<code class="sig-name descname">ReparentTo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parent</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/core.html#Transform.ReparentTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Transform.ReparentTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reparent a Transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.Transform" title="pyunity.Transform"><em>Transform</em></a>) – The parent to reparent to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.eulerAngles">
+<em class="property">property </em><code class="sig-name descname">eulerAngles</code><a class="headerlink" href="#pyunity.Transform.eulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in world space.
+It is measured in degrees around x, y, and z.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.localEulerAngles">
+<em class="property">property </em><code class="sig-name descname">localEulerAngles</code><a class="headerlink" href="#pyunity.Transform.localEulerAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in local space.
+It is measured in degrees around x, y, and z.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.position">
+<em class="property">property </em><code class="sig-name descname">position</code><a class="headerlink" href="#pyunity.Transform.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Position of the Transform in world space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.rotation">
+<em class="property">property </em><code class="sig-name descname">rotation</code><a class="headerlink" href="#pyunity.Transform.rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation of the Transform in world space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Transform.scale">
+<em class="property">property </em><code class="sig-name descname">scale</code><a class="headerlink" href="#pyunity.Transform.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale of the Transform in world space.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyunity.Vector3">
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.</code><code class="sig-name descname">Vector3</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_or_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">z</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyunity.Vector3.back">
+<em class="property">static </em><code class="sig-name descname">back</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.back"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.back" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative z axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.clamp">
+<code class="sig-name descname">clamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span></em>, <em class="sig-param"><span class="n">max</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.clamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clamps a vector between two other vectors,
+resulting in the vector being as close to the
+edge of a bounding box created as possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Min vector</p></li>
+<li><p><strong>max</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Max vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of the Vector3</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A shallow copy of the vector</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.cross">
+<code class="sig-name descname">cross</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.cross" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cross product of two vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Other vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cross product of the two vectors</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.dot">
+<code class="sig-name descname">dot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot product of two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3"><em>Vector3</em></a>) – Other vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dot product of the two vectors</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.down">
+<em class="property">static </em><code class="sig-name descname">down</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative y axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.forward">
+<em class="property">static </em><code class="sig-name descname">forward</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the positive z axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.get_dist_sqrd">
+<code class="sig-name descname">get_dist_sqrd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.get_dist_sqrd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.get_dist_sqrd" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance between this vector and the other vector, squared.
+It is more efficient to call this than to call <cite>get_distance</cite> and
+square it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The squared distance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.get_distance">
+<code class="sig-name descname">get_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.get_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.get_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The distance between this vector and the other vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The distance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.get_length_sqrd">
+<code class="sig-name descname">get_length_sqrd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.get_length_sqrd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.get_length_sqrd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the length of the vector squared. This
+is much faster than finding the length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The length of the vector squared</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.int_tuple">
+<em class="property">property </em><code class="sig-name descname">int_tuple</code><a class="headerlink" href="#pyunity.Vector3.int_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the x, y and z values of this vector as ints</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.left">
+<em class="property">static </em><code class="sig-name descname">left</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the negative x axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.length">
+<em class="property">property </em><code class="sig-name descname">length</code><a class="headerlink" href="#pyunity.Vector3.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the magnitude of the vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.normalize_return_length">
+<code class="sig-name descname">normalize_return_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.normalize_return_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.normalize_return_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the vector and return its length before the normalization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The length before the normalization</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.normalized">
+<code class="sig-name descname">normalized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.normalized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a normalized copy of the vector, or Vector3(0, 0, 0)
+if the length is 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A normalized vector</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.one">
+<em class="property">static </em><code class="sig-name descname">one</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.one"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.one" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of ones</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.right">
+<em class="property">static </em><code class="sig-name descname">right</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.right"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the postive x axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.rounded">
+<em class="property">property </em><code class="sig-name descname">rounded</code><a class="headerlink" href="#pyunity.Vector3.rounded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the x, y and z values of this vector rounded to the nearest integer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.up">
+<em class="property">static </em><code class="sig-name descname">up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector3 pointing in the postive y axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.Vector3.zero">
+<em class="property">static </em><code class="sig-name descname">zero</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/vector3.html#Vector3.zero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.Vector3.zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of zero length</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -232,7 +1775,7 @@ a function takes.</p>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyunity">PyUnity package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#version-0-2-1-in-development">Version 0.2.1 (in development)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-0-3-0-in-development">Version 0.3.0 (in development)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#importing">Importing</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scenes">Scenes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#behaviours">Behaviours</a></li>

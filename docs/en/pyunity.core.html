@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.core module &#8212; PyUnity 0.2.1 documentation</title>
+    <title>pyunity.core module &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -49,7 +49,7 @@ and all have MeshRenderers:</p>
 <span class="go">GLFW doesn&#39;t work, trying Pygame</span>
 <span class="go">Trying Pygame as a window provider</span>
 <span class="go">Using window provider Pygame</span>
-<span class="go">Loaded PyUnity version 0.2.1</span>
+<span class="go">Loaded PyUnity version 0.3.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">Material</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># Create a default material</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Root&quot;</span><span class="p">)</span> <span class="c1"># Create a root GameObjects</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">child1</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&quot;Child1&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span> <span class="c1"># Create a child</span>
@@ -88,7 +88,7 @@ and all have MeshRenderers:</p>
 <dd><p>GameObject that the component belongs to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -99,7 +99,7 @@ and all have MeshRenderers:</p>
 <dd><p>Transform that the component belongs to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -187,7 +187,7 @@ Color mode is RGBA.</p>
 <dd><p>GameObject that the component belongs to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -198,7 +198,7 @@ Color mode is RGBA.</p>
 <dd><p>Transform that the component belongs to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -209,7 +209,7 @@ Color mode is RGBA.</p>
 <dd><p>Calls <cite>AddComponent</cite> on the component’s GameObject.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>component</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference internal" href="pyunity.html#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -220,7 +220,7 @@ Color mode is RGBA.</p>
 <dd><p>Calls <cite>GetComponent</cite> on the component’s GameObject.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="pyunity.html#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -236,7 +236,7 @@ Color mode is RGBA.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of GameObject</p></li>
-<li><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject"><em>GameObject</em></a><em> or </em><em>None</em>) – Parent of GameObject</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="pyunity.html#pyunity.GameObject" title="pyunity.GameObject"><em>GameObject</em></a><em> or </em><em>None</em>) – Parent of GameObject</p></li>
 </ul>
 </dd>
 </dl>
@@ -268,7 +268,7 @@ Color mode is RGBA.</p>
 <dd><p>Tag that the GameObject has (defaults to tag 0 or Default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Tag" title="pyunity.core.Tag">Tag</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Tag" title="pyunity.Tag">Tag</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -279,7 +279,7 @@ Color mode is RGBA.</p>
 <dd><p>Transform that belongs to the GameObject</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Transform" title="pyunity.Transform">Transform</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -292,7 +292,7 @@ If it is a transform, set
 GameObject’s transform to it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="pyunity.html#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to add. Must inherit from <cite>Component</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -305,7 +305,7 @@ Will return first match.
 For all matches, do a manual loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="#pyunity.core.Component" title="pyunity.core.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
+<dd class="field-odd"><p><strong>componentClass</strong> (<a class="reference internal" href="pyunity.html#pyunity.Component" title="pyunity.Component"><em>Component</em></a>) – Component to get. Must inherit from <cite>Component</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -348,7 +348,7 @@ For all matches, do a manual loop.</p>
 <dd><p>Mesh that the MeshRenderer will render.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.meshes.html#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -359,7 +359,7 @@ For all matches, do a manual loop.</p>
 <dd><p>Material to use for the mesh</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Material" title="pyunity.core.Material">Material</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Material" title="pyunity.Material">Material</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -441,7 +441,7 @@ For all matches, do a manual loop.</p>
 <dd><p>GameObject that the component belongs to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.GameObject" title="pyunity.core.GameObject">GameObject</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.GameObject" title="pyunity.GameObject">GameObject</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -452,7 +452,7 @@ For all matches, do a manual loop.</p>
 <dd><p>Position of the Transform in local space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -463,7 +463,7 @@ For all matches, do a manual loop.</p>
 <dd><p>Rotation of the Transform in local space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.quaternion.html#pyunity.quaternion.Quaternion" title="pyunity.quaternion.Quaternion">Quaternion</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Quaternion" title="pyunity.Quaternion">Quaternion</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -474,7 +474,7 @@ For all matches, do a manual loop.</p>
 <dd><p>Scale of the Transform in local space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.vector3.html#pyunity.vector3.Vector3" title="pyunity.vector3.Vector3">Vector3</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Vector3" title="pyunity.Vector3">Vector3</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -486,7 +486,7 @@ For all matches, do a manual loop.</p>
 actually formed by the Transform, not the GameObject.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform">Transform</a> or None</p>
+<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Transform" title="pyunity.Transform">Transform</a> or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -530,7 +530,7 @@ nice list of all GameObjects.</p>
 <dd><p>Reparent a Transform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parent</strong> (<a class="reference internal" href="#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – The parent to reparent to.</p>
+<dd class="field-odd"><p><strong>parent</strong> (<a class="reference internal" href="pyunity.html#pyunity.Transform" title="pyunity.Transform"><em>Transform</em></a>) – The parent to reparent to.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -601,7 +601,7 @@ It is measured in degrees around x, y, and z.</p>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-2-1-in-development">Version 0.2.1 (in development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
