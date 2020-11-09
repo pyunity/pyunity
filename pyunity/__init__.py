@@ -130,26 +130,21 @@ __summary__ = "A Python implementation of the Unity Engine that supports differe
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
+from . import audio, core, physics
+__all__ = ["__version__", "__doc__", "Vector3", "Quaternion", "SceneManager", "Mesh", "loader"]
+__all__.extend(audio.__all__)
+__all__.extend(core.__all__)
+__all__.extend(physics.__all__)
+
 import os
 from .audio import *
 from .core import *
-from .vector3 import *
-from .quaternion import *
+from .meshes import Mesh
+from .vector3 import Vector3
+from .quaternion import Quaternion
 from .scene import SceneManager
 from .physics import *
 from . import loader
-
-def timer(func):
-    """
-    Use this decorator to print how long
-    a function takes.
-
-    """
-    def wrapper(*args, **kwargs):
-        start = time()
-        func(*args, **kwargs)
-        print(round(time() - start, 3))
-    return wrapper
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print("Loaded PyUnity version %s" % __version__)
