@@ -1,14 +1,16 @@
 from .audio import *
 from .core import *
+from .vector3 import Vector3
+from .quaternion import Quaternion
 from . import config
 from .errors import *
 from . import physics
 from time import time
-import os, math, copy
+import os, math, copy, pygame
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
-    from OpenGL.GL import *
-    from OpenGL.GLU import *
+    import OpenGL.GL as gl
+    import OpenGL.GLU as glu
 
 class SceneManager:
     """
@@ -438,44 +440,44 @@ class Scene:
         """
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.lights = [
-                GL_LIGHT0,
-                GL_LIGHT1,
-                GL_LIGHT2,
-                GL_LIGHT3,
-                GL_LIGHT4,
-                GL_LIGHT5,
-                GL_LIGHT6,
-                GL_LIGHT7
+                gl.GL_LIGHT0,
+                gl.GL_LIGHT1,
+                gl.GL_LIGHT2,
+                gl.GL_LIGHT3,
+                gl.GL_LIGHT4,
+                gl.GL_LIGHT5,
+                gl.GL_LIGHT6,
+                gl.GL_LIGHT7
             ]
 
         self.mainCamera.lastPos = Vector3.zero()
         self.mainCamera.lastRot = Quaternion.identity()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            glMatrixMode(GL_PROJECTION)
-            glLoadIdentity()
-            gluPerspective(
+            gl.glMatrixMode(gl.GL_PROJECTION)
+            gl.glLoadIdentity()
+            glu.gluPerspective(
                 self.mainCamera.fov / config.size[0] * config.size[1],
                 config.size[0] / config.size[1],
                 self.mainCamera.near,
                 self.mainCamera.far)
-            glMatrixMode(GL_MODELVIEW)
+            gl.glMatrixMode(gl.GL_MODELVIEW)
 
             light_num = 0
             for gameObject in self.gameObjects:
                 light = gameObject.GetComponent(Light)
                 if light:
                     color = (light.intensity / 100, light.intensity / 100, light.intensity / 100, 1)
-                    glLightfv(self.lights[light_num], GL_AMBIENT, (0, 0, 0, 1))
-                    glLightfv(self.lights[light_num], GL_DIFFUSE, color)
-                    # glLightfv(self.lights[light_num], GL_SPECULAR, (1, 1, 1, 1))
+                    gl.glLightfv(self.lights[light_num], gl.GL_AMBIENT, (0, 0, 0, 1))
+                    gl.glLightfv(self.lights[light_num], gl.GL_DIFFUSE, color)
+                    # gl.glLightfv(self.lights[light_num], gl.GL_SPECULAR, (1, 1, 1, 1))
                     light_num += 1
             
-            glClearColor(*self.mainCamera.clearColor)
+            gl.glClearColor(*self.mainCamera.clearColor)
 
-            glEnable(GL_DEPTH_TEST)
+            gl.glEnable(gl.GL_DEPTH_TEST)
             if config.faceCulling:
-                glEnable(GL_CULL_FACE)
+                gl.glEnable(gl.GL_CULL_FACE)
 
         self.start_scripts()
         
@@ -509,9 +511,9 @@ class Scene:
             Transform to move
         
         """
-        glRotatef(*transform.rotation.angleAxisPair)
-        glScalef(*transform.scale)
-        glTranslatef(*(transform.position * Vector3(1, 1, -1)))
+        gl.glRotatef(*transform.rotation.angleAxisPair)
+        gl.glScalef(*transform.scale)
+        gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
@@ -536,10 +538,10 @@ class Scene:
         for gameObject in self.gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer and self.inside_frustrum(renderer):
-                glPushMatrix()
+                gl.glPushMatrix()
                 self.transform(gameObject.transform)
                 renderer.render()
-                glPopMatrix()
+                gl.glPopMatrix()
     
     def no_interactive(self):
         import pygame
@@ -559,21 +561,21 @@ class Scene:
         self.update_scripts()
         
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+            gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
-            glLoadIdentity()
+            gl.glLoadIdentity()
 
-            glEnable(GL_LIGHTING)
-            glEnable(GL_COLOR_MATERIAL)
-            glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
+            gl.glEnable(gl.GL_LIGHTING)
+            gl.glEnable(gl.GL_COLOR_MATERIAL)
+            gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE)
 
             light_num = 0
             for gameObject in self.gameObjects:
                 light = gameObject.GetComponent(Light)
                 if light:
-                    glEnable(self.lights[light_num])
+                    gl.glEnable(self.lights[light_num])
                     pos = (*(gameObject.transform.position * Vector3(1, 1, -1)), int(light.type))
-                    glLight(self.lights[light_num], GL_POSITION, pos)
+                    gl.glLight(self.lights[light_num], gl.GL_POSITION, pos)
                     light_num += 1
 
             if (self.mainCamera.lastPos != self.mainCamera.transform.position or
@@ -581,7 +583,7 @@ class Scene:
                 pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
                 look = pos + self.mainCamera.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
                 up = self.mainCamera.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
-                gluLookAt(*pos, *look, *up)
+                glu.gluLookAt(*pos, *look, *up)
                 self.mainCamera.lastPos = self.mainCamera.transform.position
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
             
@@ -591,8 +593,8 @@ class Scene:
             for gameObject in self.gameObjects:
                 light = gameObject.GetComponent(Light)
                 if light:
-                    glDisable(self.lights[light_num])
+                    gl.glDisable(self.lights[light_num])
                     light_num += 1
             
-            glDisable(GL_LIGHTING)
-            glDisable(GL_COLOR_MATERIAL)
+            gl.glDisable(gl.GL_LIGHTING)
+            gl.glDisable(gl.GL_COLOR_MATERIAL)

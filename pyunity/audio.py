@@ -1,10 +1,17 @@
-"""Classes to manage the playback of audio."""
+"""
+Classes to manage the playback of audio.
+It uses the pygame.mixer library, and if
+it cannot be initialized, then 
+
+"""
+
+__all__ = ["AudioClip", "AudioSource"]
 
 import _io, os, warnings
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 from .errors import *
-from .core import *
 from .config import *
+from .core import *
 import pygame
 try:
     pygame.mixer.init()
@@ -17,6 +24,9 @@ except pygame.error:
         
         def __getattr__(self, item):
             warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+        
+        def __setattr__(self, item, value):
+            warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
             
     class AudioSource(Component):
         def __init__(self, *args, **kwargs):
@@ -24,6 +34,9 @@ except pygame.error:
             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
         
         def __getattr__(self, item):
+            warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+        
+        def __setattr__(self, item, value):
             warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
 else:
 

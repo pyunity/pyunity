@@ -35,5 +35,8 @@ Inside the config file there are some configurations:
 
 """
 
+from . import core
+__all__ = []
+__all__.extend(core.__all__)
+
 from .core import *
-del config

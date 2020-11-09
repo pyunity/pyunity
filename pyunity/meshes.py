@@ -1,5 +1,7 @@
 """Module for prebuilt meshes."""
 
+__all__ = ["Mesh"]
+
 from .vector3 import Vector3
 import os
 
