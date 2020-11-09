@@ -16,7 +16,7 @@ if len(sys.argv) < 2:
             "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
             "(https://pypi.python.org/pypi/pyunity) ",
             "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
-            "0.1.0.svg)](https://github.com/rayzchen/pyunity/compare/0.1.0...master)",
+            "0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.2.1...master)",
             "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
             "(https://travis-ci.org/rayzchen/pyunity)",
             "[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)]",
@@ -54,13 +54,10 @@ if os.environ["cython"] == "1":
     # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
     # for f in pxd_files:
     #     shutil.copy(f, os.path.join("pyunity", f[4:]))
-    for path in [
-            *glob.glob("pyunity/**/*.py", recursive = True),
-            *glob.glob("pyunity/**/*.mesh", recursive = True),
-            *glob.glob("pyunity/**/*.ogg", recursive = True)]:
+    for path in glob.glob("pyunity/**/*.py", recursive = True):
         dirpath, file = os.path.split(path)
         print(file)
-        if file.startswith("__") or file.endswith(".mesh") or file.endswith(".ogg"):
+        if file.startswith("__"):
             srcPath = os.path.join(dirpath, file)
             op = shutil.copy
         else:
