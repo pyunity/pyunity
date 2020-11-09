@@ -12,4 +12,5 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pyunity.physics.config
    pyunity.physics.core

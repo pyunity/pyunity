@@ -39,7 +39,7 @@
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<div class="viewcode-block" id="Mesh"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.Mesh">[docs]</a><span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
+<div class="viewcode-block" id="Mesh"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh">[docs]</a><span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to create a mesh for rendering with a MeshRenderer</span>
 
@@ -82,7 +82,7 @@
             <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
             <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
     
-<div class="viewcode-block" id="Mesh.quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.Mesh.quad">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Mesh.quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.quad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">quad</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a quadrilateral mesh.</span>
@@ -108,7 +108,7 @@
             <span class="p">[</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">()]</span>
         <span class="p">)</span></div>
     
-<div class="viewcode-block" id="Mesh.double_quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.Mesh.double_quad">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Mesh.double_quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.double_quad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">double_quad</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a two-sided quadrilateral mesh.</span>
@@ -134,7 +134,7 @@
             <span class="p">[</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">back</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">back</span><span class="p">()]</span>
         <span class="p">)</span></div>
     
-<div class="viewcode-block" id="Mesh.cube"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.Mesh.cube">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Mesh.cube"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.cube">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a cube mesh.</span>
@@ -206,7 +206,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../releases.html">Releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">pyunity package</a></li>
 </ul>
 
 <div class="relations">
