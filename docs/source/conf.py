@@ -63,3 +63,7 @@ autodoc_mock_imports = ["pygame", "glfw", "OpenGL"]
 
 viewcode_enable_epub = True
 pygments_style = "friendly"
+
+autodoc_default_options = {
+    "ignore-module-all": True,
+}

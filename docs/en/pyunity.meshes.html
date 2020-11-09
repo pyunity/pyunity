@@ -15,7 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyunity.scene module" href="pyunity.scene.html" />
+    <link rel="next" title="pyunity.quaternion module" href="pyunity.quaternion.html" />
     <link rel="prev" title="pyunity.loader module" href="pyunity.loader.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -99,7 +99,7 @@ Unlike Unity, PyUnity uses normals per triangle.</p>
 <dd class="field-even"><p>A cube centered at Vector3(0, 0, 0) that has a side length of <cite>size</cite></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -117,7 +117,7 @@ Unlike Unity, PyUnity uses normals per triangle.</p>
 of <cite>size</cite> facing in the direction of the negative z axis.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -135,7 +135,7 @@ of <cite>size</cite> facing in the direction of the negative z axis.</p>
 facing in the direction of the negative z axis.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyunity.html#pyunity.Mesh" title="pyunity.Mesh">Mesh</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.meshes.Mesh" title="pyunity.meshes.Mesh">Mesh</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -166,21 +166,18 @@ facing in the direction of the negative z axis.</p>
 <li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">API reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#module-pyunity">PyUnity package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">pyunity.meshes module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.meshes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </li>
 </ul>
@@ -191,9 +188,9 @@ facing in the direction of the negative z axis.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="pyunity.html">API reference</a><ul>
+  <li><a href="pyunity.html">pyunity package</a><ul>
       <li>Previous: <a href="pyunity.loader.html" title="previous chapter">pyunity.loader module</a></li>
-      <li>Next: <a href="pyunity.scene.html" title="next chapter">pyunity.scene module</a></li>
+      <li>Next: <a href="pyunity.quaternion.html" title="next chapter">pyunity.quaternion module</a></li>
   </ul></li>
   </ul></li>
 </ul>
