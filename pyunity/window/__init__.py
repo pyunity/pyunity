@@ -36,25 +36,19 @@ from ..errors import *
 
 def glfwCheck():
     """Checks to see if GLFW works"""
-    global glfw
     if not glfw.init():
         raise Exception
     glfw.create_window(5, 5, "a", None, None)
     glfw.terminate()
-    del glfw
 
 def pygameCheck():
     """Checks to see if Pygame works"""
-    global pygame
     if pygame.init()[0] == 0:
         raise Exception
-    del pygame
 
 def glutCheck():
     """Checks to see if FreeGLUT works"""
-    global OpenGL
     OpenGL.GLUT.glutInit()
-    del OpenGL
 
 def LoadWindowProvider():
     """Loads an appropriate window provider to use"""
