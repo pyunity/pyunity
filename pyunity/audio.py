@@ -7,10 +7,10 @@ it cannot be initialized, then
 
 __all__ = ["AudioClip", "AudioSource"]
 
-import _io, os, warnings
+import os, warnings
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 from .errors import *
-from .config import *
+from . import config
 from .core import *
 import pygame
 try:
