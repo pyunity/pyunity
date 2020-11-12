@@ -490,9 +490,6 @@ class Scene:
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.windowProvider = config.windowProvider
             self.window = self.windowProvider(config, self.name)
-        else:
-            import pygame
-            pygame.init()
         
         self.Start()
 
@@ -544,8 +541,6 @@ class Scene:
                 gl.glPopMatrix()
     
     def no_interactive(self):
-        import pygame
-
         done = False
         clock = pygame.time.Clock()
         while not done:
