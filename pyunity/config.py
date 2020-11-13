@@ -1,4 +1,5 @@
 import os
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 if "PYUNITY_DEBUG_MODE" not in os.environ:
     os.environ["PYUNITY_DEBUG_MODE"] = "1"
 if "PYUNITY_INTERACTIVE" not in os.environ:

@@ -9,15 +9,14 @@ happens.
 
 """
 
-import pygame
-from .core import *
 from . import config
+from .core import *
 from .errors import *
 __all__ = ["AudioClip", "AudioSource"]
 
+import pygame
 import os
 import warnings
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 try:
     pygame.mixer.init()
 except pygame.error:
