@@ -16,8 +16,8 @@ clamp = lambda x, _min, _max: min(_max, max(_min, x))
 class Vector3:
 
     def __init__(self, x_or_list = None, y = None, z = None):
-        if x_or_list != None:
-            if y == None:
+        if x_or_list is not None:
+            if y is None:
                 if hasattr(x_or_list, "x") and hasattr(x_or_list, "y") and hasattr(x_or_list, "z"):
                     self.x = x_or_list.x
                     self.y = x_or_list.y

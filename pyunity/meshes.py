@@ -3,7 +3,6 @@
 __all__ = ["Mesh"]
 
 from .vector3 import Vector3
-import os
 
 class Mesh:
     """

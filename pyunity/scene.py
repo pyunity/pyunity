@@ -2,9 +2,8 @@ from .audio import *
 from .core import *
 from .vector3 import Vector3
 from .quaternion import Quaternion
-from . import config
+from . import config, window, physics
 from .errors import *
-from . import physics
 from time import time
 import os, math, copy, pygame
 
@@ -208,7 +207,7 @@ class SceneManager:
     def __loadScene(self, scene):
         self.__running_scene = scene
         if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.window = config.windowProvider(config, scene.name)
+            self.window = window.window_providers[config.windowProvider](config, scene.name)
             scene.Start()
             self.window.start(scene.update)
             self.window = None
@@ -484,19 +483,6 @@ class Scene:
         if os.environ["PYUNITY_DEBUG_MODE"] == "1":
             print("Physics is", "on" if self.physics else "off")
             print("Scene \"" + self.name + "\" has started")
-    
-    def Run(self):
-        """Run the scene and create a window for it."""
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.windowProvider = config.windowProvider
-            self.window = self.windowProvider(config, self.name)
-        
-        self.Start()
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.window.start(self.update)
-        else:
-            self.no_interactive()
     
     def transform(self, transform):
         """
