@@ -2,10 +2,10 @@ from pyunity import *
 
 def main():
     scene = SceneManager.AddScene("Scene")
-    
+
     scene.mainCamera.transform.localPosition = Vector3(0, 6, -20)
     scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
-    
+
     cube = GameObject("Cube")
     cube.transform.localPosition = Vector3(-5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
@@ -19,7 +19,7 @@ def main():
     rb.mass = infinity
 
     scene.Add(cube)
-    
+
     cube = GameObject("Cube 2")
     cube.transform.localPosition = Vector3(5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
@@ -32,7 +32,7 @@ def main():
     rb.gravity = False
 
     scene.Add(cube)
-    
+
     cube = GameObject("Cube 3")
     cube.transform.localPosition = Vector3(0, 0, -6)
     renderer = cube.AddComponent(MeshRenderer)
@@ -47,6 +47,7 @@ def main():
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
+
 
 if __name__ == "__main__":
     main()

@@ -29,16 +29,19 @@ pull request.
 
 """
 
-import os
-import OpenGL.GLUT, glfw, pygame
-glfw.ERROR_REPORTING = True
-from ..errors import *
-
-from .glutWindow import Window as glutWindow
-from .glfwWindow import Window as glfwWindow
 from .pygameWindow import Window as pygameWindow
+from .glfwWindow import Window as glfwWindow
+from .glutWindow import Window as glutWindow
+from ..errors import *
+import os
+import OpenGL.GLUT
+import glfw
+import pygame
+glfw.ERROR_REPORTING = True
 
-window_providers = {"FreeGLUT": glutWindow, "GLFW": glfwWindow, "Pygame": pygameWindow}
+
+window_providers = {"FreeGLUT": glutWindow,
+                    "GLFW": glfwWindow, "Pygame": pygameWindow}
 
 def glfwCheck():
     """Checks to see if GLFW works"""
@@ -79,9 +82,11 @@ def GetWindowProvider():
             success = bool(next)
             if success and os.environ["PYUNITY_DEBUG_MODE"] == "1":
                 print(name, "doesn't work, trying", next)
-        
-        if next is None: raise PyUnityException("No window provider found")
-        if windowProvider: break
+
+        if next is None:
+            raise PyUnityException("No window provider found")
+        if windowProvider:
+            break
         i += 1
 
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":

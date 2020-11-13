@@ -10,5 +10,6 @@ def main():
         scene.mainCamera.AddComponent(AudioSource).SetClip(clip)
     SceneManager.LoadScene(scene)
 
+
 if __name__ == "__main__":
     main()
