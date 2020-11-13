@@ -34,6 +34,12 @@ import OpenGL.GLUT, glfw, pygame
 glfw.ERROR_REPORTING = True
 from ..errors import *
 
+from .glutWindow import Window as glutWindow
+from .glfwWindow import Window as glfwWindow
+from .pygameWindow import Window as pygameWindow
+
+window_providers = {"FreeGLUT": glutWindow, "GLFW": glfwWindow, "Pygame": pygameWindow}
+
 def glfwCheck():
     """Checks to see if GLFW works"""
     if not glfw.init():
@@ -50,8 +56,8 @@ def glutCheck():
     """Checks to see if FreeGLUT works"""
     OpenGL.GLUT.glutInit()
 
-def LoadWindowProvider():
-    """Loads an appropriate window provider to use"""
+def GetWindowProvider():
+    """Gets an appropriate window provider to use"""
     winfo = [
         ("GLFW", glfwCheck),
         ("Pygame", pygameCheck),
@@ -81,12 +87,4 @@ def LoadWindowProvider():
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         print("Using window provider", windowProvider)
 
-    if windowProvider == "FreeGLUT":
-        from .glutWindow import Window as glutWindow
-        return glutWindow
-    if windowProvider == "GLFW":
-        from .glfwWindow import Window as glfwWindow
-        return glfwWindow
-    if windowProvider == "Pygame":
-        from .pygameWindow import Window as pygameWindow
-        return pygameWindow
+    return windowProvider
