@@ -4,7 +4,8 @@ physics engine.
 
 """
 
-__all__ = ["PhysicMaterial", "Collider", "SphereCollider", "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
+__all__ = ["PhysicMaterial", "Collider", "SphereCollider",
+           "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
 
 from ..vector3 import *
 from ..core import *
@@ -24,7 +25,7 @@ class PhysicMaterial:
         Bounciness of the material
     friction : float
         Friction of the material
-    
+
     Attributes
     ----------
     restitution : float
@@ -38,7 +39,7 @@ class PhysicMaterial:
 
     """
 
-    def __init__(self, restitution = 0.75, friction = 1):
+    def __init__(self, restitution=0.75, friction=1):
         self.restitution = restitution
         self.friction = friction
         self.combine = -1
@@ -68,7 +69,7 @@ class Manifold:
 
 class Collider(Component):
     """Collider base class."""
-    
+
     pass
 
 class SphereCollider(Collider):
@@ -86,12 +87,12 @@ class SphereCollider(Collider):
         The center of the SphereCollider
     radius : Vector3
         The radius of the SphereCollider
-    
+
     """
 
     def __init__(self):
         super(SphereCollider, self).__init__()
-    
+
     def SetSize(self, radius, offset):
         """
         Sets the size of the collider.
@@ -102,13 +103,13 @@ class SphereCollider(Collider):
             The radius of the collider.
         offset : Vector3
             Offset of the collider.
-        
+
         """
         self.radius = radius
         self.pos = offset + self.transform.position
         self.min = pos - radius
         self.max = pos + radius
-    
+
     def collidingWith(self, other):
         """
         Check to see if the collider is
@@ -123,7 +124,7 @@ class SphereCollider(Collider):
         -------
         Manifold or None
             Collision data
-        
+
         Notes
         -----
         To check against another SphereCollider, the
@@ -143,7 +144,7 @@ class SphereCollider(Collider):
         #.  If the distance is bigger than the sphere's
             radius, then the two are colliding.
         #.  If not, then they aren't colliding.
-        
+
         """
         if isinstance(other, SphereCollider):
             objDistSqrd = abs(self.pos - other.pos).get_length_sqrd()
@@ -152,10 +153,10 @@ class SphereCollider(Collider):
             penetration = radDistSqrd - objDistSqrd
             return Manifold(self, other, normal, penetration) if objDistSqrd <= radDistSqrd else None
         elif isinstance(other, AABBoxCollider):
-            inside = (other.min.x < self.pos.x < other.max.x and 
-                    other.min.y < self.pos.y < other.max.y and
-                    other.min.z < self.pos.z < other.max.z)
-            
+            inside = (other.min.x < self.pos.x < other.max.x and
+                      other.min.y < self.pos.y < other.max.y and
+                      other.min.z < self.pos.z < other.max.z)
+
             pos = self.pos.copy()
             if inside:
                 pos.x = other.min.x if pos.x - other.min.x < other.max.x - pos.x else other.max.x
@@ -182,12 +183,16 @@ class SphereCollider(Collider):
         -------
         bool
             Whether they are overlapping or not
-        
+
         """
-        if self.min.x > other.max.x or self.max.x < other.min.x: return False
-        elif self.min.y > other.max.y or self.max.y < other.min.y: return False
-        elif self.min.z > other.max.z or self.max.z < other.min.z: return False
-        else: return True
+        if self.min.x > other.max.x or self.max.x < other.min.x:
+            return False
+        elif self.min.y > other.max.y or self.max.y < other.min.y:
+            return False
+        elif self.min.z > other.max.z or self.max.z < other.min.z:
+            return False
+        else:
+            return True
 
 class AABBoxCollider(Collider):
     """
@@ -207,7 +212,7 @@ class AABBoxCollider(Collider):
 
     def __init__(self):
         super(AABBoxCollider, self).__init__()
-        
+
     def SetSize(self, min, max):
         """
         Sets the size of the collider.
@@ -218,12 +223,13 @@ class AABBoxCollider(Collider):
             The corner with the lowest coordinates.
         max : Vector3
             The corner with the highest coordinates.
-        
+
         """
         self.min = min
         self.max = max
-        self.pos = Vector3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2)
-    
+        self.pos = Vector3((min.x + max.x) / 2,
+                           (min.y + max.y) / 2, (min.z + max.z) / 2)
+
     def collidingWith(self, other):
         """
         Check to see if the collider is
@@ -238,7 +244,7 @@ class AABBoxCollider(Collider):
         -------
         Manifold or None
             Collision data
-        
+
         Notes
         -----
         To check against another AABBoxCollider, the
@@ -259,7 +265,7 @@ class AABBoxCollider(Collider):
         #.  If the distance is bigger than the sphere's
             radius, then the two are colliding.
         #.  If not, then they aren't colliding.
-        
+
         """
         if isinstance(other, AABBoxCollider):
             n = other.pos - self.pos
@@ -277,24 +283,30 @@ class AABBoxCollider(Collider):
                     z_overlap = a_extent + b_extent - abs(n.z)
                     if z_overlap > 0:
                         if x_overlap < y_overlap and x_overlap < z_overlap:
-                            if n.x < 0: normal = Vector3.left()
-                            else: normal = Vector3.right()
+                            if n.x < 0:
+                                normal = Vector3.left()
+                            else:
+                                normal = Vector3.right()
                             penetration = x_overlap
                         elif y_overlap < x_overlap and y_overlap < z_overlap:
-                            if n.y < 0: normal = Vector3.down()
-                            else: normal = Vector3.up()
+                            if n.y < 0:
+                                normal = Vector3.down()
+                            else:
+                                normal = Vector3.up()
                             penetration = y_overlap
                         else:
-                            if n.z < 0: normal = Vector3.back()
-                            else: normal = Vector3.forward()
+                            if n.z < 0:
+                                normal = Vector3.back()
+                            else:
+                                normal = Vector3.forward()
                             penetration = z_overlap
                         return Manifold(self, other, normal, penetration)
 
         elif isinstance(other, SphereCollider):
-            inside = (self.min.x < other.pos.x < self.max.x and 
-                    self.min.y < other.pos.y < self.max.y and
-                    self.min.z < other.pos.z < self.max.z)
-            
+            inside = (self.min.x < other.pos.x < self.max.x and
+                      self.min.y < other.pos.y < self.max.y and
+                      self.min.z < other.pos.z < self.max.z)
+
             pos = other.pos.copy()
             if inside:
                 pos.x = self.min.x if pos.x - self.min.x < self.max.x - pos.x else self.max.x
@@ -321,12 +333,16 @@ class AABBoxCollider(Collider):
         -------
         bool
             Whether they are overlapping or not
-        
+
         """
-        if self.min.x > other.max.x or self.max.x < other.min.x: return False
-        elif self.min.y > other.max.y or self.max.y < other.min.y: return False
-        elif self.min.z > other.max.z or self.max.z < other.min.z: return False
-        else: return True
+        if self.min.x > other.max.x or self.max.x < other.min.x:
+            return False
+        elif self.min.y > other.max.y or self.max.y < other.min.y:
+            return False
+        elif self.min.z > other.max.z or self.max.z < other.min.z:
+            return False
+        else:
+            return True
 
 class Rigidbody(Component):
     """
@@ -357,7 +373,7 @@ class Rigidbody(Component):
         self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
         self.gravity = True
-    
+
     def Move(self, dt):
         """
         Moves all colliders on the GameObject by
@@ -368,9 +384,10 @@ class Rigidbody(Component):
         ----------
         dt : float
             Time to simulate movement by
-        
+
         """
-        if self.gravity: self.force += config.gravity
+        if self.gravity:
+            self.force += config.gravity
         self.velocity += self.force * (1 / self.mass) * dt
         self.position += self.velocity * dt
         for component in self.gameObject.components:
@@ -378,9 +395,9 @@ class Rigidbody(Component):
                 component.min += self.velocity * dt
                 component.max += self.velocity * dt
                 component.pos += self.velocity * dt
-        
+
         self.force = Vector3.zero()
-    
+
     def MovePos(self, offset):
         """
         Moves the rigidbody and its colliders
@@ -390,7 +407,7 @@ class Rigidbody(Component):
         ----------
         offset : Vector3
             Offset to move
-        
+
         """
         self.position += offset
         for component in self.gameObject.components:
@@ -398,7 +415,7 @@ class Rigidbody(Component):
                 component.min += offset
                 component.max += offset
                 component.pos += offset
-    
+
     def AddForce(self, force):
         """
         Apply a force to the center of the Rigidbody.
@@ -407,7 +424,7 @@ class Rigidbody(Component):
         ----------
         force : Vector3
             Force to apply
-        
+
         Notes
         -----
         A force is a gradual change in velocity, whereas
@@ -415,7 +432,7 @@ class Rigidbody(Component):
 
         """
         self.force += force
-    
+
     def AddImpulse(self, impulse):
         """
         Apply an impulse to the center of the Rigidbody.
@@ -424,12 +441,12 @@ class Rigidbody(Component):
         ----------
         impulse : Vector3
             Impulse to apply
-        
+
         Notes
         -----
         A force is a gradual change in velocity, whereas
         an impulse is just a jump in velocity.
-        
+
         """
         self.velocity += impulse
 
@@ -454,7 +471,7 @@ class CollManager:
         self.rigidbodies = {}
         self.dummyRigidbody = Rigidbody()
         self.dummyRigidbody.mass = infinity
-    
+
     def AddPhysicsInfo(self, scene):
         """
         Get all colliders and rigidbodies from a
@@ -467,7 +484,7 @@ class CollManager:
         ----------
         scene : Scene
             Scene to search for physics info
-        
+
         Notes
         -----
         This function will overwrite the
@@ -488,14 +505,17 @@ class CollManager:
                 for component in gameObject.components:
                     if isinstance(component, Collider):
                         colliders.append(component)
-                
+
                 rb = gameObject.GetComponent(Rigidbody)
-                if rb is None: dummies += colliders; continue
-                else: rb.position = rb.transform.position
+                if rb is None:
+                    dummies += colliders
+                    continue
+                else:
+                    rb.position = rb.transform.position
                 self.rigidbodies[rb] = colliders
-        
+
         self.rigidbodies[self.dummyRigidbody] = dummies
-    
+
     def GetRestitution(self, a, b):
         """
         Get the restitution needed for
@@ -513,7 +533,7 @@ class CollManager:
         -------
         float
             Restitution
-        
+
         """
         if a.physicMaterial.combine + b.physicMaterial.combine < 0:
             return min(a.physicMaterial.restitution, b.physicMaterial.restitution)
@@ -533,7 +553,8 @@ class CollManager:
             for y, rbB in zip(range(x + 1, len(self.rigidbodies)), list(self.rigidbodies.keys())[x + 1:]):
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = colliderA.CheckOverlap(colliderB) and colliderA.collidingWith(colliderB)
+                        m = colliderA.CheckOverlap(
+                            colliderB) and colliderA.collidingWith(colliderB)
                         if m:
                             e = self.GetRestitution(rbA, rbB)
 
@@ -541,21 +562,28 @@ class CollManager:
 
                             rv = rbA.velocity - rbB.velocity
                             velAlongNormal = rv.dot(normal)
-                            if velAlongNormal < 0: continue
+                            if velAlongNormal < 0:
+                                continue
                             b = velAlongNormal / normal.dot(normal)
 
-                            if math.isinf(rbA.mass): a = 0
-                            elif math.isinf(rbB.mass): a = 2
-                            else: a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
+                            if math.isinf(rbA.mass):
+                                a = 0
+                            elif math.isinf(rbB.mass):
+                                a = 2
+                            else:
+                                a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
 
                             velA = a * b * normal
 
                             normal *= -1
 
-                            if math.isinf(rbA.mass): a = 2
-                            elif math.isinf(rbB.mass): a = 0
-                            else: a = (1 + e) * rbA.mass / (rbA.mass + rbB.mass)
-                            
+                            if math.isinf(rbA.mass):
+                                a = 2
+                            elif math.isinf(rbB.mass):
+                                a = 0
+                            else:
+                                a = (1 + e) * rbA.mass / (rbA.mass + rbB.mass)
+
                             velB = a * b * normal
 
                             rbA.velocity -= velA
@@ -566,7 +594,7 @@ class CollManager:
 
                             # jt = rv.dot(t)
                             # jt /= 1 / rbA.mass + 1 / rbB.mass
-                            
+
                             # if math.isinf(rbA.mass + rbB.mass): j = 0
                             # else:
                             #     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
@@ -577,11 +605,12 @@ class CollManager:
                             #     frictionImpulse = jt * t
                             # else:
                             #     frictionImpulse = -j * t * mu
-                            
+
                             # rbA.velocity -= 1 / rbA.mass * frictionImpulse
                             # rbB.velocity += 1 / rbB.mass * frictionImpulse
 
-                            correction = m.penetration * (rbA.mass + rbB.mass) * 0.8 * m.normal
+                            correction = m.penetration * \
+                                (rbA.mass + rbB.mass) * 0.8 * m.normal
                             rbA.MovePos(
                                 -1 / rbA.mass * correction if not math.isinf(rbA.mass + rbB.mass) else 0)
                             rbB.MovePos(
@@ -596,7 +625,7 @@ class CollManager:
         ----------
         dt : float
             Delta time to step
-        
+
         Notes
         -----
         The simulation is stepped 10 times,
