@@ -17,8 +17,10 @@ example_list = [
 ]
 
 def show():
-    if len(sys.argv) == 1: num = 0
-    else: num = int(sys.argv[1])
+    if len(sys.argv) == 1:
+        num = 0
+    else:
+        num = int(sys.argv[1])
     if not num:
         for index, example in enumerate(example_list):
             print("\nExample", index + 1)

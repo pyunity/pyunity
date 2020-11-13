@@ -32,15 +32,26 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.scene</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.audio</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module to create and load Scenes.</span>
+
+<span class="sd">You should never use the ``Scene``</span>
+<span class="sd">class directly, instead, only use</span>
+<span class="sd">the SceneManager class.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.audio</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
 <span class="kn">from</span> <span class="nn">.quaternion</span> <span class="kn">import</span> <span class="n">Quaternion</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">physics</span>
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">physics</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
 
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">OpenGL.GL</span> <span class="k">as</span> <span class="nn">gl</span>
@@ -64,7 +75,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
-    
+
     <span class="k">def</span> <span class="nf">AddScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sceneName</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a scene to the SceneManager. Pass</span>
@@ -74,12 +85,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        sceneName : str</span>
 <span class="sd">            Name of the scene</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Scene</span>
 <span class="sd">            Newly created scene</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        PyUnityException</span>
@@ -87,13 +98,13 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">sceneName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;SceneManager already contains scene </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> \
-                <span class="n">sceneName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;SceneManager already contains scene </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span>
+                                   <span class="n">sceneName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">scene</span> <span class="o">=</span> <span class="n">Scene</span><span class="p">(</span><span class="n">sceneName</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">sceneName</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="k">return</span> <span class="n">scene</span>
-    
+
     <span class="k">def</span> <span class="nf">GetSceneByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a scene by its index.</span>
@@ -102,12 +113,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        index : int</span>
 <span class="sd">            Index of the scene</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Scene</span>
 <span class="sd">            Specified scene at index `index`</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        IndexError</span>
@@ -117,7 +128,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">index</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;There is no scene at index &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-    
+
     <span class="k">def</span> <span class="nf">GetSceneByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a scene by its name.</span>
@@ -126,12 +137,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        name : str</span>
 <span class="sd">            Name of the scene</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Scene</span>
 <span class="sd">            Specified scene with name of `name`</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        KeyError</span>
@@ -141,7 +152,7 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;There is no scene called &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-    
+
     <span class="k">def</span> <span class="nf">RemoveScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes a scene from the SceneManager.</span>
@@ -157,15 +168,16 @@
 <span class="sd">            If the provided scene is not type Scene</span>
 <span class="sd">        PyUnityException</span>
 <span class="sd">            If the scene is not part of the SceneManager</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">Scene</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The provided scene is not of type Scene&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">scene</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;Scene </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> is not part of the SceneManager&quot;</span> <span class="o">%</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span>
+                <span class="s2">&quot;Scene </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> is not part of the SceneManager&quot;</span> <span class="o">%</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">LoadSceneByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads a scene by its name.</span>
@@ -181,14 +193,14 @@
 <span class="sd">            When the provided name is not a string</span>
 <span class="sd">        PyUnityException</span>
 <span class="sd">            When there is no scene named ``name``</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%r</span><span class="se">\&quot;</span><span class="s2"> is not a string&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;There is no scene named </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
-    
+
     <span class="k">def</span> <span class="nf">LoadSceneByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads a scene by its index of when it was added</span>
@@ -205,14 +217,14 @@
 <span class="sd">            When the provided index is not an integer</span>
 <span class="sd">        PyUnityException</span>
 <span class="sd">            When there is no scene at index ``index``</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%r</span><span class="se">\&quot;</span><span class="s2"> is not an integer&quot;</span> <span class="o">%</span> <span class="n">index</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;There is no scene at index </span><span class="se">\&quot;</span><span class="si">%d</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">index</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
-    
+
     <span class="k">def</span> <span class="nf">LoadScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a scene by a reference.</span>
@@ -231,18 +243,21 @@
 <span class="sd">            This is checked because the SceneManager</span>
 <span class="sd">            has to make some checks before the scene</span>
 <span class="sd">            can be run.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">Scene</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The provided Scene </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> is not an integer&quot;</span> <span class="o">%</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;The provided Scene </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> is not an integer&quot;</span> <span class="o">%</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">scene</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;The provided scene is not part of the SceneManager&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span>
+                <span class="s2">&quot;The provided scene is not part of the SceneManager&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__loadScene</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">scene</span><span class="p">))</span>
-    
+
     <span class="k">def</span> <span class="nf">__loadScene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__running_scene</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">window_providers</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">](</span>
+                <span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
@@ -252,11 +267,12 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">update</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">scene</span><span class="o">.</span><span class="n">no_interactive</span><span class="p">()</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">CurrentScene</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the current scene being run&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__running_scene</span></div>
+
 
 <span class="n">SceneManager</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="p">()</span>
 <span class="sd">&quot;&quot;&quot;Manages all scene additions and changes&quot;&quot;&quot;</span>
@@ -286,7 +302,7 @@
         <span class="n">light</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">gameObject</span><span class="p">,</span> <span class="n">light</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">gameObject</span><span class="p">,</span> <span class="n">light</span><span class="p">]</span>
-    
+
 <div class="viewcode-block" id="Scene.Add"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Add">[docs]</a>    <span class="k">def</span> <span class="nf">Add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a GameObject to the scene.</span>
@@ -295,12 +311,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        gameObject : GameObejct</span>
 <span class="sd">            The GameObject to add.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Scene.Remove"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Remove">[docs]</a>    <span class="k">def</span> <span class="nf">Remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a GameObject from the scene.</span>
@@ -309,7 +325,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        gameObject : GameObject</span>
 <span class="sd">            GameObject to remove.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        PyUnityException</span>
@@ -322,15 +338,17 @@
                 <span class="k">if</span> <span class="n">go</span> <span class="o">==</span> <span class="n">gameObject</span><span class="p">:</span>
                     <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
-            <span class="k">if</span> <span class="n">flag</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;Cannot remove the Main Camera from the scene&quot;</span><span class="p">)</span></div>
-    
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot remove the Main Camera from the scene&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Scene.List"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Lists all the GameObjects currently in the scene.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootGameObjects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
             <span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">List</span><span class="p">()</span></div>
-    
+
 <div class="viewcode-block" id="Scene.FindGameObjectsByName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds all GameObjects matching the specified name.</span>
@@ -344,10 +362,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        list</span>
 <span class="sd">            List of the matching GameObjects</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">gameObject</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">]</span></div>
-        
+
 <div class="viewcode-block" id="Scene.FindGameObjectsByTagName"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagName">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds all GameObjects with the specified tag name.</span>
@@ -366,13 +384,14 @@
 <span class="sd">        ------</span>
 <span class="sd">        GameObjectException</span>
 <span class="sd">            When there is no tag named `name`</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">gameObject</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">tagName</span> <span class="o">==</span> <span class="n">name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span><span class="s2">&quot;No tag named &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
-        
+            <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span>
+                <span class="s2">&quot;No tag named &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Scene.FindGameObjectsByTagNumber"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.FindGameObjectsByTagNumber">[docs]</a>    <span class="k">def</span> <span class="nf">FindGameObjectsByTagNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets all GameObjects with a tag of tag `num`.</span>
@@ -391,13 +410,14 @@
 <span class="sd">        ------</span>
 <span class="sd">        GameObjectException</span>
 <span class="sd">            If there is no tag with specified index.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">gameObject</span> <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span> <span class="k">if</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">num</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span><span class="s2">&quot;No tag at index &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
-    
+            <span class="k">raise</span> <span class="n">GameObjectException</span><span class="p">(</span>
+                <span class="s2">&quot;No tag at index &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;; create a new tag with Tag.AddTag&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Scene.inside_frustrum"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.inside_frustrum">[docs]</a>    <span class="k">def</span> <span class="nf">inside_frustrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the renderer&#39;s mesh can be</span>
@@ -412,16 +432,21 @@
 <span class="sd">        -------</span>
 <span class="sd">        bool</span>
 <span class="sd">            If the mesh can be seen</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">mesh</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">directionX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">right</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">directionY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">up</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">directionZ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">directionX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+            <span class="n">Vector3</span><span class="o">.</span><span class="n">right</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">directionY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+            <span class="n">Vector3</span><span class="o">.</span><span class="n">up</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">directionZ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+            <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">position</span> <span class="k">if</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">parent</span> <span class="k">else</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
-        <span class="n">rpmin</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">min</span> <span class="o">-</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span><span class="p">)</span>
-        <span class="n">rpmax</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span><span class="p">)</span>
+        <span class="n">rpmin</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+            <span class="n">mesh</span><span class="o">.</span><span class="n">min</span> <span class="o">-</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span><span class="p">)</span>
+        <span class="n">rpmax</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+            <span class="n">mesh</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">renderer</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">localPosition</span><span class="p">)</span>
         <span class="n">rpmin</span> <span class="o">+=</span> <span class="n">parent</span> <span class="o">-</span> <span class="n">pos</span>
         <span class="n">rpmax</span> <span class="o">+=</span> <span class="n">parent</span> <span class="o">-</span> <span class="n">pos</span>
 
@@ -432,16 +457,22 @@
 
         <span class="n">minY</span> <span class="o">=</span> <span class="n">rpmin</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">directionY</span><span class="p">)</span>
         <span class="n">maxY</span> <span class="o">=</span> <span class="n">rpmax</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">directionY</span><span class="p">)</span>
-        <span class="n">hmin</span> <span class="o">=</span> <span class="n">minZ</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">hmax</span> <span class="o">=</span> <span class="n">maxZ</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">hmin</span> <span class="o">=</span> <span class="n">minZ</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> \
+            <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span>
+                                  <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">hmax</span> <span class="o">=</span> <span class="n">maxZ</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> \
+            <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span>
+                                  <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">minY</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">hmin</span> <span class="o">/</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">maxY</span> <span class="o">&lt;</span> <span class="n">hmax</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        
+
         <span class="n">minX</span> <span class="o">=</span> <span class="n">rpmin</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">directionX</span><span class="p">)</span>
         <span class="n">maxX</span> <span class="o">=</span> <span class="n">rpmax</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">directionX</span><span class="p">)</span>
-        <span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span> <span class="o">=</span> <span class="n">hmin</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hmax</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">wmin</span><span class="p">,</span> <span class="n">wmax</span> <span class="o">=</span> <span class="n">hmin</span> <span class="o">*</span> \
+            <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hmax</span> <span class="o">*</span> \
+            <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">minX</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">wmin</span> <span class="o">/</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">maxX</span> <span class="o">&lt;</span> <span class="n">wmax</span> <span class="o">/</span> <span class="mi">2</span></div>
-    
+
 <div class="viewcode-block" id="Scene.start_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.start_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">start_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Start the scripts in the Scene.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -453,7 +484,8 @@
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Channel</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="p">:</span>
-                        <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+                        <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span>
+                            <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">PlayOnStart</span><span class="p">:</span>
                         <span class="n">component</span><span class="o">.</span><span class="n">Play</span><span class="p">()</span>
 
@@ -465,7 +497,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">CollManager</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">AddPhysicsInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Scene.Start"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Start">[docs]</a>    <span class="k">def</span> <span class="nf">Start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start the internal parts of the</span>
@@ -501,12 +533,14 @@
             <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
                 <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
-                    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="n">gl</span><span class="o">.</span><span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">gl</span><span class="o">.</span><span class="n">GL_AMBIENT</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span>
+                             <span class="mi">100</span><span class="p">,</span> <span class="n">light</span><span class="o">.</span><span class="n">intensity</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">gl</span><span class="o">.</span><span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span>
+                                 <span class="n">gl</span><span class="o">.</span><span class="n">GL_AMBIENT</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                     <span class="n">gl</span><span class="o">.</span><span class="n">glLightfv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">gl</span><span class="o">.</span><span class="n">GL_DIFFUSE</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
                     <span class="c1"># gl.glLightfv(self.lights[light_num], gl.GL_SPECULAR, (1, 1, 1, 1))</span>
                     <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
-            
+
             <span class="n">gl</span><span class="o">.</span><span class="n">glClearColor</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">clearColor</span><span class="p">)</span>
 
             <span class="n">gl</span><span class="o">.</span><span class="n">glEnable</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_DEPTH_TEST</span><span class="p">)</span>
@@ -514,27 +548,11 @@
                 <span class="n">gl</span><span class="o">.</span><span class="n">glEnable</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_CULL_FACE</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">start_scripts</span><span class="p">()</span>
-        
+
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Physics is&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics</span> <span class="k">else</span> <span class="s2">&quot;off&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scene </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> has started&quot;</span><span class="p">)</span></div>
-    
-<div class="viewcode-block" id="Scene.Run"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.Run">[docs]</a>    <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the scene and create a window for it.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">pygame</span>
-            <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">no_interactive</span><span class="p">()</span></div>
-    
 <div class="viewcode-block" id="Scene.transform"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform the matrix by a specified transform.</span>
@@ -543,7 +561,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        transform : Transform</span>
 <span class="sd">            Transform to move</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glRotatef</span><span class="p">(</span><span class="o">*</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">angleAxisPair</span><span class="p">)</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">glScalef</span><span class="p">(</span><span class="o">*</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
@@ -566,7 +584,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">collManager</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
-    
+
 <div class="viewcode-block" id="Scene.render"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Renders all GameObjects with MeshRenderers.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
@@ -576,10 +594,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
                 <span class="n">renderer</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                 <span class="n">gl</span><span class="o">.</span><span class="n">glPopMatrix</span><span class="p">()</span></div>
-    
-<div class="viewcode-block" id="Scene.no_interactive"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.no_interactive">[docs]</a>    <span class="k">def</span> <span class="nf">no_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">pygame</span>
 
+<div class="viewcode-block" id="Scene.no_interactive"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.no_interactive">[docs]</a>    <span class="k">def</span> <span class="nf">no_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
@@ -593,7 +609,7 @@
 <div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Updating function to pass to the window provider.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_scripts</span><span class="p">()</span>
-        
+
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
             <span class="n">gl</span><span class="o">.</span><span class="n">glClear</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">gl</span><span class="o">.</span><span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">)</span>
 
@@ -608,19 +624,23 @@
                 <span class="n">light</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">GetComponent</span><span class="p">(</span><span class="n">Light</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
                     <span class="n">gl</span><span class="o">.</span><span class="n">glEnable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">])</span>
-                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
+                    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span>
+                             <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">light</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
                     <span class="n">gl</span><span class="o">.</span><span class="n">glLight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">],</span> <span class="n">gl</span><span class="o">.</span><span class="n">GL_POSITION</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
                     <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastPos</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="ow">or</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastRot</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="p">):</span>
                 <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">look</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">up</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">look</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+                        <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span>
+                    <span class="n">Vector3</span><span class="o">.</span><span class="n">up</span><span class="p">())</span> <span class="o">*</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">glu</span><span class="o">.</span><span class="n">gluLookAt</span><span class="p">(</span><span class="o">*</span><span class="n">pos</span><span class="p">,</span> <span class="o">*</span><span class="n">look</span><span class="p">,</span> <span class="o">*</span><span class="n">up</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastPos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">lastRot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span>
-            
+
             <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
 
             <span class="n">light_num</span> <span class="o">=</span> <span class="mi">0</span>
@@ -629,7 +649,7 @@
                 <span class="k">if</span> <span class="n">light</span><span class="p">:</span>
                     <span class="n">gl</span><span class="o">.</span><span class="n">glDisable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="p">[</span><span class="n">light_num</span><span class="p">])</span>
                     <span class="n">light_num</span> <span class="o">+=</span> <span class="mi">1</span>
-            
+
             <span class="n">gl</span><span class="o">.</span><span class="n">glDisable</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_LIGHTING</span><span class="p">)</span>
             <span class="n">gl</span><span class="o">.</span><span class="n">glDisable</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_COLOR_MATERIAL</span><span class="p">)</span></div></div>
 </pre></div>
