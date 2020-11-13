@@ -44,14 +44,14 @@
 <span class="sd">When you first import PyUnity, it checks</span>
 <span class="sd">to see if any of the three providers</span>
 <span class="sd">work. The testing order is as above, so</span>
-<span class="sd">Pygame is tested last.</span>
+<span class="sd">FreeGLUT is tested last.</span>
 
 <span class="sd">To create your own provider, create a</span>
 <span class="sd">class that has the following methods:</span>
 
-<span class="sd">- `__init__`: initiate your window and</span>
+<span class="sd">- ``__init__``: initiate your window and</span>
 <span class="sd">    check to see if it works.</span>
-<span class="sd">- `start`: start the main loop in your</span>
+<span class="sd">- ```start```: start the main loop in your</span>
 <span class="sd">    window. The first parameter is</span>
 <span class="sd">    ``update_func``, which is called</span>
 <span class="sd">    when you want to do the OpenGL calls.</span>
@@ -63,35 +63,38 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">OpenGL.GLUT</span><span class="o">,</span> <span class="nn">glfw</span><span class="o">,</span> <span class="nn">pygame</span>
-<span class="n">glfw</span><span class="o">.</span><span class="n">ERROR_REPORTING</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="kn">from</span> <span class="nn">.pygameWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">pygameWindow</span>
+<span class="kn">from</span> <span class="nn">.glfwWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glfwWindow</span>
+<span class="kn">from</span> <span class="nn">.glutWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glutWindow</span>
 <span class="kn">from</span> <span class="nn">..errors</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">OpenGL.GLUT</span>
+<span class="kn">import</span> <span class="nn">glfw</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="n">glfw</span><span class="o">.</span><span class="n">ERROR_REPORTING</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="n">window_providers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;FreeGLUT&quot;</span><span class="p">:</span> <span class="n">glutWindow</span><span class="p">,</span>
+                    <span class="s2">&quot;GLFW&quot;</span><span class="p">:</span> <span class="n">glfwWindow</span><span class="p">,</span> <span class="s2">&quot;Pygame&quot;</span><span class="p">:</span> <span class="n">pygameWindow</span><span class="p">}</span>
 
 <div class="viewcode-block" id="glfwCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.glfwCheck">[docs]</a><span class="k">def</span> <span class="nf">glfwCheck</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Checks to see if GLFW works&quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">glfw</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">glfw</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">Exception</span>
     <span class="n">glfw</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">glfw</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-    <span class="k">del</span> <span class="n">glfw</span></div>
+    <span class="n">glfw</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="pygameCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.pygameCheck">[docs]</a><span class="k">def</span> <span class="nf">pygameCheck</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Checks to see if Pygame works&quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">pygame</span>
     <span class="k">if</span> <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span>
-    <span class="k">del</span> <span class="n">pygame</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span></div>
 
 <div class="viewcode-block" id="glutCheck"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.glutCheck">[docs]</a><span class="k">def</span> <span class="nf">glutCheck</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Checks to see if FreeGLUT works&quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">OpenGL</span>
-    <span class="n">OpenGL</span><span class="o">.</span><span class="n">GLUT</span><span class="o">.</span><span class="n">glutInit</span><span class="p">()</span>
-    <span class="k">del</span> <span class="n">OpenGL</span></div>
+    <span class="n">OpenGL</span><span class="o">.</span><span class="n">GLUT</span><span class="o">.</span><span class="n">glutInit</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LoadWindowProvider"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.LoadWindowProvider">[docs]</a><span class="k">def</span> <span class="nf">LoadWindowProvider</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Loads an appropriate window provider to use&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GetWindowProvider"><a class="viewcode-back" href="../../pyunity.window.html#pyunity.window.GetWindowProvider">[docs]</a><span class="k">def</span> <span class="nf">GetWindowProvider</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Gets an appropriate window provider to use&quot;&quot;&quot;</span>
     <span class="n">winfo</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s2">&quot;GLFW&quot;</span><span class="p">,</span> <span class="n">glfwCheck</span><span class="p">),</span>
         <span class="p">(</span><span class="s2">&quot;Pygame&quot;</span><span class="p">,</span> <span class="n">pygameCheck</span><span class="p">),</span>
@@ -113,23 +116,17 @@
             <span class="n">success</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">success</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;doesn&#39;t work, trying&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
-        
-        <span class="k">if</span> <span class="nb">next</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;No window provider found&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">windowProvider</span><span class="p">:</span> <span class="k">break</span>
+
+        <span class="k">if</span> <span class="nb">next</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;No window provider found&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">windowProvider</span><span class="p">:</span>
+            <span class="k">break</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using window provider&quot;</span><span class="p">,</span> <span class="n">windowProvider</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">windowProvider</span> <span class="o">==</span> <span class="s2">&quot;FreeGLUT&quot;</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.glutWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glutWindow</span>
-        <span class="k">return</span> <span class="n">glutWindow</span>
-    <span class="k">if</span> <span class="n">windowProvider</span> <span class="o">==</span> <span class="s2">&quot;GLFW&quot;</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.glfwWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glfwWindow</span>
-        <span class="k">return</span> <span class="n">glfwWindow</span>
-    <span class="k">if</span> <span class="n">windowProvider</span> <span class="o">==</span> <span class="s2">&quot;Pygame&quot;</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.pygameWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">pygameWindow</span>
-        <span class="k">return</span> <span class="n">pygameWindow</span></div>
+    <span class="k">return</span> <span class="n">windowProvider</span></div>
 </pre></div>
 
           </div>

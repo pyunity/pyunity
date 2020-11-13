@@ -46,7 +46,7 @@ if len(sys.argv) < 2:
             f.write(line + "\n")
 
 if os.environ["cython"] == "1":
-    if os.system("cython --help") != 0:
+    if pkgutil.find_loader("cython") is None:
         raise Exception("Cython is needed to create CPython extensions.")
     if os.path.exists("src"): shutil.rmtree("src")
     # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
