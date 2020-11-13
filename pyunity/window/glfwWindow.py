@@ -1,4 +1,4 @@
-import glfw, time
+import glfw
 from ..errors import *
 
 class Window:

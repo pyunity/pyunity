@@ -37,7 +37,6 @@ class Window:
             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
                 done = True
-                break
             
             self.update_func()
             pygame.display.flip()

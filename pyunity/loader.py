@@ -6,10 +6,10 @@ and saving PyUnity meshes and scenes.
 
 from .vector3 import Vector3
 from .meshes import Mesh
-from . import meshes
 from .core import *
 from .scene import SceneManager
-import random, pickle, sys, os
+import pickle, sys, os
+# import random
 
 def LoadObj(filename):
     """
@@ -30,7 +30,6 @@ def LoadObj(filename):
     normals = []
     faces = []
 
-    material = None
     for line in open(filename, "r"):
         if line.startswith("#"): continue
         values = line.split()
