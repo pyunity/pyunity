@@ -122,14 +122,14 @@ new pull request.
 
 """
 
+from .audio import *
+from .core import *
 from . import loader
 from .physics import *
 from .scene import SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
-from .core import *
-from .audio import *
 import os
 __version__ = "0.3.0"
 __copyright__ = "Copyright 2020 Ray Chen"
