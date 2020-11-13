@@ -1,4 +1,4 @@
-"""Module for prebuilt meshes."""
+"""Module for meshes created at runtime."""
 
 __all__ = ["Mesh"]
 

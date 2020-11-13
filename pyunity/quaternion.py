@@ -1,3 +1,5 @@
+"""Class to represent a rotation in 3D space."""
+
 __all__ = ["Quaternion"]
 
 import math
