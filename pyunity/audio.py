@@ -9,14 +9,15 @@ happens.
 
 """
 
+import pygame
+from .core import *
+from . import config
+from .errors import *
 __all__ = ["AudioClip", "AudioSource"]
 
-import os, warnings
+import os
+import warnings
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
-from .errors import *
-from . import config
-from .core import *
-import pygame
 try:
     pygame.mixer.init()
 except pygame.error:
@@ -24,30 +25,36 @@ except pygame.error:
     config.audio = False
     class AudioClip:
         def __init__(self, *args, **kwargs):
-            warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
-        
+            warnings.warn(
+                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+
         def __getattr__(self, item):
-            warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
-        
+            warnings.warn(
+                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+
         def __setattr__(self, item, value):
-            warnings.warn("Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
-            
+            warnings.warn(
+                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+
     class AudioSource(Component):
         def __init__(self, *args, **kwargs):
             super(AudioSource, self).__init__()
-            warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
-        
+            warnings.warn(
+                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+
         def __getattr__(self, item):
-            warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
-        
+            warnings.warn(
+                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+
         def __setattr__(self, item, value):
-            warnings.warn("Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+            warnings.warn(
+                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
 else:
 
     class AudioClip:
         """
         Class to store information about an audio file.
-        
+
         Attributes
         ----------
         file : str
@@ -57,23 +64,23 @@ else:
             a ``pygame.mixer.Channel``.
             Only set when the AudioClip is in
             an ``AudioSource`` n a running scene.
-        
+
         """
-        
+
         def __init__(self, file):
             self.SetSound(file)
-        
+
         def SetSound(self, file):
             """
             Changes the audio file.
-            
+
             Parameters
             ----------
             file : str
                 Name of the audio file
                 Must be a .ogg file, which can work
                 on any platform.
-            
+
             Raises
             ------
             PyUnityException
@@ -81,7 +88,7 @@ else:
                 audio file
             TypeError
                 If the provided file is not of type str
-            
+
             """
             if isinstance(file, str):
                 if os.path.exists(file):
@@ -90,16 +97,18 @@ else:
                         if hasattr(self, "sound"):
                             self.sound = pygame.mixer.Sound(self.file)
                     else:
-                        raise PyUnityException("Cannot use an audio file that is not of type OGG")
+                        raise PyUnityException(
+                            "Cannot use an audio file that is not of type OGG")
                 else:
                     raise PyUnityException("Cannot find file: " + file)
             else:
-                raise TypeError("Argument 1: Expected str, got %r" % type(file).__name__)
+                raise TypeError("Argument 1: Expected str, got %r" %
+                                type(file).__name__)
 
     class AudioSource(Component):
         """
         Manages playback on an AudioSource.
-        
+
         Attributes
         ----------
         clip : AudioClip
@@ -110,55 +119,56 @@ else:
         Loop : bool
             Whether it loops or not. This is not
             fully supported.
-        
+
         """
-        
+
         def __init__(self):
             super(AudioSource, self).__init__()
             self.clip = None
             self.PlayOnStart = True
             self.Loop = False
-        
+
         def SetClip(self, clip):
             """
             Sets the clip to play.
-            
+
             Parameters
             ----------
             clip : AudioClip
                 Clip to set
-            
+
             Raises
             ------
             TypeError
                 If the provided clip is not of type AudioClip
-            
+
             """
             if not isinstance(clip, AudioClip):
-                raise TypeError("Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
+                raise TypeError(
+                    "Argument 1: Expected AudioClip, got %r" % type(clip).__name__)
             self.clip = clip
-        
+
         def Play(self):
             """Plays the current clip."""
             if self.clip is None:
                 warnings.warn("AudioSource has no clip", PyUnityWarning)
             else:
                 self.channel.play(self.clip.sound)
-        
+
         def Pause(self):
             """Pauses the current clip."""
             if self.clip is None:
                 warnings.warn("AudioSource has no clip", PyUnityWarning)
             else:
                 self.channel.pause()
-        
+
         def UnPause(self):
             """Unpauses the current clip."""
             if self.clip is None:
                 warnings.warn("AudioSource has no clip", PyUnityWarning)
             else:
                 self.channel.unpause()
-        
+
         def Stop(self):
             """Stop the current clip."""
             if self.clip is None:

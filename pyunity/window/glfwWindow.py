@@ -11,21 +11,21 @@ class Window:
     ------
     PyUnityException
         If the window creation fails
-    
+
     """
 
     def __init__(self, config, name):
         self.config = config
         glfw.init()
-        
+
         glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
         self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
             glfw.terminate()
             raise PyUnityException("Cannot open GLFW window")
-        
+
         glfw.make_context_current(self.window)
-    
+
     def start(self, update_func):
         """
         Start the main loop of the window.
@@ -34,7 +34,7 @@ class Window:
         ----------
         update_func : function
             The function that calls the OpenGL calls.
-        
+
         """
         self.update_func = update_func
         last = glfw.get_time()

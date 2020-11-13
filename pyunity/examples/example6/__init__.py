@@ -76,5 +76,5 @@ def main():
     renderer.mat = mat
     renderer.mesh = loader.Primitives.quad
     scene.Add(quad)
-    
+
     SceneManager.LoadScene(scene)

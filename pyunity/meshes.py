@@ -29,7 +29,7 @@ class Mesh:
     normals : list
         List of Vector3's containing the normal of each triangle.
         Unlike Unity, PyUnity uses normals per triangle.
-    
+
     """
 
     def __init__(self, verts, triangles, normals):
@@ -39,14 +39,20 @@ class Mesh:
 
         self.min, self.max = Vector3.zero(), Vector3.zero()
         for vert in verts:
-            if vert.x < self.min.x: self.min.x = vert.x
-            if vert.y < self.min.y: self.min.y = vert.y
-            if vert.z < self.min.z: self.min.z = vert.z
-            
-            if vert.x > self.max.x: self.max.x = vert.x
-            if vert.y > self.max.y: self.max.y = vert.y
-            if vert.z > self.max.z: self.max.z = vert.z
-    
+            if vert.x < self.min.x:
+                self.min.x = vert.x
+            if vert.y < self.min.y:
+                self.min.y = vert.y
+            if vert.z < self.min.z:
+                self.min.z = vert.z
+
+            if vert.x > self.max.x:
+                self.max.x = vert.x
+            if vert.y > self.max.y:
+                self.max.y = vert.y
+            if vert.z > self.max.z:
+                self.max.z = vert.z
+
     @staticmethod
     def quad(size):
         """
@@ -62,17 +68,18 @@ class Mesh:
         Mesh
             A quad centered at Vector3(0, 0) with side length of `size` 
             facing in the direction of the negative z axis.
-        
+
         """
         return Mesh(
             [
                 Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
+                Vector3(-size / 2, -size / 2,
+                        0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
             [Vector3.forward(), Vector3.forward()]
         )
-    
+
     @staticmethod
     def double_quad(size):
         """
@@ -88,17 +95,18 @@ class Mesh:
         Mesh
             A double-sided quad centered at Vector3(0, 0) with side length
             of `size` facing in the direction of the negative z axis.
-        
+
         """
         return Mesh(
             [
                 Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0)
+                Vector3(-size / 2, -size / 2,
+                        0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]],
             [Vector3.forward(), Vector3.forward(), Vector3.back(), Vector3.back()]
         )
-    
+
     @staticmethod
     def cube(size):
         """
@@ -113,12 +121,12 @@ class Mesh:
         -------
         Mesh
             A cube centered at Vector3(0, 0, 0) that has a side length of `size`
-        
+
         """
         return Mesh(
-            [Vector3(x, y, z)   for x in [-size / 2, size / 2] 
-                                for y in [-size / 2, size / 2]
-                                for z in [-size / 2, size / 2]],
+            [Vector3(x, y, z) for x in [-size / 2, size / 2]
+             for y in [-size / 2, size / 2]
+             for z in [-size / 2, size / 2]],
             [
                 [0, 1, 2],
                 [1, 3, 2],

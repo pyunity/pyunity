@@ -8,7 +8,9 @@ from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
 from .scene import SceneManager
-import pickle, sys, os
+import pickle
+import sys
+import os
 # import random
 
 def LoadObj(filename):
@@ -19,21 +21,23 @@ def LoadObj(filename):
     ----------
     filename : str
         Name of file
-    
+
     Returns
     -------
     Mesh
         A mesh of the object file
-    
+
     """
     vertices = []
     normals = []
     faces = []
 
     for line in open(filename, "r"):
-        if line.startswith("#"): continue
+        if line.startswith("#"):
+            continue
         values = line.split()
-        if not values: continue
+        if not values:
+            continue
         if values[0] == "v":
             v = Vector3(float(values[1]), float(values[3]), float(values[2]))
             vertices.append(v)
@@ -50,7 +54,7 @@ def LoadObj(filename):
         b = vertices[face[0]] - vertices[face[1]]
         normal = a.cross(b).normalized()
         normals.append(normal)
-    
+
     return Mesh(vertices, faces, normals)
 
 def LoadMesh(filename):
@@ -68,32 +72,33 @@ def LoadMesh(filename):
     -------
     Mesh
         Generated mesh
-    
+
     """
     with open(filename, "r") as f:
         lines = list(map(lambda x: x.rstrip(), f.readlines()))
-        if "" in lines: lines.remove("")
-    
+        if "" in lines:
+            lines.remove("")
+
     vertices = list(map(float, lines[0].split("/")))
     vertices = [
         Vector3(vertices[i], vertices[i + 1], vertices[i + 2]) for i in range(0, len(vertices), 3)
     ]
-    
+
     faces = list(map(int, lines[1].split("/")))
     faces = [
         [faces[i], faces[i + 1], faces[i + 2]] for i in range(0, len(faces), 3)
     ]
-    
+
     normals = []
     for face in faces:
         a = vertices[face[2]] - vertices[face[1]]
         b = vertices[face[0]] - vertices[face[1]]
         normal = a.cross(b).normalized()
         normals.append(normal)
-    
+
     return Mesh(vertices, faces, normals)
 
-def SaveMesh(mesh, name, filePath = None):
+def SaveMesh(mesh, name, filePath=None):
     """
     Saves a mesh to a .mesh file
     for faster loading.
@@ -113,10 +118,12 @@ def SaveMesh(mesh, name, filePath = None):
         "C:\Downloads\mesh.mesh". If not
         specified, then the mesh is saved
         in the cwd.
-    
+
     """
-    if filePath: directory = os.path.dirname(os.path.realpath(filePath))
-    else: directory = os.getcwd()
+    if filePath:
+        directory = os.path.dirname(os.path.realpath(filePath))
+    else:
+        directory = os.getcwd()
 
     with open(os.path.join(directory, name + ".mesh"), "w+") as f:
         i = 0
@@ -125,9 +132,10 @@ def SaveMesh(mesh, name, filePath = None):
             f.write(str(vertex.x) + "/")
             f.write(str(vertex.y) + "/")
             f.write(str(vertex.z))
-            if i != len(mesh.verts): f.write("/")
+            if i != len(mesh.verts):
+                f.write("/")
         f.write("\n")
-        
+
         i = 0
         for triangle in mesh.triangles:
             i += 1
@@ -147,12 +155,12 @@ def SaveMesh(mesh, name, filePath = None):
 #     ----------
 #     length : int
 #         Length of string
-    
+
 #     Returns
 #     -------
 #     str
 #         A random hexadecimal string
-    
+
 #     """
 #     return ("%0" + str(length) + "x") % random.randrange(16 ** length)
 
@@ -162,7 +170,7 @@ def SaveMesh(mesh, name, filePath = None):
 #     l.append(x)
 #     return x
 
-def SaveScene(scene, filePath = None):
+def SaveScene(scene, filePath=None):
     """
     Save a scene to a file. Uses pickle.
 
@@ -176,7 +184,7 @@ def SaveScene(scene, filePath = None):
         pass in a directory. If not
         specified, then the scene is saved
         in the cwd.
-    
+
     """
     # hexes = []
     # with open(scene.name + ".scene", "w+") as f:
@@ -185,13 +193,15 @@ def SaveScene(scene, filePath = None):
     #         for component in gameObject.components:
     #             f.write("  Component " + type(component).__name__ + " " + AddHex(hexes, 24) + ":\n")
 
-    if filePath: directory = os.path.dirname(os.path.realpath(filePath))
-    else: directory = os.getcwd()
-    
+    if filePath:
+        directory = os.path.dirname(os.path.realpath(filePath))
+    else:
+        directory = os.getcwd()
+
     with open(os.path.join(directory, scene.name + ".scene"), "wb+") as f:
         pickle.dump(scene, f)
 
-def LoadScene(sceneName, filePath = None):
+def LoadScene(sceneName, filePath=None):
     """
     Load a scene from a file. Uses pickle.
 
@@ -205,23 +215,25 @@ def LoadScene(sceneName, filePath = None):
     -------
     Scene
         Loaded scene
-    
+
     Notes
     -----
     If there already is a scene called
     `sceneName`, then no scene will be added.
-    
+
     """
-    if sceneName in SceneManager.scenesByName: 
+    if sceneName in SceneManager.scenesByName:
         print("Already has scene called", sceneName)
         return
-    
-    if filePath: directory = os.path.dirname(os.path.realpath(filePath))
-    else: directory = os.getcwd()
-    
+
+    if filePath:
+        directory = os.path.dirname(os.path.realpath(filePath))
+    else:
+        directory = os.getcwd()
+
     with open(os.path.join(directory, sceneName + ".scene"), "rb") as f:
         scene = pickle.load(f)
-    
+
     SceneManager.scenesByIndex.append(scene)
     SceneManager.scenesByName[sceneName] = scene
     return scene

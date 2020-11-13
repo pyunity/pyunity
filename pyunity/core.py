@@ -46,7 +46,8 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Behaviour", "Camera", "Component", "GameObject", "Light", "Material", "MeshRenderer", "Tag", "Transform", "tags"]
+__all__ = ["Behaviour", "Camera", "Component", "GameObject",
+           "Light", "Material", "MeshRenderer", "Tag", "Transform", "tags"]
 
 import os
 from .vector3 import Vector3
@@ -62,12 +63,12 @@ tags = ["Default"]
 class Tag:
     """
     Class to group GameObjects together without referencing the tags.
-        
+
     Parameters
     ----------
     tagNumOrName : str or int
         Name or index of the tag
-    
+
     Raises
     ------
     ValueError
@@ -83,28 +84,28 @@ class Tag:
         Tag name
     tag : int
         Tag index of the list of tags
-    
+
     """
 
     @staticmethod
     def AddTag(name):
         """
         Add a new tag to the tag list.
-        
+
         Parameters
         ----------
         name : str
             Name of the tag
-        
+
         Returns
         -------
         int
             The tag index
-        
+
         """
         tags.append(name)
         return len(tags) - 1
-    
+
     def __init__(self, tagNumOrName):
         if type(tagNumOrName) is str:
             self.tagName = tagNumOrName
@@ -113,12 +114,13 @@ class Tag:
             self.tag = tagNumOrName
             self.tagName = tags[tagNumOrName]
         else:
-            raise TypeError("Argument 1: expected str or int, got " + type(tagNumOrName).__name__)
+            raise TypeError(
+                "Argument 1: expected str or int, got " + type(tagNumOrName).__name__)
 
 class GameObject:
     """
     Class to create a GameObject, which is an object with components.
-        
+
     Parameters
     ----------
     name : str, optional
@@ -136,66 +138,69 @@ class GameObject:
         Tag that the GameObject has (defaults to tag 0 or Default)
     transform : Transform
         Transform that belongs to the GameObject
-    
+
     """
 
-    def __init__(self, name = "GameObject", parent = None):
+    def __init__(self, name="GameObject", parent=None):
         self.name = name
         self.components = []
         self.AddComponent(Transform)
-        if parent: self.transform.ReparentTo(parent.transform)
+        if parent:
+            self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
-    
+
     def AddComponent(self, componentClass):
         """
         Adds a component to the GameObject.
         If it is a transform, set
         GameObject's transform to it.
-        
+
         Parameters
         ----------
         componentClass : Component
             Component to add. Must inherit from `Component`
-        
+
         """
         if not issubclass(componentClass, Component):
             raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it is not a component"
+                "Cannot add " + repr(componentClass.__name__) +
+                " to the GameObject; it is not a component"
             )
         if not (
-                componentClass in (Transform, Camera, Light, MeshRenderer) and 
+                componentClass in (Transform, Camera, Light, MeshRenderer) and
                 any(isinstance(component, componentClass) for component in self.components)):
             component = componentClass()
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
-            
+
             component.gameObject = self
             component.transform = self.transform
             return component
         else:
             raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) + " to the GameObject; it already has one"
+                "Cannot add " + repr(componentClass.__name__) +
+                " to the GameObject; it already has one"
             )
-    
+
     def GetComponent(self, componentClass):
         """
         Gets a component from the GameObject.
         Will return first match.
         For all matches, do a manual loop.
-        
+
         Parameters
         ----------
         componentClass : Component
             Component to get. Must inherit from `Component`
-        
+
         """
         for component in self.components:
             if isinstance(component, componentClass):
                 return component
-        
+
         return None
-    
+
     def __repr__(self):
         return "<GameObject name=" + repr(self.name) + " components=" + \
             str(list(map(lambda x: type(x).__name__, self.components))) + ">"
@@ -211,34 +216,34 @@ class Component:
         GameObject that the component belongs to.
     transform : Transform
         Transform that the component belongs to.
-    
+
     """
 
     def __init__(self):
         self.gameObject = None
         self.transform = None
-    
+
     def GetComponent(self, component):
         """
         Calls `GetComponent` on the component's GameObject.
-        
+
         Parameters
         ----------
         componentClass : Component
             Component to get. Must inherit from `Component`
-        
+
         """
         return self.gameObject.GetComponent(component)
-    
+
     def AddComponent(self, component):
         """
         Calls `AddComponent` on the component's GameObject.
-        
+
         Parameters
         ----------
         component : Component
             Component to add. Must inherit from `Component`
-        
+
         """
         return self.gameObject.AddComponent(component)
 
@@ -252,13 +257,13 @@ class Behaviour(Component):
         GameObject that the component belongs to.
     transform : Transform
         Transform that the component belongs to.
-    
+
     """
 
     def Start(self):
         """
         Called every time a scene is loaded up.
-        
+
         """
         pass
 
@@ -271,7 +276,7 @@ class Behaviour(Component):
         dt : float
             Time since last frame, sent by the scene 
             that the Behaviour is in.
-        
+
         """
         pass
 
@@ -294,7 +299,7 @@ class Transform(Component):
         actually formed by the Transform, not the GameObject.
     children : list
         List of children
-    
+
     """
 
     def __init__(self):
@@ -304,34 +309,44 @@ class Transform(Component):
         self.localScale = Vector3.one()
         self.parent = None
         self.children = []
-    
+
     @property
     def position(self):
         """Position of the Transform in world space."""
-        if self.parent is None: return self.localPosition
-        else: return self.parent.position + self.localRotation.RotateVector(self.localPosition)
-    
+        if self.parent is None:
+            return self.localPosition
+        else:
+            return self.parent.position + self.localRotation.RotateVector(self.localPosition)
+
     @position.setter
     def position(self, value):
         if not isinstance(value, Vector3):
-            raise PyUnityException("Cannot set position to object of type \"" + type(value).__name__)
-        
-        if self.parent is None: self.localPosition = value
-        else: self.localRotation.conjugate.RotateVector(value - self.parent.position)
-    
+            raise PyUnityException(
+                "Cannot set position to object of type \"" + type(value).__name__)
+
+        if self.parent is None:
+            self.localPosition = value
+        else:
+            self.localRotation.conjugate.RotateVector(
+                value - self.parent.position)
+
     @property
     def rotation(self):
         """Rotation of the Transform in world space."""
-        if self.parent is None: return self.localRotation
-        else: return self.localRotation * self.parent.rotation
-    
+        if self.parent is None:
+            return self.localRotation
+        else:
+            return self.localRotation * self.parent.rotation
+
     @rotation.setter
     def rotation(self, value):
         if not isinstance(value, Quaternion):
-            raise PyUnityException("Cannot set rotation to object of type \"" + type(value).__name__)
-        
-        self.localRotation = value if self.parent is None else value * self.parent.rotation.conjugate
-    
+            raise PyUnityException(
+                "Cannot set rotation to object of type \"" + type(value).__name__)
+
+        self.localRotation = value if self.parent is None else value * \
+            self.parent.rotation.conjugate
+
     @property
     def localEulerAngles(self):
         """
@@ -340,11 +355,11 @@ class Transform(Component):
 
         """
         return self.localRotation.eulerAngles
-    
+
     @localEulerAngles.setter
     def localEulerAngles(self, value):
         self.localRotation.eulerAngles = value
-    
+
     @property
     def eulerAngles(self):
         """
@@ -353,23 +368,28 @@ class Transform(Component):
 
         """
         return self.rotation.eulerAngles
-    
+
     @eulerAngles.setter
     def eulerAngles(self, value):
         self.rotation.eulerAngles = value
-    
+
     @property
     def scale(self):
         """Scale of the Transform in world space."""
-        if self.parent is None: return self.localScale
-        else: return self.parent.scale * self.localScale
-    
+        if self.parent is None:
+            return self.localScale
+        else:
+            return self.parent.scale * self.localScale
+
     @scale.setter
     def scale(self, value):
         if not isinstance(value, Vector3):
-            raise PyUnityException("Cannot set scale to object of type \"" + type(value).__name__)
-        if self.parent is None or not bool(self.parent.scale): self.localScale = value
-        else: value / self.parent.scale
+            raise PyUnityException(
+                "Cannot set scale to object of type \"" + type(value).__name__)
+        if self.parent is None or not bool(self.parent.scale):
+            self.localScale = value
+        else:
+            value / self.parent.scale
 
     def ReparentTo(self, parent):
         """
@@ -379,23 +399,25 @@ class Transform(Component):
         ----------
         parent : Transform
             The parent to reparent to.
-        
+
         """
-        if self.parent: self.parent.children.remove(self)
-        if parent: parent.children.append(self)
+        if self.parent:
+            self.parent.children.remove(self)
+        if parent:
+            parent.children.append(self)
         self.parent = parent
-    
+
     def List(self):
         """
         Prints the Transform's full path from the root, then
         lists the children in alphabetical order. This results in a
         nice list of all GameObjects.
-        
+
         """
         print(self.FullPath())
-        for child in sorted(self.children, key = lambda x: x.gameObject.name):
+        for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
-    
+
     def FullPath(self):
         """
         Gets the full path of the Transform.
@@ -404,7 +426,7 @@ class Transform(Component):
         -------
         str
             The full path of the Transform.
-        
+
         """
         path = "/" + self.gameObject.name
         parent = self.parent
@@ -412,7 +434,7 @@ class Transform(Component):
             path = "/" + parent.gameObject.name + path
             parent = parent.parent
         return path
-    
+
     def __repr__(self):
         """
         Returns a string interpretation of the Transform.
@@ -423,11 +445,11 @@ class Transform(Component):
             A string interpretation of the Transform. For example, the Main Camera would have
             a string interpretation of <Transform position=<Vector3 x=0 y=0 z=0>
             rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
-        
+
         """
         return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
-                " scale=" + str(self.scale) + " path=\"" + self.FullPath() + "\">"
-    
+            " scale=" + str(self.scale) + " path=\"" + self.FullPath() + "\">"
+
     __str__ = __repr__
 
 class Camera(Component):
@@ -445,7 +467,7 @@ class Camera(Component):
     clearColor : tuple
         Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
         Color mode is RGBA.
-    
+
     """
 
     def __init__(self):
@@ -458,7 +480,7 @@ class Camera(Component):
 class Light(Component):
     """
     Component to hold data about the light in a scene.
-    
+
     """
 
     def __init__(self):
@@ -487,7 +509,8 @@ class MeshRenderer(Component):
     def render(self):
         """Render the mesh that the MeshRenderer has."""
         gl.glBegin(gl.GL_TRIANGLES)
-        gl.glColor3f(self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
+        gl.glColor3f(
+            self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
         for triangle, normal in zip(self.mesh.triangles, self.mesh.normals):
             gl.glNormal3f(*normal)
             for vertex in triangle:

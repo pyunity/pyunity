@@ -122,6 +122,15 @@ new pull request.
 
 """
 
+from . import loader
+from .physics import *
+from .scene import SceneManager
+from .quaternion import Quaternion
+from .vector3 import Vector3
+from .meshes import Mesh
+from .core import *
+from .audio import *
+import os
 __version__ = "0.3.0"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
@@ -131,20 +140,12 @@ __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics
-__all__ = ["__version__", "Vector3", "Quaternion", "SceneManager", "Mesh", "loader"]
+__all__ = ["__version__", "Vector3", "Quaternion",
+           "SceneManager", "Mesh", "loader"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
 
-import os
-from .audio import *
-from .core import *
-from .meshes import Mesh
-from .vector3 import Vector3
-from .quaternion import Quaternion
-from .scene import SceneManager
-from .physics import *
-from . import loader
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print("Loaded PyUnity version %s" % __version__)
