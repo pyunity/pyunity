@@ -1,3 +1,5 @@
+"""Class to create a window using GLFW."""
+
 import glfw
 from ..errors import *
 

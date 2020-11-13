@@ -1,6 +1,7 @@
 """
-A class to store x, y and z values,
-with a lot of utility functions.
+A class to represent a 3D point
+in space, with a lot of utility
+functions.
 
 """
 

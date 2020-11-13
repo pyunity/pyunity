@@ -1,3 +1,5 @@
+"""Class to create a window using FreeGLUT."""
+
 from OpenGL import GLUT as glut
 
 class Window:

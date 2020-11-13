@@ -110,7 +110,7 @@ To run an example, import it like so:
     Loaded PyUnity version 0.3.0
     >>> main()
 
-Or from the command line:
+Or from the command line::
 
     > python -m pyunity 1
 

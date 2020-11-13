@@ -1,7 +1,11 @@
 """
 Classes to manage the playback of audio.
 It uses the pygame.mixer library, and if
-it cannot be initialized, then 
+it cannot be initialized, then dummy
+classes are made to prevent stop of program.
+A variable in the ``config`` module called
+``audio`` will be set to ``False`` if this
+happens.
 
 """
 
