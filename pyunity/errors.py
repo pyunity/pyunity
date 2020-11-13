@@ -1,4 +1,4 @@
-"""Module for all exceptions related to PyUnity."""
+"""Module for all exceptions and warnings related to PyUnity."""
 
 __all__ = ["PyUnityException", "ComponentException", "GameObjectException", "PyUnityWarning"]
 
