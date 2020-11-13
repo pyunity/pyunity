@@ -37,7 +37,11 @@
 <span id="pyunity-audio-module"></span><h1>pyunity.audio module<a class="headerlink" href="#module-pyunity.audio" title="Permalink to this headline">¶</a></h1>
 <p>Classes to manage the playback of audio.
 It uses the pygame.mixer library, and if
-it cannot be initialized, then</p>
+it cannot be initialized, then dummy
+classes are made to prevent stop of program.
+A variable in the <code class="docutils literal notranslate"><span class="pre">config</span></code> module called
+<code class="docutils literal notranslate"><span class="pre">audio</span></code> will be set to <code class="docutils literal notranslate"><span class="pre">False</span></code> if this
+happens.</p>
 <dl class="py class">
 <dt id="pyunity.audio.AudioClip">
 <em class="property">class </em><code class="sig-prename descclassname">pyunity.audio.</code><code class="sig-name descname">AudioClip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioClip" title="Permalink to this definition">¶</a></dt>

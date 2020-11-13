@@ -32,12 +32,11 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.meshes</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module for prebuilt meshes.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module for meshes created at runtime.&quot;&quot;&quot;</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Mesh&quot;</span><span class="p">]</span>
 
 <span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
-<span class="kn">import</span> <span class="nn">os</span>
 
 <div class="viewcode-block" id="Mesh"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh">[docs]</a><span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -64,7 +63,7 @@
 <span class="sd">    normals : list</span>
 <span class="sd">        List of Vector3&#39;s containing the normal of each triangle.</span>
 <span class="sd">        Unlike Unity, PyUnity uses normals per triangle.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verts</span><span class="p">,</span> <span class="n">triangles</span><span class="p">,</span> <span class="n">normals</span><span class="p">):</span>
@@ -74,14 +73,20 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">vert</span> <span class="ow">in</span> <span class="n">verts</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
-            
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
-            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
-    
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
+
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">x</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">if</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">vert</span><span class="o">.</span><span class="n">z</span>
+
 <div class="viewcode-block" id="Mesh.quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.quad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">quad</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -97,17 +102,18 @@
 <span class="sd">        Mesh</span>
 <span class="sd">            A quad centered at Vector3(0, 0) with side length of `size` </span>
 <span class="sd">            facing in the direction of the negative z axis.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="p">],</span>
             <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
             <span class="p">[</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">()]</span>
         <span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Mesh.double_quad"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.double_quad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">double_quad</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -123,17 +129,18 @@
 <span class="sd">        Mesh</span>
 <span class="sd">            A double-sided quad centered at Vector3(0, 0) with side length</span>
 <span class="sd">            of `size` facing in the direction of the negative z axis.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">Vector3</span><span class="p">(</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="mi">0</span><span class="p">),</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="p">],</span>
             <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span>
             <span class="p">[</span><span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">forward</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">back</span><span class="p">(),</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">back</span><span class="p">()]</span>
         <span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Mesh.cube"><a class="viewcode-back" href="../../pyunity.meshes.html#pyunity.loader.Mesh.cube">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -148,12 +155,12 @@
 <span class="sd">        -------</span>
 <span class="sd">        Mesh</span>
 <span class="sd">            A cube centered at Vector3(0, 0, 0) that has a side length of `size`</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">Vector3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>   <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span> 
-                                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-                                <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">Vector3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+             <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+             <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]],</span>
             <span class="p">[</span>
                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
                 <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>

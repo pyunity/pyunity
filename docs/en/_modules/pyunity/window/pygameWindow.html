@@ -32,7 +32,10 @@
           <div class="body" role="main">
             
   <h1>Source code for pyunity.window.pygameWindow</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pygame</span><span class="o">,</span> <span class="nn">os</span>
+<span></span><span class="sd">&quot;&quot;&quot;Class to create a window using Pygame.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SDL_VIDEO_CENTERED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
 
 <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
@@ -40,14 +43,15 @@
 <div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A window provider that uses PyGame.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">OPENGL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">OPENGL</span><span class="p">)</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    
+
 <div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start the main loop of the window.</span>
@@ -56,7 +60,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        update_func : function</span>
 <span class="sd">            The function that calls the OpenGL calls.</span>
-<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">update_func</span>
         <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
@@ -66,17 +70,16 @@
             <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
                     <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
-            
+
             <span class="n">pressed</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()</span>
             <span class="n">alt_pressed</span> <span class="o">=</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LALT</span><span class="p">]</span> <span class="ow">or</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RALT</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">alt_pressed</span> <span class="ow">and</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_F4</span><span class="p">]):</span>
                 <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">break</span>
-            
+
             <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span><span class="p">()</span>
             <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
             <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
-    
+
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div></div>
 </pre></div>
 
