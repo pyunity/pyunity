@@ -14,7 +14,7 @@ if os.environ["cython"] == "1":
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where = "pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
-        "package_data": {"pyunity": [file[4:] for file in data_files]},
+        "package_data": {"pyunity": [file[8:] for file in data_files]},
     }
 else:
     data_files = glob.glob("pyunity/**/*.mesh", recursive = True) + glob.glob("pyunity/**/*.ogg", recursive = True)
