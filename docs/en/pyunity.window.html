@@ -45,17 +45,17 @@ providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
-Pygame is tested last.</p>
+FreeGLUT is tested last.</p>
 <p>To create your own provider, create a
 class that has the following methods:</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt><cite>__init__</cite>: initiate your window and</dt><dd><p>check to see if it works.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">__init__</span></code>: initiate your window and</dt><dd><p>check to see if it works.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><cite>start</cite>: start the main loop in your</dt><dd><p>window. The first parameter is
+<dt><code class="docutils literal notranslate"><span class="pre">`start`</span></code>: start the main loop in your</dt><dd><p>window. The first parameter is
 <code class="docutils literal notranslate"><span class="pre">update_func</span></code>, which is called
 when you want to do the OpenGL calls.</p>
 </dd>
@@ -67,9 +67,9 @@ providers for an example. If you have a
 window provider, then please create a new
 pull request.</p>
 <dl class="py function">
-<dt id="pyunity.window.LoadWindowProvider">
-<code class="sig-prename descclassname">pyunity.window.</code><code class="sig-name descname">LoadWindowProvider</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window.html#LoadWindowProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.LoadWindowProvider" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads an appropriate window provider to use</p>
+<dt id="pyunity.window.GetWindowProvider">
+<code class="sig-prename descclassname">pyunity.window.</code><code class="sig-name descname">GetWindowProvider</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window.html#GetWindowProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.GetWindowProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an appropriate window provider to use</p>
 </dd></dl>
 
 <dl class="py function">

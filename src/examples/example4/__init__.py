@@ -6,7 +6,8 @@ class Rotator(Behaviour):
         self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
-    mesh = loader.LoadMesh(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cube.mesh"))
+    mesh = loader.LoadMesh(os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "cube.mesh"))
 
     scene = SceneManager.AddScene("Scene")
 
@@ -18,9 +19,10 @@ def main():
     renderer.mesh = mesh
     renderer.mat = Material((255, 0, 0))
     scene.Add(cube)
-    
+
     scene.List()
     SceneManager.LoadScene(scene)
+
 
 if __name__ == "__main__":
     main()

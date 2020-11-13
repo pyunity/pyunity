@@ -10,14 +10,14 @@ providers: GLFW, Pygame and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
-Pygame is tested last.
+FreeGLUT is tested last.
 
 To create your own provider, create a
 class that has the following methods:
 
-- `__init__`: initiate your window and
+- ``__init__``: initiate your window and
     check to see if it works.
-- `start`: start the main loop in your
+- ```start```: start the main loop in your
     window. The first parameter is
     ``update_func``, which is called
     when you want to do the OpenGL calls.
@@ -29,10 +29,19 @@ pull request.
 
 """
 
-import os
-import OpenGL.GLUT, glfw, pygame
-glfw.ERROR_REPORTING = True
+from .pygameWindow import Window as pygameWindow
+from .glfwWindow import Window as glfwWindow
+from .glutWindow import Window as glutWindow
 from ..errors import *
+import os
+import OpenGL.GLUT
+import glfw
+import pygame
+glfw.ERROR_REPORTING = True
+
+
+window_providers = {"FreeGLUT": glutWindow,
+                    "GLFW": glfwWindow, "Pygame": pygameWindow}
 
 def glfwCheck():
     """Checks to see if GLFW works"""
@@ -50,8 +59,8 @@ def glutCheck():
     """Checks to see if FreeGLUT works"""
     OpenGL.GLUT.glutInit()
 
-def LoadWindowProvider():
-    """Loads an appropriate window provider to use"""
+def GetWindowProvider():
+    """Gets an appropriate window provider to use"""
     winfo = [
         ("GLFW", glfwCheck),
         ("Pygame", pygameCheck),
@@ -73,20 +82,14 @@ def LoadWindowProvider():
             success = bool(next)
             if success and os.environ["PYUNITY_DEBUG_MODE"] == "1":
                 print(name, "doesn't work, trying", next)
-        
-        if next is None: raise PyUnityException("No window provider found")
-        if windowProvider: break
+
+        if next is None:
+            raise PyUnityException("No window provider found")
+        if windowProvider:
+            break
         i += 1
 
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         print("Using window provider", windowProvider)
 
-    if windowProvider == "FreeGLUT":
-        from .glutWindow import Window as glutWindow
-        return glutWindow
-    if windowProvider == "GLFW":
-        from .glfwWindow import Window as glfwWindow
-        return glfwWindow
-    if windowProvider == "Pygame":
-        from .pygameWindow import Window as pygameWindow
-        return pygameWindow
+    return windowProvider
