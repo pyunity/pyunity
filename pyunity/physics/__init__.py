@@ -5,7 +5,7 @@ Engine itself. Only supports
 non-rotated colliders.
 
 To create an immoveable object, use
-math.inf or the provided `infinity`
+math.inf or the provided ``infinity``
 variable. This will make the object
 not be able to move, unless you set
 an initial velocity. Then, the
@@ -30,8 +30,8 @@ the config file like so:
 
 Inside the config file there are some configurations:
 
-- `gravity` is the gravity of the whole system. It only
-  affects Rigidbodies that have `gravity` set to True.
+- ``gravity`` is the gravity of the whole system. It only
+  affects Rigidbodies that have ``gravity`` set to True.
 
 """
 

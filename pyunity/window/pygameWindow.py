@@ -1,3 +1,5 @@
+"""Class to create a window using Pygame."""
+
 import pygame, os
 os.environ["SDL_VIDEO_CENTERED"] = "1"
 
