@@ -407,7 +407,6 @@ class Transform(Component):
         
         """
         path = "/" + self.gameObject.name
-        flag = self.parent is None
         parent = self.parent
         while parent is not None:
             path = "/" + parent.gameObject.name + path

@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages, Extension
-import os, glob, shutil, sys
+import os, glob
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
