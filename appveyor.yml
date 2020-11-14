@@ -16,6 +16,7 @@ environment:
       windows_location: "C:\\Python36-x64\\python"
 
 test_script:
+  - python tests.py
   - python prepare.py -x
   - python setup.py bdist_wheel
   - sphinx-build -T -E -b html docs/source docs/en
