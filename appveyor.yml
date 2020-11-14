@@ -28,10 +28,6 @@ for:
     install:
       - source $venv/bin/activate
       - python -m pip install cython wheel sphinx
-    test_script:
-      - python prepare.py -x
-      - python setup.py bdist_wheel
-      - sphinx-build -T -E -b html docs/source docs/en
   - matrix:
       only:
         - image: Visual Studio 2017
