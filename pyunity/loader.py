@@ -9,7 +9,6 @@ from .meshes import Mesh
 from .core import *
 from .scene import SceneManager
 import pickle
-import sys
 import os
 # import random
 
