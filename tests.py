@@ -3,6 +3,7 @@ from unittest.mock import Mock
 import sys
 sys.modules["pygame"] = Mock()
 sys.modules["glfw"] = Mock()
+sys.modules["OpenGL"] = Mock()
 sys.modules["OpenGL.GL"] = Mock()
 sys.modules["OpenGL.GLU"] = Mock()
 sys.modules["OpenGL.GLUT"] = Mock()
