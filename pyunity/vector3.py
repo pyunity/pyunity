@@ -186,29 +186,6 @@ class Vector3:
         return self
 
     def __div__(self, other):
-        if isinstance(other, Vector3):
-            return Vector3(self.x / other.x, self.y / other.y, self.z / other.z)
-        if (hasattr(other, "__getitem__")):
-            return Vector3(self.x / other[0], self.y / other[1], self.z / other[2])
-        else:
-            return Vector3(self.x / other, self.y / other, self.z / other)
-
-    def __imul__(self, other):
-        if isinstance(other, Vector3):
-            self.x /= other.x
-            self.y /= other.y
-            self.z /= other.z
-        elif (hasattr(other, "__getitem__")):
-            self.x /= other[0]
-            self.y /= other[1]
-            self.z /= other[2]
-        else:
-            self.x /= other
-            self.y /= other
-            self.z /= other
-        return self
-
-    def __div__(self, other):
         return self._o2(other, operator.div)
     def __rdiv__(self, other):
         return self._r_o2(other, operator.div)
@@ -233,21 +210,22 @@ class Vector3:
         return self._o2(other, operator.mod)
     def __rmod__(self, other):
         return self._r_o2(other, operator.mod)
-
-    def __divmod__(self, other):
-        return self._o2(other, divmod)
-    def __rdivmod__(self, other):
-        return self._r_o2(other, divmod)
+    def __imod__(self, other):
+        return self._io(other, operator.mod)
 
     def __lshift__(self, other):
         return self._o2(other, operator.lshift)
     def __rlshift__(self, other):
         return self._r_o2(other, operator.lshift)
+    def __ilshift__(self, other):
+        return self._io(other, operator.lshift)
 
     def __rshift__(self, other):
         return self._o2(other, operator.rshift)
     def __rrshift__(self, other):
         return self._r_o2(other, operator.rshift)
+    def __irshift__(self, other):
+        return self._io(other, operator.rshift)
 
     def __and__(self, other):
         return self._o2(other, operator.and_)
@@ -265,13 +243,13 @@ class Vector3:
         return Vector3(operator.neg(self.x), operator.neg(self.y), operator.neg(self.z))
 
     def __pos__(self):
-        return Vector3(operator.pos(self.x), operator.pos(self.y), operator.pos(self.y))
+        return Vector3(operator.pos(self.x), operator.pos(self.y), operator.pos(self.z))
 
     def __abs__(self):
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
 
     def __invert__(self):
-        return Vector3(-self.x, -self.y, -self.z)
+        return Vector3(operator.invert(self.x), operator.invert(self.y), operator.invert(self.z))
 
     def copy(self):
         """

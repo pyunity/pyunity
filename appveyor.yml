@@ -16,7 +16,7 @@ environment:
       windows_location: "C:\\Python36-x64\\python"
 
 test_script:
-  - python tests.py
+  - python -m unittest tests.py
   - python prepare.py -x
   - python setup.py bdist_wheel
   - sphinx-build -T -E -b html docs/source docs/en
@@ -32,7 +32,6 @@ for:
       only:
         - image: Visual Studio 2017
     install:
-      # - "%windows_location% -m pip install virtualenv"
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx
