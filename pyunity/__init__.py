@@ -126,6 +126,7 @@ from .audio import *
 from .core import *
 from . import loader
 from .physics import *
+from .errors import *
 from .scene import SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
@@ -139,13 +140,13 @@ __summary__ = "A Python implementation of the Unity Engine that supports differe
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import audio, core, physics
+from . import audio, core, physics, errors
 __all__ = ["__version__", "Vector3", "Quaternion",
            "SceneManager", "Mesh", "loader"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
-
+__all__.extend(errors.__all__)
 
 if os.environ["PYUNITY_DEBUG_MODE"] == "1":
     print("Loaded PyUnity version %s" % __version__)
