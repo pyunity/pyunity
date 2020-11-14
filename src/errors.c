@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.errors",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\errors.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\errors.py"
         ]
     },
     "module_name": "pyunity.errors"

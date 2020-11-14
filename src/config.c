@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.config",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\config.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\config.py"
         ]
     },
     "module_name": "pyunity.config"

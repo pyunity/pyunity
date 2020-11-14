@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.core",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\core.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\core.py"
         ]
     },
     "module_name": "pyunity.core"
