@@ -1,5 +1,10 @@
-import os, glob, shutil, sys
-if "cython" not in os.environ: os.environ["cython"] = "1"
+import os
+import glob
+import shutil
+import sys
+import pkgutil
+if "cython" not in os.environ:
+    os.environ["cython"] = "1"
 
 if len(sys.argv) < 2:
     import pyunity
@@ -25,7 +30,9 @@ if len(sys.argv) < 2:
     ]
     skip = 0
     for i in range(len(desc)):
-        if skip: skip = 0; continue
+        if skip:
+            skip = 0
+            continue
         if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
             if desc[i + 1][0] == "-":
                 desc_new.append("### " + desc[i])
@@ -48,11 +55,12 @@ if len(sys.argv) < 2:
 if os.environ["cython"] == "1":
     if pkgutil.find_loader("cython") is None:
         raise Exception("Cython is needed to create CPython extensions.")
-    if os.path.exists("src"): shutil.rmtree("src")
+    if os.path.exists("src"):
+        shutil.rmtree("src")
     # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
     # for f in pxd_files:
     #     shutil.copy(f, os.path.join("pyunity", f[4:]))
-    for path in glob.glob("pyunity/**/*.py", recursive = True):
+    for path in glob.glob("pyunity/**/*.py", recursive=True):
         dirpath, file = os.path.split(path)
         print(file)
         if file.startswith("__"):
@@ -66,8 +74,7 @@ if os.environ["cython"] == "1":
             srcPath = os.path.join(dirpath, file)[:-2] + "c"
             op = shutil.move
         destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-        try: os.makedirs(destPath)
-        except: pass
+        os.makedirs(destPath, exist_ok=True)
         op(srcPath, destPath)
     # for f in pxd_files:
     #     os.remove(os.path.join("pyunity", f[4:]))

@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.scene",
         "sources": [
-            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\scene.py"
+            "C:\\Ray-Data\\pyunity\\pyunity\\scene.py"
         ]
     },
     "module_name": "pyunity.scene"
