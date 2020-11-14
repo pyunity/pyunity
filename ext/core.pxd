@@ -26,3 +26,13 @@ cdef class Transform(Component):
     cdef public Transform parent
     cdef public list children
     cdef void ReparentTo(Transform self, Transform parent)
+	cdef void List()
+	cdef str FullPath()
+
+cdef class Camera(Component):
+	cdef public float fov, near, far
+	cdef public tuple clearColor
+
+cdef class Light(Component):
+	cdef public float intensity
+	cdef public int type
