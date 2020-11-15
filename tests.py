@@ -1,4 +1,4 @@
-from unittest import TestCase, main
+import unittest
 from unittest.mock import Mock
 import sys
 import math
@@ -11,7 +11,7 @@ sys.modules["OpenGL.GLUT"] = Mock()
 
 from pyunity import *
 
-class TestGameObject(TestCase):
+class TestGameObject(unittest.TestCase):
     def test_gameobject_name(self):
         gameObject = GameObject()
         self.assertEqual(gameObject.name, "GameObject")
@@ -46,7 +46,7 @@ class TestGameObject(TestCase):
         self.assertEqual(str(exception_context.exception),
                          "Cannot add 'Transform' to the GameObject; it already has one")
 
-class TestVector3(TestCase):
+class TestVector3(unittest.TestCase):
     def test_init(self):
         v = Vector3()
         self.assertEqual(v.x, 0)
@@ -161,3 +161,7 @@ class TestVector3(TestCase):
         self.assertEqual(v.get_length_sqrd(), 29)
         self.assertEqual(v.length, math.sqrt(29))
         self.assertAlmostEqual(v.normalized().length, 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
