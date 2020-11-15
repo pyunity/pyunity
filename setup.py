@@ -9,14 +9,14 @@ with open("README.md", "r") as fh:
 
 if os.environ["cython"] == "1":
     c_files = glob.glob("src/**/*.c", recursive=True)
-    data_files = glob.glob("pyunity/**/*.mesh", recursive=True) + \
-        glob.glob("pyunity/**/*.ogg", recursive=True)
+    data_files = glob.glob("src/**/*.mesh", recursive=True) + \
+        glob.glob("src/**/*.ogg", recursive=True)
     config = {
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
-        "package_data": {"pyunity": [file[8:] for file in data_files]},
+        "package_data": {"pyunity": [file[4:] for file in data_files]},
     }
 else:
     data_files = glob.glob("pyunity/**/*.mesh", recursive=True) + \
