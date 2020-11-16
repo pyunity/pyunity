@@ -9,9 +9,10 @@ class Window:
         self.config = config
         glut.glutInit()
         glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_DEPTH)
-        glut.glutInitWindowPosition(
-            (glut.glutGet(glut.GLUT_SCREEN_WIDTH) - config.size[0]) // 2,
-            (glut.glutGet(glut.GLUT_SCREEN_HEIGHT) - config.size[1]) // 2)
+        # glut.glutInitWindowPosition(
+        #     (glut.glutGet(glut.GLUT_SCREEN_WIDTH) - config.size[0]) // 2,
+        #     (glut.glutGet(glut.GLUT_SCREEN_HEIGHT) - config.size[1]) // 2)
+        glut.glutInitWindowPosition(100, 100)
         glut.glutInitWindowSize(*config.size)
         glut.glutCreateWindow(name)
 
