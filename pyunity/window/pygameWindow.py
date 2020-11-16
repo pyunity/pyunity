@@ -12,10 +12,11 @@ class Window:
 
     """
 
-    def __init__(self, config, name):
+    def __init__(self, config, name, resize):
         self.config = config
+        self.resize = resize
         self.window = pygame.display.set_mode(
-            config.size, pygame.DOUBLEBUF | pygame.OPENGL)
+            config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
         pygame.display.set_caption(name)
 
     def start(self, update_func):
@@ -36,6 +37,10 @@ class Window:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
+                elif event.type == pygame.VIDEORESIZE:
+                    self.resize(*event.dict['size'])
+                    self.update_func()
+                    pygame.display.flip()
 
             pressed = pygame.key.get_pressed()
             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]

@@ -219,11 +219,18 @@ class SceneManager:
                 "The provided scene is not part of the SceneManager")
         self.__loadScene(copy.deepcopy(scene))
 
+    def __resize(self, width, height):
+        gl.glViewport(0, 0, width, height)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        glu.gluPerspective(60, width / height, 0.05, 50)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+
     def __loadScene(self, scene):
         self.__running_scene = scene
         if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.window = window.window_providers[config.windowProvider](
-                config, scene.name)
+                config, scene.name, self.__resize)
             scene.Start()
             self.window.start(scene.update)
             self.window = None
