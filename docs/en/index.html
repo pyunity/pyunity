@@ -48,11 +48,20 @@ to create a scene and run it.</p>
 <p>Its dependencies are just OpenGL, Pygame and
 GLFW.</p>
 <p>Alternatively, you can clone the repository
-<a class="reference external" href="https://github.com/rayzchen/PyUnity">here</a>.
+<a class="reference external" href="https://github.com/rayzchen/pyunity">here</a>.
 Then run setup.py:</p>
-<blockquote>
-<div><p>&gt; python setup.py install</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>Note: we are having some difficulties right now.
+To install a working copy, you cannot use the
+simple <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyunity</span></code> command. Instead,
+clone the repository from above. Next, you
+have to set the environment variable <code class="docutils literal notranslate"><span class="pre">cython</span></code>
+to a value that is not <code class="docutils literal notranslate"><span class="pre">1</span></code>. Then you can run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>. This issue is
+being worked on and you can see its progress at
+this <a class="reference external" href="https://github.com/rayzchen/pyunity/issues/2">issue</a>.</p>
 <p>Sometimes on Linux machines, Pygame cannot be
 installed via pip: in that case, use the
 package manager. For example, on Ubuntu:</p>
@@ -63,6 +72,7 @@ package manager. For example, on Ubuntu:</p>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases.html#v0-2-1">v0.2.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases.html#v0-1-0">v0.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases.html#v0-0-5">v0.0.5</a></li>
