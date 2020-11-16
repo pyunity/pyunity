@@ -38,7 +38,7 @@
 <p>Class to create a window using GLFW.</p>
 <dl class="py class">
 <dt id="pyunity.window.glfwWindow.Window">
-<em class="property">class </em><code class="sig-prename descclassname">pyunity.window.glfwWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glfwWindow.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glfwWindow.Window" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.window.glfwWindow.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">resize</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glfwWindow.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glfwWindow.Window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A window provider that uses GLFW.</p>
 <dl class="field-list simple">
@@ -46,6 +46,11 @@
 <dd class="field-odd"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the window creation fails</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt id="pyunity.window.glfwWindow.Window.framebuffer_size_callback">
+<code class="sig-name descname">framebuffer_size_callback</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">height</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glfwWindow.html#Window.framebuffer_size_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glfwWindow.Window.framebuffer_size_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt id="pyunity.window.glfwWindow.Window.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">update_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/window/glfwWindow.html#Window.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.window.glfwWindow.Window.start" title="Permalink to this definition">¶</a></dt>
