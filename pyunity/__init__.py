@@ -117,8 +117,8 @@ Or from the command line::
 The ``1`` just means to load example 1, and there
 are 8 examples. To load all examples one by
 one, do not specify a number. If you want to
-contribute an example, then please create a
-new pull request.
+contribute an example, then please
+create a new pull request.
 
 """
 
