@@ -5,8 +5,9 @@ from OpenGL import GLUT as glut
 class Window:
     """A window provider that uses FreeGLUT."""
 
-    def __init__(self, config, name):
+    def __init__(self, config, name, resize):
         self.config = config
+        self.resize = resize
         glut.glutInit()
         glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_DEPTH)
         # glut.glutInitWindowPosition(
@@ -28,6 +29,7 @@ class Window:
         """
         self.update_func = update_func
         glut.glutDisplayFunc(self.display)
+        glut.glutReshapeFunc(self.resize)
 
         self.schedule_update(0)
         glut.glutMainLoop()
