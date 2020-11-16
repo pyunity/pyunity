@@ -2,6 +2,13 @@
 Releases
 ========
 
+v0.2.1
+======
+Small bugfix around the AudioClip loading and inclusion of the OGG file in example 8.
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.2.1
+
 v0.2.0
 ======
 A CI integration update, with automated building from Appveyor and Travis CI.
