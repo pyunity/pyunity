@@ -43,9 +43,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="n">glut</span><span class="o">.</span><span class="n">glutInit</span><span class="p">()</span>
         <span class="n">glut</span><span class="o">.</span><span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">glut</span><span class="o">.</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">glut</span><span class="o">.</span><span class="n">GLUT_DEPTH</span><span class="p">)</span>
-        <span class="n">glut</span><span class="o">.</span><span class="n">glutInitWindowPosition</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">glut</span><span class="o">.</span><span class="n">glutGet</span><span class="p">(</span><span class="n">glut</span><span class="o">.</span><span class="n">GLUT_SCREEN_WIDTH</span><span class="p">)</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">glut</span><span class="o">.</span><span class="n">glutGet</span><span class="p">(</span><span class="n">glut</span><span class="o">.</span><span class="n">GLUT_SCREEN_HEIGHT</span><span class="p">)</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># glut.glutInitWindowPosition(</span>
+        <span class="c1">#     (glut.glutGet(glut.GLUT_SCREEN_WIDTH) - config.size[0]) // 2,</span>
+        <span class="c1">#     (glut.glutGet(glut.GLUT_SCREEN_HEIGHT) - config.size[1]) // 2)</span>
+        <span class="n">glut</span><span class="o">.</span><span class="n">glutInitWindowPosition</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
         <span class="n">glut</span><span class="o">.</span><span class="n">glutInitWindowSize</span><span class="p">(</span><span class="o">*</span><span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="n">glut</span><span class="o">.</span><span class="n">glutCreateWindow</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
