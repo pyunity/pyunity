@@ -23,7 +23,7 @@ if len(sys.argv) < 2:
             "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
             "0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.2.1...master)",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg",
-            "?logo=lgtm&logoColor=FBE072)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)",
+            "?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)",
             # "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
             # "(https://travis-ci.org/rayzchen/pyunity)",
             "[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)]",
