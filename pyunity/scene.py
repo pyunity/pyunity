@@ -302,20 +302,20 @@ class Scene:
         Raises
         ------
         PyUnityException
-            If the specified GameObject is the Main Camera.
+            If the specified GameObject is the Main Camera,
+            or if the specified GameObject is not part
+            of the Scene.
 
         """
         if gameObject not in [self.mainCamera]:
-            flag = False
-            for go in self.gameObjects:
-                if go == gameObject:
-                    flag = True
-                    break
-            if flag:
+            if gameObject in self.gameObjects:
                 self.gameObjects.remove(gameObject)
+            else:
+                raise PyUnityException(
+                    "The provided GameObject is not part of the Scene")
         else:
             raise PyUnityException(
-                "Cannot remove the Main Camera from the scene")
+                "Cannot remove the Main Camera from the Scene")
 
     def List(self):
         """Lists all the GameObjects currently in the scene."""
