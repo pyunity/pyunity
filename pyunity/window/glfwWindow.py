@@ -2,7 +2,6 @@
 
 import glfw
 from ..errors import *
-import OpenGL.GL as gl
 
 class Window:
     """
