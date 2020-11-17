@@ -336,20 +336,20 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        PyUnityException</span>
-<span class="sd">            If the specified GameObject is the Main Camera.</span>
+<span class="sd">            If the specified GameObject is the Main Camera,</span>
+<span class="sd">            or if the specified GameObject is not part</span>
+<span class="sd">            of the Scene.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">gameObject</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mainCamera</span><span class="p">]:</span>
-            <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">for</span> <span class="n">go</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">go</span> <span class="o">==</span> <span class="n">gameObject</span><span class="p">:</span>
-                    <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="k">break</span>
-            <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">gameObject</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span>
+                    <span class="s2">&quot;The provided GameObject is not part of the Scene&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot remove the Main Camera from the scene&quot;</span><span class="p">)</span></div>
+                <span class="s2">&quot;Cannot remove the Main Camera from the Scene&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Scene.List"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.List">[docs]</a>    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Lists all the GameObjects currently in the scene.&quot;&quot;&quot;</span>
