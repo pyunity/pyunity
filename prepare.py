@@ -59,9 +59,9 @@ if os.environ["cython"] == "1":
         raise Exception("Cython is needed to create CPython extensions.")
     if os.path.exists("src"):
         shutil.rmtree("src")
-    # pxd_files = glob.glob("ext/**/*.pxd", recursive = True)
-    # for f in pxd_files:
-    #     shutil.copy(f, os.path.join("pyunity", f[4:]))
+    pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
+    for f in pxd_files:
+        shutil.copy(f, os.path.join("pyunity", f[4:]))
     for path in glob.glob("pyunity/**/*.py", recursive=True) + \
             glob.glob("pyunity/**/*.mesh", recursive=True) + \
             glob.glob("pyunity/**/*.ogg", recursive=True):
@@ -80,5 +80,5 @@ if os.environ["cython"] == "1":
         destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
         os.makedirs(destPath, exist_ok=True)
         op(srcPath, destPath)
-    # for f in pxd_files:
-    #     os.remove(os.path.join("pyunity", f[4:]))
+    for f in pxd_files:
+        os.remove(os.path.join("pyunity", f[4:]))
