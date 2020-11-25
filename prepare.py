@@ -62,9 +62,9 @@ if os.environ["cython"] == "1":
     pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
     for f in pxd_files:
         shutil.copy(f, os.path.join("pyunity", f[4:]))
-    for path in glob.glob("pyunity/**/*.py", recursive=True) + \
-            glob.glob("pyunity/**/*.mesh", recursive=True) + \
-            glob.glob("pyunity/**/*.ogg", recursive=True):
+    for path in glob.glob("pyunity/**/*.*", recursive=True):
+        if path.endswith(".pyc") or path.endswith(".pxd"):
+            continue
         dirpath, file = os.path.split(path)
         print(file)
         if file.startswith("__") or file.endswith(".mesh") or file.endswith(".ogg"):
