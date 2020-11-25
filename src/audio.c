@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.audio",
         "sources": [
-            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\audio.py"
+            "/data/data/com.termux/files/home/pyunity/pyunity/audio.py"
         ]
     },
     "module_name": "pyunity.audio"
