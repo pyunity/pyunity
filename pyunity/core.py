@@ -50,6 +50,7 @@ __all__ = ["Behaviour", "Camera", "Component", "GameObject",
            "Light", "Material", "MeshRenderer", "Tag", "Transform", "tags"]
 
 import os
+import math
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
@@ -434,6 +435,27 @@ class Transform(Component):
             path = "/" + parent.gameObject.name + path
             parent = parent.parent
         return path
+
+    def LookAtTransform(self, transform):
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+        v1 = transform.position - self.position
+        xyz = v0.cross(v1)
+        w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
+        self.rotation = Quaternion(w, *xyz).normalized()
+
+    def LookAtGameObject(self, gameObject):
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+        v1 = gameObject.transform.position - self.position
+        xyz = v0.cross(v1)
+        w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
+        self.rotation = Quaternion(w, *xyz).normalized()
+
+    def LookAtVector(self, vec):
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+        v1 = vec - self.position
+        xyz = v0.cross(v1)
+        w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
+        self.rotation = Quaternion(w, *xyz).normalized()
 
     def __repr__(self):
         """
