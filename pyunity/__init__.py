@@ -124,7 +124,7 @@ create a new pull request.
 
 from .audio import *
 from .core import *
-from . import loader
+from . import loader # lgtm[py/import-own-module]
 from .physics import *
 from .errors import *
 from .scene import SceneManager
