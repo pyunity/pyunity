@@ -449,13 +449,16 @@ class Scene:
     def start_scripts(self):
         """Start the scripts in the Scene."""
         self.lastFrame = time()
+        self.numChannels = 0
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
                 elif isinstance(component, AudioSource):
-                    component.channel = pygame.mixer.Channel(0)
+                    component.channel = pygame.mixer.Channel(self.numChannels)
+                    if self.numChannels < 8:
+                        self.numChannels += 1
                     if component.clip:
                         component.clip.sound = pygame.mixer.Sound(
                             component.clip.file)
