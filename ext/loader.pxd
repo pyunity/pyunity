@@ -12,13 +12,14 @@ cpdef Mesh LoadObj(str filename)
 cpdef Mesh LoadMesh(str filename)
 
 @cython.locals(directory=str, vertex=Vector3, i=cython.int, triangle=list, j=cython.int, item=cython.int)
-cpdef void SaveMesh(Mesh mesh, str name, str filePath)
+cpdef void SaveMesh(Mesh mesh, str name, str filePath=*)
 
 @cython.locals(directory=str)
-cpdef void SaveScene(Scene scene, str filePath)
+cpdef void SaveScene(Scene scene, str filePath=*)
 
 @cython.locals(directory=str)
-cpdef void LoadScene(Scene scene, str filePath)
+cpdef Scene LoadScene(Scene scene, str filePath=*)
 
 cdef class Primitives:
+    cdef str __path
     cdef public Mesh cube, quad, double_quad, sphere, capsule, cylinder

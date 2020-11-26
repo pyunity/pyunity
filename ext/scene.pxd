@@ -11,7 +11,7 @@ cdef class Scene:
     cpdef public list FindGameObjectsByTagName(Scene self, str name)
     cpdef public list FindGameObjectsByTagNumber(Scene self, int num)
     cpdef public bint inside_frustrum(Scene self, MeshRenderer renderer)
-    cpdef public void start_scripts(Scene self)
+    # cpdef public void start_scripts(Scene self)
     cpdef public void Start(Scene self)
     cpdef public void transform(Scene self, Transform transform)
     cpdef public void update_scripts(Scene self)
