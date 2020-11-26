@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.pygameWindow",
         "sources": [
-            "/data/data/com.termux/files/home/pyunity/pyunity/window/pygameWindow.py"
+            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\pygameWindow.py"
         ]
     },
     "module_name": "pyunity.window.pygameWindow"
