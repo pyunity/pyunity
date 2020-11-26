@@ -1015,8 +1015,8 @@ struct __pyx_obj_4core_Transform {
 };
 
 
-/* "core.pxd":35
- *     cpdef str FullPath(Transform self)
+/* "core.pxd":38
+ *     cpdef void LookAtVector(Transform self, Vector3 vec)
  * 
  * cdef class Camera(Component):             # <<<<<<<<<<<<<<
  *     cdef public float fov, near, far
@@ -1031,7 +1031,7 @@ struct __pyx_obj_4core_Camera {
 };
 
 
-/* "core.pxd":39
+/* "core.pxd":42
  *     cdef public tuple clearColor
  * 
  * cdef class Light(Component):             # <<<<<<<<<<<<<<
@@ -1045,7 +1045,7 @@ struct __pyx_obj_4core_Light {
 };
 
 
-/* "core.pxd":43
+/* "core.pxd":46
  *     cdef public int type
  * 
  * cdef class MeshRenderer(Component):             # <<<<<<<<<<<<<<
@@ -1060,7 +1060,7 @@ struct __pyx_obj_4core_MeshRenderer {
 };
 
 
-/* "core.pxd":48
+/* "core.pxd":51
  *     cpdef void render(MeshRenderer self)
  * 
  * cdef class Material:             # <<<<<<<<<<<<<<
@@ -1093,12 +1093,10 @@ struct __pyx_obj_5scene_Scene {
  * cpdef Scene LoadScene(Scene scene, str filePath=*)
  * 
  * cdef class Primitives:             # <<<<<<<<<<<<<<
- *     cdef str __path
  *     cdef public Mesh cube, quad, double_quad, sphere, capsule, cylinder
  */
 struct __pyx_obj_7pyunity_6loader_Primitives {
   PyObject_HEAD
-  PyObject *__pyx___path;
   struct __pyx_obj_6meshes_Mesh *cube;
   struct __pyx_obj_6meshes_Mesh *quad;
   struct __pyx_obj_6meshes_Mesh *double_quad;
@@ -1176,11 +1174,14 @@ struct __pyx_vtabstruct_4core_Transform {
   void (*ReparentTo)(struct __pyx_obj_4core_Transform *, struct __pyx_obj_4core_Transform *, int __pyx_skip_dispatch);
   void (*List)(struct __pyx_obj_4core_Transform *, int __pyx_skip_dispatch);
   PyObject *(*FullPath)(struct __pyx_obj_4core_Transform *, int __pyx_skip_dispatch);
+  void (*LookAtTransform)(struct __pyx_obj_4core_Transform *, struct __pyx_obj_4core_Transform *, int __pyx_skip_dispatch);
+  void (*LookAtGameObject)(struct __pyx_obj_4core_Transform *, struct __pyx_obj_4core_GameObject *, int __pyx_skip_dispatch);
+  void (*LookAtVector)(struct __pyx_obj_4core_Transform *, struct __pyx_obj_7vector3_Vector3 *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_4core_Transform *__pyx_vtabptr_4core_Transform;
 
 
-/* "core.pxd":43
+/* "core.pxd":46
  *     cdef public int type
  * 
  * cdef class MeshRenderer(Component):             # <<<<<<<<<<<<<<
@@ -1754,6 +1755,10 @@ static PyTypeObject *__Pyx_ImportType(PyObject* module, const char *module_name,
 /* GetVTable.proto */
 static void* __Pyx_GetVtable(PyObject *dict);
 
+/* GetNameInClass.proto */
+#define __Pyx_GetNameInClass(var, nmspace, name)  (var) = __Pyx__GetNameInClass(nmspace, name)
+static PyObject *__Pyx__GetNameInClass(PyObject *nmspace, PyObject *name);
+
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
 #define __Pyx_CLineForTraceback(tstate, c_line)  (((CYTHON_CLINE_IN_TRACEBACK)) ? c_line : 0)
@@ -1908,6 +1913,7 @@ static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_mesh_2[] = "mesh";
 static const char __pyx_k_meshes[] = "meshes";
 static const char __pyx_k_name_2[] = "__name__";
+static const char __pyx_k_path_2[] = "__path";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_remove[] = "remove";
@@ -1962,10 +1968,10 @@ static const char __pyx_k_Primitives___reduce_cython[] = "Primitives.__reduce_cy
 static const char __pyx_k_primitives_double_quad_mesh[] = "primitives/double_quad.mesh";
 static const char __pyx_k_Primitives___setstate_cython[] = "Primitives.__setstate_cython__";
 static const char __pyx_k_Utility_functions_related_to_lo[] = "\nUtility functions related to loading\nand saving PyUnity meshes and scenes.\n\n";
-static const char __pyx_k_Incompatible_checksums_s_vs_0xe3[] = "Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x47[] = "Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))";
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_u_Already_has_scene_called;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xe3;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x47;
 static PyObject *__pyx_n_s_LoadMesh;
 static PyObject *__pyx_n_s_LoadMesh_locals_lambda;
 static PyObject *__pyx_n_s_LoadObj;
@@ -2013,6 +2019,7 @@ static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_path;
+static PyObject *__pyx_n_s_path_2;
 static PyObject *__pyx_n_s_pickle;
 static PyObject *__pyx_kp_u_primitives_capsule_mesh;
 static PyObject *__pyx_kp_u_primitives_cube_mesh;
@@ -2090,7 +2097,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
 static PyObject *__pyx_tp_new_7pyunity_6loader_Primitives(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_remove = {0, &__pyx_n_s_remove, 0, 0, 0};
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_238487924;
+static PyObject *__pyx_int_74578569;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__9;
@@ -5633,9 +5640,9 @@ static PyObject *__pyx_pf_7pyunity_6loader_8LoadScene(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "pyunity/loader.pxd":25
+/* "pyunity/loader.pxd":24
+ * 
  * cdef class Primitives:
- *     cdef str __path
  *     cdef public Mesh cube, quad, double_quad, sphere, capsule, cylinder             # <<<<<<<<<<<<<<
  */
 
@@ -5689,7 +5696,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_4cube_2__set__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5789,7 +5796,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_4quad_2__set__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5889,7 +5896,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_11double_quad_2__set__(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5989,7 +5996,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_6sphere_2__set__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6089,7 +6096,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_7capsule_2__set__(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6189,7 +6196,7 @@ static int __pyx_pf_7pyunity_6loader_10Primitives_8cylinder_2__set__(struct __py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 25, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(1, 24, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6279,39 +6286,36 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.__path, self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)             # <<<<<<<<<<<<<<
+ *     state = (self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(6); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_self->__pyx___path);
-  __Pyx_GIVEREF(__pyx_v_self->__pyx___path);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_self->__pyx___path);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->capsule));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->capsule));
-  PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self->capsule));
+  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_v_self->capsule));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->cube));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->cube));
-  PyTuple_SET_ITEM(__pyx_t_1, 2, ((PyObject *)__pyx_v_self->cube));
+  PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self->cube));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->cylinder));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->cylinder));
-  PyTuple_SET_ITEM(__pyx_t_1, 3, ((PyObject *)__pyx_v_self->cylinder));
+  PyTuple_SET_ITEM(__pyx_t_1, 2, ((PyObject *)__pyx_v_self->cylinder));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->double_quad));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->double_quad));
-  PyTuple_SET_ITEM(__pyx_t_1, 4, ((PyObject *)__pyx_v_self->double_quad));
+  PyTuple_SET_ITEM(__pyx_t_1, 3, ((PyObject *)__pyx_v_self->double_quad));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->quad));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->quad));
-  PyTuple_SET_ITEM(__pyx_t_1, 5, ((PyObject *)__pyx_v_self->quad));
+  PyTuple_SET_ITEM(__pyx_t_1, 4, ((PyObject *)__pyx_v_self->quad));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->sphere));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->sphere));
-  PyTuple_SET_ITEM(__pyx_t_1, 6, ((PyObject *)__pyx_v_self->sphere));
+  PyTuple_SET_ITEM(__pyx_t_1, 5, ((PyObject *)__pyx_v_self->sphere));
   __pyx_v_state = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.__path, self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
+ *     state = (self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
@@ -6322,7 +6326,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.__path, self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
+ *     state = (self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -6355,12 +6359,12 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
  *         state += (_dict,)
  *         use_setstate = True             # <<<<<<<<<<<<<<
  *     else:
- *         use_setstate = self.__path is not None or self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
+ *         use_setstate = self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
  */
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.__path, self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
+ *     state = (self.capsule, self.cube, self.cylinder, self.double_quad, self.quad, self.sphere)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -6372,56 +6376,49 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
   /* "(tree fragment)":11
  *         use_setstate = True
  *     else:
- *         use_setstate = self.__path is not None or self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None             # <<<<<<<<<<<<<<
+ *         use_setstate = self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, None), state
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, None), state
  */
   /*else*/ {
-    __pyx_t_2 = (__pyx_v_self->__pyx___path != ((PyObject*)Py_None));
+    __pyx_t_2 = (((PyObject *)__pyx_v_self->capsule) != Py_None);
     __pyx_t_5 = (__pyx_t_2 != 0);
     if (!__pyx_t_5) {
     } else {
       __pyx_t_3 = __pyx_t_5;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_5 = (((PyObject *)__pyx_v_self->capsule) != Py_None);
+    __pyx_t_5 = (((PyObject *)__pyx_v_self->cube) != Py_None);
     __pyx_t_2 = (__pyx_t_5 != 0);
     if (!__pyx_t_2) {
     } else {
       __pyx_t_3 = __pyx_t_2;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_2 = (((PyObject *)__pyx_v_self->cube) != Py_None);
+    __pyx_t_2 = (((PyObject *)__pyx_v_self->cylinder) != Py_None);
     __pyx_t_5 = (__pyx_t_2 != 0);
     if (!__pyx_t_5) {
     } else {
       __pyx_t_3 = __pyx_t_5;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_5 = (((PyObject *)__pyx_v_self->cylinder) != Py_None);
+    __pyx_t_5 = (((PyObject *)__pyx_v_self->double_quad) != Py_None);
     __pyx_t_2 = (__pyx_t_5 != 0);
     if (!__pyx_t_2) {
     } else {
       __pyx_t_3 = __pyx_t_2;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_2 = (((PyObject *)__pyx_v_self->double_quad) != Py_None);
+    __pyx_t_2 = (((PyObject *)__pyx_v_self->quad) != Py_None);
     __pyx_t_5 = (__pyx_t_2 != 0);
     if (!__pyx_t_5) {
     } else {
       __pyx_t_3 = __pyx_t_5;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_5 = (((PyObject *)__pyx_v_self->quad) != Py_None);
+    __pyx_t_5 = (((PyObject *)__pyx_v_self->sphere) != Py_None);
     __pyx_t_2 = (__pyx_t_5 != 0);
-    if (!__pyx_t_2) {
-    } else {
-      __pyx_t_3 = __pyx_t_2;
-      goto __pyx_L4_bool_binop_done;
-    }
-    __pyx_t_2 = (((PyObject *)__pyx_v_self->sphere) != Py_None);
-    __pyx_t_5 = (__pyx_t_2 != 0);
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_3 = __pyx_t_2;
     __pyx_L4_bool_binop_done:;
     __pyx_v_use_setstate = __pyx_t_3;
   }
@@ -6429,20 +6426,20 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
 
   /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.__path is not None or self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
+ *         use_setstate = self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, None), state
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, None), state
  *     else:
  */
   __pyx_t_3 = (__pyx_v_use_setstate != 0);
   if (__pyx_t_3) {
 
     /* "(tree fragment)":13
- *         use_setstate = self.__path is not None or self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
+ *         use_setstate = self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
  *     if use_setstate:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_Primitives); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 13, __pyx_L1_error)
@@ -6452,9 +6449,9 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_238487924);
-    __Pyx_GIVEREF(__pyx_int_238487924);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_238487924);
+    __Pyx_INCREF(__pyx_int_74578569);
+    __Pyx_GIVEREF(__pyx_int_74578569);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_74578569);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
     PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
@@ -6475,17 +6472,17 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
 
     /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.__path is not None or self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
+ *         use_setstate = self.capsule is not None or self.cube is not None or self.cylinder is not None or self.double_quad is not None or self.quad is not None or self.sphere is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, None), state
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, None), state
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, None), state
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)
  */
@@ -6498,9 +6495,9 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_238487924);
-    __Pyx_GIVEREF(__pyx_int_238487924);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_238487924);
+    __Pyx_INCREF(__pyx_int_74578569);
+    __Pyx_GIVEREF(__pyx_int_74578569);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_74578569);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
@@ -6540,7 +6537,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives___reduce_cython__(struct
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)
  */
@@ -6569,7 +6566,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives_2__setstate_cython__(str
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -6580,7 +6577,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10Primitives_2__setstate_cython__(str
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)
  */
@@ -6699,18 +6696,18 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xe370974:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x471fa89:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xe370974) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x471fa89) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xe370974:
+ *     if __pyx_checksum != 0x471fa89:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  *     __pyx_result = Primitives.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -6729,15 +6726,15 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0xe370974:
+ *     if __pyx_checksum != 0x471fa89:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = Primitives.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xe3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x47, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -6764,15 +6761,15 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xe370974:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x471fa89:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  *     __pyx_result = Primitives.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
@@ -6798,7 +6795,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  *     __pyx_result = Primitives.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
@@ -6821,7 +6818,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe370974 = (__path, capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x471fa89 = (capsule, cube, cylinder, double_quad, quad, sphere))" % __pyx_checksum)
  *     __pyx_result = Primitives.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
@@ -6834,7 +6831,7 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -6867,8 +6864,8 @@ static PyObject *__pyx_pf_7pyunity_6loader_10__pyx_unpickle_Primitives(CYTHON_UN
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(struct __pyx_obj_7pyunity_6loader_Primitives *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
@@ -6890,27 +6887,15 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[7])
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[6])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v___pyx_result->__pyx___path);
-  __Pyx_DECREF(__pyx_v___pyx_result->__pyx___path);
-  __pyx_v___pyx_result->__pyx___path = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6922,7 +6907,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6934,7 +6919,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6946,7 +6931,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6958,7 +6943,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6970,7 +6955,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6meshes_Mesh))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6981,16 +6966,16 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[7])
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[6])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
   __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_t_3 > 7) != 0);
+  __pyx_t_4 = ((__pyx_t_3 > 6) != 0);
   if (__pyx_t_4) {
   } else {
     __pyx_t_2 = __pyx_t_4;
@@ -7003,9 +6988,9 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
   if (__pyx_t_2) {
 
     /* "(tree fragment)":14
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[7])             # <<<<<<<<<<<<<<
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[6])             # <<<<<<<<<<<<<<
  */
     __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -7016,7 +7001,7 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -7038,9 +7023,9 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[7])
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[6])
  */
   }
 
@@ -7048,8 +7033,8 @@ static PyObject *__pyx_f_7pyunity_6loader___pyx_unpickle_Primitives__set_state(s
  *         __pyx_unpickle_Primitives__set_state(<Primitives> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Primitives__set_state(Primitives __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.__path = __pyx_state[0]; __pyx_result.capsule = __pyx_state[1]; __pyx_result.cube = __pyx_state[2]; __pyx_result.cylinder = __pyx_state[3]; __pyx_result.double_quad = __pyx_state[4]; __pyx_result.quad = __pyx_state[5]; __pyx_result.sphere = __pyx_state[6]
- *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.capsule = __pyx_state[0]; __pyx_result.cube = __pyx_state[1]; __pyx_result.cylinder = __pyx_state[2]; __pyx_result.double_quad = __pyx_state[3]; __pyx_result.quad = __pyx_state[4]; __pyx_result.sphere = __pyx_state[5]
+ *     if len(__pyx_state) > 6 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -7078,7 +7063,6 @@ static PyObject *__pyx_tp_new_7pyunity_6loader_Primitives(PyTypeObject *t, CYTHO
   }
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_7pyunity_6loader_Primitives *)o);
-  p->__pyx___path = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->cube = ((struct __pyx_obj_6meshes_Mesh *)Py_None); Py_INCREF(Py_None);
   p->quad = ((struct __pyx_obj_6meshes_Mesh *)Py_None); Py_INCREF(Py_None);
   p->double_quad = ((struct __pyx_obj_6meshes_Mesh *)Py_None); Py_INCREF(Py_None);
@@ -7096,7 +7080,6 @@ static void __pyx_tp_dealloc_7pyunity_6loader_Primitives(PyObject *o) {
   }
   #endif
   PyObject_GC_UnTrack(o);
-  Py_CLEAR(p->__pyx___path);
   Py_CLEAR(p->cube);
   Py_CLEAR(p->quad);
   Py_CLEAR(p->double_quad);
@@ -7526,7 +7509,7 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_kp_u_Already_has_scene_called, __pyx_k_Already_has_scene_called, sizeof(__pyx_k_Already_has_scene_called), 0, 1, 0, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xe3, __pyx_k_Incompatible_checksums_s_vs_0xe3, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xe3), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x47, __pyx_k_Incompatible_checksums_s_vs_0x47, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x47), 0, 0, 1, 0},
   {&__pyx_n_s_LoadMesh, __pyx_k_LoadMesh, sizeof(__pyx_k_LoadMesh), 0, 0, 1, 1},
   {&__pyx_n_s_LoadMesh_locals_lambda, __pyx_k_LoadMesh_locals_lambda, sizeof(__pyx_k_LoadMesh_locals_lambda), 0, 0, 1, 1},
   {&__pyx_n_s_LoadObj, __pyx_k_LoadObj, sizeof(__pyx_k_LoadObj), 0, 0, 1, 1},
@@ -7574,6 +7557,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
+  {&__pyx_n_s_path_2, __pyx_k_path_2, sizeof(__pyx_k_path_2), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
   {&__pyx_kp_u_primitives_capsule_mesh, __pyx_k_primitives_capsule_mesh, sizeof(__pyx_k_primitives_capsule_mesh), 0, 1, 0, 0},
   {&__pyx_kp_u_primitives_cube_mesh, __pyx_k_primitives_cube_mesh, sizeof(__pyx_k_primitives_cube_mesh), 0, 1, 0, 0},
@@ -7720,7 +7704,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)
  */
@@ -7749,7 +7733,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_umethod_PyList_Type_remove.type = (PyObject*)&PyList_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_238487924 = PyInt_FromLong(238487924L); if (unlikely(!__pyx_int_238487924)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_74578569 = PyInt_FromLong(74578569L); if (unlikely(!__pyx_int_74578569)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -7862,14 +7846,14 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_4core_Transform) __PYX_ERR(3, 25, __pyx_L1_error)
   __pyx_vtabptr_4core_Transform = (struct __pyx_vtabstruct_4core_Transform*)__Pyx_GetVtable(__pyx_ptype_4core_Transform->tp_dict); if (unlikely(!__pyx_vtabptr_4core_Transform)) __PYX_ERR(3, 25, __pyx_L1_error)
   __pyx_ptype_4core_Camera = __Pyx_ImportType(__pyx_t_1, "core", "Camera", sizeof(struct __pyx_obj_4core_Camera), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_4core_Camera) __PYX_ERR(3, 35, __pyx_L1_error)
+   if (!__pyx_ptype_4core_Camera) __PYX_ERR(3, 38, __pyx_L1_error)
   __pyx_ptype_4core_Light = __Pyx_ImportType(__pyx_t_1, "core", "Light", sizeof(struct __pyx_obj_4core_Light), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_4core_Light) __PYX_ERR(3, 39, __pyx_L1_error)
+   if (!__pyx_ptype_4core_Light) __PYX_ERR(3, 42, __pyx_L1_error)
   __pyx_ptype_4core_MeshRenderer = __Pyx_ImportType(__pyx_t_1, "core", "MeshRenderer", sizeof(struct __pyx_obj_4core_MeshRenderer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_4core_MeshRenderer) __PYX_ERR(3, 43, __pyx_L1_error)
-  __pyx_vtabptr_4core_MeshRenderer = (struct __pyx_vtabstruct_4core_MeshRenderer*)__Pyx_GetVtable(__pyx_ptype_4core_MeshRenderer->tp_dict); if (unlikely(!__pyx_vtabptr_4core_MeshRenderer)) __PYX_ERR(3, 43, __pyx_L1_error)
+   if (!__pyx_ptype_4core_MeshRenderer) __PYX_ERR(3, 46, __pyx_L1_error)
+  __pyx_vtabptr_4core_MeshRenderer = (struct __pyx_vtabstruct_4core_MeshRenderer*)__Pyx_GetVtable(__pyx_ptype_4core_MeshRenderer->tp_dict); if (unlikely(!__pyx_vtabptr_4core_MeshRenderer)) __PYX_ERR(3, 46, __pyx_L1_error)
   __pyx_ptype_4core_Material = __Pyx_ImportType(__pyx_t_1, "core", "Material", sizeof(struct __pyx_obj_4core_Material), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_4core_Material) __PYX_ERR(3, 48, __pyx_L1_error)
+   if (!__pyx_ptype_4core_Material) __PYX_ERR(3, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("scene"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8335,9 +8319,9 @@ if (!__Pyx_RefNanny) {
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 241, __pyx_L1_error)
-  __Pyx_XDECREF_SET(__pyx___path, ((PyObject*)__pyx_t_1));
-  __pyx_t_1 = 0;
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7pyunity_6loader_Primitives->tp_dict, __pyx_n_s_path_2, __pyx_t_1) < 0) __PYX_ERR(0, 241, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  PyType_Modified(__pyx_ptype_7pyunity_6loader_Primitives);
 
   /* "pyunity/loader.py":242
  * class Primitives:
@@ -8354,13 +8338,15 @@ if (!__Pyx_RefNanny) {
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_join); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
+  __Pyx_GetNameInClass(__pyx_t_3, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
       __pyx_t_7 = 1;
@@ -8368,35 +8354,37 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_cube_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_kp_u_primitives_cube_mesh};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_cube_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_kp_u_primitives_cube_mesh};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__pyx_t_3) {
-      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_7, __pyx_t_3);
     __Pyx_INCREF(__pyx_kp_u_primitives_cube_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_cube_mesh);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_kp_u_primitives_cube_mesh);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_7, __pyx_kp_u_primitives_cube_mesh);
+    __pyx_t_3 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 242, __pyx_L1_error)
@@ -8415,19 +8403,21 @@ if (!__Pyx_RefNanny) {
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_join); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_join); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetNameInClass(__pyx_t_5, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_4)) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_1);
+    if (likely(__pyx_t_3)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_1, function);
       __pyx_t_7 = 1;
@@ -8435,35 +8425,37 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_quad_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_kp_u_primitives_quad_mesh};
     __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_quad_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_kp_u_primitives_quad_mesh};
     __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   {
-    __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__pyx_t_3) {
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx_t_5);
     __Pyx_INCREF(__pyx_kp_u_primitives_quad_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_quad_mesh);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_kp_u_primitives_quad_mesh);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_kp_u_primitives_quad_mesh);
+    __pyx_t_5 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 243, __pyx_L1_error)
@@ -8482,19 +8474,21 @@ if (!__Pyx_RefNanny) {
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_join); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_join); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_GetNameInClass(__pyx_t_4, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
       __pyx_t_7 = 1;
@@ -8502,35 +8496,37 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_double_quad_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_kp_u_primitives_double_quad_mesh};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_double_quad_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_kp_u_primitives_double_quad_mesh};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__pyx_t_3) {
-      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx_t_4);
     __Pyx_INCREF(__pyx_kp_u_primitives_double_quad_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_double_quad_mesh);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_kp_u_primitives_double_quad_mesh);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_kp_u_primitives_double_quad_mesh);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 244, __pyx_L1_error)
@@ -8549,12 +8545,14 @@ if (!__Pyx_RefNanny) {
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 245, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_join); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_join); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_GetNameInClass(__pyx_t_3, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -8569,35 +8567,37 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_sphere_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_kp_u_primitives_sphere_mesh};
     __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_sphere_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_kp_u_primitives_sphere_mesh};
     __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_7, __pyx_t_3);
     __Pyx_INCREF(__pyx_kp_u_primitives_sphere_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_sphere_mesh);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_kp_u_primitives_sphere_mesh);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_7, __pyx_kp_u_primitives_sphere_mesh);
+    __pyx_t_3 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 245, __pyx_L1_error)
@@ -8615,12 +8615,14 @@ if (!__Pyx_RefNanny) {
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_join); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_join); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetNameInClass(__pyx_t_5, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8635,18 +8637,20 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_capsule_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_kp_u_primitives_capsule_mesh};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx___path, __pyx_kp_u_primitives_capsule_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_kp_u_primitives_capsule_mesh};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   {
@@ -8655,12 +8659,12 @@ if (!__Pyx_RefNanny) {
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx_t_5);
     __Pyx_INCREF(__pyx_kp_u_primitives_capsule_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_capsule_mesh);
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_kp_u_primitives_capsule_mesh);
+    __pyx_t_5 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8686,13 +8690,15 @@ if (!__Pyx_RefNanny) {
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_join); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
+  __Pyx_GetNameInClass(__pyx_t_4, (PyObject *)__pyx_ptype_7pyunity_6loader_Primitives, __pyx_n_s_path_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = NULL;
   __pyx_t_7 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_4)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_1);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_1, function);
       __pyx_t_7 = 1;
@@ -8700,32 +8706,34 @@ if (!__Pyx_RefNanny) {
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_cylinder_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_kp_u_primitives_cylinder_mesh};
     __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx___path, __pyx_kp_u_primitives_cylinder_mesh};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_kp_u_primitives_cylinder_mesh};
     __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   {
     __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
     }
-    __Pyx_INCREF(__pyx___path);
-    __Pyx_GIVEREF(__pyx___path);
-    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx___path);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_7, __pyx_t_4);
     __Pyx_INCREF(__pyx_kp_u_primitives_cylinder_mesh);
     __Pyx_GIVEREF(__pyx_kp_u_primitives_cylinder_mesh);
     PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_kp_u_primitives_cylinder_mesh);
+    __pyx_t_4 = 0;
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8751,7 +8759,7 @@ if (!__Pyx_RefNanny) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Primitives, (type(self), 0xe370974, state)
+ *         return __pyx_unpickle_Primitives, (type(self), 0x471fa89, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Primitives__set_state(self, __pyx_state)
  */
@@ -11414,6 +11422,26 @@ static void* __Pyx_GetVtable(PyObject *dict) {
 bad:
     Py_XDECREF(ob);
     return NULL;
+}
+
+/* GetNameInClass */
+static PyObject *__Pyx_GetGlobalNameAfterAttributeLookup(PyObject *name) {
+    PyObject *result;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        return NULL;
+    __Pyx_PyErr_Clear();
+    __Pyx_GetModuleGlobalNameUncached(result, name);
+    return result;
+}
+static PyObject *__Pyx__GetNameInClass(PyObject *nmspace, PyObject *name) {
+    PyObject *result;
+    result = __Pyx_PyObject_GetAttrStr(nmspace, name);
+    if (!result) {
+        result = __Pyx_GetGlobalNameAfterAttributeLookup(name);
+    }
+    return result;
 }
 
 /* CLineInTraceback */
