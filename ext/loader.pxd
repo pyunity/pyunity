@@ -21,5 +21,4 @@ cpdef void SaveScene(Scene scene, str filePath=*)
 cpdef Scene LoadScene(Scene scene, str filePath=*)
 
 cdef class Primitives:
-    cdef str __path
     cdef public Mesh cube, quad, double_quad, sphere, capsule, cylinder

@@ -31,6 +31,9 @@ cdef class Transform(Component):
     cpdef void ReparentTo(Transform self, Transform parent)
     cpdef void List(Transform self)
     cpdef str FullPath(Transform self)
+    cpdef void LookAtTransform(Transform self, Transform transform)
+    cpdef void LookAtGameObject(Transform self, GameObject gameObject)
+    cpdef void LookAtVector(Transform self, Vector3 vec)
 
 cdef class Camera(Component):
     cdef public float fov, near, far

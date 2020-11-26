@@ -483,13 +483,16 @@
 <div class="viewcode-block" id="Scene.start_scripts"><a class="viewcode-back" href="../../pyunity.scene.html#pyunity.scene.Scene.start_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">start_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Start the scripts in the Scene.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">for</span> <span class="n">gameObject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gameObjects</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">Behaviour</span><span class="p">):</span>
                     <span class="n">component</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
-                    <span class="n">component</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Channel</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">component</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Channel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="p">:</span>
                         <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span>
                             <span class="n">component</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
