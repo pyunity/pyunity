@@ -59,9 +59,9 @@ if os.environ["cython"] == "1":
         raise Exception("Cython is needed to create CPython extensions.")
     if os.path.exists("src"):
         shutil.rmtree("src")
-    # pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
-    # for f in pxd_files:
-    #     shutil.copy(f, os.path.join("pyunity", f[4:]))
+    pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
+    for f in pxd_files:
+        shutil.copy(f, os.path.join("pyunity", f[4:]))
     for path in glob.glob("pyunity/**/*.*", recursive=True):
         if path.endswith(".pyc") or path.endswith(".pxd"):
             continue
@@ -71,10 +71,11 @@ if os.environ["cython"] == "1":
             loc = os.getcwd()
             os.chdir(dirpath)
             code = os.system("cythonize -3 -q " + file)
-            if code != 0:
-                break
             os.chdir(loc)
             srcPath = os.path.join(dirpath, file)[:-2] + "c"
+            if code != 0:
+                os.remove(srcPath)
+                break
             op = shutil.move
         else:
             srcPath = os.path.join(dirpath, file)
@@ -82,5 +83,5 @@ if os.environ["cython"] == "1":
         destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
         os.makedirs(destPath, exist_ok=True)
         op(srcPath, destPath)
-    # for f in pxd_files:
-    #     os.remove(os.path.join("pyunity", f[4:]))
+    for f in pxd_files:
+        os.remove(os.path.join("pyunity", f[4:]))
