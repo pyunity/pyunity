@@ -18,6 +18,11 @@ class Window:
         self.window = pygame.display.set_mode(
             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
         pygame.display.set_caption(name)
+        self.keys = {
+            "up": [0 for i in range(323)],
+            "down": [0 for i in range(323)],
+            "pressed": [0 for i in range(323)],
+        }
 
     def start(self, update_func):
         """
@@ -34,6 +39,8 @@ class Window:
         clock = pygame.time.Clock()
         pygame.display.flip()
         while not done:
+            self.keys["up"] = [0 for i in range(323)]
+            self.keys["down"] = [0 for i in range(323)]
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -41,8 +48,13 @@ class Window:
                     self.resize(*event.dict['size'])
                     self.update_func()
                     pygame.display.flip()
+                elif event.type == pygame.KEYDOWN:
+                    self.keys["down"][event.key] = 1
+                elif event.type == pygame.KEYUP:
+                    self.keys["up"][event.key] = 1
 
             pressed = pygame.key.get_pressed()
+            self.keys["pressed"] = pressed
             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
                 done = True
@@ -52,3 +64,12 @@ class Window:
             clock.tick(self.config.fps)
 
         pygame.display.quit()
+
+    def get_keys(self):
+        return self.keys["pressed"]
+
+    def get_keys_down(self):
+        return self.keys["down"]
+
+    def get_keys_up(self):
+        return self.keys["up"]
