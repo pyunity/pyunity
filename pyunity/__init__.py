@@ -125,6 +125,8 @@ create a new pull request.
 from .audio import *
 from .core import *
 from . import loader  # lgtm[py/import-own-module]
+from . import input as Input  # lgtm[py/import-own-module]
+from .input import KeyCode
 from .physics import *
 from .errors import *
 from .scene import SceneManager
@@ -142,7 +144,8 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics, errors
 __all__ = ["__version__", "Vector3", "Quaternion",
-           "SceneManager", "Mesh", "loader"]
+           "SceneManager", "Mesh", "loader",
+           "Input", "KeyCode"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
