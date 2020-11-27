@@ -1867,7 +1867,6 @@ static const char __pyx_k_gl[] = "gl";
 static const char __pyx_k_os[] = "os";
 static const char __pyx_k_Tag[] = "Tag";
 static const char __pyx_k_all[] = "__all__";
-static const char __pyx_k_dot[] = "dot";
 static const char __pyx_k_key[] = "key";
 static const char __pyx_k_map[] = "map";
 static const char __pyx_k_new[] = "__new__";
@@ -1894,7 +1893,6 @@ static const char __pyx_k_Light[] = "Light";
 static const char __pyx_k_Start[] = "Start";
 static const char __pyx_k_close[] = "close";
 static const char __pyx_k_color[] = "color";
-static const char __pyx_k_cross[] = "cross";
 static const char __pyx_k_glEnd[] = "glEnd";
 static const char __pyx_k_index[] = "index";
 static const char __pyx_k_print[] = "print";
@@ -2148,10 +2146,8 @@ static PyObject *__pyx_n_s_componentClass;
 static PyObject *__pyx_kp_u_components;
 static PyObject *__pyx_n_s_conjugate;
 static PyObject *__pyx_kp_s_core_py;
-static PyObject *__pyx_n_s_cross;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dict_2;
-static PyObject *__pyx_n_s_dot;
 static PyObject *__pyx_n_s_dt;
 static PyObject *__pyx_n_s_environ;
 static PyObject *__pyx_n_s_errors;
@@ -8582,15 +8578,15 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_6FullPath(struct __pyx_obj_7
  *         return path
  * 
  *     def LookAtTransform(self, transform):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position
  */
 
 static PyObject *__pyx_pw_7pyunity_4core_9Transform_9LookAtTransform(PyObject *__pyx_v_self, PyObject *__pyx_v_transform); /*proto*/
 static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7pyunity_4core_Transform *__pyx_v_self, struct __pyx_obj_7pyunity_4core_Transform *__pyx_v_transform, int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_v0 = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_v0 = NULL;
   PyObject *__pyx_v_v1 = NULL;
-  PyObject *__pyx_v_xyz = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_xyz = NULL;
   PyObject *__pyx_v_w = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8651,80 +8647,45 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
   /* "pyunity/core.py":440
  * 
  *     def LookAtTransform(self, transform):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))             # <<<<<<<<<<<<<<
+ *         v0 = Vector3(0, 0, 1)             # <<<<<<<<<<<<<<
  *         v1 = transform.position - self.position
  *         xyz = v0.cross(v1)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_RotateVector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_v0 = __pyx_t_1;
+  __pyx_v_v0 = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "pyunity/core.py":441
  *     def LookAtTransform(self, transform):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position             # <<<<<<<<<<<<<<
  *         xyz = v0.cross(v1)
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_transform), __pyx_n_s_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_position); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_position); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_v1 = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_v1 = __pyx_t_3;
+  __pyx_t_3 = 0;
 
   /* "pyunity/core.py":442
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position
  *         xyz = v0.cross(v1)             # <<<<<<<<<<<<<<
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  *         self.rotation = Quaternion(w, *xyz).normalized()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_cross); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->cross(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 442, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 442, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_xyz = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_v_xyz = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_3);
+  __pyx_t_3 = 0;
 
   /* "pyunity/core.py":443
  *         v1 = transform.position - self.position
@@ -8733,28 +8694,13 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_math); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->get_length_sqrd(__pyx_v_v0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v1, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
@@ -8772,9 +8718,9 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
   if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -8786,32 +8732,18 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
       __Pyx_DECREF_SET(__pyx_t_1, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5);
+  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_dot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->dot(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_w = __pyx_t_5;
   __pyx_t_5 = 0;
@@ -8828,26 +8760,26 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
   __Pyx_INCREF(__pyx_v_w);
   __Pyx_GIVEREF(__pyx_v_w);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_w);
-  __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_v_xyz); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __pyx_t_1 = PySequence_Tuple(((PyObject *)__pyx_v_xyz)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1), 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_2) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_3) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "pyunity/core.py":439
  *         return path
  * 
  *     def LookAtTransform(self, transform):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position
  */
 
@@ -8862,9 +8794,9 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtTransform(struct __pyx_obj_7
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("pyunity.core.Transform.LookAtTransform", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_v0);
+  __Pyx_XDECREF((PyObject *)__pyx_v_v0);
   __Pyx_XDECREF(__pyx_v_v1);
-  __Pyx_XDECREF(__pyx_v_xyz);
+  __Pyx_XDECREF((PyObject *)__pyx_v_xyz);
   __Pyx_XDECREF(__pyx_v_w);
   __Pyx_RefNannyFinishContext();
 }
@@ -8921,15 +8853,15 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_8LookAtTransform(struct __py
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtGameObject(self, gameObject):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position
  */
 
 static PyObject *__pyx_pw_7pyunity_4core_9Transform_11LookAtGameObject(PyObject *__pyx_v_self, PyObject *__pyx_v_gameObject); /*proto*/
 static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_7pyunity_4core_Transform *__pyx_v_self, struct __pyx_obj_7pyunity_4core_GameObject *__pyx_v_gameObject, int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_v0 = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_v0 = NULL;
   PyObject *__pyx_v_v1 = NULL;
-  PyObject *__pyx_v_xyz = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_xyz = NULL;
   PyObject *__pyx_v_w = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8990,80 +8922,45 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
   /* "pyunity/core.py":447
  * 
  *     def LookAtGameObject(self, gameObject):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))             # <<<<<<<<<<<<<<
+ *         v0 = Vector3(0, 0, 1)             # <<<<<<<<<<<<<<
  *         v1 = gameObject.transform.position - self.position
  *         xyz = v0.cross(v1)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 447, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_RotateVector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 447, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_v0 = __pyx_t_1;
+  __pyx_v_v0 = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "pyunity/core.py":448
  *     def LookAtGameObject(self, gameObject):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position             # <<<<<<<<<<<<<<
  *         xyz = v0.cross(v1)
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_gameObject->transform), __pyx_n_s_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_position); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_position); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 448, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_v1 = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_v1 = __pyx_t_3;
+  __pyx_t_3 = 0;
 
   /* "pyunity/core.py":449
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position
  *         xyz = v0.cross(v1)             # <<<<<<<<<<<<<<
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  *         self.rotation = Quaternion(w, *xyz).normalized()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_cross); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 449, __pyx_L1_error)
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 449, __pyx_L1_error)
+  __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->cross(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 449, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 449, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_xyz = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_v_xyz = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_3);
+  __pyx_t_3 = 0;
 
   /* "pyunity/core.py":450
  *         v1 = gameObject.transform.position - self.position
@@ -9072,28 +8969,13 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_math); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->get_length_sqrd(__pyx_v_v0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v1, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
@@ -9111,9 +8993,9 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
   if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -9125,32 +9007,18 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
       __Pyx_DECREF_SET(__pyx_t_1, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5);
+  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_dot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->dot(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_w = __pyx_t_5;
   __pyx_t_5 = 0;
@@ -9167,26 +9035,26 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
   __Pyx_INCREF(__pyx_v_w);
   __Pyx_GIVEREF(__pyx_v_w);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_w);
-  __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_v_xyz); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __pyx_t_1 = PySequence_Tuple(((PyObject *)__pyx_v_xyz)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1), 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_1), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_2) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_3) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "pyunity/core.py":446
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtGameObject(self, gameObject):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position
  */
 
@@ -9201,9 +9069,9 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtGameObject(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("pyunity.core.Transform.LookAtGameObject", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_v0);
+  __Pyx_XDECREF((PyObject *)__pyx_v_v0);
   __Pyx_XDECREF(__pyx_v_v1);
-  __Pyx_XDECREF(__pyx_v_xyz);
+  __Pyx_XDECREF((PyObject *)__pyx_v_xyz);
   __Pyx_XDECREF(__pyx_v_w);
   __Pyx_RefNannyFinishContext();
 }
@@ -9260,15 +9128,15 @@ static PyObject *__pyx_pf_7pyunity_4core_9Transform_10LookAtGameObject(struct __
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtVector(self, vec):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position
  */
 
 static PyObject *__pyx_pw_7pyunity_4core_9Transform_13LookAtVector(PyObject *__pyx_v_self, PyObject *__pyx_v_vec); /*proto*/
 static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyunity_4core_Transform *__pyx_v_self, struct __pyx_obj_7vector3_Vector3 *__pyx_v_vec, int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_v0 = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_v0 = NULL;
   PyObject *__pyx_v_v1 = NULL;
-  PyObject *__pyx_v_xyz = NULL;
+  struct __pyx_obj_7vector3_Vector3 *__pyx_v_xyz = NULL;
   PyObject *__pyx_v_w = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9329,77 +9197,42 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyu
   /* "pyunity/core.py":454
  * 
  *     def LookAtVector(self, vec):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))             # <<<<<<<<<<<<<<
+ *         v0 = Vector3(0, 0, 1)             # <<<<<<<<<<<<<<
  *         v1 = vec - self.position
  *         xyz = v0.cross(v1)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 454, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_RotateVector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 454, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 454, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7vector3_Vector3), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_v0 = __pyx_t_1;
+  __pyx_v_v0 = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "pyunity/core.py":455
  *     def LookAtVector(self, vec):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position             # <<<<<<<<<<<<<<
  *         xyz = v0.cross(v1)
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Subtract(((PyObject *)__pyx_v_vec), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 455, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = PyNumber_Subtract(((PyObject *)__pyx_v_vec), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_v1 = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_v_v1 = __pyx_t_2;
+  __pyx_t_2 = 0;
 
   /* "pyunity/core.py":456
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position
  *         xyz = v0.cross(v1)             # <<<<<<<<<<<<<<
  *         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
  *         self.rotation = Quaternion(w, *xyz).normalized()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_cross); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 456, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_xyz = __pyx_t_3;
-  __pyx_t_3 = 0;
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 456, __pyx_L1_error)
+  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->cross(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_xyz = ((struct __pyx_obj_7vector3_Vector3 *)__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "pyunity/core.py":457
  *         v1 = vec - self.position
@@ -9410,26 +9243,11 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyu
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_math); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sqrt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 457, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->get_length_sqrd(__pyx_v_v0, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v1, __pyx_n_s_get_length_sqrd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
@@ -9452,42 +9270,28 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyu
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
     if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5);
+  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 457, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_v0, __pyx_n_s_dot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_v_v1) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_v1);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_v_v1) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_v1, __pyx_ptype_7vector3_Vector3))))) __PYX_ERR(0, 457, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(((struct __pyx_vtabstruct_7vector3_Vector3 *)__pyx_v_v0->__pyx_vtab)->dot(__pyx_v_v0, ((struct __pyx_obj_7vector3_Vector3 *)__pyx_v_v1), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_w = __pyx_t_5;
   __pyx_t_5 = 0;
 
@@ -9503,26 +9307,26 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyu
   __Pyx_INCREF(__pyx_v_w);
   __Pyx_GIVEREF(__pyx_v_w);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_w);
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_v_xyz); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __pyx_t_3 = PySequence_Tuple(((PyObject *)__pyx_v_xyz)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_2)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_2), 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10quaternion_Quaternion), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_3) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
+  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_10quaternion_Quaternion *)((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_3)->__pyx_vtab)->normalized(((struct __pyx_obj_10quaternion_Quaternion *)__pyx_t_3), 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rotation, __pyx_t_2) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/core.py":453
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtVector(self, vec):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position
  */
 
@@ -9537,9 +9341,9 @@ static void __pyx_f_7pyunity_4core_9Transform_LookAtVector(struct __pyx_obj_7pyu
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("pyunity.core.Transform.LookAtVector", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_v0);
+  __Pyx_XDECREF((PyObject *)__pyx_v_v0);
   __Pyx_XDECREF(__pyx_v_v1);
-  __Pyx_XDECREF(__pyx_v_xyz);
+  __Pyx_XDECREF((PyObject *)__pyx_v_xyz);
   __Pyx_XDECREF(__pyx_v_w);
   __Pyx_RefNannyFinishContext();
 }
@@ -19580,10 +19384,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_components, __pyx_k_components, sizeof(__pyx_k_components), 0, 1, 0, 0},
   {&__pyx_n_s_conjugate, __pyx_k_conjugate, sizeof(__pyx_k_conjugate), 0, 0, 1, 1},
   {&__pyx_kp_s_core_py, __pyx_k_core_py, sizeof(__pyx_k_core_py), 0, 0, 1, 0},
-  {&__pyx_n_s_cross, __pyx_k_cross, sizeof(__pyx_k_cross), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dict_2, __pyx_k_dict_2, sizeof(__pyx_k_dict_2), 0, 0, 1, 1},
-  {&__pyx_n_s_dot, __pyx_k_dot, sizeof(__pyx_k_dot), 0, 0, 1, 1},
   {&__pyx_n_s_dt, __pyx_k_dt, sizeof(__pyx_k_dt), 0, 0, 1, 1},
   {&__pyx_n_s_environ, __pyx_k_environ, sizeof(__pyx_k_environ), 0, 0, 1, 1},
   {&__pyx_n_s_errors, __pyx_k_errors, sizeof(__pyx_k_errors), 0, 0, 1, 1},
@@ -19704,7 +19506,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "pyunity/core.py":440
  * 
  *     def LookAtTransform(self, transform):
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))             # <<<<<<<<<<<<<<
+ *         v0 = Vector3(0, 0, 1)             # <<<<<<<<<<<<<<
  *         v1 = transform.position - self.position
  *         xyz = v0.cross(v1)
  */
@@ -19931,7 +19733,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return path
  * 
  *     def LookAtTransform(self, transform):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position
  */
   __pyx_tuple__44 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_transform); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 439, __pyx_L1_error)
@@ -19943,7 +19745,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtGameObject(self, gameObject):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position
  */
   __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_gameObject); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 446, __pyx_L1_error)
@@ -19955,7 +19757,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtVector(self, vec):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position
  */
   __pyx_tuple__48 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_vec); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 453, __pyx_L1_error)
@@ -21047,7 +20849,7 @@ if (!__Pyx_RefNanny) {
  *         return path
  * 
  *     def LookAtTransform(self, transform):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = transform.position - self.position
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_4core_9Transform_9LookAtTransform, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Transform_LookAtTransform, NULL, __pyx_n_s_pyunity_core, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
@@ -21060,7 +20862,7 @@ if (!__Pyx_RefNanny) {
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtGameObject(self, gameObject):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = gameObject.transform.position - self.position
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_4core_9Transform_11LookAtGameObject, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Transform_LookAtGameObject, NULL, __pyx_n_s_pyunity_core, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
@@ -21073,7 +20875,7 @@ if (!__Pyx_RefNanny) {
  *         self.rotation = Quaternion(w, *xyz).normalized()
  * 
  *     def LookAtVector(self, vec):             # <<<<<<<<<<<<<<
- *         v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
+ *         v0 = Vector3(0, 0, 1)
  *         v1 = vec - self.position
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_4core_9Transform_13LookAtVector, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Transform_LookAtVector, NULL, __pyx_n_s_pyunity_core, __pyx_d, ((PyObject *)__pyx_codeobj__49)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
