@@ -19,6 +19,3 @@ cpdef void SaveScene(Scene scene, str filePath=*)
 
 @cython.locals(directory=str)
 cpdef Scene LoadScene(Scene scene, str filePath=*)
-
-cdef class Primitives:
-    cdef public Mesh cube, quad, double_quad, sphere, capsule, cylinder
