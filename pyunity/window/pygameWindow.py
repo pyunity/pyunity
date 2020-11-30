@@ -15,9 +15,11 @@ class Window:
     def __init__(self, config, name, resize):
         self.config = config
         self.resize = resize
+
         self.window = pygame.display.set_mode(
             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
         pygame.display.set_caption(name)
+
         self.keys = {
             "up": [0 for i in range(323)],
             "down": [0 for i in range(323)],
