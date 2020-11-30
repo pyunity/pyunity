@@ -3,6 +3,7 @@ from unittest.mock import Mock
 import sys
 import math
 sys.modules["pygame"] = Mock()
+sys.modules["pygame.locals"] = Mock()
 sys.modules["glfw"] = Mock()
 sys.modules["OpenGL"] = Mock()
 sys.modules["OpenGL.GL"] = Mock()
