@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.pygameWindow",
         "sources": [
-            "D:\\Ray\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\pygameWindow.py"
+            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\window\\pygameWindow.py"
         ]
     },
     "module_name": "pyunity.window.pygameWindow"
@@ -1553,7 +1553,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
  *     def __init__(self, config, name, resize):
  *         self.config = config             # <<<<<<<<<<<<<<
  *         self.resize = resize
- *         self.window = pygame.display.set_mode(
+ * 
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_config, __pyx_v_config) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
 
@@ -1561,56 +1561,56 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
  *     def __init__(self, config, name, resize):
  *         self.config = config
  *         self.resize = resize             # <<<<<<<<<<<<<<
+ * 
  *         self.window = pygame.display.set_mode(
- *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_resize, __pyx_v_resize) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":18
- *         self.config = config
+  /* "pyunity/window/pygameWindow.py":19
  *         self.resize = resize
+ * 
  *         self.window = pygame.display.set_mode(             # <<<<<<<<<<<<<<
  *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
  *         pygame.display.set_caption(name)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_set_mode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_set_mode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pyunity/window/pygameWindow.py":19
- *         self.resize = resize
+  /* "pyunity/window/pygameWindow.py":20
+ * 
  *         self.window = pygame.display.set_mode(
  *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)             # <<<<<<<<<<<<<<
  *         pygame.display.set_caption(name)
- *         self.keys = {
+ * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_config, __pyx_n_s_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_config, __pyx_n_s_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DOUBLEBUF); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DOUBLEBUF); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_OPENGL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_OPENGL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Or(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Or(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_RESIZABLE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_RESIZABLE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyNumber_Or(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Or(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1629,7 +1629,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_6};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1639,7 +1639,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_6};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1647,7 +1647,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -1658,35 +1658,35 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_t_6);
     __pyx_t_3 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":18
- *         self.config = config
+  /* "pyunity/window/pygameWindow.py":19
  *         self.resize = resize
+ * 
  *         self.window = pygame.display.set_mode(             # <<<<<<<<<<<<<<
  *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
  *         pygame.display.set_caption(name)
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_window, __pyx_t_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_window, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":20
+  /* "pyunity/window/pygameWindow.py":21
  *         self.window = pygame.display.set_mode(
  *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
  *         pygame.display.set_caption(name)             # <<<<<<<<<<<<<<
+ * 
  *         self.keys = {
- *             "up": [0 for i in range(323)],
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_set_caption); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_set_caption); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -1701,75 +1701,75 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   }
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_name) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_name);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":22
- *         pygame.display.set_caption(name)
+  /* "pyunity/window/pygameWindow.py":24
+ * 
  *         self.keys = {
  *             "up": [0 for i in range(323)],             # <<<<<<<<<<<<<<
  *             "down": [0 for i in range(323)],
  *             "pressed": [0 for i in range(323)],
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   { /* enter inner scope */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     for (__pyx_t_8 = 0; __pyx_t_8 < 0x143; __pyx_t_8+=1) {
       __pyx_7genexpr__pyx_v_i = __pyx_t_8;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 22, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 24, __pyx_L1_error)
     }
   } /* exit inner scope */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_up, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_up, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   { /* enter inner scope */
 
-    /* "pyunity/window/pygameWindow.py":23
+    /* "pyunity/window/pygameWindow.py":25
  *         self.keys = {
  *             "up": [0 for i in range(323)],
  *             "down": [0 for i in range(323)],             # <<<<<<<<<<<<<<
  *             "pressed": [0 for i in range(323)],
  *         }
  */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     for (__pyx_t_8 = 0; __pyx_t_8 < 0x143; __pyx_t_8+=1) {
       __pyx_8genexpr1__pyx_v_i = __pyx_t_8;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 23, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 25, __pyx_L1_error)
     }
   } /* exit inner scope */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_down, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_down, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   { /* enter inner scope */
 
-    /* "pyunity/window/pygameWindow.py":24
+    /* "pyunity/window/pygameWindow.py":26
  *             "up": [0 for i in range(323)],
  *             "down": [0 for i in range(323)],
  *             "pressed": [0 for i in range(323)],             # <<<<<<<<<<<<<<
  *         }
  * 
  */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     for (__pyx_t_8 = 0; __pyx_t_8 < 0x143; __pyx_t_8+=1) {
       __pyx_8genexpr2__pyx_v_i = __pyx_t_8;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 24, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 26, __pyx_L1_error)
     }
   } /* exit inner scope */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_pressed, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_pressed, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":21
- *             config.size, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
+  /* "pyunity/window/pygameWindow.py":23
  *         pygame.display.set_caption(name)
+ * 
  *         self.keys = {             # <<<<<<<<<<<<<<
  *             "up": [0 for i in range(323)],
  *             "down": [0 for i in range(323)],
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_keys, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_keys, __pyx_t_1) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/window/pygameWindow.py":15
@@ -1798,7 +1798,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window___init__(CYTHO
   return __pyx_r;
 }
 
-/* "pyunity/window/pygameWindow.py":27
+/* "pyunity/window/pygameWindow.py":29
  *         }
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
@@ -1842,11 +1842,11 @@ static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_update_func)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, 1); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, 1); __PYX_ERR(0, 29, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "start") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "start") < 0)) __PYX_ERR(0, 29, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1859,7 +1859,7 @@ static PyObject *__pyx_pw_7pyunity_6window_12pygameWindow_6Window_3start(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("start", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyunity.window.pygameWindow.Window.start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1896,16 +1896,16 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("start", 0);
 
-  /* "pyunity/window/pygameWindow.py":37
+  /* "pyunity/window/pygameWindow.py":39
  * 
  *         """
  *         self.update_func = update_func             # <<<<<<<<<<<<<<
  *         done = False
  *         clock = pygame.time.Clock()
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_update_func, __pyx_v_update_func) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_update_func, __pyx_v_update_func) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":38
+  /* "pyunity/window/pygameWindow.py":40
  *         """
  *         self.update_func = update_func
  *         done = False             # <<<<<<<<<<<<<<
@@ -1914,19 +1914,19 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
   __pyx_v_done = 0;
 
-  /* "pyunity/window/pygameWindow.py":39
+  /* "pyunity/window/pygameWindow.py":41
  *         self.update_func = update_func
  *         done = False
  *         clock = pygame.time.Clock()             # <<<<<<<<<<<<<<
  *         pygame.display.flip()
  *         while not done:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_Clock); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_Clock); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -1941,25 +1941,25 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_clock = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":40
+  /* "pyunity/window/pygameWindow.py":42
  *         done = False
  *         clock = pygame.time.Clock()
  *         pygame.display.flip()             # <<<<<<<<<<<<<<
  *         while not done:
  *             self.keys["up"] = [0 for i in range(323)]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flip); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flip); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -1974,12 +1974,12 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":41
+  /* "pyunity/window/pygameWindow.py":43
  *         clock = pygame.time.Clock()
  *         pygame.display.flip()
  *         while not done:             # <<<<<<<<<<<<<<
@@ -1990,7 +1990,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __pyx_t_4 = ((!(__pyx_v_done != 0)) != 0);
     if (!__pyx_t_4) break;
 
-    /* "pyunity/window/pygameWindow.py":42
+    /* "pyunity/window/pygameWindow.py":44
  *         pygame.display.flip()
  *         while not done:
  *             self.keys["up"] = [0 for i in range(323)]             # <<<<<<<<<<<<<<
@@ -1998,20 +1998,20 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  *             for event in pygame.event.get():
  */
     { /* enter inner scope */
-      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       for (__pyx_t_5 = 0; __pyx_t_5 < 0x143; __pyx_t_5+=1) {
         __pyx_8genexpr3__pyx_v_i = __pyx_t_5;
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 42, __pyx_L1_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 44, __pyx_L1_error)
       }
     } /* exit inner scope */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_up, __pyx_t_1) < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_up, __pyx_t_1) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/window/pygameWindow.py":43
+    /* "pyunity/window/pygameWindow.py":45
  *         while not done:
  *             self.keys["up"] = [0 for i in range(323)]
  *             self.keys["down"] = [0 for i in range(323)]             # <<<<<<<<<<<<<<
@@ -2019,32 +2019,32 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  *                 if event.type == pygame.QUIT:
  */
     { /* enter inner scope */
-      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       for (__pyx_t_5 = 0; __pyx_t_5 < 0x143; __pyx_t_5+=1) {
         __pyx_8genexpr4__pyx_v_i = __pyx_t_5;
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 43, __pyx_L1_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_int_0))) __PYX_ERR(0, 45, __pyx_L1_error)
       }
     } /* exit inner scope */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_down, __pyx_t_1) < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_down, __pyx_t_1) < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/window/pygameWindow.py":44
+    /* "pyunity/window/pygameWindow.py":46
  *             self.keys["up"] = [0 for i in range(323)]
  *             self.keys["down"] = [0 for i in range(323)]
  *             for event in pygame.event.get():             # <<<<<<<<<<<<<<
  *                 if event.type == pygame.QUIT:
  *                     done = True
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_event); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_event); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -2059,16 +2059,16 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 44, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 46, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -2076,17 +2076,17 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -2096,7 +2096,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 44, __pyx_L1_error)
+            else __PYX_ERR(0, 46, __pyx_L1_error)
           }
           break;
         }
@@ -2105,28 +2105,28 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
       __Pyx_XDECREF_SET(__pyx_v_event, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "pyunity/window/pygameWindow.py":45
+      /* "pyunity/window/pygameWindow.py":47
  *             self.keys["down"] = [0 for i in range(323)]
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
  *                     done = True
  *                 elif event.type == pygame.VIDEORESIZE:
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_QUIT); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_QUIT); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_8, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_8, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_4) {
 
-        /* "pyunity/window/pygameWindow.py":46
+        /* "pyunity/window/pygameWindow.py":48
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:
  *                     done = True             # <<<<<<<<<<<<<<
@@ -2135,7 +2135,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
         __pyx_v_done = 1;
 
-        /* "pyunity/window/pygameWindow.py":45
+        /* "pyunity/window/pygameWindow.py":47
  *             self.keys["down"] = [0 for i in range(323)]
  *             for event in pygame.event.get():
  *                 if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
@@ -2145,58 +2145,58 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         goto __pyx_L11;
       }
 
-      /* "pyunity/window/pygameWindow.py":47
+      /* "pyunity/window/pygameWindow.py":49
  *                 if event.type == pygame.QUIT:
  *                     done = True
  *                 elif event.type == pygame.VIDEORESIZE:             # <<<<<<<<<<<<<<
  *                     self.resize(*event.dict['size'])
  *                     self.update_func()
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_VIDEORESIZE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_VIDEORESIZE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_8 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (__pyx_t_4) {
 
-        /* "pyunity/window/pygameWindow.py":48
+        /* "pyunity/window/pygameWindow.py":50
  *                     done = True
  *                 elif event.type == pygame.VIDEORESIZE:
  *                     self.resize(*event.dict['size'])             # <<<<<<<<<<<<<<
  *                     self.update_func()
  *                     pygame.display.flip()
  */
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_resize); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_resize); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pyunity/window/pygameWindow.py":49
+        /* "pyunity/window/pygameWindow.py":51
  *                 elif event.type == pygame.VIDEORESIZE:
  *                     self.resize(*event.dict['size'])
  *                     self.update_func()             # <<<<<<<<<<<<<<
  *                     pygame.display.flip()
  *                 elif event.type == pygame.KEYDOWN:
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_t_8 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -2210,24 +2210,24 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         }
         __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pyunity/window/pygameWindow.py":50
+        /* "pyunity/window/pygameWindow.py":52
  *                     self.resize(*event.dict['size'])
  *                     self.update_func()
  *                     pygame.display.flip()             # <<<<<<<<<<<<<<
  *                 elif event.type == pygame.KEYDOWN:
  *                     self.keys["down"][event.key] = 1
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_display); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_display); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_flip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_flip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_8 = NULL;
@@ -2242,12 +2242,12 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         }
         __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pyunity/window/pygameWindow.py":47
+        /* "pyunity/window/pygameWindow.py":49
  *                 if event.type == pygame.QUIT:
  *                     done = True
  *                 elif event.type == pygame.VIDEORESIZE:             # <<<<<<<<<<<<<<
@@ -2257,46 +2257,46 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         goto __pyx_L11;
       }
 
-      /* "pyunity/window/pygameWindow.py":51
+      /* "pyunity/window/pygameWindow.py":53
  *                     self.update_func()
  *                     pygame.display.flip()
  *                 elif event.type == pygame.KEYDOWN:             # <<<<<<<<<<<<<<
  *                     self.keys["down"][event.key] = 1
  *                 elif event.type == pygame.KEYUP:
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_KEYDOWN); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_KEYDOWN); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_8, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_8, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_4) {
 
-        /* "pyunity/window/pygameWindow.py":52
+        /* "pyunity/window/pygameWindow.py":54
  *                     pygame.display.flip()
  *                 elif event.type == pygame.KEYDOWN:
  *                     self.keys["down"][event.key] = 1             # <<<<<<<<<<<<<<
  *                 elif event.type == pygame.KEYUP:
  *                     self.keys["up"][event.key] = 1
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_down); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_down); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (unlikely(PyObject_SetItem(__pyx_t_8, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_t_8, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "pyunity/window/pygameWindow.py":51
+        /* "pyunity/window/pygameWindow.py":53
  *                     self.update_func()
  *                     pygame.display.flip()
  *                 elif event.type == pygame.KEYDOWN:             # <<<<<<<<<<<<<<
@@ -2306,46 +2306,46 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
         goto __pyx_L11;
       }
 
-      /* "pyunity/window/pygameWindow.py":53
+      /* "pyunity/window/pygameWindow.py":55
  *                 elif event.type == pygame.KEYDOWN:
  *                     self.keys["down"][event.key] = 1
  *                 elif event.type == pygame.KEYUP:             # <<<<<<<<<<<<<<
  *                     self.keys["up"][event.key] = 1
  * 
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_KEYUP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_KEYUP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_8 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (__pyx_t_4) {
 
-        /* "pyunity/window/pygameWindow.py":54
+        /* "pyunity/window/pygameWindow.py":56
  *                     self.keys["down"][event.key] = 1
  *                 elif event.type == pygame.KEYUP:
  *                     self.keys["up"][event.key] = 1             # <<<<<<<<<<<<<<
  * 
  *             pressed = pygame.key.get_pressed()
  */
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_8, __pyx_n_u_up); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_8, __pyx_n_u_up); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_key); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_key); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_t_8, __pyx_int_1) < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_t_8, __pyx_int_1) < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-        /* "pyunity/window/pygameWindow.py":53
+        /* "pyunity/window/pygameWindow.py":55
  *                 elif event.type == pygame.KEYDOWN:
  *                     self.keys["down"][event.key] = 1
  *                 elif event.type == pygame.KEYUP:             # <<<<<<<<<<<<<<
@@ -2355,7 +2355,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
       }
       __pyx_L11:;
 
-      /* "pyunity/window/pygameWindow.py":44
+      /* "pyunity/window/pygameWindow.py":46
  *             self.keys["up"] = [0 for i in range(323)]
  *             self.keys["down"] = [0 for i in range(323)]
  *             for event in pygame.event.get():             # <<<<<<<<<<<<<<
@@ -2365,19 +2365,19 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":56
+    /* "pyunity/window/pygameWindow.py":58
  *                     self.keys["up"][event.key] = 1
  * 
  *             pressed = pygame.key.get_pressed()             # <<<<<<<<<<<<<<
  *             self.keys["pressed"] = pressed
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_get_pressed); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_get_pressed); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -2392,40 +2392,40 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_XDECREF_SET(__pyx_v_pressed, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":57
+    /* "pyunity/window/pygameWindow.py":59
  * 
  *             pressed = pygame.key.get_pressed()
  *             self.keys["pressed"] = pressed             # <<<<<<<<<<<<<<
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_pressed, __pyx_v_pressed) < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_pressed, __pyx_v_pressed) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":58
+    /* "pyunity/window/pygameWindow.py":60
  *             pressed = pygame.key.get_pressed()
  *             self.keys["pressed"] = pressed
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]             # <<<<<<<<<<<<<<
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
  *                 done = True
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_K_LALT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_K_LALT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
     if (!__pyx_t_4) {
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else {
@@ -2434,12 +2434,12 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L12_bool_binop_done;
     }
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_K_RALT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_K_RALT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_INCREF(__pyx_t_8);
@@ -2449,49 +2449,49 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __Pyx_XDECREF_SET(__pyx_v_alt_pressed, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":59
+    /* "pyunity/window/pygameWindow.py":61
  *             self.keys["pressed"] = pressed
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):             # <<<<<<<<<<<<<<
  *                 done = True
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_K_ESCAPE); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_K_ESCAPE); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (!__pyx_t_9) {
     } else {
       __pyx_t_4 = __pyx_t_9;
       goto __pyx_L15_bool_binop_done;
     }
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_alt_pressed); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_alt_pressed); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
     if (__pyx_t_9) {
     } else {
       __pyx_t_4 = __pyx_t_9;
       goto __pyx_L15_bool_binop_done;
     }
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_K_F4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_K_F4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_pressed, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_4 = __pyx_t_9;
     __pyx_L15_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "pyunity/window/pygameWindow.py":60
+      /* "pyunity/window/pygameWindow.py":62
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):
  *                 done = True             # <<<<<<<<<<<<<<
@@ -2500,7 +2500,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
       __pyx_v_done = 1;
 
-      /* "pyunity/window/pygameWindow.py":59
+      /* "pyunity/window/pygameWindow.py":61
  *             self.keys["pressed"] = pressed
  *             alt_pressed = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
  *             if pressed[pygame.K_ESCAPE] or (alt_pressed and pressed[pygame.K_F4]):             # <<<<<<<<<<<<<<
@@ -2509,14 +2509,14 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
  */
     }
 
-    /* "pyunity/window/pygameWindow.py":62
+    /* "pyunity/window/pygameWindow.py":64
  *                 done = True
  * 
  *             self.update_func()             # <<<<<<<<<<<<<<
  *             pygame.display.flip()
  *             clock.tick(self.config.fps)
  */
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_func); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_func); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -2530,24 +2530,24 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":63
+    /* "pyunity/window/pygameWindow.py":65
  * 
  *             self.update_func()
  *             pygame.display.flip()             # <<<<<<<<<<<<<<
  *             clock.tick(self.config.fps)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_display); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flip); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flip); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -2562,23 +2562,23 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     }
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/window/pygameWindow.py":64
+    /* "pyunity/window/pygameWindow.py":66
  *             self.update_func()
  *             pygame.display.flip()
  *             clock.tick(self.config.fps)             # <<<<<<<<<<<<<<
  * 
  *         pygame.display.quit()
  */
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_clock, __pyx_n_s_tick); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_clock, __pyx_n_s_tick); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_config); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_config); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_fps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_fps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -2594,25 +2594,25 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_1);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "pyunity/window/pygameWindow.py":66
+  /* "pyunity/window/pygameWindow.py":68
  *             clock.tick(self.config.fps)
  * 
  *         pygame.display.quit()             # <<<<<<<<<<<<<<
  * 
  *     def get_keys(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pygame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_display); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_display); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_quit); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_quit); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -2627,12 +2627,12 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   }
   __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pyunity/window/pygameWindow.py":27
+  /* "pyunity/window/pygameWindow.py":29
  *         }
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
@@ -2660,7 +2660,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_2start(CYTHON_
   return __pyx_r;
 }
 
-/* "pyunity/window/pygameWindow.py":68
+/* "pyunity/window/pygameWindow.py":70
  *         pygame.display.quit()
  * 
  *     def get_keys(self):             # <<<<<<<<<<<<<<
@@ -2692,7 +2692,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_4get_keys(CYTH
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_keys", 0);
 
-  /* "pyunity/window/pygameWindow.py":69
+  /* "pyunity/window/pygameWindow.py":71
  * 
  *     def get_keys(self):
  *         return self.keys["pressed"]             # <<<<<<<<<<<<<<
@@ -2700,16 +2700,16 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_4get_keys(CYTH
  *     def get_keys_down(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_pressed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_pressed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyunity/window/pygameWindow.py":68
+  /* "pyunity/window/pygameWindow.py":70
  *         pygame.display.quit()
  * 
  *     def get_keys(self):             # <<<<<<<<<<<<<<
@@ -2729,7 +2729,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_4get_keys(CYTH
   return __pyx_r;
 }
 
-/* "pyunity/window/pygameWindow.py":71
+/* "pyunity/window/pygameWindow.py":73
  *         return self.keys["pressed"]
  * 
  *     def get_keys_down(self):             # <<<<<<<<<<<<<<
@@ -2761,7 +2761,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_6get_keys_down
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_keys_down", 0);
 
-  /* "pyunity/window/pygameWindow.py":72
+  /* "pyunity/window/pygameWindow.py":74
  * 
  *     def get_keys_down(self):
  *         return self.keys["down"]             # <<<<<<<<<<<<<<
@@ -2769,16 +2769,16 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_6get_keys_down
  *     def get_keys_up(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_down); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_down); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyunity/window/pygameWindow.py":71
+  /* "pyunity/window/pygameWindow.py":73
  *         return self.keys["pressed"]
  * 
  *     def get_keys_down(self):             # <<<<<<<<<<<<<<
@@ -2798,7 +2798,7 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_6get_keys_down
   return __pyx_r;
 }
 
-/* "pyunity/window/pygameWindow.py":74
+/* "pyunity/window/pygameWindow.py":76
  *         return self.keys["down"]
  * 
  *     def get_keys_up(self):             # <<<<<<<<<<<<<<
@@ -2829,22 +2829,22 @@ static PyObject *__pyx_pf_7pyunity_6window_12pygameWindow_6Window_8get_keys_up(C
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_keys_up", 0);
 
-  /* "pyunity/window/pygameWindow.py":75
+  /* "pyunity/window/pygameWindow.py":77
  * 
  *     def get_keys_up(self):
  *         return self.keys["up"]             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_up); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_up); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyunity/window/pygameWindow.py":74
+  /* "pyunity/window/pygameWindow.py":76
  *         return self.keys["down"]
  * 
  *     def get_keys_up(self):             # <<<<<<<<<<<<<<
@@ -2986,7 +2986,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 24, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3008,52 +3008,52 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple_);
   __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(4, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_init_2, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 15, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":27
+  /* "pyunity/window/pygameWindow.py":29
  *         }
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
  *         """
  *         Start the main loop of the window.
  */
-  __pyx_tuple__3 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_update_func, __pyx_n_s_done, __pyx_n_s_clock, __pyx_n_s_event, __pyx_n_s_pressed, __pyx_n_s_alt_pressed, __pyx_n_s_i, __pyx_n_s_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_update_func, __pyx_n_s_done, __pyx_n_s_clock, __pyx_n_s_event, __pyx_n_s_pressed, __pyx_n_s_alt_pressed, __pyx_n_s_i, __pyx_n_s_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_start, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_start, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 29, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":68
+  /* "pyunity/window/pygameWindow.py":70
  *         pygame.display.quit()
  * 
  *     def get_keys(self):             # <<<<<<<<<<<<<<
  *         return self.keys["pressed"]
  * 
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys, 68, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 70, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":71
+  /* "pyunity/window/pygameWindow.py":73
  *         return self.keys["pressed"]
  * 
  *     def get_keys_down(self):             # <<<<<<<<<<<<<<
  *         return self.keys["down"]
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys_down, 71, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys_down, 73, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 73, __pyx_L1_error)
 
-  /* "pyunity/window/pygameWindow.py":74
+  /* "pyunity/window/pygameWindow.py":76
  *         return self.keys["down"]
  * 
  *     def get_keys_up(self):             # <<<<<<<<<<<<<<
  *         return self.keys["up"]
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys_up, 74, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pygameWindow_py, __pyx_n_s_get_keys_up, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3415,51 +3415,51 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init_2, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":27
+  /* "pyunity/window/pygameWindow.py":29
  *         }
  * 
  *     def start(self, update_func):             # <<<<<<<<<<<<<<
  *         """
  *         Start the main loop of the window.
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_3start, 0, __pyx_n_s_Window_start, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_start, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_start, __pyx_t_1) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":68
+  /* "pyunity/window/pygameWindow.py":70
  *         pygame.display.quit()
  * 
  *     def get_keys(self):             # <<<<<<<<<<<<<<
  *         return self.keys["pressed"]
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_5get_keys, 0, __pyx_n_s_Window_get_keys, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_5get_keys, 0, __pyx_n_s_Window_get_keys, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys, __pyx_t_1) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys, __pyx_t_1) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":71
+  /* "pyunity/window/pygameWindow.py":73
  *         return self.keys["pressed"]
  * 
  *     def get_keys_down(self):             # <<<<<<<<<<<<<<
  *         return self.keys["down"]
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_7get_keys_down, 0, __pyx_n_s_Window_get_keys_down, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_7get_keys_down, 0, __pyx_n_s_Window_get_keys_down, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys_down, __pyx_t_1) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys_down, __pyx_t_1) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/window/pygameWindow.py":74
+  /* "pyunity/window/pygameWindow.py":76
  *         return self.keys["down"]
  * 
  *     def get_keys_up(self):             # <<<<<<<<<<<<<<
  *         return self.keys["up"]
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_9get_keys_up, 0, __pyx_n_s_Window_get_keys_up, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6window_12pygameWindow_6Window_9get_keys_up, 0, __pyx_n_s_Window_get_keys_up, NULL, __pyx_n_s_pyunity_window_pygameWindow, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys_up, __pyx_t_1) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_keys_up, __pyx_t_1) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/window/pygameWindow.py":9

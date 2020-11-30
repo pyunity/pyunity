@@ -1,16 +1,9 @@
 import math
 from pyunity import *
 from pyunity import config
-config.windowProvider = "Pygame"
+# config.windowProvider = "Pygame"
 
 class CarController(Behaviour):
-    def Update(self, dt):
-        down = Input.GetKeyDown(KeyCode.W)
-        if down: print("W is pressed down")
-        up = Input.GetKeyUp(KeyCode.W)
-        if up: print("W is released")
-
-class Car(Behaviour):
     def Start(self):
         self.x = 0
         self.y = 0
