@@ -5,6 +5,9 @@ image:
 
 environment:
   matrix:
+    - version: "3.9"
+      venv: "../../venv3.9"
+      windows_location: "C:\\Python39-x64\\python"
     - version: "3.8"
       venv: "../../venv3.8"
       windows_location: "C:\\Python38-x64\\python"
