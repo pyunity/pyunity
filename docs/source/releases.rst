@@ -2,6 +2,25 @@
 Releases
 ========
 
+v0.4.0
+======
+After a long break, 0.4.0 is finally here!
+
+New features:
+
+- Added key input (not fully implemented)
+- Fixed namespace pollution
+- Fixed minor bugs
+- Window resizing implemented
+- New Scene loading interface
+- Python 3.9 support
+- Finished pxd files
+- LGTM Integration
+- AppVeyor is now the main builder
+- Code is now PEP8-friendly
+- Added tests.py
+- Cleaned up working directory
+
 v0.2.1
 ======
 Small bugfix around the AudioClip loading and inclusion of the OGG file in example 8.

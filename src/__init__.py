@@ -1,5 +1,5 @@
 """
-Version 0.3.0 (in development)
+Version 0.4.0 (in development)
 ==============================
 
 A Python implementation of the Unity Engine
@@ -24,7 +24,7 @@ This is the output with debugging::
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.0
+    Loaded PyUnity version 0.4.0
 
 If debugging is off, there is no output:
 
@@ -107,7 +107,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.0
+    Loaded PyUnity version 0.4.0
     >>> main()
 
 Or from the command line::
@@ -134,7 +134,7 @@ from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
 import os
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"
