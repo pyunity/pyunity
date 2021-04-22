@@ -78,7 +78,7 @@ The full code:
    GLFW doesn't work, trying Pygame
    Trying Pygame as a window provider
    Using window provider Pygame
-   Loaded PyUnity version 0.3.0
+   Loaded PyUnity version 0.4.0
    >>> scene = SceneManager.AddScene("Scene")
    >>> scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
    >>> cubeMesh = Mesh.cube(2)
