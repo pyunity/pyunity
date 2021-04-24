@@ -16,8 +16,7 @@ installing it. To install pyunity, simply run
 
 ### Importing
 To start using pyunity, you must import it.
-A standard way to import is like
-so:
+A standard way to import is like so:
 
     >>> from pyunity import *
 
