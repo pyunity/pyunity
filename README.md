@@ -8,9 +8,15 @@ A Python implementation of the Unity Engine
 that supports different types of windows.
 Still in development.
 
-### Importing
+### Installation
 The first step in using PyUnity is always
-importing it. A standard way to import is like
+installing it. To install pyunity, simply run
+
+    pip install pyunity
+
+### Importing
+To start using pyunity, you must import it.
+A standard way to import is like
 so:
 
     >>> from pyunity import *
