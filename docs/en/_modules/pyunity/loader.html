@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.loader &#8212; PyUnity 0.4.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyunity.loader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utility functions related to loading</span>
+<span class="sd">and saving PyUnity meshes and scenes.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
+<span class="kn">from</span> <span class="nn">.meshes</span> <span class="kn">import</span> <span class="n">Mesh</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.scene</span> <span class="kn">import</span> <span class="n">SceneManager</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># import random</span>
+
+<div class="viewcode-block" id="LoadObj"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.LoadObj">[docs]</a><span class="k">def</span> <span class="nf">LoadObj</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads a .obj file to a PyUnity mesh.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Name of file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Mesh</span>
+<span class="sd">        A mesh of the object file</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">normals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;v&quot;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span>
+            <span class="n">face</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="n">face</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">face</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">face</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">faces</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+        <span class="n">normals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">normals</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LoadMesh"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.LoadMesh">[docs]</a><span class="k">def</span> <span class="nf">LoadMesh</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads a .mesh file generated by</span>
+<span class="sd">    `SaveMesh`. It is optimized for faster</span>
+<span class="sd">    loading.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Name of file relative to the cwd</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Mesh</span>
+<span class="sd">        Generated mesh</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="s2">&quot;&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">vertices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)))</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Vector3</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">faces</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)))</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">faces</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">faces</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">faces</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">normals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">faces</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">-</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+        <span class="n">normals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">normals</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SaveMesh"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.SaveMesh">[docs]</a><span class="k">def</span> <span class="nf">SaveMesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">filePath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves a mesh to a .mesh file</span>
+<span class="sd">    for faster loading.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mesh : Mesh</span>
+<span class="sd">        Mesh to save</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the mesh</span>
+<span class="sd">    filePath : str, optional</span>
+<span class="sd">        Pass in `__file__` to save in</span>
+<span class="sd">        directory of script, otherwise</span>
+<span class="sd">        pass in the path of where you</span>
+<span class="sd">        want to save the file. For example, if you</span>
+<span class="sd">        want to save in C:\Downloads, then give</span>
+<span class="sd">        &quot;C:\Downloads\mesh.mesh&quot;. If not</span>
+<span class="sd">        specified, then the mesh is saved</span>
+<span class="sd">        in the cwd.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">filePath</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.mesh&quot;</span><span class="p">),</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vertex</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vertex</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vertex</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">verts</span><span class="p">):</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">triangle</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">triangle</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">)</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># def randomHex(length):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Returns a random hexadecimal string of length `length`.</span>
+
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     length : int</span>
+<span class="c1">#         Length of string</span>
+
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     str</span>
+<span class="c1">#         A random hexadecimal string</span>
+
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     return (&quot;%0&quot; + str(length) + &quot;x&quot;) % random.randrange(16 ** length)</span>
+
+<span class="c1"># def AddHex(l, length):</span>
+<span class="c1">#     x = randomHex(length)</span>
+<span class="c1">#     while x in l: x = randomHex(length)</span>
+<span class="c1">#     l.append(x)</span>
+<span class="c1">#     return x</span>
+
+<div class="viewcode-block" id="SaveScene"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.SaveScene">[docs]</a><span class="k">def</span> <span class="nf">SaveScene</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">filePath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save a scene to a file. Uses pickle.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scene : Scene</span>
+<span class="sd">        Scene to save</span>
+<span class="sd">    filePath : str, optional</span>
+<span class="sd">        Pass in `__file__` to save in</span>
+<span class="sd">        directory of script, otherwise</span>
+<span class="sd">        pass in a directory. If not</span>
+<span class="sd">        specified, then the scene is saved</span>
+<span class="sd">        in the cwd.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># hexes = []</span>
+    <span class="c1"># with open(scene.name + &quot;.scene&quot;, &quot;w+&quot;) as f:</span>
+    <span class="c1">#     for gameObject in scene.gameObjects:</span>
+    <span class="c1">#         f.write(&quot;GameObject (&quot; + gameObject.name + &quot;) &quot; + AddHex(hexes, 24) + &quot;:\n&quot;)</span>
+    <span class="c1">#         for component in gameObject.components:</span>
+    <span class="c1">#             f.write(&quot;  Component &quot; + type(component).__name__ + &quot; &quot; + AddHex(hexes, 24) + &quot;:\n&quot;)</span>
+
+    <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">filePath</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.scene&quot;</span><span class="p">),</span> <span class="s2">&quot;wb+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LoadScene"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.LoadScene">[docs]</a><span class="k">def</span> <span class="nf">LoadScene</span><span class="p">(</span><span class="n">sceneName</span><span class="p">,</span> <span class="n">filePath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a scene from a file. Uses pickle.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sceneName : str</span>
+<span class="sd">        Name of the scene, without</span>
+<span class="sd">        the .scene extension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Scene</span>
+<span class="sd">        Loaded scene</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If there already is a scene called</span>
+<span class="sd">    `sceneName`, then no scene will be added.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sceneName</span> <span class="ow">in</span> <span class="n">SceneManager</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Already has scene called&quot;</span><span class="p">,</span> <span class="n">sceneName</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">filePath</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">sceneName</span> <span class="o">+</span> <span class="s2">&quot;.scene&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">SceneManager</span><span class="o">.</span><span class="n">scenesByIndex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
+    <span class="n">SceneManager</span><span class="o">.</span><span class="n">scenesByName</span><span class="p">[</span><span class="n">sceneName</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span>
+    <span class="k">return</span> <span class="n">scene</span></div>
+
+<div class="viewcode-block" id="Primitives"><a class="viewcode-back" href="../../pyunity.loader.html#pyunity.loader.Primitives">[docs]</a><span class="k">class</span> <span class="nc">Primitives</span><span class="p">:</span>
+    <span class="n">__path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/cube.mesh&quot;</span><span class="p">))</span>
+    <span class="n">quad</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/quad.mesh&quot;</span><span class="p">))</span>
+    <span class="n">double_quad</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/double_quad.mesh&quot;</span><span class="p">))</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/sphere.mesh&quot;</span><span class="p">))</span>
+    <span class="n">capsule</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/capsule.mesh&quot;</span><span class="p">))</span>
+    <span class="n">cylinder</span> <span class="o">=</span> <span class="n">LoadMesh</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__path</span><span class="p">,</span> <span class="s2">&quot;primitives/cylinder.mesh&quot;</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyunity.html">pyunity package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
