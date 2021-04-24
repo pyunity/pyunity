@@ -21,7 +21,7 @@ if len(sys.argv) < 2:
             "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
             "(https://pypi.python.org/pypi/pyunity) ",
             "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
-            "0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.3.0...master)",
+            "0.3.0.svg)](https://github.com/rayzchen/pyunity/compare/0.3.0...master)",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg",
             "?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)",
             # "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
