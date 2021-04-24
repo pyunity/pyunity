@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyunity.scene module &#8212; PyUnity 0.4.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyunity.vector3 module" href="pyunity.vector3.html" />
+    <link rel="prev" title="pyunity.quaternion module" href="pyunity.quaternion.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-pyunity.scene">
+<span id="pyunity-scene-module"></span><h1>pyunity.scene module<a class="headerlink" href="#module-pyunity.scene" title="Permalink to this headline">¶</a></h1>
+<p>Module to create and load Scenes.</p>
+<p>You should never use the <code class="docutils literal notranslate"><span class="pre">Scene</span></code>
+class directly, instead, only use
+the SceneManager class.</p>
+<dl class="py class">
+<dt id="pyunity.scene.Scene">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.scene.</span></code><code class="sig-name descname"><span class="pre">Scene</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to hold all of the GameObjects, and to run the whole
+scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the scene</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Create a scene using the SceneManager, and don’t create a scene
+directly using this class.</p>
+<dl class="py method">
+<dt id="pyunity.scene.Scene.Add">
+<code class="sig-name descname"><span class="pre">Add</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gameObject</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.Add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.Add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a GameObject to the scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gameObject</strong> (<em>GameObejct</em>) – The GameObject to add.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.FindGameObjectsByName">
+<code class="sig-name descname"><span class="pre">FindGameObjectsByName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.FindGameObjectsByName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.FindGameObjectsByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all GameObjects matching the specified name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the GameObject</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of the matching GameObjects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.FindGameObjectsByTagName">
+<code class="sig-name descname"><span class="pre">FindGameObjectsByTagName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.FindGameObjectsByTagName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.FindGameObjectsByTagName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all GameObjects with the specified tag name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tag</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of matching GameObjects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.GameObjectException" title="pyunity.errors.GameObjectException"><strong>GameObjectException</strong></a> – When there is no tag named <cite>name</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.FindGameObjectsByTagNumber">
+<code class="sig-name descname"><span class="pre">FindGameObjectsByTagNumber</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.FindGameObjectsByTagNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.FindGameObjectsByTagNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all GameObjects with a tag of tag <cite>num</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num</strong> (<em>int</em>) – Index of the tag</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of matching GameObjects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.GameObjectException" title="pyunity.errors.GameObjectException"><strong>GameObjectException</strong></a> – If there is no tag with specified index.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.List">
+<code class="sig-name descname"><span class="pre">List</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.List"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists all the GameObjects currently in the scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.Remove">
+<code class="sig-name descname"><span class="pre">Remove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gameObject</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.Remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.Remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a GameObject from the scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gameObject</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.GameObject" title="pyunity.core.GameObject"><em>GameObject</em></a>) – GameObject to remove.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the specified GameObject is the Main Camera,
+    or if the specified GameObject is not part
+    of the Scene.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.Start">
+<code class="sig-name descname"><span class="pre">Start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.Start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.Start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the internal parts of the
+Scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.inside_frustrum">
+<code class="sig-name descname"><span class="pre">inside_frustrum</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renderer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.inside_frustrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.inside_frustrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the renderer’s mesh can be
+seen by the main camera.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>renderer</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.MeshRenderer" title="pyunity.core.MeshRenderer"><em>MeshRenderer</em></a>) – Renderer to test</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If the mesh can be seen</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.no_interactive">
+<code class="sig-name descname"><span class="pre">no_interactive</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.no_interactive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.no_interactive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.render">
+<code class="sig-name descname"><span class="pre">render</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders all GameObjects with MeshRenderers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.start_scripts">
+<code class="sig-name descname"><span class="pre">start_scripts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.start_scripts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.start_scripts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the scripts in the Scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the matrix by a specified transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transform</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – Transform to move</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.update">
+<code class="sig-name descname"><span class="pre">update</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updating function to pass to the window provider.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.Scene.update_scripts">
+<code class="sig-name descname"><span class="pre">update_scripts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#Scene.update_scripts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.Scene.update_scripts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates all scripts in the scene.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt id="pyunity.scene.SceneManager">
+<code class="sig-prename descclassname"><span class="pre">pyunity.scene.</span></code><code class="sig-name descname"><span class="pre">SceneManager</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;pyunity.scene.SceneManager</span> <span class="pre">object&gt;</span></em><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages all scene additions and changes</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyUnity</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-4-0-in-development">Version 0.4.0 (in development)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.scene module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyunity.html">pyunity package</a><ul>
+      <li>Previous: <a href="pyunity.quaternion.html" title="previous chapter">pyunity.quaternion module</a></li>
+      <li>Next: <a href="pyunity.vector3.html" title="next chapter">pyunity.vector3 module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Ray Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyunity.scene.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
