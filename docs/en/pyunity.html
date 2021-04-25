@@ -37,16 +37,40 @@
 <span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
 <section id="version-0-3-1-in-development">
 <h2>Version 0.3.1 (in development)<a class="headerlink" href="#version-0-3-1-in-development" title="Permalink to this headline">¶</a></h2>
-<p>A Python implementation of the Unity Engine
-that supports different types of windows.
-Still in development.</p>
-<section id="installation">
-<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
-<p>The first step in using PyUnity is always
-installing it. To install pyunity, simply run</p>
-<blockquote>
-<div><p>pip install pyunity</p>
-</div></blockquote>
+<p>PyUnity is a Python implementation of the
+Unity Engine, written in C++. This is just
+a fun project and many features have been
+taken out to make it as easy as possible
+to create a scene and run it.</p>
+<section id="installing">
+<h3>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
+<p>To install PyUnity, use pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyunity</span>
+</pre></div>
+</div>
+<p>Its dependencies are just OpenGL, Pygame and
+GLFW.</p>
+<p>Alternatively, you can clone the repository
+<a class="reference external" href="https://github.com/rayzchen/pyunity">here</a>.
+Then run setup.py:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>Note: we are having some difficulties right now.
+To install a working copy, you cannot use the
+simple <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyunity</span></code> command. Instead,
+clone the repository from above. Next, you
+have to set the environment variable <code class="docutils literal notranslate"><span class="pre">cython</span></code>
+to a value that is not <code class="docutils literal notranslate"><span class="pre">1</span></code>. Then you can run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>. This issue is
+being worked on and you can see its progress at
+this <a class="reference external" href="https://github.com/rayzchen/pyunity/issues/6">issue</a>.</p>
+<p>Sometimes on Linux machines, Pygame cannot be
+installed via pip: in that case, use the
+package manager. For example, on Ubuntu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pygame</span>
+</pre></div>
+</div>
 </section>
 <section id="importing">
 <h3>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h3>
@@ -231,7 +255,7 @@ create a new pull request.</p>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-3-1-in-development">Version 0.3.1 (in development)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing">Installing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
