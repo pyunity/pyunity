@@ -29,7 +29,7 @@ have to set the environment variable ``cython``
 to a value that is not ``1``. Then you can run
 ``python setup.py install``. This issue is
 being worked on and you can see its progress at
-this `issue <https://github.com/rayzchen/pyunity/issues/2>`_.
+this `issue <https://github.com/rayzchen/pyunity/issues/6>`_.
 
 Sometimes on Linux machines, Pygame cannot be
 installed via pip: in that case, use the
