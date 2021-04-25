@@ -1,17 +1,42 @@
 """
 Version 0.3.1 (in development)
 ==============================
+PyUnity is a Python implementation of the
+Unity Engine, written in C++. This is just
+a fun project and many features have been
+taken out to make it as easy as possible
+to create a scene and run it.
 
-A Python implementation of the Unity Engine
-that supports different types of windows.
-Still in development.
+Installing
+----------
+To install PyUnity, use pip::
 
-Installation
-------------
-The first step in using PyUnity is always
-installing it. To install pyunity, simply run
+    > pip install pyunity
 
-    pip install pyunity
+Its dependencies are just OpenGL, Pygame and
+GLFW.
+
+Alternatively, you can clone the repository
+`here <https://github.com/rayzchen/pyunity>`_.
+Then run setup.py::
+
+    > python setup.py install
+
+Note: we are having some difficulties right now.
+To install a working copy, you cannot use the
+simple ``pip install pyunity`` command. Instead,
+clone the repository from above. Next, you
+have to set the environment variable ``cython``
+to a value that is not ``1``. Then you can run
+``python setup.py install``. This issue is
+being worked on and you can see its progress at
+this `issue <https://github.com/rayzchen/pyunity/issues/6>`_.
+
+Sometimes on Linux machines, Pygame cannot be
+installed via pip: in that case, use the
+package manager. For example, on Ubuntu::
+
+    > sudo apt-get install python3-pygame
 
 Importing
 ---------
