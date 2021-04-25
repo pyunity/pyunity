@@ -34,7 +34,7 @@ setup(
     description="A Python implementation of the Unity Engine",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github/rayzchen/PyUnity",
+    url="https://github/rayzchen/pyunity",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
