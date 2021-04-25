@@ -210,10 +210,188 @@ seen by the main camera.</p>
 
 </dd></dl>
 
-<dl class="py data">
+<dl class="py class">
 <dt id="pyunity.scene.SceneManager">
-<code class="sig-prename descclassname"><span class="pre">pyunity.scene.</span></code><code class="sig-name descname"><span class="pre">SceneManager</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;pyunity.scene.SceneManager</span> <span class="pre">object&gt;</span></em><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manages all scene additions and changes</p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.scene.</span></code><code class="sig-name descname"><span class="pre">SceneManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to manage scenes.</p>
+<dl class="py attribute">
+<dt id="pyunity.scene.SceneManager.scenesByIndex">
+<code class="sig-name descname"><span class="pre">scenesByIndex</span></code><a class="headerlink" href="#pyunity.scene.SceneManager.scenesByIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of scenes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.scene.SceneManager.scenesByName">
+<code class="sig-name descname"><span class="pre">scenesByName</span></code><a class="headerlink" href="#pyunity.scene.SceneManager.scenesByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of scenes, with the scene
+names as the keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.AddScene">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">AddScene</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sceneName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.AddScene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.AddScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a scene to the SceneManager. Pass
+in a scene name to create a scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sceneName</strong> (<em>str</em>) – Name of the scene</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Newly created scene</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.scene.Scene" title="pyunity.scene.Scene">Scene</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If there already exists a scene called <cite>sceneName</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.CurrentScene">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">CurrentScene</span></code><a class="headerlink" href="#pyunity.scene.SceneManager.CurrentScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the current scene being run</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.GetSceneByIndex">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">GetSceneByIndex</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.GetSceneByIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.GetSceneByIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a scene by its index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Index of the scene</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Specified scene at index <cite>index</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.scene.Scene" title="pyunity.scene.Scene">Scene</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>IndexError</strong> – If there is no scene at the specified index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.GetSceneByName">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">GetSceneByName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.GetSceneByName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.GetSceneByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a scene by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the scene</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Specified scene with name of <cite>name</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyunity.scene.Scene" title="pyunity.scene.Scene">Scene</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If there is no scene called <cite>name</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.LoadScene">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">LoadScene</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scene</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.LoadScene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.LoadScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a scene by a reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scene</strong> (<a class="reference internal" href="#pyunity.scene.Scene" title="pyunity.scene.Scene"><em>Scene</em></a>) – Scene to be loaded</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – When the scene is not of type <cite>Scene</cite></p></li>
+<li><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – When the scene is not part of the SceneManager.
+    This is checked because the SceneManager
+    has to make some checks before the scene
+    can be run.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.LoadSceneByIndex">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">LoadSceneByIndex</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.LoadSceneByIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.LoadSceneByIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a scene by its index of when it was added
+to the SceneManager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Index of the scene</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – When the provided index is not an integer</p></li>
+<li><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – When there is no scene at index <code class="docutils literal notranslate"><span class="pre">index</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.LoadSceneByName">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">LoadSceneByName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.LoadSceneByName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.LoadSceneByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a scene by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the scene</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – When the provided name is not a string</p></li>
+<li><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – When there is no scene named <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyunity.scene.SceneManager.RemoveScene">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">RemoveScene</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scene</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scene.html#SceneManager.RemoveScene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scene.SceneManager.RemoveScene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a scene from the SceneManager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scene</strong> (<a class="reference internal" href="#pyunity.scene.Scene" title="pyunity.scene.Scene"><em>Scene</em></a>) – Scene to remove</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the provided scene is not type Scene</p></li>
+<li><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the scene is not part of the SceneManager</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="id0">
+<code class="sig-name descname"><span class="pre">scenesByIndex</span></code><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="id1">
+<code class="sig-name descname"><span class="pre">scenesByName</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="pyunity.scene.SceneManager.window">
+<code class="sig-name descname"><span class="pre">window</span></code><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#pyunity.scene.SceneManager.window" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
