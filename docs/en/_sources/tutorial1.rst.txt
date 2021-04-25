@@ -56,7 +56,7 @@ program it all! To start, we need to import PyUnity.
    GLFW doesn't work, trying Pygame
    Trying Pygame as a window provider
    Using window provider Pygame
-   Loaded PyUnity version 0.4.0
+   Loaded PyUnity version 0.3.1
 
 The output beneath the import is just debug statement, you
 can turn it off with the environment variable
