@@ -2,9 +2,9 @@
 Releases
 ========
 
-v0.4.0
+v0.3.1
 ======
-After a long break, 0.4.0 is finally here!
+After a long break, 0.3.1 is finally here!
 
 New features:
 
