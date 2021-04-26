@@ -3,9 +3,9 @@
 py -m unittest tests.py
 py -m autopep8 -i -r --ignore E301,E302 pyunity setup.py prepare.py cli.py
 py prepare.py
-start py -3.6 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
-start py -3.7 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
-start py -3.8 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
+py -3.6 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
+py -3.7 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
+py -3.8 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
 py setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\ sdist -d dist\0.3.1\
 RMDIR /S /Q docs\en\
 DEL docs\source\pyunity*
