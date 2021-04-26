@@ -27,18 +27,12 @@ class SceneManager:
     """
     Class to manage scenes.
 
-    Attributes
-    ----------
-    scenesByIndex : list
-        List of scenes
-    scenesByName : dict
-        Dictionary of scenes, with the scene
-        names as the keys.
-
     """
 
     scenesByIndex = []
+    """List of scenes"""
     scenesByName = {}
+    """Dictionary of scenes, with the scene names as the keys."""
     window = None
 
     def __init__(self, *args, **kwargs):
