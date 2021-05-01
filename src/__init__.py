@@ -9,15 +9,23 @@ to create a scene and run it.
 
 Installing
 ----------
-To install PyUnity, use pip::
+To install PyUnity on Windows, use pip::
 
     > pip install pyunity
+
+To install PyUnity on Linux Distributions like Ubuntu and Debian, use:
+
+    > pip3 install pyunity
 
 Its dependencies are just OpenGL, Pygame and
 GLFW.
 
+To install PyGame on Linux, use:
+    
+    >pip3 install pygame
+
 Alternatively, you can clone the repository
-`here <https://github.com/rayzchen/pyunity>`_.
+`here <https://github.com/rayzchen/pyunity>`.
 Then run setup.py::
 
     > python setup.py install
@@ -32,13 +40,7 @@ to a value that is not ``1``. Then you can run
 being worked on and you can see its progress at
 this `issue <https://github.com/rayzchen/pyunity/issues/6>`_.
 
-Sometimes on Linux machines, Pygame cannot be
-installed via pip: in that case, use the
-package manager. For example, on Ubuntu::
-
-    > sudo apt-get install python3-pygame
-
-Importing
+Importing PyUnity In Your File
 ---------
 To start using pyunity, you must import it.
 A standard way to import is like so:
