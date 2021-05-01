@@ -10,12 +10,12 @@ to create a scene and run it.
 Installing
 ----------
 To install PyUnity for Linux distributions
-based on Ubuntu or Debian, use:
+based on Ubuntu or Debian, use::
 
     > pip3 install pyunity
 
 To install PyUnity for other operating systems,
-use pip:
+use pip::
 
     > pip install pyunity
 
@@ -23,8 +23,7 @@ Alternatively, you can clone the repository
 `here <https://github.com/rayzchen/pyunity>`_
 to build the package from source. Then use
 `setup.py` to build. Note that it will install
-`Cython <https://pypi.org/project/cython>` to
-compile.
+Cython to compile.
 
     > python setup.py install
 
