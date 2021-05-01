@@ -24,8 +24,7 @@ Alternatively, you can clone the repository
 `here <https://github.com/rayzchen/pyunity>`_
 to build the package from source. Then use
 `setup.py` to build. Note that it will install
-`Cython <https://pypi.org/project/cython>` to
-compile.
+Cython to compile.
 
     > python setup.py install
 
