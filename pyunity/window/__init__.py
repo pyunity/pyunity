@@ -80,7 +80,8 @@ def GetWindowProvider():
             windowProvider = name
         except Exception as e:
             if next is not None:
-                Logger.LogLine(Logger.DEBUG, name, "doesn't work, trying", next)
+                Logger.LogLine(Logger.DEBUG, name,
+                               "doesn't work, trying", next)
 
         if next is None:
             raise PyUnityException("No window provider found")

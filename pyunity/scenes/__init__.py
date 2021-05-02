@@ -299,7 +299,8 @@ class Scene:
 
         self.start_scripts()
 
-        Logger.LogLine(Logger.DEBUG, "Physics is", "on" if self.physics else "off")
+        Logger.LogLine(Logger.DEBUG, "Physics is",
+                       "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene \"" + self.name + "\" has started")
 
     def transform(self, transform):

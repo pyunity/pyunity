@@ -66,6 +66,7 @@
 <span class="kn">from</span> <span class="nn">.glfwWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glfwWindow</span>
 <span class="kn">from</span> <span class="nn">.glutWindow</span> <span class="kn">import</span> <span class="n">Window</span> <span class="k">as</span> <span class="n">glutWindow</span>
 <span class="kn">from</span> <span class="nn">..errors</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">OpenGL.GLUT</span>
 <span class="kn">import</span> <span class="nn">glfw</span>
@@ -106,15 +107,14 @@
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">checker</span> <span class="ow">in</span> <span class="n">winfo</span><span class="p">:</span>
         <span class="nb">next</span> <span class="o">=</span> <span class="n">winfo</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">winfo</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trying&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;as a window provider&quot;</span><span class="p">)</span>
+        <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="s2">&quot;Trying&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;as a window provider&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">checker</span><span class="p">()</span>
             <span class="n">windowProvider</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">success</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">success</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;doesn&#39;t work, trying&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">next</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
+                               <span class="s2">&quot;doesn&#39;t work, trying&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">next</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyUnityException</span><span class="p">(</span><span class="s2">&quot;No window provider found&quot;</span><span class="p">)</span>
@@ -123,7 +123,7 @@
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using window provider&quot;</span><span class="p">,</span> <span class="n">windowProvider</span><span class="p">)</span>
+        <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="s2">&quot;Using window provider&quot;</span><span class="p">,</span> <span class="n">windowProvider</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">windowProvider</span></div>
 </pre></div>
