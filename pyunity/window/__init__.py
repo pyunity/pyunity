@@ -33,7 +33,7 @@ from .pygameWindow import Window as pygameWindow
 from .glfwWindow import Window as glfwWindow
 from .glutWindow import Window as glutWindow
 from ..errors import *
-from .. import logger as Logger
+from .. import Logger
 import os
 import OpenGL.GLUT
 import glfw
