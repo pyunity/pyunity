@@ -8,7 +8,7 @@ This will be imported as ``pyunity.Input``.
 import pygame.locals
 import glfw
 from . import config
-from .scene import SceneManager
+from .scenes import SceneManager
 __all__ = ["GetKey", "GetKeyUp", "GetKeyDown"]
 
 class Code:
