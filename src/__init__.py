@@ -32,7 +32,7 @@ GLFW.
 
 To install PyGame on Linux, use:
 
-    >pip3 install pygame
+    > pip3 install pygame
 
 Note: we are having some difficulties right now.
 To install a working copy, you cannot use the
@@ -41,11 +41,11 @@ clone the repository from above. Next, you
 have to set the environment variable ``cython``
 to a value that is not ``1``. Then you can run
 ``python setup.py install``. This issue is
-being worked on and you can see its progress at
-this `issue <https://github.com/rayzchen/pyunity/issues/6>`.
+being worked on and you can see its progress
+here: https://github.com/rayzchen/pyunity/issues/7
 
-Importing PyUnity
------------------
+Importing
+---------
 To start using pyunity, you must import it.
 A standard way to import is like so:
 

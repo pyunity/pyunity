@@ -48,7 +48,7 @@ if len(sys.argv) < 2:
                     "create a new pull request",
                     "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
                 )
-            if desc_new == "`here <https://github.com/rayzchen/pyunity>`_":
+            if desc[i] == "`here <https://github.com/rayzchen/pyunity>`_":
                 continue
             desc_new.append(desc[i].replace("::", ":"))
 
