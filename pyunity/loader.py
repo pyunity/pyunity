@@ -8,6 +8,7 @@ from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
+from . import logger as Logger
 import pickle
 import os
 # import random
@@ -222,7 +223,7 @@ def LoadScene(sceneName, filePath=None):
 
     """
     if sceneName in SceneManager.scenesByName:
-        print("Already has scene called", sceneName)
+        Logger.LogLine(Logger.WARNING, "Already has scene called", sceneName)
         return
 
     if filePath:
