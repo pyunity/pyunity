@@ -8,7 +8,6 @@ class Window:
     def __init__(self, config, name, resize):
         self.config = config
         self.resize = resize
-
         glut.glutInit()
         glut.glutInitDisplayMode(glut.GLUT_DOUBLE | glut.GLUT_DEPTH)
         # glut.glutInitWindowPosition(

@@ -4,15 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Tutorial 3: Scripts and Behaviours &#8212; PyUnity 0.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial 3: Scripts and Behaviours &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="License" href="license.html" />
@@ -33,12 +33,12 @@
 
           <div class="body" role="main">
             
-  <section id="tutorial-3-scripts-and-behaviours">
+  <div class="section" id="tutorial-3-scripts-and-behaviours">
 <h1>Tutorial 3: Scripts and Behaviours<a class="headerlink" href="#tutorial-3-scripts-and-behaviours" title="Permalink to this headline">¶</a></h1>
 <p>Last tutorial we covered rendering meshes. In
 this tutorial we will be seeing how to make 2
 GameObjects interact with each other.</p>
-<section id="behaviours">
+<div class="section" id="behaviours">
 <h2>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h2>
 <p>A Behaviour is a Component that you can create
 yourself. To create a Behaviour, subclass from
@@ -59,8 +59,8 @@ the Behaviour is on by 90 degrees each second
 around the y-axis. The <code class="docutils literal notranslate"><span class="pre">Update</span></code> function takes
 1 argument: <code class="docutils literal notranslate"><span class="pre">dt</span></code> which is how many seconds has
 passed since last frame.</p>
-</section>
-<section id="behaviours-vs-components">
+</div>
+<div class="section" id="behaviours-vs-components">
 <h2>Behaviours vs Components<a class="headerlink" href="#behaviours-vs-components" title="Permalink to this headline">¶</a></h2>
 <p>Look at the code for the Component class:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Component</span><span class="p">:</span>
@@ -101,8 +101,8 @@ GameObjects.</p>
 and because Behaviour is subclassed from
 Component, you can add a Behaviour to a GameObject
 with <code class="docutils literal notranslate"><span class="pre">AddComponent</span></code>.</p>
-</section>
-<section id="examples">
+</div>
+<div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <p>This creates a spinning cube:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Rotator</span><span class="p">(</span><span class="n">Behaviour</span><span class="p">):</span>
@@ -154,8 +154,8 @@ would be as so:</p>
 It will break when you set the scale to
 <code class="docutils literal notranslate"><span class="pre">Vector3(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p>
 <p>In the next tutorial we’ll be looking at physics.</p>
-</section>
-</section>
+</div>
+</div>
 
 
           </div>
@@ -229,7 +229,7 @@ It will break when you set the scale to
       &copy;2020, Ray Chen.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

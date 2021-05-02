@@ -2,35 +2,6 @@
 Releases
 ========
 
-v0.3.1
-======
-Bugfix on basically everything because 0.3.0 was messed up.
-
-Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.1
-
-v0.3.0
-======
-After a long break, 0.3.0 is finally here!
-
-New features:
-
-- Added key input (not fully implemented)
-- Fixed namespace pollution
-- Fixed minor bugs
-- Window resizing implemented
-- New Scene loading interface
-- Python 3.9 support
-- Finished pxd files
-- LGTM Integration
-- AppVeyor is now the main builder
-- Code is now PEP8-friendly
-- Added tests.py
-- Cleaned up working directory
-
-Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.0
-
 v0.2.1
 ======
 Small bugfix around the AudioClip loading and inclusion of the OGG file in example 8.

@@ -28,13 +28,13 @@ else:
 
 setup(
     name="pyunity",
-    version="0.3.1",
+    version="0.3.0",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/rayzchen/pyunity",
+    url="https://github/rayzchen/PyUnity",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
@@ -47,7 +47,6 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
     ],
     setup_requires=[
         "cython",

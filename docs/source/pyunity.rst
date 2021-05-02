@@ -24,7 +24,6 @@ Submodules
    pyunity.audio
    pyunity.core
    pyunity.errors
-   pyunity.input
    pyunity.loader
    pyunity.meshes
    pyunity.quaternion

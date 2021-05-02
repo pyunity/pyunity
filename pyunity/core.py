@@ -17,7 +17,7 @@ and all have MeshRenderers:
     GLFW doesn't work, trying Pygame
     Trying Pygame as a window provider
     Using window provider Pygame
-    Loaded PyUnity version 0.3.1
+    Loaded PyUnity version 0.3.0
     >>> mat = Material((255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
@@ -437,21 +437,21 @@ class Transform(Component):
         return path
 
     def LookAtTransform(self, transform):
-        v0 = Vector3(0, 0, 1)
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
         v1 = transform.position - self.position
         xyz = v0.cross(v1)
         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
         self.rotation = Quaternion(w, *xyz).normalized()
 
     def LookAtGameObject(self, gameObject):
-        v0 = Vector3(0, 0, 1)
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
         v1 = gameObject.transform.position - self.position
         xyz = v0.cross(v1)
         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
         self.rotation = Quaternion(w, *xyz).normalized()
 
     def LookAtVector(self, vec):
-        v0 = Vector3(0, 0, 1)
+        v0 = self.rotation.RotateVector(Vector3(0, 0, 1))
         v1 = vec - self.position
         xyz = v0.cross(v1)
         w = math.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)

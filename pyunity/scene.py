@@ -27,19 +27,22 @@ class SceneManager:
     """
     Class to manage scenes.
 
+    Attributes
+    ----------
+    scenesByIndex : list
+        List of scenes
+    scenesByName : dict
+        Dictionary of scenes, with the scene
+        names as the keys.
+
     """
 
-    scenesByIndex = []
-    """List of scenes"""
-    scenesByName = {}
-    """Dictionary of scenes, with the scene names as the keys."""
-    window = None
+    def __init__(self):
+        self.scenesByIndex = []
+        self.scenesByName = {}
+        self.window = None
 
-    def __init__(self, *args, **kwargs):
-        raise TypeError("Cannot create 'SceneManager' instances.")
-
-    @classmethod
-    def AddScene(cls, sceneName):
+    def AddScene(self, sceneName):
         """
         Add a scene to the SceneManager. Pass
         in a scene name to create a scene.
@@ -60,16 +63,15 @@ class SceneManager:
             If there already exists a scene called `sceneName`
 
         """
-        if sceneName in cls.scenesByName:
+        if sceneName in self.scenesByName:
             raise PyUnityException("SceneManager already contains scene \"" +
                                    sceneName + "\"")
         scene = Scene(sceneName)
-        cls.scenesByIndex.append(scene)
-        cls.scenesByName[sceneName] = scene
+        self.scenesByIndex.append(scene)
+        self.scenesByName[sceneName] = scene
         return scene
 
-    @classmethod
-    def GetSceneByIndex(cls, index):
+    def GetSceneByIndex(self, index):
         """
         Get a scene by its index.
 
@@ -89,12 +91,11 @@ class SceneManager:
             If there is no scene at the specified index
 
         """
-        if len(cls.scenesByIndex) <= index:
+        if len(self.scenesByIndex) <= index:
             raise IndexError("There is no scene at index " + str(index))
-        return cls.scenesByIndex[index]
+        return self.scenesByIndex[index]
 
-    @classmethod
-    def GetSceneByName(cls, name):
+    def GetSceneByName(self, name):
         """
         Get a scene by its name.
 
@@ -114,12 +115,11 @@ class SceneManager:
             If there is no scene called `name`
 
         """
-        if name not in cls.scenesByName:
+        if name not in self.scenesByName:
             raise KeyError("There is no scene called " + name)
-        return cls.scenesByName[name]
+        return self.scenesByName[name]
 
-    @classmethod
-    def RemoveScene(cls, scene):
+    def RemoveScene(self, scene):
         """
         Removes a scene from the SceneManager.
 
@@ -138,14 +138,13 @@ class SceneManager:
         """
         if not isinstance(scene, Scene):
             raise TypeError("The provided scene is not of type Scene")
-        if scene not in cls.scenesByIndex:
+        if scene not in self.scenesByIndex:
             raise PyUnityException(
                 "Scene \"%s\" is not part of the SceneManager" % scene.name)
-        cls.scenesByIndex.remove(scene)
-        cls.scenesByName.pop(scene.name)
+        self.scenesByIndex.remove(scene)
+        self.scenesByName.pop(scene.name)
 
-    @classmethod
-    def LoadSceneByName(cls, name):
+    def LoadSceneByName(self, name):
         """
         Loads a scene by its name.
 
@@ -164,12 +163,11 @@ class SceneManager:
         """
         if not isinstance(name, str):
             raise TypeError("\"%r\" is not a string" % name)
-        if name not in cls.scenesByName:
+        if name not in self.scenesByName:
             raise PyUnityException("There is no scene named \"%s\"" % name)
-        cls.__loadScene(copy.deepcopy(cls.scenesByName[name]))
+        self.__loadScene(copy.deepcopy(self.scenesByName[name]))
 
-    @classmethod
-    def LoadSceneByIndex(cls, index):
+    def LoadSceneByIndex(self, index):
         """
         Loads a scene by its index of when it was added
         to the SceneManager.
@@ -189,12 +187,11 @@ class SceneManager:
         """
         if not isinstance(index, int):
             raise TypeError("\"%r\" is not an integer" % index)
-        if index >= len(cls.scenesByIndex):
+        if index >= len(self.scenesByIndex):
             raise PyUnityException("There is no scene at index \"%d\"" % index)
-        cls.__loadScene(copy.deepcopy(cls.scenesByIndex[index]))
+        self.__loadScene(copy.deepcopy(self.scenesByIndex[index]))
 
-    @classmethod
-    def LoadScene(cls, scene):
+    def LoadScene(self, scene):
         """
         Load a scene by a reference.
 
@@ -217,38 +214,41 @@ class SceneManager:
         if not isinstance(scene, Scene):
             raise TypeError(
                 "The provided Scene \"%s\" is not an integer" % scene.name)
-        if scene not in cls.scenesByIndex:
+        if scene not in self.scenesByIndex:
             raise PyUnityException(
                 "The provided scene is not part of the SceneManager")
-        cls.__loadScene(copy.deepcopy(scene))
+        self.__loadScene(copy.deepcopy(scene))
 
-    @classmethod
-    def __loadScene(cls, scene):
-        def __resize(width, height):
-            gl.glViewport(0, 0, width, height)
-            gl.glMatrixMode(gl.GL_PROJECTION)
-            gl.glLoadIdentity()
-            glu.gluPerspective(60, width / height, 0.05, 50)
-            gl.glMatrixMode(gl.GL_MODELVIEW)
-        cls.__running_scene = scene
-        if not cls.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
-            cls.window = window.window_providers[config.windowProvider](
-                config, scene.name, __resize)
+    def __resize(self, width, height):
+        gl.glViewport(0, 0, width, height)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        glu.gluPerspective(60, width / height, 0.05, 50)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+
+    def __loadScene(self, scene):
+        self.__running_scene = scene
+        if not self.window and os.environ["PYUNITY_INTERACTIVE"] == "1":
+            self.window = window.window_providers[config.windowProvider](
+                config, scene.name, self.__resize)
             scene.Start()
-            cls.window.start(scene.update)
-            cls.window = None
+            self.window.start(scene.update)
+            self.window = None
         else:
             scene.Start()
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                cls.window.update_func = scene.update
+                self.window.update_func = scene.update
             else:
                 scene.no_interactive()
 
     @property
-    def CurrentScene(cls):
+    def CurrentScene(self):
         """Gets the current scene being run"""
-        return cls.__running_scene
+        return self.__running_scene
 
+
+SceneManager = SceneManager()
+"""Manages all scene additions and changes"""
 
 class Scene:
     """

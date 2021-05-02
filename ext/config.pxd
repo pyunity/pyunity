@@ -1,4 +1,4 @@
-cdef int fps
-cdef bint faceCulling
-cdef tuple size
-cdef bint audio
+cpdef int fps
+cpdef bint faceCulling
+cpdef tuple size
+cpdef bint audio

@@ -4,15 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>pyunity.audio module &#8212; PyUnity 0.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity.audio module &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyunity.core module" href="pyunity.core.html" />
@@ -33,7 +33,7 @@
 
           <div class="body" role="main">
             
-  <section id="module-pyunity.audio">
+  <div class="section" id="module-pyunity.audio">
 <span id="pyunity-audio-module"></span><h1>pyunity.audio module<a class="headerlink" href="#module-pyunity.audio" title="Permalink to this headline">¶</a></h1>
 <p>Classes to manage the playback of audio.
 It uses the pygame.mixer library, and if
@@ -44,12 +44,12 @@ A variable in the <code class="docutils literal notranslate"><span class="pre">c
 happens.</p>
 <dl class="py class">
 <dt id="pyunity.audio.AudioClip">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.audio.</span></code><code class="sig-name descname"><span class="pre">AudioClip</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioClip" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.audio.</code><code class="sig-name descname">AudioClip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioClip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to store information about an audio file.</p>
 <dl class="py attribute">
 <dt id="pyunity.audio.AudioClip.file">
-<code class="sig-name descname"><span class="pre">file</span></code><a class="headerlink" href="#pyunity.audio.AudioClip.file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">file</code><a class="headerlink" href="#pyunity.audio.AudioClip.file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -60,7 +60,7 @@ happens.</p>
 
 <dl class="py attribute">
 <dt id="pyunity.audio.AudioClip.sound">
-<code class="sig-name descname"><span class="pre">sound</span></code><a class="headerlink" href="#pyunity.audio.AudioClip.sound" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sound</code><a class="headerlink" href="#pyunity.audio.AudioClip.sound" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sound file that can be played with
 a <code class="docutils literal notranslate"><span class="pre">pygame.mixer.Channel</span></code>.
 Only set when the AudioClip is in
@@ -74,7 +74,7 @@ an <code class="docutils literal notranslate"><span class="pre">AudioSource</spa
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioClip.SetSound">
-<code class="sig-name descname"><span class="pre">SetSound</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip.SetSound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioClip.SetSound" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SetSound</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioClip.SetSound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioClip.SetSound" title="Permalink to this definition">¶</a></dt>
 <dd><p>Changes the audio file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -96,12 +96,12 @@ on any platform.</p>
 
 <dl class="py class">
 <dt id="pyunity.audio.AudioSource">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.audio.</span></code><code class="sig-name descname"><span class="pre">AudioSource</span></code><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyunity.audio.</code><code class="sig-name descname">AudioSource</code><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyunity.core.html#pyunity.core.Component" title="pyunity.core.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyunity.core.Component</span></code></a></p>
 <p>Manages playback on an AudioSource.</p>
 <dl class="py attribute">
 <dt id="pyunity.audio.AudioSource.clip">
-<code class="sig-name descname"><span class="pre">clip</span></code><a class="headerlink" href="#pyunity.audio.AudioSource.clip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clip</code><a class="headerlink" href="#pyunity.audio.AudioSource.clip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clip to play. Best way to set the clip
 is to use the <code class="docutils literal notranslate"><span class="pre">SetClip</span></code> function.</p>
 <dl class="field-list simple">
@@ -113,7 +113,7 @@ is to use the <code class="docutils literal notranslate"><span class="pre">SetCl
 
 <dl class="py attribute">
 <dt id="pyunity.audio.AudioSource.PlayOnStart">
-<code class="sig-name descname"><span class="pre">PlayOnStart</span></code><a class="headerlink" href="#pyunity.audio.AudioSource.PlayOnStart" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PlayOnStart</code><a class="headerlink" href="#pyunity.audio.AudioSource.PlayOnStart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether it plays on start or not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -124,7 +124,7 @@ is to use the <code class="docutils literal notranslate"><span class="pre">SetCl
 
 <dl class="py attribute">
 <dt id="pyunity.audio.AudioSource.Loop">
-<code class="sig-name descname"><span class="pre">Loop</span></code><a class="headerlink" href="#pyunity.audio.AudioSource.Loop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Loop</code><a class="headerlink" href="#pyunity.audio.AudioSource.Loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether it loops or not. This is not
 fully supported.</p>
 <dl class="field-list simple">
@@ -136,19 +136,19 @@ fully supported.</p>
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioSource.Pause">
-<code class="sig-name descname"><span class="pre">Pause</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Pause" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Pause" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pauses the current clip.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioSource.Play">
-<code class="sig-name descname"><span class="pre">Play</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Play" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Play</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Play" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plays the current clip.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioSource.SetClip">
-<code class="sig-name descname"><span class="pre">SetClip</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.SetClip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource.SetClip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SetClip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.SetClip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource.SetClip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the clip to play.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -162,19 +162,19 @@ fully supported.</p>
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioSource.Stop">
-<code class="sig-name descname"><span class="pre">Stop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.Stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource.Stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the current clip.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pyunity.audio.AudioSource.UnPause">
-<code class="sig-name descname"><span class="pre">UnPause</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.UnPause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.audio.AudioSource.UnPause" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">UnPause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/audio.html#AudioSource.UnPause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyunity.audio.AudioSource.UnPause" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unpauses the current clip.</p>
 </dd></dl>
 
 </dd></dl>
 
-</section>
+</div>
 
 
           </div>
@@ -199,13 +199,12 @@ fully supported.</p>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="pyunity.html">pyunity package</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-3-1-in-development">Version 0.3.1 (in development)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.html#version-0-3-0-in-development">Version 0.3.0 (in development)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyunity.html#subpackages">Subpackages</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pyunity.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">pyunity.audio module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
@@ -254,7 +253,7 @@ fully supported.</p>
       &copy;2020, Ray Chen.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

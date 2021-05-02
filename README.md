@@ -1,47 +1,17 @@
 # PyUnity
 
-[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.3.0.svg)](https://github.com/rayzchen/pyunity/compare/0.3.0...master)[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
+[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest) [![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity)[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)](https://pypi.python.org/pypi/pyunity) [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity) [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.2.1...master)[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
 
-## Version 0.3.1 (in development)
-PyUnity is a Python implementation of the
-Unity Engine, written in C++. This is just
-a fun project and many features have been
-taken out to make it as easy as possible
-to create a scene and run it.
+## Version 0.3.0 (in development)
 
-### Installing
-To install PyUnity, use pip:
-
-    > pip install pyunity
-
-Its dependencies are just OpenGL, Pygame and
-GLFW.
-
-Alternatively, you can clone the repository
-`here <https://github.com/rayzchen/pyunity>`_.
-Then run setup.py:
-
-    > python setup.py install
-
-Note: we are having some difficulties right now.
-To install a working copy, you cannot use the
-simple ``pip install pyunity`` command. Instead,
-clone the repository from above. Next, you
-have to set the environment variable ``cython``
-to a value that is not ``1``. Then you can run
-``python setup.py install``. This issue is
-being worked on and you can see its progress at
-this `issue <https://github.com/rayzchen/pyunity/issues/6>`_.
-
-Sometimes on Linux machines, Pygame cannot be
-installed via pip: in that case, use the
-package manager. For example, on Ubuntu:
-
-    > sudo apt-get install python3-pygame
+A Python implementation of the Unity Engine
+that supports different types of windows.
+Still in development.
 
 ### Importing
-To start using pyunity, you must import it.
-A standard way to import is like so:
+The first step in using PyUnity is always
+importing it. A standard way to import is like
+so:
 
     >>> from pyunity import *
 
@@ -55,7 +25,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.1
+    Loaded PyUnity version 0.3.0
 
 If debugging is off, there is no output:
 
@@ -134,7 +104,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.1
+    Loaded PyUnity version 0.3.0
     >>> main()
 
 Or from the command line:

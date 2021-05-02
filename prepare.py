@@ -21,7 +21,7 @@ if len(sys.argv) < 2:
             "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
             "(https://pypi.python.org/pypi/pyunity) ",
             "[![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/",
-            "0.3.0.svg)](https://github.com/rayzchen/pyunity/compare/0.3.0...master)",
+            "0.2.1.svg)](https://github.com/rayzchen/pyunity/compare/0.2.1...master)",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg",
             "?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)",
             # "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
@@ -59,9 +59,9 @@ if os.environ["cython"] == "1":
         raise Exception("Cython is needed to create CPython extensions.")
     if os.path.exists("src"):
         shutil.rmtree("src")
-    pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
-    for f in pxd_files:
-        shutil.copy(f, os.path.join("pyunity", f[4:]))
+    # pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
+    # for f in pxd_files:
+    #     shutil.copy(f, os.path.join("pyunity", f[4:]))
     for path in glob.glob("pyunity/**/*.*", recursive=True):
         if path.endswith(".pyc") or path.endswith(".pxd"):
             continue
@@ -83,5 +83,5 @@ if os.environ["cython"] == "1":
         destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
         os.makedirs(destPath, exist_ok=True)
         op(srcPath, destPath)
-    for f in pxd_files:
-        os.remove(os.path.join("pyunity", f[4:]))
+    # for f in pxd_files:
+    #     os.remove(os.path.join("pyunity", f[4:]))

@@ -5,13 +5,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.core &#8212; PyUnity 0.3.1 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <title>pyunity.core &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -50,7 +51,7 @@
 <span class="sd">    GLFW doesn&#39;t work, trying Pygame</span>
 <span class="sd">    Trying Pygame as a window provider</span>
 <span class="sd">    Using window provider Pygame</span>
-<span class="sd">    Loaded PyUnity version 0.3.1</span>
+<span class="sd">    Loaded PyUnity version 0.3.0</span>
 <span class="sd">    &gt;&gt;&gt; mat = Material((255, 0, 0)) # Create a default material</span>
 <span class="sd">    &gt;&gt;&gt; root = GameObject(&quot;Root&quot;) # Create a root GameObjects</span>
 <span class="sd">    &gt;&gt;&gt; child1 = GameObject(&quot;Child1&quot;, root) # Create a child</span>
@@ -470,21 +471,21 @@
         <span class="k">return</span> <span class="n">path</span></div>
 
 <div class="viewcode-block" id="Transform.LookAtTransform"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.LookAtTransform">[docs]</a>    <span class="k">def</span> <span class="nf">LookAtTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
-        <span class="n">v0</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">v1</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span> <span class="o">*</span> <span class="n">v1</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">())</span> <span class="o">+</span> <span class="n">v0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="o">*</span><span class="n">xyz</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Transform.LookAtGameObject"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.LookAtGameObject">[docs]</a>    <span class="k">def</span> <span class="nf">LookAtGameObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">):</span>
-        <span class="n">v0</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">v1</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span> <span class="o">*</span> <span class="n">v1</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">())</span> <span class="o">+</span> <span class="n">v0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="o">*</span><span class="n">xyz</span><span class="p">)</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Transform.LookAtVector"><a class="viewcode-back" href="../../pyunity.core.html#pyunity.core.Transform.LookAtVector">[docs]</a>    <span class="k">def</span> <span class="nf">LookAtVector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-        <span class="n">v0</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">RotateVector</span><span class="p">(</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">v1</span> <span class="o">=</span> <span class="n">vec</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">()</span> <span class="o">*</span> <span class="n">v1</span><span class="o">.</span><span class="n">get_length_sqrd</span><span class="p">())</span> <span class="o">+</span> <span class="n">v0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
@@ -646,7 +647,7 @@
       &copy;2020, Ray Chen.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

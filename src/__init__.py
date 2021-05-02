@@ -1,47 +1,16 @@
 """
-Version 0.3.1 (in development)
+Version 0.3.0 (in development)
 ==============================
-PyUnity is a Python implementation of the
-Unity Engine, written in C++. This is just
-a fun project and many features have been
-taken out to make it as easy as possible
-to create a scene and run it.
 
-Installing
-----------
-To install PyUnity, use pip::
-
-    > pip install pyunity
-
-Its dependencies are just OpenGL, Pygame and
-GLFW.
-
-Alternatively, you can clone the repository
-`here <https://github.com/rayzchen/pyunity>`_.
-Then run setup.py::
-
-    > python setup.py install
-
-Note: we are having some difficulties right now.
-To install a working copy, you cannot use the
-simple ``pip install pyunity`` command. Instead,
-clone the repository from above. Next, you
-have to set the environment variable ``cython``
-to a value that is not ``1``. Then you can run
-``python setup.py install``. This issue is
-being worked on and you can see its progress at
-this `issue <https://github.com/rayzchen/pyunity/issues/6>`_.
-
-Sometimes on Linux machines, Pygame cannot be
-installed via pip: in that case, use the
-package manager. For example, on Ubuntu::
-
-    > sudo apt-get install python3-pygame
+A Python implementation of the Unity Engine
+that supports different types of windows.
+Still in development.
 
 Importing
 ---------
-To start using pyunity, you must import it.
-A standard way to import is like so:
+The first step in using PyUnity is always
+importing it. A standard way to import is like
+so:
 
     >>> from pyunity import *
 
@@ -55,7 +24,7 @@ This is the output with debugging::
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.1
+    Loaded PyUnity version 0.3.0
 
 If debugging is off, there is no output:
 
@@ -138,7 +107,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.3.1
+    Loaded PyUnity version 0.3.0
     >>> main()
 
 Or from the command line::
@@ -156,8 +125,6 @@ create a new pull request.
 from .audio import *
 from .core import *
 from . import loader  # lgtm[py/import-own-module]
-from . import input as Input  # lgtm[py/import-own-module]
-from .input import KeyCode
 from .physics import *
 from .errors import *
 from .scene import SceneManager
@@ -165,7 +132,7 @@ from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
 import os
-__version__ = "0.3.1"
+__version__ = "0.3.0"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"
@@ -175,8 +142,7 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics, errors
 __all__ = ["__version__", "Vector3", "Quaternion",
-           "SceneManager", "Mesh", "loader",
-           "Input", "KeyCode"]
+           "SceneManager", "Mesh", "loader"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)

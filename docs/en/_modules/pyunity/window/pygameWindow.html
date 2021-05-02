@@ -5,13 +5,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyunity.window.pygameWindow &#8212; PyUnity 0.3.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <title>pyunity.window.pygameWindow &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -48,16 +49,9 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">resize</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">resize</span> <span class="o">=</span> <span class="n">resize</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">OPENGL</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">323</span><span class="p">)],</span>
-            <span class="s2">&quot;down&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">323</span><span class="p">)],</span>
-            <span class="s2">&quot;pressed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">323</span><span class="p">)],</span>
-        <span class="p">}</span>
 
 <div class="viewcode-block" id="Window.start"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -74,8 +68,6 @@
         <span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;up&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">323</span><span class="p">)]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;down&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">323</span><span class="p">)]</span>
             <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
                     <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
@@ -83,13 +75,8 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="o">*</span><span class="n">event</span><span class="o">.</span><span class="n">dict</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">])</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">update_func</span><span class="p">()</span>
                     <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;down&quot;</span><span class="p">][</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYUP</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;up&quot;</span><span class="p">][</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
             <span class="n">pressed</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;pressed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressed</span>
             <span class="n">alt_pressed</span> <span class="o">=</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LALT</span><span class="p">]</span> <span class="ow">or</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RALT</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">alt_pressed</span> <span class="ow">and</span> <span class="n">pressed</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_F4</span><span class="p">]):</span>
                 <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
@@ -98,16 +85,7 @@
             <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
             <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
 
-        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Window.get_keys"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.get_keys">[docs]</a>    <span class="k">def</span> <span class="nf">get_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;pressed&quot;</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="Window.get_keys_down"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.get_keys_down">[docs]</a>    <span class="k">def</span> <span class="nf">get_keys_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;down&quot;</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="Window.get_keys_up"><a class="viewcode-back" href="../../../pyunity.window.pygameWindow.html#pyunity.window.pygameWindow.Window.get_keys_up">[docs]</a>    <span class="k">def</span> <span class="nf">get_keys_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s2">&quot;up&quot;</span><span class="p">]</span></div></div>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div></div>
 </pre></div>
 
           </div>
@@ -171,7 +149,7 @@
       &copy;2020, Ray Chen.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

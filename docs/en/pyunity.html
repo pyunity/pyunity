@@ -4,15 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>pyunity package &#8212; PyUnity 0.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyunity package &#8212; PyUnity 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyunity.physics package" href="pyunity.physics.html" />
@@ -33,49 +33,18 @@
 
           <div class="body" role="main">
             
-  <section id="module-pyunity">
+  <div class="section" id="module-pyunity">
 <span id="pyunity-package"></span><h1>pyunity package<a class="headerlink" href="#module-pyunity" title="Permalink to this headline">¶</a></h1>
-<section id="version-0-3-1-in-development">
-<h2>Version 0.3.1 (in development)<a class="headerlink" href="#version-0-3-1-in-development" title="Permalink to this headline">¶</a></h2>
-<p>PyUnity is a Python implementation of the
-Unity Engine, written in C++. This is just
-a fun project and many features have been
-taken out to make it as easy as possible
-to create a scene and run it.</p>
-<section id="installing">
-<h3>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
-<p>To install PyUnity, use pip:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyunity</span>
-</pre></div>
-</div>
-<p>Its dependencies are just OpenGL, Pygame and
-GLFW.</p>
-<p>Alternatively, you can clone the repository
-<a class="reference external" href="https://github.com/rayzchen/pyunity">here</a>.
-Then run setup.py:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
-</pre></div>
-</div>
-<p>Note: we are having some difficulties right now.
-To install a working copy, you cannot use the
-simple <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyunity</span></code> command. Instead,
-clone the repository from above. Next, you
-have to set the environment variable <code class="docutils literal notranslate"><span class="pre">cython</span></code>
-to a value that is not <code class="docutils literal notranslate"><span class="pre">1</span></code>. Then you can run
-<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>. This issue is
-being worked on and you can see its progress at
-this <a class="reference external" href="https://github.com/rayzchen/pyunity/issues/6">issue</a>.</p>
-<p>Sometimes on Linux machines, Pygame cannot be
-installed via pip: in that case, use the
-package manager. For example, on Ubuntu:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pygame</span>
-</pre></div>
-</div>
-</section>
-<section id="importing">
+<div class="section" id="version-0-3-0-in-development">
+<h2>Version 0.3.0 (in development)<a class="headerlink" href="#version-0-3-0-in-development" title="Permalink to this headline">¶</a></h2>
+<p>A Python implementation of the Unity Engine
+that supports different types of windows.
+Still in development.</p>
+<div class="section" id="importing">
 <h3>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h3>
-<p>To start using pyunity, you must import it.
-A standard way to import is like so:</p>
+<p>The first step in using PyUnity is always
+importing it. A standard way to import is like
+so:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyunity</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
@@ -88,7 +57,7 @@ This is the output with debugging:</p>
 <span class="n">FreeGLUT</span> <span class="n">doesn</span><span class="s1">&#39;t work, trying GLFW</span>
 <span class="n">GLFW</span> <span class="n">doesn</span><span class="s1">&#39;t work, trying Pygame</span>
 <span class="n">Using</span> <span class="n">window</span> <span class="n">provider</span> <span class="n">Pygame</span>
-<span class="n">Loaded</span> <span class="n">PyUnity</span> <span class="n">version</span> <span class="mf">0.3</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">Loaded</span> <span class="n">PyUnity</span> <span class="n">version</span> <span class="mf">0.3</span><span class="o">.</span><span class="mi">0</span>
 </pre></div>
 </div>
 <p>If debugging is off, there is no output:</p>
@@ -98,8 +67,8 @@ This is the output with debugging:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># No output</span>
 </pre></div>
 </div>
-</section>
-<section id="scenes">
+</div>
+<div class="section" id="scenes">
 <h3>Scenes<a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h3>
 <p>All PyUnity projects start with a scene. To add
 a scene, do this:</p>
@@ -128,8 +97,8 @@ a scene, do this:</p>
 <p>Finally, to run the scene, call <code class="docutils literal notranslate"><span class="pre">scene.Run()</span></code>. The window that
 is created is one of FreeGLUT, GLFW or Pygame. The window is
 selected on module initialization (see Windows subheading).</p>
-</section>
-<section id="behaviours">
+</div>
+<div class="section" id="behaviours">
 <h3>Behaviours<a class="headerlink" href="#behaviours" title="Permalink to this headline">¶</a></h3>
 <p>To create your own PyUnity script, create a class that inherits
 from Behaviour. Usually in Unity, you would put the class in its
@@ -138,8 +107,8 @@ your scripts in one file. Then, to add a script, just use
 <code class="docutils literal notranslate"><span class="pre">AddComponent()</span></code>. Do not put anything in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function,
 instead put it in <code class="docutils literal notranslate"><span class="pre">Start()</span></code>. The <code class="docutils literal notranslate"><span class="pre">Update()</span></code> function receives one
 parameter, <code class="docutils literal notranslate"><span class="pre">dt</span></code>, which is the same as <code class="docutils literal notranslate"><span class="pre">Time.deltaTime</span></code>.</p>
-</section>
-<section id="windows">
+</div>
+<div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>The window is provided by one of three
 providers: GLFW, Pygame and FreeGLUT.
@@ -169,7 +138,7 @@ pull request.</p>
 <span class="go">FreeGLUT doesn&#39;t work, trying GLFW</span>
 <span class="go">GLFW doesn&#39;t work, trying Pygame</span>
 <span class="go">Using window provider Pygame</span>
-<span class="go">Loaded PyUnity version 0.3.1</span>
+<span class="go">Loaded PyUnity version 0.3.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -182,9 +151,9 @@ are 8 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
 create a new pull request.</p>
-</section>
-</section>
-<section id="subpackages">
+</div>
+</div>
+<div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -212,15 +181,14 @@ create a new pull request.</p>
 </li>
 </ul>
 </div>
-</section>
-<section id="submodules">
+</div>
+<div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
@@ -228,8 +196,8 @@ create a new pull request.</p>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
           </div>
@@ -254,8 +222,7 @@ create a new pull request.</p>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyunity package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#version-0-3-1-in-development">Version 0.3.1 (in development)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-3-0-in-development">Version 0.3.0 (in development)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scenes">Scenes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#behaviours">Behaviours</a></li>
@@ -271,7 +238,6 @@ create a new pull request.</p>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.audio.html">pyunity.audio module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.core.html">pyunity.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
@@ -318,7 +284,7 @@ create a new pull request.</p>
       &copy;2020, Ray Chen.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
