@@ -163,6 +163,7 @@ from .audio import *
 from .core import *
 from . import loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
+from . import logger as Logger  # lgtm[py/import-own-module]
 from .input import KeyCode
 from .physics import *
 from .errors import *
@@ -188,5 +189,4 @@ __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
 
-if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-    print("Loaded PyUnity version %s" % __version__)
+Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)

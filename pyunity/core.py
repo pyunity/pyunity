@@ -55,6 +55,7 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import *
+from . import logger as Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
 
@@ -415,7 +416,7 @@ class Transform(Component):
         nice list of all GameObjects.
 
         """
-        print(self.FullPath())
+        Logger.LogLine(Logger.INFO, self.FullPath())
         for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
 

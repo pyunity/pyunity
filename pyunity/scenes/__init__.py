@@ -11,7 +11,7 @@ from ..audio import *
 from ..core import *
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
-from .. import config, window, physics
+from .. import config, window, physics, logger as Logger
 from ..errors import *
 from . import sceneManager as SceneManager
 from time import time
@@ -299,9 +299,8 @@ class Scene:
 
         self.start_scripts()
 
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-            print("Physics is", "on" if self.physics else "off")
-            print("Scene \"" + self.name + "\" has started")
+        Logger.LogLine(Logger.DEBUG, "Physics is", "on" if self.physics else "off")
+        Logger.LogLine(Logger.DEBUG, "Scene \"" + self.name + "\" has started")
 
     def transform(self, transform):
         """
@@ -353,7 +352,7 @@ class Scene:
                 self.update_scripts()
                 clock.tick(config.fps)
             except KeyboardInterrupt:
-                print("Exiting")
+                Logger.LogLine(Logger.DEBUG, "Exiting")
                 done = True
 
     def update(self):
