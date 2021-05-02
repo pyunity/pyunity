@@ -166,7 +166,7 @@ from . import input as Input  # lgtm[py/import-own-module]
 from .input import KeyCode
 from .physics import *
 from .errors import *
-from .scene import SceneManager
+from .scenes import sceneManager as SceneManager 
 from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh

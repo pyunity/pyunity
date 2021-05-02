@@ -1449,7 +1449,6 @@ static const char __pyx_k_K_KP9[] = "K_KP9";
 static const char __pyx_k_Right[] = "Right";
 static const char __pyx_k_Space[] = "Space";
 static const char __pyx_k_check[] = "check";
-static const char __pyx_k_scene[] = "scene";
 static const char __pyx_k_state[] = "state";
 static const char __pyx_k_Alpha0[] = "Alpha0";
 static const char __pyx_k_Alpha1[] = "Alpha1";
@@ -1483,6 +1482,7 @@ static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_pygame[] = "pygame";
 static const char __pyx_k_reduce[] = "__reduce__";
+static const char __pyx_k_scenes[] = "scenes";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_window[] = "window";
 static const char __pyx_k_KEY_F10[] = "KEY_F10";
@@ -1794,7 +1794,7 @@ static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
-static PyObject *__pyx_n_s_scene;
+static PyObject *__pyx_n_s_scenes;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
@@ -3679,7 +3679,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
-  {&__pyx_n_s_scene, __pyx_k_scene, sizeof(__pyx_k_scene), 0, 0, 1, 1},
+  {&__pyx_n_s_scenes, __pyx_k_scenes, sizeof(__pyx_k_scenes), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
@@ -4086,7 +4086,7 @@ if (!__Pyx_RefNanny) {
  * import pygame.locals
  * import glfw             # <<<<<<<<<<<<<<
  * from . import config
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_glfw, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4097,7 +4097,7 @@ if (!__Pyx_RefNanny) {
  * import pygame.locals
  * import glfw
  * from . import config             # <<<<<<<<<<<<<<
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  * __all__ = ["GetKey", "GetKeyUp", "GetKeyDown"]
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
@@ -4117,7 +4117,7 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/input.py":11
  * import glfw
  * from . import config
- * from .scene import SceneManager             # <<<<<<<<<<<<<<
+ * from .scenes import SceneManager             # <<<<<<<<<<<<<<
  * __all__ = ["GetKey", "GetKeyUp", "GetKeyDown"]
  * 
  */
@@ -4126,7 +4126,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_SceneManager);
   __Pyx_GIVEREF(__pyx_n_s_SceneManager);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_SceneManager);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_scene, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_scenes, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_SceneManager); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
@@ -4137,7 +4137,7 @@ if (!__Pyx_RefNanny) {
 
   /* "pyunity/input.py":12
  * from . import config
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  * __all__ = ["GetKey", "GetKeyUp", "GetKeyDown"]             # <<<<<<<<<<<<<<
  * 
  * class Code:

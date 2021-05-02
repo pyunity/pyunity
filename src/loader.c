@@ -1874,6 +1874,7 @@ static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_remove[] = "remove";
 static const char __pyx_k_rstrip[] = "rstrip";
+static const char __pyx_k_scenes[] = "scenes";
 static const char __pyx_k_sphere[] = "sphere";
 static const char __pyx_k_LoadObj[] = "LoadObj";
 static const char __pyx_k_Vector3[] = "Vector3";
@@ -1989,6 +1990,7 @@ static PyObject *__pyx_n_s_rstrip;
 static PyObject *__pyx_kp_u_scene;
 static PyObject *__pyx_n_s_sceneName;
 static PyObject *__pyx_n_s_scene_2;
+static PyObject *__pyx_n_s_scenes;
 static PyObject *__pyx_n_s_scenesByIndex;
 static PyObject *__pyx_n_s_scenesByName;
 static PyObject *__pyx_n_s_sphere;
@@ -5824,6 +5826,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_scene, __pyx_k_scene, sizeof(__pyx_k_scene), 0, 1, 0, 0},
   {&__pyx_n_s_sceneName, __pyx_k_sceneName, sizeof(__pyx_k_sceneName), 0, 0, 1, 1},
   {&__pyx_n_s_scene_2, __pyx_k_scene_2, sizeof(__pyx_k_scene_2), 0, 0, 1, 1},
+  {&__pyx_n_s_scenes, __pyx_k_scenes, sizeof(__pyx_k_scenes), 0, 0, 1, 1},
   {&__pyx_n_s_scenesByIndex, __pyx_k_scenesByIndex, sizeof(__pyx_k_scenesByIndex), 0, 0, 1, 1},
   {&__pyx_n_s_scenesByName, __pyx_k_scenesByName, sizeof(__pyx_k_scenesByName), 0, 0, 1, 1},
   {&__pyx_n_s_sphere, __pyx_k_sphere, sizeof(__pyx_k_sphere), 0, 0, 1, 1},
@@ -6310,7 +6313,7 @@ if (!__Pyx_RefNanny) {
  * from .vector3 import Vector3
  * from .meshes import Mesh             # <<<<<<<<<<<<<<
  * from .core import *
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -6326,7 +6329,7 @@ if (!__Pyx_RefNanny) {
  * from .vector3 import Vector3
  * from .meshes import Mesh
  * from .core import *             # <<<<<<<<<<<<<<
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  * import pickle
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -6343,7 +6346,7 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/loader.py":10
  * from .meshes import Mesh
  * from .core import *
- * from .scene import SceneManager             # <<<<<<<<<<<<<<
+ * from .scenes import SceneManager             # <<<<<<<<<<<<<<
  * import pickle
  * import os
  */
@@ -6352,7 +6355,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_SceneManager);
   __Pyx_GIVEREF(__pyx_n_s_SceneManager);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_SceneManager);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_scene_2, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_scenes, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_SceneManager); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
@@ -6363,7 +6366,7 @@ if (!__Pyx_RefNanny) {
 
   /* "pyunity/loader.py":11
  * from .core import *
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  * import pickle             # <<<<<<<<<<<<<<
  * import os
  * # import random
@@ -6374,7 +6377,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/loader.py":12
- * from .scene import SceneManager
+ * from .scenes import SceneManager
  * import pickle
  * import os             # <<<<<<<<<<<<<<
  * # import random

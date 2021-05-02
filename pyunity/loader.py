@@ -7,7 +7,7 @@ and saving PyUnity meshes and scenes.
 from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
-from .scene import SceneManager
+from .scenes import SceneManager
 import pickle
 import os
 # import random
