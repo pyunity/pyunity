@@ -33,6 +33,7 @@ from .pygameWindow import Window as pygameWindow
 from .glfwWindow import Window as glfwWindow
 from .glutWindow import Window as glutWindow
 from ..errors import *
+from .. import logger as Logger
 import os
 import OpenGL.GLUT
 import glfw
@@ -73,15 +74,13 @@ def GetWindowProvider():
 
     for name, checker in winfo:
         next = winfo[i + 1][0] if i < len(winfo) - 1 else None
-        if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-            print("Trying", name, "as a window provider")
+        Logger.LogLine(Logger.DEBUG, "Trying", name, "as a window provider")
         try:
             checker()
             windowProvider = name
         except Exception as e:
-            success = bool(next)
-            if success and os.environ["PYUNITY_DEBUG_MODE"] == "1":
-                print(name, "doesn't work, trying", next)
+            if next is not None:
+                Logger.LogLine(Logger.DEBUG, name, "doesn't work, trying", next)
 
         if next is None:
             raise PyUnityException("No window provider found")
@@ -90,6 +89,6 @@ def GetWindowProvider():
         i += 1
 
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        print("Using window provider", windowProvider)
+        Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
 
     return windowProvider

@@ -6,7 +6,7 @@ rt50 = math.sqrt(50)
 class Rotator(Behaviour):
     def Update(self, dt):
         self.transform.localEulerAngles += Vector3(0, 45 * dt, 0)
-        print(round(1 / dt, 3))
+        Logger.LogLine(Logger.INFO, round(1 / dt, 3))
 
 def main():
     mat = Material((255, 0, 0))
