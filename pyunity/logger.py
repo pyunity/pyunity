@@ -17,6 +17,14 @@ with open(os.path.join(folder, "latest.log"), "w+") as f:
     f.write(strftime("%Y-%m-%d %H:%M:%S") + " |I| Started logger\n")
 
 class Level:
+    """
+    Represents a level or severity to log. You
+    should never instantiate this directly, instead
+    use one of `Logging.INFO`, `Logging.DEBUG`,
+    `Logging.ERROR` or `Logging.WARNING`.
+
+    """
+    
     def __init__(self, abbr, name):
         self.abbr = abbr
         self.name = name
@@ -28,6 +36,17 @@ ERROR = Level("E", None)
 WARNING = Level("W", "Warning: ")
 
 def LogLine(level, *message):
+    """
+    Logs a line in `latest.log` found in these two locations:
+    Windows: ``%appdata%\\pyunity\\logs\\latest.log``
+    Other: ``/tmp/pyunity/logs/latest.log``
+
+    Parameters
+    ----------
+    level : Level
+        Level or severity of log.
+    
+    """
     msg = (level.name if level.name is not None else "") + " ".join(message)
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
