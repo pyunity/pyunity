@@ -8,7 +8,7 @@ from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
-from . import logger as Logger
+from . import Logger
 import pickle
 import os
 # import random
