@@ -67,7 +67,7 @@ if os.environ["cython"] == "1":
             continue
         dirpath, file = os.path.split(path)
         print(file)
-        if file.endswith(".py") and not file.startswith("__"):
+        if file.endswith(".py"):
             loc = os.getcwd()
             os.chdir(dirpath)
             code = os.system("cythonize -3 -q " + file)
