@@ -55,7 +55,7 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import *
-from . import logger as Logger
+from . import Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
 

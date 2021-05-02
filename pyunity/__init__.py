@@ -159,11 +159,11 @@ create a new pull request.
 
 """
 
+from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
 from . import loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
-from . import logger as Logger  # lgtm[py/import-own-module]
 from .input import KeyCode
 from .physics import *
 from .errors import *

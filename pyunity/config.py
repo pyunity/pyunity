@@ -1,5 +1,5 @@
 import os
-from . import logger as Logger
+from . import Logger
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 if "PYUNITY_DEBUG_MODE" not in os.environ:
     os.environ["PYUNITY_DEBUG_MODE"] = "1"
