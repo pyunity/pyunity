@@ -44,18 +44,30 @@ taken out to make it as easy as possible
 to create a scene and run it.</p>
 <section id="installing">
 <h3>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
-<p>To install PyUnity, use pip:</p>
+<p>To install PyUnity for Linux distributions
+based on Ubuntu or Debian, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">pyunity</span>
+</pre></div>
+</div>
+<p>To install PyUnity for other operating systems,
+use pip:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyunity</span>
 </pre></div>
 </div>
-<p>Its dependencies are just OpenGL, Pygame and
-GLFW.</p>
 <p>Alternatively, you can clone the repository
-<a class="reference external" href="https://github.com/rayzchen/pyunity">here</a>.
-Then run setup.py:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
-</pre></div>
-</div>
+<a class="reference external" href="https://github.com/rayzchen/pyunity">here</a>
+to build the package from source. Then use
+<cite>setup.py</cite> to build. Note that it will install
+Cython to compile.</p>
+<blockquote>
+<div><p>&gt; python setup.py install</p>
+</div></blockquote>
+<p>Its only dependencies are PyOpenGL, Pygame and
+GLFW.</p>
+<p>To install PyGame on Linux, use:</p>
+<blockquote>
+<div><p>&gt; pip3 install pygame</p>
+</div></blockquote>
 <p>Note: we are having some difficulties right now.
 To install a working copy, you cannot use the
 simple <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyunity</span></code> command. Instead,
@@ -63,14 +75,8 @@ clone the repository from above. Next, you
 have to set the environment variable <code class="docutils literal notranslate"><span class="pre">cython</span></code>
 to a value that is not <code class="docutils literal notranslate"><span class="pre">1</span></code>. Then you can run
 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>. This issue is
-being worked on and you can see its progress at
-this <a class="reference external" href="https://github.com/rayzchen/pyunity/issues/6">issue</a>.</p>
-<p>Sometimes on Linux machines, Pygame cannot be
-installed via pip: in that case, use the
-package manager. For example, on Ubuntu:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pygame</span>
-</pre></div>
-</div>
+being worked on and you can see its progress
+here: <a class="reference external" href="https://github.com/rayzchen/pyunity/issues/7">https://github.com/rayzchen/pyunity/issues/7</a></p>
 </section>
 <section id="importing">
 <h3>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h3>
@@ -197,6 +203,13 @@ create a new pull request.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.scenes.html">pyunity.scenes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyunity.scenes.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.scenes.sceneManager.html">pyunity.scenes.sceneManager module</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyunity.window.html#pyunity-window">pyunity.window</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.window.html#windows">Windows</a></li>
@@ -222,9 +235,9 @@ create a new pull request.</p>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.logger.html">pyunity.logger module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </div>
@@ -264,6 +277,7 @@ create a new pull request.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.physics.html">pyunity.physics package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.scenes.html">pyunity.scenes package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.window.html">pyunity.window package</a></li>
 </ul>
 </li>
@@ -273,9 +287,9 @@ create a new pull request.</p>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.errors.html">pyunity.errors module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.input.html">pyunity.input module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.loader.html">pyunity.loader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyunity.logger.html">pyunity.logger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.meshes.html">pyunity.meshes module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.quaternion.html">pyunity.quaternion module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyunity.scene.html">pyunity.scene module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyunity.vector3.html">pyunity.vector3 module</a></li>
 </ul>
 </li>

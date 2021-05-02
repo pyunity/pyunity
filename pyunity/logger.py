@@ -21,6 +21,7 @@ class Level:
         self.abbr = abbr
         self.name = name
 
+
 INFO = Level("I", None)
 DEBUG = Level("D", "")
 ERROR = Level("E", None)

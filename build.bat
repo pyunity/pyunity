@@ -7,7 +7,7 @@ py -3.6 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
 py -3.7 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
 py -3.8 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
 py setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\ sdist -d dist\0.3.1\
-RMDIR /S /Q docs\en\
+RMDIR /S /Q src\ docs\en\
 DEL docs\source\pyunity*
 sphinx-apidoc -e -F -M -o docs\source pyunity pyunity\config.py pyunity\examples\*
 sphinx-build -T -E -b html docs\source docs\en

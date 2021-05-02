@@ -162,16 +162,16 @@ create a new pull request.
 from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
-from . import loader  # lgtm[py/import-own-module]
+from . import loader as Loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
 from .input import KeyCode
 from .physics import *
 from .errors import *
-from .scenes import sceneManager as SceneManager 
+from .scenes import sceneManager as SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
-import os
+
 __version__ = "0.3.1"
 __copyright__ = "Copyright 2020 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
@@ -183,7 +183,7 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 from . import audio, core, physics, errors
 __all__ = ["__version__", "Vector3", "Quaternion",
            "SceneManager", "Mesh", "loader",
-           "Input", "KeyCode"]
+           "Input", "KeyCode", "Logger"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)

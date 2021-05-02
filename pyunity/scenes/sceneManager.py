@@ -45,7 +45,7 @@ def AddScene(sceneName):
     """
     if sceneName in scenesByName:
         raise PyUnityException("SceneManager already contains scene \"" +
-                                sceneName + "\"")
+                               sceneName + "\"")
     scene = scenes.Scene(sceneName)
     scenesByIndex.append(scene)
     scenesByName[sceneName] = scene

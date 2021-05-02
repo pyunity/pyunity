@@ -13,6 +13,7 @@ Subpackages
    :maxdepth: 4
 
    pyunity.physics
+   pyunity.scenes
    pyunity.window
 
 Submodules
@@ -26,7 +27,7 @@ Submodules
    pyunity.errors
    pyunity.input
    pyunity.loader
+   pyunity.logger
    pyunity.meshes
    pyunity.quaternion
-   pyunity.scene
    pyunity.vector3
