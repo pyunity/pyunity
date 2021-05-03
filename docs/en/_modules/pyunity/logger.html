@@ -50,6 +50,14 @@
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; |I| Started logger</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Level"><a class="viewcode-back" href="../../pyunity.logger.html#pyunity.logger.Level">[docs]</a><span class="k">class</span> <span class="nc">Level</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a level or severity to log. You</span>
+<span class="sd">    should never instantiate this directly, instead</span>
+<span class="sd">    use one of `Logging.INFO`, `Logging.DEBUG`,</span>
+<span class="sd">    `Logging.ERROR` or `Logging.WARNING`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">abbr</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abbr</span> <span class="o">=</span> <span class="n">abbr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
@@ -61,6 +69,17 @@
 <span class="n">WARNING</span> <span class="o">=</span> <span class="n">Level</span><span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;Warning: &quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LogLine"><a class="viewcode-back" href="../../pyunity.logger.html#pyunity.logger.LogLine">[docs]</a><span class="k">def</span> <span class="nf">LogLine</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="o">*</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logs a line in `latest.log` found in these two locations:</span>
+<span class="sd">    Windows: ``%appdata%\\pyunity\\logs\\latest.log``</span>
+<span class="sd">    Other: ``/tmp/pyunity/logs/latest.log``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    level : Level</span>
+<span class="sd">        Level or severity of log.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="n">level</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">level</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_DEBUG_MODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">level</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
