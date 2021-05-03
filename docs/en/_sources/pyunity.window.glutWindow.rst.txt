@@ -3,5 +3,5 @@ pyunity.window.glutWindow module
 
 .. automodule:: pyunity.window.glutWindow
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:

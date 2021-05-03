@@ -3,5 +3,5 @@ pyunity.errors module
 
 .. automodule:: pyunity.errors
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:

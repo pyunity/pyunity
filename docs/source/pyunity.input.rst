@@ -3,5 +3,5 @@ pyunity.input module
 
 .. automodule:: pyunity.input
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:

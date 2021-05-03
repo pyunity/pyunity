@@ -173,7 +173,7 @@ from .vector3 import Vector3
 from .meshes import Mesh
 
 __version__ = "0.3.1"
-__copyright__ = "Copyright 2020 Ray Chen"
+__copyright__ = "Copyright 2020-2021 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"
 __summary__ = "A Python implementation of the Unity Engine that supports different types of windows."

@@ -9,9 +9,10 @@ py -3.8 setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\
 py setup.py build -c mingw32 bdist_wheel -d dist\0.3.1\ sdist -d dist\0.3.1\
 RMDIR /S /Q src\ docs\en\
 DEL docs\source\pyunity*
+set SPHINX_APIDOC_OPTIONS=members,inherited-members,show-inheritance
 sphinx-apidoc -e -F -M -o docs\source pyunity pyunity\config.py pyunity\examples\*
 sphinx-build -T -E -b html docs\source docs\en
-RMDIR /S /Q build\ pyunity.egg-info\ 
+RMDIR /S /Q build\ pyunity.egg-info\
 IF NOT [%1] == [] (
 git add .
 git commit -m %1
