@@ -3,7 +3,7 @@ pyunity package
 
 .. automodule:: pyunity
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:
 
 Subpackages

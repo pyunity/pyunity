@@ -3,7 +3,7 @@ pyunity.physics package
 
 .. automodule:: pyunity.physics
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:
 
 Submodules

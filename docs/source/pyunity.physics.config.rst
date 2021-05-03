@@ -3,5 +3,5 @@ pyunity.physics.config module
 
 .. automodule:: pyunity.physics.config
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:

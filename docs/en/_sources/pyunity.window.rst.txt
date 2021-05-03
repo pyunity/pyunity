@@ -3,7 +3,7 @@ pyunity.window package
 
 .. automodule:: pyunity.window
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:
 
 Submodules
