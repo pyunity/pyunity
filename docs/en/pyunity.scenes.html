@@ -15,7 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyunity.scenes.sceneManager module" href="pyunity.scenes.sceneManager.html" />
+    <link rel="next" title="pyunity.scenes.scene module" href="pyunity.scenes.scene.html" />
     <link rel="prev" title="pyunity.physics.core module" href="pyunity.physics.core.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -39,181 +39,11 @@
 <p>You should never use the <code class="docutils literal notranslate"><span class="pre">Scene</span></code>
 class directly, instead, only use
 the SceneManager class.</p>
-<dl class="py class">
-<dt id="pyunity.scenes.Scene">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.scenes.</span></code><code class="sig-name descname"><span class="pre">Scene</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to hold all of the GameObjects, and to run the whole
-scene.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the scene</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>Create a scene using the SceneManager, and don’t create a scene
-directly using this class.</p>
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.Add">
-<code class="sig-name descname"><span class="pre">Add</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gameObject</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.Add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.Add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a GameObject to the scene.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>gameObject</strong> (<em>GameObejct</em>) – The GameObject to add.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.FindGameObjectsByName">
-<code class="sig-name descname"><span class="pre">FindGameObjectsByName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.FindGameObjectsByName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.FindGameObjectsByName" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds all GameObjects matching the specified name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the GameObject</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of the matching GameObjects</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.FindGameObjectsByTagName">
-<code class="sig-name descname"><span class="pre">FindGameObjectsByTagName</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.FindGameObjectsByTagName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.FindGameObjectsByTagName" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds all GameObjects with the specified tag name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tag</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of matching GameObjects</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.GameObjectException" title="pyunity.errors.GameObjectException"><strong>GameObjectException</strong></a> – When there is no tag named <cite>name</cite></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.FindGameObjectsByTagNumber">
-<code class="sig-name descname"><span class="pre">FindGameObjectsByTagNumber</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.FindGameObjectsByTagNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.FindGameObjectsByTagNumber" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all GameObjects with a tag of tag <cite>num</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>num</strong> (<em>int</em>) – Index of the tag</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of matching GameObjects</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.GameObjectException" title="pyunity.errors.GameObjectException"><strong>GameObjectException</strong></a> – If there is no tag with specified index.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.List">
-<code class="sig-name descname"><span class="pre">List</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.List"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.List" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists all the GameObjects currently in the scene.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.Remove">
-<code class="sig-name descname"><span class="pre">Remove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gameObject</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.Remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.Remove" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a GameObject from the scene.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>gameObject</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.GameObject" title="pyunity.core.GameObject"><em>GameObject</em></a>) – GameObject to remove.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="pyunity.errors.html#pyunity.errors.PyUnityException" title="pyunity.errors.PyUnityException"><strong>PyUnityException</strong></a> – If the specified GameObject is the Main Camera,
-    or if the specified GameObject is not part
-    of the Scene.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.Start">
-<code class="sig-name descname"><span class="pre">Start</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.Start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.Start" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start the internal parts of the
-Scene.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.inside_frustrum">
-<code class="sig-name descname"><span class="pre">inside_frustrum</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renderer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.inside_frustrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.inside_frustrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the renderer’s mesh can be
-seen by the main camera.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>renderer</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.MeshRenderer" title="pyunity.core.MeshRenderer"><em>MeshRenderer</em></a>) – Renderer to test</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>If the mesh can be seen</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.no_interactive">
-<code class="sig-name descname"><span class="pre">no_interactive</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.no_interactive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.no_interactive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.render">
-<code class="sig-name descname"><span class="pre">render</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.render" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders all GameObjects with MeshRenderers.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.start_scripts">
-<code class="sig-name descname"><span class="pre">start_scripts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.start_scripts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.start_scripts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start the scripts in the Scene.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.transform">
-<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform the matrix by a specified transform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>transform</strong> (<a class="reference internal" href="pyunity.core.html#pyunity.core.Transform" title="pyunity.core.Transform"><em>Transform</em></a>) – Transform to move</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.update">
-<code class="sig-name descname"><span class="pre">update</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updating function to pass to the window provider.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="pyunity.scenes.Scene.update_scripts">
-<code class="sig-name descname"><span class="pre">update_scripts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/scenes.html#Scene.update_scripts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.scenes.Scene.update_scripts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates all scripts in the scene.</p>
-</dd></dl>
-
-</dd></dl>
-
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="pyunity.scenes.scene.html">pyunity.scenes.scene module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyunity.scenes.sceneManager.html">pyunity.scenes.sceneManager module</a></li>
 </ul>
 </div>
@@ -264,7 +94,7 @@ seen by the main camera.</p>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="pyunity.html">pyunity package</a><ul>
       <li>Previous: <a href="pyunity.physics.core.html" title="previous chapter">pyunity.physics.core module</a></li>
-      <li>Next: <a href="pyunity.scenes.sceneManager.html" title="next chapter">pyunity.scenes.sceneManager module</a></li>
+      <li>Next: <a href="pyunity.scenes.scene.html" title="next chapter">pyunity.scenes.scene module</a></li>
   </ul></li>
   </ul></li>
 </ul>

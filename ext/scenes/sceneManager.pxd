@@ -1,4 +1,4 @@
-from __init__ cimport Scene
+from scene cimport Scene
 
 cdef Scene AddScene(str name)
 cdef Scene GetSceneByIndex(int index)

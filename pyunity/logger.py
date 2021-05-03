@@ -24,7 +24,7 @@ class Level:
     `Logging.ERROR` or `Logging.WARNING`.
 
     """
-    
+
     def __init__(self, abbr, name):
         self.abbr = abbr
         self.name = name
@@ -45,7 +45,7 @@ def LogLine(level, *message):
     ----------
     level : Level
         Level or severity of log.
-    
+
     """
     msg = (level.name if level.name is not None else "") + " ".join(message)
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":

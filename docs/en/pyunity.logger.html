@@ -39,12 +39,24 @@
 <dt id="pyunity.logger.Level">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pyunity.logger.</span></code><code class="sig-name descname"><span class="pre">Level</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">abbr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/logger.html#Level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.logger.Level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a level or severity to log. You
+should never instantiate this directly, instead
+use one of <cite>Logging.INFO</cite>, <cite>Logging.DEBUG</cite>,
+<cite>Logging.ERROR</cite> or <cite>Logging.WARNING</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyunity.logger.LogLine">
 <code class="sig-prename descclassname"><span class="pre">pyunity.logger.</span></code><code class="sig-name descname"><span class="pre">LogLine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyunity/logger.html#LogLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyunity.logger.LogLine" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Logs a line in <cite>latest.log</cite> found in these two locations:
+Windows: <code class="docutils literal notranslate"><span class="pre">%appdata%\pyunity\logs\latest.log</span></code>
+Other: <code class="docutils literal notranslate"><span class="pre">/tmp/pyunity/logs/latest.log</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>level</strong> (<a class="reference internal" href="#pyunity.logger.Level" title="pyunity.logger.Level"><em>Level</em></a>) – Level or severity of log.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
