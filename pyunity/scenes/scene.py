@@ -52,7 +52,7 @@ class Scene:
 
         Parameters
         ----------
-        gameObject : GameObejct
+        gameObject : GameObject
             The GameObject to add.
 
         """
