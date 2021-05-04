@@ -2,6 +2,18 @@
 Releases
 ========
 
+v0.4.0
+======
+New features:
+
+- Added logger
+- Moved around files and classes to make it "more pythonic"
+- Rewrote docs
+- Fixed huge bug that kinda broke all versions from 0.2.0-0.3.1
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.4.0
+
 v0.3.1
 ======
 Bugfix on basically everything because 0.3.0 was messed up.
