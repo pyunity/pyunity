@@ -10,7 +10,7 @@ from ..vector3 import Vector3
 from ..quaternion import Quaternion
 from .. import config, window, physics
 from ..errors import *
-from .. import scenes
+from .scene import Scene
 from time import time
 import os
 import math
@@ -46,7 +46,7 @@ def AddScene(sceneName):
     if sceneName in scenesByName:
         raise PyUnityException("SceneManager already contains scene \"" +
                                sceneName + "\"")
-    scene = scenes.Scene(sceneName)
+    scene = Scene(sceneName)
     scenesByIndex.append(scene)
     scenesByName[sceneName] = scene
     return scene
@@ -116,7 +116,7 @@ def RemoveScene(scene):
         If the scene is not part of the SceneManager
 
     """
-    if not isinstance(scene, scenes.Scene):
+    if not isinstance(scene, Scene):
         raise TypeError("The provided scene is not of type Scene")
     if scene not in scenesByIndex:
         raise PyUnityException(
@@ -191,7 +191,7 @@ def LoadScene(scene):
         can be run.
 
     """
-    if not isinstance(scene, scenes.Scene):
+    if not isinstance(scene, Scene):
         raise TypeError(
             "The provided Scene \"%s\" is not an integer" % scene.name)
     if scene not in scenesByIndex:
