@@ -203,29 +203,29 @@ def __loadScene(scene):
     global windowObject, __running_scene
     __running_scene = scene
     e = None
-    try:
-        if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
-            windowObject = window.window_providers[config.windowProvider](
-                config, scene.name, resize)
-            scene.Start()
+    if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
+        windowObject = window.window_providers[config.windowProvider](
+            config, scene.name, resize)
+        scene.Start()
+        try:
             windowObject.start(scene.update)
             windowObject = None
+        except KeyboardInterrupt:
+            Logger.LogLine(Logger.INFO, "Stopping main loop")
+            Logger.Save()
+        except Exception as e:
+            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+            Logger.Save()
         else:
-            scene.Start()
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                window.update_func = scene.update
-            else:
-                scene.no_interactive()
-    except KeyboardInterrupt:
-        Logger.LogLine(Logger.INFO, "Stopping main loop")
-        Logger.Save()
-    except Exception as e:
-        Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-        Logger.Save()
+            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+            Logger.Save()
+            exit()
     else:
-        Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-        Logger.Save()
-        exit()
+        scene.Start()
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            windowObject.update_func = scene.update
+        else:
+            scene.no_interactive()
     if e is not None:
         raise e
 
