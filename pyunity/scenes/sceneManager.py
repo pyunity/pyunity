@@ -10,8 +10,8 @@ from ..vector3 import Vector3
 from ..quaternion import Quaternion
 from .. import config, window, physics
 from ..errors import *
-from .scene import Scene
-from time import time
+from .scene import Scene, resize
+from .. import logger as Logger
 import os
 import math
 import copy
@@ -201,26 +201,33 @@ def LoadScene(scene):
 
 def __loadScene(scene):
     global windowObject, __running_scene
-
-    def __resize(width, height):
-        gl.glViewport(0, 0, width, height)
-        gl.glMatrixMode(gl.GL_PROJECTION)
-        gl.glLoadIdentity()
-        glu.gluPerspective(60, width / height, 0.05, 50)
-        gl.glMatrixMode(gl.GL_MODELVIEW)
     __running_scene = scene
-    if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
-        windowObject = window.window_providers[config.windowProvider](
-            config, scene.name, __resize)
-        scene.Start()
-        windowObject.start(scene.update)
-        windowObject = None
-    else:
-        scene.Start()
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            window.update_func = scene.update
+    e = None
+    try:
+        if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
+            windowObject = window.window_providers[config.windowProvider](
+                config, scene.name, resize)
+            scene.Start()
+            windowObject.start(scene.update)
+            windowObject = None
         else:
-            scene.no_interactive()
+            scene.Start()
+            if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                window.update_func = scene.update
+            else:
+                scene.no_interactive()
+    except KeyboardInterrupt:
+        Logger.LogLine(Logger.INFO, "Stopping main loop")
+        Logger.Save()
+    except Exception as e:
+        Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+        Logger.Save()
+    else:
+        Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+        Logger.Save()
+        exit()
+    if e is not None:
+        raise e
 
 @property
 def CurrentScene():
