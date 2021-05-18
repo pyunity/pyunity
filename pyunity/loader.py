@@ -2,6 +2,8 @@
 Utility functions related to loading
 and saving PyUnity meshes and scenes.
 
+This will be imported as ``pyunity.Loader``.
+
 """
 
 from .vector3 import Vector3
