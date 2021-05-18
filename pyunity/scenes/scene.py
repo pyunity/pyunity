@@ -20,6 +20,13 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
     import OpenGL.GLU as glu
 
+def resize(width, height):
+    gl.glViewport(0, 0, width, height)
+    gl.glMatrixMode(gl.GL_PROJECTION)
+    gl.glLoadIdentity()
+    glu.gluPerspective(60, width / height, 0.05, 50)
+    gl.glMatrixMode(gl.GL_MODELVIEW)
+
 class Scene:
     """
     Class to hold all of the GameObjects, and to run the whole

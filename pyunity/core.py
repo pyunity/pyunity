@@ -416,7 +416,7 @@ class Transform(Component):
         nice list of all GameObjects.
 
         """
-        Logger.LogLine(Logger.INFO, self.FullPath())
+        Logger.Log(self.FullPath())
         for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
 
