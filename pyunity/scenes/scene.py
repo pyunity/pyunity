@@ -8,12 +8,11 @@ from ..audio import *
 from ..core import *
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
-from .. import config, window, physics, logger as Logger
+from .. import config, physics, logger as Logger
 from ..errors import *
 from time import time
 import os
 import math
-import copy
 import pygame
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -226,16 +225,16 @@ class Scene:
     def start_scripts(self):
         """Start the scripts in the Scene."""
         self.lastFrame = time()
-        self.numChannels = 0
+        numChannels = 0
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
                 elif isinstance(component, AudioSource):
-                    component.channel = pygame.mixer.Channel(self.numChannels)
-                    if self.numChannels < 8:
-                        self.numChannels += 1
+                    component.channel = pygame.mixer.Channel(numChannels)
+                    if numChannels < 8:
+                        numChannels += 1
                     if component.clip:
                         component.clip.sound = pygame.mixer.Sound(
                             component.clip.file)
