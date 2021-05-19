@@ -8,6 +8,8 @@ This will be imported as ``pyunity.Logger``.
 import os
 import platform
 import shutil
+import importlib
+import traceback
 from time import strftime
 
 if platform.platform().startswith("Windows"):
@@ -29,7 +31,7 @@ class Level:
     should never instantiate this directly, instead
     use one of `Logging.OUTPUT`, `Logging.INFO`,
     `Logging.DEBUG`, `Logging.ERROR` or
-    `Logging.WARNING`.
+    `Logging.WARN`.
 
     """
 
@@ -41,8 +43,8 @@ class Level:
 OUTPUT = Level("O", "")
 INFO = Level("I", None)
 DEBUG = Level("D", "")
-ERROR = Level("E", None)
-WARNING = Level("W", "Warning: ")
+ERROR = Level("E", "")
+WARN = Level("W", "Warning: ")
 
 def Log(*message):
     """
@@ -63,12 +65,19 @@ def LogLine(level, *message):
         Level or severity of log.
 
     """
-    msg = (level.name if level.name is not None else "") + " ".join(message)
+    msg = (level.name if level.name is not None else "") + " ".join(map(str, message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
             print(level.name + msg)
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(strftime("%Y-%m-%d %H:%M:%S") + f" |{level.abbr}| {msg}\n")
+
+def LogException(e):
+    exception = traceback.format_exception(type(e), e, e.__traceback__)
+    for line in exception:
+        for line2 in line.split("\n"):
+            if line2:
+                LogLine(ERROR, line2)
 
 def Save():
     """

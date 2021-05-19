@@ -6,7 +6,7 @@ rt50 = math.sqrt(50)
 class Rotator(Behaviour):
     def Update(self, dt):
         self.transform.localEulerAngles += Vector3(0, 45 * dt, 0)
-        Logger.LogLine(Logger.INFO, round(1 / dt, 3))
+        Logger.Log(round(1 / dt, 3))
 
 def main():
     mat = Material((255, 0, 0))
@@ -23,7 +23,7 @@ def main():
     cube.transform.localPosition = Vector3(0, 0, 10)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.cube
+    renderer.mesh = Loader.Primitives.cube
     scene.Add(cube)
 
     quad = GameObject("Quad", root)
@@ -31,42 +31,42 @@ def main():
     quad.transform.localEulerAngles = Vector3(0, -45, 0)
     renderer = quad.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.quad
+    renderer.mesh = Loader.Primitives.quad
     scene.Add(quad)
 
     sphere = GameObject("Sphere", root)
     sphere.transform.localPosition = Vector3(10, 0, 0)
     renderer = sphere.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.sphere
+    renderer.mesh = Loader.Primitives.sphere
     scene.Add(sphere)
 
     capsule = GameObject("Capsule", root)
     capsule.transform.localPosition = Vector3(rt50, 0, -rt50)
     renderer = capsule.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.capsule
+    renderer.mesh = Loader.Primitives.capsule
     scene.Add(capsule)
 
     cylinder = GameObject("Cylinder", root)
     cylinder.transform.localPosition = Vector3(0, 0, -10)
     renderer = cylinder.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.cylinder
+    renderer.mesh = Loader.Primitives.cylinder
     scene.Add(cylinder)
 
     sphere = GameObject("Sphere", root)
     sphere.transform.localPosition = Vector3(-rt50, 0, -rt50)
     renderer = sphere.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.sphere
+    renderer.mesh = Loader.Primitives.sphere
     scene.Add(sphere)
 
     capsule = GameObject("Capsule", root)
     capsule.transform.localPosition = Vector3(-10, 0, 0)
     renderer = capsule.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.capsule
+    renderer.mesh = Loader.Primitives.capsule
     scene.Add(capsule)
 
     quad = GameObject("Quad", root)
@@ -74,7 +74,7 @@ def main():
     quad.transform.localEulerAngles = Vector3(0, 45, 0)
     renderer = quad.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = loader.Primitives.quad
+    renderer.mesh = Loader.Primitives.quad
     scene.Add(quad)
 
     SceneManager.LoadScene(scene)
