@@ -63,7 +63,8 @@ def LogLine(level, *message):
         Level or severity of log.
 
     """
-    msg = (level.name if level.name is not None else "") + " ".join(map(str, message))
+    msg = (level.name if level.name is not None else "") + \
+        " ".join(map(str, message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
             print(level.name + msg)
@@ -83,7 +84,8 @@ def Save():
     of initializing PyUnity for the first time.
 
     """
-    LogLine(INFO, "Saving new log at", os.path.join(folder, timestamp + ".log"))
+    LogLine(INFO, "Saving new log at",
+            os.path.join(folder, timestamp + ".log"))
 
     with open(os.path.join(folder, "latest.log")) as f:
         with open(os.path.join(folder, timestamp + ".log"), "w+") as f2:

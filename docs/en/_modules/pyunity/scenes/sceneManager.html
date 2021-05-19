@@ -39,16 +39,12 @@
 
 <span class="kn">from</span> <span class="nn">..audio</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">..vector3</span> <span class="kn">import</span> <span class="n">Vector3</span>
-<span class="kn">from</span> <span class="nn">..quaternion</span> <span class="kn">import</span> <span class="n">Quaternion</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">physics</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">window</span>
 <span class="kn">from</span> <span class="nn">..errors</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.scene</span> <span class="kn">import</span> <span class="n">Scene</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">.scene</span> <span class="kn">import</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">resize</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">logger</span> <span class="k">as</span> <span class="n">Logger</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">pygame</span>
 
 <span class="n">scenesByIndex</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">scenesByName</span> <span class="o">=</span> <span class="p">{}</span>
@@ -234,26 +230,33 @@
 
 <span class="k">def</span> <span class="nf">__loadScene</span><span class="p">(</span><span class="n">scene</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">windowObject</span><span class="p">,</span> <span class="n">__running_scene</span>
-
-    <span class="k">def</span> <span class="nf">__resize</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">glMatrixMode</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_PROJECTION</span><span class="p">)</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">glLoadIdentity</span><span class="p">()</span>
-        <span class="n">glu</span><span class="o">.</span><span class="n">gluPerspective</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">glMatrixMode</span><span class="p">(</span><span class="n">gl</span><span class="o">.</span><span class="n">GL_MODELVIEW</span><span class="p">)</span>
     <span class="n">__running_scene</span> <span class="o">=</span> <span class="n">scene</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">windowObject</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
         <span class="n">windowObject</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">window_providers</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">windowProvider</span><span class="p">](</span>
-            <span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">__resize</span><span class="p">)</span>
+            <span class="n">config</span><span class="p">,</span> <span class="n">scene</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">resize</span><span class="p">)</span>
         <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
-        <span class="n">windowObject</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
-        <span class="n">windowObject</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">windowObject</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+            <span class="n">windowObject</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Stopping main loop&quot;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">LogException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Shutting PyUnity down&quot;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">LogLine</span><span class="p">(</span><span class="n">Logger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Shutting PyUnity down&quot;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">scene</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYUNITY_INTERACTIVE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
-            <span class="n">window</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">update</span>
+            <span class="n">windowObject</span><span class="o">.</span><span class="n">update_func</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">update</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">scene</span><span class="o">.</span><span class="n">no_interactive</span><span class="p">()</span>
+    <span class="c1"># if e is not None:</span>
+        <span class="c1"># raise e</span>
 
 <span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">CurrentScene</span><span class="p">():</span>
