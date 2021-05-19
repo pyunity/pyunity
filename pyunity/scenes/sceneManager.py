@@ -214,20 +214,20 @@ def __loadScene(scene):
             Logger.LogLine(Logger.INFO, "Stopping main loop")
             Logger.Save()
         except Exception as e:
+            Logger.LogException(e)
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             Logger.Save()
         else:
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             Logger.Save()
-            exit()
     else:
         scene.Start()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             windowObject.update_func = scene.update
         else:
             scene.no_interactive()
-    if e is not None:
-        raise e
+    # if e is not None:
+        # raise e
 
 @property
 def CurrentScene():
