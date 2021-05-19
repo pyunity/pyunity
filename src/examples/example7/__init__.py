@@ -5,7 +5,7 @@ class Switch(Behaviour):
     def Update(self, dt):
         self.a -= dt
         if self.a < 0:
-            SceneManager.LoadSceneByIndex(1)
+            SceneManager.LoadSceneByName("Scene 2")
 
 def main():
     scene = SceneManager.AddScene("Scene")

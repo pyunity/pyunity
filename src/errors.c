@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.errors",
         "sources": [
-            "D:\\RayChen\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\errors.py"
+            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\pyunity\\pyunity\\errors.py"
         ]
     },
     "module_name": "pyunity.errors"
@@ -896,6 +896,9 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+/* CalculateMetaclass.proto */
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
+
 /* PyObjectGetAttrStr.proto */
 #if CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
@@ -903,17 +906,14 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 #define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
 #endif
 
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-/* CalculateMetaclass.proto */
-static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
-
 /* Py3ClassCreate.proto */
 static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
                                            PyObject *mkw, PyObject *modname, PyObject *doc);
 static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
                                       PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
@@ -1064,30 +1064,25 @@ extern int __pyx_module_is_main_pyunity__errors;
 int __pyx_module_is_main_pyunity__errors = 0;
 
 /* Implementation of 'pyunity.errors' */
-static PyObject *__pyx_builtin_Warning;
 static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_module[] = "__module__";
-static const char __pyx_k_Warning[] = "Warning";
 static const char __pyx_k_prepare[] = "__prepare__";
 static const char __pyx_k_qualname[] = "__qualname__";
 static const char __pyx_k_metaclass[] = "__metaclass__";
-static const char __pyx_k_PyUnityWarning[] = "PyUnityWarning";
 static const char __pyx_k_pyunity_errors[] = "pyunity.errors";
 static const char __pyx_k_PyUnityException[] = "PyUnityException";
 static const char __pyx_k_ComponentException[] = "ComponentException";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_GameObjectException[] = "GameObjectException";
-static const char __pyx_k_Base_class_for_PyUnity_warnings[] = "Base class for PyUnity warnings.";
 static const char __pyx_k_Base_class_for_PyUnity_exception[] = "Base class for PyUnity exceptions.";
 static const char __pyx_k_Class_for_PyUnity_exceptions_rel[] = "Class for PyUnity exceptions relating to components.";
 static const char __pyx_k_Module_for_all_exceptions_and_wa[] = "Module for all exceptions and warnings related to PyUnity.";
 static const char __pyx_k_Class_for_PyUnity_exceptions_rel_2[] = "Class for PyUnity exceptions relating to GameObjects.";
 static PyObject *__pyx_kp_s_Base_class_for_PyUnity_exception;
-static PyObject *__pyx_kp_s_Base_class_for_PyUnity_warnings;
 static PyObject *__pyx_kp_s_Class_for_PyUnity_exceptions_rel;
 static PyObject *__pyx_kp_s_Class_for_PyUnity_exceptions_rel_2;
 static PyObject *__pyx_n_s_ComponentException;
@@ -1096,9 +1091,6 @@ static PyObject *__pyx_n_s_GameObjectException;
 static PyObject *__pyx_n_u_GameObjectException;
 static PyObject *__pyx_n_s_PyUnityException;
 static PyObject *__pyx_n_u_PyUnityException;
-static PyObject *__pyx_n_s_PyUnityWarning;
-static PyObject *__pyx_n_u_PyUnityWarning;
-static PyObject *__pyx_n_s_Warning;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_doc;
@@ -1110,7 +1102,6 @@ static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pyunity_errors;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_tuple_;
 /* Late includes */
 
 static PyMethodDef __pyx_methods[] = {
@@ -1160,7 +1151,6 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Base_class_for_PyUnity_exception, __pyx_k_Base_class_for_PyUnity_exception, sizeof(__pyx_k_Base_class_for_PyUnity_exception), 0, 0, 1, 0},
-  {&__pyx_kp_s_Base_class_for_PyUnity_warnings, __pyx_k_Base_class_for_PyUnity_warnings, sizeof(__pyx_k_Base_class_for_PyUnity_warnings), 0, 0, 1, 0},
   {&__pyx_kp_s_Class_for_PyUnity_exceptions_rel, __pyx_k_Class_for_PyUnity_exceptions_rel, sizeof(__pyx_k_Class_for_PyUnity_exceptions_rel), 0, 0, 1, 0},
   {&__pyx_kp_s_Class_for_PyUnity_exceptions_rel_2, __pyx_k_Class_for_PyUnity_exceptions_rel_2, sizeof(__pyx_k_Class_for_PyUnity_exceptions_rel_2), 0, 0, 1, 0},
   {&__pyx_n_s_ComponentException, __pyx_k_ComponentException, sizeof(__pyx_k_ComponentException), 0, 0, 1, 1},
@@ -1169,9 +1159,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_GameObjectException, __pyx_k_GameObjectException, sizeof(__pyx_k_GameObjectException), 0, 1, 0, 1},
   {&__pyx_n_s_PyUnityException, __pyx_k_PyUnityException, sizeof(__pyx_k_PyUnityException), 0, 0, 1, 1},
   {&__pyx_n_u_PyUnityException, __pyx_k_PyUnityException, sizeof(__pyx_k_PyUnityException), 0, 1, 0, 1},
-  {&__pyx_n_s_PyUnityWarning, __pyx_k_PyUnityWarning, sizeof(__pyx_k_PyUnityWarning), 0, 0, 1, 1},
-  {&__pyx_n_u_PyUnityWarning, __pyx_k_PyUnityWarning, sizeof(__pyx_k_PyUnityWarning), 0, 1, 0, 1},
-  {&__pyx_n_s_Warning, __pyx_k_Warning, sizeof(__pyx_k_Warning), 0, 0, 1, 1},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
@@ -1186,31 +1173,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_Warning = __Pyx_GetBuiltinName(__pyx_n_s_Warning); if (!__pyx_builtin_Warning) __PYX_ERR(0, 18, __pyx_L1_error)
   return 0;
-  __pyx_L1_error:;
-  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
-
-  /* "pyunity/errors.py":18
- *     pass
- * 
- * class PyUnityWarning(Warning):             # <<<<<<<<<<<<<<
- *     """Base class for PyUnity warnings."""
- *     pass
- */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_builtin_Warning); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
@@ -1493,10 +1463,10 @@ if (!__Pyx_RefNanny) {
  * """Module for all exceptions and warnings related to PyUnity."""
  * 
  * __all__ = ["PyUnityException", "ComponentException",             # <<<<<<<<<<<<<<
- *            "GameObjectException", "PyUnityWarning"]
+ *            "GameObjectException"]
  * 
  */
-  __pyx_t_1 = PyList_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_u_PyUnityException);
   __Pyx_GIVEREF(__pyx_n_u_PyUnityException);
@@ -1507,14 +1477,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_u_GameObjectException);
   __Pyx_GIVEREF(__pyx_n_u_GameObjectException);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_u_GameObjectException);
-  __Pyx_INCREF(__pyx_n_u_PyUnityWarning);
-  __Pyx_GIVEREF(__pyx_n_u_PyUnityWarning);
-  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_u_PyUnityWarning);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/errors.py":6
- *            "GameObjectException", "PyUnityWarning"]
+ *            "GameObjectException"]
  * 
  * class PyUnityException(Exception):             # <<<<<<<<<<<<<<
  *     """Base class for PyUnity exceptions."""
@@ -1589,24 +1556,6 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/errors.py":18
- *     pass
- * 
- * class PyUnityWarning(Warning):             # <<<<<<<<<<<<<<
- *     """Base class for PyUnity warnings."""
- *     pass
- */
-  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_tuple_); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_tuple_, __pyx_n_s_PyUnityWarning, __pyx_n_s_PyUnityWarning, (PyObject *) NULL, __pyx_n_s_pyunity_errors, __pyx_kp_s_Base_class_for_PyUnity_warnings); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_PyUnityWarning, __pyx_tuple_, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PyUnityWarning, __pyx_t_3) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
   /* "pyunity/errors.py":1
  * """Module for all exceptions and warnings related to PyUnity."""             # <<<<<<<<<<<<<<
  * 
@@ -1662,34 +1611,6 @@ end:
 }
 #endif
 
-/* PyObjectGetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
-#endif
-    return PyObject_GetAttr(obj, attr_name);
-}
-#endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
 /* CalculateMetaclass */
 static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
     Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
@@ -1728,6 +1649,20 @@ static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bas
     Py_INCREF((PyObject*) metaclass);
     return (PyObject*) metaclass;
 }
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#endif
 
 /* Py3ClassCreate */
 static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
@@ -1793,6 +1728,20 @@ static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObj
         Py_DECREF(margs);
     }
     Py_XDECREF(owned_metaclass);
+    return result;
+}
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
     return result;
 }
 

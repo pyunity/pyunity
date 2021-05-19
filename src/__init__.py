@@ -182,7 +182,7 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics, errors
 __all__ = ["__version__", "Vector3", "Quaternion",
-           "SceneManager", "Mesh", "loader",
+           "SceneManager", "Mesh", "Loader",
            "Input", "KeyCode", "Logger"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)

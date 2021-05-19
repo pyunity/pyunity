@@ -11,6 +11,7 @@ happens.
 
 from . import config
 from .core import *
+from .errors import PyUnityException
 from . import logger as Logger
 __all__ = ["AudioClip", "AudioSource"]
 
@@ -24,29 +25,29 @@ except pygame.error:
     class AudioClip:
         def __init__(self, *args, **kwargs):
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioClip: pygame.mixer cannot be loaded")
+                           "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
         def __getattr__(self, item):
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioClip: pygame.mixer cannot be loaded")
+                           "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
         def __setattr__(self, item, value):
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioClip: pygame.mixer cannot be loaded")
+                           "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
     class AudioSource(Component):
         def __init__(self, *args, **kwargs):
             super(AudioSource, self).__init__()
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioSource: pygame.mixer cannot be loaded")
+                           "Cannot use AudioSource: pygame.mixer cannot be loaded")
 
         def __getattr__(self, item):
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioSource: pygame.mixer cannot be loaded")
+                           "Cannot use AudioSource: pygame.mixer cannot be loaded")
 
         def __setattr__(self, item, value):
             Logger.LogLine(Logger.WARN,
-                "Cannot use AudioSource: pygame.mixer cannot be loaded")
+                           "Cannot use AudioSource: pygame.mixer cannot be loaded")
 else:
 
     class AudioClip:
@@ -149,27 +150,27 @@ else:
         def Play(self):
             """Plays the current clip."""
             if self.clip is None:
-                warnings.warn("AudioSource has no clip", PyUnityWarning)
+                Logger.LogLine(Logger.WARN, "AudioSource has no clip")
             else:
                 self.channel.play(self.clip.sound)
 
         def Pause(self):
             """Pauses the current clip."""
             if self.clip is None:
-                warnings.warn("AudioSource has no clip", PyUnityWarning)
+                Logger.LogLine(Logger.WARN, "AudioSource has no clip")
             else:
                 self.channel.pause()
 
         def UnPause(self):
             """Unpauses the current clip."""
             if self.clip is None:
-                warnings.warn("AudioSource has no clip", PyUnityWarning)
+                Logger.LogLine(Logger.WARN, "AudioSource has no clip")
             else:
                 self.channel.unpause()
 
         def Stop(self):
             """Stop the current clip."""
             if self.clip is None:
-                warnings.warn("AudioSource has no clip", PyUnityWarning)
+                Logger.LogLine(Logger.WARN, "AudioSource has no clip")
             else:
                 self.channel.stop()
