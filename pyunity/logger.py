@@ -7,8 +7,6 @@ This will be imported as ``pyunity.Logger``.
 
 import os
 import platform
-import shutil
-import importlib
 import traceback
 from time import strftime
 
