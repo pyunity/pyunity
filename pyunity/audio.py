@@ -11,43 +11,42 @@ happens.
 
 from . import config
 from .core import *
-from .errors import *
+from . import logger as Logger
 __all__ = ["AudioClip", "AudioSource"]
 
 import pygame
 import os
-import warnings
 try:
     pygame.mixer.init()
 except pygame.error:
-    warnings.warn("Cannot load pygame mixer", PyUnityWarning)
+    Logger.LogLine(Logger.WARN, "Cannot load pygame mixer")
     config.audio = False
     class AudioClip:
         def __init__(self, *args, **kwargs):
-            warnings.warn(
-                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
         def __getattr__(self, item):
-            warnings.warn(
-                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
         def __setattr__(self, item, value):
-            warnings.warn(
-                "Cannot use AudioClip: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioClip: pygame.mixer cannot be loaded")
 
     class AudioSource(Component):
         def __init__(self, *args, **kwargs):
             super(AudioSource, self).__init__()
-            warnings.warn(
-                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioSource: pygame.mixer cannot be loaded")
 
         def __getattr__(self, item):
-            warnings.warn(
-                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioSource: pygame.mixer cannot be loaded")
 
         def __setattr__(self, item, value):
-            warnings.warn(
-                "Cannot use AudioSource: pygame.mixer cannot be loaded", PyUnityWarning)
+            Logger.LogLine(Logger.WARN,
+                "Cannot use AudioSource: pygame.mixer cannot be loaded")
 else:
 
     class AudioClip:
