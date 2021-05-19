@@ -6,16 +6,12 @@ of Scenes.
 
 from ..audio import *
 from ..core import *
-from ..vector3 import Vector3
-from ..quaternion import Quaternion
-from .. import config, window, physics
+from .. import config, window
 from ..errors import *
 from .scene import Scene, resize
 from .. import logger as Logger
 import os
-import math
 import copy
-import pygame
 
 scenesByIndex = []
 scenesByName = {}
