@@ -7,5 +7,5 @@ the SceneManager class.
 
 """
 
-from . import sceneManager as SceneManager
+from . import sceneManager as SceneManager  # lgtm[py/import-own-module]
 from .scene import Scene
