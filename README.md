@@ -8,7 +8,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
 
-## Version 0.4.0 (in development)
+## Version 0.5.0 (in development)
 PyUnity is a Python implementation of the
 Unity Engine, written in C++. This is just
 a fun project and many features have been
@@ -66,7 +66,7 @@ This is the output with debugging:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.4.0
+    Loaded PyUnity version 0.5.0
 
 If debugging is off, there is no output:
 
@@ -145,7 +145,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.4.0
+    Loaded PyUnity version 0.5.0
     >>> main()
 
 Or from the command line:
