@@ -198,7 +198,6 @@ def LoadScene(scene):
 def __loadScene(scene):
     global windowObject, __running_scene
     __running_scene = scene
-    e = None
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = window.window_providers[config.windowProvider](
             config, scene.name, resize)
@@ -222,8 +221,6 @@ def __loadScene(scene):
             windowObject.update_func = scene.update
         else:
             scene.no_interactive()
-    # if e is not None:
-        # raise e
 
 @property
 def CurrentScene():
