@@ -30,4 +30,5 @@ Submodules
    pyunity.logger
    pyunity.meshes
    pyunity.quaternion
+   pyunity.script
    pyunity.vector3

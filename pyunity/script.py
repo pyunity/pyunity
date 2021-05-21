@@ -68,5 +68,5 @@ def LoadScripts(path):
             a = exec("\n".join(text), {})
             print(type(a))
             behaviours[name] = eval(name)
-    
+
     return behaviours
