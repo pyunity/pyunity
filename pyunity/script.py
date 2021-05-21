@@ -3,6 +3,7 @@ from .core import Component
 from types import ModuleType
 import glob
 import os
+import sys
 
 class Behaviour(Component):
     """
@@ -39,7 +40,6 @@ class Behaviour(Component):
 
 def CheckScript(text):
     for line in text:
-        print(line)
         if line.startswith("import") or \
                 (line.startswith("from") and " import " in line):
             continue
@@ -57,16 +57,18 @@ def CheckScript(text):
 
 def LoadScripts(path):
     files = glob.glob(os.path.join(path, "*.py"))
-    behaviours = {}
+    a = {}
+
+    module = ModuleType("PyUnityScripts", None)
+
     for file in files:
-        print(files)
         with open(file) as f:
             text = f.read().rstrip().splitlines()
 
         name = os.path.basename(file[:-3])
         if CheckScript(text):
-            a = exec("\n".join(text), {})
-            print(type(a))
-            behaviours[name] = eval(name)
+            exec("\n".join(text), a)
+            setattr(module, name, a[name])
 
-    return behaviours
+    sys.modules["PyUnityScripts"] = module
+    return module
