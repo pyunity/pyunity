@@ -1,4 +1,3 @@
-from types import ModuleType
 from .core import Component
 from types import ModuleType
 import glob
