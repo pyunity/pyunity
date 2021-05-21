@@ -46,8 +46,8 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Behaviour", "Camera", "Component", "GameObject",
-           "Light", "Material", "MeshRenderer", "Tag", "Transform", "tags"]
+__all__ = ["Camera", "Component", "GameObject",
+           "Light", "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
 import math
@@ -248,39 +248,6 @@ class Component:
 
         """
         return self.gameObject.AddComponent(component)
-
-class Behaviour(Component):
-    """
-    Base class for behaviours that can be scripted.
-
-    Attributes
-    ----------
-    gameObject : GameObject
-        GameObject that the component belongs to.
-    transform : Transform
-        Transform that the component belongs to.
-
-    """
-
-    def Start(self):
-        """
-        Called every time a scene is loaded up.
-
-        """
-        pass
-
-    def Update(self, dt):
-        """
-        Called every frame.
-
-        Parameters
-        ----------
-        dt : float
-            Time since last frame, sent by the scene 
-            that the Behaviour is in.
-
-        """
-        pass
 
 class Transform(Component):
     """
