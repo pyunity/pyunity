@@ -17,7 +17,7 @@ git add .
 git commit -m %1
 git push
 )
-start py -3.6 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp36-cp36m-win32.whl
-start py -3.7 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp37-cp37m-win32.whl
-start py -3.8 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp38-cp38-win32.whl
+py -3.6 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp36-cp36m-win32.whl
+py -3.7 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp37-cp37m-win32.whl
+py -3.8 -m pip install -U dist\0.5.0\pyunity-0.5.0-cp38-cp38-win32.whl
 py -m pip install -U dist\0.5.0\pyunity-0.5.0-cp39-cp39-win32.whl
