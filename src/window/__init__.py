@@ -69,7 +69,6 @@ def GetWindowProvider():
     ]
 
     windowProvider = ""
-    success = True
     i = 0
 
     for name, checker in winfo:

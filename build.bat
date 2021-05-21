@@ -11,7 +11,6 @@ RMDIR /S /Q docs\en\
 DEL docs\source\pyunity*
 set SPHINX_APIDOC_OPTIONS=members,inherited-members,show-inheritance
 sphinx-apidoc -e -F -M -o docs\source pyunity pyunity\config.py pyunity\examples\*
-sphinx-build -T -E -b html docs\source docs\en
 RMDIR /S /Q build\ pyunity.egg-info\
 IF NOT [%1] == [] (
 git add .

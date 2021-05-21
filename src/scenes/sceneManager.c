@@ -2836,31 +2836,21 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
  * def __loadScene(scene):
  *     global windowObject, __running_scene
  *     __running_scene = scene             # <<<<<<<<<<<<<<
- *     e = None
  *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
+ *         windowObject = window.window_providers[config.windowProvider](
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_running_scene, __pyx_v_scene) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
 
   /* "pyunity/scenes/sceneManager.py":201
  *     global windowObject, __running_scene
  *     __running_scene = scene
- *     e = None             # <<<<<<<<<<<<<<
- *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
- *         windowObject = window.window_providers[config.windowProvider](
- */
-  __Pyx_INCREF(Py_None);
-  __pyx_v_e = Py_None;
-
-  /* "pyunity/scenes/sceneManager.py":202
- *     __running_scene = scene
- *     e = None
  *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
  *         windowObject = window.window_providers[config.windowProvider](
  *             config, scene.name, resize)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = ((!__pyx_t_3) != 0);
   if (__pyx_t_4) {
@@ -2868,54 +2858,54 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     __pyx_t_1 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_5, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_5, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = __pyx_t_4;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "pyunity/scenes/sceneManager.py":203
- *     e = None
+    /* "pyunity/scenes/sceneManager.py":202
+ *     __running_scene = scene
  *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
  *         windowObject = window.window_providers[config.windowProvider](             # <<<<<<<<<<<<<<
  *             config, scene.name, resize)
  *         scene.Start()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_window); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_window); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_window_providers); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_window_providers); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_config); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_config); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_windowProvider); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_windowProvider); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pyunity/scenes/sceneManager.py":204
+    /* "pyunity/scenes/sceneManager.py":203
  *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
  *         windowObject = window.window_providers[config.windowProvider](
  *             config, scene.name, resize)             # <<<<<<<<<<<<<<
  *         scene.Start()
  *         try:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_config); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_config); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_resize); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_resize); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_9 = NULL;
     __pyx_t_10 = 0;
@@ -2932,7 +2922,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[4] = {__pyx_t_9, __pyx_t_7, __pyx_t_6, __pyx_t_8};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -2943,7 +2933,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[4] = {__pyx_t_9, __pyx_t_7, __pyx_t_6, __pyx_t_8};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -2952,7 +2942,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     } else
     #endif
     {
-      __pyx_t_11 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_11 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -2966,22 +2956,22 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __pyx_t_7 = 0;
       __pyx_t_6 = 0;
       __pyx_t_8 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowObject, __pyx_t_2) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowObject, __pyx_t_2) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/scenes/sceneManager.py":205
+    /* "pyunity/scenes/sceneManager.py":204
  *         windowObject = window.window_providers[config.windowProvider](
  *             config, scene.name, resize)
  *         scene.Start()             # <<<<<<<<<<<<<<
  *         try:
  *             windowObject.start(scene.update)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_Start); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_Start); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_11 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2995,12 +2985,12 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     }
     __pyx_t_2 = (__pyx_t_11) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/scenes/sceneManager.py":206
+    /* "pyunity/scenes/sceneManager.py":205
  *             config, scene.name, resize)
  *         scene.Start()
  *         try:             # <<<<<<<<<<<<<<
@@ -3016,19 +3006,19 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __Pyx_XGOTREF(__pyx_t_14);
       /*try:*/ {
 
-        /* "pyunity/scenes/sceneManager.py":207
+        /* "pyunity/scenes/sceneManager.py":206
  *         scene.Start()
  *         try:
  *             windowObject.start(scene.update)             # <<<<<<<<<<<<<<
  *             windowObject = None
  *         except KeyboardInterrupt:
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L6_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_start); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 207, __pyx_L6_error)
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_start); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 206, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_update); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L6_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_update); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_5);
         __pyx_t_8 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_11))) {
@@ -3043,21 +3033,21 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         __pyx_t_2 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_5);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L6_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pyunity/scenes/sceneManager.py":208
+        /* "pyunity/scenes/sceneManager.py":207
  *         try:
  *             windowObject.start(scene.update)
  *             windowObject = None             # <<<<<<<<<<<<<<
  *         except KeyboardInterrupt:
  *             Logger.LogLine(Logger.INFO, "Stopping main loop")
  */
-        if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowObject, Py_None) < 0) __PYX_ERR(0, 208, __pyx_L6_error)
+        if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowObject, Py_None) < 0) __PYX_ERR(0, 207, __pyx_L6_error)
 
-        /* "pyunity/scenes/sceneManager.py":206
+        /* "pyunity/scenes/sceneManager.py":205
  *             config, scene.name, resize)
  *         scene.Start()
  *         try:             # <<<<<<<<<<<<<<
@@ -3066,7 +3056,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
  */
       }
 
-      /* "pyunity/scenes/sceneManager.py":217
+      /* "pyunity/scenes/sceneManager.py":216
  *             Logger.Save()
  *         else:
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")             # <<<<<<<<<<<<<<
@@ -3074,14 +3064,14 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
  *     else:
  */
       /*else:*/ {
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 216, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 216, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_INFO); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_INFO); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 216, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_11 = NULL;
@@ -3099,7 +3089,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_t_8, __pyx_kp_u_Shutting_PyUnity_down};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L8_except_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -3108,14 +3098,14 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_t_8, __pyx_kp_u_Shutting_PyUnity_down};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L8_except_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 216, __pyx_L8_except_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_11) {
             __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -3126,23 +3116,23 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           __Pyx_GIVEREF(__pyx_kp_u_Shutting_PyUnity_down);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_10, __pyx_kp_u_Shutting_PyUnity_down);
           __pyx_t_8 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L8_except_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L8_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pyunity/scenes/sceneManager.py":218
+        /* "pyunity/scenes/sceneManager.py":217
  *         else:
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
  *             Logger.Save()             # <<<<<<<<<<<<<<
  *     else:
  *         scene.Start()
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Logger); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Logger); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 217, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_Save); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 218, __pyx_L8_except_error)
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_Save); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_5 = NULL;
@@ -3157,7 +3147,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         }
         __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 218, __pyx_L8_except_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3175,7 +3165,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-      /* "pyunity/scenes/sceneManager.py":209
+      /* "pyunity/scenes/sceneManager.py":208
  *             windowObject.start(scene.update)
  *             windowObject = None
  *         except KeyboardInterrupt:             # <<<<<<<<<<<<<<
@@ -3185,26 +3175,26 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __pyx_t_10 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyboardInterrupt);
       if (__pyx_t_10) {
         __Pyx_AddTraceback("pyunity.scenes.sceneManager.__loadScene", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_6, &__pyx_t_5) < 0) __PYX_ERR(0, 209, __pyx_L8_except_error)
+        if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_6, &__pyx_t_5) < 0) __PYX_ERR(0, 208, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GOTREF(__pyx_t_5);
 
-        /* "pyunity/scenes/sceneManager.py":210
+        /* "pyunity/scenes/sceneManager.py":209
  *             windowObject = None
  *         except KeyboardInterrupt:
  *             Logger.LogLine(Logger.INFO, "Stopping main loop")             # <<<<<<<<<<<<<<
  *             Logger.Save()
  *         except Exception as e:
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 209, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 209, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_Logger); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 209, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_INFO); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_INFO); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 209, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_11 = NULL;
@@ -3222,7 +3212,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_t_9, __pyx_kp_u_Stopping_main_loop};
-          __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+          __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L8_except_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -3231,14 +3221,14 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_t_9, __pyx_kp_u_Stopping_main_loop};
-          __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+          __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L8_except_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         } else
         #endif
         {
-          __pyx_t_15 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+          __pyx_t_15 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 209, __pyx_L8_except_error)
           __Pyx_GOTREF(__pyx_t_15);
           if (__pyx_t_11) {
             __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -3249,23 +3239,23 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           __Pyx_GIVEREF(__pyx_kp_u_Stopping_main_loop);
           PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_10, __pyx_kp_u_Stopping_main_loop);
           __pyx_t_9 = 0;
-          __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_15, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L8_except_error)
+          __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_15, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L8_except_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         }
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-        /* "pyunity/scenes/sceneManager.py":211
+        /* "pyunity/scenes/sceneManager.py":210
  *         except KeyboardInterrupt:
  *             Logger.LogLine(Logger.INFO, "Stopping main loop")
  *             Logger.Save()             # <<<<<<<<<<<<<<
  *         except Exception as e:
  *             Logger.LogException(e)
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 211, __pyx_L8_except_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 210, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_Save); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 211, __pyx_L8_except_error)
+        __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_Save); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 210, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_15);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_7 = NULL;
@@ -3280,7 +3270,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         }
         __pyx_t_8 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_15);
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 211, __pyx_L8_except_error)
+        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -3290,7 +3280,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
         goto __pyx_L7_exception_handled;
       }
 
-      /* "pyunity/scenes/sceneManager.py":212
+      /* "pyunity/scenes/sceneManager.py":211
  *             Logger.LogLine(Logger.INFO, "Stopping main loop")
  *             Logger.Save()
  *         except Exception as e:             # <<<<<<<<<<<<<<
@@ -3300,24 +3290,24 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __pyx_t_10 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
       if (__pyx_t_10) {
         __Pyx_AddTraceback("pyunity.scenes.sceneManager.__loadScene", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_2) < 0) __PYX_ERR(0, 212, __pyx_L8_except_error)
+        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_2) < 0) __PYX_ERR(0, 211, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_6);
-        __Pyx_DECREF_SET(__pyx_v_e, __pyx_t_6);
+        __pyx_v_e = __pyx_t_6;
         /*try:*/ {
 
-          /* "pyunity/scenes/sceneManager.py":213
+          /* "pyunity/scenes/sceneManager.py":212
  *             Logger.Save()
  *         except Exception as e:
  *             Logger.LogException(e)             # <<<<<<<<<<<<<<
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
  *             Logger.Save()
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_Logger); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 213, __pyx_L19_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_Logger); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 212, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_LogException); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L19_error)
+          __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_LogException); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 212, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __pyx_t_15 = NULL;
@@ -3332,26 +3322,26 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           }
           __pyx_t_8 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_15, __pyx_v_e) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_e);
           __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 213, __pyx_L19_error)
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 212, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-          /* "pyunity/scenes/sceneManager.py":214
+          /* "pyunity/scenes/sceneManager.py":213
  *         except Exception as e:
  *             Logger.LogException(e)
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")             # <<<<<<<<<<<<<<
  *             Logger.Save()
  *         else:
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 214, __pyx_L19_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 214, __pyx_L19_error)
+          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 213, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 214, __pyx_L19_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Logger); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_INFO); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 214, __pyx_L19_error)
+          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_INFO); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 213, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __pyx_t_7 = NULL;
@@ -3369,7 +3359,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_15)) {
             PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_9, __pyx_kp_u_Shutting_PyUnity_down};
-            __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L19_error)
+            __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 213, __pyx_L19_error)
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
             __Pyx_GOTREF(__pyx_t_8);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -3378,14 +3368,14 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_15)) {
             PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_9, __pyx_kp_u_Shutting_PyUnity_down};
-            __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L19_error)
+            __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 213, __pyx_L19_error)
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
             __Pyx_GOTREF(__pyx_t_8);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           } else
           #endif
           {
-            __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 214, __pyx_L19_error)
+            __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 213, __pyx_L19_error)
             __Pyx_GOTREF(__pyx_t_11);
             if (__pyx_t_7) {
               __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -3396,23 +3386,23 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
             __Pyx_GIVEREF(__pyx_kp_u_Shutting_PyUnity_down);
             PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_kp_u_Shutting_PyUnity_down);
             __pyx_t_9 = 0;
-            __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L19_error)
+            __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 213, __pyx_L19_error)
             __Pyx_GOTREF(__pyx_t_8);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           }
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-          /* "pyunity/scenes/sceneManager.py":215
+          /* "pyunity/scenes/sceneManager.py":214
  *             Logger.LogException(e)
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
  *             Logger.Save()             # <<<<<<<<<<<<<<
  *         else:
  *             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_Logger); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 215, __pyx_L19_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_Logger); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 214, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_Save); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 215, __pyx_L19_error)
+          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_Save); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 214, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __pyx_t_15 = NULL;
@@ -3427,13 +3417,13 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
           }
           __pyx_t_8 = (__pyx_t_15) ? __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_15) : __Pyx_PyObject_CallNoArg(__pyx_t_11);
           __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 215, __pyx_L19_error)
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
 
-        /* "pyunity/scenes/sceneManager.py":212
+        /* "pyunity/scenes/sceneManager.py":211
  *             Logger.LogLine(Logger.INFO, "Stopping main loop")
  *             Logger.Save()
  *         except Exception as e:             # <<<<<<<<<<<<<<
@@ -3493,7 +3483,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       goto __pyx_L8_except_error;
       __pyx_L8_except_error:;
 
-      /* "pyunity/scenes/sceneManager.py":206
+      /* "pyunity/scenes/sceneManager.py":205
  *             config, scene.name, resize)
  *         scene.Start()
  *         try:             # <<<<<<<<<<<<<<
@@ -3513,9 +3503,9 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       __pyx_L11_try_end:;
     }
 
-    /* "pyunity/scenes/sceneManager.py":202
+    /* "pyunity/scenes/sceneManager.py":201
+ *     global windowObject, __running_scene
  *     __running_scene = scene
- *     e = None
  *     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
  *         windowObject = window.window_providers[config.windowProvider](
  *             config, scene.name, resize)
@@ -3523,7 +3513,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     goto __pyx_L3;
   }
 
-  /* "pyunity/scenes/sceneManager.py":220
+  /* "pyunity/scenes/sceneManager.py":219
  *             Logger.Save()
  *     else:
  *         scene.Start()             # <<<<<<<<<<<<<<
@@ -3531,7 +3521,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
  *             windowObject.update_func = scene.update
  */
   /*else*/ {
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_Start); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_Start); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -3545,46 +3535,46 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
     }
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/scenes/sceneManager.py":221
+    /* "pyunity/scenes/sceneManager.py":220
  *     else:
  *         scene.Start()
  *         if os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
  *             windowObject.update_func = scene.update
  *         else:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_6, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_6, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_t_2, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_1) {
 
-      /* "pyunity/scenes/sceneManager.py":222
+      /* "pyunity/scenes/sceneManager.py":221
  *         scene.Start()
  *         if os.environ["PYUNITY_INTERACTIVE"] == "1":
  *             windowObject.update_func = scene.update             # <<<<<<<<<<<<<<
  *         else:
  *             scene.no_interactive()
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_update); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_update); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 222, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_windowObject); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 221, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_update_func, __pyx_t_2) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_update_func, __pyx_t_2) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pyunity/scenes/sceneManager.py":221
+      /* "pyunity/scenes/sceneManager.py":220
  *     else:
  *         scene.Start()
  *         if os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
@@ -3594,15 +3584,15 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       goto __pyx_L25;
     }
 
-    /* "pyunity/scenes/sceneManager.py":224
+    /* "pyunity/scenes/sceneManager.py":223
  *             windowObject.update_func = scene.update
  *         else:
  *             scene.no_interactive()             # <<<<<<<<<<<<<<
- *     # if e is not None:
- *         # raise e
+ * 
+ * @property
  */
     /*else*/ {
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_no_interactive); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_scene, __pyx_n_s_no_interactive); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_5 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3616,7 +3606,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
       }
       __pyx_t_6 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3654,7 +3644,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_14__loadScene(CYTHON_U
   return __pyx_r;
 }
 
-/* "pyunity/scenes/sceneManager.py":229
+/* "pyunity/scenes/sceneManager.py":226
  * 
  * @property
  * def CurrentScene():             # <<<<<<<<<<<<<<
@@ -3686,19 +3676,19 @@ static PyObject *__pyx_pf_7pyunity_6scenes_12sceneManager_16CurrentScene(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CurrentScene", 0);
 
-  /* "pyunity/scenes/sceneManager.py":231
+  /* "pyunity/scenes/sceneManager.py":228
  * def CurrentScene():
  *     """Gets the current scene being run"""
  *     return __running_scene             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_running_scene); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_running_scene); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyunity/scenes/sceneManager.py":229
+  /* "pyunity/scenes/sceneManager.py":226
  * 
  * @property
  * def CurrentScene():             # <<<<<<<<<<<<<<
@@ -3970,11 +3960,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 225, __pyx_L1_error)
   __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 71, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 95, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 116, __pyx_L1_error)
-  __pyx_builtin_KeyboardInterrupt = __Pyx_GetBuiltinName(__pyx_n_s_KeyboardInterrupt); if (!__pyx_builtin_KeyboardInterrupt) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_builtin_KeyboardInterrupt = __Pyx_GetBuiltinName(__pyx_n_s_KeyboardInterrupt); if (!__pyx_builtin_KeyboardInterrupt) __PYX_ERR(0, 208, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -4091,14 +4081,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__19);
   __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sceneManager_py, __pyx_n_s_loadScene, 198, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 198, __pyx_L1_error)
 
-  /* "pyunity/scenes/sceneManager.py":229
+  /* "pyunity/scenes/sceneManager.py":226
  * 
  * @property
  * def CurrentScene():             # <<<<<<<<<<<<<<
  *     """Gets the current scene being run"""
  *     return __running_scene
  */
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sceneManager_py, __pyx_n_s_CurrentScene, 229, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sceneManager_py, __pyx_n_s_CurrentScene, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4673,27 +4663,27 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_loadScene, __pyx_t_1) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/scenes/sceneManager.py":229
+  /* "pyunity/scenes/sceneManager.py":226
  * 
  * @property
  * def CurrentScene():             # <<<<<<<<<<<<<<
  *     """Gets the current scene being run"""
  *     return __running_scene
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6scenes_12sceneManager_17CurrentScene, 0, __pyx_n_s_CurrentScene, NULL, __pyx_n_s_pyunity_scenes_sceneManager, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6scenes_12sceneManager_17CurrentScene, 0, __pyx_n_s_CurrentScene, NULL, __pyx_n_s_pyunity_scenes_sceneManager, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "pyunity/scenes/sceneManager.py":228
- *         # raise e
+  /* "pyunity/scenes/sceneManager.py":225
+ *             scene.no_interactive()
  * 
  * @property             # <<<<<<<<<<<<<<
  * def CurrentScene():
  *     """Gets the current scene being run"""
  */
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CurrentScene, __pyx_t_2) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CurrentScene, __pyx_t_2) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/scenes/sceneManager.py":1

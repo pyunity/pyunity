@@ -1,7 +1,7 @@
-pyunity.errors module
+pyunity.script module
 =====================
 
-.. automodule:: pyunity.errors
+.. automodule:: pyunity.script
    :members:
    :inherited-members:
    :show-inheritance:
