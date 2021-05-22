@@ -1,4 +1,10 @@
+"""
+Module to manage loading scripts from files.
+
+"""
+
 from .core import Component
+from . import Logger
 from types import ModuleType
 import glob
 import os
@@ -58,7 +64,15 @@ def LoadScripts(path):
     files = glob.glob(os.path.join(path, "*.py"))
     a = {}
 
-    module = ModuleType("PyUnityScripts", None)
+    if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+        module = sys.modules["PyUnityScripts"]
+    else:
+        if "PyUnityScripts" in sys.modules:
+            Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
+        module = ModuleType("PyUnityScripts", None)
+        module.__pyunity__ = True
+        module.__all__ = []
+        sys.modules["PyUnityScripts"] = module
 
     for file in files:
         with open(file) as f:
@@ -68,6 +82,6 @@ def LoadScripts(path):
         if CheckScript(text):
             exec("\n".join(text), a)
             setattr(module, name, a[name])
+            module.__all__.append(name)
 
-    sys.modules["PyUnityScripts"] = module
     return module
