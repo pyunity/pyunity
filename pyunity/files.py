@@ -2,8 +2,7 @@
 Module to represent files.
 
 """
-
-from OpenGL import GL as gl
+from OpenGL import GL
 from PIL import Image
 
 class Script:
@@ -11,21 +10,33 @@ class Script:
         self.path = path
 
 class Texture2D:
+    """
+    Class to represent a texture.
+    
+    """
+
+
+    @staticmethod
+    def loadTexture(path):
+        img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM)
+        img_data = str(img.tobytes())
+        width, height = img.size
+
+        texture = GL.glGenTextures(1)
+        GL.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
+        GL.glBindTexture(GL.GL_TEXTURE_2D, texture)
+        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
+        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR)
+        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE)
+        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE)
+        GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
+            GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, img_data)
+        GL.glGenerateMipmap(GL.GL_TEXTURE_2D)
+        return texture
+
     def __init__(self, path):
         self.path = path
-        self.img = Image.open(self.path)
-        self.texData = self.img.tostring('raw', 'RGBX', 0, -1)
-        texName = [0]
-        gl.glGenTextures(1, texName)
-        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texName[0])
-        gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
-        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, 256, 256, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.texData)
-        gl.glEnable(gl.GL_TEXTURE_2D)
-        self.texture = texName[0]
+        self.texture = Texture2D.loadTexture(self.path)
 
 class Prefab:
     def __init__(self, path):
