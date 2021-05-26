@@ -8,7 +8,7 @@ This will be imported as ``pyunity.Logger``.
 import os
 import platform
 import traceback
-from time import strftime
+from time import strftime, time
 
 if platform.platform().startswith("Windows"):
     folder = os.path.join(os.getenv("appdata"), "PyUnity", "Logs")
@@ -18,6 +18,7 @@ if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 
 timestamp = strftime("%Y-%m-%d %H-%M-%S")
+start = time()
 
 with open(os.path.join(folder, "latest.log"), "w+") as f:
     f.write("Timestamp |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
@@ -43,6 +44,19 @@ INFO = Level("I", None)
 DEBUG = Level("D", "")
 ERROR = Level("E", "")
 WARN = Level("W", "Warning: ")
+
+class Special:
+    """
+    Class to represent a special line to log.
+    You should never instantiate this class,
+    instead use one of `Logger.RUNNING_TIME`.
+
+    """
+
+    def __init__(self, func):
+        self.func = func
+
+RUNNING_TIME = Special(lambda: f"Time taken: {time() - start}")
 
 def Log(*message):
     """
@@ -72,11 +86,36 @@ def LogLine(level, *message):
         f.write(strftime("%Y-%m-%d %H:%M:%S") + f" |{level.abbr}| {msg}\n")
 
 def LogException(e):
+    """
+    Log an exception.
+
+    Parameters
+    ----------
+    e : Exception
+        Exception to log
+
+    """
     exception = traceback.format_exception(type(e), e, e.__traceback__)
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
                 LogLine(ERROR, line2)
+
+def LogSpecial(level, type):
+    """
+    Log a line of level `level` with a
+    special line that is generated at
+    runtime.
+
+    Parameters
+    ----------
+    level : Level
+        Level of log
+    type : Special
+        The special line to log
+
+    """
+    LogLine(level, type.func())
 
 def Save():
     """
