@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from PIL import Image
+from ctypes import c_float
 import pygame
 pygame.init()
 
@@ -22,6 +23,29 @@ screen = pygame.display.set_mode((800, 500), pygame.DOUBLEBUF | pygame.OPENGL)
 
 img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
 
+vertices = [
+    -1, 1, 0,
+    1, 1, 0,
+    1, -1, 0,
+    -1, -1, 0,
+]
+
+vbo = glGenBuffers(1)
+vao = glGenVertexArrays(1)
+glBindVertexArray(vao)
+glBindBuffer(GL_ARRAY_BUFFER, vbo)
+glBufferData(GL_ARRAY_BUFFER, len(vertices) * 4, (c_float * len(vertices))(*vertices), GL_STATIC_DRAW)
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(c_float), None)
+glEnableVertexAttribArray(0)
+
+vbo = glGenBuffers(1)
+vao = glGenVertexArrays(1)
+glBindVertexArray(vao)
+glBindBuffer(GL_ARRAY_BUFFER, vbo)
+glBufferData(GL_ARRAY_BUFFER, len(vertices) * 4, (c_float * len(vertices))(*vertices), GL_STATIC_DRAW)
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(c_float), None)
+glEnableVertexAttribArray(0)
+
 gluPerspective(96, 800 / 500, 0.03, 50)
 glTranslatef(0, 0, -3)
 
@@ -34,17 +58,17 @@ while not done:
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-    glRotatef(2, 1, 0, 0)
-    glBegin(GL_QUADS)
-    glTexCoord2f(0, 0)
-    glVertex3f(-1, 1, 0)
-    glTexCoord2f(1, 0)
-    glVertex3f(1, 1, 0)
-    glTexCoord2f(1, 1)
-    glVertex3f(1, -1, 0)
-    glTexCoord2f(0, 1)
-    glVertex3f(-1, -1, 0)
-    glEnd()
+    # glBegin(GL_QUADS)
+    # glTexCoord2f(0, 0)
+    # glVertex3f(-1, 1, 0)
+    # glTexCoord2f(1, 0)
+    # glVertex3f(1, 1, 0)
+    # glTexCoord2f(1, 1)
+    # glVertex3f(1, -1, 0)
+    # glTexCoord2f(0, 1)
+    # glVertex3f(-1, -1, 0)
+    # glEnd()
+    glDrawArrays(GL_QUADS, 0, 4)
 
     pygame.display.flip()
     clock.tick(60)
