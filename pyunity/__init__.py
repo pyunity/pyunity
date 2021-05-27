@@ -192,3 +192,4 @@ __all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
 
 Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
+Logger.LogSpecial(Logger.INFO, Logger.RUNNING_TIME)
