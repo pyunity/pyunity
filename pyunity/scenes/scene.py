@@ -342,7 +342,7 @@ class Scene:
         """Renders all GameObjects with MeshRenderers."""
         for gameObject in self.gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
-            if renderer and self.inside_frustrum(renderer):
+            if renderer and "self.inside_frustrum(renderer)":
                 gl.glPushMatrix()
                 self.transform(gameObject.transform)
                 renderer.render()
