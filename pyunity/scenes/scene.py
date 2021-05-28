@@ -136,7 +136,7 @@ class Scene:
             When there is no tag named `name`
 
         """
-        if name in tags:
+        if name in Tag.tags:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tagName == name]
         else:
             raise GameObjectException(
@@ -162,7 +162,7 @@ class Scene:
             If there is no tag with specified index.
 
         """
-        if len(tags) > num:
+        if len(Tag.tags) > num:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException(
