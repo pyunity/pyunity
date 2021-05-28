@@ -59,8 +59,6 @@ from . import Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
 
-tags = ["Default"]
-"""List of current tags"""
 
 class Tag:
     """
@@ -87,10 +85,13 @@ class Tag:
     tag : int
         Tag index of the list of tags
 
-    """
+        """
+    
+    tags = ["Default"]
+    """List of current tags"""
 
-    @staticmethod
-    def AddTag(name):
+    @classmethod
+    def AddTag(cls, name):
         """
         Add a new tag to the tag list.
 
@@ -105,16 +106,16 @@ class Tag:
             The tag index
 
         """
-        tags.append(name)
-        return len(tags) - 1
+        cls.tags.append(name)
+        return len(cls.tags) - 1
 
     def __init__(self, tagNumOrName):
         if type(tagNumOrName) is str:
             self.tagName = tagNumOrName
-            self.tag = tags.index(tagNumOrName)
+            self.tag = Tag.tags.index(tagNumOrName)
         elif type(tagNumOrName) is int:
             self.tag = tagNumOrName
-            self.tagName = tags[tagNumOrName]
+            self.tagName = Tag.tags[tagNumOrName]
         else:
             raise TypeError(
                 "Argument 1: expected str or int, got " + type(tagNumOrName).__name__)
