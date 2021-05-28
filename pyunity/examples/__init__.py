@@ -24,7 +24,7 @@ def show():
         num = int(sys.argv[1])
     if not num:
         for index, example in enumerate(example_list):
-            Logger.Log("Example", str(index + 1))
+            Logger.Log("\nExample", str(index + 1))
             example.main()
             SceneManager.RemoveScene(SceneManager.GetSceneByName("Scene"))
     else:
