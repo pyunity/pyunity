@@ -499,6 +499,12 @@ class MeshRenderer(Component):
 
     def render(self):
         """Render the mesh that the MeshRenderer has."""
+        # gl.glVertexPointer(3, gl.GL_FLOAT, gl.sizeof(self.mesh._vert_list), self.mesh._vert_list)
+        # gl.glNormalPointer(gl.GL_FLOAT, gl.sizeof(self.mesh._normal_list), self.mesh._normal_list)
+        # gl.glColor3f(
+        #     self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
+        # gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh._index_list), gl.GL_UNSIGNED_BYTE, self.mesh._index_list)
+
         gl.glBegin(gl.GL_TRIANGLES)
         gl.glColor3f(
             self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
