@@ -6,6 +6,7 @@ and their various components.
 
 from ..audio import *
 from ..core import *
+from ..render import Camera
 from ..script import Behaviour
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
@@ -19,13 +20,6 @@ import pygame
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
     import OpenGL.GLU as glu
-
-def resize(width, height):
-    gl.glViewport(0, 0, width, height)
-    gl.glMatrixMode(gl.GL_PROJECTION)
-    gl.glLoadIdentity()
-    glu.gluPerspective(60, width / height, 0.05, 50)
-    gl.glMatrixMode(gl.GL_MODELVIEW)
 
 class Scene:
     """
@@ -257,42 +251,34 @@ class Scene:
         Scene.
 
         """
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.lights = [
-                gl.GL_LIGHT0,
-                gl.GL_LIGHT1,
-                gl.GL_LIGHT2,
-                gl.GL_LIGHT3,
-                gl.GL_LIGHT4,
-                gl.GL_LIGHT5,
-                gl.GL_LIGHT6,
-                gl.GL_LIGHT7
-            ]
+        # if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            # self.lights = [
+            #     gl.GL_LIGHT0,
+            #     gl.GL_LIGHT1,
+            #     gl.GL_LIGHT2,
+            #     gl.GL_LIGHT3,
+            #     gl.GL_LIGHT4,
+            #     gl.GL_LIGHT5,
+            #     gl.GL_LIGHT6,
+            #     gl.GL_LIGHT7
+            # ]
 
         self.mainCamera.lastPos = Vector3.zero()
         self.mainCamera.lastRot = Quaternion.identity()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            gl.glMatrixMode(gl.GL_PROJECTION)
-            gl.glLoadIdentity()
-            glu.gluPerspective(
-                self.mainCamera.fov / config.size[0] * config.size[1],
-                config.size[0] / config.size[1],
-                self.mainCamera.near,
-                self.mainCamera.far)
-            gl.glMatrixMode(gl.GL_MODELVIEW)
+            self.mainCamera.Resize(*config.size)
 
-            light_num = 0
-            for gameObject in self.gameObjects:
-                light = gameObject.GetComponent(Light)
-                if light:
-                    color = (light.intensity / 100, light.intensity /
-                             100, light.intensity / 100, 1)
-                    gl.glLightfv(self.lights[light_num],
-                                 gl.GL_AMBIENT, (0, 0, 0, 1))
-                    gl.glLightfv(self.lights[light_num], gl.GL_DIFFUSE, color)
-                    # gl.glLightfv(self.lights[light_num], gl.GL_SPECULAR, (1, 1, 1, 1))
-                    light_num += 1
+            # light_num = 0
+            # for gameObject in self.gameObjects:
+            #     light = gameObject.GetComponent(Light)
+            #     if light:
+            #         color = (light.intensity / 100, light.intensity /
+            #                  100, light.intensity / 100, 1)
+            #         gl.glLightfv(self.lights[light_num],
+            #                      gl.GL_AMBIENT, (0, 0, 0, 1))
+            #         gl.glLightfv(self.lights[light_num], gl.GL_DIFFUSE, color)
+            #         light_num += 1
 
             gl.glClearColor(*self.mainCamera.clearColor)
 
@@ -368,19 +354,19 @@ class Scene:
 
             gl.glLoadIdentity()
 
-            gl.glEnable(gl.GL_LIGHTING)
-            gl.glEnable(gl.GL_COLOR_MATERIAL)
-            gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE)
+            # gl.glEnable(gl.GL_LIGHTING)
+            # gl.glEnable(gl.GL_COLOR_MATERIAL)
+            # gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE)
 
-            light_num = 0
-            for gameObject in self.gameObjects:
-                light = gameObject.GetComponent(Light)
-                if light:
-                    gl.glEnable(self.lights[light_num])
-                    pos = (*(gameObject.transform.position *
-                             Vector3(1, 1, -1)), int(light.type))
-                    gl.glLight(self.lights[light_num], gl.GL_POSITION, pos)
-                    light_num += 1
+            # light_num = 0
+            # for gameObject in self.gameObjects:
+            #     light = gameObject.GetComponent(Light)
+            #     if light:
+            #         gl.glEnable(self.lights[light_num])
+            #         pos = (*(gameObject.transform.position *
+            #                  Vector3(1, 1, -1)), int(light.type))
+            #         gl.glLight(self.lights[light_num], gl.GL_POSITION, pos)
+            #         light_num += 1
 
             if (self.mainCamera.lastPos != self.mainCamera.transform.position or
                     self.mainCamera.lastRot != self.mainCamera.transform.rotation):
@@ -396,12 +382,12 @@ class Scene:
 
             self.render()
 
-            light_num = 0
-            for gameObject in self.gameObjects:
-                light = gameObject.GetComponent(Light)
-                if light:
-                    gl.glDisable(self.lights[light_num])
-                    light_num += 1
+            # light_num = 0
+            # for gameObject in self.gameObjects:
+            #     light = gameObject.GetComponent(Light)
+            #     if light:
+            #         gl.glDisable(self.lights[light_num])
+            #         light_num += 1
 
-            gl.glDisable(gl.GL_LIGHTING)
-            gl.glDisable(gl.GL_COLOR_MATERIAL)
+            # gl.glDisable(gl.GL_LIGHTING)
+            # gl.glDisable(gl.GL_COLOR_MATERIAL)

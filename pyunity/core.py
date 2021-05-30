@@ -46,8 +46,8 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Camera", "Component", "GameObject",
-           "Light", "Material", "MeshRenderer", "Tag", "Transform"]
+__all__ = ["Component", "GameObject", "Light",
+           "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
 import math
@@ -170,7 +170,7 @@ class GameObject:
                 " to the GameObject; it is not a component"
             )
         if not (
-                componentClass in (Transform, Camera, Light, MeshRenderer) and
+                issubclass(componentClass, SingleComponent) and
                 any(isinstance(component, componentClass) for component in self.components)):
             component = componentClass()
             self.components.append(component)
@@ -250,7 +250,14 @@ class Component:
         """
         return self.gameObject.AddComponent(component)
 
-class Transform(Component):
+class SingleComponent(Component):
+    """
+    Represents a component that can be added only once.
+
+    """
+    pass
+
+class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
 
@@ -443,32 +450,7 @@ class Transform(Component):
 
     __str__ = __repr__
 
-class Camera(Component):
-    """
-    Component to hold data about the camera in a scene.
-
-    Attributes
-    ----------
-    fov : int
-        Fov in degrees measured horizontally. Defaults to 90.
-    near : float
-        Distance of the near plane in the camera frustrum. Defaults to 0.05.
-    far : float
-        Distance of the far plane in the camera frustrum. Defaults to 100.
-    clearColor : tuple
-        Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
-        Color mode is RGBA.
-
-    """
-
-    def __init__(self):
-        super(Camera, self).__init__()
-        self.fov = 90
-        self.near = 0.05
-        self.far = 100
-        self.clearColor = (0, 0, 0, 1)
-
-class Light(Component):
+class Light(SingleComponent):
     """
     Component to hold data about the light in a scene.
 
@@ -479,7 +461,7 @@ class Light(Component):
         self.intensity = 100
         self.type = 1
 
-class MeshRenderer(Component):
+class MeshRenderer(SingleComponent):
     """
     Component to render a mesh at the position of a transform.
 
