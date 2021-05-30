@@ -61,6 +61,7 @@ layout (location = 2) in vec2 aTexCoord;
 uniform mat4 projection;
 uniform mat4 view;
 
+out vec4 gl_Position;
 out vec3 ourColor;
 out vec2 TexCoord;
 
