@@ -32,6 +32,11 @@ class Shader:
         glAttachShader(self.program, self.vertexShader)
         glAttachShader(self.program, self.fragShader)
         glLinkProgram(self.program)
+        
+        success = glGetProgramiv(self.program, GL_LINK_STATUS)
+        if not success:
+            log = glGetProgramInfoLog(self.program, 512, None)
+            print(log)
 
         glDeleteShader(self.vertexShader)
         glDeleteShader(self.fragShader)
@@ -89,7 +94,7 @@ indices = [
     0, 2, 3,
 ]
 
-img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
+img = loadTexture("..\\..\\pyunity.png")
 
 vbo = glGenBuffers(1)
 vao = glGenVertexArrays(1)

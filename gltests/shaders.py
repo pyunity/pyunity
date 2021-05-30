@@ -69,23 +69,8 @@ class Camera:
     def Model(self):
         return [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
-def loadTexture(path):
-    img = Image.open(path)
-    img_data = img.tobytes()
-    print(len(img_data), img.size)
-    width, height = img.size
-    texture = glGenTextures(1)
-    glBindTexture(GL_TEXTURE_2D, texture)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
-        GL_RGB, GL_UNSIGNED_BYTE, img_data)
-    glEnable(GL_TEXTURE_2D)
-    return texture
-
 screen = pygame.display.set_mode((800, 500), pygame.DOUBLEBUF | pygame.OPENGL)
 
-# img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
 shader = Shader(
 """#version 330 core
 layout (location = 0) in vec3 inPos;

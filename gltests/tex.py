@@ -20,7 +20,7 @@ def loadTexture(path):
 
 screen = pygame.display.set_mode((800, 500), pygame.DOUBLEBUF | pygame.OPENGL)
 
-img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
+img = loadTexture("..\\..\\pyunity.png")
 
 gluPerspective(96, 800 / 500, 0.03, 50)
 glTranslatef(0, 0, -3)
