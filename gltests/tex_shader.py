@@ -1,9 +1,11 @@
 from OpenGL.GL import *
 from PIL import Image
-from ctypes import c_float, c_ubyte
-import ctypes
+from ctypes import c_float, c_ubyte, c_void_p
 import glm
 import pygame
+
+def convert(type, list):
+    return (type * len(list))(*list)
 
 def loadTexture(path):
     img = Image.open(path)
@@ -101,18 +103,18 @@ vbo = glGenBuffers(1)
 vao = glGenVertexArrays(1)
 glBindVertexArray(vao)
 glBindBuffer(GL_ARRAY_BUFFER, vbo)
-glBufferData(GL_ARRAY_BUFFER, len(vertices) * 4, (c_float * len(vertices))(*vertices), GL_STATIC_DRAW)
+glBufferData(GL_ARRAY_BUFFER, len(vertices) * sizeof(c_float), convert(c_float, vertices), GL_STATIC_DRAW)
 
 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), None)
 glEnableVertexAttribArray(0)
-glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), ctypes.cast(12, ctypes.c_void_p))
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), c_void_p(3 * sizeof(c_float)))
 glEnableVertexAttribArray(1)
-glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), ctypes.cast(24, ctypes.c_void_p))
+glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), c_void_p(6 * sizeof(c_float)))
 glEnableVertexAttribArray(2)
 
 ibo = glGenBuffers(1)
 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
-glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), (c_ubyte * len(indices))(*indices), GL_STATIC_DRAW)
+glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), convert(c_ubyte, indices), GL_STATIC_DRAW)
 
 view = glm.lookAt([0, 0, 7.5], [0, 0, 0], [0, 1, 0])
 projection = glm.perspective(glm.radians(60), 800 / 500, 0.03, 50)
