@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 from PIL import Image
 from ctypes import c_float, c_ubyte
+import ctypes
 import glm
 import pygame
 
@@ -77,7 +78,7 @@ uniform sampler2D ourTexture;
 
 void main()
 {
-    FragColor = texture(ourTexture, TexCoord);
+    FragColor = texture(ourTexture, TexCoord) * ourColor;
 }"""
 )
 
@@ -104,9 +105,9 @@ glBufferData(GL_ARRAY_BUFFER, len(vertices) * 4, (c_float * len(vertices))(*vert
 
 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), None)
 glEnableVertexAttribArray(0)
-glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), 3 * sizeof(c_float))
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), ctypes.cast(12, ctypes.c_void_p))
 glEnableVertexAttribArray(1)
-glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), 6 * sizeof(c_float))
+glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(c_float), ctypes.cast(24, ctypes.c_void_p))
 glEnableVertexAttribArray(2)
 
 ibo = glGenBuffers(1)
