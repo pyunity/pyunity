@@ -60,7 +60,7 @@ void main()
 {
     gl_Position = projection * view * vec4(aPos, 1.0);
     ourColor = aColor;
-    TexCoord = aTexCoord;
+    TexCoord = vec2(aTexCoord.x, aTexCoord.y);
 }""",
 """#version 330 core
 out vec4 FragColor;
@@ -72,15 +72,16 @@ uniform sampler2D ourTexture;
 
 void main()
 {
-    FragColor = vec4(ourColor, 1.0);
+    FragColor = texture(ourTexture, TexCoord);
 }"""
 )
 
 vertices = [
-    -1, 1, 0, 1, 0, 0, 0, 0,
-    1, 1, 0, 0, 1, 0, 1, 0,
-    1, -1, 0, 0, 0, 1, 1, 1,
-    -1, -1, 0, 1, 1, 0, 0, 1
+    # vertex       # color     # texcoord
+    -1,  1,  0,    1, 0, 0,    0, 0,
+     1,  1,  0,    0, 1, 0,    1, 0,
+     1, -1,  0,    0, 0, 1,    1, 1,
+    -1, -1,  0,    1, 1, 0,    0, 1
 ]
 
 indices = [
