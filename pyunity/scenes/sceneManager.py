@@ -8,7 +8,7 @@ from ..audio import *
 from ..core import *
 from .. import config, window
 from ..errors import *
-from .scene import Scene, resize
+from .scene import Scene
 from .. import logger as Logger
 import os
 import copy
@@ -200,7 +200,7 @@ def __loadScene(scene):
     __running_scene = scene
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = window.window_providers[config.windowProvider](
-            config, scene.name, resize)
+            config, scene.name, scene.mainCamera.Resize)
         scene.Start()
         try:
             windowObject.start(scene.update)
