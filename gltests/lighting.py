@@ -49,15 +49,29 @@ void main()
 )
 
 vertices = [
-    -1, 1, 0,
-    1, 1, 0,
-    1, -1, 0,
-    -1, -1, 0,
+    -1, -1, -1,
+    -1, -1, 1,
+    -1, 1, -1,
+    -1, 1, 1,
+    1, -1, -1,
+    1, -1, 1,
+    1, 1, -1,
+    1, 1, 1,
 ]
 
 indices = [
     0, 1, 2,
-    0, 2, 3,
+    1, 3, 2,
+    4, 6, 5,
+    5, 6, 7,
+    0, 2, 4,
+    2, 6, 4,
+    1, 5, 3,
+    3, 5, 7,
+    2, 3, 6,
+    3, 7, 6,
+    0, 4, 1,
+    1, 4, 5,
 ]
 
 vbo = glGenBuffers(1)
@@ -88,7 +102,7 @@ while not done:
     shader.use()
     glUniformMatrix4fv(shader.view, 1, GL_FALSE, viewPtr)
     glUniformMatrix4fv(shader.proj, 1, GL_FALSE, projPtr)
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, None)
+    glDrawElements(GL_TRIANGLES, len(indices), GL_UNSIGNED_BYTE, None)
 
     pygame.display.flip()
     clock.tick(60)
