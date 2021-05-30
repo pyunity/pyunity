@@ -27,6 +27,7 @@ class Shader:
 
         self.prjMat = glGetUniformLocation(self.program, b"u_projectionMat44")
         self.viewMat = glGetUniformLocation(self.program, b"u_viewMat44")
+        self.modelMat = glGetUniformLocation(self.program, b"u_modelMat44")
     
     def use(self):
         glUseProgram(self.program)
@@ -65,6 +66,9 @@ class Camera:
         ty = Dot(my, self.pos)
         tz = Dot((-mz[0], -mz[1], -mz[2]), self.pos)
         return [[mx[0], my[0], mz[0], 0], [mx[1], my[1], mz[1], 0], [mx[2], my[2], mz[2], 0], [tx, ty, tz, 1]]
+    
+    def Model(self):
+        return [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
 def loadTexture(path):
     img = Image.open(path)
@@ -82,7 +86,7 @@ def loadTexture(path):
 
 screen = pygame.display.set_mode((800, 500), pygame.DOUBLEBUF | pygame.OPENGL)
 
-img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
+# img = loadTexture("C:\\Users\\daoxi\\Downloads\\pyunity.png")
 shader = Shader(
 """#version 330 core
 layout (location = 0) in vec3 inPos;
@@ -155,6 +159,7 @@ while not done:
     shader.use()
     glUniformMatrix4fv(shader.prjMat, 1, GL_FALSE, camera.Perspective())
     glUniformMatrix4fv(shader.viewMat, 1, GL_FALSE, camera.LookAt())
+    glUniformMatrix4fv(shader.modelMat, 1, GL_FALSE, camera.Model())
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, None)
 
     pygame.display.flip()
