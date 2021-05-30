@@ -1,7 +1,25 @@
 from OpenGL.GL import *
-from ctypes import c_float, c_ubyte
+from PIL import Image
+from ctypes import c_float, c_ubyte, c_void_p
 import glm
 import pygame
+
+def convert(type, list):
+    return (type * len(list))(*list)
+
+def loadTexture(path):
+    img = Image.open(path)
+    img_data = img.tobytes()
+    print(len(img_data), img.size)
+    width, height = img.size
+    texture = glGenTextures(1)
+    glBindTexture(GL_TEXTURE_2D, texture)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img_data)
+    glEnable(GL_TEXTURE_2D)
+    return texture
 
 class Shader:
     def __init__(self, vertex, frag):
@@ -17,6 +35,11 @@ class Shader:
         glAttachShader(self.program, self.vertexShader)
         glAttachShader(self.program, self.fragShader)
         glLinkProgram(self.program)
+        
+        success = glGetProgramiv(self.program, GL_LINK_STATUS)
+        if not success:
+            log = glGetProgramInfoLog(self.program)
+            print(log)
 
         glDeleteShader(self.vertexShader)
         glDeleteShader(self.fragShader)
@@ -31,64 +54,110 @@ screen = pygame.display.set_mode((800, 500), pygame.DOUBLEBUF | pygame.OPENGL)
 
 shader = Shader(
 """#version 330 core
-layout (location = 0) in vec3 inPos;
-out vec4 gl_Position;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+
 uniform mat4 projection;
 uniform mat4 view;
-void main()
-{
-    gl_Position = projection * view * vec4(inPos, 1.0);
-}""",
-"""#version 330 core
-out vec4 FragColor;
+
+out vec4 gl_Position;
+out vec3 normal;
+out vec3 FragPos;
 
 void main()
 {
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+    gl_Position = projection * view * vec4(aPos, 1.0);
+    normal = aNormal;
+    FragPos = vec3(aPos);
+}""",
+"""#version 330 core
+out vec4 FragColor;
+in vec3 normal;
+in vec3 FragPos;
+
+void main()
+{
+    vec3 objectColor = vec3(1.0, 0.5, 0.2);
+    vec3 lightColor = vec3(1.0, 1.0, 1.0);
+    vec3 lightPos = vec3(5.0, 5.0, 5.0);
+
+    float ambientStrength = 0.1;
+    vec3 ambient = ambientStrength * lightColor;
+
+    vec3 norm = normalize(normal);
+    vec3 lightDir = normalize(lightPos - FragPos);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+
+    vec3 result = (ambient + diffuse) * objectColor;
+    FragColor = vec4(result, 1.0);
 }"""
 )
 
 vertices = [
-    -1, -1, -1,
-    -1, -1, 1,
-    -1, 1, -1,
-    -1, 1, 1,
-    1, -1, -1,
-    1, -1, 1,
-    1, 1, -1,
-    1, 1, 1,
+    # vertex       # normal
+    # -1,  1,  1,    0,  0,  1,
+    #  1,  1,  1,    0,  0,  1,
+    #  1, -1,  1,    0,  0,  1,
+    # -1, -1,  1,    0,  0,  1,
+
+    # -1,  1, -1,    0,  0, -1,
+    #  1,  1, -1,    0,  0, -1,
+    #  1, -1, -1,    0,  0, -1,
+    # -1, -1, -1,    0,  0, -1,
+
+    -1,  1, -1,    0,  1,  0,
+     1,  1, -1,    0,  1,  0,
+     1,  1,  1,    0,  1,  0,
+    -1,  1,  1,    0,  1,  0,
+
+    -1, -1, -1,    0, -1,  0,
+     1, -1, -1,    0, -1,  0,
+     1, -1,  1,    0, -1,  0,
+    -1, -1,  1,    0, -1,  0,
+
+    -1,  1, -1,   -1,  0,  0,
+    -1,  1,  1,   -1,  0,  0,
+    -1, -1,  1,   -1,  0,  0,
+    -1, -1, -1,   -1,  0,  0,
+
+     1,  1, -1,    1,  0,  0,
+     1,  1,  1,    1,  0,  0,
+     1, -1,  1,    1,  0,  0,
+     1, -1, -1,    1,  0,  0,
 ]
 
 indices = [
     0, 1, 2,
-    1, 3, 2,
+    0, 2, 3,
     4, 6, 5,
-    5, 6, 7,
-    0, 2, 4,
-    2, 6, 4,
-    1, 5, 3,
-    3, 5, 7,
-    2, 3, 6,
-    3, 7, 6,
-    0, 4, 1,
-    1, 4, 5,
+    4, 7, 6,
 ]
+
+img = loadTexture("..\\..\\pyunity.png")
 
 vbo = glGenBuffers(1)
 vao = glGenVertexArrays(1)
 glBindVertexArray(vao)
 glBindBuffer(GL_ARRAY_BUFFER, vbo)
-glBufferData(GL_ARRAY_BUFFER, len(vertices) * 4, (c_float * len(vertices))(*vertices), GL_STATIC_DRAW)
-glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(c_float), None)
+glBufferData(GL_ARRAY_BUFFER, len(vertices) * sizeof(c_float), convert(c_float, vertices), GL_STATIC_DRAW)
+
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(c_float), None)
 glEnableVertexAttribArray(0)
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(c_float), c_void_p(3 * sizeof(c_float)))
+glEnableVertexAttribArray(1)
 
 ibo = glGenBuffers(1)
 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
-glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), (c_ubyte * len(indices))(*indices), GL_STATIC_DRAW)
+glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), convert(c_ubyte, indices), GL_STATIC_DRAW)
+
+a = 0
 
 view = glm.lookAt([0, 0, 7.5], [0, 0, 0], [0, 1, 0])
 projection = glm.perspective(glm.radians(60), 800 / 500, 0.03, 50)
 viewPtr, projPtr = glm.value_ptr(view), glm.value_ptr(projection)
+
+glEnable(GL_DEPTH_TEST)
 
 done = False
 clock = pygame.time.Clock()
@@ -98,7 +167,7 @@ while not done:
             done = True
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    
+
     shader.use()
     glUniformMatrix4fv(shader.view, 1, GL_FALSE, viewPtr)
     glUniformMatrix4fv(shader.proj, 1, GL_FALSE, projPtr)
