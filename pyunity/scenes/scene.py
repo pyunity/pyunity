@@ -9,7 +9,7 @@ from ..core import *
 from ..script import Behaviour
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
-from .. import config, physics, logger as Logger
+from .. import config, physics, logger as Logger, render
 from ..errors import *
 from time import time
 import os
@@ -234,6 +234,10 @@ class Scene:
                             component.clip.file)
                     if component.PlayOnStart:
                         component.Play()
+                elif isinstance(component, MeshRenderer):
+                    mesh = component.mesh
+                    mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
+                    mesh.vao = render.gen_array()
 
         self.physics = any(
             isinstance(

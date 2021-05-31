@@ -35,8 +35,9 @@ class Mesh:
     Notes
     -----
     When a mesh is created, you cannot edit any of
-    the attributes to update the mesh. Instead you
-    will have to instantiate a new mesh:
+    the attributes to update the mesh while a scene
+    is running. Instead you will have to instantiate
+    a new mesh:
 
         >>> mesh = Mesh.cube(2)
         >>> mesh2 = Mesh(mesh.verts, mesh.triangles, mesh.normals)
@@ -47,10 +48,6 @@ class Mesh:
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
-
-        data = itertools.chain(*[item for item in zip(self.verts, self.normals)])
-        self.vbo, self.ibo = render.gen_buffers(data, self.triangles)
-        self.vao = render.gen_array()
 
         # self.min, self.max = Vector3.zero(), Vector3.zero()
         # for vert in verts:
