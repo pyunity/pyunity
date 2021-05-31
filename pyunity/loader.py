@@ -91,14 +91,17 @@ def LoadMesh(filename):
         [faces[i], faces[i + 1], faces[i + 2]] for i in range(0, len(faces), 3)
     ]
 
-    normals = []
-    for face in faces:
-        a = vertices[face[2]] - vertices[face[1]]
-        b = vertices[face[0]] - vertices[face[1]]
-        normal = a.cross(b).normalized()
-        normals.append(normal)
+    normals = list(map(float, lines[2].split("/")))
+    normals = [
+        Vector3(normals[i], normals[i + 1], normals[i + 2]) for i in range(0, len(normals), 3)
+    ]
 
-    return Mesh(vertices, faces, normals)
+    texcoords = list(map(float, lines[3].split("/")))
+    texcoords = [
+        [texcoords[i], texcoords[i + 1]] for i in range(0, len(texcoords), 2)
+    ]
+
+    return Mesh(vertices, faces, normals, texcoords)
 
 def SaveMesh(mesh, name, filePath=None):
     """
@@ -147,6 +150,25 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write(str(item))
                 if i != len(mesh.triangles) or j != 3:
                     f.write("/")
+        f.write("\n")
+        
+        i = 0
+        for normal in mesh.normals:
+            i += 1
+            f.write(str(normal.x) + "/")
+            f.write(str(normal.y) + "/")
+            f.write(str(normal.z))
+            if i != len(mesh.normals):
+                f.write("/")
+        f.write("\n")
+        
+        i = 0
+        for texcoord in mesh.texcoords:
+            i += 1
+            f.write(str(texcoord[0]) + "/")
+            f.write(str(texcoord[1]))
+            if i != len(mesh.texcoords):
+                f.write("/")
         f.write("\n")
 
 # def randomHex(length):
@@ -240,11 +262,11 @@ def LoadScene(sceneName, filePath=None):
     SceneManager.scenesByName[sceneName] = scene
     return scene
 
-class Primitives:
-    __path = os.path.dirname(os.path.realpath(__file__))
-    cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
-    quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
-    double_quad = LoadMesh(os.path.join(__path, "primitives/double_quad.mesh"))
-    sphere = LoadMesh(os.path.join(__path, "primitives/sphere.mesh"))
-    capsule = LoadMesh(os.path.join(__path, "primitives/capsule.mesh"))
-    cylinder = LoadMesh(os.path.join(__path, "primitives/cylinder.mesh"))
+# class Primitives:
+#     __path = os.path.dirname(os.path.realpath(__file__))
+#     cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
+#     quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
+#     double_quad = LoadMesh(os.path.join(__path, "primitives/double_quad.mesh"))
+#     sphere = LoadMesh(os.path.join(__path, "primitives/sphere.mesh"))
+#     capsule = LoadMesh(os.path.join(__path, "primitives/capsule.mesh"))
+#     cylinder = LoadMesh(os.path.join(__path, "primitives/cylinder.mesh"))
