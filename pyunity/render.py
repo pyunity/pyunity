@@ -194,14 +194,14 @@ class Camera(SingleComponent):
         self.shader.setMat4(b"view", glm.lookAt([0, 3, 10], [0, 0, 0], [0, 1, 0]))
         self.shader.setMat4(b"projection", self.projMat)
 
-        self.shader.setVec3(b"lightPos", [5, 5, 5])
+        self.shader.setVec3(b"lightPos", [10, 10, 10])
         self.shader.setVec3(b"viewPos", list(self.transform.position))
         self.shader.setVec3(b"lightColor", [1, 1, 1])
 
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer and "self.inside_frustrum(renderer)":
-                self.shader.setVec3(b"objectColor", renderer.mat.color)
+                self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
                 self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
                 self.shader.setInt(b"textured", 0)
                 renderer.Render()
