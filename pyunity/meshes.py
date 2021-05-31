@@ -96,7 +96,7 @@ class Mesh:
             ],
             [[0, 1, 2], [0, 2, 3]],
             [Vector3.forward(), Vector3.forward(), Vector3.forward(), Vector3.forward()],
-            [[0, 1], [1, 1], [1, 0], [0, 0]]
+            [[0, 0], [0, 1], [1, 1], [1, 0]]
         )
 
     @staticmethod
@@ -129,7 +129,7 @@ class Mesh:
                 Vector3.forward(), Vector3.back(), Vector3.back(),
                 Vector3.back(), Vector3.back()
             ],
-            [[0, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]
+            [[0, 0], [0, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 0]]
         )
 
     @staticmethod
@@ -195,5 +195,5 @@ class Mesh:
                 [Vector3.up()] * 4 + \
                 [Vector3.right()] * 4 + \
                 [Vector3.left()] * 4,
-            [[0, 1], [1, 1], [1, 0], [0, 0]] * 6
+            [[0, 0], [0, 1], [1, 1], [1, 0]] * 6
         )
