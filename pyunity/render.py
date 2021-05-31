@@ -48,7 +48,6 @@ class Shader:
         self.compiled = False
     
     def compile(self):
-        self.tex = GenEmpty()
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
         gl.glCompileShader(self.vertexShader)
@@ -89,6 +88,10 @@ class Shader:
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
     
+    def setInt(self, var, val):
+        location = gl.glGetUniformLocation(self.program, var)
+        gl.glUniform1i(location, val)
+    
     def use(self):
         if not self.compiled:
             self.compile()
@@ -102,17 +105,6 @@ shaders = {
 def compile_shaders():
     for shader in shaders.values():
         shader.compile()
-
-def GenEmpty():
-    tex = gl.glGenTextures(1)
-    data = [255, 255, 255]
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
-
-    gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, 1, 1, 0,
-        gl.GL_RGB, gl.GL_UNSIGNED_BYTE, data)
-    gl.glBindTexture(gl.GL_TEXTURE_2D, tex)
-    return tex
 
 class Camera(SingleComponent):
     """
@@ -178,9 +170,12 @@ class Camera(SingleComponent):
         gl.glMatrixMode(gl.GL_MODELVIEW)
     
     def getMatrix(self, transform):
-        scaled = glm.scale(glm.mat4(1), list(transform.scale))
         rotation = transform.rotation.angleAxisPair
-        rotated = scaled * glm.mat4_cast(glm.angleAxis(rotation[0], rotation[1:]))
+        angle = glm.radians(rotation[0])
+        axis = Vector3(rotation[1:]).normalized()
+
+        scaled = glm.scale(glm.mat4(1), list(transform.scale))
+        rotated = scaled * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         position = glm.translate(rotated, list(transform.position))
         return position
     
@@ -196,16 +191,17 @@ class Camera(SingleComponent):
     
     def Render(self, gameObjects):
         self.shader.use()
-        self.shader.setMat4(b"view", self.viewMat)
+        self.shader.setMat4(b"view", glm.lookAt([0, 3, 10], [0, 0, 0], [0, 1, 0]))
         self.shader.setMat4(b"projection", self.projMat)
 
         self.shader.setVec3(b"lightPos", [5, 5, 5])
-        self.shader.setVec3(b"viewPos", [0, 3, 10])
-        self.shader.setVec3(b"objectColor", [1, 1, 1])
+        self.shader.setVec3(b"viewPos", list(self.transform.position))
         self.shader.setVec3(b"lightColor", [1, 1, 1])
 
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer and "self.inside_frustrum(renderer)":
+                self.shader.setVec3(b"objectColor", renderer.mat.color)
                 self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
+                self.shader.setInt(b"textured", 0)
                 renderer.Render()
