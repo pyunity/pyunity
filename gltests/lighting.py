@@ -36,10 +36,10 @@ class Transform:
         self.scale = scale
     
     def matrix(self):
-        position = glm.translate(glm.mat4(1), self.position)
-        rotated = position * glm.mat4_cast(glm.angleAxis(*self.rotation.angleaxis()))
-        scaled = glm.scale(rotated, self.scale)
-        return scaled
+        scaled = glm.scale(glm.mat4(1), self.scale)
+        rotated = scaled * glm.mat4_cast(glm.angleAxis(*self.rotation.angleaxis()))
+        position = glm.translate(rotated, self.position)
+        return position
 
 class Shader:
     def __init__(self, vertex, frag):
@@ -90,7 +90,7 @@ out vec3 FragPos;
 void main()
 {
     gl_Position = projection * view * model * vec4(aPos, 1.0);
-    normal = aNormal;
+    normal = vec3(model * vec4(aNormal, 1.0));
     FragPos = vec3(model * vec4(aPos, 1.0));
 }""",
 """#version 330 core
