@@ -46,7 +46,10 @@ class Mesh:
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
-        self.texcoords = texcoords
+        if texcoords is not None:
+            self.texcoords = texcoords
+        else:
+            self.texcoords = [[0, 0] for _ in range(len(self.verts))]
 
         if SceneManager.CurrentScene() is not None:
             self.vbo, self.ibo = render.gen_buffers(self)
@@ -92,7 +95,8 @@ class Mesh:
                         0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
-            [Vector3.forward(), Vector3.forward()]
+            [Vector3.forward(), Vector3.forward(), Vector3.forward(), Vector3.forward()],
+            [[0, 1], [1, 1], [1, 0], [0, 0]]
         )
 
     @staticmethod
@@ -115,11 +119,17 @@ class Mesh:
         return Mesh(
             [
                 Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2,
-                        0), Vector3(size / 2, -size / 2, 0)
+                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0),
+                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
+                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0),
             ],
-            [[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]],
-            [Vector3.forward(), Vector3.forward(), Vector3.back(), Vector3.back()]
+            [[0, 1, 2], [0, 2, 3], [4, 6, 5], [4, 7, 6]],
+            [
+                Vector3.forward(), Vector3.forward(), Vector3.forward(),
+                Vector3.forward(), Vector3.back(), Vector3.back(),
+                Vector3.back(), Vector3.back()
+            ],
+            [[0, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]
         )
 
     @staticmethod
