@@ -21,7 +21,7 @@ def convert(type, list):
     return (type * len(list))(*list)
 
 def gen_buffers(mesh):
-    data = list(itertools.chain(*[[*item[0], *item[1]] for item in zip(mesh.verts, mesh.normals)]))
+    data = list(itertools.chain(*[[*item[0], *item[1], *item[2]] for item in zip(mesh.verts, mesh.normals, mesh.texcoords)]))
     indices = list(itertools.chain(*mesh.triangles))
 
     vbo = gl.glGenBuffers(1)
@@ -35,10 +35,12 @@ def gen_buffers(mesh):
 def gen_array():
     vao = gl.glGenVertexArrays(1)
     gl.glBindVertexArray(vao)
-    gl.glVertexAttribPointer(0, 3, gl.GL_FLOAT, gl.GL_FALSE, 6 * float_size, None)
+    gl.glVertexAttribPointer(0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, None)
     gl.glEnableVertexAttribArray(0)
-    gl.glVertexAttribPointer(1, 3, gl.GL_FLOAT, gl.GL_FALSE, 6 * float_size, c_void_p(3 * float_size))
+    gl.glVertexAttribPointer(1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(3 * float_size))
     gl.glEnableVertexAttribArray(1)
+    gl.glVertexAttribPointer(2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(6 * float_size))
+    gl.glEnableVertexAttribArray(2)
     return vao
 
 class Shader:
