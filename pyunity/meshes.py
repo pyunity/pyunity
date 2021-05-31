@@ -4,7 +4,7 @@ __all__ = ["Mesh"]
 
 from .vector3 import Vector3
 from . import render
-from . import SceneManager
+from .scenes import SceneManager
 
 class Mesh:
     """

@@ -78,7 +78,7 @@ def LogLine(level, *message):
 
     """
     msg = (level.name if level.name is not None else "") + \
-        " ".join(map(lambda a: str(a).lstrip().rstrip(), message))
+        " ".join(map(lambda a: str(a).rstrip(), message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
             print(level.name + msg)
