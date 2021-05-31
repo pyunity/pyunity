@@ -203,5 +203,9 @@ class Camera(SingleComponent):
             if renderer and "self.inside_frustrum(renderer)":
                 self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
                 self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
-                self.shader.setInt(b"textured", 0)
+                if renderer.mat.texture is not None:
+                    self.shader.setInt(b"textured", 1)
+                    renderer.mat.texture.use()
+                else:
+                    self.shader.setInt(b"textured", 0)
                 renderer.Render()
