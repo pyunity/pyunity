@@ -90,8 +90,7 @@ out vec4 gl_Position;
 out vec3 normal;
 out vec3 FragPos;
 
-void main()
-{
+void main() {
     gl_Position = projection * view * model * vec4(aPos, 1.0);
     normal = vec3(model * vec4(aNormal, 1.0));
     FragPos = vec3(model * vec4(aPos, 1.0));
@@ -103,12 +102,10 @@ in vec3 FragPos;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform vec3 objectColor;
+uniform vec3 lightColor;
 
-void main()
-{
-    vec3 objectColor = vec3(1.0, 0.5, 0.2);
-    vec3 lightColor = vec3(1.0, 1.0, 1.0);
-
+void main() {
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
 
@@ -219,8 +216,8 @@ while not done:
 
     shader.setVec3(b"lightPos", [5, 5, 5])
     shader.setVec3(b"viewPos", [0, 3, 10])
-    # shader.setVec3(b"objectColor", [1, 0.5, 0.2])
-    # shader.setVec3(b"lightColor", [1, 1, 1])
+    shader.setVec3(b"objectColor", [1, 0.5, 0.2])
+    shader.setVec3(b"lightColor", [1, 1, 1])
     
     glDrawElements(GL_TRIANGLES, len(indices), GL_UNSIGNED_BYTE, None)
 
