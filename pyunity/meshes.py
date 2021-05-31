@@ -137,41 +137,33 @@ class Mesh:
             A cube centered at Vector3(0, 0, 0) that has a side length of `size`
 
         """
-        # vertices = [
-        #     -1,  1,  1,    0,  0,  1,    1, 0,
-        #      1,  1,  1,    0,  0,  1,    0, 0,
-        #      1, -1,  1,    0,  0,  1,    0, 1,
-        #     -1, -1,  1,    0,  0,  1,    1, 1,
-
-        #     -1,  1, -1,    0,  0, -1,    1, 0,
-        #      1,  1, -1,    0,  0, -1,    0, 0,
-        #      1, -1, -1,    0,  0, -1,    0, 1,
-        #     -1, -1, -1,    0,  0, -1,    1, 1,
-
-        #     -1,  1, -1,    0,  1,  0,    1, 0,
-        #      1,  1, -1,    0,  1,  0,    0, 0,
-        #      1,  1,  1,    0,  1,  0,    0, 1,
-        #     -1,  1,  1,    0,  1,  0,    1, 1,
-
-        #     -1, -1, -1,    0, -1,  0,    1, 0,
-        #      1, -1, -1,    0, -1,  0,    0, 0,
-        #      1, -1,  1,    0, -1,  0,    0, 1,
-        #     -1, -1,  1,    0, -1,  0,    1, 1,
-
-        #     -1,  1, -1,   -1,  0,  0,    1, 0,
-        #     -1,  1,  1,   -1,  0,  0,    0, 0,
-        #     -1, -1,  1,   -1,  0,  0,    0, 1,
-        #     -1, -1, -1,   -1,  0,  0,    1, 1,
-
-        #      1,  1, -1,    1,  0,  0,    1, 0,
-        #      1,  1,  1,    1,  0,  0,    0, 0,
-        #      1, -1,  1,    1,  0,  0,    0, 1,
-        #      1, -1, -1,    1,  0,  0,    1, 1,
-        # ]
         return Mesh(
-            [Vector3(x, y, z) for x in [-size / 2, size / 2]
-             for y in [-size / 2, size / 2]
-             for z in [-size / 2, size / 2]],
+            [
+                Vector3(-1, 1, -1),
+                Vector3(1, 1, -1),
+                Vector3(1, -1, -1),
+                Vector3(-1, -1, -1),
+                Vector3(-1, 1, 1),
+                Vector3(1, 1, 1),
+                Vector3(1, -1, 1),
+                Vector3(-1, -1, 1),
+                Vector3(-1, -1, -1),
+                Vector3(1, -1, -1),
+                Vector3(1, -1, 1),
+                Vector3(-1, -1, 1),
+                Vector3(-1, 1, -1),
+                Vector3(1, 1, -1),
+                Vector3(1, 1, 1),
+                Vector3(-1, 1, 1),
+                Vector3(1, 1, -1),
+                Vector3(1, 1, 1),
+                Vector3(1, -1, 1),
+                Vector3(1, -1, -1),
+                Vector3(-1, 1, -1),
+                Vector3(-1, 1, 1),
+                Vector3(-1, -1, 1),
+                Vector3(-1, -1, -1),
+            ],
             [
                 [0, 1, 2],
                 [0, 2, 3],
@@ -186,18 +178,10 @@ class Mesh:
                 [20, 22, 21],
                 [20, 23, 22]
             ],
-            [
-                Vector3.left(),
-                Vector3.left(),
-                Vector3.right(),
-                Vector3.right(),
-                Vector3.back(),
-                Vector3.back(),
-                Vector3.forward(),
-                Vector3.forward(),
-                Vector3.up(),
-                Vector3.up(),
-                Vector3.down(),
-                Vector3.down(),
-            ]
+            [Vector3.forward()] * 4 + \
+                [Vector3.back()] * 4 + \
+                [Vector3.up()] * 4 + \
+                [Vector3.down()] * 4 + \
+                [Vector3.right()] * 4 + \
+                [Vector3.left()] * 4
         )
