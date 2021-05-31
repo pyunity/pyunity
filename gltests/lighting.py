@@ -21,6 +21,26 @@ def loadTexture(path):
     glEnable(GL_TEXTURE_2D)
     return texture
 
+class Quat:
+    def __init__(self, angle, axis):
+        self.angle = angle
+        self.axis = axis
+    
+    def angleaxis(self):
+        return self.angle, self.axis
+
+class Transform:
+    def __init__(self, position, rotation, scale):
+        self.position = position
+        self.rotation = rotation
+        self.scale = scale
+    
+    def matrix(self):
+        position = glm.translate(glm.mat4(1), self.position)
+        rotated = position * glm.mat4_cast(glm.angleAxis(*self.rotation.angleaxis()))
+        scaled = glm.scale(rotated, self.scale)
+        return scaled
+
 class Shader:
     def __init__(self, vertex, frag):
         self.vertexShader = glCreateShader(GL_VERTEX_SHADER)
@@ -46,6 +66,8 @@ class Shader:
 
         self.proj = glGetUniformLocation(self.program, b"projection")
         self.view = glGetUniformLocation(self.program, b"view")
+        self.model = glGetUniformLocation(self.program, b"model")
+        self.light = glGetUniformLocation(self.program, b"lightPos")
     
     def use(self):
         glUseProgram(self.program)
@@ -59,6 +81,7 @@ layout (location = 1) in vec3 aNormal;
 
 uniform mat4 projection;
 uniform mat4 view;
+uniform mat4 model;
 
 out vec4 gl_Position;
 out vec3 normal;
@@ -66,20 +89,21 @@ out vec3 FragPos;
 
 void main()
 {
-    gl_Position = projection * view * vec4(aPos, 1.0);
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
     normal = aNormal;
-    FragPos = vec3(aPos);
+    FragPos = vec3(model * vec4(aPos, 1.0));
 }""",
 """#version 330 core
 out vec4 FragColor;
 in vec3 normal;
 in vec3 FragPos;
 
+uniform vec3 lightPos;
+
 void main()
 {
     vec3 objectColor = vec3(1.0, 0.5, 0.2);
     vec3 lightColor = vec3(1.0, 1.0, 1.0);
-    vec3 lightPos = vec3(5.0, 5.0, 5.0);
 
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
@@ -96,15 +120,15 @@ void main()
 
 vertices = [
     # vertex       # normal
-    # -1,  1,  1,    0,  0,  1,
-    #  1,  1,  1,    0,  0,  1,
-    #  1, -1,  1,    0,  0,  1,
-    # -1, -1,  1,    0,  0,  1,
+    -1,  1,  1,    0,  0,  1,
+     1,  1,  1,    0,  0,  1,
+     1, -1,  1,    0,  0,  1,
+    -1, -1,  1,    0,  0,  1,
 
-    # -1,  1, -1,    0,  0, -1,
-    #  1,  1, -1,    0,  0, -1,
-    #  1, -1, -1,    0,  0, -1,
-    # -1, -1, -1,    0,  0, -1,
+    -1,  1, -1,    0,  0, -1,
+     1,  1, -1,    0,  0, -1,
+     1, -1, -1,    0,  0, -1,
+    -1, -1, -1,    0,  0, -1,
 
     -1,  1, -1,    0,  1,  0,
      1,  1, -1,    0,  1,  0,
@@ -132,6 +156,14 @@ indices = [
     0, 2, 3,
     4, 6, 5,
     4, 7, 6,
+    8, 9, 10,
+    8, 10, 11,
+    12, 14, 13,
+    12, 15, 14,
+    16, 17, 18,
+    16, 18, 19,
+    20, 22, 21,
+    20, 23, 22
 ]
 
 img = loadTexture("..\\..\\pyunity.png")
@@ -151,15 +183,16 @@ ibo = glGenBuffers(1)
 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
 glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), convert(c_ubyte, indices), GL_STATIC_DRAW)
 
-a = 0
-
-view = glm.lookAt([0, 0, 7.5], [0, 0, 0], [0, 1, 0])
+view = glm.lookAt([0, 3, 10], [0, 0, 0], [0, 1, 0])
 projection = glm.perspective(glm.radians(60), 800 / 500, 0.03, 50)
 viewPtr, projPtr = glm.value_ptr(view), glm.value_ptr(projection)
+
+transform = Transform([0, 0, 0], Quat(0, [0.2672612419124244, -0.5345224838248488, 0.8017837257372732]), [1, 1, 1])
 
 glEnable(GL_DEPTH_TEST)
 
 done = False
+a = 0
 clock = pygame.time.Clock()
 while not done:
     for event in pygame.event.get():
@@ -168,9 +201,14 @@ while not done:
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+    transform.rotation.angle += 0.03
+    
     shader.use()
     glUniformMatrix4fv(shader.view, 1, GL_FALSE, viewPtr)
     glUniformMatrix4fv(shader.proj, 1, GL_FALSE, projPtr)
+    glUniformMatrix4fv(shader.model, 1, GL_FALSE, glm.value_ptr(transform.matrix()))
+    # glUniformMatrix4fv(shader.model, 1, GL_FALSE, glm.value_ptr(glm.mat4()))
+    glUniform3f(shader.light, 5, 5, 5)
     glDrawElements(GL_TRIANGLES, len(indices), GL_UNSIGNED_BYTE, None)
 
     pygame.display.flip()
