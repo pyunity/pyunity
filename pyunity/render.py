@@ -8,6 +8,7 @@ from ctypes import c_float, c_ubyte, c_void_p
 from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
 from .vector3 import Vector3
+from . import config
 import glm
 import itertools
 import os
@@ -42,6 +43,7 @@ class Shader:
     def __init__(self, vertex, frag):
         self.vertex = vertex
         self.frag = frag
+        self.compiled = False
     
     def compile(self):
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
@@ -64,6 +66,7 @@ class Shader:
 
         gl.glDeleteShader(self.vertexShader)
         gl.glDeleteShader(self.fragShader)
+        self.compiled = True
     
     @staticmethod
     def fromFolder(path):
@@ -84,6 +87,8 @@ class Shader:
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
     
     def use(self):
+        if not self.compiled:
+            self.compile()
         gl.glUseProgram(self.program)
 
 class Camera(SingleComponent):
@@ -106,10 +111,26 @@ class Camera(SingleComponent):
 
     def __init__(self):
         super(Camera, self).__init__()
-        self.fov = 90
         self.near = 0.05
         self.far = 100
+        self.fov = 90
         self.clearColor = (0, 0, 0, 1)
+        self.shader = shaders["Standard"]
+        
+        self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
+    
+    @property
+    def fov(self):
+        return self._fov
+    
+    @fov.setter
+    def fov(self, fov):
+        self._fov = fov
+        self.projMat = glm.perspective(
+            glm.radians(self._fov / config.size[0] * config.size[1]),
+            config.size[0] / config.size[1],
+            self.near,
+            self.far)
 
     def Resize(self, width, height):
         """
@@ -133,28 +154,45 @@ class Camera(SingleComponent):
             self.far)
         gl.glMatrixMode(gl.GL_MODELVIEW)
     
-    def move(self, transform):
-        """
-        Transform the matrix by a specified transform.
-        Parameters
-        ----------
-        transform : Transform
-            Transform to move
-        """
-        gl.glRotatef(*transform.rotation.angleAxisPair)
-        gl.glScalef(*transform.scale)
-        gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
+    def getMatrix(self, transform):
+        scaled = glm.scale(glm.mat4(1), list(transform.scale))
+        rotation = transform.rotation.angleAxisPair
+        rotated = scaled * glm.mat4_cast(glm.angleAxis(rotation[0], rotation[1:]))
+        position = glm.translate(rotated, list(transform.position))
+        return position
+    
+    def getViewMat(self):
+        if self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
+            pos = self.transform.position * Vector3(1, 1, -1)
+            look = pos + self.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
+            up = self.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
+            self.viewMat = glm.lookAt(pos, look, up)
+            self.lastPos = self.transform.position
+            self.lastRot = self.transform.rotation
+        return self.viewMat
     
     def Render(self, gameObjects):
+        self.shader.use()
+        self.shader.setMat4(b"view", self.viewMat)
+        self.shader.setMat4(b"projection", self.projMat)
+
+        self.shader.setVec3(b"lightPos", [5, 5, 5])
+        self.shader.setVec3(b"viewPos", [0, 3, 10])
+        self.shader.setVec3(b"objectColor", [1, 1, 1])
+        self.shader.setVec3(b"lightColor", [1, 1, 1])
+
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer and "self.inside_frustrum(renderer)":
-                gl.glPushMatrix()
-                self.move(gameObject.transform)
+                # self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
+                self.shader.setMat4(b"model", glm.mat4())
                 renderer.Render()
-                gl.glPopMatrix()
 
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders = {
     "Standard": Shader.fromFolder(os.path.join(__dir, "shaders", "standard"))
 }
+
+def compile_shaders():
+    for shader in shaders.values():
+        shader.compile()

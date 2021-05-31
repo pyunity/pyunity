@@ -10,6 +10,7 @@ from .. import config, window
 from ..errors import *
 from .scene import Scene
 from .. import logger as Logger
+from .. import render
 import os
 import copy
 
@@ -201,6 +202,7 @@ def __loadScene(scene):
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = window.window_providers[config.windowProvider](
             config, scene.name, scene.mainCamera.Resize)
+        render.compile_shaders()
         scene.Start()
         try:
             windowObject.start(scene.update)
