@@ -42,10 +42,11 @@ class Mesh:
 
     """
 
-    def __init__(self, verts, triangles, normals):
+    def __init__(self, verts, triangles, normals, texcoords=None):
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
+        self.texcoords = texcoords
 
         if SceneManager.CurrentScene() is not None:
             self.vbo, self.ibo = render.gen_buffers(self)
@@ -183,5 +184,6 @@ class Mesh:
                 [Vector3.down()] * 4 + \
                 [Vector3.up()] * 4 + \
                 [Vector3.right()] * 4 + \
-                [Vector3.left()] * 4
+                [Vector3.left()] * 4,
+            [[0, 1], [1, 1], [1, 0], [0, 0]] * 6
         )
