@@ -182,6 +182,6 @@ class Mesh:
                 [Vector3.forward()] * 4 + \
                 [Vector3.down()] * 4 + \
                 [Vector3.up()] * 4 + \
-                [Vector3.left()] * 4 + \
-                [Vector3.right()] * 4
+                [Vector3.right()] * 4 + \
+                [Vector3.left()] * 4
         )

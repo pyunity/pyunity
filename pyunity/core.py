@@ -57,7 +57,6 @@ from .errors import *
 from . import Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
-    from OpenGL import GLU as glu
 
 
 class Tag:
