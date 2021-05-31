@@ -479,7 +479,7 @@ class MeshRenderer(SingleComponent):
         self.mesh = None
         self.mat = None
 
-    def render(self):
+    def Render(self):
         """Render the mesh that the MeshRenderer has."""
         gl.glColor3f(
             self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
