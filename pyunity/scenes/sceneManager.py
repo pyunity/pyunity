@@ -221,6 +221,7 @@ def __loadScene(scene):
             windowObject.update_func = scene.update
         else:
             scene.no_interactive()
+    __running_scene = None
 
 def CurrentScene():
     """Gets the current scene being run"""

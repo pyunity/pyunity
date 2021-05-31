@@ -3,14 +3,17 @@ Classes to aid in rendering in a Scene.
 
 """
 from OpenGL import GL as gl
+from OpenGL import GLU as glu
 from ctypes import c_float, c_ubyte, c_void_p
+from .errors import PyUnityException
+from .core import SingleComponent
 import glm
 import itertools
+import os
 
 float_size = gl.sizeof(c_float)
 
 def convert(type, list):
-    print(type, list)
     return (type * len(list))(*list)
 
 def gen_buffers(mesh):
@@ -36,12 +39,16 @@ def gen_array():
 
 class Shader:
     def __init__(self, vertex, frag):
+        self.vertex = vertex
+        self.frag = frag
+    
+    def compile(self):
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
-        gl.glShaderSource(self.vertexShader, vertex, 1, None)
+        gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
         gl.glCompileShader(self.vertexShader)
         
         self.fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
-        gl.glShaderSource(self.fragShader, frag, 1, None)
+        gl.glShaderSource(self.fragShader, self.frag, 1, None)
         gl.glCompileShader(self.fragShader)
 
         self.program = gl.glCreateProgram()
@@ -52,10 +59,20 @@ class Shader:
         success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
         if not success:
             log = gl.glGetProgramInfoLog(self.program)
-            print(log)
+            raise PyUnityException(log.decode())
 
         gl.glDeleteShader(self.vertexShader)
         gl.glDeleteShader(self.fragShader)
+    
+    @staticmethod
+    def fromFolder(path):
+        with open(os.path.join(path, "vertex.glsl")) as f:
+            vertex = f.read()
+            
+        with open(os.path.join(path, "fragment.glsl")) as f:
+            fragment = f.read()
+        
+        return Shader(vertex, fragment)
 
     def setVec3(self, var, val):
         location = gl.glGetUniformLocation(self.program, var)
@@ -67,3 +84,55 @@ class Shader:
     
     def use(self):
         gl.glUseProgram(self.program)
+
+class Camera(SingleComponent):
+    """
+    Component to hold data about the camera in a scene.
+
+    Attributes
+    ----------
+    fov : int
+        Fov in degrees measured horizontally. Defaults to 90.
+    near : float
+        Distance of the near plane in the camera frustrum. Defaults to 0.05.
+    far : float
+        Distance of the far plane in the camera frustrum. Defaults to 100.
+    clearColor : tuple
+        Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
+        Color mode is RGBA.
+
+    """
+
+    def __init__(self):
+        super(Camera, self).__init__()
+        self.fov = 90
+        self.near = 0.05
+        self.far = 100
+        self.clearColor = (0, 0, 0, 1)
+
+    def Resize(self, width, height):
+        """
+        Resizes the viewport on screen size change.
+
+        Parameters
+        ----------
+        width : int
+            Width of new window
+        height : int
+            Height of new window
+
+        """
+        gl.glViewport(0, 0, width, height)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        glu.gluPerspective(
+            self.fov / width * height,
+            width / height,
+            self.near,
+            self.far)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+
+__dir = os.path.abspath(os.path.dirname(__file__))
+shaders = {
+    "Standard": Shader.fromFolder(os.path.join(__dir, "shaders", "standard"))
+}
