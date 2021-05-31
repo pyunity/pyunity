@@ -10,7 +10,6 @@ def convert(type, list):
 def loadTexture(path):
     img = Image.open(path)
     img_data = img.tobytes()
-    print(len(img_data), img.size)
     width, height = img.size
     texture = glGenTextures(1)
     glBindTexture(GL_TEXTURE_2D, texture)

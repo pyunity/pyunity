@@ -505,8 +505,9 @@ class Material:
 
     """
 
-    def __init__(self, color):
+    def __init__(self, color, texture=None):
         self.color = color
+        self.texture = texture
 
 class Color:
     def __init__(self, r, g, b):
