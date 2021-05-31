@@ -4,9 +4,7 @@ __all__ = ["Mesh"]
 
 from .vector3 import Vector3
 from . import render
-from OpenGL import GL as gl
-from ctypes import c_float, c_ubyte, c_void_p
-import itertools
+from . import SceneManager
 
 class Mesh:
     """
@@ -48,6 +46,10 @@ class Mesh:
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
+
+        if SceneManager.CurrentScene() is not None:
+            self.vbo, self.ibo = render.gen_buffers(self)
+            self.ibo = render.gen_array()
 
         # self.min, self.max = Vector3.zero(), Vector3.zero()
         # for vert in verts:
