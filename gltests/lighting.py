@@ -64,10 +64,13 @@ class Shader:
         glDeleteShader(self.vertexShader)
         glDeleteShader(self.fragShader)
 
-        self.proj = glGetUniformLocation(self.program, b"projection")
-        self.view = glGetUniformLocation(self.program, b"view")
-        self.model = glGetUniformLocation(self.program, b"model")
-        self.light = glGetUniformLocation(self.program, b"lightPos")
+    def setVec3(self, var, val):
+        location = glGetUniformLocation(self.program, var)
+        glUniform3f(location, *val)
+    
+    def setMat4(self, var, val):
+        location = glGetUniformLocation(self.program, var)
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm.value_ptr(val))
     
     def use(self):
         glUseProgram(self.program)
@@ -99,6 +102,7 @@ in vec3 normal;
 in vec3 FragPos;
 
 uniform vec3 lightPos;
+uniform vec3 viewPos;
 
 void main()
 {
@@ -112,6 +116,12 @@ void main()
     vec3 lightDir = normalize(lightPos - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * lightColor;
+
+    float specularStrength = 0.5;
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec3 specular = specularStrength * spec * lightColor;
 
     vec3 result = (ambient + diffuse) * objectColor;
     FragColor = vec4(result, 1.0);
@@ -185,7 +195,6 @@ glBufferData(GL_ELEMENT_ARRAY_BUFFER, len(indices), convert(c_ubyte, indices), G
 
 view = glm.lookAt([0, 3, 10], [0, 0, 0], [0, 1, 0])
 projection = glm.perspective(glm.radians(60), 800 / 500, 0.03, 50)
-viewPtr, projPtr = glm.value_ptr(view), glm.value_ptr(projection)
 
 transform = Transform([0, 0, 0], Quat(0, [0.2672612419124244, -0.5345224838248488, 0.8017837257372732]), [1, 1, 1])
 
@@ -204,11 +213,15 @@ while not done:
     transform.rotation.angle += 0.03
     
     shader.use()
-    glUniformMatrix4fv(shader.view, 1, GL_FALSE, viewPtr)
-    glUniformMatrix4fv(shader.proj, 1, GL_FALSE, projPtr)
-    glUniformMatrix4fv(shader.model, 1, GL_FALSE, glm.value_ptr(transform.matrix()))
-    # glUniformMatrix4fv(shader.model, 1, GL_FALSE, glm.value_ptr(glm.mat4()))
-    glUniform3f(shader.light, 5, 5, 5)
+    shader.setMat4(b"view", view)
+    shader.setMat4(b"projection", projection)
+    shader.setMat4(b"model", transform.matrix())
+
+    shader.setVec3(b"lightPos", [5, 5, 5])
+    shader.setVec3(b"viewPos", [0, 3, 10])
+    # shader.setVec3(b"objectColor", [1, 0.5, 0.2])
+    # shader.setVec3(b"lightColor", [1, 1, 1])
+    
     glDrawElements(GL_TRIANGLES, len(indices), GL_UNSIGNED_BYTE, None)
 
     pygame.display.flip()
