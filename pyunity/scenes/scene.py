@@ -6,7 +6,6 @@ and their various components.
 
 from ..audio import *
 from ..core import *
-from ..render import Camera
 from ..script import Behaviour
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
