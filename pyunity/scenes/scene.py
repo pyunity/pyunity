@@ -295,19 +295,19 @@ class Scene:
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene \"" + self.name + "\" has started")
 
-    def transform(self, transform):
-        """
-        Transform the matrix by a specified transform.
+    # def transform(self, transform):
+    #     """
+    #     Transform the matrix by a specified transform.
 
-        Parameters
-        ----------
-        transform : Transform
-            Transform to move
+    #     Parameters
+    #     ----------
+    #     transform : Transform
+    #         Transform to move
 
-        """
-        gl.glRotatef(*transform.rotation.angleAxisPair)
-        gl.glScalef(*transform.scale)
-        gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
+    #     """
+    #     gl.glRotatef(*transform.rotation.angleAxisPair)
+    #     gl.glScalef(*transform.scale)
+    #     gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
@@ -327,15 +327,15 @@ class Scene:
 
         self.lastFrame = time()
 
-    def render(self):
-        """Renders all GameObjects with MeshRenderers."""
-        for gameObject in self.gameObjects:
-            renderer = gameObject.GetComponent(MeshRenderer)
-            if renderer and "self.inside_frustrum(renderer)":
-                gl.glPushMatrix()
-                self.transform(gameObject.transform)
-                renderer.render()
-                gl.glPopMatrix()
+    # def render(self):
+    #     """Renders all GameObjects with MeshRenderers."""
+    #     for gameObject in self.gameObjects:
+    #         renderer = gameObject.GetComponent(MeshRenderer)
+    #         if renderer and "self.inside_frustrum(renderer)":
+    #             gl.glPushMatrix()
+    #             self.transform(gameObject.transform)
+    #             renderer.render()
+    #             gl.glPopMatrix()
 
     def no_interactive(self):
         done = False
@@ -383,7 +383,7 @@ class Scene:
                 self.mainCamera.lastPos = self.mainCamera.transform.position
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
-            self.render()
+            self.mainCamera.Render(self.gameObjects)
 
             # light_num = 0
             # for gameObject in self.gameObjects:

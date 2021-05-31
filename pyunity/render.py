@@ -6,7 +6,8 @@ from OpenGL import GL as gl
 from OpenGL import GLU as glu
 from ctypes import c_float, c_ubyte, c_void_p
 from .errors import PyUnityException
-from .core import SingleComponent
+from .core import SingleComponent, MeshRenderer
+from .vector3 import Vector3
 import glm
 import itertools
 import os
@@ -131,6 +132,27 @@ class Camera(SingleComponent):
             self.near,
             self.far)
         gl.glMatrixMode(gl.GL_MODELVIEW)
+    
+    def move(self, transform):
+        """
+        Transform the matrix by a specified transform.
+        Parameters
+        ----------
+        transform : Transform
+            Transform to move
+        """
+        gl.glRotatef(*transform.rotation.angleAxisPair)
+        gl.glScalef(*transform.scale)
+        gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
+    
+    def Render(self, gameObjects):
+        for gameObject in gameObjects:
+            renderer = gameObject.GetComponent(MeshRenderer)
+            if renderer and "self.inside_frustrum(renderer)":
+                gl.glPushMatrix()
+                self.move(gameObject.transform)
+                renderer.Render()
+                gl.glPopMatrix()
 
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders = {
