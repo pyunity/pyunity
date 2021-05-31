@@ -168,6 +168,7 @@ from . import input as Input  # lgtm[py/import-own-module]
 from .input import KeyCode
 from .physics import *
 from .errors import *
+from .files import *
 from .scenes import sceneManager as SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
@@ -181,7 +182,7 @@ __summary__ = "A Python implementation of the Unity Engine that supports differe
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import audio, core, physics, errors
+from . import audio, core, physics, errors, files
 __all__ = ["__version__", "Vector3", "Quaternion",
            "SceneManager", "Mesh", "Loader",
            "Input", "KeyCode", "Logger",
@@ -190,6 +191,7 @@ __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
+__all__.extend(files.__all__)
 
 Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
 Logger.LogSpecial(Logger.INFO, Logger.RUNNING_TIME)

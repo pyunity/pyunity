@@ -2,7 +2,10 @@
 Module to represent files.
 
 """
-from OpenGL import GL
+
+__all__ = ["Texture2D", "Prefab"]
+
+from OpenGL import GL as gl
 from PIL import Image
 
 class Script:
@@ -15,33 +18,28 @@ class Texture2D:
     
     """
 
-
-    @staticmethod
-    def loadTexture(path):
-        img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM)
-        img_data = str(img.tobytes())
-        width, height = img.size
-
-        texture = GL.glGenTextures(1)
-        GL.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1)
-        GL.glBindTexture(GL.GL_TEXTURE_2D, texture)
-        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
-        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR)
-        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE)
-        GL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE)
-        GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
-            GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, img_data)
-        GL.glGenerateMipmap(GL.GL_TEXTURE_2D)
-        return texture
-
     def __init__(self, path):
         self.path = path
-        self.texture = Texture2D.loadTexture(self.path)
+        self.loaded = False
+
+    def load(self):
+        img = Image.open(self.path)
+        img_data = img.tobytes()
+        width, height = img.size
+        self.texture = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
+        gl.glTexParameterf(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexParameterf(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, width, height, 0,
+            gl.GL_RGB, gl.GL_UNSIGNED_BYTE, img_data)
+        gl.glEnable(gl.GL_TEXTURE_2D)
+        self.loaded = True
+    
+    def use(self):
+        if not self.loaded:
+            self.load()
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
 class Prefab:
-    def __init__(self, path):
-        self.path = path
-
-class Shader:
     def __init__(self, path):
         self.path = path
