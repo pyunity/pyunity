@@ -176,7 +176,7 @@ class Camera(SingleComponent):
 
         scaled = glm.scale(glm.mat4(1), list(transform.scale))
         rotated = scaled * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
-        position = glm.translate(rotated, list(transform.position))
+        position = glm.translate(rotated, list(transform.position * Vector3(1, 1, -1)))
         return position
     
     def getViewMat(self):
@@ -184,18 +184,18 @@ class Camera(SingleComponent):
             pos = self.transform.position * Vector3(1, 1, -1)
             look = pos + self.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1)
             up = self.transform.rotation.RotateVector(Vector3.up()) * Vector3(1, 1, -1)
-            self.viewMat = glm.lookAt(pos, look, up)
+            self.viewMat = glm.lookAt(list(pos), list(look), list(up))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
         return self.viewMat
     
     def Render(self, gameObjects):
         self.shader.use()
-        self.shader.setMat4(b"view", glm.lookAt([0, 3, 10], [0, 0, 0], [0, 1, 0]))
+        self.shader.setMat4(b"view", self.getViewMat())
         self.shader.setMat4(b"projection", self.projMat)
 
         self.shader.setVec3(b"lightPos", [10, 10, 10])
-        self.shader.setVec3(b"viewPos", list(self.transform.position))
+        self.shader.setVec3(b"viewPos", list(self.transform.position * Vector3(1, 1, -1)))
         self.shader.setVec3(b"lightColor", [1, 1, 1])
 
         for gameObject in gameObjects:
