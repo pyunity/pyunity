@@ -5,19 +5,25 @@ Classes to aid in rendering in a Scene.
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
 import glm
+import itertools
 
 float_size = gl.sizeof(c_float)
 
 def convert(type, list):
+    print(type, list)
     return (type * len(list))(*list)
 
-def gen_buffers(data, indices):
+def gen_buffers(mesh):
+    data = list(itertools.chain(*[[*item[0], *item[1]] for item in zip(mesh.verts, mesh.normals)]))
+    indices = list(itertools.chain(*mesh.triangles))
+
     vbo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, vbo)
     gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size, convert(c_float, data), gl.GL_STATIC_DRAW)
     ibo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
     gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices), convert(c_ubyte, indices), gl.GL_STATIC_DRAW)
+    return vbo, ibo
 
 def gen_array():
     vao = gl.glGenVertexArrays(1)
@@ -26,6 +32,7 @@ def gen_array():
     gl.glEnableVertexAttribArray(0)
     gl.glVertexAttribPointer(1, 3, gl.GL_FLOAT, gl.GL_FALSE, 6 * float_size, c_void_p(3 * float_size))
     gl.glEnableVertexAttribArray(1)
+    return vao
 
 class Shader:
     def __init__(self, vertex, frag):
