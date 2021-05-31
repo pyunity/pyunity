@@ -17,7 +17,7 @@ def main():
     cube.AddComponent(Rotator)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = mesh
-    renderer.mat = Material((255, 0, 0))
+    renderer.mat = Material(Color(255, 0, 0))
     scene.Add(cube)
 
     scene.List()

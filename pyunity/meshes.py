@@ -178,10 +178,10 @@ class Mesh:
                 [20, 22, 21],
                 [20, 23, 22]
             ],
-            [Vector3.forward()] * 4 + \
-                [Vector3.back()] * 4 + \
-                [Vector3.up()] * 4 + \
+            [Vector3.back()] * 4 + \
+                [Vector3.forward()] * 4 + \
                 [Vector3.down()] * 4 + \
-                [Vector3.right()] * 4 + \
-                [Vector3.left()] * 4
+                [Vector3.up()] * 4 + \
+                [Vector3.left()] * 4 + \
+                [Vector3.right()] * 4
         )

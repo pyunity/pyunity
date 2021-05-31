@@ -9,7 +9,7 @@ class Rotator(Behaviour):
         Logger.Log(round(1 / dt, 3))
 
 def main():
-    mat = Material((255, 0, 0))
+    mat = Material(Color(255, 0, 0))
 
     scene = SceneManager.AddScene("Scene")
     scene.mainCamera.transform.localPosition = Vector3(0, 3, 0)
