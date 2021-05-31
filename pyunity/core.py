@@ -58,7 +58,7 @@ from .meshes import *
 from . import Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
-    from OpenGL import GL as glu
+    from OpenGL import GLU as glu
 
 
 class Tag:
@@ -529,10 +529,12 @@ class MeshRenderer(SingleComponent):
 
     def render(self):
         """Render the mesh that the MeshRenderer has."""
+        gl.glColor3f(
+            self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
         gl.glBindVertexArray(self.mesh.vao)
-        gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh.triangles), gl.GL_UNSIGNED_BYTE, None)
+        gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
 
         # gl.glBegin(gl.GL_TRIANGLES)
         # gl.glColor3f(
