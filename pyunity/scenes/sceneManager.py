@@ -222,7 +222,6 @@ def __loadScene(scene):
         else:
             scene.no_interactive()
 
-@property
 def CurrentScene():
     """Gets the current scene being run"""
     return __running_scene
