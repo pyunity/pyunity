@@ -3,7 +3,10 @@
 __all__ = ["Mesh"]
 
 from .vector3 import Vector3
-import ctypes
+from . import render
+from OpenGL import GL as gl
+from ctypes import c_float, c_ubyte, c_void_p
+import itertools
 
 class Mesh:
     """
@@ -14,22 +17,29 @@ class Mesh:
     verts : list
         List of Vector3's containing each vertex
     triangles : list
-        List of ints containing triangles joining up the vertexes.
+        List of ints containing triangles joining up the vertices.
         Each int is the index of a vertex above.
     normals : list
-        List of Vector3's containing the normal of each triangle.
-        Unlike Unity, PyUnity uses normals per triangle.
+        List of Vector3's containing the normal of each vertex.
 
     Attributes
     ----------
     verts : list
         List of Vector3's containing each vertex
     triangles : list
-        List of ints containing triangles joining up the vertexes.
+        List of ints containing triangles joining up the vertices.
         Each int is the index of a vertex above.
     normals : list
-        List of Vector3's containing the normal of each triangle.
-        Unlike Unity, PyUnity uses normals per triangle.
+        List of Vector3's containing the normal of each vertex.
+    
+    Notes
+    -----
+    When a mesh is created, you cannot edit any of
+    the attributes to update the mesh. Instead you
+    will have to instantiate a new mesh:
+
+        >>> mesh = Mesh.cube(2)
+        >>> mesh2 = Mesh(mesh.verts, mesh.triangles, mesh.normals)
 
     """
 
@@ -38,48 +48,25 @@ class Mesh:
         self.triangles = triangles
         self.normals = normals
 
-        self.min, self.max = Vector3.zero(), Vector3.zero()
-        for vert in verts:
-            if vert.x < self.min.x:
-                self.min.x = vert.x
-            if vert.y < self.min.y:
-                self.min.y = vert.y
-            if vert.z < self.min.z:
-                self.min.z = vert.z
+        data = itertools.chain(*[item for item in zip(self.verts, self.normals)])
+        self.vbo, self.ibo = render.gen_buffers(data, self.triangles)
+        self.vao = render.gen_array()
 
-            if vert.x > self.max.x:
-                self.max.x = vert.x
-            if vert.y > self.max.y:
-                self.max.y = vert.y
-            if vert.z > self.max.z:
-                self.max.z = vert.z
+        # self.min, self.max = Vector3.zero(), Vector3.zero()
+        # for vert in verts:
+        #     if vert.x < self.min.x:
+        #         self.min.x = vert.x
+        #     if vert.y < self.min.y:
+        #         self.min.y = vert.y
+        #     if vert.z < self.min.z:
+        #         self.min.z = vert.z
 
-    @property
-    def verts(self):
-        return self._verts
-
-    @verts.setter
-    def verts(self, value):
-        self._verts = value
-        self._vert_list = (ctypes.c_float * (len(value) * 3))(*[i for vert in value for i in vert])
-
-    @property
-    def triangles(self):
-        return self._triangles
-
-    @triangles.setter
-    def triangles(self, value):
-        self._triangles = value
-        self._index_list = (ctypes.c_ubyte * (len(value) * 3))(*[i for triangle in value for i in triangle])
-
-    @property
-    def normals(self):
-        return self._normals
-
-    @normals.setter
-    def normals(self, value):
-        self._normals = value
-        self._normal_list = (ctypes.c_float * (len(value) * 3))(*[i for normal in value for i in normal])
+        #     if vert.x > self.max.x:
+        #         self.max.x = vert.x
+        #     if vert.y > self.max.y:
+        #         self.max.y = vert.y
+        #     if vert.z > self.max.z:
+        #         self.max.z = vert.z
 
     @staticmethod
     def quad(size):

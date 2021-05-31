@@ -46,7 +46,7 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light",
+__all__ = ["Component", "GameObject", "Light", "Camera",
            "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
@@ -58,6 +58,7 @@ from .meshes import *
 from . import Logger
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from OpenGL import GL as gl
+    from OpenGL import GL as glu
 
 
 class Tag:
@@ -461,6 +462,53 @@ class Light(SingleComponent):
         self.intensity = 100
         self.type = 1
 
+class Camera(SingleComponent):
+    """
+    Component to hold data about the camera in a scene.
+
+    Attributes
+    ----------
+    fov : int
+        Fov in degrees measured horizontally. Defaults to 90.
+    near : float
+        Distance of the near plane in the camera frustrum. Defaults to 0.05.
+    far : float
+        Distance of the far plane in the camera frustrum. Defaults to 100.
+    clearColor : tuple
+        Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
+        Color mode is RGBA.
+
+    """
+
+    def __init__(self):
+        super(Camera, self).__init__()
+        self.fov = 90
+        self.near = 0.05
+        self.far = 100
+        self.clearColor = (0, 0, 0, 1)
+
+    def Resize(self, width, height):
+        """
+        Resizes the viewport on screen size change.
+
+        Parameters
+        ----------
+        width : int
+            Width of new window
+        height : int
+            Height of new window
+
+        """
+        gl.glViewport(0, 0, width, height)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        glu.gluPerspective(
+            self.fov / width * height,
+            width / height,
+            self.near,
+            self.far)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+
 class MeshRenderer(SingleComponent):
     """
     Component to render a mesh at the position of a transform.
@@ -481,20 +529,19 @@ class MeshRenderer(SingleComponent):
 
     def render(self):
         """Render the mesh that the MeshRenderer has."""
-        # gl.glVertexPointer(3, gl.GL_FLOAT, gl.sizeof(self.mesh._vert_list), self.mesh._vert_list)
-        # gl.glNormalPointer(gl.GL_FLOAT, gl.sizeof(self.mesh._normal_list), self.mesh._normal_list)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
+        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
+        gl.glBindVertexArray(self.mesh.vao)
+        gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh.triangles), gl.GL_UNSIGNED_BYTE, None)
+
+        # gl.glBegin(gl.GL_TRIANGLES)
         # gl.glColor3f(
         #     self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
-        # gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh._index_list), gl.GL_UNSIGNED_BYTE, self.mesh._index_list)
-
-        gl.glBegin(gl.GL_TRIANGLES)
-        gl.glColor3f(
-            self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
-        for triangle, normal in zip(self.mesh.triangles, self.mesh.normals):
-            gl.glNormal3f(*normal)
-            for vertex in triangle:
-                gl.glVertex3f(*self.mesh.verts[vertex])
-        gl.glEnd()
+        # for triangle, normal in zip(self.mesh.triangles, self.mesh.normals):
+        #     gl.glNormal3f(*normal)
+        #     for vertex in triangle:
+        #         gl.glVertex3f(*self.mesh.verts[vertex])
+        # gl.glEnd()
 
 class Material:
     """
