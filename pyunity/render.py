@@ -5,6 +5,8 @@ Classes to aid in rendering in a Scene.
 from OpenGL import GL as gl
 from OpenGL import GLU as glu
 from ctypes import c_float, c_ubyte, c_void_p
+
+from OpenGL.raw.GL.VERSION.GL_1_1 import glBindTexture
 from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
 from .vector3 import Vector3
@@ -46,6 +48,7 @@ class Shader:
         self.compiled = False
     
     def compile(self):
+        self.tex = GenEmpty()
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
         gl.glCompileShader(self.vertexShader)
@@ -90,6 +93,26 @@ class Shader:
         if not self.compiled:
             self.compile()
         gl.glUseProgram(self.program)
+
+__dir = os.path.abspath(os.path.dirname(__file__))
+shaders = {
+    "Standard": Shader.fromFolder(os.path.join(__dir, "shaders", "standard"))
+}
+
+def compile_shaders():
+    for shader in shaders.values():
+        shader.compile()
+
+def GenEmpty():
+    tex = gl.glGenTextures(1)
+    data = [255, 255, 255]
+    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+
+    gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, 1, 1, 0,
+        gl.GL_RGB, gl.GL_UNSIGNED_BYTE, data)
+    gl.glBindTexture(gl.GL_TEXTURE_2D, tex)
+    return tex
 
 class Camera(SingleComponent):
     """
@@ -184,15 +207,5 @@ class Camera(SingleComponent):
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
             if renderer and "self.inside_frustrum(renderer)":
-                # self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
-                self.shader.setMat4(b"model", glm.mat4())
+                self.shader.setMat4(b"model", self.getMatrix(gameObject.transform))
                 renderer.Render()
-
-__dir = os.path.abspath(os.path.dirname(__file__))
-shaders = {
-    "Standard": Shader.fromFolder(os.path.join(__dir, "shaders", "standard"))
-}
-
-def compile_shaders():
-    for shader in shaders.values():
-        shader.compile()
