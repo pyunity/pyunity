@@ -39,7 +39,7 @@ class Scene:
 
     def __init__(self, name):
         self.name = name
-        self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
+        self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
         light = GameObject("Light")
         light.AddComponent(Light)
         light.transform.localPosition = Vector3(10, 10, -10)
