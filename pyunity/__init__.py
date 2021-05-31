@@ -86,7 +86,7 @@ Finally, add a cube at the origin:
     >>> cube = GameObject("Cube")
     >>> renderer = cube.AddComponent(MeshRenderer)
     >>> renderer.mesh = Mesh.cube(2)
-    >>> renderer.mat = Material((255, 0, 0))
+    >>> renderer.mat = Material(Color(255, 0, 0))
     >>> scene.Add(cube)
 
 To see what you have added to the scene, call ``scene.List()``:

@@ -18,7 +18,7 @@ and all have MeshRenderers:
     Trying Pygame as a window provider
     Using window provider Pygame
     Loaded PyUnity version 0.5.0
-    >>> mat = Material((255, 0, 0)) # Create a default material
+    >>> mat = Material(Color(255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
     >>> child1.transform.localPosition = Vector3(-2, 0, 0) # Move the child
@@ -46,7 +46,7 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light",
+__all__ = ["Component", "GameObject", "Light", "Color",
            "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
@@ -481,8 +481,6 @@ class MeshRenderer(SingleComponent):
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
-        gl.glColor3f(
-            self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
         gl.glBindVertexArray(self.mesh.vao)
@@ -510,3 +508,12 @@ class Material:
 
     def __init__(self, color):
         self.color = color
+
+class Color:
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
+    
+    def __truediv__(self, other):
+        return self.r / other, self.g / other, self.b / other
