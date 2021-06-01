@@ -1,4 +1,4 @@
-from OpenGL.GL import *
+from OpenGL.GL import * # lgtm [py/polluting-import]
 from ctypes import c_float, c_ubyte
 import glm
 import pygame

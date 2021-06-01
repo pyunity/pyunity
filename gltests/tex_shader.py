@@ -1,4 +1,4 @@
-from OpenGL.GL import *
+from OpenGL.GL import * # lgtm [py/polluting-import]
 from PIL import Image
 from ctypes import c_float, c_ubyte, c_void_p
 import glm
