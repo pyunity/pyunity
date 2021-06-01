@@ -1,4 +1,4 @@
-from OpenGL.GL import *
+from OpenGL.GL import * # lgtm [py/polluting-import]
 from OpenGL.GLU import *
 from PIL import Image
 import pygame
