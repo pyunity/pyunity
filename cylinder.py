@@ -68,6 +68,7 @@ class Rotator(Behaviour):
         self.transform.eulerAngles += Vector3(0, 90, 0) * dt
 
 Loader.SaveMesh(cylinder(60), "cylinder")
+Loader.SaveObj(cylinder(60), "cylinder")
 
 scene = SceneManager.AddScene("Scene")
 
