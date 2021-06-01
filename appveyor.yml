@@ -1,6 +1,6 @@
 image:
-  - Visual Studio 2019
   - Ubuntu
+  - Visual Studio 2019
   - macos
 
 environment:
@@ -31,6 +31,8 @@ for:
     install:
       - source $venv/bin/activate
       - python -m pip install cython wheel sphinx glm pillow
+      - coverage run -m unittest tests.py
+      - bash <(curl -s https://codecov.io/bash)
   - matrix:
       only:
         - image: Visual Studio 2019
