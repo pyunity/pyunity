@@ -103,24 +103,23 @@ Loader.SaveObj(gen_sphere(4), "sphere")
 
 scene = SceneManager.AddScene("Scene")
 
-scene.mainCamera.transform.localPosition = Vector3(0, 0, -5)
-# scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
-# scene.mainCamera.transform.localPosition = Vector3(0, 10, 0)
-# scene.mainCamera.transform.eulerAngles = Vector3(90, 0, 0)
+scene.mainCamera.transform.localPosition = Vector3(0, 2.5, -5)
+scene.mainCamera.transform.eulerAngles = Vector3(25, 0, 0)
+
+mesh = Loader.LoadMesh("cylinder.mesh")
+cylinder = GameObject("Cylinder")
+cylinder.AddComponent(Rotator)
+renderer = cylinder.AddComponent(MeshRenderer)
+renderer.mesh = mesh
+renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
+scene.Add(cylinder)
 
 # mesh = Loader.LoadMesh("cylinder.mesh")
-# cylinder = GameObject("Cylinder")
-# cylinder.AddComponent(Rotator)
-# renderer = cylinder.AddComponent(MeshRenderer)
+# sphere = GameObject("sphere")
+# sphere.AddComponent(Rotator)
+# renderer = sphere.AddComponent(MeshRenderer)
 # renderer.mesh = mesh
 # renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\pyunity.png"))
-# scene.Add(cylinder)
+# scene.Add(sphere)
 
-mesh = Loader.LoadMesh("sphere.mesh")
-sphere = GameObject("sphere")
-sphere.AddComponent(Rotator)
-renderer = sphere.AddComponent(MeshRenderer)
-renderer.mesh = gen_sphere(4)
-renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\pyunity.png"))
-scene.Add(sphere)
 SceneManager.LoadScene(scene)
