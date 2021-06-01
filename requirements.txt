@@ -1,0 +1,5 @@
+pyopengl
+pillow
+pygame
+glfw
+glm
