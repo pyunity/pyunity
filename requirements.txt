@@ -1,5 +1,5 @@
 pyopengl
 pillow
 pygame
+pyglm
 glfw
-glm
