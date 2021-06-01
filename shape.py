@@ -98,13 +98,13 @@ class Rotator(Behaviour):
 
 Loader.SaveMesh(gen_cylinder(60), "cylinder")
 Loader.SaveObj(gen_cylinder(60), "cylinder")
-Loader.SaveMesh(gen_sphere(2), "sphere")
-Loader.SaveObj(gen_sphere(2), "sphere")
+Loader.SaveMesh(gen_sphere(4), "sphere")
+Loader.SaveObj(gen_sphere(4), "sphere")
 
 scene = SceneManager.AddScene("Scene")
 
-scene.mainCamera.transform.localPosition = Vector3(0, 3, -10)
-scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
+scene.mainCamera.transform.localPosition = Vector3(0, 0, -5)
+# scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
 # scene.mainCamera.transform.localPosition = Vector3(0, 10, 0)
 # scene.mainCamera.transform.eulerAngles = Vector3(90, 0, 0)
 
@@ -120,7 +120,7 @@ mesh = Loader.LoadMesh("sphere.mesh")
 sphere = GameObject("sphere")
 sphere.AddComponent(Rotator)
 renderer = sphere.AddComponent(MeshRenderer)
-renderer.mesh = gen_sphere(2)
+renderer.mesh = gen_sphere(4)
 renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\pyunity.png"))
 scene.Add(sphere)
 SceneManager.LoadScene(scene)
