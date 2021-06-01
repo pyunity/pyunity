@@ -7,6 +7,9 @@
 [![Commits since last release](https://img.shields.io/github/commits-since/rayzchen/pyunity/0.4.0.svg)](https://github.com/rayzchen/pyunity/compare/0.4.0...master)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
+[![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
+
 
 ## Version 0.5.0 (in development)
 PyUnity is a Python implementation of the
@@ -33,8 +36,8 @@ Cython to compile.
 
     > python setup.py install
 
-Its only dependencies are PyOpenGL, Pygame and
-GLFW.
+Its only dependencies are PyOpenGL, Pygame,
+GLFW, Pillow and PyGLM.
 
 To install PyGame on Linux, use:
 
@@ -90,7 +93,7 @@ Finally, add a cube at the origin:
     >>> cube = GameObject("Cube")
     >>> renderer = cube.AddComponent(MeshRenderer)
     >>> renderer.mesh = Mesh.cube(2)
-    >>> renderer.mat = Material((255, 0, 0))
+    >>> renderer.mat = Material(Color(255, 0, 0))
     >>> scene.Add(cube)
 
 To see what you have added to the scene, call ``scene.List()``:
