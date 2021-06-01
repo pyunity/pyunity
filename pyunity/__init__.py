@@ -27,8 +27,8 @@ Cython to compile.
 
     > python setup.py install
 
-Its only dependencies are PyOpenGL, Pygame and
-GLFW.
+Its only dependencies are PyOpenGL, Pygame,
+GLFW, Pillow and PyGLM.
 
 To install PyGame on Linux, use:
 
