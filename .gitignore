@@ -6,3 +6,5 @@
 *.egg-info
 /build
 **/.doctrees
+.coverage
+coverage.xml

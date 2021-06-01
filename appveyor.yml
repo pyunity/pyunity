@@ -19,7 +19,8 @@ environment:
       windows_location: "C:\\Python36-x64\\python"
 
 test_script:
-  - python -m unittest tests.py
+  - coverage run -m unittest tests.py
+  - bash -c "bash <(curl -s https://codecov.io/bash)"
   - python prepare.py -x
   - python setup.py bdist_wheel
   - sphinx-build -T -E -b html docs/source docs/en
@@ -30,20 +31,20 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx
+      - python -m pip install cython wheel sphinx coverage
   - matrix:
       only:
         - image: Visual Studio 2019
     install:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
-      - python -m pip install cython wheel sphinx
+      - python -m pip install cython wheel sphinx coverage
   - matrix:
       only:
         - image: macos
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx
+      - python -m pip install cython wheel sphinx coverage
 
 build: off
 skip_branch_with_pr: true
