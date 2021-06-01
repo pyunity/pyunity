@@ -42,10 +42,11 @@ def gen_array():
     return vao
 
 class Shader:
-    def __init__(self, vertex, frag):
+    def __init__(self, vertex, frag, name):
         self.vertex = vertex
         self.frag = frag
         self.compiled = False
+        shaders[name] = self
     
     def compile(self):
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
@@ -71,14 +72,14 @@ class Shader:
         self.compiled = True
     
     @staticmethod
-    def fromFolder(path):
+    def fromFolder(path, name):
         with open(os.path.join(path, "vertex.glsl")) as f:
             vertex = f.read()
             
         with open(os.path.join(path, "fragment.glsl")) as f:
             fragment = f.read()
         
-        return Shader(vertex, fragment)
+        return Shader(vertex, fragment, name)
 
     def setVec3(self, var, val):
         location = gl.glGetUniformLocation(self.program, var)
@@ -98,9 +99,8 @@ class Shader:
         gl.glUseProgram(self.program)
 
 __dir = os.path.abspath(os.path.dirname(__file__))
-shaders = {
-    "Standard": Shader.fromFolder(os.path.join(__dir, "shaders", "standard"))
-}
+shaders = dict()
+Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 
 def compile_shaders():
     for shader in shaders.values():
@@ -188,6 +188,9 @@ class Camera(SingleComponent):
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
         return self.viewMat
+    
+    def UseShader(self, name):
+        self.shader = shaders[name]
     
     def Render(self, gameObjects):
         self.shader.use()
