@@ -30,7 +30,7 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx glm pillow coverage
+      - python -m pip install cython wheel sphinx pyglm pillow coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
   - matrix:
@@ -39,13 +39,13 @@ for:
     install:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
-      - python -m pip install cython wheel sphinx glm pillow
+      - python -m pip install cython wheel sphinx pyglm pillow
   - matrix:
       only:
         - image: macos
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx glm pillow
+      - python -m pip install cython wheel sphinx pyglm pillow
 
 build: off
 skip_branch_with_pr: true
