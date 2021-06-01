@@ -19,11 +19,12 @@ environment:
       windows_location: "C:\\Python36-x64\\python"
 
 test_script:
-  - coverage run -m unittest tests.py
-  - bash -c "bash <(curl -s https://codecov.io/bash)"
-  - python prepare.py -x
-  - python setup.py bdist_wheel
-  - sphinx-build -T -E -b html docs/source docs/en
+  sh: |
+      coverage run -m unittest tests.py
+      bash -c "bash <(curl -s https://codecov.io/bash)"
+      python prepare.py -x
+      python setup.py bdist_wheel
+      sphinx-build -T -E -b html docs/source docs/en
 
 for:
   - matrix:
