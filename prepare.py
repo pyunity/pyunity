@@ -24,10 +24,11 @@ if len(sys.argv) < 2:
             "0.4.0.svg)](https://github.com/rayzchen/pyunity/compare/0.4.0...master)\n",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/rayzchen/pyunity.svg",
             "?logo=lgtm)](https://lgtm.com/projects/g/rayzchen/pyunity/context:python)\n",
-            # "[![Travis Build Status](https://travis-ci.org/rayzchen/pyunity.svg?branch=master)]",
-            # "(https://travis-ci.org/rayzchen/pyunity)",
             "[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)]",
-            "(https://ci.appveyor.com/project/rayzchen/pyunity)",
+            "(https://ci.appveyor.com/project/rayzchen/pyunity)\n",
+            "[![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)\n",
+            "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
+            "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n"
         ])
     ]
     skip = 0
