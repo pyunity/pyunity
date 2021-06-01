@@ -9,7 +9,7 @@ functions.
 
 __all__ = ["Vector3", "clamp"]
 
-import math
+import glm
 import operator
 
 def clamp(x, _min, _max): return min(_max, max(_min, x))
@@ -279,7 +279,7 @@ class Vector3:
     @property
     def length(self):
         """Gets or sets the magnitude of the vector"""
-        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        return glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     @length.setter
     def length(self, value):
@@ -332,7 +332,7 @@ class Vector3:
             The distance
 
         """
-        return math.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
+        return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
 
     def get_dist_sqrd(self, other):
         """
