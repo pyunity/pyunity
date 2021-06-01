@@ -1,6 +1,5 @@
 # https://riptutorial.com/opengl/example/32043/implement-a-camera-in-ogl-4-0-glsl-400
-from OpenGL.GL import *
-from PIL import Image
+from OpenGL.GL import * # lgtm [py/polluting-import]
 from ctypes import c_float, c_ubyte
 import pygame
 import math
