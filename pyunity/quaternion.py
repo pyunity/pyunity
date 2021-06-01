@@ -3,6 +3,7 @@
 __all__ = ["Quaternion"]
 
 import glm
+import math
 from .vector3 import Vector3
 
 class Quaternion:
@@ -150,7 +151,7 @@ class Quaternion:
 
         """
         magnitude = glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-        angle = glm.degrees(glm.atan2(magnitude, self.w))
+        angle = glm.degrees(math.atan2(magnitude, self.w))
         return (angle * 2, self.x * magnitude, self.y * magnitude, self.z * magnitude)
 
     @angleAxisPair.setter
@@ -187,12 +188,12 @@ class Quaternion:
         """Gets or sets the Euler Angles of the quaternion"""
         p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
         if glm.cos(p) != 0:
-            h = -glm.atan2(2 * self.x * self.z - 2 * self.w *
+            h = -math.atan2(2 * self.x * self.z - 2 * self.w *
                             self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
-            b = -glm.atan2(self.x * self.y - self.w * self.z,
+            b = -math.atan2(self.x * self.y - self.w * self.z,
                             1 / 2 - self.x ** 2 - self.z ** 2)
         else:
-            h = -glm.atan2(-self.x * self.z - self.w * self.y,
+            h = -math.atan2(-self.x * self.z - self.w * self.y,
                             1 / 2 - self.y ** 2 - self.z ** 2)
             b = 0
 
