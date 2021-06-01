@@ -2,7 +2,7 @@
 
 __all__ = ["Quaternion"]
 
-import math
+import glm
 from .vector3 import Vector3
 
 class Quaternion:
@@ -98,7 +98,7 @@ class Quaternion:
         Quaternion
             A unit quaternion
         """
-        length = math.sqrt(self.w ** 2 + self.x ** 2 +
+        length = glm.sqrt(self.w ** 2 + self.x ** 2 +
                            self.y ** 2 + self.z ** 2)
         if length:
             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
@@ -133,8 +133,8 @@ class Quaternion:
 
         """
         axis = a.normalized()
-        cos = math.cos(math.radians(angle / 2))
-        sin = math.sin(math.radians(angle / 2))
+        cos = glm.cos(glm.radians(angle / 2))
+        sin = glm.sin(glm.radians(angle / 2))
         return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
 
     @property
@@ -149,15 +149,15 @@ class Quaternion:
         assign like ``q.eulerAngles = (angle, vector)``.
 
         """
-        magnitude = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-        angle = math.degrees(math.atan2(magnitude, self.w))
+        magnitude = glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        angle = glm.degrees(glm.atan2(magnitude, self.w))
         return (angle * 2, self.x * magnitude, self.y * magnitude, self.z * magnitude)
 
     @angleAxisPair.setter
     def angleAxisPair(self, value):
         angle, axis = value
-        cos = math.cos(math.radians(angle / 2))
-        sin = math.sin(math.radians(angle / 2))
+        cos = glm.cos(glm.radians(angle / 2))
+        sin = glm.sin(glm.radians(angle / 2))
         self.w, self.x, self.y, self.z = cos, axis[0] * \
             sin, axis[1] * sin, axis[2] * sin
 
@@ -185,18 +185,18 @@ class Quaternion:
     @property
     def eulerAngles(self):
         """Gets or sets the Euler Angles of the quaternion"""
-        p = -math.asin(-2 * (self.y * self.z + self.w * self.x))
-        if math.cos(p) != 0:
-            h = -math.atan2(2 * self.x * self.z - 2 * self.w *
+        p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
+        if glm.cos(p) != 0:
+            h = -glm.atan2(2 * self.x * self.z - 2 * self.w *
                             self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
-            b = -math.atan2(self.x * self.y - self.w * self.z,
+            b = -glm.atan2(self.x * self.y - self.w * self.z,
                             1 / 2 - self.x ** 2 - self.z ** 2)
         else:
-            h = -math.atan2(-self.x * self.z - self.w * self.y,
+            h = -glm.atan2(-self.x * self.z - self.w * self.y,
                             1 / 2 - self.y ** 2 - self.z ** 2)
             b = 0
 
-        return Vector3(math.degrees(p), math.degrees(h), math.degrees(b))
+        return Vector3(glm.degrees(p), glm.degrees(h), glm.degrees(b))
 
     @eulerAngles.setter
     def eulerAngles(self, value):
