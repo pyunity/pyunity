@@ -30,7 +30,7 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel sphinx glm pillow
+      - python -m pip install cython wheel sphinx glm pillow coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
   - matrix:
