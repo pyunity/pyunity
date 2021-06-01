@@ -67,9 +67,9 @@ def SaveObj(mesh, name, filePath=None):
 
     with open(os.path.join(directory, name + ".obj"), "w+") as f:
         for vertex in mesh.verts:
-            f.write("v " + " ".join(map(str, vertex)) + "\n")
+            f.write("v " + " ".join(map(str, round(vertex, 8))) + "\n")
         for normal in mesh.normals:
-            f.write("vn " + " ".join(map(str, normal)) + "\n")
+            f.write("vn " + " ".join(map(str, round(normal, 8))) + "\n")
         for face in mesh.triangles:
             face = " ".join([
                 str(face[0] + 1) + "//" + str(face[0] + 1),

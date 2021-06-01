@@ -248,6 +248,9 @@ class Vector3:
     def __abs__(self):
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
 
+    def __round__(self, other):
+        return self._o2(other, round)
+
     def __invert__(self):
         return Vector3(operator.invert(self.x), operator.invert(self.y), operator.invert(self.z))
 

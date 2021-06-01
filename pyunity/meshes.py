@@ -43,6 +43,7 @@ class Mesh:
     """
 
     def __init__(self, verts, triangles, normals, texcoords=None):
+        print(len(verts), texcoords is None)
         self.verts = verts
         self.triangles = triangles
         self.normals = normals
