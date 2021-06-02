@@ -6,8 +6,10 @@ class Rotator(Behaviour):
         self.transform.eulerAngles += Vector3(0, 90, 0) * dt
 
 def main():
-    mesh = Loader.LoadMesh(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "house.mesh"))
+    Logger.Log("House mesh is currently broken")
+
+    # mesh = Loader.LoadMesh(os.path.join(
+    #     os.path.dirname(os.path.abspath(__file__)), "house.mesh"))
 
     scene = SceneManager.AddScene("Scene")
 
@@ -16,7 +18,7 @@ def main():
     house = GameObject("House")
     house.transform.eulerAngles = Vector3(0, 180, 0)
     renderer = house.AddComponent(MeshRenderer)
-    renderer.mesh = mesh
+    # renderer.mesh = mesh
     renderer.mat = Material(Color(255, 0, 0))
     house.AddComponent(Rotator)
 

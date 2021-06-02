@@ -5254,7 +5254,8 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
   PyObject *__pyx_t_12 = NULL;
-  PyObject *(*__pyx_t_13)(PyObject *);
+  int __pyx_t_13;
+  PyObject *(*__pyx_t_14)(PyObject *);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5627,7 +5628,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
  *                             component.clip.file)
  *                     if component.PlayOnStart:             # <<<<<<<<<<<<<<
  *                         component.Play()
- *                 elif isinstance(component, MeshRenderer):
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
  */
         __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_component, __pyx_n_s_PlayOnStart); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 235, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
@@ -5639,7 +5640,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
  *                             component.clip.file)
  *                     if component.PlayOnStart:
  *                         component.Play()             # <<<<<<<<<<<<<<
- *                 elif isinstance(component, MeshRenderer):
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
  *                     mesh = component.mesh
  */
           __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_component, __pyx_n_s_Play); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
@@ -5666,7 +5667,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
  *                             component.clip.file)
  *                     if component.PlayOnStart:             # <<<<<<<<<<<<<<
  *                         component.Play()
- *                 elif isinstance(component, MeshRenderer):
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
  */
         }
 
@@ -5683,20 +5684,32 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
       /* "pyunity/scenes/scene.py":237
  *                     if component.PlayOnStart:
  *                         component.Play()
- *                 elif isinstance(component, MeshRenderer):             # <<<<<<<<<<<<<<
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:             # <<<<<<<<<<<<<<
  *                     mesh = component.mesh
  *                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
  */
       __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_MeshRenderer); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 237, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_8 = PyObject_IsInstance(__pyx_v_component, __pyx_t_10); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
+      __pyx_t_9 = PyObject_IsInstance(__pyx_v_component, __pyx_t_10); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_9 = (__pyx_t_8 != 0);
-      if (__pyx_t_9) {
+      __pyx_t_13 = (__pyx_t_9 != 0);
+      if (__pyx_t_13) {
+      } else {
+        __pyx_t_8 = __pyx_t_13;
+        goto __pyx_L11_bool_binop_done;
+      }
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_component, __pyx_n_s_mesh); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 237, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_13 = (__pyx_t_10 != Py_None);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_9 = (__pyx_t_13 != 0);
+      __pyx_t_8 = __pyx_t_9;
+      __pyx_L11_bool_binop_done:;
+      if (__pyx_t_8) {
 
         /* "pyunity/scenes/scene.py":238
  *                         component.Play()
- *                 elif isinstance(component, MeshRenderer):
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
  *                     mesh = component.mesh             # <<<<<<<<<<<<<<
  *                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
  *                     mesh.vao = render.gen_array()
@@ -5707,7 +5720,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
         __pyx_t_10 = 0;
 
         /* "pyunity/scenes/scene.py":239
- *                 elif isinstance(component, MeshRenderer):
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
  *                     mesh = component.mesh
  *                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)             # <<<<<<<<<<<<<<
  *                     mesh.vao = render.gen_array()
@@ -5763,21 +5776,21 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
           __pyx_t_11 = PyObject_GetIter(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 239, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-          __pyx_t_13 = Py_TYPE(__pyx_t_11)->tp_iternext;
-          index = 0; __pyx_t_12 = __pyx_t_13(__pyx_t_11); if (unlikely(!__pyx_t_12)) goto __pyx_L11_unpacking_failed;
+          __pyx_t_14 = Py_TYPE(__pyx_t_11)->tp_iternext;
+          index = 0; __pyx_t_12 = __pyx_t_14(__pyx_t_11); if (unlikely(!__pyx_t_12)) goto __pyx_L13_unpacking_failed;
           __Pyx_GOTREF(__pyx_t_12);
-          index = 1; __pyx_t_1 = __pyx_t_13(__pyx_t_11); if (unlikely(!__pyx_t_1)) goto __pyx_L11_unpacking_failed;
+          index = 1; __pyx_t_1 = __pyx_t_14(__pyx_t_11); if (unlikely(!__pyx_t_1)) goto __pyx_L13_unpacking_failed;
           __Pyx_GOTREF(__pyx_t_1);
-          if (__Pyx_IternextUnpackEndCheck(__pyx_t_13(__pyx_t_11), 2) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
-          __pyx_t_13 = NULL;
+          if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_11), 2) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
+          __pyx_t_14 = NULL;
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          goto __pyx_L12_unpacking_done;
-          __pyx_L11_unpacking_failed:;
+          goto __pyx_L14_unpacking_done;
+          __pyx_L13_unpacking_failed:;
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_13 = NULL;
+          __pyx_t_14 = NULL;
           if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
           __PYX_ERR(0, 239, __pyx_L1_error)
-          __pyx_L12_unpacking_done:;
+          __pyx_L14_unpacking_done:;
         }
         if (__Pyx_PyObject_SetAttrStr(__pyx_v_mesh, __pyx_n_s_vbo, __pyx_t_12) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -5817,7 +5830,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
         /* "pyunity/scenes/scene.py":237
  *                     if component.PlayOnStart:
  *                         component.Play()
- *                 elif isinstance(component, MeshRenderer):             # <<<<<<<<<<<<<<
+ *                 elif isinstance(component, MeshRenderer) and component.mesh is not None:             # <<<<<<<<<<<<<<
  *                     mesh = component.mesh
  *                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
  */
@@ -5876,9 +5889,9 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_16start_scripts(CYTHON_
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_self, __pyx_n_s_physics); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__pyx_t_9) {
+  if (__pyx_t_8) {
 
     /* "pyunity/scenes/scene.py":248
  *         )
