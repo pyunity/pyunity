@@ -481,6 +481,9 @@ class MeshRenderer(SingleComponent):
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
+        if self.mesh is None:
+            return
+        
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
         gl.glBindVertexArray(self.mesh.vao)
