@@ -6,7 +6,7 @@
 [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
 [![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/0.4.0.svg)](https://github.com/pyunity/pyunity/compare/0.4.0...master)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)](https://ci.appveyor.com/project/pyunity/pyunity)
+[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
 [![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
 
