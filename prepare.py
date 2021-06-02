@@ -24,8 +24,8 @@ if len(sys.argv) < 2:
             "0.4.0.svg)](https://github.com/pyunity/pyunity/compare/0.4.0...master)\n",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg",
             "?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)\n",
-            "[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ohl61d2vavl37tmj?svg=true)]",
-            "(https://ci.appveyor.com/project/pyunity/pyunity)\n",
+            "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
+            "(https://ci.appveyor.com/project/rayzchen/pyunity)\n",
             "[![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)\n",
             "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
             "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n"
