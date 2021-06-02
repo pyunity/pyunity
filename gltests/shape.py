@@ -64,6 +64,9 @@ def gen_cylinder(detail):
     return Mesh(final_points, final_indices, final_normals, final_texcoords)
 
 def gen_sphere(detail):
+    def texcoord(vec):
+        return [math.atan2(vec.x, vec.z) / math.pi, -vec.y / 2 - 0.5]
+
     t = (1 + math.sqrt(5)) / 2
     points1 = [Vector3(a, b, 0).normalized() for b in (t, -t) for a in (-1, 1)]
     points2 = [Vector3(0, a, b).normalized() for b in (t, -t) for a in (-1, 1)]
@@ -90,7 +93,8 @@ def gen_sphere(detail):
         indices = indices2.copy()
 
     normals = points.copy()
-    return Mesh(points, indices, normals, None)
+    texcoords = list(map(texcoord, points))
+    return Mesh(points, indices, normals, texcoords)
 
 class Rotator(Behaviour):
     def Update(self, dt):
@@ -103,23 +107,24 @@ Loader.SaveObj(gen_sphere(4), "sphere")
 
 scene = SceneManager.AddScene("Scene")
 
-scene.mainCamera.transform.localPosition = Vector3(0, 2.5, -5)
-scene.mainCamera.transform.eulerAngles = Vector3(25, 0, 0)
-
-mesh = Loader.LoadMesh("cylinder.mesh")
-cylinder = GameObject("Cylinder")
-cylinder.AddComponent(Rotator)
-renderer = cylinder.AddComponent(MeshRenderer)
-renderer.mesh = mesh
-renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
-scene.Add(cylinder)
+# scene.mainCamera.transform.localPosition = Vector3(0, 2.5, -5)
+# scene.mainCamera.transform.eulerAngles = Vector3(25, 0, 0)
+scene.mainCamera.transform.localPosition = Vector3(0, 0, -7.5)
 
 # mesh = Loader.LoadMesh("cylinder.mesh")
-# sphere = GameObject("sphere")
-# sphere.AddComponent(Rotator)
-# renderer = sphere.AddComponent(MeshRenderer)
+# cylinder = GameObject("Cylinder")
+# cylinder.AddComponent(Rotator)
+# renderer = cylinder.AddComponent(MeshRenderer)
 # renderer.mesh = mesh
 # renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\pyunity.png"))
-# scene.Add(sphere)
+# scene.Add(cylinder)
+
+mesh = Loader.LoadMesh("sphere.mesh")
+sphere = GameObject("sphere")
+sphere.AddComponent(Rotator)
+renderer = sphere.AddComponent(MeshRenderer)
+renderer.mesh = mesh
+renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
+scene.Add(sphere)
 
 SceneManager.LoadScene(scene)
