@@ -234,7 +234,7 @@ class Scene:
                             component.clip.file)
                     if component.PlayOnStart:
                         component.Play()
-                elif isinstance(component, MeshRenderer):
+                elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     mesh = component.mesh
                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
                     mesh.vao = render.gen_array()
