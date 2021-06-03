@@ -25,10 +25,12 @@ Submodules
    pyunity.audio
    pyunity.core
    pyunity.errors
+   pyunity.files
    pyunity.input
    pyunity.loader
    pyunity.logger
    pyunity.meshes
    pyunity.quaternion
+   pyunity.render
    pyunity.script
    pyunity.vector3
