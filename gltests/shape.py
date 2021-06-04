@@ -1,6 +1,6 @@
 from pyunity import *
-# from pyunity import config
-# config.faceCulling = False
+from pyunity import config
+config.faceCulling = False
 import math
 
 def gen_cylinder(detail):
@@ -66,9 +66,6 @@ def gen_cylinder(detail):
     return Mesh(final_points, final_indices, final_normals, final_texcoords)
 
 def gen_sphere(detail):
-    def texcoord(vec):
-        return [math.atan2(vec.x, vec.z) / math.pi, -vec.y / 2 - 0.5]
-
     points = []
     indices = []
     texcoords = []
@@ -93,8 +90,49 @@ def gen_sphere(detail):
     del indices[-2 * detail:]
 
     normals = points.copy()
-    # texcoords = list(map(texcoord, points))
     return Mesh(points, indices, normals, texcoords)
+
+def gen_capsule(detail):
+    points = []
+    indices = []
+
+    for i in range(detail + 1):
+        sin1 = math.sin(i / detail * math.pi * 2)
+        cos1 = math.cos(i / detail * math.pi * 2)
+        for j in range(detail // 2):
+            base = i * (detail // 2 + 1) + j
+            base2 = (i + 1) * (detail // 2 + 1) + j
+            sin2 = math.sin((j / detail) * math.pi)
+            cos2 = math.cos((j / detail) * math.pi)
+            points.append(Vector3(sin2 * cos1, cos2 + 1, sin1 * sin2))
+            indices.append([base, base2 + 1, base + 1])
+            indices.append([base, base2, base2 + 1])
+        points.append(Vector3(cos1, 1, sin1))
+    del indices[-detail:]
+    print(len(points))
+
+    points2 = []
+    indices2 = []
+
+    for i in range(detail + 1):
+        sin1 = math.sin(i / detail * math.pi * 2)
+        cos1 = math.cos(i / detail * math.pi * 2)
+        for j in range(detail // 2):
+            base = i * (detail // 2 + 1) + j + len(points)
+            base2 = (i + 1) * (detail // 2 + 1) + j + len(points)
+            sin2 = math.sin((j / detail) * math.pi)
+            cos2 = math.cos((j / detail) * math.pi)
+            points2.append(Vector3(sin2 * cos1, -cos2 - 1, sin1 * sin2))
+            indices2.append([base, base + 1, base2 + 1])
+            indices2.append([base, base2 + 1, base2])
+        points2.append(Vector3(cos1, -1, sin1))
+    del indices2[-detail:]
+
+    points.extend(points2)
+    indices.extend(indices2)
+
+    normals = points.copy()
+    return Mesh(points, indices, normals)
 
 class Rotator(Behaviour):
     def Update(self, dt):
@@ -104,6 +142,8 @@ Loader.SaveMesh(gen_cylinder(60), "cylinder")
 Loader.SaveObj(gen_cylinder(60), "cylinder")
 Loader.SaveMesh(gen_sphere(20), "sphere")
 Loader.SaveObj(gen_sphere(20), "sphere")
+Loader.SaveMesh(gen_capsule(20), "capsule")
+Loader.SaveObj(gen_capsule(20), "capsule")
 
 scene = SceneManager.AddScene("Scene")
 
@@ -119,12 +159,20 @@ scene.mainCamera.transform.localPosition = Vector3(0, 0, -7.5)
 # renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
 # scene.Add(cylinder)
 
-mesh = Loader.LoadMesh("sphere.mesh")
-sphere = GameObject("sphere")
-sphere.AddComponent(Rotator)
-renderer = sphere.AddComponent(MeshRenderer)
+# mesh = Loader.LoadMesh("sphere.mesh")
+# sphere = GameObject("Sphere")
+# sphere.AddComponent(Rotator)
+# renderer = sphere.AddComponent(MeshRenderer)
+# renderer.mesh = mesh
+# renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
+# scene.Add(sphere)
+
+mesh = Loader.LoadMesh("capsule.mesh")
+capsule = GameObject("Capsule")
+capsule.AddComponent(Rotator)
+renderer = capsule.AddComponent(MeshRenderer)
 renderer.mesh = mesh
 renderer.mat = Material(Color(255, 255, 255), Texture2D("..\\..\\pyunity.png"))
-scene.Add(sphere)
+scene.Add(capsule)
 
 SceneManager.LoadScene(scene)
