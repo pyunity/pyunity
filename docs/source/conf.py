@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'PyUnity'
-copyright = '2020, Ray Chen'
+copyright = '2020-2021, Ray Chen'
 author = 'Ray Chen'
 
 # The full version, including alpha/beta/rc tags
-release = "0.4.0"
+release = "0.5.0"
 
 
 # -- General configuration ---------------------------------------------------

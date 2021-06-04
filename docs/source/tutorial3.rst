@@ -25,8 +25,8 @@ it do something, use the Update function:
 What this does is it rotates the GameObject that
 the Behaviour is on by 90 degrees each second
 around the y-axis. The ``Update`` function takes
-1 argument: ``dt`` which is how many seconds has
-passed since last frame.
+1 argument, ``dt``, which is how many seconds have
+passed since the last frame.
 
 Behaviours vs Components
 ========================

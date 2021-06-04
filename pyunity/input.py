@@ -12,6 +12,11 @@ from .scenes import SceneManager
 __all__ = ["GetKey", "GetKeyUp", "GetKeyDown"]
 
 class Code:
+    """
+    Represents a key on a keyboard.
+    Do not instantiate this class.
+
+    """
     def __init__(self, vals):
         self.vals = {
             "GLFW": vals[0],
@@ -20,6 +25,12 @@ class Code:
         }
 
 class KeyCode:
+    """
+    KeyCodes to reference each key on the keyboard.
+    Do not instantiate this class.
+
+    """
+    
     A = Code([glfw.KEY_A, pygame.locals.K_a, None])
     B = Code([glfw.KEY_B, pygame.locals.K_b, None])
     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
@@ -85,6 +96,20 @@ class KeyCode:
     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
 
 def GetKey(keycode):
+    """
+    Check if key has been pressed.
+
+    Parameters
+    ----------
+    keycode : KeyCode
+        Key to query
+
+    Returns
+    -------
+    int
+        1 if pressed and 0 if not pressed.
+    
+    """
     pressed = SceneManager.window.get_keys()
     check = keycode.vals[config.windowProvider]
     if check is None:
@@ -92,6 +117,20 @@ def GetKey(keycode):
     return pressed[check]
 
 def GetKeyDown(keycode):
+    """
+    Check if key was pressed down this frame.
+
+    Parameters
+    ----------
+    keycode : KeyCode
+        Key to query
+
+    Returns
+    -------
+    int
+        1 if pressed and 0 if not pressed.
+    
+    """
     down = SceneManager.window.get_keys_down()
     check = keycode.vals[config.windowProvider]
     if check is None:
@@ -99,6 +138,20 @@ def GetKeyDown(keycode):
     return down[check]
 
 def GetKeyUp(keycode):
+    """
+    Check if key was released this frame.
+
+    Parameters
+    ----------
+    keycode : KeyCode
+        Key to query
+
+    Returns
+    -------
+    int
+        1 if released and 0 if not released.
+    
+    """
     up = SceneManager.window.get_keys_up()
     check = keycode.vals[config.windowProvider]
     if check is None:

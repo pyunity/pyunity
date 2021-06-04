@@ -29,6 +29,8 @@ class Mesh:
         Each int is the index of a vertex above.
     normals : list
         List of Vector3's containing the normal of each vertex.
+    texcoords : list
+        List of lists containing the texture coordinate of each vertex.
 
     Notes
     -----
@@ -38,7 +40,9 @@ class Mesh:
     a new mesh:
 
         >>> mesh = Mesh.cube(2)
-        >>> mesh2 = Mesh(mesh.verts, mesh.triangles, mesh.normals)
+        >>> mesh2 = Mesh(mesh.verts, mesh.triangles, mesh.normals, mesh.texcoords)
+        >>> # Or this:
+        >>> mesh2 = mesh.copy()
 
     """
 
@@ -70,6 +74,17 @@ class Mesh:
         #         self.max.y = vert.y
         #     if vert.z > self.max.z:
         #         self.max.z = vert.z
+    
+    def copy(self):
+        """
+        Create a copy of the current Mesh.
+
+        Returns
+        -------
+        Mesh
+            Copy of the mesh
+        """
+        return Mesh(self.verts, self.triangles, self.normals, self.texcoords)
 
     @staticmethod
     def quad(size):
@@ -84,7 +99,7 @@ class Mesh:
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of `size` 
+            A quad centered at Vector3(0, 0) with side length of ``size`` 
             facing in the direction of the negative z axis.
 
         """
@@ -114,7 +129,7 @@ class Mesh:
         -------
         Mesh
             A double-sided quad centered at Vector3(0, 0) with side length
-            of `size` facing in the direction of the negative z axis.
+            of ``size``.
 
         """
         return Mesh(
@@ -148,7 +163,7 @@ class Mesh:
         Returns
         -------
         Mesh
-            A cube centered at Vector3(0, 0, 0) that has a side length of `size`
+            A cube centered at Vector3(0, 0, 0) that has a side length of ``size``
 
         """
         return Mesh(
