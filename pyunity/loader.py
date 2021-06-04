@@ -283,5 +283,5 @@ class Primitives:
     quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
     double_quad = LoadMesh(os.path.join(__path, "primitives/double_quad.mesh"))
     sphere = LoadMesh(os.path.join(__path, "primitives/sphere.mesh"))
-    # capsule = LoadMesh(os.path.join(__path, "primitives/capsule.mesh"))
+    capsule = LoadMesh(os.path.join(__path, "primitives/capsule.mesh"))
     cylinder = LoadMesh(os.path.join(__path, "primitives/cylinder.mesh"))

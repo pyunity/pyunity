@@ -42,12 +42,12 @@ def main():
     renderer.mesh = Loader.Primitives.sphere
     scene.Add(sphere)
 
-    # capsule = GameObject("Capsule", root)
-    # capsule.transform.localPosition = Vector3(rt50, 0, -rt50)
-    # renderer = capsule.AddComponent(MeshRenderer)
-    # renderer.mat = mat
-    # renderer.mesh = Loader.Primitives.capsule
-    # scene.Add(capsule)
+    capsule = GameObject("Capsule", root)
+    capsule.transform.localPosition = Vector3(rt50, 0, -rt50)
+    renderer = capsule.AddComponent(MeshRenderer)
+    renderer.mat = mat
+    renderer.mesh = Loader.Primitives.capsule
+    scene.Add(capsule)
 
     cylinder = GameObject("Cylinder", root)
     cylinder.transform.localPosition = Vector3(0, 0, -10)
@@ -63,12 +63,12 @@ def main():
     renderer.mesh = Loader.Primitives.sphere
     scene.Add(sphere)
 
-    # capsule = GameObject("Capsule", root)
-    # capsule.transform.localPosition = Vector3(-10, 0, 0)
-    # renderer = capsule.AddComponent(MeshRenderer)
-    # renderer.mat = mat
-    # renderer.mesh = Loader.Primitives.capsule
-    # scene.Add(capsule)
+    capsule = GameObject("Double Quad", root)
+    capsule.transform.localPosition = Vector3(-10, 0, 0)
+    renderer = capsule.AddComponent(MeshRenderer)
+    renderer.mat = mat
+    renderer.mesh = Loader.Primitives.double_quad
+    scene.Add(capsule)
 
     quad = GameObject("Quad", root)
     quad.transform.localPosition = Vector3(-rt50, 0, rt50)
