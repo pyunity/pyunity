@@ -29,7 +29,7 @@ class Mesh:
         Each int is the index of a vertex above.
     normals : list
         List of Vector3's containing the normal of each vertex.
-    
+
     Notes
     -----
     When a mesh is created, you cannot edit any of
@@ -95,7 +95,8 @@ class Mesh:
                         0), Vector3(size / 2, -size / 2, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
-            [Vector3.forward(), Vector3.forward(), Vector3.forward(), Vector3.forward()],
+            [Vector3.forward(), Vector3.forward(),
+             Vector3.forward(), Vector3.forward()],
             [[0, 0], [0, 1], [1, 1], [1, 0]]
         )
 
@@ -119,9 +120,11 @@ class Mesh:
         return Mesh(
             [
                 Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0),
+                Vector3(-size / 2, -size / 2,
+                        0), Vector3(size / 2, -size / 2, 0),
                 Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2, 0), Vector3(size / 2, -size / 2, 0),
+                Vector3(-size / 2, -size / 2,
+                        0), Vector3(size / 2, -size / 2, 0),
             ],
             [[0, 1, 2], [0, 2, 3], [4, 6, 5], [4, 7, 6]],
             [
@@ -189,11 +192,11 @@ class Mesh:
                 [20, 22, 21],
                 [20, 23, 22]
             ],
-            [Vector3.back()] * 4 + \
-                [Vector3.forward()] * 4 + \
-                [Vector3.down()] * 4 + \
-                [Vector3.up()] * 4 + \
-                [Vector3.right()] * 4 + \
-                [Vector3.left()] * 4,
+            [Vector3.back()] * 4 +
+            [Vector3.forward()] * 4 +
+            [Vector3.down()] * 4 +
+            [Vector3.up()] * 4 +
+            [Vector3.right()] * 4 +
+            [Vector3.left()] * 4,
             [[0, 0], [0, 1], [1, 1], [1, 0]] * 6
         )

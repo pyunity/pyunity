@@ -100,7 +100,7 @@ class Quaternion:
             A unit quaternion
         """
         length = glm.sqrt(self.w ** 2 + self.x ** 2 +
-                           self.y ** 2 + self.z ** 2)
+                          self.y ** 2 + self.z ** 2)
         if length:
             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
         else:
