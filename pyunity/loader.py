@@ -166,7 +166,7 @@ def SaveMesh(mesh, name, filePath=None):
                 if i != len(mesh.triangles) or j != 3:
                     f.write("/")
         f.write("\n")
-        
+
         i = 0
         for normal in mesh.normals:
             i += 1
@@ -176,7 +176,7 @@ def SaveMesh(mesh, name, filePath=None):
             if i != len(mesh.normals):
                 f.write("/")
         f.write("\n")
-        
+
         i = 0
         for texcoord in mesh.texcoords:
             i += 1

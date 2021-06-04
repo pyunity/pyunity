@@ -255,16 +255,16 @@ class Scene:
 
         """
         # if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            # self.lights = [
-            #     gl.GL_LIGHT0,
-            #     gl.GL_LIGHT1,
-            #     gl.GL_LIGHT2,
-            #     gl.GL_LIGHT3,
-            #     gl.GL_LIGHT4,
-            #     gl.GL_LIGHT5,
-            #     gl.GL_LIGHT6,
-            #     gl.GL_LIGHT7
-            # ]
+        # self.lights = [
+        #     gl.GL_LIGHT0,
+        #     gl.GL_LIGHT1,
+        #     gl.GL_LIGHT2,
+        #     gl.GL_LIGHT3,
+        #     gl.GL_LIGHT4,
+        #     gl.GL_LIGHT5,
+        #     gl.GL_LIGHT6,
+        #     gl.GL_LIGHT7
+        # ]
 
         self.mainCamera.lastPos = Vector3.zero()
         self.mainCamera.lastRot = Quaternion.identity()
