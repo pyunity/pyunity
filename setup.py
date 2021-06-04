@@ -10,7 +10,8 @@ with open("README.md", "r") as fh:
 if os.environ["cython"] == "1":
     c_files = glob.glob("src/**/*.c", recursive=True)
     data_files = glob.glob("src/**/*.mesh", recursive=True) + \
-        glob.glob("src/**/*.ogg", recursive=True)
+        glob.glob("src/**/*.ogg", recursive=True) + \
+        glob.glob("src/**/*.glsl")
     config = {
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
