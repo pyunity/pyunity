@@ -278,6 +278,12 @@ def LoadScene(sceneName, filePath=None):
     return scene
 
 class Primitives:
+    """
+    Primitive preloaded meshes.
+    Do not instantiate this class.
+
+    """
+    
     __path = os.path.dirname(os.path.realpath(__file__))
     cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
     quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))

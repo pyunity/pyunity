@@ -16,9 +16,39 @@ import os
 float_size = gl.sizeof(c_float)
 
 def convert(type, list):
+    """
+    Converts a Python array to a C type from
+    ``ctypes``.
+
+    Parameters
+    ----------
+    type : _ctypes.PyCSimpleType
+        Type to cast to.
+    list : list
+        List to cast
+
+    Returns
+    -------
+    Any
+        A C array
+    """
     return (type * len(list))(*list)
 
 def gen_buffers(mesh):
+    """
+    Create buffers for a mesh.
+
+    Parameters
+    ----------
+    mesh : Mesh
+        Mesh to create buffers for
+
+    Returns
+    -------
+    tuple
+        Tuple containing a vertex buffer object and
+        an index buffer object.
+    """
     data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
                 for item in zip(mesh.verts, mesh.normals, mesh.texcoords)]))
     indices = list(itertools.chain(*mesh.triangles))
@@ -34,6 +64,19 @@ def gen_buffers(mesh):
     return vbo, ibo
 
 def gen_array():
+    """
+    Generate a vertex array object.
+
+    Returns
+    -------
+    Any
+        A vertex buffer object of floats.
+        Has 3 elements:
+
+        # vertex    # normal    # texcoord
+        x, y, z,    a, b, c,    u, v
+
+    """
     vao = gl.glGenVertexArrays(1)
     gl.glBindVertexArray(vao)
     gl.glVertexAttribPointer(

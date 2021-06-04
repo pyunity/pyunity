@@ -2,6 +2,10 @@
 Class to load, render and manage GameObjects
 and their various components.
 
+You should never use the ``Scene``
+class directly, instead, only use
+the SceneManager class.
+
 """
 
 from ..audio import *

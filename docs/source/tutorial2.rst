@@ -32,15 +32,17 @@ Meshes
 ======
 To render anything, we need a model of it. Let's say
 we want to create a cube. Then we need a model of a
-cube, or what's called a mesh. Meshes have 3 pieces
-of data: the vertices (or points), the faces and the
-normals. Normals are just vectors saying which way
-the face is pointing.
+cube, or what's called a mesh. Meshes have 4 pieces
+of data: the vertices (or points), the faces, the
+normals and the texture coordinates. Normals are
+just vectors saying which way the face is pointing,
+and texture coordinates are coordinates to represent
+how an image is displayed on the surface of a mesh.
 
-For this, we don't want to have to create our own
-mesh. Fortunately there is a method called
-``Mesh.cube`` which creates a cube for us. Here it
-is:
+For a simple object like a cube, we don't need to
+create our own mesh. Fortunately there is a method
+called ``Mesh.cube`` which creates a cube for us.
+Here it is:
 
    >>> cubeMesh = Mesh.cube(2)
 
@@ -103,10 +105,35 @@ Now we can see it better:
 
 .. image:: _static/cube2.png
 
+Let's say we want to place an image onto the cube. To do this,
+we need to change the Material and add a Texture.
+
+   >>> renderer.mat = Material(Color(255, 255, 255), Texture2D("python.png"))
+
+Place ``python.png`` in the same folder as your script and run
+the code. Here is the image for reference:
+
+.. image:: _static/python.png
+
+And here is the complete code:
+
+.. code-block:: python
+
+   from pyunity import *
+   scene = SceneManager.AddScene("Scene")
+   scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
+   cubeMesh = Mesh.cube(2)
+   cube = GameObject("Cube")
+   renderer = cube.AddComponent(MeshRenderer)
+   renderer.mesh = cubeMesh
+   renderer.mat = Material(Color(255, 0, 0), Texture2D("python.png"))
+   scene.Add(cube)
+   scene.Run()
+
 Debugging
 =========
 If you want to see what you've done already, then you can use
-a number of debugging methods. The first is to call `scene.List()`:
+a number of debugging methods. The first is to call ``scene.List()``:
 
    >>> scene.List()
    /Main Camera
