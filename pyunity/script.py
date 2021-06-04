@@ -44,6 +44,34 @@ class Behaviour(Component):
         pass
 
 def CheckScript(text):
+    """
+    Check if ``text`` is a valid script for PyUnity.
+
+    Parameters
+    ----------
+    text : list
+        List of lines
+
+    Returns
+    -------
+    bool
+        If script is valid or not.
+    
+    Notes
+    -----
+    This function checks each line to see if it matches at
+    least one of these criteria:
+
+    1. The line is an ``import`` statement
+    #. The line is just whitespace or blank
+    #. The line is just a comment preceded by whitespace or nothing
+    #. The line is a class definition
+    #. The line has an indentation at the beginning
+
+    These checks are essential to ensure no malicious code is run to
+    break the PyUnity engine.
+
+    """
     for line in text:
         if line.startswith("import") or \
                 (line.startswith("from") and " import " in line):
@@ -61,6 +89,30 @@ def CheckScript(text):
     return True
 
 def LoadScripts(path):
+    """
+    Loads all scripts found in ``path``.
+
+    Parameters
+    ----------
+    path : Pathlike
+        A path to a folder containing all the scripts
+
+    Returns
+    -------
+    ModuleType
+        A module that contains all the imported scripts
+    
+    Notes
+    -----
+    This function will add a module to ``sys.modules`` that
+    is called ``PyUnityScripts``, and can be imported like any
+    other module. The module will also have a variable called
+    ``__pyunity__`` which shows that it is from PyUnity and not
+    a real module. If an existing module named ``PyUnityScripts``
+    is present and does not have the ``__pyunity__`` variable set,
+    then a warning will be issued and it will be replaced.
+
+    """
     files = glob.glob(os.path.join(path, "*.py"))
     a = {}
 

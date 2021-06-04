@@ -160,7 +160,7 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to add. Must inherit from `Component`
+            Component to add. Must inherit from ``Component``
 
         """
         if not issubclass(componentClass, Component):
@@ -194,7 +194,7 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from `Component`
+            Component to get. Must inherit from ``Component``
 
         """
         for component in self.components:
@@ -233,7 +233,7 @@ class Component:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from `Component`
+            Component to get. Must inherit from ``Component``
 
         """
         return self.gameObject.GetComponent(component)
@@ -245,7 +245,7 @@ class Component:
         Parameters
         ----------
         component : Component
-            Component to add. Must inherit from `Component`
+            Component to add. Must inherit from ``Component``
 
         """
         return self.gameObject.AddComponent(component)

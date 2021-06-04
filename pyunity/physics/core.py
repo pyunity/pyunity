@@ -107,8 +107,8 @@ class SphereCollider(Collider):
         """
         self.radius = radius
         self.pos = offset + self.transform.position
-        self.min = pos - radius
-        self.max = pos + radius
+        self.min = self.pos - radius
+        self.max = self.pos + radius
 
     def collidingWith(self, other):
         """

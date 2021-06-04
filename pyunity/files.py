@@ -23,6 +23,11 @@ class Texture2D:
         self.loaded = False
 
     def load(self):
+        """
+        Loads the texture and sets up an OpenGL
+        texture name.
+
+        """
         img = Image.open(self.path)
         img_data = img.tobytes()
         width, height = img.size
@@ -38,6 +43,11 @@ class Texture2D:
         self.loaded = True
 
     def use(self):
+        """
+        Binds the texture for usage. The texture is
+        reloaded if it hasn't already been.
+        
+        """
         if not self.loaded:
             self.load()
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)

@@ -22,27 +22,13 @@ use pip::
 Alternatively, you can clone the repository
 `here <https://github.com/rayzchen/pyunity>`_
 to build the package from source. Then use
-`setup.py` to build. Note that it will install
+``setup.py`` to build. Note that it will install
 Cython to compile.
 
     > python setup.py install
 
 Its only dependencies are PyOpenGL, Pygame,
 GLFW, Pillow and PyGLM.
-
-To install PyGame on Linux, use:
-
-    > pip3 install pygame
-
-Note: we are having some difficulties right now.
-To install a working copy, you cannot use the
-simple ``pip install pyunity`` command. Instead,
-clone the repository from above. Next, you
-have to set the environment variable ``cython``
-to a value that is not ``1``. Then you can run
-``python setup.py install``. This issue is
-being worked on and you can see its progress
-here: https://github.com/rayzchen/pyunity/issues/7
 
 Importing
 ---------
@@ -57,8 +43,7 @@ PYUNITY_DEBUG_MODE environment variable to ``"0"``.
 This is the output with debugging::
 
     Loaded config
-    Trying FreeGLUT as a window provider
-    FreeGLUT doesn't work, trying GLFW
+    Trying GLFW as a window provider
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
     Loaded PyUnity version 0.5.0
@@ -152,7 +137,7 @@ Or from the command line::
     > python -m pyunity 1
 
 The ``1`` just means to load example 1, and there
-are 8 examples. To load all examples one by
+are 9 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
 create a new pull request.

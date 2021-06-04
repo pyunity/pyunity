@@ -8,7 +8,7 @@ understanding some key concepts.
 
 What is PyUnity?
 ================
-PyUnity is a Python port of the
+PyUnity is a Python implementation of the
 UnityEngine_, which was originally written
 in C++. PyUnity has been modified to be
 easy to use in Python, which means that
@@ -18,13 +18,13 @@ some features have been removed.
 
 Basic concepts
 ==============
-In PyUnity, everything will belong to a
+In PyUnity, everything belongs to a
 GameObject. A GameObject is a named object that
-has lots of different things on it that will
+has lots of Components on it that will
 affect the GameObject and other GameObjects.
-Each GameObject has its own Components, which
-are like the hardware in a computer. These
-Components can do all sorts of things.
+Components are Python objects that do specific
+things each frame, like rendering an object or
+deleting other GameObjects.
 
 Transforms
 ==========
@@ -33,12 +33,14 @@ Each GameObject has a special component called
 a Transform. A Transform holds information about
 the GameObject's position, rotation and scale.
 
-A Transform can also have a child. This child is
-also a GameObject's component. All transforms will
-have a localPosition, localRotation and localScale,
-which are all relative to their parent. In addition,
-all Transforms will have a ``position``, ``rotation`` and
-``scale`` property which is measured in global space.
+A Transform also manages the hierarchy system in PyUnity.
+Each transforms can have multiple children, which are all
+Transforms attached to the children GameObjects.
+All transforms will have a ``localPosition``, ``localRotation``
+and ``localScale``, which are all relative to their parent.
+In addition, all Transforms will have a ``position``,
+``rotation`` and ``scale`` property which is measured
+in global space.
 
 For example, if there is a Transform at 1 unit up from
 the origin, and its child had a ``localPosition`` of
@@ -58,9 +60,16 @@ program it all! To start, we need to import PyUnity.
    Using window provider Pygame
    Loaded PyUnity version 0.4.0
 
-The output beneath the import is just debug statement, you
+The output beneath the import is just for debug, you
 can turn it off with the environment variable
 ``PYUNITY_DEBUG_INFO`` set to ``"0"``.
+
+For example:
+
+   >>> import os
+   >>> os.environ["PYUNITY_DEBUG_INFO"] = "0"
+   >>> from pyunity import *
+   >>> # No output
 
 Now we have loaded the module, we can start creating our
 GameObjects. To create a GameObject, use the ``GameObject``
@@ -115,7 +124,7 @@ are these methods:
 Transforms also have ``localEulerAngles`` and ``eulerAngles``
 properties, which just represent the Euler angles of the
 rotation Quaternions. If you don't know what to do, only use
-the ``localEulerAngles`` property.
+the ``eulerAngles`` property.
 
 In the next tutorial, we'll be covering how to render things
 and use a Scene.
