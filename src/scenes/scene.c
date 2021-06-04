@@ -6032,7 +6032,7 @@ static PyObject *__pyx_pf_7pyunity_6scenes_5scene_5Scene_18Start(CYTHON_UNUSED P
   __Pyx_RefNannySetupContext("Start", 0);
 
   /* "pyunity/scenes/scene.py":269
- *             # ]
+ *         # ]
  * 
  *         self.mainCamera.lastPos = Vector3.zero()             # <<<<<<<<<<<<<<
  *         self.mainCamera.lastRot = Quaternion.identity()

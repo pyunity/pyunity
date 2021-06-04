@@ -56,6 +56,7 @@ class Special:
     def __init__(self, func):
         self.func = func
 
+
 RUNNING_TIME = Special(lambda: f"Time taken: {time() - start}")
 
 def Log(*message):

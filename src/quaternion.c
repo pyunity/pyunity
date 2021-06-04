@@ -3658,7 +3658,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
  *             A unit quaternion
  *         """
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +             # <<<<<<<<<<<<<<
- *                            self.y ** 2 + self.z ** 2)
+ *                           self.y ** 2 + self.z ** 2)
  *         if length:
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_glm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
@@ -3684,7 +3684,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
   /* "pyunity/quaternion.py":103
  *         """
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +
- *                            self.y ** 2 + self.z ** 2)             # <<<<<<<<<<<<<<
+ *                           self.y ** 2 + self.z ** 2)             # <<<<<<<<<<<<<<
  *         if length:
  *             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
  */
@@ -3698,7 +3698,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
  *             A unit quaternion
  *         """
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +             # <<<<<<<<<<<<<<
- *                            self.y ** 2 + self.z ** 2)
+ *                           self.y ** 2 + self.z ** 2)
  *         if length:
  */
   __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
@@ -3709,7 +3709,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
   /* "pyunity/quaternion.py":103
  *         """
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +
- *                            self.y ** 2 + self.z ** 2)             # <<<<<<<<<<<<<<
+ *                           self.y ** 2 + self.z ** 2)             # <<<<<<<<<<<<<<
  *         if length:
  *             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
  */
@@ -3743,7 +3743,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
 
   /* "pyunity/quaternion.py":104
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +
- *                            self.y ** 2 + self.z ** 2)
+ *                           self.y ** 2 + self.z ** 2)
  *         if length:             # <<<<<<<<<<<<<<
  *             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
  *         else:
@@ -3752,7 +3752,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
   if (__pyx_t_6) {
 
     /* "pyunity/quaternion.py":105
- *                            self.y ** 2 + self.z ** 2)
+ *                           self.y ** 2 + self.z ** 2)
  *         if length:
  *             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)             # <<<<<<<<<<<<<<
  *         else:
@@ -3846,7 +3846,7 @@ static PyObject *__pyx_pf_7pyunity_10quaternion_10Quaternion_21normalized(CYTHON
 
     /* "pyunity/quaternion.py":104
  *         length = glm.sqrt(self.w ** 2 + self.x ** 2 +
- *                            self.y ** 2 + self.z ** 2)
+ *                           self.y ** 2 + self.z ** 2)
  *         if length:             # <<<<<<<<<<<<<<
  *             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
  *         else:

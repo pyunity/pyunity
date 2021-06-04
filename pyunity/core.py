@@ -85,7 +85,7 @@ class Tag:
         Tag index of the list of tags
 
         """
-    
+
     tags = ["Default"]
     """List of current tags"""
 
@@ -483,11 +483,12 @@ class MeshRenderer(SingleComponent):
         """Render the mesh that the MeshRenderer has."""
         if self.mesh is None:
             return
-        
+
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
         gl.glBindVertexArray(self.mesh.vao)
-        gl.glDrawElements(gl.GL_TRIANGLES, len(self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
+        gl.glDrawElements(gl.GL_TRIANGLES, len(
+            self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
 
         # gl.glBegin(gl.GL_TRIANGLES)
         # gl.glColor3f(
@@ -518,6 +519,6 @@ class Color:
         self.r = r
         self.g = g
         self.b = b
-    
+
     def __truediv__(self, other):
         return self.r / other, self.g / other, self.b / other
