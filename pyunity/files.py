@@ -46,7 +46,7 @@ class Texture2D:
         """
         Binds the texture for usage. The texture is
         reloaded if it hasn't already been.
-        
+
         """
         if not self.loaded:
             self.load()

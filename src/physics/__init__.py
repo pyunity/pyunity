@@ -31,7 +31,7 @@ the config file like so:
 Inside the config file there are some configurations:
 
 - ``gravity`` is the gravity of the whole system. It only
-  affects Rigidbodies that have ``gravity`` set to True.
+  affects Rigidbodies that have ``Rigidbody.gravity`` set to True.
 
 """
 

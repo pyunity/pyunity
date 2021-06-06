@@ -2605,7 +2605,7 @@ static PyObject *__pyx_pf_7pyunity_4core_10GameObject___init__(CYTHON_UNUSED PyO
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_4core_10GameObject_3AddComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_4core_10GameObject_2AddComponent[] = "\n        Adds a component to the GameObject.\n        If it is a transform, set\n        GameObject's transform to it.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to add. Must inherit from `Component`\n\n        ";
+static char __pyx_doc_7pyunity_4core_10GameObject_2AddComponent[] = "\n        Adds a component to the GameObject.\n        If it is a transform, set\n        GameObject's transform to it.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to add. Must inherit from ``Component``\n\n        ";
 static PyMethodDef __pyx_mdef_7pyunity_4core_10GameObject_3AddComponent = {"AddComponent", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_4core_10GameObject_3AddComponent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_4core_10GameObject_2AddComponent};
 static PyObject *__pyx_pw_7pyunity_4core_10GameObject_3AddComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -3183,7 +3183,7 @@ static PyObject *__pyx_pf_7pyunity_4core_10GameObject_2AddComponent(CYTHON_UNUSE
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_4core_10GameObject_5GetComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_4core_10GameObject_4GetComponent[] = "\n        Gets a component from the GameObject.\n        Will return first match.\n        For all matches, do a manual loop.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to get. Must inherit from `Component`\n\n        ";
+static char __pyx_doc_7pyunity_4core_10GameObject_4GetComponent[] = "\n        Gets a component from the GameObject.\n        Will return first match.\n        For all matches, do a manual loop.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to get. Must inherit from ``Component``\n\n        ";
 static PyMethodDef __pyx_mdef_7pyunity_4core_10GameObject_5GetComponent = {"GetComponent", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_4core_10GameObject_5GetComponent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_4core_10GameObject_4GetComponent};
 static PyObject *__pyx_pw_7pyunity_4core_10GameObject_5GetComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -3663,7 +3663,7 @@ static PyObject *__pyx_pf_7pyunity_4core_9Component___init__(CYTHON_UNUSED PyObj
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_4core_9Component_3GetComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_4core_9Component_2GetComponent[] = "\n        Calls `GetComponent` on the component's GameObject.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to get. Must inherit from `Component`\n\n        ";
+static char __pyx_doc_7pyunity_4core_9Component_2GetComponent[] = "\n        Calls `GetComponent` on the component's GameObject.\n\n        Parameters\n        ----------\n        componentClass : Component\n            Component to get. Must inherit from ``Component``\n\n        ";
 static PyMethodDef __pyx_mdef_7pyunity_4core_9Component_3GetComponent = {"GetComponent", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_4core_9Component_3GetComponent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_4core_9Component_2GetComponent};
 static PyObject *__pyx_pw_7pyunity_4core_9Component_3GetComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -3801,7 +3801,7 @@ static PyObject *__pyx_pf_7pyunity_4core_9Component_2GetComponent(CYTHON_UNUSED 
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_4core_9Component_5AddComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_7pyunity_4core_9Component_4AddComponent[] = "\n        Calls `AddComponent` on the component's GameObject.\n\n        Parameters\n        ----------\n        component : Component\n            Component to add. Must inherit from `Component`\n\n        ";
+static char __pyx_doc_7pyunity_4core_9Component_4AddComponent[] = "\n        Calls `AddComponent` on the component's GameObject.\n\n        Parameters\n        ----------\n        component : Component\n            Component to add. Must inherit from ``Component``\n\n        ";
 static PyMethodDef __pyx_mdef_7pyunity_4core_9Component_5AddComponent = {"AddComponent", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_7pyunity_4core_9Component_5AddComponent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_7pyunity_4core_9Component_4AddComponent};
 static PyObject *__pyx_pw_7pyunity_4core_9Component_5AddComponent(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;

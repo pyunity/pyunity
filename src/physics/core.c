@@ -2206,7 +2206,7 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_2SetSize(CYTH
  *         """
  *         self.radius = radius             # <<<<<<<<<<<<<<
  *         self.pos = offset + self.transform.position
- *         self.min = pos - radius
+ *         self.min = self.pos - radius
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_radius, __pyx_v_radius) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
 
@@ -2214,8 +2214,8 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_2SetSize(CYTH
  *         """
  *         self.radius = radius
  *         self.pos = offset + self.transform.position             # <<<<<<<<<<<<<<
- *         self.min = pos - radius
- *         self.max = pos + radius
+ *         self.min = self.pos - radius
+ *         self.max = self.pos + radius
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_transform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2231,11 +2231,11 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_2SetSize(CYTH
   /* "pyunity/physics/core.py":110
  *         self.radius = radius
  *         self.pos = offset + self.transform.position
- *         self.min = pos - radius             # <<<<<<<<<<<<<<
- *         self.max = pos + radius
+ *         self.min = self.pos - radius             # <<<<<<<<<<<<<<
+ *         self.max = self.pos + radius
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_v_radius); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2245,12 +2245,12 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_2SetSize(CYTH
 
   /* "pyunity/physics/core.py":111
  *         self.pos = offset + self.transform.position
- *         self.min = pos - radius
- *         self.max = pos + radius             # <<<<<<<<<<<<<<
+ *         self.min = self.pos - radius
+ *         self.max = self.pos + radius             # <<<<<<<<<<<<<<
  * 
  *     def collidingWith(self, other):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_v_radius); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2281,7 +2281,7 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_2SetSize(CYTH
 }
 
 /* "pyunity/physics/core.py":113
- *         self.max = pos + radius
+ *         self.max = self.pos + radius
  * 
  *     def collidingWith(self, other):             # <<<<<<<<<<<<<<
  *         """
@@ -3149,7 +3149,7 @@ static PyObject *__pyx_pf_7pyunity_7physics_4core_14SphereCollider_4collidingWit
   }
 
   /* "pyunity/physics/core.py":113
- *         self.max = pos + radius
+ *         self.max = self.pos + radius
  * 
  *     def collidingWith(self, other):             # <<<<<<<<<<<<<<
  *         """
@@ -9835,7 +9835,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_core_py, __pyx_n_s_SetSize, 96, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 96, __pyx_L1_error)
 
   /* "pyunity/physics/core.py":113
- *         self.max = pos + radius
+ *         self.max = self.pos + radius
  * 
  *     def collidingWith(self, other):             # <<<<<<<<<<<<<<
  *         """
@@ -10574,7 +10574,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "pyunity/physics/core.py":113
- *         self.max = pos + radius
+ *         self.max = self.pos + radius
  * 
  *     def collidingWith(self, other):             # <<<<<<<<<<<<<<
  *         """

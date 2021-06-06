@@ -1648,13 +1648,14 @@ static PyObject *__pyx_pf_7pyunity_6script_9Behaviour_2Update(CYTHON_UNUSED PyOb
  *         pass
  * 
  * def CheckScript(text):             # <<<<<<<<<<<<<<
- *     for line in text:
- *         if line.startswith("import") or \
+ *     """
+ *     Check if ``text`` is a valid script for PyUnity.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_6script_1CheckScript(PyObject *__pyx_self, PyObject *__pyx_v_text); /*proto*/
-static PyMethodDef __pyx_mdef_7pyunity_6script_1CheckScript = {"CheckScript", (PyCFunction)__pyx_pw_7pyunity_6script_1CheckScript, METH_O, 0};
+static char __pyx_doc_7pyunity_6script_CheckScript[] = "\n    Check if ``text`` is a valid script for PyUnity.\n\n    Parameters\n    ----------\n    text : list\n        List of lines\n\n    Returns\n    -------\n    bool\n        If script is valid or not.\n\n    Notes\n    -----\n    This function checks each line to see if it matches at\n    least one of these criteria:\n\n    1. The line is an ``import`` statement\n    #. The line is just whitespace or blank\n    #. The line is just a comment preceded by whitespace or nothing\n    #. The line is a class definition\n    #. The line has an indentation at the beginning\n\n    These checks are essential to ensure no malicious code is run to\n    break the PyUnity engine.\n\n    ";
+static PyMethodDef __pyx_mdef_7pyunity_6script_1CheckScript = {"CheckScript", (PyCFunction)__pyx_pw_7pyunity_6script_1CheckScript, METH_O, __pyx_doc_7pyunity_6script_CheckScript};
 static PyObject *__pyx_pw_7pyunity_6script_1CheckScript(PyObject *__pyx_self, PyObject *__pyx_v_text) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -1685,9 +1686,9 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CheckScript", 0);
 
-  /* "pyunity/script.py":47
+  /* "pyunity/script.py":75
  * 
- * def CheckScript(text):
+ *     """
  *     for line in text:             # <<<<<<<<<<<<<<
  *         if line.startswith("import") or \
  *                 (line.startswith("from") and " import " in line):
@@ -1696,26 +1697,26 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     __pyx_t_1 = __pyx_v_text; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -1725,7 +1726,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 47, __pyx_L1_error)
+          else __PYX_ERR(0, 75, __pyx_L1_error)
         }
         break;
       }
@@ -1734,14 +1735,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "pyunity/script.py":48
- * def CheckScript(text):
+    /* "pyunity/script.py":76
+ *     """
  *     for line in text:
  *         if line.startswith("import") or \             # <<<<<<<<<<<<<<
  *                 (line.startswith("from") and " import " in line):
  *             continue
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -1755,10 +1756,10 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_n_u_import) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_n_u_import);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (!__pyx_t_8) {
     } else {
@@ -1766,14 +1767,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
       goto __pyx_L6_bool_binop_done;
     }
 
-    /* "pyunity/script.py":49
+    /* "pyunity/script.py":77
  *     for line in text:
  *         if line.startswith("import") or \
  *                 (line.startswith("from") and " import " in line):             # <<<<<<<<<<<<<<
  *             continue
  *         elif line.isspace() or line == "":
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -1787,23 +1788,23 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_n_u_from) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_n_u_from);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_8) {
     } else {
       __pyx_t_5 = __pyx_t_8;
       goto __pyx_L6_bool_binop_done;
     }
-    __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u_import_2, __pyx_v_line, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u_import_2, __pyx_v_line, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
     __pyx_t_9 = (__pyx_t_8 != 0);
     __pyx_t_5 = __pyx_t_9;
     __pyx_L6_bool_binop_done:;
 
-    /* "pyunity/script.py":48
- * def CheckScript(text):
+    /* "pyunity/script.py":76
+ *     """
  *     for line in text:
  *         if line.startswith("import") or \             # <<<<<<<<<<<<<<
  *                 (line.startswith("from") and " import " in line):
@@ -1811,7 +1812,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
     if (__pyx_t_5) {
 
-      /* "pyunity/script.py":50
+      /* "pyunity/script.py":78
  *         if line.startswith("import") or \
  *                 (line.startswith("from") and " import " in line):
  *             continue             # <<<<<<<<<<<<<<
@@ -1820,8 +1821,8 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
       goto __pyx_L3_continue;
 
-      /* "pyunity/script.py":48
- * def CheckScript(text):
+      /* "pyunity/script.py":76
+ *     """
  *     for line in text:
  *         if line.startswith("import") or \             # <<<<<<<<<<<<<<
  *                 (line.startswith("from") and " import " in line):
@@ -1829,14 +1830,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
     }
 
-    /* "pyunity/script.py":51
+    /* "pyunity/script.py":79
  *                 (line.startswith("from") and " import " in line):
  *             continue
  *         elif line.isspace() or line == "":             # <<<<<<<<<<<<<<
  *             continue
  *         elif "#" in line:
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_isspace); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_isspace); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -1850,22 +1851,22 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (!__pyx_t_9) {
     } else {
       __pyx_t_5 = __pyx_t_9;
       goto __pyx_L9_bool_binop_done;
     }
-    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_line, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_line, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 79, __pyx_L1_error)
     __pyx_t_5 = __pyx_t_9;
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "pyunity/script.py":52
+      /* "pyunity/script.py":80
  *             continue
  *         elif line.isspace() or line == "":
  *             continue             # <<<<<<<<<<<<<<
@@ -1874,7 +1875,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
       goto __pyx_L3_continue;
 
-      /* "pyunity/script.py":51
+      /* "pyunity/script.py":79
  *                 (line.startswith("from") and " import " in line):
  *             continue
  *         elif line.isspace() or line == "":             # <<<<<<<<<<<<<<
@@ -1883,25 +1884,25 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
     }
 
-    /* "pyunity/script.py":53
+    /* "pyunity/script.py":81
  *         elif line.isspace() or line == "":
  *             continue
  *         elif "#" in line:             # <<<<<<<<<<<<<<
  *             if line.split("#")[0].isspace():
  *                 continue
  */
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__2, __pyx_v_line, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_kp_u__2, __pyx_v_line, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 81, __pyx_L1_error)
     __pyx_t_9 = (__pyx_t_5 != 0);
     if (__pyx_t_9) {
 
-      /* "pyunity/script.py":54
+      /* "pyunity/script.py":82
  *             continue
  *         elif "#" in line:
  *             if line.split("#")[0].isspace():             # <<<<<<<<<<<<<<
  *                 continue
  *         elif line.startswith("class "):
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_split); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_10 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -1915,13 +1916,13 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
       }
       __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_10, __pyx_kp_u__2) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_kp_u__2);
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_isspace); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_isspace); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = NULL;
@@ -1936,14 +1937,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
       }
       __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_9) {
 
-        /* "pyunity/script.py":55
+        /* "pyunity/script.py":83
  *         elif "#" in line:
  *             if line.split("#")[0].isspace():
  *                 continue             # <<<<<<<<<<<<<<
@@ -1952,7 +1953,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
         goto __pyx_L3_continue;
 
-        /* "pyunity/script.py":54
+        /* "pyunity/script.py":82
  *             continue
  *         elif "#" in line:
  *             if line.split("#")[0].isspace():             # <<<<<<<<<<<<<<
@@ -1961,7 +1962,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
       }
 
-      /* "pyunity/script.py":53
+      /* "pyunity/script.py":81
  *         elif line.isspace() or line == "":
  *             continue
  *         elif "#" in line:             # <<<<<<<<<<<<<<
@@ -1971,14 +1972,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
       goto __pyx_L5;
     }
 
-    /* "pyunity/script.py":56
+    /* "pyunity/script.py":84
  *             if line.split("#")[0].isspace():
  *                 continue
  *         elif line.startswith("class "):             # <<<<<<<<<<<<<<
  *             continue
  *         elif line.startswith(" ") or line.startswith("\t"):
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -1992,14 +1993,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_kp_u_class) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_u_class);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_9) {
 
-      /* "pyunity/script.py":57
+      /* "pyunity/script.py":85
  *                 continue
  *         elif line.startswith("class "):
  *             continue             # <<<<<<<<<<<<<<
@@ -2008,7 +2009,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
       goto __pyx_L3_continue;
 
-      /* "pyunity/script.py":56
+      /* "pyunity/script.py":84
  *             if line.split("#")[0].isspace():
  *                 continue
  *         elif line.startswith("class "):             # <<<<<<<<<<<<<<
@@ -2017,14 +2018,14 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
     }
 
-    /* "pyunity/script.py":58
+    /* "pyunity/script.py":86
  *         elif line.startswith("class "):
  *             continue
  *         elif line.startswith(" ") or line.startswith("\t"):             # <<<<<<<<<<<<<<
  *             continue
  *         return False
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2038,17 +2039,17 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_kp_u__3) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_u__3);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (!__pyx_t_5) {
     } else {
       __pyx_t_9 = __pyx_t_5;
       goto __pyx_L12_bool_binop_done;
     }
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_startswith); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2062,16 +2063,16 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_kp_u__4) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_u__4);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_9 = __pyx_t_5;
     __pyx_L12_bool_binop_done:;
     if (__pyx_t_9) {
 
-      /* "pyunity/script.py":59
+      /* "pyunity/script.py":87
  *             continue
  *         elif line.startswith(" ") or line.startswith("\t"):
  *             continue             # <<<<<<<<<<<<<<
@@ -2080,7 +2081,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  */
       goto __pyx_L3_continue;
 
-      /* "pyunity/script.py":58
+      /* "pyunity/script.py":86
  *         elif line.startswith("class "):
  *             continue
  *         elif line.startswith(" ") or line.startswith("\t"):             # <<<<<<<<<<<<<<
@@ -2090,7 +2091,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     }
     __pyx_L5:;
 
-    /* "pyunity/script.py":60
+    /* "pyunity/script.py":88
  *         elif line.startswith(" ") or line.startswith("\t"):
  *             continue
  *         return False             # <<<<<<<<<<<<<<
@@ -2103,9 +2104,9 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "pyunity/script.py":47
+    /* "pyunity/script.py":75
  * 
- * def CheckScript(text):
+ *     """
  *     for line in text:             # <<<<<<<<<<<<<<
  *         if line.startswith("import") or \
  *                 (line.startswith("from") and " import " in line):
@@ -2114,7 +2115,7 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/script.py":61
+  /* "pyunity/script.py":89
  *             continue
  *         return False
  *     return True             # <<<<<<<<<<<<<<
@@ -2130,8 +2131,8 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
  *         pass
  * 
  * def CheckScript(text):             # <<<<<<<<<<<<<<
- *     for line in text:
- *         if line.startswith("import") or \
+ *     """
+ *     Check if ``text`` is a valid script for PyUnity.
  */
 
   /* function exit code */
@@ -2150,17 +2151,18 @@ static PyObject *__pyx_pf_7pyunity_6script_CheckScript(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "pyunity/script.py":63
+/* "pyunity/script.py":91
  *     return True
  * 
  * def LoadScripts(path):             # <<<<<<<<<<<<<<
- *     files = glob.glob(os.path.join(path, "*.py"))
- *     a = {}
+ *     """
+ *     Loads all scripts found in ``path``.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_7pyunity_6script_3LoadScripts(PyObject *__pyx_self, PyObject *__pyx_v_path); /*proto*/
-static PyMethodDef __pyx_mdef_7pyunity_6script_3LoadScripts = {"LoadScripts", (PyCFunction)__pyx_pw_7pyunity_6script_3LoadScripts, METH_O, 0};
+static char __pyx_doc_7pyunity_6script_2LoadScripts[] = "\n    Loads all scripts found in ``path``.\n\n    Parameters\n    ----------\n    path : Pathlike\n        A path to a folder containing all the scripts\n\n    Returns\n    -------\n    ModuleType\n        A module that contains all the imported scripts\n\n    Notes\n    -----\n    This function will add a module to ``sys.modules`` that\n    is called ``PyUnityScripts``, and can be imported like any\n    other module. The module will also have a variable called\n    ``__pyunity__`` which shows that it is from PyUnity and not\n    a real module. If an existing module named ``PyUnityScripts``\n    is present and does not have the ``__pyunity__`` variable set,\n    then a warning will be issued and it will be replaced.\n\n    ";
+static PyMethodDef __pyx_mdef_7pyunity_6script_3LoadScripts = {"LoadScripts", (PyCFunction)__pyx_pw_7pyunity_6script_3LoadScripts, METH_O, __pyx_doc_7pyunity_6script_2LoadScripts};
 static PyObject *__pyx_pw_7pyunity_6script_3LoadScripts(PyObject *__pyx_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -2205,24 +2207,24 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("LoadScripts", 0);
 
-  /* "pyunity/script.py":64
+  /* "pyunity/script.py":116
  * 
- * def LoadScripts(path):
+ *     """
  *     files = glob.glob(os.path.join(path, "*.py"))             # <<<<<<<<<<<<<<
  *     a = {}
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_glob); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_glob); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glob); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glob); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_os); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_os); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_join); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_join); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -2240,7 +2242,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_path, __pyx_kp_u_py};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
@@ -2248,13 +2250,13 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_path, __pyx_kp_u_py};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -2265,7 +2267,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     __Pyx_INCREF(__pyx_kp_u_py);
     __Pyx_GIVEREF(__pyx_kp_u_py);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_kp_u_py);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -2283,37 +2285,37 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_files = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pyunity/script.py":65
- * def LoadScripts(path):
+  /* "pyunity/script.py":117
+ *     """
  *     files = glob.glob(os.path.join(path, "*.py"))
  *     a = {}             # <<<<<<<<<<<<<<
  * 
  *     if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_a = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pyunity/script.py":67
+  /* "pyunity/script.py":119
  *     a = {}
  * 
  *     if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):             # <<<<<<<<<<<<<<
  *         module = sys.modules["PyUnityScripts"]
  *     else:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_modules); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_modules); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_PyUnityScripts, __pyx_t_3, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_PyUnityScripts, __pyx_t_3, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_10 = (__pyx_t_9 != 0);
   if (__pyx_t_10) {
@@ -2321,40 +2323,40 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     __pyx_t_8 = __pyx_t_10;
     goto __pyx_L4_bool_binop_done;
   }
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_10 = __Pyx_HasAttr(__pyx_t_3, __pyx_n_u_pyunity); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_HasAttr(__pyx_t_3, __pyx_n_u_pyunity); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_9 = (__pyx_t_10 != 0);
   __pyx_t_8 = __pyx_t_9;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_8) {
 
-    /* "pyunity/script.py":68
+    /* "pyunity/script.py":120
  * 
  *     if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
  *         module = sys.modules["PyUnityScripts"]             # <<<<<<<<<<<<<<
  *     else:
  *         if "PyUnityScripts" in sys.modules:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_module = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "pyunity/script.py":67
+    /* "pyunity/script.py":119
  *     a = {}
  * 
  *     if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):             # <<<<<<<<<<<<<<
@@ -2364,7 +2366,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     goto __pyx_L3;
   }
 
-  /* "pyunity/script.py":70
+  /* "pyunity/script.py":122
  *         module = sys.modules["PyUnityScripts"]
  *     else:
  *         if "PyUnityScripts" in sys.modules:             # <<<<<<<<<<<<<<
@@ -2372,31 +2374,31 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
  *         module = ModuleType("PyUnityScripts", None)
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_PyUnityScripts, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_PyUnityScripts, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_9 = (__pyx_t_8 != 0);
     if (__pyx_t_9) {
 
-      /* "pyunity/script.py":71
+      /* "pyunity/script.py":123
  *     else:
  *         if "PyUnityScripts" in sys.modules:
  *             Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")             # <<<<<<<<<<<<<<
  *         module = ModuleType("PyUnityScripts", None)
  *         module.__pyunity__ = True
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Logger); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Logger); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Logger); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Logger); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_WARN); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_WARN); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_3 = NULL;
@@ -2414,7 +2416,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_kp_u_PyUnityScripts_is_already_a_pack};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2423,14 +2425,14 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_kp_u_PyUnityScripts_is_already_a_pack};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 123, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         if (__pyx_t_3) {
           __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -2441,14 +2443,14 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
         __Pyx_GIVEREF(__pyx_kp_u_PyUnityScripts_is_already_a_pack);
         PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_kp_u_PyUnityScripts_is_already_a_pack);
         __pyx_t_4 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pyunity/script.py":70
+      /* "pyunity/script.py":122
  *         module = sys.modules["PyUnityScripts"]
  *     else:
  *         if "PyUnityScripts" in sys.modules:             # <<<<<<<<<<<<<<
@@ -2457,60 +2459,60 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
  */
     }
 
-    /* "pyunity/script.py":72
+    /* "pyunity/script.py":124
  *         if "PyUnityScripts" in sys.modules:
  *             Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
  *         module = ModuleType("PyUnityScripts", None)             # <<<<<<<<<<<<<<
  *         module.__pyunity__ = True
  *         module.__all__ = []
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ModuleType); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ModuleType); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_module = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "pyunity/script.py":73
+    /* "pyunity/script.py":125
  *             Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
  *         module = ModuleType("PyUnityScripts", None)
  *         module.__pyunity__ = True             # <<<<<<<<<<<<<<
  *         module.__all__ = []
  *         sys.modules["PyUnityScripts"] = module
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_module, __pyx_n_s_pyunity, Py_True) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_module, __pyx_n_s_pyunity, Py_True) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
 
-    /* "pyunity/script.py":74
+    /* "pyunity/script.py":126
  *         module = ModuleType("PyUnityScripts", None)
  *         module.__pyunity__ = True
  *         module.__all__ = []             # <<<<<<<<<<<<<<
  *         sys.modules["PyUnityScripts"] = module
  * 
  */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_module, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_module, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pyunity/script.py":75
+    /* "pyunity/script.py":127
  *         module.__pyunity__ = True
  *         module.__all__ = []
  *         sys.modules["PyUnityScripts"] = module             # <<<<<<<<<<<<<<
  * 
  *     for file in files:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_modules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts, __pyx_v_module) < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_PyUnityScripts, __pyx_v_module) < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pyunity/script.py":77
+  /* "pyunity/script.py":129
  *         sys.modules["PyUnityScripts"] = module
  * 
  *     for file in files:             # <<<<<<<<<<<<<<
@@ -2521,26 +2523,26 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     __pyx_t_1 = __pyx_v_files; __Pyx_INCREF(__pyx_t_1); __pyx_t_11 = 0;
     __pyx_t_12 = NULL;
   } else {
-    __pyx_t_11 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_files); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_11 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_files); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_12 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_12 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 129, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_12)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -2550,7 +2552,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 77, __pyx_L1_error)
+          else __PYX_ERR(0, 129, __pyx_L1_error)
         }
         break;
       }
@@ -2559,7 +2561,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     __Pyx_XDECREF_SET(__pyx_v_file, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/script.py":78
+    /* "pyunity/script.py":130
  * 
  *     for file in files:
  *         with open(file) as f:             # <<<<<<<<<<<<<<
@@ -2567,11 +2569,11 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
  * 
  */
     /*with:*/ {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_v_file); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_v_file); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_13 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 130, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L9_error)
+      __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -2585,7 +2587,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
       }
       __pyx_t_7 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L9_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = __pyx_t_7;
@@ -2603,14 +2605,14 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
             __Pyx_XDECREF_SET(__pyx_v_f, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "pyunity/script.py":79
+            /* "pyunity/script.py":131
  *     for file in files:
  *         with open(file) as f:
  *             text = f.read().rstrip().splitlines()             # <<<<<<<<<<<<<<
  * 
  *         name = os.path.basename(file[:-3])
  */
-            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L15_error)
+            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_3);
             __pyx_t_5 = NULL;
             if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2624,10 +2626,10 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
             }
             __pyx_t_7 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
             __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-            if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L15_error)
+            if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_7);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_rstrip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L15_error)
+            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_rstrip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
             __pyx_t_7 = NULL;
@@ -2642,10 +2644,10 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
             }
             __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L15_error)
+            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_splitlines); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L15_error)
+            __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_splitlines); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __pyx_t_2 = NULL;
@@ -2660,13 +2662,13 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
             }
             __pyx_t_4 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
             __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L15_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_XDECREF_SET(__pyx_v_text, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "pyunity/script.py":78
+            /* "pyunity/script.py":130
  * 
  *     for file in files:
  *         with open(file) as f:             # <<<<<<<<<<<<<<
@@ -2686,20 +2688,20 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           /*except:*/ {
             __Pyx_AddTraceback("pyunity.script.LoadScripts", __pyx_clineno, __pyx_lineno, __pyx_filename);
-            if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_3, &__pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L17_except_error)
+            if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_3, &__pyx_t_2) < 0) __PYX_ERR(0, 130, __pyx_L17_except_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_7 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L17_except_error)
+            __pyx_t_7 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L17_except_error)
             __Pyx_GOTREF(__pyx_t_7);
             __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_7, NULL);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 78, __pyx_L17_except_error)
+            if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 130, __pyx_L17_except_error)
             __Pyx_GOTREF(__pyx_t_17);
             __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_17);
             __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-            if (__pyx_t_9 < 0) __PYX_ERR(0, 78, __pyx_L17_except_error)
+            if (__pyx_t_9 < 0) __PYX_ERR(0, 130, __pyx_L17_except_error)
             __pyx_t_8 = ((!(__pyx_t_9 != 0)) != 0);
             if (__pyx_t_8) {
               __Pyx_GIVEREF(__pyx_t_4);
@@ -2707,7 +2709,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
               __Pyx_XGIVEREF(__pyx_t_2);
               __Pyx_ErrRestoreWithState(__pyx_t_4, __pyx_t_3, __pyx_t_2);
               __pyx_t_4 = 0; __pyx_t_3 = 0; __pyx_t_2 = 0; 
-              __PYX_ERR(0, 78, __pyx_L17_except_error)
+              __PYX_ERR(0, 130, __pyx_L17_except_error)
             }
             __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
             __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2733,7 +2735,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
           if (__pyx_t_13) {
             __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__6, NULL);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 78, __pyx_L1_error)
+            if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 130, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_16);
             __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
           }
@@ -2748,22 +2750,22 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
       __pyx_L26:;
     }
 
-    /* "pyunity/script.py":81
+    /* "pyunity/script.py":133
  *             text = f.read().rstrip().splitlines()
  * 
  *         name = os.path.basename(file[:-3])             # <<<<<<<<<<<<<<
  *         if CheckScript(text):
  *             exec("\n".join(text), a)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_os); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_os); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_basename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_basename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_file, 0, -3L, NULL, NULL, &__pyx_slice__7, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_file, 0, -3L, NULL, NULL, &__pyx_slice__7, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2778,22 +2780,22 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pyunity/script.py":82
+    /* "pyunity/script.py":134
  * 
  *         name = os.path.basename(file[:-3])
  *         if CheckScript(text):             # <<<<<<<<<<<<<<
  *             exec("\n".join(text), a)
  *             setattr(module, name, a[name])
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_CheckScript); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_CheckScript); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(!__pyx_v_text)) { __Pyx_RaiseUnboundLocalError("text"); __PYX_ERR(0, 82, __pyx_L1_error) }
+    if (unlikely(!__pyx_v_text)) { __Pyx_RaiseUnboundLocalError("text"); __PYX_ERR(0, 134, __pyx_L1_error) }
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
       __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
@@ -2806,53 +2808,53 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_text) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_text);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_8) {
 
-      /* "pyunity/script.py":83
+      /* "pyunity/script.py":135
  *         name = os.path.basename(file[:-3])
  *         if CheckScript(text):
  *             exec("\n".join(text), a)             # <<<<<<<<<<<<<<
  *             setattr(module, name, a[name])
  *             module.__all__.append(name)
  */
-      if (unlikely(!__pyx_v_text)) { __Pyx_RaiseUnboundLocalError("text"); __PYX_ERR(0, 83, __pyx_L1_error) }
-      __pyx_t_2 = PyUnicode_Join(__pyx_kp_u__8, __pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+      if (unlikely(!__pyx_v_text)) { __Pyx_RaiseUnboundLocalError("text"); __PYX_ERR(0, 135, __pyx_L1_error) }
+      __pyx_t_2 = PyUnicode_Join(__pyx_kp_u__8, __pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyExec2(__pyx_t_2, __pyx_v_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyExec2(__pyx_t_2, __pyx_v_a); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pyunity/script.py":84
+      /* "pyunity/script.py":136
  *         if CheckScript(text):
  *             exec("\n".join(text), a)
  *             setattr(module, name, a[name])             # <<<<<<<<<<<<<<
  *             module.__all__.append(name)
  * 
  */
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_a, __pyx_v_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_a, __pyx_v_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_18 = PyObject_SetAttr(__pyx_v_module, __pyx_v_name, __pyx_t_3); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_18 = PyObject_SetAttr(__pyx_v_module, __pyx_v_name, __pyx_t_3); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pyunity/script.py":85
+      /* "pyunity/script.py":137
  *             exec("\n".join(text), a)
  *             setattr(module, name, a[name])
  *             module.__all__.append(name)             # <<<<<<<<<<<<<<
  * 
  *     return module
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_module, __pyx_n_s_all); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_module, __pyx_n_s_all); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_18 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_v_name); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(0, 85, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_v_name); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(0, 137, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pyunity/script.py":82
+      /* "pyunity/script.py":134
  * 
  *         name = os.path.basename(file[:-3])
  *         if CheckScript(text):             # <<<<<<<<<<<<<<
@@ -2861,7 +2863,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
  */
     }
 
-    /* "pyunity/script.py":77
+    /* "pyunity/script.py":129
  *         sys.modules["PyUnityScripts"] = module
  * 
  *     for file in files:             # <<<<<<<<<<<<<<
@@ -2871,7 +2873,7 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/script.py":87
+  /* "pyunity/script.py":139
  *             module.__all__.append(name)
  * 
  *     return module             # <<<<<<<<<<<<<<
@@ -2881,12 +2883,12 @@ static PyObject *__pyx_pf_7pyunity_6script_2LoadScripts(CYTHON_UNUSED PyObject *
   __pyx_r = __pyx_v_module;
   goto __pyx_L0;
 
-  /* "pyunity/script.py":63
+  /* "pyunity/script.py":91
  *     return True
  * 
  * def LoadScripts(path):             # <<<<<<<<<<<<<<
- *     files = glob.glob(os.path.join(path, "*.py"))
- *     a = {}
+ *     """
+ *     Loads all scripts found in ``path``.
  */
 
   /* function exit code */
@@ -3032,7 +3034,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 130, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3042,36 +3044,36 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyunity/script.py":72
+  /* "pyunity/script.py":124
  *         if "PyUnityScripts" in sys.modules:
  *             Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
  *         module = ModuleType("PyUnityScripts", None)             # <<<<<<<<<<<<<<
  *         module.__pyunity__ = True
  *         module.__all__ = []
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_u_PyUnityScripts, Py_None); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_u_PyUnityScripts, Py_None); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "pyunity/script.py":78
+  /* "pyunity/script.py":130
  * 
  *     for file in files:
  *         with open(file) as f:             # <<<<<<<<<<<<<<
  *             text = f.read().rstrip().splitlines()
  * 
  */
-  __pyx_tuple__6 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "pyunity/script.py":81
+  /* "pyunity/script.py":133
  *             text = f.read().rstrip().splitlines()
  * 
  *         name = os.path.basename(file[:-3])             # <<<<<<<<<<<<<<
  *         if CheckScript(text):
  *             exec("\n".join(text), a)
  */
-  __pyx_slice__7 = PySlice_New(Py_None, __pyx_int_neg_3, Py_None); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_slice__7 = PySlice_New(Py_None, __pyx_int_neg_3, Py_None); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__7);
   __Pyx_GIVEREF(__pyx_slice__7);
 
@@ -3103,25 +3105,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         pass
  * 
  * def CheckScript(text):             # <<<<<<<<<<<<<<
- *     for line in text:
- *         if line.startswith("import") or \
+ *     """
+ *     Check if ``text`` is a valid script for PyUnity.
  */
   __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_s_text, __pyx_n_s_line); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
   __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_py, __pyx_n_s_CheckScript, 46, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 46, __pyx_L1_error)
 
-  /* "pyunity/script.py":63
+  /* "pyunity/script.py":91
  *     return True
  * 
  * def LoadScripts(path):             # <<<<<<<<<<<<<<
- *     files = glob.glob(os.path.join(path, "*.py"))
- *     a = {}
+ *     """
+ *     Loads all scripts found in ``path``.
  */
-  __pyx_tuple__15 = PyTuple_Pack(8, __pyx_n_s_path, __pyx_n_s_files, __pyx_n_s_a, __pyx_n_s_module_2, __pyx_n_s_file, __pyx_n_s_f, __pyx_n_s_text, __pyx_n_s_name_2); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(8, __pyx_n_s_path, __pyx_n_s_files, __pyx_n_s_a, __pyx_n_s_module_2, __pyx_n_s_file, __pyx_n_s_f, __pyx_n_s_text, __pyx_n_s_name_2); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_py, __pyx_n_s_LoadScripts, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_py, __pyx_n_s_LoadScripts, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3567,24 +3569,24 @@ if (!__Pyx_RefNanny) {
  *         pass
  * 
  * def CheckScript(text):             # <<<<<<<<<<<<<<
- *     for line in text:
- *         if line.startswith("import") or \
+ *     """
+ *     Check if ``text`` is a valid script for PyUnity.
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6script_1CheckScript, 0, __pyx_n_s_CheckScript, NULL, __pyx_n_s_pyunity_script, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CheckScript, __pyx_t_1) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyunity/script.py":63
+  /* "pyunity/script.py":91
  *     return True
  * 
  * def LoadScripts(path):             # <<<<<<<<<<<<<<
- *     files = glob.glob(os.path.join(path, "*.py"))
- *     a = {}
+ *     """
+ *     Loads all scripts found in ``path``.
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6script_3LoadScripts, 0, __pyx_n_s_LoadScripts, NULL, __pyx_n_s_pyunity_script, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7pyunity_6script_3LoadScripts, 0, __pyx_n_s_LoadScripts, NULL, __pyx_n_s_pyunity_script, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LoadScripts, __pyx_t_1) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LoadScripts, __pyx_t_1) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/script.py":1

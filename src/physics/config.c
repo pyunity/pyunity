@@ -1156,9 +1156,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "pyunity/physics/config.py":3
  * from ..vector3 import Vector3
  * 
- * gravity = Vector3(0, 0, -9.81)             # <<<<<<<<<<<<<<
+ * gravity = Vector3(0, -9.81, 0)             # <<<<<<<<<<<<<<
+ * """Gravitational constant (9.81 m/s^2)"""
  */
-  __pyx_tuple_ = PyTuple_Pack(3, __pyx_int_0, __pyx_int_0, __pyx_float_neg_9_81); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(3, __pyx_int_0, __pyx_float_neg_9_81, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
   __Pyx_RefNannyFinishContext();
@@ -1447,7 +1448,7 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/physics/config.py":1
  * from ..vector3 import Vector3             # <<<<<<<<<<<<<<
  * 
- * gravity = Vector3(0, 0, -9.81)
+ * gravity = Vector3(0, -9.81, 0)
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1466,7 +1467,8 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/physics/config.py":3
  * from ..vector3 import Vector3
  * 
- * gravity = Vector3(0, 0, -9.81)             # <<<<<<<<<<<<<<
+ * gravity = Vector3(0, -9.81, 0)             # <<<<<<<<<<<<<<
+ * """Gravitational constant (9.81 m/s^2)"""
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Vector3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -1479,7 +1481,7 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/physics/config.py":1
  * from ..vector3 import Vector3             # <<<<<<<<<<<<<<
  * 
- * gravity = Vector3(0, 0, -9.81)
+ * gravity = Vector3(0, -9.81, 0)
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
