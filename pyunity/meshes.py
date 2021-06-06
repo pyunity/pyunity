@@ -74,7 +74,7 @@ class Mesh:
         #         self.max.y = vert.y
         #     if vert.z > self.max.z:
         #         self.max.z = vert.z
-    
+
     def copy(self):
         """
         Create a copy of the current Mesh.
