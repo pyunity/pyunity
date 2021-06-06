@@ -1,6 +1,6 @@
 from pyunity import *
-from pyunity import config
-config.faceCulling = False
+# from pyunity import config
+# config.faceCulling = False
 import math
 
 def gen_cylinder(detail):
@@ -107,7 +107,7 @@ def gen_capsule(detail):
             points.append(Vector3(sin2 * cos1, cos2 + 1, sin1 * sin2))
             indices.append([base, base2 + 1, base + 1])
             indices.append([base, base2, base2 + 1])
-        points.append(Vector3(cos1, 1, sin1))
+        points.append(Vector3(cos1, 0, sin1))
     del indices[-detail:]
     print(len(points))
 
@@ -125,7 +125,7 @@ def gen_capsule(detail):
             points2.append(Vector3(sin2 * cos1, -cos2 - 1, sin1 * sin2))
             indices2.append([base, base + 1, base2 + 1])
             indices2.append([base, base2 + 1, base2])
-        points2.append(Vector3(cos1, -1, sin1))
+        points2.append(Vector3(cos1, 0, sin1))
     del indices2[-detail:]
 
     points.extend(points2)
@@ -142,8 +142,8 @@ Loader.SaveMesh(gen_cylinder(60), "cylinder")
 Loader.SaveObj(gen_cylinder(60), "cylinder")
 Loader.SaveMesh(gen_sphere(20), "sphere")
 Loader.SaveObj(gen_sphere(20), "sphere")
-Loader.SaveMesh(gen_capsule(20), "capsule")
-Loader.SaveObj(gen_capsule(20), "capsule")
+Loader.SaveMesh(gen_capsule(14), "capsule")
+Loader.SaveObj(gen_capsule(14), "capsule")
 
 scene = SceneManager.AddScene("Scene")
 
