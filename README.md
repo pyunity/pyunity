@@ -44,16 +44,6 @@ To install PyGame on Linux, use:
 
     > pip3 install pygame
 
-Note: we are having some difficulties right now.
-To install a working copy, you cannot use the
-simple ``pip install pyunity`` command. Instead,
-clone the repository from above. Next, you
-have to set the environment variable ``cython``
-to a value that is not ``1``. Then you can run
-``python setup.py install``. This issue is
-being worked on and you can see its progress
-here: https://github.com/rayzchen/pyunity/issues/7
-
 ### Importing
 To start using pyunity, you must import it.
 A standard way to import is like so:
