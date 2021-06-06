@@ -30,7 +30,7 @@ class KeyCode:
     Do not instantiate this class.
 
     """
-    
+
     A = Code([glfw.KEY_A, pygame.locals.K_a, None])
     B = Code([glfw.KEY_B, pygame.locals.K_b, None])
     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
@@ -108,7 +108,7 @@ def GetKey(keycode):
     -------
     int
         1 if pressed and 0 if not pressed.
-    
+
     """
     pressed = SceneManager.window.get_keys()
     check = keycode.vals[config.windowProvider]
@@ -129,7 +129,7 @@ def GetKeyDown(keycode):
     -------
     int
         1 if pressed and 0 if not pressed.
-    
+
     """
     down = SceneManager.window.get_keys_down()
     check = keycode.vals[config.windowProvider]
@@ -150,7 +150,7 @@ def GetKeyUp(keycode):
     -------
     int
         1 if released and 0 if not released.
-    
+
     """
     up = SceneManager.window.get_keys_up()
     check = keycode.vals[config.windowProvider]

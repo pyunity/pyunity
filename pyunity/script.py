@@ -56,7 +56,7 @@ def CheckScript(text):
     -------
     bool
         If script is valid or not.
-    
+
     Notes
     -----
     This function checks each line to see if it matches at
@@ -101,7 +101,7 @@ def LoadScripts(path):
     -------
     ModuleType
         A module that contains all the imported scripts
-    
+
     Notes
     -----
     This function will add a module to ``sys.modules`` that
