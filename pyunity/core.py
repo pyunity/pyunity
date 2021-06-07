@@ -485,6 +485,7 @@ class MeshRenderer(SingleComponent):
             return
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
+        gl.glBindVertexArray(self.mesh.vao)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
         gl.glBindVertexArray(self.mesh.vao)
         gl.glDrawElements(gl.GL_TRIANGLES, len(
