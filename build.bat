@@ -7,7 +7,6 @@ py -3.6 setup.py build -c mingw32 bdist_wheel -d dist\0.6.0\
 py -3.7 setup.py build -c mingw32 bdist_wheel -d dist\0.6.0\
 py -3.8 setup.py build -c mingw32 bdist_wheel -d dist\0.6.0\
 py setup.py build -c mingw32 bdist_wheel -d dist\0.6.0\ sdist -d dist\0.6.0\
-RMDIR /S /Q docs\en\
 DEL docs\source\pyunity*
 set SPHINX_APIDOC_OPTIONS=members,inherited-members,show-inheritance
 sphinx-apidoc -e -F -M -o docs\source pyunity pyunity\config.py pyunity\examples\*
