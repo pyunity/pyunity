@@ -1,5 +1,5 @@
 from OpenGL.GL import * # lgtm [py/polluting-import]
-from OpenGL.GLU import *
+from OpenGL.GLU import * # lgtm [py/polluting-import]
 from PIL import Image
 import pygame
 pygame.init()

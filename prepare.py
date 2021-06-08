@@ -28,9 +28,9 @@ if len(sys.argv) < 2:
             "(https://ci.appveyor.com/project/rayzchen/pyunity)\n",
             "[![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)\n",
             "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
-            "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n"
+            "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n",
             "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
-            "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n"
+            "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n",
             "[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?style=social)]",
             "(https://github.com/pyunity/pyunity/stargazers)"
         ])
