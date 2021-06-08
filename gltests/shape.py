@@ -94,6 +94,7 @@ def gen_sphere(detail):
 
 def gen_capsule(detail):
     points = []
+    normals = []
     indices = []
 
     for i in range(detail + 1):
@@ -105,13 +106,15 @@ def gen_capsule(detail):
             sin2 = math.sin((j / detail) * math.pi)
             cos2 = math.cos((j / detail) * math.pi)
             points.append(Vector3(sin2 * cos1, cos2 + 1, sin1 * sin2))
+            normals.append(Vector3(sin2 * cos1, cos2, sin1 * sin2))
             indices.append([base, base2 + 1, base + 1])
             indices.append([base, base2, base2 + 1])
         points.append(Vector3(cos1, 0, sin1))
+        normals.append(Vector3(cos1, 0, sin1))
     del indices[-detail:]
-    print(len(points))
 
     points2 = []
+    normals2 = []
     indices2 = []
 
     for i in range(detail + 1):
@@ -123,12 +126,15 @@ def gen_capsule(detail):
             sin2 = math.sin((j / detail) * math.pi)
             cos2 = math.cos((j / detail) * math.pi)
             points2.append(Vector3(sin2 * cos1, -cos2 - 1, sin1 * sin2))
+            normals2.append(Vector3(sin2 * cos1, -cos2, sin1 * sin2))
             indices2.append([base, base + 1, base2 + 1])
             indices2.append([base, base2 + 1, base2])
         points2.append(Vector3(cos1, 0, sin1))
+        normals2.append(Vector3(cos1, 0, sin1))
     del indices2[-detail:]
 
     points.extend(points2)
+    normals.extend(normals2)
     indices.extend(indices2)
 
     normals = points.copy()
