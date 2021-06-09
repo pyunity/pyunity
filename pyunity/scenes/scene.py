@@ -22,7 +22,6 @@ import pygame
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
-    import OpenGL.GLU as glu
 
 class Scene:
     """
@@ -258,36 +257,12 @@ class Scene:
         Scene.
 
         """
-        # if os.environ["PYUNITY_INTERACTIVE"] == "1":
-        # self.lights = [
-        #     gl.GL_LIGHT0,
-        #     gl.GL_LIGHT1,
-        #     gl.GL_LIGHT2,
-        #     gl.GL_LIGHT3,
-        #     gl.GL_LIGHT4,
-        #     gl.GL_LIGHT5,
-        #     gl.GL_LIGHT6,
-        #     gl.GL_LIGHT7
-        # ]
 
         self.mainCamera.lastPos = Vector3.zero()
         self.mainCamera.lastRot = Quaternion.identity()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.Resize(*config.size)
-
-            # light_num = 0
-            # for gameObject in self.gameObjects:
-            #     light = gameObject.GetComponent(Light)
-            #     if light:
-            #         color = (light.intensity / 100, light.intensity /
-            #                  100, light.intensity / 100, 1)
-            #         gl.glLightfv(self.lights[light_num],
-            #                      gl.GL_AMBIENT, (0, 0, 0, 1))
-            #         gl.glLightfv(self.lights[light_num], gl.GL_DIFFUSE, color)
-            #         light_num += 1
-
-            gl.glClearColor(*self.mainCamera.clearColor)
 
             gl.glEnable(gl.GL_DEPTH_TEST)
             if config.faceCulling:
@@ -298,20 +273,6 @@ class Scene:
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene \"" + self.name + "\" has started")
-
-    # def transform(self, transform):
-    #     """
-    #     Transform the matrix by a specified transform.
-
-    #     Parameters
-    #     ----------
-    #     transform : Transform
-    #         Transform to move
-
-    #     """
-    #     gl.glRotatef(*transform.rotation.angleAxisPair)
-    #     gl.glScalef(*transform.scale)
-    #     gl.glTranslatef(*(transform.position * Vector3(1, 1, -1)))
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
@@ -331,16 +292,6 @@ class Scene:
 
         self.lastFrame = time()
 
-    # def render(self):
-    #     """Renders all GameObjects with MeshRenderers."""
-    #     for gameObject in self.gameObjects:
-    #         renderer = gameObject.GetComponent(MeshRenderer)
-    #         if renderer and "self.inside_frustrum(renderer)":
-    #             gl.glPushMatrix()
-    #             self.transform(gameObject.transform)
-    #             renderer.render()
-    #             gl.glPopMatrix()
-
     def no_interactive(self):
         done = False
         clock = pygame.time.Clock()
@@ -359,42 +310,9 @@ class Scene:
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
-            gl.glLoadIdentity()
-
-            # gl.glEnable(gl.GL_LIGHTING)
-            # gl.glEnable(gl.GL_COLOR_MATERIAL)
-            # gl.glColorMaterial(gl.GL_FRONT, gl.GL_AMBIENT_AND_DIFFUSE)
-
-            # light_num = 0
-            # for gameObject in self.gameObjects:
-            #     light = gameObject.GetComponent(Light)
-            #     if light:
-            #         gl.glEnable(self.lights[light_num])
-            #         pos = (*(gameObject.transform.position *
-            #                  Vector3(1, 1, -1)), int(light.type))
-            #         gl.glLight(self.lights[light_num], gl.GL_POSITION, pos)
-            #         light_num += 1
-
             if (self.mainCamera.lastPos != self.mainCamera.transform.position or
                     self.mainCamera.lastRot != self.mainCamera.transform.rotation):
-                pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
-                look = pos + \
-                    self.mainCamera.transform.rotation.RotateVector(
-                        Vector3.forward()) * Vector3(1, 1, -1)
-                up = self.mainCamera.transform.rotation.RotateVector(
-                    Vector3.up()) * Vector3(1, 1, -1)
-                glu.gluLookAt(*pos, *look, *up)
                 self.mainCamera.lastPos = self.mainCamera.transform.position
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
             self.mainCamera.Render(self.gameObjects)
-
-            # light_num = 0
-            # for gameObject in self.gameObjects:
-            #     light = gameObject.GetComponent(Light)
-            #     if light:
-            #         gl.glDisable(self.lights[light_num])
-            #         light_num += 1
-
-            # gl.glDisable(gl.GL_LIGHTING)
-            # gl.glDisable(gl.GL_COLOR_MATERIAL)
