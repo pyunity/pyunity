@@ -491,15 +491,6 @@ class MeshRenderer(SingleComponent):
         gl.glDrawElements(gl.GL_TRIANGLES, len(
             self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
 
-        # gl.glBegin(gl.GL_TRIANGLES)
-        # gl.glColor3f(
-        #     self.mat.color[0] / 255, self.mat.color[1] / 255, self.mat.color[2] / 255)
-        # for triangle, normal in zip(self.mesh.triangles, self.mesh.normals):
-        #     gl.glNormal3f(*normal)
-        #     for vertex in triangle:
-        #         gl.glVertex3f(*self.mesh.verts[vertex])
-        # gl.glEnd()
-
 class Material:
     """
     Class to hold data on a material.
