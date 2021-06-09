@@ -53,5 +53,6 @@ class Texture2D:
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
 class Prefab:
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, gameObject, components):
+        self.gameObject = gameObject
+        self.components = components
