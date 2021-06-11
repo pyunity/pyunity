@@ -221,6 +221,8 @@ class Component:
 
     """
 
+    attrs = []
+
     def __init__(self):
         self.gameObject = None
         self.transform = None
@@ -278,6 +280,8 @@ class Transform(SingleComponent):
         List of children
 
     """
+
+    attrs = ["localPosition", "localRotation", "localScale", "parent"]
 
     def __init__(self):
         super(Transform, self).__init__()
@@ -454,12 +458,18 @@ class Light(SingleComponent):
     """
     Component to hold data about the light in a scene.
 
+    Attributes
+    ----------
+    intensity : int
+        Intensity of light
+
     """
+
+    attrs = ["intensity"]
 
     def __init__(self):
         super(Light, self).__init__()
         self.intensity = 100
-        self.type = 1
 
 class MeshRenderer(SingleComponent):
     """
@@ -473,6 +483,8 @@ class MeshRenderer(SingleComponent):
         Material to use for the mesh
 
     """
+
+    attrs = ["mesh", "mat"]
 
     def __init__(self):
         super(MeshRenderer, self).__init__()
@@ -497,8 +509,10 @@ class Material:
 
     Attributes
     ----------
-    color : list or tuple
-        A list or tuple of 4 floats that make up a RGBA color.
+    color : Color
+        An albedo tint.
+    texture : Texture2D
+        A texture to map onto the mesh provided by a MeshRenderer
 
     """
 
@@ -507,6 +521,29 @@ class Material:
         self.texture = texture
 
 class Color:
+    """
+    A class to represent a color.
+
+    Parameters
+    ----------
+    r : int
+        Red value (0-255)
+    g : int
+        Green value (0-255)
+    b : int
+        Blue value (0-255)
+
+    Atrributes
+    ----------
+    r : int
+        Red value (0-255)
+    g : int
+        Green value (0-255)
+    b : int
+        Blue value (0-255)
+
+    """
+
     def __init__(self, r, g, b):
         self.r = r
         self.g = g

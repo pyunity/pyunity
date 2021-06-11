@@ -184,6 +184,8 @@ class Camera(SingleComponent):
 
     """
 
+    attrs = ["near", "far", "fov", "clearColor", "shader"]
+
     def __init__(self):
         super(Camera, self).__init__()
         self.near = 0.05
