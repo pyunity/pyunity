@@ -1,0 +1,39 @@
+GameObject : ce0362f1-5411-49f9-9267-6201d0c5e4e5
+    name: "Main Camera"
+    tag: 0
+    transform: 07b9c392-c676-4f0a-9f88-45d42a5534ad
+Transform : 07b9c392-c676-4f0a-9f88-45d42a5534ad
+    localPosition: Vector3(0, 0, -10)
+    localRotation: Quaternion(1, 0, 0, 0)
+    localScale: Vector3(1, 1, 1)
+    parent: None
+Camera : 45f082db-9f63-4c77-b658-c0debb5fa7d9
+    near: 0.05
+    far: 100
+    fov: 90
+    clearColor: (0, 0, 0, 1)
+    shader: <pyunity.render.Shader object at 0x10217A00>
+GameObject : c9e7e67a-4df2-43fd-84ea-3a1b26e85f63
+    name: "Light"
+    tag: 0
+    transform: 22604fca-3c79-4b2d-ad1c-30e3643854df
+Transform : 22604fca-3c79-4b2d-ad1c-30e3643854df
+    localPosition: Vector3(10, 10, -10)
+    localRotation: Quaternion(1, 0, 0, 0)
+    localScale: Vector3(1, 1, 1)
+    parent: None
+Light : 538cdb90-827f-4080-a212-e6d67850e1c1
+    intensity: 100
+GameObject : 6ee6f086-ae8f-47ae-8321-4c1bba5bb109
+    name: "Cube"
+    tag: 0
+    transform: cb5b0d89-0b5e-45b8-9ee1-186fc1be8149
+Transform : cb5b0d89-0b5e-45b8-9ee1-186fc1be8149
+    localPosition: Vector3(0, 0, 0)
+    localRotation: Quaternion(1, 0, 0, 0)
+    localScale: Vector3(1, 1, 1)
+    parent: None
+MeshRenderer : 378ad04a-df69-4e47-9b23-8e3fdd044e9f
+    mesh: <pyunity.meshes.Mesh object at 0x061A0598>
+    mat: <pyunity.core.Material object at 0x061A05F8>
+Rotator : 69113bf0-4dfd-4b25-a04e-ba1722ae909c

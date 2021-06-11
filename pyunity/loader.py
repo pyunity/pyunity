@@ -11,7 +11,9 @@ from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
 from . import Logger
+from uuid import uuid4
 import pickle
+import json
 import os
 # import random
 
@@ -186,96 +188,47 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write("/")
         f.write("\n")
 
-# def randomHex(length):
-#     """
-#     Returns a random hexadecimal string of length `length`.
-
-#     Parameters
-#     ----------
-#     length : int
-#         Length of string
-
-#     Returns
-#     -------
-#     str
-#         A random hexadecimal string
-
-#     """
-#     return ("%0" + str(length) + "x") % random.randrange(16 ** length)
-
-# def AddHex(l, length):
-#     x = randomHex(length)
-#     while x in l: x = randomHex(length)
-#     l.append(x)
-#     return x
-
-def SaveScene(scene, filePath=None):
-    """
-    Save a scene to a file. Uses pickle.
-
-    Parameters
-    ----------
-    scene : Scene
-        Scene to save
-    filePath : str, optional
-        Pass in `__file__` to save in
-        directory of script, otherwise
-        pass in a directory. If not
-        specified, then the scene is saved
-        in the cwd.
-
-    """
-    # hexes = []
-    # with open(scene.name + ".scene", "w+") as f:
-    #     for gameObject in scene.gameObjects:
-    #         f.write("GameObject (" + gameObject.name + ") " + AddHex(hexes, 24) + ":\n")
-    #         for component in gameObject.components:
-    #             f.write("  Component " + type(component).__name__ + " " + AddHex(hexes, 24) + ":\n")
-
+def SaveScene(scene, filePath):
     if filePath:
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
+    
+    f = open(os.path.join(directory, scene.name + ".mesh"), "w+")
+    
+    ids = {}
+    for gameObject in scene.gameObjects:
+        uuid = str(uuid4())
+        while uuid in ids.values():
+            uuid = str(uuid4())
+        
+        ids[id(gameObject)] = uuid
+        f.write("GameObject : " + uuid + "\n")
+        f.write("    name: " + json.dumps(gameObject.name) + "\n")
+        f.write("    tag: " + str(gameObject.tag.tag) + "\n")
+        
+        uuid = str(uuid4())
+        while uuid in ids.values():
+            uuid = str(uuid4())
+        
+        ids[id(gameObject.transform)] = uuid
 
-    with open(os.path.join(directory, scene.name + ".scene"), "wb+") as f:
-        pickle.dump(scene, f)
+        f.write("    transform: " + uuid + "\n")
 
-def LoadScene(sceneName, filePath=None):
-    """
-    Load a scene from a file. Uses pickle.
-
-    Parameters
-    ----------
-    sceneName : str
-        Name of the scene, without
-        the .scene extension
-
-    Returns
-    -------
-    Scene
-        Loaded scene
-
-    Notes
-    -----
-    If there already is a scene called
-    `sceneName`, then no scene will be added.
-
-    """
-    if sceneName in SceneManager.scenesByName:
-        Logger.LogLine(Logger.WARNING, "Already has scene called", sceneName)
-        return
-
-    if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
-    else:
-        directory = os.getcwd()
-
-    with open(os.path.join(directory, sceneName + ".scene"), "rb") as f:
-        scene = pickle.load(f)
-
-    SceneManager.scenesByIndex.append(scene)
-    SceneManager.scenesByName[sceneName] = scene
-    return scene
+        for component in gameObject.components:
+            if id(component) in ids:
+                uuid = ids[id(component)]
+            else:
+                uuid = str(uuid4())
+                while uuid in ids.values():
+                    uuid = str(uuid4())
+                
+                ids[id(component)] = uuid
+            
+            f.write(type(component).__name__ + " : " + uuid + "\n")
+            for attr in component.attrs:
+                value = str(getattr(component, attr))
+                f.write("    " + attr + ": " + value + "\n")
 
 class Primitives:
     """
