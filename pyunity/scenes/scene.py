@@ -10,7 +10,7 @@ the SceneManager class.
 
 from ..audio import *
 from ..core import *
-from ..script import Behaviour
+from ..files import Behaviour
 from ..vector3 import Vector3
 from ..quaternion import Quaternion
 from .. import config, physics, logger as Logger, render

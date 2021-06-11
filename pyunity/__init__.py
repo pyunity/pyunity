@@ -147,7 +147,6 @@ create a new pull request.
 from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
-from .script import Behaviour
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
 from .input import KeyCode
