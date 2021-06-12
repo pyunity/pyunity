@@ -1,5 +1,5 @@
 """
-Version 0.5.0 (in development)
+Version 0.5.1 (in development)
 ==============================
 PyUnity is a Python implementation of the
 Unity Engine, written in C++. This is just
@@ -46,7 +46,7 @@ This is the output with debugging::
     Trying GLFW as a window provider
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.5.0
+    Loaded PyUnity version 0.5.1
 
 If debugging is off, there is no output:
 
@@ -129,7 +129,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying Pygame
     Using window provider Pygame
-    Loaded PyUnity version 0.5.0
+    Loaded PyUnity version 0.5.1
     >>> main()
 
 Or from the command line::
@@ -159,7 +159,7 @@ from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"

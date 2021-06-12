@@ -29,7 +29,7 @@ else:
 
 setup(
     name="pyunity",
-    version="0.5.0",
+    version="0.5.1",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
@@ -54,9 +54,11 @@ setup(
         "cython",
     ],
     install_requires=[
-        "glfw",
-        "pygame",
         "pyopengl",
+        "pillow",
+        "pygame",
+        "pyglm",
+        "glfw",
     ],
     python_requires='>=3.6',
     **config,
