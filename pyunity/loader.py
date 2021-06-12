@@ -186,13 +186,13 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write("/")
         f.write("\n")
 
-def SaveScene(scene, filePath):
+def SaveScene(scene, filePath=None):
     if filePath:
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
     
-    f = open(os.path.join(directory, scene.name + ".mesh"), "w+")
+    f = open(os.path.join(directory, scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
     f.write("    name: " + scene.name + "\n")
     
