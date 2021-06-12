@@ -11,7 +11,7 @@ import traceback
 from time import strftime, time
 
 if platform.platform().startswith("Windows"):
-    folder = os.path.join(os.getenv("appdata"), "PyUnity", "Logs")
+    folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
 else:
     folder = os.path.join("/tmp", "pyunity", "logs")
 if not os.path.isdir(folder):
