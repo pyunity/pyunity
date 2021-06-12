@@ -11,7 +11,7 @@ os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
 size = (800, 500)
 fps = 60
 faceCulling = True
-audio = True
+audio: bool = True
 
 Logger.LogLine(Logger.DEBUG, "Loaded config")
 
