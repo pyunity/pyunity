@@ -150,6 +150,13 @@ class GameObject:
         if parent:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
+    
+    @staticmethod
+    def BareObject(name="GameObject"):
+        obj = GameObject.__new__(GameObject)
+        obj.name = name
+        obj.components = []
+        return obj
 
     def AddComponent(self, componentClass):
         """
