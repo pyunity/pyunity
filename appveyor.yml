@@ -1,5 +1,6 @@
 image:
   - Ubuntu
+  - Visual Studio 2017
   - Visual Studio 2019
   - macos
 
@@ -8,15 +9,19 @@ environment:
     - version: "3.9"
       venv: "../../venv3.9"
       windows_location: "C:\\Python39-x64\\python"
+      windows_location2: "C:\\Python39\\python"
     - version: "3.8"
       venv: "../../venv3.8"
       windows_location: "C:\\Python38-x64\\python"
+      windows_location2: "C:\\Python38\\python"
     - version: "3.7"
       venv: "../../venv3.7"
       windows_location: "C:\\Python37-x64\\python"
+      windows_location2: "C:\\Python37\\python"
     - version: "3.6"
       venv: "../../venv3.6"
       windows_location: "C:\\Python36-x64\\python"
+      windows_location2: "C:\\Python36\\python"
 
 test_script:
   - python -m unittest tests.py
@@ -33,6 +38,13 @@ for:
       - python -m pip install cython wheel sphinx pyglm pillow coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+    install:
+      - "%windows_location2% -m virtualenv venv"
+      - venv\Scripts\activate
+      - python -m pip install cython wheel sphinx pyglm pillow
   - matrix:
       only:
         - image: Visual Studio 2019
