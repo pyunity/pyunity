@@ -26,6 +26,9 @@ class Window:
             "pressed": [0 for i in range(323)],
         }
 
+    def quit(self):
+        pygame.display.quit()
+
     def start(self, update_func):
         """
         Start the main loop of the window.
@@ -65,7 +68,7 @@ class Window:
             pygame.display.flip()
             clock.tick(self.config.fps)
 
-        pygame.display.quit()
+        self.quit()
 
     def get_keys(self):
         return self.keys["pressed"]

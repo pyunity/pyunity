@@ -69,6 +69,9 @@ class Window:
         if glfw.get_key(self.window, glfw.KEY_ESCAPE) or (alt_pressed and glfw.get_key(self.window, glfw.KEY_F4)):
             glfw.set_window_should_close(self.window, 1)
 
+    def quit(self):
+        glfw.destroy_window(self.window)
+
     def start(self, update_func):
         """
         Start the main loop of the window.
@@ -95,7 +98,8 @@ class Window:
                 pass
 
             last += 1 / self.config.fps
-        glfw.terminate()
+        
+        self.quit()
 
     def get_keys(self):
         return self.keys["pressed"]
