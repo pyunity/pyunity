@@ -19,6 +19,8 @@ scenesByName = {}
 windowObject = None
 __running_scene = None
 
+KeyboardInterruptKill = False
+
 def AddScene(sceneName):
     """
     Add a scene to the SceneManager. Pass
@@ -206,17 +208,21 @@ def __loadScene(scene):
         scene.Start()
         try:
             windowObject.start(scene.update)
-            windowObject = None
         except KeyboardInterrupt:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
             Logger.Save()
+            windowObject.quit()
+            if KeyboardInterruptKill:
+                exit()
         except Exception as e:
             Logger.LogException(e)
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             Logger.Save()
+            windowObject.quit()
         else:
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             Logger.Save()
+        windowObject = None
     else:
         scene.Start()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
