@@ -10,6 +10,10 @@ from .vector3 import Vector3
 from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
+from .files import Behaviour
+from .render import Camera
+from .audio import AudioSource
+from .physics import AABBoxCollider, SphereCollider
 from uuid import uuid4
 import json
 import os
@@ -194,7 +198,7 @@ def SaveScene(scene, filePath=None):
     
     f = open(os.path.join(directory, scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
-    f.write("    name: " + scene.name + "\n")
+    f.write("    name: " + json.dumps(scene.name) + "\n")
     
     ids = {}
     for gameObject in scene.gameObjects:
@@ -219,10 +223,86 @@ def SaveScene(scene, filePath=None):
                 
                 ids[id(component)] = uuid
             
-            f.write(type(component).__name__ + " : " + uuid + "\n")
+            if issubclass(type(component), Behaviour):
+                name = type(component).__name__ + "(Behaviour)"
+            else:
+                name = type(component).__name__ + "(Component)"
+            f.write(name + " : " + uuid + "\n")
+            
+            f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             for attr in component.attrs:
-                value = str(getattr(component, attr))
-                f.write("    " + attr + ": " + value + "\n")
+                value = getattr(component, attr)
+                print(value, id(value) in ids)
+                if hasattr(value, "_convert"):
+                    written = value._convert()
+                else:
+                    written = str(value)
+                f.write("    " + attr + ": " + written + "\n")
+
+class ObjectInfo:
+    def __init__(self, uuid, type, attrs):
+        self.uuid = uuid
+        self.type = type
+        self.attrs = attrs
+    
+    def __getattr__(self, attr):
+        return self.attrs[attr]
+
+components = {
+    "Transform": Transform,
+    "Camera": Camera,
+    "Light": Light,
+    "MeshRenderer": MeshRenderer,
+    "AABBoxCollider": AABBoxCollider,
+    "SphereCollider": SphereCollider,
+    "AudioSource": AudioSource
+}
+"""List of all components by name"""
+
+def LoadScene(filename):
+    with open(filename, "r") as f:
+        lines = f.read().rstrip().splitlines()
+    data = []
+    for line in lines:
+        if not line.startswith("    "):
+            data.append([line])
+        else:
+            data[-1].append(line)
+    
+    infos = []
+    for info in data:
+        type_, uuid = info[0].split(" : ")
+        attrs = {attr: value for attr, value in map(lambda x: x[4:].split(": "), info[1:])}
+        infos.append(ObjectInfo(uuid, type_, attrs))
+    gameObjectInfo = list(filter(lambda x: x.type == "GameObject", infos))
+    componentInfo = list(filter(lambda x: "(Component)" in x.type, infos))
+    behaviourInfo = list(filter(lambda x: "(Behaviour)" in x.type, infos))
+    
+    scene_info = infos.pop(0)
+    scene = SceneManager.AddScene(json.loads(scene_info.name))
+    scene.Remove(scene.gameObjects[0])
+    scene.Remove(scene.gameObjects[0])
+
+    ids = {}
+
+    gameObjects = []
+    for info in gameObjectInfo:
+        gameObject = GameObject.BareObject(json.loads(info.name))
+        gameObjects.append(gameObject)
+        gameObject.tag = Tag(int(info.tag))
+        ids[info.uuid] = gameObject
+    
+    for info in componentInfo:
+        gameObject = ids[info.gameObject]
+        del info.attrs["gameObject"]
+        component = components[info.type[:-11]]
+        component = gameObject.AddComponent(component)
+        ids[id(component)] = info.uuid
+    
+    for gameObject in gameObjects:
+        scene.Add(gameObject)
+
+    return scene
 
 class Primitives:
     """
