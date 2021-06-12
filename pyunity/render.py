@@ -2,6 +2,7 @@
 Classes to aid in rendering in a Scene.
 
 """
+from typing import Dict
 from OpenGL import GL as gl
 from OpenGL import GLU as glu
 from ctypes import c_float, c_ubyte, c_void_p
@@ -159,7 +160,7 @@ class Shader:
 
 
 __dir = os.path.abspath(os.path.dirname(__file__))
-shaders = dict()
+shaders: Dict[str, Shader] = dict()
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 
 def compile_shaders():

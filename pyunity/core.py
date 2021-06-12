@@ -50,6 +50,7 @@ __all__ = ["Component", "GameObject", "Light", "Color",
            "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
+from typing import List
 import glm
 from .vector3 import Vector3
 from .quaternion import Quaternion
@@ -228,7 +229,7 @@ class Component:
 
     """
 
-    attrs = []
+    attrs: List[str] = []
 
     def __init__(self):
         self.gameObject = None
