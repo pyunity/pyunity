@@ -9,3 +9,4 @@
 .coverage
 coverage.xml
 .replit
+.mypy_cache/
