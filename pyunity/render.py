@@ -101,10 +101,20 @@ class Shader:
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
         gl.glCompileShader(self.vertexShader)
+    
+        success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
+        if not success:
+            log = gl.glGetShaderInfoLog(self.vertexShader)
+            raise PyUnityException(log.decode())
 
         self.fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
         gl.glShaderSource(self.fragShader, self.frag, 1, None)
         gl.glCompileShader(self.fragShader)
+
+        success = gl.glGetShaderiv(self.fragShader, gl.GL_COMPILE_STATUS)
+        if not success:
+            log = gl.glGetShaderInfoLog(self.fragShader)
+            raise PyUnityException(log.decode())
 
         self.program = gl.glCreateProgram()
         gl.glAttachShader(self.program, self.vertexShader)

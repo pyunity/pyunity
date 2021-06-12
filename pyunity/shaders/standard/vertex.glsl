@@ -7,7 +7,7 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 
-out vec4 gl_Position;
+// out vec4 gl_Position;
 out vec2 TexCoord;
 out vec3 normal;
 out vec3 FragPos;
