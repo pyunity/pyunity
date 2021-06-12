@@ -101,7 +101,7 @@ class Shader:
         self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
         gl.glCompileShader(self.vertexShader)
-    
+
         success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(self.vertexShader)
