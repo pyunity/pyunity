@@ -1141,6 +1141,8 @@ int __pyx_module_is_main_pyunity__config = 0;
 static const char __pyx_k_[] = "";
 static const char __pyx_k_1[] = "1";
 static const char __pyx_k_os[] = "os";
+static const char __pyx_k_330[] = "330";
+static const char __pyx_k_3_3[] = "3.3";
 static const char __pyx_k_fps[] = "fps";
 static const char __pyx_k_hide[] = "hide";
 static const char __pyx_k_main[] = "__main__";
@@ -1161,14 +1163,20 @@ static const char __pyx_k_GetWindowProvider[] = "GetWindowProvider";
 static const char __pyx_k_PYUNITY_DEBUG_MODE[] = "PYUNITY_DEBUG_MODE";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_PYUNITY_INTERACTIVE[] = "PYUNITY_INTERACTIVE";
+static const char __pyx_k_MESA_GL_VERSION_OVERRIDE[] = "MESA_GL_VERSION_OVERRIDE";
+static const char __pyx_k_MESA_GLSL_VERSION_OVERRIDE[] = "MESA_GLSL_VERSION_OVERRIDE";
 static const char __pyx_k_PYGAME_HIDE_SUPPORT_PROMPT[] = "PYGAME_HIDE_SUPPORT_PROMPT";
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_u_1;
+static PyObject *__pyx_kp_u_330;
+static PyObject *__pyx_kp_u_3_3;
 static PyObject *__pyx_n_s_DEBUG;
 static PyObject *__pyx_n_s_GetWindowProvider;
 static PyObject *__pyx_kp_u_Loaded_config;
 static PyObject *__pyx_n_s_LogLine;
 static PyObject *__pyx_n_s_Logger;
+static PyObject *__pyx_n_u_MESA_GLSL_VERSION_OVERRIDE;
+static PyObject *__pyx_n_u_MESA_GL_VERSION_OVERRIDE;
 static PyObject *__pyx_n_u_PYGAME_HIDE_SUPPORT_PROMPT;
 static PyObject *__pyx_n_u_PYUNITY_DEBUG_MODE;
 static PyObject *__pyx_n_u_PYUNITY_INTERACTIVE;
@@ -1240,11 +1248,15 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 1},
   {&__pyx_kp_u_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 1, 0, 0},
+  {&__pyx_kp_u_330, __pyx_k_330, sizeof(__pyx_k_330), 0, 1, 0, 0},
+  {&__pyx_kp_u_3_3, __pyx_k_3_3, sizeof(__pyx_k_3_3), 0, 1, 0, 0},
   {&__pyx_n_s_DEBUG, __pyx_k_DEBUG, sizeof(__pyx_k_DEBUG), 0, 0, 1, 1},
   {&__pyx_n_s_GetWindowProvider, __pyx_k_GetWindowProvider, sizeof(__pyx_k_GetWindowProvider), 0, 0, 1, 1},
   {&__pyx_kp_u_Loaded_config, __pyx_k_Loaded_config, sizeof(__pyx_k_Loaded_config), 0, 1, 0, 0},
   {&__pyx_n_s_LogLine, __pyx_k_LogLine, sizeof(__pyx_k_LogLine), 0, 0, 1, 1},
   {&__pyx_n_s_Logger, __pyx_k_Logger, sizeof(__pyx_k_Logger), 0, 0, 1, 1},
+  {&__pyx_n_u_MESA_GLSL_VERSION_OVERRIDE, __pyx_k_MESA_GLSL_VERSION_OVERRIDE, sizeof(__pyx_k_MESA_GLSL_VERSION_OVERRIDE), 0, 1, 0, 1},
+  {&__pyx_n_u_MESA_GL_VERSION_OVERRIDE, __pyx_k_MESA_GL_VERSION_OVERRIDE, sizeof(__pyx_k_MESA_GL_VERSION_OVERRIDE), 0, 1, 0, 1},
   {&__pyx_n_u_PYGAME_HIDE_SUPPORT_PROMPT, __pyx_k_PYGAME_HIDE_SUPPORT_PROMPT, sizeof(__pyx_k_PYGAME_HIDE_SUPPORT_PROMPT), 0, 1, 0, 1},
   {&__pyx_n_u_PYUNITY_DEBUG_MODE, __pyx_k_PYUNITY_DEBUG_MODE, sizeof(__pyx_k_PYUNITY_DEBUG_MODE), 0, 1, 0, 1},
   {&__pyx_n_u_PYUNITY_INTERACTIVE, __pyx_k_PYUNITY_INTERACTIVE, sizeof(__pyx_k_PYUNITY_INTERACTIVE), 0, 1, 0, 1},
@@ -1272,14 +1284,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyunity/config.py":9
- *     os.environ["PYUNITY_INTERACTIVE"] = "1"
+  /* "pyunity/config.py":11
+ * os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
  * 
  * size = (800, 500)             # <<<<<<<<<<<<<<
  * fps = 60
  * faceCulling = True
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_int_800, __pyx_int_500); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_int_800, __pyx_int_500); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
   __Pyx_RefNannyFinishContext();
@@ -1660,7 +1672,7 @@ if (!__Pyx_RefNanny) {
  *     os.environ["PYUNITY_DEBUG_MODE"] = "1"
  * if "PYUNITY_INTERACTIVE" not in os.environ:             # <<<<<<<<<<<<<<
  *     os.environ["PYUNITY_INTERACTIVE"] = "1"
- * 
+ * os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1676,8 +1688,8 @@ if (!__Pyx_RefNanny) {
  *     os.environ["PYUNITY_DEBUG_MODE"] = "1"
  * if "PYUNITY_INTERACTIVE" not in os.environ:
  *     os.environ["PYUNITY_INTERACTIVE"] = "1"             # <<<<<<<<<<<<<<
- * 
- * size = (800, 500)
+ * os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
+ * os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
  */
     __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -1692,64 +1704,94 @@ if (!__Pyx_RefNanny) {
  *     os.environ["PYUNITY_DEBUG_MODE"] = "1"
  * if "PYUNITY_INTERACTIVE" not in os.environ:             # <<<<<<<<<<<<<<
  *     os.environ["PYUNITY_INTERACTIVE"] = "1"
- * 
+ * os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
  */
   }
 
+  /* "pyunity/config.py":8
+ * if "PYUNITY_INTERACTIVE" not in os.environ:
+ *     os.environ["PYUNITY_INTERACTIVE"] = "1"
+ * os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"             # <<<<<<<<<<<<<<
+ * os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_environ); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_u_MESA_GL_VERSION_OVERRIDE, __pyx_kp_u_3_3) < 0)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
   /* "pyunity/config.py":9
  *     os.environ["PYUNITY_INTERACTIVE"] = "1"
+ * os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
+ * os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"             # <<<<<<<<<<<<<<
+ * 
+ * size = (800, 500)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_environ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_u_MESA_GLSL_VERSION_OVERRIDE, __pyx_kp_u_330) < 0)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyunity/config.py":11
+ * os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
  * 
  * size = (800, 500)             # <<<<<<<<<<<<<<
  * fps = 60
  * faceCulling = True
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_size, __pyx_tuple__2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_size, __pyx_tuple__2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
 
-  /* "pyunity/config.py":10
+  /* "pyunity/config.py":12
  * 
  * size = (800, 500)
  * fps = 60             # <<<<<<<<<<<<<<
  * faceCulling = True
  * audio = True
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_fps, __pyx_int_60) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_fps, __pyx_int_60) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
 
-  /* "pyunity/config.py":11
+  /* "pyunity/config.py":13
  * size = (800, 500)
  * fps = 60
  * faceCulling = True             # <<<<<<<<<<<<<<
  * audio = True
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_faceCulling, Py_True) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_faceCulling, Py_True) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "pyunity/config.py":12
+  /* "pyunity/config.py":14
  * fps = 60
  * faceCulling = True
  * audio = True             # <<<<<<<<<<<<<<
  * 
  * Logger.LogLine(Logger.DEBUG, "Loaded config")
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_audio, Py_True) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_audio, Py_True) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
 
-  /* "pyunity/config.py":14
+  /* "pyunity/config.py":16
  * audio = True
  * 
  * Logger.LogLine(Logger.DEBUG, "Loaded config")             # <<<<<<<<<<<<<<
  * 
  * if os.environ["PYUNITY_INTERACTIVE"] == "1":
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Logger); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Logger); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_LogLine); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Logger); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Logger); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_DEBUG); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_DEBUG); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
@@ -1757,80 +1799,80 @@ if (!__Pyx_RefNanny) {
   __Pyx_GIVEREF(__pyx_kp_u_Loaded_config);
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_kp_u_Loaded_config);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "pyunity/config.py":16
+  /* "pyunity/config.py":18
  * Logger.LogLine(Logger.DEBUG, "Loaded config")
  * 
  * if os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
  *     from . import window
  *     windowProvider = window.GetWindowProvider()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_os); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_os); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_environ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_environ); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_u_PYUNITY_INTERACTIVE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_5, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_5, __pyx_kp_u_1, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_3) {
 
-    /* "pyunity/config.py":17
+    /* "pyunity/config.py":19
  * 
  * if os.environ["PYUNITY_INTERACTIVE"] == "1":
  *     from . import window             # <<<<<<<<<<<<<<
  *     windowProvider = window.GetWindowProvider()
  *     del window
  */
-    __pyx_t_5 = PyList_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_n_s_window);
     __Pyx_GIVEREF(__pyx_n_s_window);
     PyList_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_window);
-    __pyx_t_1 = __Pyx_Import(__pyx_n_s_, __pyx_t_5, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_Import(__pyx_n_s_, __pyx_t_5, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_window); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_window); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_window, __pyx_t_5) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_window, __pyx_t_5) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/config.py":18
+    /* "pyunity/config.py":20
  * if os.environ["PYUNITY_INTERACTIVE"] == "1":
  *     from . import window
  *     windowProvider = window.GetWindowProvider()             # <<<<<<<<<<<<<<
  *     del window
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_window); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_window); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_GetWindowProvider); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_GetWindowProvider); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowProvider, __pyx_t_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_windowProvider, __pyx_t_1) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pyunity/config.py":19
+    /* "pyunity/config.py":21
  *     from . import window
  *     windowProvider = window.GetWindowProvider()
  *     del window             # <<<<<<<<<<<<<<
  * 
  * del os
  */
-    if (__Pyx_PyObject_DelAttrStr(__pyx_m, __pyx_n_s_window) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (__Pyx_PyObject_DelAttrStr(__pyx_m, __pyx_n_s_window) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
 
-    /* "pyunity/config.py":16
+    /* "pyunity/config.py":18
  * Logger.LogLine(Logger.DEBUG, "Loaded config")
  * 
  * if os.environ["PYUNITY_INTERACTIVE"] == "1":             # <<<<<<<<<<<<<<
@@ -1839,12 +1881,12 @@ if (!__Pyx_RefNanny) {
  */
   }
 
-  /* "pyunity/config.py":21
+  /* "pyunity/config.py":23
  *     del window
  * 
  * del os             # <<<<<<<<<<<<<<
  */
-  if (__Pyx_PyObject_DelAttrStr(__pyx_m, __pyx_n_s_os) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (__Pyx_PyObject_DelAttrStr(__pyx_m, __pyx_n_s_os) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
 
   /* "pyunity/config.py":1
  * import os             # <<<<<<<<<<<<<<

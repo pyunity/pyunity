@@ -51,5 +51,5 @@ build: off
 skip_branch_with_pr: true
 
 artifacts:
-  - path: dist/pyunity-0.5.0*
+  - path: dist/pyunity-0.5.1*
     name: Builds
