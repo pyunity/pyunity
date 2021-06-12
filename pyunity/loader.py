@@ -193,12 +193,12 @@ def SaveScene(scene, filePath):
         directory = os.getcwd()
     
     f = open(os.path.join(directory, scene.name + ".mesh"), "w+")
+    f.write("Scene : " + str(uuid4()) + "\n")
+    f.write("    name: " + scene.name + "\n")
     
     ids = {}
     for gameObject in scene.gameObjects:
         uuid = str(uuid4())
-        while uuid in ids.values():
-            uuid = str(uuid4())
         
         ids[id(gameObject)] = uuid
         f.write("GameObject : " + uuid + "\n")
@@ -206,8 +206,6 @@ def SaveScene(scene, filePath):
         f.write("    tag: " + str(gameObject.tag.tag) + "\n")
         
         uuid = str(uuid4())
-        while uuid in ids.values():
-            uuid = str(uuid4())
         
         ids[id(gameObject.transform)] = uuid
 
@@ -218,8 +216,6 @@ def SaveScene(scene, filePath):
                 uuid = ids[id(component)]
             else:
                 uuid = str(uuid4())
-                while uuid in ids.values():
-                    uuid = str(uuid4())
                 
                 ids[id(component)] = uuid
             
