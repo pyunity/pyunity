@@ -1,12 +1,23 @@
+# Python generated files
 **/*.pyc
 **/*.pyo
 **/__pycache__
-**/venv
-**/.vscode
+
+# Builds
 *.egg-info
-/build
+build/
 **/.doctrees
+
+# Coverage
 .coverage
 coverage.xml
+
+# Replit
 .replit
+pyproject.toml
+poetry.lock
+
+# Misc
+venv/
+.vscode/
 .mypy_cache/
