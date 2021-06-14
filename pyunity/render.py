@@ -10,7 +10,7 @@ from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
 from .vector3 import Vector3
 from . import config
-import glm
+import glm #upm package(pyglm)
 import itertools
 import os
 
