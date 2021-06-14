@@ -2,7 +2,7 @@
 
 __all__ = ["Quaternion"]
 
-import glm #upm package(pyglm)
+import glm
 import math
 from .vector3 import Vector3
 
