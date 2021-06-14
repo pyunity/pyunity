@@ -7,6 +7,7 @@ This will be imported as ``pyunity.Loader``.
 """
 
 from .vector3 import Vector3
+from .quaternion import Quaternion
 from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
@@ -232,7 +233,6 @@ def SaveScene(scene, filePath=None):
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             for attr in component.attrs:
                 value = getattr(component, attr)
-                print(value, id(value) in ids)
                 if hasattr(value, "_convert"):
                     written = value._convert()
                 else:
@@ -297,7 +297,14 @@ def LoadScene(filename):
         del info.attrs["gameObject"]
         component = components[info.type[:-11]]
         component = gameObject.AddComponent(component)
-        ids[id(component)] = info.uuid
+        ids[info.uuid] = component
+        for name, value in reversed(info.attrs.items()):
+            if value in ids:
+                setattr(component, name, ids[value])
+            elif value.startswith("Vector3("):
+                setattr(component, name, Vector3(*list(map(float, value[8:-1].split(", ")))))
+            elif value.startswith("Quaternion("):
+                setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
     
     for gameObject in gameObjects:
         scene.Add(gameObject)
