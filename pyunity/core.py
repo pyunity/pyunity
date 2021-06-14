@@ -51,7 +51,7 @@ __all__ = ["Component", "GameObject", "Light", "Color",
 
 import os
 from typing import List
-import glm #upm package(pyglm)
+import glm
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
