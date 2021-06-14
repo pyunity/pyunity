@@ -9,7 +9,7 @@ functions.
 
 __all__ = ["Vector3", "clamp"]
 
-import glm
+import glm #upm package(pyglm)
 import operator
 
 def clamp(x, _min, _max): return min(_max, max(_min, x))
