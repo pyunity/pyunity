@@ -2,6 +2,25 @@
 Releases
 ========
 
+v0.5.1
+======
+Bugfix that fixes the shaders and dependency management.
+
+v0.5.0
+======
+Big rendering update that completely rewrites rendering code and optimizes it.
+
+New features:
+
+- Script loading
+- Shaders
+- Vertex buffer objects and vertex array objects
+- Optimized rendering
+- Colours
+- Textures
+- New lighting system
+- New meshes and mesh loading
+
 v0.4.0
 ======
 Small release that has large internal changes.
