@@ -3,7 +3,7 @@ pyunity package
 
 .. automodule:: pyunity
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
 
 Subpackages
@@ -32,5 +32,4 @@ Submodules
    pyunity.meshes
    pyunity.quaternion
    pyunity.render
-   pyunity.script
    pyunity.vector3

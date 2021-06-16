@@ -3,5 +3,5 @@ pyunity.scenes.sceneManager module
 
 .. automodule:: pyunity.scenes.sceneManager
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

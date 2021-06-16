@@ -3,5 +3,5 @@ pyunity.audio module
 
 .. automodule:: pyunity.audio
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

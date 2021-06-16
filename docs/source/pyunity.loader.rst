@@ -3,5 +3,5 @@ pyunity.loader module
 
 .. automodule:: pyunity.loader
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
