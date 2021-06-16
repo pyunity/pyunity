@@ -70,7 +70,7 @@ class Manifold:
 class Collider(Component):
     """Collider base class."""
 
-    pass
+    attrs = ["gameObject"]
 
 class SphereCollider(Collider):
     """
@@ -89,6 +89,8 @@ class SphereCollider(Collider):
         The radius of the SphereCollider
 
     """
+
+    attrs = ["gameObject", "min", "max", "pos", "radius"]
 
     def __init__(self):
         super(SphereCollider, self).__init__()
@@ -209,6 +211,8 @@ class AABBoxCollider(Collider):
         The center of the AABBoxCollider
 
     """
+
+    attrs = ["gameObject", "min", "max", "pos"]
 
     def __init__(self):
         super(AABBoxCollider, self).__init__()
@@ -365,6 +369,8 @@ class Rigidbody(Component):
         created
 
     """
+
+    attrs = ["gameObject", "mass", "velocity", "physicMaterial", "position"]
 
     def __init__(self):
         super(Rigidbody, self).__init__()
