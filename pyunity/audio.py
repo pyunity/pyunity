@@ -121,6 +121,8 @@ else:
 
         """
 
+        attrs = ["gameObject", "PlayOnStart", "Loop"]
+
         def __init__(self):
             super(AudioSource, self).__init__()
             self.clip = None

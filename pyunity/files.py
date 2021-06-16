@@ -28,6 +28,8 @@ class Behaviour(Component):
 
     """
 
+    attrs = ["gameObject"]
+
     def Start(self):
         """
         Called every time a scene is loaded up.
