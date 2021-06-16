@@ -3,5 +3,5 @@ pyunity.logger module
 
 .. automodule:: pyunity.logger
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
