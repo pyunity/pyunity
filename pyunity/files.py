@@ -164,7 +164,7 @@ class Texture2D:
         texture name.
 
         """
-        img = Image.open(self.path)
+        img = Image.open(self.path).convert("RGBA")
         img_data = img.tobytes()
         width, height = img.size
         self.texture = gl.glGenTextures(1)
@@ -173,8 +173,8 @@ class Texture2D:
             gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
         gl.glTexParameterf(
             gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, width, height, 0,
-                        gl.GL_RGB, gl.GL_UNSIGNED_BYTE, img_data)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
+                        gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, img_data)
         gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
 
