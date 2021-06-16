@@ -3,7 +3,7 @@ pyunity.scenes package
 
 .. automodule:: pyunity.scenes
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
 
 Submodules

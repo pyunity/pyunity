@@ -47,7 +47,7 @@ for:
       - "%windows_location2% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
-      - rmdir /s /q docs\source\pyunity*
+      - del docs\source\pyunity*
   - matrix:
       only:
         - image: Visual Studio 2019
@@ -55,7 +55,7 @@ for:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
-      - rmdir /s /q docs\source\pyunity*
+      - del docs\source\pyunity*
   - matrix:
       only:
         - image: macos

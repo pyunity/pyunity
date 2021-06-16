@@ -3,5 +3,5 @@ pyunity.vector3 module
 
 .. automodule:: pyunity.vector3
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

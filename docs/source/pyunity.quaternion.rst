@@ -3,5 +3,5 @@ pyunity.quaternion module
 
 .. automodule:: pyunity.quaternion
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

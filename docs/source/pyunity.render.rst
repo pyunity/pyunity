@@ -3,5 +3,5 @@ pyunity.render module
 
 .. automodule:: pyunity.render
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
