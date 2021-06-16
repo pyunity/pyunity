@@ -305,6 +305,8 @@ def LoadScene(filename):
                 setattr(component, name, Vector3(*list(map(float, value[8:-1].split(", ")))))
             elif value.startswith("Quaternion("):
                 setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
+            elif value in ["True", "False"]:
+                setattr(component, name, value == "True")
     
     for gameObject in gameObjects:
         scene.Add(gameObject)
