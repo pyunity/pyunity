@@ -27,6 +27,7 @@ test_script:
   - python -m unittest tests.py
   - python prepare.py -x
   - python setup.py bdist_wheel
+  - sphinx-apidoc -e -F -M -o docs/source pyunity pyunity/config.py pyunity/examples/*
   - sphinx-build -T -E -b html docs/source docs/en
 
 for:
@@ -38,6 +39,7 @@ for:
       - python -m pip install cython wheel sphinx pyglm pillow coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
+      - rm -rf docs/source/pyunity*
   - matrix:
       only:
         - image: Visual Studio 2017
@@ -45,6 +47,7 @@ for:
       - "%windows_location2% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
+      - rmdir /s /q docs\source\pyunity*
   - matrix:
       only:
         - image: Visual Studio 2019
@@ -52,12 +55,14 @@ for:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
+      - rmdir /s /q docs\source\pyunity*
   - matrix:
       only:
         - image: macos
     install:
       - source $venv/bin/activate
       - python -m pip install cython wheel sphinx pyglm pillow
+      - rm -rf docs/source/pyunity*
 
 build: off
 skip_branch_with_pr: true
