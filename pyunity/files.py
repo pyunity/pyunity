@@ -28,7 +28,7 @@ class Behaviour(Component):
 
     """
 
-    attrs = ["gameObject"]
+    attrs = []
 
     def Start(self):
         """

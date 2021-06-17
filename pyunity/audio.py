@@ -121,7 +121,7 @@ else:
 
         """
 
-        attrs = ["gameObject", "PlayOnStart", "Loop"]
+        attrs = ["PlayOnStart", "Loop"]
 
         def __init__(self):
             super(AudioSource, self).__init__()

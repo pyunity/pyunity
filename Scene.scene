@@ -1,48 +1,48 @@
-Scene : fa67f656-9271-4880-8b1c-a1e2a1ae41b5
+Scene : c527af1b-34a2-40f4-ba51-7980918ad003
     name: "Scene"
-GameObject : 76a91344-0b74-4f72-bf6f-8d3b55f4b7a3
+GameObject : 70469745-9fe8-4c4b-b8c2-36eca43d908b
     name: "Main Camera"
     tag: 0
-    transform: a586c5e2-02ae-4f9d-aa83-a7d87bbf3cc7
-Transform(Component) : a586c5e2-02ae-4f9d-aa83-a7d87bbf3cc7
-    gameObject: 76a91344-0b74-4f72-bf6f-8d3b55f4b7a3
+    transform: 0238a48b-ef15-4c7c-b9f5-cc2bddf1b240
+Transform(Component) : 0238a48b-ef15-4c7c-b9f5-cc2bddf1b240
+    gameObject: 70469745-9fe8-4c4b-b8c2-36eca43d908b
     localPosition: Vector3(0, 0, -10)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 1, 1)
     parent: None
-Camera(Component) : bfcc1b7f-6191-4e6a-ab41-0b17a05fc34d
-    gameObject: 76a91344-0b74-4f72-bf6f-8d3b55f4b7a3
+Camera(Component) : 5644a3b7-fcaa-40c1-9f7b-991c9f67102d
+    gameObject: 70469745-9fe8-4c4b-b8c2-36eca43d908b
     near: 0.05
     far: 100
     fov: 90
     clearColor: (0, 0, 0, 1)
-    shader: <pyunity.render.Shader object at 0x065070B8>
-GameObject : 22a0152e-0ba4-4630-8926-a3ac2ea43e6d
+    shader: <pyunity.render.Shader object at 0x063021D8>
+GameObject : 32523c69-5efb-42f3-a021-011ce85b9284
     name: "Light"
     tag: 0
-    transform: 04832184-13bf-419e-b9d9-bb3829f2472c
-Transform(Component) : 04832184-13bf-419e-b9d9-bb3829f2472c
-    gameObject: 22a0152e-0ba4-4630-8926-a3ac2ea43e6d
+    transform: c3c6feec-8fa5-489b-8f5b-5d150f937c55
+Transform(Component) : c3c6feec-8fa5-489b-8f5b-5d150f937c55
+    gameObject: 32523c69-5efb-42f3-a021-011ce85b9284
     localPosition: Vector3(10, 10, -10)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 1, 1)
     parent: None
-Light(Component) : 7361c947-8bdf-45a0-8b0a-471376c61931
-    gameObject: 22a0152e-0ba4-4630-8926-a3ac2ea43e6d
+Light(Component) : 4fd5cd9c-4cef-4d18-bb7c-d5ab6f25d516
+    gameObject: 32523c69-5efb-42f3-a021-011ce85b9284
     intensity: 100
-GameObject : 148e67f2-73df-473b-8893-dbd48745760d
+GameObject : 9903bfa6-404f-44f7-b605-03d767e7f796
     name: "Cube"
     tag: 0
-    transform: e0177698-9436-458f-875c-89932d5eddd9
-Transform(Component) : e0177698-9436-458f-875c-89932d5eddd9
-    gameObject: 148e67f2-73df-473b-8893-dbd48745760d
+    transform: ff42e03c-3626-4aa6-9494-53eab35d66bf
+Transform(Component) : ff42e03c-3626-4aa6-9494-53eab35d66bf
+    gameObject: 9903bfa6-404f-44f7-b605-03d767e7f796
     localPosition: Vector3(0, 0, 0)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 1, 1)
     parent: None
-MeshRenderer(Component) : 274d9298-3e54-4516-bcaf-95a0ff70ef3f
-    gameObject: 148e67f2-73df-473b-8893-dbd48745760d
-    mesh: <pyunity.meshes.Mesh object at 0x06781538>
-    mat: <pyunity.core.Material object at 0x06781598>
-Rotator(Behaviour) : a48e58b5-f066-4ea7-8166-8b632fd9252b
-    gameObject: 148e67f2-73df-473b-8893-dbd48745760d
+MeshRenderer(Component) : dd01cd30-ace3-48e6-b3d3-4d81e30ef58d
+    gameObject: 9903bfa6-404f-44f7-b605-03d767e7f796
+    mesh: <pyunity.meshes.Mesh object at 0x064DACA0>
+    mat: <pyunity.core.Material object at 0x064DAD00>
+Rotator(Behaviour) : 561b9368-c7f1-4fd6-bd0e-639f04e67d71
+    gameObject: 9903bfa6-404f-44f7-b605-03d767e7f796
