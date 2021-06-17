@@ -15,7 +15,9 @@ from .files import Behaviour
 from .render import Camera
 from .audio import AudioSource
 from .physics import AABBoxCollider, SphereCollider
+from .files import Scripts
 from uuid import uuid4
+import inspect
 import json
 import os
 # import random
@@ -226,6 +228,10 @@ def SaveScene(scene, filePath=None):
             
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
+                os.makedirs(os.path.join(directory, "scripts"), exist_ok=True)
+                with open(os.path.join(directory, "scripts",
+                        type(component).__name__ + ".py"), "w+") as f2:
+                    f2.write(inspect.getsource(type(component)))
             else:
                 name = type(component).__name__ + "(Component)"
             f.write(name + " : " + uuid + "\n")
@@ -293,6 +299,7 @@ def LoadScene(filename):
         ids[info.uuid] = gameObject
     
     for info in componentInfo:
+        print(info.attrs)
         gameObject = ids[info.gameObject]
         del info.attrs["gameObject"]
         component = components[info.type[:-11]]
@@ -308,6 +315,13 @@ def LoadScene(filename):
             elif value in ["True", "False"]:
                 setattr(component, name, value == "True")
     
+    for info in behaviourInfo:
+        gameObject = ids[info.gameObject]
+        del info.attrs["gameObject"]
+        script = Scripts.LoadScripts(os.path.join(
+            os.path.dirname(filename), "scripts"))
+        gameObject.AddComponent(getattr(script, info.type[:-11]))
+
     for gameObject in gameObjects:
         scene.Add(gameObject)
 
