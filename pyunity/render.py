@@ -185,7 +185,7 @@ class Camera(SingleComponent):
 
     """
 
-    attrs = ["gameObject", "near", "far", "fov", "clearColor", "shader"]
+    attrs = ["near", "far", "fov", "clearColor", "shader"]
 
     def __init__(self):
         super(Camera, self).__init__()
