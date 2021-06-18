@@ -285,72 +285,70 @@ components = {
 """List of all components by name"""
 
 def LoadProject(filePath):
-    print(filePath)
     project = Project.from_folder(filePath)
+    
+    scenes = [value[1] for value in project.files.values() if value[0].type == "Scene"]
+    for path in scenes:
+        with open(path, "r") as f:
+            lines = f.read().rstrip().splitlines()
+        
+        data = []
+        for line in lines:
+            if not line.startswith("    "):
+                data.append([line])
+            else:
+                data[-1].append(line)
+        
+        infos = []
+        for info in data:
+            type_, uuid = info[0].split(" : ")
+            attrs = {attr: value for attr, value in map(lambda x: x[4:].split(": "), info[1:])}
+            infos.append(ObjectInfo(uuid, type_, attrs))
+        
+        gameObjectInfo = list(filter(lambda x: x.type == "GameObject", infos))
+        componentInfo = list(filter(lambda x: "(Component)" in x.type, infos))
+        behaviourInfo = list(filter(lambda x: "(Behaviour)" in x.type, infos))
+        
+        scene_info = infos.pop(0)
+        scene = SceneManager.AddScene(json.loads(scene_info.name))
+        scene.Remove(scene.gameObjects[0])
+        scene.Remove(scene.gameObjects[0])
+
+        ids = {}
+
+        gameObjects = []
+        for info in gameObjectInfo:
+            gameObject = GameObject.BareObject(json.loads(info.name))
+            gameObjects.append(gameObject)
+            gameObject.tag = Tag(int(info.tag))
+            ids[info.uuid] = gameObject
+        
+        for info in componentInfo:
+            gameObject = ids[info.gameObject]
+            del info.attrs["gameObject"]
+            component = components[info.type[:-11]]
+            component = gameObject.AddComponent(component)
+            ids[info.uuid] = component
+            for name, value in reversed(info.attrs.items()):
+                if value in ids:
+                    setattr(component, name, ids[value])
+                elif value.startswith("Vector3("):
+                    setattr(component, name, Vector3(*list(map(float, value[8:-1].split(", ")))))
+                elif value.startswith("Quaternion("):
+                    setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
+                elif value in ["True", "False"]:
+                    setattr(component, name, value == "True")
+        
+        for info in behaviourInfo:
+            gameObject = ids[info.gameObject]
+            del info.attrs["gameObject"]
+            script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
+            gameObject.AddComponent(getattr(script, info.type[:-11]))
+
+        for gameObject in gameObjects:
+            scene.Add(gameObject)
 
     return project
-
-def LoadScene(filename):
-    with open(filename, "r") as f:
-        lines = f.read().rstrip().splitlines()
-    data = []
-    for line in lines:
-        if not line.startswith("    "):
-            data.append([line])
-        else:
-            data[-1].append(line)
-    
-    infos = []
-    for info in data:
-        type_, uuid = info[0].split(" : ")
-        attrs = {attr: value for attr, value in map(lambda x: x[4:].split(": "), info[1:])}
-        infos.append(ObjectInfo(uuid, type_, attrs))
-    gameObjectInfo = list(filter(lambda x: x.type == "GameObject", infos))
-    componentInfo = list(filter(lambda x: "(Component)" in x.type, infos))
-    behaviourInfo = list(filter(lambda x: "(Behaviour)" in x.type, infos))
-    
-    scene_info = infos.pop(0)
-    scene = SceneManager.AddScene(json.loads(scene_info.name))
-    scene.Remove(scene.gameObjects[0])
-    scene.Remove(scene.gameObjects[0])
-
-    ids = {}
-
-    gameObjects = []
-    for info in gameObjectInfo:
-        gameObject = GameObject.BareObject(json.loads(info.name))
-        gameObjects.append(gameObject)
-        gameObject.tag = Tag(int(info.tag))
-        ids[info.uuid] = gameObject
-    
-    for info in componentInfo:
-        print(info.attrs)
-        gameObject = ids[info.gameObject]
-        del info.attrs["gameObject"]
-        component = components[info.type[:-11]]
-        component = gameObject.AddComponent(component)
-        ids[info.uuid] = component
-        for name, value in reversed(info.attrs.items()):
-            if value in ids:
-                setattr(component, name, ids[value])
-            elif value.startswith("Vector3("):
-                setattr(component, name, Vector3(*list(map(float, value[8:-1].split(", ")))))
-            elif value.startswith("Quaternion("):
-                setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
-            elif value in ["True", "False"]:
-                setattr(component, name, value == "True")
-    
-    for info in behaviourInfo:
-        gameObject = ids[info.gameObject]
-        del info.attrs["gameObject"]
-        script = Scripts.LoadScripts(os.path.join(
-            os.path.dirname(filename), "scripts"))
-        gameObject.AddComponent(getattr(script, info.type[:-11]))
-
-    for gameObject in gameObjects:
-        scene.Add(gameObject)
-
-    return scene
 
 class Primitives:
     """
