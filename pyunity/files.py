@@ -124,6 +124,7 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
+        print(path)
         files = glob.glob(os.path.join(path, "*.py"))
         a = {}
 
@@ -245,23 +246,23 @@ class Project:
         
         data = {}
         lines.pop(0)
-        iterable = iter(lines)
-        while True:
-            line = next(iterable)
+        for line in lines:
             if not line.startswith("    "):
                 break
             name, value = line[4:].split(": ")
             data[name] = value
         
         data["files"] = {}
-        while True:
-            try:
-                line = next(iterable)
-            except StopIteration:
-                break
+        lines = lines[lines.index("Files") + 1:]
+        for line in lines:
             name, value = line[4:].split(": ")
-            data["files"]["name"] = value
+            data["files"][name] = value
         
         project = Project(filePath, data["name"])
         for uuid, path in data["files"].items():
-            project.import_file(path, os.path.splitext(path)[1][1:].capitalize(), uuid)
+            type_ = os.path.splitext(path)[1][1:].capitalize()
+            if type_ == "Py":
+                type_ = "Behaviour"
+            project.import_file(path, type_, uuid)
+        
+        return project
