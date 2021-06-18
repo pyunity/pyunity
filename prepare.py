@@ -11,29 +11,28 @@ if len(sys.argv) < 2:
     desc = pyunity.__doc__.split("\n")
     desc_new = [
         "# PyUnity", "",
-        "".join([
-            "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
-            "(https://pyunity.readthedocs.io/en/latest/?badge=latest)\n",
-            "[![License](https://img.shields.io/pypi/l/pyunity.svg?v=1)]",
-            "(https://pypi.python.org/pypi/pyunity)\n",
-            "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?v=1)]",
-            "(https://pypi.python.org/pypi/pyunity)\n",
-            "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
-            "(https://pypi.python.org/pypi/pyunity)\n",
-            "[![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/",
-            "latest)](https://github.com/pyunity/pyunity/releases/latest)\n",
-            "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg",
-            "?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)\n",
-            "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
-            "(https://ci.appveyor.com/project/rayzchen/pyunity)\n",
-            "[![Discord](https://img.shields.io/discord/835911328693616680)](https://discord.gg/zTn48BEbF9)\n",
-            "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
-            "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n",
-            "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
-            "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n",
-            "[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?style=social)]",
-            "(https://github.com/pyunity/pyunity/stargazers)"
-        ])
+        "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
+        "(https://pyunity.readthedocs.io/en/latest/?badge=latest)",
+        "[![License](https://img.shields.io/pypi/l/pyunity.svg?logo=python&logoColor=FBE072)]",
+        "(https://pypi.python.org/pypi/pyunity)",
+        "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)]",
+        "(https://pypi.python.org/pypi/pyunity)",
+        "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
+        "(https://pypi.python.org/pypi/pyunity)",
+        "[![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/latest?logo=github)]",
+        "(https://github.com/pyunity/pyunity/releases/latest)",
+        "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)]",
+        "(https://lgtm.com/projects/g/pyunity/pyunity/context:python)",
+        "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
+        "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)",
+        "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
+        "(https://ci.appveyor.com/project/rayzchen/pyunity)",
+        "[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)]",
+        "(https://discord.gg/zTn48BEbF9)",
+        "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
+        "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)",
+        "[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)]",
+        "(https://github.com/pyunity/pyunity/stargazers)"
     ]
     skip = 0
     for i in range(len(desc)):
