@@ -193,11 +193,23 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write("/")
         f.write("\n")
 
+def GetImports(file):
+    with open(file) as f:
+        lines = f.read().rstrip().splitlines()
+    imports = []
+    for line in lines:
+        line = line.lstrip()
+        if line.startswith("import") or (line.startswith("from") and " import " in line):
+            imports.append(line)
+    return "\n".join(imports) + "\n\n"
+
 def SaveScene(scene, filePath=None):
     if filePath:
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
+    directory = os.path.join(directory, scene.name)
+    os.makedirs(directory, exist_ok=True)
     
     f = open(os.path.join(directory, scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
@@ -228,9 +240,10 @@ def SaveScene(scene, filePath=None):
             
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
-                os.makedirs(os.path.join(directory, "scripts"), exist_ok=True)
-                with open(os.path.join(directory, "scripts",
+                os.makedirs(os.path.join(directory, "Scripts"), exist_ok=True)
+                with open(os.path.join(directory, "Scripts",
                         type(component).__name__ + ".py"), "w+") as f2:
+                    f2.write(GetImports(inspect.getfile(type(component))))
                     f2.write(inspect.getsource(type(component)))
             else:
                 name = type(component).__name__ + "(Component)"
