@@ -11,11 +11,10 @@ from .quaternion import Quaternion
 from .meshes import Mesh
 from .core import *
 from .scenes import SceneManager
-from .files import Behaviour
+from .files import Behaviour, Project, Scripts
 from .render import Camera
 from .audio import AudioSource
 from .physics import AABBoxCollider, SphereCollider
-from .files import Scripts
 from uuid import uuid4
 import inspect
 import json
@@ -203,15 +202,19 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-def SaveScene(scene, filePath=None):
+def SaveSceneToProject(scene, filePath=None):
     if filePath:
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
     directory = os.path.join(directory, scene.name)
     os.makedirs(directory, exist_ok=True)
+
+    project = Project(directory, scene.name)
+    project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
     
-    f = open(os.path.join(directory, scene.name + ".scene"), "w+")
+    os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
+    f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
     f.write("    name: " + json.dumps(scene.name) + "\n")
     
@@ -240,11 +243,12 @@ def SaveScene(scene, filePath=None):
             
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
-                os.makedirs(os.path.join(directory, "Scripts"), exist_ok=True)
-                with open(os.path.join(directory, "Scripts",
-                        type(component).__name__ + ".py"), "w+") as f2:
+                path = os.path.join(directory, "Scripts", type(component).__name__ + ".py")
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w+") as f2:
                     f2.write(GetImports(inspect.getfile(type(component))))
                     f2.write(inspect.getsource(type(component)))
+                project.import_file(path, "Behaviour", uuid)
             else:
                 name = type(component).__name__ + "(Component)"
             f.write(name + " : " + uuid + "\n")
@@ -257,6 +261,8 @@ def SaveScene(scene, filePath=None):
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
+        
+        project.write_project()
 
 class ObjectInfo:
     def __init__(self, uuid, type, attrs):
@@ -277,6 +283,12 @@ components = {
     "AudioSource": AudioSource
 }
 """List of all components by name"""
+
+def LoadProject(filePath):
+    print(filePath)
+    project = Project.from_folder(filePath)
+
+    return project
 
 def LoadScene(filename):
     with open(filename, "r") as f:

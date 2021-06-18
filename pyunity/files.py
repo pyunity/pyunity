@@ -4,13 +4,14 @@ Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab"]
+__all__ = ["Behaviour", "Texture2D", "Prefab", "File", "Project"]
 
 from OpenGL import GL as gl
 from PIL import Image
 from .core import Component
 from . import Logger
 from types import ModuleType
+from uuid import uuid4
 import glob
 import os
 import sys
@@ -192,3 +193,75 @@ class Prefab:
     def __init__(self, gameObject, components):
         self.gameObject = gameObject
         self.components = components
+
+class File:
+    def __init__(self, path, type, uuid=None):
+        self.path = path
+        self.type = type
+        if uuid is None:
+            self.uuid = str(uuid4())
+        else:
+            self.uuid = uuid
+        self.obj = None
+
+class Project:
+    def __init__(self, path, name):
+        self.path = path
+        self.name = name
+        self.firstScene = 0
+        self.files = {}
+    
+    def import_file(self, localPath, type, uuid=None):
+        file = File(os.path.join(self.path, localPath), type, uuid)
+        self.files[file.uuid] = (file, localPath)
+        return file
+    
+    def get_file_obj(self, uuid):
+        return self.files[uuid][0].obj
+    
+    def write_project(self):
+        with open(os.path.join(self.path, self.name + ".pyunity"), "w+") as f:
+            f.write("Project\n")
+            f.write("    name: " + self.name + "\n")
+            f.write("    firstScene: " + str(self.firstScene) + "\n")
+            f.write("Files\n")
+            for uuid, file in self.files.items():
+                f.write("    " + uuid + ": " + file[0].path + "\n")
+    
+    @staticmethod
+    def from_folder(filePath):
+        if not os.path.isdir(filePath):
+            raise ValueError("The specified folder does not exist")
+        
+        files = glob.glob(os.path.join(filePath, "*.pyunity"))
+        if len(files) == 0:
+            raise ValueError("The specified folder is not a PyUnity project")
+        elif len(files) > 1:
+            raise ValueError("Ambiguity in specified folder: " + str(len(files)) + " project files found")
+        file = files[0]
+
+        with open(file) as f:
+            lines = f.read().rstrip().splitlines()
+        
+        data = {}
+        lines.pop(0)
+        iterable = iter(lines)
+        while True:
+            line = next(iterable)
+            if not line.startswith("    "):
+                break
+            name, value = line[4:].split(": ")
+            data[name] = value
+        
+        data["files"] = {}
+        while True:
+            try:
+                line = next(iterable)
+            except StopIteration:
+                break
+            name, value = line[4:].split(": ")
+            data["files"]["name"] = value
+        
+        project = Project(filePath, data["name"])
+        for uuid, path in data["files"].items():
+            project.import_file(path, os.path.splitext(path)[1][1:].capitalize(), uuid)
