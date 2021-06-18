@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.input",
         "sources": [
-            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\input.py"
+            "C:\\Ray-Data\\pyunity\\pyunity\\input.py"
         ]
     },
     "module_name": "pyunity.input"
@@ -1428,7 +1428,6 @@ static const char __pyx_k_K_LEFT[] = "K_LEFT";
 static const char __pyx_k_Pygame[] = "Pygame";
 static const char __pyx_k_config[] = "config";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_locals[] = "locals";
 static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_pygame[] = "pygame";
 static const char __pyx_k_scenes[] = "scenes";
@@ -1471,15 +1470,16 @@ static const char __pyx_k_input_py[] = "input.py";
 static const char __pyx_k_qualname[] = "__qualname__";
 static const char __pyx_k_KEY_RIGHT[] = "KEY_RIGHT";
 static const char __pyx_k_KEY_SPACE[] = "KEY_SPACE";
+static const char __pyx_k_constants[] = "constants";
 static const char __pyx_k_metaclass[] = "__metaclass__";
 static const char __pyx_k_GetKeyDown[] = "GetKeyDown";
 static const char __pyx_k_Code___init[] = "Code.__init__";
 static const char __pyx_k_get_keys_up[] = "get_keys_up";
 static const char __pyx_k_SceneManager[] = "SceneManager";
 static const char __pyx_k_get_keys_down[] = "get_keys_down";
-static const char __pyx_k_pygame_locals[] = "pygame.locals";
 static const char __pyx_k_pyunity_input[] = "pyunity.input";
 static const char __pyx_k_windowProvider[] = "windowProvider";
+static const char __pyx_k_pygame_constants[] = "pygame.constants";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_KeyCodes_to_reference_each_key[] = "\n    KeyCodes to reference each key on the keyboard.\n    Do not instantiate this class.\n\n    ";
 static const char __pyx_k_Module_to_manage_getting_input[] = "\nModule to manage getting input from window providers.\n\nThis will be imported as ``pyunity.Input``.\n\n";
@@ -1693,6 +1693,7 @@ static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_check;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_config;
+static PyObject *__pyx_n_s_constants;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_down;
 static PyObject *__pyx_n_s_get_keys;
@@ -1703,7 +1704,6 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_kp_s_input_py;
 static PyObject *__pyx_n_s_keycode;
-static PyObject *__pyx_n_s_locals;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
@@ -1711,7 +1711,7 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_pressed;
 static PyObject *__pyx_n_s_pygame;
-static PyObject *__pyx_n_s_pygame_locals;
+static PyObject *__pyx_n_s_pygame_constants;
 static PyObject *__pyx_n_s_pyunity_input;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_scenes;
@@ -1890,7 +1890,7 @@ static PyObject *__pyx_pf_7pyunity_5input_4Code___init__(CYTHON_UNUSED PyObject 
 }
 
 /* "pyunity/input.py":98
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  * 
  * def GetKey(keycode):             # <<<<<<<<<<<<<<
  *     """
@@ -2028,7 +2028,7 @@ static PyObject *__pyx_pf_7pyunity_5input_GetKey(CYTHON_UNUSED PyObject *__pyx_s
   goto __pyx_L0;
 
   /* "pyunity/input.py":98
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  * 
  * def GetKey(keycode):             # <<<<<<<<<<<<<<
  *     """
@@ -2624,6 +2624,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_check, __pyx_k_check, sizeof(__pyx_k_check), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_config, __pyx_k_config, sizeof(__pyx_k_config), 0, 0, 1, 1},
+  {&__pyx_n_s_constants, __pyx_k_constants, sizeof(__pyx_k_constants), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_down, __pyx_k_down, sizeof(__pyx_k_down), 0, 0, 1, 1},
   {&__pyx_n_s_get_keys, __pyx_k_get_keys, sizeof(__pyx_k_get_keys), 0, 0, 1, 1},
@@ -2634,7 +2635,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_kp_s_input_py, __pyx_k_input_py, sizeof(__pyx_k_input_py), 0, 0, 1, 0},
   {&__pyx_n_s_keycode, __pyx_k_keycode, sizeof(__pyx_k_keycode), 0, 0, 1, 1},
-  {&__pyx_n_s_locals, __pyx_k_locals, sizeof(__pyx_k_locals), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
@@ -2642,7 +2642,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_pressed, __pyx_k_pressed, sizeof(__pyx_k_pressed), 0, 0, 1, 1},
   {&__pyx_n_s_pygame, __pyx_k_pygame, sizeof(__pyx_k_pygame), 0, 0, 1, 1},
-  {&__pyx_n_s_pygame_locals, __pyx_k_pygame_locals, sizeof(__pyx_k_pygame_locals), 0, 0, 1, 1},
+  {&__pyx_n_s_pygame_constants, __pyx_k_pygame_constants, sizeof(__pyx_k_pygame_constants), 0, 0, 1, 1},
   {&__pyx_n_s_pyunity_input, __pyx_k_pyunity_input, sizeof(__pyx_k_pyunity_input), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_scenes, __pyx_k_scenes, sizeof(__pyx_k_scenes), 0, 0, 1, 1},
@@ -2675,7 +2675,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_input_py, __pyx_n_s_init, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 20, __pyx_L1_error)
 
   /* "pyunity/input.py":98
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  * 
  * def GetKey(keycode):             # <<<<<<<<<<<<<<
  *     """
@@ -2998,18 +2998,18 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/input.py":8
  * """
  * 
- * import pygame.locals             # <<<<<<<<<<<<<<
+ * import pygame.constants             # <<<<<<<<<<<<<<
  * import glfw
  * from . import config
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pygame_locals, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pygame_constants, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/input.py":9
  * 
- * import pygame.locals
+ * import pygame.constants
  * import glfw             # <<<<<<<<<<<<<<
  * from . import config
  * from .scenes import SceneManager
@@ -3020,7 +3020,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/input.py":10
- * import pygame.locals
+ * import pygame.constants
  * import glfw
  * from . import config             # <<<<<<<<<<<<<<
  * from .scenes import SceneManager
@@ -3130,9 +3130,9 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/input.py":34
  *     """
  * 
- *     A = Code([glfw.KEY_A, pygame.locals.K_a, None])             # <<<<<<<<<<<<<<
- *     B = Code([glfw.KEY_B, pygame.locals.K_b, None])
- *     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
+ *     A = Code([glfw.KEY_A, pygame.constants.K_a, None])             # <<<<<<<<<<<<<<
+ *     B = Code([glfw.KEY_B, pygame.constants.K_b, None])
+ *     C = Code([glfw.KEY_C, pygame.constants.K_c, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3143,7 +3143,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
@@ -3181,10 +3181,10 @@ if (!__Pyx_RefNanny) {
 
   /* "pyunity/input.py":35
  * 
- *     A = Code([glfw.KEY_A, pygame.locals.K_a, None])
- *     B = Code([glfw.KEY_B, pygame.locals.K_b, None])             # <<<<<<<<<<<<<<
- *     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
- *     D = Code([glfw.KEY_D, pygame.locals.K_d, None])
+ *     A = Code([glfw.KEY_A, pygame.constants.K_a, None])
+ *     B = Code([glfw.KEY_B, pygame.constants.K_b, None])             # <<<<<<<<<<<<<<
+ *     C = Code([glfw.KEY_C, pygame.constants.K_c, None])
+ *     D = Code([glfw.KEY_D, pygame.constants.K_d, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3195,7 +3195,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_b); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 35, __pyx_L1_error)
@@ -3232,11 +3232,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":36
- *     A = Code([glfw.KEY_A, pygame.locals.K_a, None])
- *     B = Code([glfw.KEY_B, pygame.locals.K_b, None])
- *     C = Code([glfw.KEY_C, pygame.locals.K_c, None])             # <<<<<<<<<<<<<<
- *     D = Code([glfw.KEY_D, pygame.locals.K_d, None])
- *     E = Code([glfw.KEY_E, pygame.locals.K_e, None])
+ *     A = Code([glfw.KEY_A, pygame.constants.K_a, None])
+ *     B = Code([glfw.KEY_B, pygame.constants.K_b, None])
+ *     C = Code([glfw.KEY_C, pygame.constants.K_c, None])             # <<<<<<<<<<<<<<
+ *     D = Code([glfw.KEY_D, pygame.constants.K_d, None])
+ *     E = Code([glfw.KEY_E, pygame.constants.K_e, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3247,7 +3247,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_c); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
@@ -3284,11 +3284,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":37
- *     B = Code([glfw.KEY_B, pygame.locals.K_b, None])
- *     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
- *     D = Code([glfw.KEY_D, pygame.locals.K_d, None])             # <<<<<<<<<<<<<<
- *     E = Code([glfw.KEY_E, pygame.locals.K_e, None])
- *     F = Code([glfw.KEY_F, pygame.locals.K_f, None])
+ *     B = Code([glfw.KEY_B, pygame.constants.K_b, None])
+ *     C = Code([glfw.KEY_C, pygame.constants.K_c, None])
+ *     D = Code([glfw.KEY_D, pygame.constants.K_d, None])             # <<<<<<<<<<<<<<
+ *     E = Code([glfw.KEY_E, pygame.constants.K_e, None])
+ *     F = Code([glfw.KEY_F, pygame.constants.K_f, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3299,7 +3299,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_d); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
@@ -3336,11 +3336,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":38
- *     C = Code([glfw.KEY_C, pygame.locals.K_c, None])
- *     D = Code([glfw.KEY_D, pygame.locals.K_d, None])
- *     E = Code([glfw.KEY_E, pygame.locals.K_e, None])             # <<<<<<<<<<<<<<
- *     F = Code([glfw.KEY_F, pygame.locals.K_f, None])
- *     G = Code([glfw.KEY_G, pygame.locals.K_g, None])
+ *     C = Code([glfw.KEY_C, pygame.constants.K_c, None])
+ *     D = Code([glfw.KEY_D, pygame.constants.K_d, None])
+ *     E = Code([glfw.KEY_E, pygame.constants.K_e, None])             # <<<<<<<<<<<<<<
+ *     F = Code([glfw.KEY_F, pygame.constants.K_f, None])
+ *     G = Code([glfw.KEY_G, pygame.constants.K_g, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3351,7 +3351,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_e); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 38, __pyx_L1_error)
@@ -3388,11 +3388,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":39
- *     D = Code([glfw.KEY_D, pygame.locals.K_d, None])
- *     E = Code([glfw.KEY_E, pygame.locals.K_e, None])
- *     F = Code([glfw.KEY_F, pygame.locals.K_f, None])             # <<<<<<<<<<<<<<
- *     G = Code([glfw.KEY_G, pygame.locals.K_g, None])
- *     H = Code([glfw.KEY_H, pygame.locals.K_h, None])
+ *     D = Code([glfw.KEY_D, pygame.constants.K_d, None])
+ *     E = Code([glfw.KEY_E, pygame.constants.K_e, None])
+ *     F = Code([glfw.KEY_F, pygame.constants.K_f, None])             # <<<<<<<<<<<<<<
+ *     G = Code([glfw.KEY_G, pygame.constants.K_g, None])
+ *     H = Code([glfw.KEY_H, pygame.constants.K_h, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3403,7 +3403,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_f); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
@@ -3440,11 +3440,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":40
- *     E = Code([glfw.KEY_E, pygame.locals.K_e, None])
- *     F = Code([glfw.KEY_F, pygame.locals.K_f, None])
- *     G = Code([glfw.KEY_G, pygame.locals.K_g, None])             # <<<<<<<<<<<<<<
- *     H = Code([glfw.KEY_H, pygame.locals.K_h, None])
- *     I = Code([glfw.KEY_I, pygame.locals.K_i, None])
+ *     E = Code([glfw.KEY_E, pygame.constants.K_e, None])
+ *     F = Code([glfw.KEY_F, pygame.constants.K_f, None])
+ *     G = Code([glfw.KEY_G, pygame.constants.K_g, None])             # <<<<<<<<<<<<<<
+ *     H = Code([glfw.KEY_H, pygame.constants.K_h, None])
+ *     I = Code([glfw.KEY_I, pygame.constants.K_i, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3455,7 +3455,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_g); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
@@ -3492,11 +3492,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":41
- *     F = Code([glfw.KEY_F, pygame.locals.K_f, None])
- *     G = Code([glfw.KEY_G, pygame.locals.K_g, None])
- *     H = Code([glfw.KEY_H, pygame.locals.K_h, None])             # <<<<<<<<<<<<<<
- *     I = Code([glfw.KEY_I, pygame.locals.K_i, None])
- *     J = Code([glfw.KEY_J, pygame.locals.K_j, None])
+ *     F = Code([glfw.KEY_F, pygame.constants.K_f, None])
+ *     G = Code([glfw.KEY_G, pygame.constants.K_g, None])
+ *     H = Code([glfw.KEY_H, pygame.constants.K_h, None])             # <<<<<<<<<<<<<<
+ *     I = Code([glfw.KEY_I, pygame.constants.K_i, None])
+ *     J = Code([glfw.KEY_J, pygame.constants.K_j, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3507,7 +3507,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_h); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
@@ -3544,11 +3544,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":42
- *     G = Code([glfw.KEY_G, pygame.locals.K_g, None])
- *     H = Code([glfw.KEY_H, pygame.locals.K_h, None])
- *     I = Code([glfw.KEY_I, pygame.locals.K_i, None])             # <<<<<<<<<<<<<<
- *     J = Code([glfw.KEY_J, pygame.locals.K_j, None])
- *     K = Code([glfw.KEY_K, pygame.locals.K_k, None])
+ *     G = Code([glfw.KEY_G, pygame.constants.K_g, None])
+ *     H = Code([glfw.KEY_H, pygame.constants.K_h, None])
+ *     I = Code([glfw.KEY_I, pygame.constants.K_i, None])             # <<<<<<<<<<<<<<
+ *     J = Code([glfw.KEY_J, pygame.constants.K_j, None])
+ *     K = Code([glfw.KEY_K, pygame.constants.K_k, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3559,7 +3559,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
@@ -3596,11 +3596,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":43
- *     H = Code([glfw.KEY_H, pygame.locals.K_h, None])
- *     I = Code([glfw.KEY_I, pygame.locals.K_i, None])
- *     J = Code([glfw.KEY_J, pygame.locals.K_j, None])             # <<<<<<<<<<<<<<
- *     K = Code([glfw.KEY_K, pygame.locals.K_k, None])
- *     L = Code([glfw.KEY_L, pygame.locals.K_l, None])
+ *     H = Code([glfw.KEY_H, pygame.constants.K_h, None])
+ *     I = Code([glfw.KEY_I, pygame.constants.K_i, None])
+ *     J = Code([glfw.KEY_J, pygame.constants.K_j, None])             # <<<<<<<<<<<<<<
+ *     K = Code([glfw.KEY_K, pygame.constants.K_k, None])
+ *     L = Code([glfw.KEY_L, pygame.constants.K_l, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3611,7 +3611,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
@@ -3648,11 +3648,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":44
- *     I = Code([glfw.KEY_I, pygame.locals.K_i, None])
- *     J = Code([glfw.KEY_J, pygame.locals.K_j, None])
- *     K = Code([glfw.KEY_K, pygame.locals.K_k, None])             # <<<<<<<<<<<<<<
- *     L = Code([glfw.KEY_L, pygame.locals.K_l, None])
- *     M = Code([glfw.KEY_M, pygame.locals.K_m, None])
+ *     I = Code([glfw.KEY_I, pygame.constants.K_i, None])
+ *     J = Code([glfw.KEY_J, pygame.constants.K_j, None])
+ *     K = Code([glfw.KEY_K, pygame.constants.K_k, None])             # <<<<<<<<<<<<<<
+ *     L = Code([glfw.KEY_L, pygame.constants.K_l, None])
+ *     M = Code([glfw.KEY_M, pygame.constants.K_m, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3663,7 +3663,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_k); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
@@ -3700,11 +3700,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":45
- *     J = Code([glfw.KEY_J, pygame.locals.K_j, None])
- *     K = Code([glfw.KEY_K, pygame.locals.K_k, None])
- *     L = Code([glfw.KEY_L, pygame.locals.K_l, None])             # <<<<<<<<<<<<<<
- *     M = Code([glfw.KEY_M, pygame.locals.K_m, None])
- *     N = Code([glfw.KEY_N, pygame.locals.K_n, None])
+ *     J = Code([glfw.KEY_J, pygame.constants.K_j, None])
+ *     K = Code([glfw.KEY_K, pygame.constants.K_k, None])
+ *     L = Code([glfw.KEY_L, pygame.constants.K_l, None])             # <<<<<<<<<<<<<<
+ *     M = Code([glfw.KEY_M, pygame.constants.K_m, None])
+ *     N = Code([glfw.KEY_N, pygame.constants.K_n, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3715,7 +3715,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_l); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
@@ -3752,11 +3752,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":46
- *     K = Code([glfw.KEY_K, pygame.locals.K_k, None])
- *     L = Code([glfw.KEY_L, pygame.locals.K_l, None])
- *     M = Code([glfw.KEY_M, pygame.locals.K_m, None])             # <<<<<<<<<<<<<<
- *     N = Code([glfw.KEY_N, pygame.locals.K_n, None])
- *     O = Code([glfw.KEY_O, pygame.locals.K_o, None])
+ *     K = Code([glfw.KEY_K, pygame.constants.K_k, None])
+ *     L = Code([glfw.KEY_L, pygame.constants.K_l, None])
+ *     M = Code([glfw.KEY_M, pygame.constants.K_m, None])             # <<<<<<<<<<<<<<
+ *     N = Code([glfw.KEY_N, pygame.constants.K_n, None])
+ *     O = Code([glfw.KEY_O, pygame.constants.K_o, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3767,7 +3767,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_m); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
@@ -3804,11 +3804,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":47
- *     L = Code([glfw.KEY_L, pygame.locals.K_l, None])
- *     M = Code([glfw.KEY_M, pygame.locals.K_m, None])
- *     N = Code([glfw.KEY_N, pygame.locals.K_n, None])             # <<<<<<<<<<<<<<
- *     O = Code([glfw.KEY_O, pygame.locals.K_o, None])
- *     P = Code([glfw.KEY_P, pygame.locals.K_p, None])
+ *     L = Code([glfw.KEY_L, pygame.constants.K_l, None])
+ *     M = Code([glfw.KEY_M, pygame.constants.K_m, None])
+ *     N = Code([glfw.KEY_N, pygame.constants.K_n, None])             # <<<<<<<<<<<<<<
+ *     O = Code([glfw.KEY_O, pygame.constants.K_o, None])
+ *     P = Code([glfw.KEY_P, pygame.constants.K_p, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3819,7 +3819,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
@@ -3856,11 +3856,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":48
- *     M = Code([glfw.KEY_M, pygame.locals.K_m, None])
- *     N = Code([glfw.KEY_N, pygame.locals.K_n, None])
- *     O = Code([glfw.KEY_O, pygame.locals.K_o, None])             # <<<<<<<<<<<<<<
- *     P = Code([glfw.KEY_P, pygame.locals.K_p, None])
- *     Q = Code([glfw.KEY_Q, pygame.locals.K_q, None])
+ *     M = Code([glfw.KEY_M, pygame.constants.K_m, None])
+ *     N = Code([glfw.KEY_N, pygame.constants.K_n, None])
+ *     O = Code([glfw.KEY_O, pygame.constants.K_o, None])             # <<<<<<<<<<<<<<
+ *     P = Code([glfw.KEY_P, pygame.constants.K_p, None])
+ *     Q = Code([glfw.KEY_Q, pygame.constants.K_q, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3871,7 +3871,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_o); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
@@ -3908,11 +3908,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":49
- *     N = Code([glfw.KEY_N, pygame.locals.K_n, None])
- *     O = Code([glfw.KEY_O, pygame.locals.K_o, None])
- *     P = Code([glfw.KEY_P, pygame.locals.K_p, None])             # <<<<<<<<<<<<<<
- *     Q = Code([glfw.KEY_Q, pygame.locals.K_q, None])
- *     R = Code([glfw.KEY_R, pygame.locals.K_r, None])
+ *     N = Code([glfw.KEY_N, pygame.constants.K_n, None])
+ *     O = Code([glfw.KEY_O, pygame.constants.K_o, None])
+ *     P = Code([glfw.KEY_P, pygame.constants.K_p, None])             # <<<<<<<<<<<<<<
+ *     Q = Code([glfw.KEY_Q, pygame.constants.K_q, None])
+ *     R = Code([glfw.KEY_R, pygame.constants.K_r, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3923,7 +3923,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_p); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
@@ -3960,11 +3960,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":50
- *     O = Code([glfw.KEY_O, pygame.locals.K_o, None])
- *     P = Code([glfw.KEY_P, pygame.locals.K_p, None])
- *     Q = Code([glfw.KEY_Q, pygame.locals.K_q, None])             # <<<<<<<<<<<<<<
- *     R = Code([glfw.KEY_R, pygame.locals.K_r, None])
- *     S = Code([glfw.KEY_S, pygame.locals.K_s, None])
+ *     O = Code([glfw.KEY_O, pygame.constants.K_o, None])
+ *     P = Code([glfw.KEY_P, pygame.constants.K_p, None])
+ *     Q = Code([glfw.KEY_Q, pygame.constants.K_q, None])             # <<<<<<<<<<<<<<
+ *     R = Code([glfw.KEY_R, pygame.constants.K_r, None])
+ *     S = Code([glfw.KEY_S, pygame.constants.K_s, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3975,7 +3975,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_q); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
@@ -4012,11 +4012,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":51
- *     P = Code([glfw.KEY_P, pygame.locals.K_p, None])
- *     Q = Code([glfw.KEY_Q, pygame.locals.K_q, None])
- *     R = Code([glfw.KEY_R, pygame.locals.K_r, None])             # <<<<<<<<<<<<<<
- *     S = Code([glfw.KEY_S, pygame.locals.K_s, None])
- *     T = Code([glfw.KEY_T, pygame.locals.K_t, None])
+ *     P = Code([glfw.KEY_P, pygame.constants.K_p, None])
+ *     Q = Code([glfw.KEY_Q, pygame.constants.K_q, None])
+ *     R = Code([glfw.KEY_R, pygame.constants.K_r, None])             # <<<<<<<<<<<<<<
+ *     S = Code([glfw.KEY_S, pygame.constants.K_s, None])
+ *     T = Code([glfw.KEY_T, pygame.constants.K_t, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4027,7 +4027,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_r); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
@@ -4064,11 +4064,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":52
- *     Q = Code([glfw.KEY_Q, pygame.locals.K_q, None])
- *     R = Code([glfw.KEY_R, pygame.locals.K_r, None])
- *     S = Code([glfw.KEY_S, pygame.locals.K_s, None])             # <<<<<<<<<<<<<<
- *     T = Code([glfw.KEY_T, pygame.locals.K_t, None])
- *     U = Code([glfw.KEY_U, pygame.locals.K_u, None])
+ *     Q = Code([glfw.KEY_Q, pygame.constants.K_q, None])
+ *     R = Code([glfw.KEY_R, pygame.constants.K_r, None])
+ *     S = Code([glfw.KEY_S, pygame.constants.K_s, None])             # <<<<<<<<<<<<<<
+ *     T = Code([glfw.KEY_T, pygame.constants.K_t, None])
+ *     U = Code([glfw.KEY_U, pygame.constants.K_u, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4079,7 +4079,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
@@ -4116,11 +4116,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":53
- *     R = Code([glfw.KEY_R, pygame.locals.K_r, None])
- *     S = Code([glfw.KEY_S, pygame.locals.K_s, None])
- *     T = Code([glfw.KEY_T, pygame.locals.K_t, None])             # <<<<<<<<<<<<<<
- *     U = Code([glfw.KEY_U, pygame.locals.K_u, None])
- *     V = Code([glfw.KEY_V, pygame.locals.K_v, None])
+ *     R = Code([glfw.KEY_R, pygame.constants.K_r, None])
+ *     S = Code([glfw.KEY_S, pygame.constants.K_s, None])
+ *     T = Code([glfw.KEY_T, pygame.constants.K_t, None])             # <<<<<<<<<<<<<<
+ *     U = Code([glfw.KEY_U, pygame.constants.K_u, None])
+ *     V = Code([glfw.KEY_V, pygame.constants.K_v, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4131,7 +4131,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_t); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
@@ -4168,11 +4168,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":54
- *     S = Code([glfw.KEY_S, pygame.locals.K_s, None])
- *     T = Code([glfw.KEY_T, pygame.locals.K_t, None])
- *     U = Code([glfw.KEY_U, pygame.locals.K_u, None])             # <<<<<<<<<<<<<<
- *     V = Code([glfw.KEY_V, pygame.locals.K_v, None])
- *     W = Code([glfw.KEY_W, pygame.locals.K_w, None])
+ *     S = Code([glfw.KEY_S, pygame.constants.K_s, None])
+ *     T = Code([glfw.KEY_T, pygame.constants.K_t, None])
+ *     U = Code([glfw.KEY_U, pygame.constants.K_u, None])             # <<<<<<<<<<<<<<
+ *     V = Code([glfw.KEY_V, pygame.constants.K_v, None])
+ *     W = Code([glfw.KEY_W, pygame.constants.K_w, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4183,7 +4183,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_u); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
@@ -4220,11 +4220,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":55
- *     T = Code([glfw.KEY_T, pygame.locals.K_t, None])
- *     U = Code([glfw.KEY_U, pygame.locals.K_u, None])
- *     V = Code([glfw.KEY_V, pygame.locals.K_v, None])             # <<<<<<<<<<<<<<
- *     W = Code([glfw.KEY_W, pygame.locals.K_w, None])
- *     X = Code([glfw.KEY_X, pygame.locals.K_x, None])
+ *     T = Code([glfw.KEY_T, pygame.constants.K_t, None])
+ *     U = Code([glfw.KEY_U, pygame.constants.K_u, None])
+ *     V = Code([glfw.KEY_V, pygame.constants.K_v, None])             # <<<<<<<<<<<<<<
+ *     W = Code([glfw.KEY_W, pygame.constants.K_w, None])
+ *     X = Code([glfw.KEY_X, pygame.constants.K_x, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4235,7 +4235,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
@@ -4272,11 +4272,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":56
- *     U = Code([glfw.KEY_U, pygame.locals.K_u, None])
- *     V = Code([glfw.KEY_V, pygame.locals.K_v, None])
- *     W = Code([glfw.KEY_W, pygame.locals.K_w, None])             # <<<<<<<<<<<<<<
- *     X = Code([glfw.KEY_X, pygame.locals.K_x, None])
- *     Y = Code([glfw.KEY_Y, pygame.locals.K_y, None])
+ *     U = Code([glfw.KEY_U, pygame.constants.K_u, None])
+ *     V = Code([glfw.KEY_V, pygame.constants.K_v, None])
+ *     W = Code([glfw.KEY_W, pygame.constants.K_w, None])             # <<<<<<<<<<<<<<
+ *     X = Code([glfw.KEY_X, pygame.constants.K_x, None])
+ *     Y = Code([glfw.KEY_Y, pygame.constants.K_y, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4287,7 +4287,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_w); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
@@ -4324,11 +4324,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":57
- *     V = Code([glfw.KEY_V, pygame.locals.K_v, None])
- *     W = Code([glfw.KEY_W, pygame.locals.K_w, None])
- *     X = Code([glfw.KEY_X, pygame.locals.K_x, None])             # <<<<<<<<<<<<<<
- *     Y = Code([glfw.KEY_Y, pygame.locals.K_y, None])
- *     Z = Code([glfw.KEY_Z, pygame.locals.K_z, None])
+ *     V = Code([glfw.KEY_V, pygame.constants.K_v, None])
+ *     W = Code([glfw.KEY_W, pygame.constants.K_w, None])
+ *     X = Code([glfw.KEY_X, pygame.constants.K_x, None])             # <<<<<<<<<<<<<<
+ *     Y = Code([glfw.KEY_Y, pygame.constants.K_y, None])
+ *     Z = Code([glfw.KEY_Z, pygame.constants.K_z, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4339,7 +4339,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_x); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
@@ -4376,11 +4376,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":58
- *     W = Code([glfw.KEY_W, pygame.locals.K_w, None])
- *     X = Code([glfw.KEY_X, pygame.locals.K_x, None])
- *     Y = Code([glfw.KEY_Y, pygame.locals.K_y, None])             # <<<<<<<<<<<<<<
- *     Z = Code([glfw.KEY_Z, pygame.locals.K_z, None])
- *     Space = Code([glfw.KEY_SPACE, pygame.locals.K_SPACE, None])
+ *     W = Code([glfw.KEY_W, pygame.constants.K_w, None])
+ *     X = Code([glfw.KEY_X, pygame.constants.K_x, None])
+ *     Y = Code([glfw.KEY_Y, pygame.constants.K_y, None])             # <<<<<<<<<<<<<<
+ *     Z = Code([glfw.KEY_Z, pygame.constants.K_z, None])
+ *     Space = Code([glfw.KEY_SPACE, pygame.constants.K_SPACE, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4391,7 +4391,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
@@ -4428,11 +4428,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":59
- *     X = Code([glfw.KEY_X, pygame.locals.K_x, None])
- *     Y = Code([glfw.KEY_Y, pygame.locals.K_y, None])
- *     Z = Code([glfw.KEY_Z, pygame.locals.K_z, None])             # <<<<<<<<<<<<<<
- *     Space = Code([glfw.KEY_SPACE, pygame.locals.K_SPACE, None])
- *     Alpha0 = Code([glfw.KEY_0, pygame.locals.K_0, None])
+ *     X = Code([glfw.KEY_X, pygame.constants.K_x, None])
+ *     Y = Code([glfw.KEY_Y, pygame.constants.K_y, None])
+ *     Z = Code([glfw.KEY_Z, pygame.constants.K_z, None])             # <<<<<<<<<<<<<<
+ *     Space = Code([glfw.KEY_SPACE, pygame.constants.K_SPACE, None])
+ *     Alpha0 = Code([glfw.KEY_0, pygame.constants.K_0, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4443,7 +4443,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_z); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
@@ -4480,11 +4480,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":60
- *     Y = Code([glfw.KEY_Y, pygame.locals.K_y, None])
- *     Z = Code([glfw.KEY_Z, pygame.locals.K_z, None])
- *     Space = Code([glfw.KEY_SPACE, pygame.locals.K_SPACE, None])             # <<<<<<<<<<<<<<
- *     Alpha0 = Code([glfw.KEY_0, pygame.locals.K_0, None])
- *     Alpha1 = Code([glfw.KEY_1, pygame.locals.K_1, None])
+ *     Y = Code([glfw.KEY_Y, pygame.constants.K_y, None])
+ *     Z = Code([glfw.KEY_Z, pygame.constants.K_z, None])
+ *     Space = Code([glfw.KEY_SPACE, pygame.constants.K_SPACE, None])             # <<<<<<<<<<<<<<
+ *     Alpha0 = Code([glfw.KEY_0, pygame.constants.K_0, None])
+ *     Alpha1 = Code([glfw.KEY_1, pygame.constants.K_1, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4495,7 +4495,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_SPACE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
@@ -4532,11 +4532,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":61
- *     Z = Code([glfw.KEY_Z, pygame.locals.K_z, None])
- *     Space = Code([glfw.KEY_SPACE, pygame.locals.K_SPACE, None])
- *     Alpha0 = Code([glfw.KEY_0, pygame.locals.K_0, None])             # <<<<<<<<<<<<<<
- *     Alpha1 = Code([glfw.KEY_1, pygame.locals.K_1, None])
- *     Alpha2 = Code([glfw.KEY_2, pygame.locals.K_2, None])
+ *     Z = Code([glfw.KEY_Z, pygame.constants.K_z, None])
+ *     Space = Code([glfw.KEY_SPACE, pygame.constants.K_SPACE, None])
+ *     Alpha0 = Code([glfw.KEY_0, pygame.constants.K_0, None])             # <<<<<<<<<<<<<<
+ *     Alpha1 = Code([glfw.KEY_1, pygame.constants.K_1, None])
+ *     Alpha2 = Code([glfw.KEY_2, pygame.constants.K_2, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4547,7 +4547,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
@@ -4584,11 +4584,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":62
- *     Space = Code([glfw.KEY_SPACE, pygame.locals.K_SPACE, None])
- *     Alpha0 = Code([glfw.KEY_0, pygame.locals.K_0, None])
- *     Alpha1 = Code([glfw.KEY_1, pygame.locals.K_1, None])             # <<<<<<<<<<<<<<
- *     Alpha2 = Code([glfw.KEY_2, pygame.locals.K_2, None])
- *     Alpha3 = Code([glfw.KEY_3, pygame.locals.K_3, None])
+ *     Space = Code([glfw.KEY_SPACE, pygame.constants.K_SPACE, None])
+ *     Alpha0 = Code([glfw.KEY_0, pygame.constants.K_0, None])
+ *     Alpha1 = Code([glfw.KEY_1, pygame.constants.K_1, None])             # <<<<<<<<<<<<<<
+ *     Alpha2 = Code([glfw.KEY_2, pygame.constants.K_2, None])
+ *     Alpha3 = Code([glfw.KEY_3, pygame.constants.K_3, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4599,7 +4599,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
@@ -4636,11 +4636,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":63
- *     Alpha0 = Code([glfw.KEY_0, pygame.locals.K_0, None])
- *     Alpha1 = Code([glfw.KEY_1, pygame.locals.K_1, None])
- *     Alpha2 = Code([glfw.KEY_2, pygame.locals.K_2, None])             # <<<<<<<<<<<<<<
- *     Alpha3 = Code([glfw.KEY_3, pygame.locals.K_3, None])
- *     Alpha4 = Code([glfw.KEY_4, pygame.locals.K_4, None])
+ *     Alpha0 = Code([glfw.KEY_0, pygame.constants.K_0, None])
+ *     Alpha1 = Code([glfw.KEY_1, pygame.constants.K_1, None])
+ *     Alpha2 = Code([glfw.KEY_2, pygame.constants.K_2, None])             # <<<<<<<<<<<<<<
+ *     Alpha3 = Code([glfw.KEY_3, pygame.constants.K_3, None])
+ *     Alpha4 = Code([glfw.KEY_4, pygame.constants.K_4, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4651,7 +4651,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
@@ -4688,11 +4688,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":64
- *     Alpha1 = Code([glfw.KEY_1, pygame.locals.K_1, None])
- *     Alpha2 = Code([glfw.KEY_2, pygame.locals.K_2, None])
- *     Alpha3 = Code([glfw.KEY_3, pygame.locals.K_3, None])             # <<<<<<<<<<<<<<
- *     Alpha4 = Code([glfw.KEY_4, pygame.locals.K_4, None])
- *     Alpha5 = Code([glfw.KEY_5, pygame.locals.K_5, None])
+ *     Alpha1 = Code([glfw.KEY_1, pygame.constants.K_1, None])
+ *     Alpha2 = Code([glfw.KEY_2, pygame.constants.K_2, None])
+ *     Alpha3 = Code([glfw.KEY_3, pygame.constants.K_3, None])             # <<<<<<<<<<<<<<
+ *     Alpha4 = Code([glfw.KEY_4, pygame.constants.K_4, None])
+ *     Alpha5 = Code([glfw.KEY_5, pygame.constants.K_5, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4703,7 +4703,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
@@ -4740,11 +4740,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":65
- *     Alpha2 = Code([glfw.KEY_2, pygame.locals.K_2, None])
- *     Alpha3 = Code([glfw.KEY_3, pygame.locals.K_3, None])
- *     Alpha4 = Code([glfw.KEY_4, pygame.locals.K_4, None])             # <<<<<<<<<<<<<<
- *     Alpha5 = Code([glfw.KEY_5, pygame.locals.K_5, None])
- *     Alpha6 = Code([glfw.KEY_6, pygame.locals.K_6, None])
+ *     Alpha2 = Code([glfw.KEY_2, pygame.constants.K_2, None])
+ *     Alpha3 = Code([glfw.KEY_3, pygame.constants.K_3, None])
+ *     Alpha4 = Code([glfw.KEY_4, pygame.constants.K_4, None])             # <<<<<<<<<<<<<<
+ *     Alpha5 = Code([glfw.KEY_5, pygame.constants.K_5, None])
+ *     Alpha6 = Code([glfw.KEY_6, pygame.constants.K_6, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4755,7 +4755,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
@@ -4792,11 +4792,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":66
- *     Alpha3 = Code([glfw.KEY_3, pygame.locals.K_3, None])
- *     Alpha4 = Code([glfw.KEY_4, pygame.locals.K_4, None])
- *     Alpha5 = Code([glfw.KEY_5, pygame.locals.K_5, None])             # <<<<<<<<<<<<<<
- *     Alpha6 = Code([glfw.KEY_6, pygame.locals.K_6, None])
- *     Alpha7 = Code([glfw.KEY_7, pygame.locals.K_7, None])
+ *     Alpha3 = Code([glfw.KEY_3, pygame.constants.K_3, None])
+ *     Alpha4 = Code([glfw.KEY_4, pygame.constants.K_4, None])
+ *     Alpha5 = Code([glfw.KEY_5, pygame.constants.K_5, None])             # <<<<<<<<<<<<<<
+ *     Alpha6 = Code([glfw.KEY_6, pygame.constants.K_6, None])
+ *     Alpha7 = Code([glfw.KEY_7, pygame.constants.K_7, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4807,7 +4807,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
@@ -4844,11 +4844,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":67
- *     Alpha4 = Code([glfw.KEY_4, pygame.locals.K_4, None])
- *     Alpha5 = Code([glfw.KEY_5, pygame.locals.K_5, None])
- *     Alpha6 = Code([glfw.KEY_6, pygame.locals.K_6, None])             # <<<<<<<<<<<<<<
- *     Alpha7 = Code([glfw.KEY_7, pygame.locals.K_7, None])
- *     Alpha8 = Code([glfw.KEY_8, pygame.locals.K_8, None])
+ *     Alpha4 = Code([glfw.KEY_4, pygame.constants.K_4, None])
+ *     Alpha5 = Code([glfw.KEY_5, pygame.constants.K_5, None])
+ *     Alpha6 = Code([glfw.KEY_6, pygame.constants.K_6, None])             # <<<<<<<<<<<<<<
+ *     Alpha7 = Code([glfw.KEY_7, pygame.constants.K_7, None])
+ *     Alpha8 = Code([glfw.KEY_8, pygame.constants.K_8, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4859,7 +4859,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
@@ -4896,11 +4896,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":68
- *     Alpha5 = Code([glfw.KEY_5, pygame.locals.K_5, None])
- *     Alpha6 = Code([glfw.KEY_6, pygame.locals.K_6, None])
- *     Alpha7 = Code([glfw.KEY_7, pygame.locals.K_7, None])             # <<<<<<<<<<<<<<
- *     Alpha8 = Code([glfw.KEY_8, pygame.locals.K_8, None])
- *     Alpha9 = Code([glfw.KEY_9, pygame.locals.K_9, None])
+ *     Alpha5 = Code([glfw.KEY_5, pygame.constants.K_5, None])
+ *     Alpha6 = Code([glfw.KEY_6, pygame.constants.K_6, None])
+ *     Alpha7 = Code([glfw.KEY_7, pygame.constants.K_7, None])             # <<<<<<<<<<<<<<
+ *     Alpha8 = Code([glfw.KEY_8, pygame.constants.K_8, None])
+ *     Alpha9 = Code([glfw.KEY_9, pygame.constants.K_9, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4911,7 +4911,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 68, __pyx_L1_error)
@@ -4948,11 +4948,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":69
- *     Alpha6 = Code([glfw.KEY_6, pygame.locals.K_6, None])
- *     Alpha7 = Code([glfw.KEY_7, pygame.locals.K_7, None])
- *     Alpha8 = Code([glfw.KEY_8, pygame.locals.K_8, None])             # <<<<<<<<<<<<<<
- *     Alpha9 = Code([glfw.KEY_9, pygame.locals.K_9, None])
- *     F1 = Code([glfw.KEY_F1, pygame.locals.K_F1, None])
+ *     Alpha6 = Code([glfw.KEY_6, pygame.constants.K_6, None])
+ *     Alpha7 = Code([glfw.KEY_7, pygame.constants.K_7, None])
+ *     Alpha8 = Code([glfw.KEY_8, pygame.constants.K_8, None])             # <<<<<<<<<<<<<<
+ *     Alpha9 = Code([glfw.KEY_9, pygame.constants.K_9, None])
+ *     F1 = Code([glfw.KEY_F1, pygame.constants.K_F1, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -4963,7 +4963,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
@@ -5000,11 +5000,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":70
- *     Alpha7 = Code([glfw.KEY_7, pygame.locals.K_7, None])
- *     Alpha8 = Code([glfw.KEY_8, pygame.locals.K_8, None])
- *     Alpha9 = Code([glfw.KEY_9, pygame.locals.K_9, None])             # <<<<<<<<<<<<<<
- *     F1 = Code([glfw.KEY_F1, pygame.locals.K_F1, None])
- *     F2 = Code([glfw.KEY_F2, pygame.locals.K_F2, None])
+ *     Alpha7 = Code([glfw.KEY_7, pygame.constants.K_7, None])
+ *     Alpha8 = Code([glfw.KEY_8, pygame.constants.K_8, None])
+ *     Alpha9 = Code([glfw.KEY_9, pygame.constants.K_9, None])             # <<<<<<<<<<<<<<
+ *     F1 = Code([glfw.KEY_F1, pygame.constants.K_F1, None])
+ *     F2 = Code([glfw.KEY_F2, pygame.constants.K_F2, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5015,7 +5015,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
@@ -5052,11 +5052,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":71
- *     Alpha8 = Code([glfw.KEY_8, pygame.locals.K_8, None])
- *     Alpha9 = Code([glfw.KEY_9, pygame.locals.K_9, None])
- *     F1 = Code([glfw.KEY_F1, pygame.locals.K_F1, None])             # <<<<<<<<<<<<<<
- *     F2 = Code([glfw.KEY_F2, pygame.locals.K_F2, None])
- *     F3 = Code([glfw.KEY_F3, pygame.locals.K_F3, None])
+ *     Alpha8 = Code([glfw.KEY_8, pygame.constants.K_8, None])
+ *     Alpha9 = Code([glfw.KEY_9, pygame.constants.K_9, None])
+ *     F1 = Code([glfw.KEY_F1, pygame.constants.K_F1, None])             # <<<<<<<<<<<<<<
+ *     F2 = Code([glfw.KEY_F2, pygame.constants.K_F2, None])
+ *     F3 = Code([glfw.KEY_F3, pygame.constants.K_F3, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5067,7 +5067,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_F1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
@@ -5104,11 +5104,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":72
- *     Alpha9 = Code([glfw.KEY_9, pygame.locals.K_9, None])
- *     F1 = Code([glfw.KEY_F1, pygame.locals.K_F1, None])
- *     F2 = Code([glfw.KEY_F2, pygame.locals.K_F2, None])             # <<<<<<<<<<<<<<
- *     F3 = Code([glfw.KEY_F3, pygame.locals.K_F3, None])
- *     F4 = Code([glfw.KEY_F4, pygame.locals.K_F4, None])
+ *     Alpha9 = Code([glfw.KEY_9, pygame.constants.K_9, None])
+ *     F1 = Code([glfw.KEY_F1, pygame.constants.K_F1, None])
+ *     F2 = Code([glfw.KEY_F2, pygame.constants.K_F2, None])             # <<<<<<<<<<<<<<
+ *     F3 = Code([glfw.KEY_F3, pygame.constants.K_F3, None])
+ *     F4 = Code([glfw.KEY_F4, pygame.constants.K_F4, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5119,7 +5119,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_F2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
@@ -5156,11 +5156,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":73
- *     F1 = Code([glfw.KEY_F1, pygame.locals.K_F1, None])
- *     F2 = Code([glfw.KEY_F2, pygame.locals.K_F2, None])
- *     F3 = Code([glfw.KEY_F3, pygame.locals.K_F3, None])             # <<<<<<<<<<<<<<
- *     F4 = Code([glfw.KEY_F4, pygame.locals.K_F4, None])
- *     F5 = Code([glfw.KEY_F5, pygame.locals.K_F5, None])
+ *     F1 = Code([glfw.KEY_F1, pygame.constants.K_F1, None])
+ *     F2 = Code([glfw.KEY_F2, pygame.constants.K_F2, None])
+ *     F3 = Code([glfw.KEY_F3, pygame.constants.K_F3, None])             # <<<<<<<<<<<<<<
+ *     F4 = Code([glfw.KEY_F4, pygame.constants.K_F4, None])
+ *     F5 = Code([glfw.KEY_F5, pygame.constants.K_F5, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5171,7 +5171,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_F3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
@@ -5208,11 +5208,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":74
- *     F2 = Code([glfw.KEY_F2, pygame.locals.K_F2, None])
- *     F3 = Code([glfw.KEY_F3, pygame.locals.K_F3, None])
- *     F4 = Code([glfw.KEY_F4, pygame.locals.K_F4, None])             # <<<<<<<<<<<<<<
- *     F5 = Code([glfw.KEY_F5, pygame.locals.K_F5, None])
- *     F6 = Code([glfw.KEY_F6, pygame.locals.K_F6, None])
+ *     F2 = Code([glfw.KEY_F2, pygame.constants.K_F2, None])
+ *     F3 = Code([glfw.KEY_F3, pygame.constants.K_F3, None])
+ *     F4 = Code([glfw.KEY_F4, pygame.constants.K_F4, None])             # <<<<<<<<<<<<<<
+ *     F5 = Code([glfw.KEY_F5, pygame.constants.K_F5, None])
+ *     F6 = Code([glfw.KEY_F6, pygame.constants.K_F6, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5223,7 +5223,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_F4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
@@ -5260,11 +5260,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":75
- *     F3 = Code([glfw.KEY_F3, pygame.locals.K_F3, None])
- *     F4 = Code([glfw.KEY_F4, pygame.locals.K_F4, None])
- *     F5 = Code([glfw.KEY_F5, pygame.locals.K_F5, None])             # <<<<<<<<<<<<<<
- *     F6 = Code([glfw.KEY_F6, pygame.locals.K_F6, None])
- *     F7 = Code([glfw.KEY_F7, pygame.locals.K_F7, None])
+ *     F3 = Code([glfw.KEY_F3, pygame.constants.K_F3, None])
+ *     F4 = Code([glfw.KEY_F4, pygame.constants.K_F4, None])
+ *     F5 = Code([glfw.KEY_F5, pygame.constants.K_F5, None])             # <<<<<<<<<<<<<<
+ *     F6 = Code([glfw.KEY_F6, pygame.constants.K_F6, None])
+ *     F7 = Code([glfw.KEY_F7, pygame.constants.K_F7, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5275,7 +5275,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_F5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
@@ -5312,11 +5312,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":76
- *     F4 = Code([glfw.KEY_F4, pygame.locals.K_F4, None])
- *     F5 = Code([glfw.KEY_F5, pygame.locals.K_F5, None])
- *     F6 = Code([glfw.KEY_F6, pygame.locals.K_F6, None])             # <<<<<<<<<<<<<<
- *     F7 = Code([glfw.KEY_F7, pygame.locals.K_F7, None])
- *     F8 = Code([glfw.KEY_F8, pygame.locals.K_F8, None])
+ *     F4 = Code([glfw.KEY_F4, pygame.constants.K_F4, None])
+ *     F5 = Code([glfw.KEY_F5, pygame.constants.K_F5, None])
+ *     F6 = Code([glfw.KEY_F6, pygame.constants.K_F6, None])             # <<<<<<<<<<<<<<
+ *     F7 = Code([glfw.KEY_F7, pygame.constants.K_F7, None])
+ *     F8 = Code([glfw.KEY_F8, pygame.constants.K_F8, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5327,7 +5327,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_F6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
@@ -5364,11 +5364,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":77
- *     F5 = Code([glfw.KEY_F5, pygame.locals.K_F5, None])
- *     F6 = Code([glfw.KEY_F6, pygame.locals.K_F6, None])
- *     F7 = Code([glfw.KEY_F7, pygame.locals.K_F7, None])             # <<<<<<<<<<<<<<
- *     F8 = Code([glfw.KEY_F8, pygame.locals.K_F8, None])
- *     F9 = Code([glfw.KEY_F9, pygame.locals.K_F9, None])
+ *     F5 = Code([glfw.KEY_F5, pygame.constants.K_F5, None])
+ *     F6 = Code([glfw.KEY_F6, pygame.constants.K_F6, None])
+ *     F7 = Code([glfw.KEY_F7, pygame.constants.K_F7, None])             # <<<<<<<<<<<<<<
+ *     F8 = Code([glfw.KEY_F8, pygame.constants.K_F8, None])
+ *     F9 = Code([glfw.KEY_F9, pygame.constants.K_F9, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5379,7 +5379,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_F7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
@@ -5416,11 +5416,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":78
- *     F6 = Code([glfw.KEY_F6, pygame.locals.K_F6, None])
- *     F7 = Code([glfw.KEY_F7, pygame.locals.K_F7, None])
- *     F8 = Code([glfw.KEY_F8, pygame.locals.K_F8, None])             # <<<<<<<<<<<<<<
- *     F9 = Code([glfw.KEY_F9, pygame.locals.K_F9, None])
- *     F10 = Code([glfw.KEY_F10, pygame.locals.K_F10, None])
+ *     F6 = Code([glfw.KEY_F6, pygame.constants.K_F6, None])
+ *     F7 = Code([glfw.KEY_F7, pygame.constants.K_F7, None])
+ *     F8 = Code([glfw.KEY_F8, pygame.constants.K_F8, None])             # <<<<<<<<<<<<<<
+ *     F9 = Code([glfw.KEY_F9, pygame.constants.K_F9, None])
+ *     F10 = Code([glfw.KEY_F10, pygame.constants.K_F10, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5431,7 +5431,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_F8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
@@ -5468,11 +5468,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":79
- *     F7 = Code([glfw.KEY_F7, pygame.locals.K_F7, None])
- *     F8 = Code([glfw.KEY_F8, pygame.locals.K_F8, None])
- *     F9 = Code([glfw.KEY_F9, pygame.locals.K_F9, None])             # <<<<<<<<<<<<<<
- *     F10 = Code([glfw.KEY_F10, pygame.locals.K_F10, None])
- *     F11 = Code([glfw.KEY_F11, pygame.locals.K_F11, None])
+ *     F7 = Code([glfw.KEY_F7, pygame.constants.K_F7, None])
+ *     F8 = Code([glfw.KEY_F8, pygame.constants.K_F8, None])
+ *     F9 = Code([glfw.KEY_F9, pygame.constants.K_F9, None])             # <<<<<<<<<<<<<<
+ *     F10 = Code([glfw.KEY_F10, pygame.constants.K_F10, None])
+ *     F11 = Code([glfw.KEY_F11, pygame.constants.K_F11, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5483,7 +5483,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_F9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -5520,11 +5520,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":80
- *     F8 = Code([glfw.KEY_F8, pygame.locals.K_F8, None])
- *     F9 = Code([glfw.KEY_F9, pygame.locals.K_F9, None])
- *     F10 = Code([glfw.KEY_F10, pygame.locals.K_F10, None])             # <<<<<<<<<<<<<<
- *     F11 = Code([glfw.KEY_F11, pygame.locals.K_F11, None])
- *     F12 = Code([glfw.KEY_F12, pygame.locals.K_F12, None])
+ *     F8 = Code([glfw.KEY_F8, pygame.constants.K_F8, None])
+ *     F9 = Code([glfw.KEY_F9, pygame.constants.K_F9, None])
+ *     F10 = Code([glfw.KEY_F10, pygame.constants.K_F10, None])             # <<<<<<<<<<<<<<
+ *     F11 = Code([glfw.KEY_F11, pygame.constants.K_F11, None])
+ *     F12 = Code([glfw.KEY_F12, pygame.constants.K_F12, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5535,7 +5535,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_F10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
@@ -5572,11 +5572,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":81
- *     F9 = Code([glfw.KEY_F9, pygame.locals.K_F9, None])
- *     F10 = Code([glfw.KEY_F10, pygame.locals.K_F10, None])
- *     F11 = Code([glfw.KEY_F11, pygame.locals.K_F11, None])             # <<<<<<<<<<<<<<
- *     F12 = Code([glfw.KEY_F12, pygame.locals.K_F12, None])
- *     Keypad0 = Code([glfw.KEY_KP_0, pygame.locals.K_KP0, None])
+ *     F9 = Code([glfw.KEY_F9, pygame.constants.K_F9, None])
+ *     F10 = Code([glfw.KEY_F10, pygame.constants.K_F10, None])
+ *     F11 = Code([glfw.KEY_F11, pygame.constants.K_F11, None])             # <<<<<<<<<<<<<<
+ *     F12 = Code([glfw.KEY_F12, pygame.constants.K_F12, None])
+ *     Keypad0 = Code([glfw.KEY_KP_0, pygame.constants.K_KP0, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5587,7 +5587,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_F11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
@@ -5624,11 +5624,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":82
- *     F10 = Code([glfw.KEY_F10, pygame.locals.K_F10, None])
- *     F11 = Code([glfw.KEY_F11, pygame.locals.K_F11, None])
- *     F12 = Code([glfw.KEY_F12, pygame.locals.K_F12, None])             # <<<<<<<<<<<<<<
- *     Keypad0 = Code([glfw.KEY_KP_0, pygame.locals.K_KP0, None])
- *     Keypad1 = Code([glfw.KEY_KP_1, pygame.locals.K_KP1, None])
+ *     F10 = Code([glfw.KEY_F10, pygame.constants.K_F10, None])
+ *     F11 = Code([glfw.KEY_F11, pygame.constants.K_F11, None])
+ *     F12 = Code([glfw.KEY_F12, pygame.constants.K_F12, None])             # <<<<<<<<<<<<<<
+ *     Keypad0 = Code([glfw.KEY_KP_0, pygame.constants.K_KP0, None])
+ *     Keypad1 = Code([glfw.KEY_KP_1, pygame.constants.K_KP1, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5639,7 +5639,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_F12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
@@ -5676,11 +5676,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":83
- *     F11 = Code([glfw.KEY_F11, pygame.locals.K_F11, None])
- *     F12 = Code([glfw.KEY_F12, pygame.locals.K_F12, None])
- *     Keypad0 = Code([glfw.KEY_KP_0, pygame.locals.K_KP0, None])             # <<<<<<<<<<<<<<
- *     Keypad1 = Code([glfw.KEY_KP_1, pygame.locals.K_KP1, None])
- *     Keypad2 = Code([glfw.KEY_KP_2, pygame.locals.K_KP2, None])
+ *     F11 = Code([glfw.KEY_F11, pygame.constants.K_F11, None])
+ *     F12 = Code([glfw.KEY_F12, pygame.constants.K_F12, None])
+ *     Keypad0 = Code([glfw.KEY_KP_0, pygame.constants.K_KP0, None])             # <<<<<<<<<<<<<<
+ *     Keypad1 = Code([glfw.KEY_KP_1, pygame.constants.K_KP1, None])
+ *     Keypad2 = Code([glfw.KEY_KP_2, pygame.constants.K_KP2, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5691,7 +5691,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_KP0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 83, __pyx_L1_error)
@@ -5728,11 +5728,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":84
- *     F12 = Code([glfw.KEY_F12, pygame.locals.K_F12, None])
- *     Keypad0 = Code([glfw.KEY_KP_0, pygame.locals.K_KP0, None])
- *     Keypad1 = Code([glfw.KEY_KP_1, pygame.locals.K_KP1, None])             # <<<<<<<<<<<<<<
- *     Keypad2 = Code([glfw.KEY_KP_2, pygame.locals.K_KP2, None])
- *     Keypad3 = Code([glfw.KEY_KP_3, pygame.locals.K_KP3, None])
+ *     F12 = Code([glfw.KEY_F12, pygame.constants.K_F12, None])
+ *     Keypad0 = Code([glfw.KEY_KP_0, pygame.constants.K_KP0, None])
+ *     Keypad1 = Code([glfw.KEY_KP_1, pygame.constants.K_KP1, None])             # <<<<<<<<<<<<<<
+ *     Keypad2 = Code([glfw.KEY_KP_2, pygame.constants.K_KP2, None])
+ *     Keypad3 = Code([glfw.KEY_KP_3, pygame.constants.K_KP3, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5743,7 +5743,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_KP1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
@@ -5780,11 +5780,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":85
- *     Keypad0 = Code([glfw.KEY_KP_0, pygame.locals.K_KP0, None])
- *     Keypad1 = Code([glfw.KEY_KP_1, pygame.locals.K_KP1, None])
- *     Keypad2 = Code([glfw.KEY_KP_2, pygame.locals.K_KP2, None])             # <<<<<<<<<<<<<<
- *     Keypad3 = Code([glfw.KEY_KP_3, pygame.locals.K_KP3, None])
- *     Keypad4 = Code([glfw.KEY_KP_4, pygame.locals.K_KP4, None])
+ *     Keypad0 = Code([glfw.KEY_KP_0, pygame.constants.K_KP0, None])
+ *     Keypad1 = Code([glfw.KEY_KP_1, pygame.constants.K_KP1, None])
+ *     Keypad2 = Code([glfw.KEY_KP_2, pygame.constants.K_KP2, None])             # <<<<<<<<<<<<<<
+ *     Keypad3 = Code([glfw.KEY_KP_3, pygame.constants.K_KP3, None])
+ *     Keypad4 = Code([glfw.KEY_KP_4, pygame.constants.K_KP4, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5795,7 +5795,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_KP2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
@@ -5832,11 +5832,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":86
- *     Keypad1 = Code([glfw.KEY_KP_1, pygame.locals.K_KP1, None])
- *     Keypad2 = Code([glfw.KEY_KP_2, pygame.locals.K_KP2, None])
- *     Keypad3 = Code([glfw.KEY_KP_3, pygame.locals.K_KP3, None])             # <<<<<<<<<<<<<<
- *     Keypad4 = Code([glfw.KEY_KP_4, pygame.locals.K_KP4, None])
- *     Keypad5 = Code([glfw.KEY_KP_5, pygame.locals.K_KP5, None])
+ *     Keypad1 = Code([glfw.KEY_KP_1, pygame.constants.K_KP1, None])
+ *     Keypad2 = Code([glfw.KEY_KP_2, pygame.constants.K_KP2, None])
+ *     Keypad3 = Code([glfw.KEY_KP_3, pygame.constants.K_KP3, None])             # <<<<<<<<<<<<<<
+ *     Keypad4 = Code([glfw.KEY_KP_4, pygame.constants.K_KP4, None])
+ *     Keypad5 = Code([glfw.KEY_KP_5, pygame.constants.K_KP5, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5847,7 +5847,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_KP3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L1_error)
@@ -5884,11 +5884,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":87
- *     Keypad2 = Code([glfw.KEY_KP_2, pygame.locals.K_KP2, None])
- *     Keypad3 = Code([glfw.KEY_KP_3, pygame.locals.K_KP3, None])
- *     Keypad4 = Code([glfw.KEY_KP_4, pygame.locals.K_KP4, None])             # <<<<<<<<<<<<<<
- *     Keypad5 = Code([glfw.KEY_KP_5, pygame.locals.K_KP5, None])
- *     Keypad6 = Code([glfw.KEY_KP_6, pygame.locals.K_KP6, None])
+ *     Keypad2 = Code([glfw.KEY_KP_2, pygame.constants.K_KP2, None])
+ *     Keypad3 = Code([glfw.KEY_KP_3, pygame.constants.K_KP3, None])
+ *     Keypad4 = Code([glfw.KEY_KP_4, pygame.constants.K_KP4, None])             # <<<<<<<<<<<<<<
+ *     Keypad5 = Code([glfw.KEY_KP_5, pygame.constants.K_KP5, None])
+ *     Keypad6 = Code([glfw.KEY_KP_6, pygame.constants.K_KP6, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5899,7 +5899,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_KP4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
@@ -5936,11 +5936,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":88
- *     Keypad3 = Code([glfw.KEY_KP_3, pygame.locals.K_KP3, None])
- *     Keypad4 = Code([glfw.KEY_KP_4, pygame.locals.K_KP4, None])
- *     Keypad5 = Code([glfw.KEY_KP_5, pygame.locals.K_KP5, None])             # <<<<<<<<<<<<<<
- *     Keypad6 = Code([glfw.KEY_KP_6, pygame.locals.K_KP6, None])
- *     Keypad7 = Code([glfw.KEY_KP_7, pygame.locals.K_KP7, None])
+ *     Keypad3 = Code([glfw.KEY_KP_3, pygame.constants.K_KP3, None])
+ *     Keypad4 = Code([glfw.KEY_KP_4, pygame.constants.K_KP4, None])
+ *     Keypad5 = Code([glfw.KEY_KP_5, pygame.constants.K_KP5, None])             # <<<<<<<<<<<<<<
+ *     Keypad6 = Code([glfw.KEY_KP_6, pygame.constants.K_KP6, None])
+ *     Keypad7 = Code([glfw.KEY_KP_7, pygame.constants.K_KP7, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5951,7 +5951,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_KP5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
@@ -5988,11 +5988,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":89
- *     Keypad4 = Code([glfw.KEY_KP_4, pygame.locals.K_KP4, None])
- *     Keypad5 = Code([glfw.KEY_KP_5, pygame.locals.K_KP5, None])
- *     Keypad6 = Code([glfw.KEY_KP_6, pygame.locals.K_KP6, None])             # <<<<<<<<<<<<<<
- *     Keypad7 = Code([glfw.KEY_KP_7, pygame.locals.K_KP7, None])
- *     Keypad8 = Code([glfw.KEY_KP_8, pygame.locals.K_KP8, None])
+ *     Keypad4 = Code([glfw.KEY_KP_4, pygame.constants.K_KP4, None])
+ *     Keypad5 = Code([glfw.KEY_KP_5, pygame.constants.K_KP5, None])
+ *     Keypad6 = Code([glfw.KEY_KP_6, pygame.constants.K_KP6, None])             # <<<<<<<<<<<<<<
+ *     Keypad7 = Code([glfw.KEY_KP_7, pygame.constants.K_KP7, None])
+ *     Keypad8 = Code([glfw.KEY_KP_8, pygame.constants.K_KP8, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6003,7 +6003,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_KP6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
@@ -6040,11 +6040,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":90
- *     Keypad5 = Code([glfw.KEY_KP_5, pygame.locals.K_KP5, None])
- *     Keypad6 = Code([glfw.KEY_KP_6, pygame.locals.K_KP6, None])
- *     Keypad7 = Code([glfw.KEY_KP_7, pygame.locals.K_KP7, None])             # <<<<<<<<<<<<<<
- *     Keypad8 = Code([glfw.KEY_KP_8, pygame.locals.K_KP8, None])
- *     Keypad9 = Code([glfw.KEY_KP_9, pygame.locals.K_KP9, None])
+ *     Keypad5 = Code([glfw.KEY_KP_5, pygame.constants.K_KP5, None])
+ *     Keypad6 = Code([glfw.KEY_KP_6, pygame.constants.K_KP6, None])
+ *     Keypad7 = Code([glfw.KEY_KP_7, pygame.constants.K_KP7, None])             # <<<<<<<<<<<<<<
+ *     Keypad8 = Code([glfw.KEY_KP_8, pygame.constants.K_KP8, None])
+ *     Keypad9 = Code([glfw.KEY_KP_9, pygame.constants.K_KP9, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6055,7 +6055,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_KP7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
@@ -6092,11 +6092,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":91
- *     Keypad6 = Code([glfw.KEY_KP_6, pygame.locals.K_KP6, None])
- *     Keypad7 = Code([glfw.KEY_KP_7, pygame.locals.K_KP7, None])
- *     Keypad8 = Code([glfw.KEY_KP_8, pygame.locals.K_KP8, None])             # <<<<<<<<<<<<<<
- *     Keypad9 = Code([glfw.KEY_KP_9, pygame.locals.K_KP9, None])
- *     Up = Code([glfw.KEY_UP, pygame.locals.K_UP, None])
+ *     Keypad6 = Code([glfw.KEY_KP_6, pygame.constants.K_KP6, None])
+ *     Keypad7 = Code([glfw.KEY_KP_7, pygame.constants.K_KP7, None])
+ *     Keypad8 = Code([glfw.KEY_KP_8, pygame.constants.K_KP8, None])             # <<<<<<<<<<<<<<
+ *     Keypad9 = Code([glfw.KEY_KP_9, pygame.constants.K_KP9, None])
+ *     Up = Code([glfw.KEY_UP, pygame.constants.K_UP, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6107,7 +6107,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_KP8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
@@ -6144,11 +6144,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":92
- *     Keypad7 = Code([glfw.KEY_KP_7, pygame.locals.K_KP7, None])
- *     Keypad8 = Code([glfw.KEY_KP_8, pygame.locals.K_KP8, None])
- *     Keypad9 = Code([glfw.KEY_KP_9, pygame.locals.K_KP9, None])             # <<<<<<<<<<<<<<
- *     Up = Code([glfw.KEY_UP, pygame.locals.K_UP, None])
- *     Down = Code([glfw.KEY_DOWN, pygame.locals.K_DOWN, None])
+ *     Keypad7 = Code([glfw.KEY_KP_7, pygame.constants.K_KP7, None])
+ *     Keypad8 = Code([glfw.KEY_KP_8, pygame.constants.K_KP8, None])
+ *     Keypad9 = Code([glfw.KEY_KP_9, pygame.constants.K_KP9, None])             # <<<<<<<<<<<<<<
+ *     Up = Code([glfw.KEY_UP, pygame.constants.K_UP, None])
+ *     Down = Code([glfw.KEY_DOWN, pygame.constants.K_DOWN, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6159,7 +6159,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_KP9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
@@ -6196,11 +6196,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":93
- *     Keypad8 = Code([glfw.KEY_KP_8, pygame.locals.K_KP8, None])
- *     Keypad9 = Code([glfw.KEY_KP_9, pygame.locals.K_KP9, None])
- *     Up = Code([glfw.KEY_UP, pygame.locals.K_UP, None])             # <<<<<<<<<<<<<<
- *     Down = Code([glfw.KEY_DOWN, pygame.locals.K_DOWN, None])
- *     Left = Code([glfw.KEY_LEFT, pygame.locals.K_LEFT, None])
+ *     Keypad8 = Code([glfw.KEY_KP_8, pygame.constants.K_KP8, None])
+ *     Keypad9 = Code([glfw.KEY_KP_9, pygame.constants.K_KP9, None])
+ *     Up = Code([glfw.KEY_UP, pygame.constants.K_UP, None])             # <<<<<<<<<<<<<<
+ *     Down = Code([glfw.KEY_DOWN, pygame.constants.K_DOWN, None])
+ *     Left = Code([glfw.KEY_LEFT, pygame.constants.K_LEFT, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6211,7 +6211,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_UP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
@@ -6248,11 +6248,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":94
- *     Keypad9 = Code([glfw.KEY_KP_9, pygame.locals.K_KP9, None])
- *     Up = Code([glfw.KEY_UP, pygame.locals.K_UP, None])
- *     Down = Code([glfw.KEY_DOWN, pygame.locals.K_DOWN, None])             # <<<<<<<<<<<<<<
- *     Left = Code([glfw.KEY_LEFT, pygame.locals.K_LEFT, None])
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Keypad9 = Code([glfw.KEY_KP_9, pygame.constants.K_KP9, None])
+ *     Up = Code([glfw.KEY_UP, pygame.constants.K_UP, None])
+ *     Down = Code([glfw.KEY_DOWN, pygame.constants.K_DOWN, None])             # <<<<<<<<<<<<<<
+ *     Left = Code([glfw.KEY_LEFT, pygame.constants.K_LEFT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -6263,7 +6263,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_locals); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_constants); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_K_DOWN); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
@@ -6300,10 +6300,10 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":95
- *     Up = Code([glfw.KEY_UP, pygame.locals.K_UP, None])
- *     Down = Code([glfw.KEY_DOWN, pygame.locals.K_DOWN, None])
- *     Left = Code([glfw.KEY_LEFT, pygame.locals.K_LEFT, None])             # <<<<<<<<<<<<<<
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Up = Code([glfw.KEY_UP, pygame.constants.K_UP, None])
+ *     Down = Code([glfw.KEY_DOWN, pygame.constants.K_DOWN, None])
+ *     Left = Code([glfw.KEY_LEFT, pygame.constants.K_LEFT, None])             # <<<<<<<<<<<<<<
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  * 
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Code); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)
@@ -6315,7 +6315,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pygame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_locals); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_constants); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_K_LEFT); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
@@ -6352,9 +6352,9 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/input.py":96
- *     Down = Code([glfw.KEY_DOWN, pygame.locals.K_DOWN, None])
- *     Left = Code([glfw.KEY_LEFT, pygame.locals.K_LEFT, None])
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])             # <<<<<<<<<<<<<<
+ *     Down = Code([glfw.KEY_DOWN, pygame.constants.K_DOWN, None])
+ *     Left = Code([glfw.KEY_LEFT, pygame.constants.K_LEFT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])             # <<<<<<<<<<<<<<
  * 
  * def GetKey(keycode):
  */
@@ -6367,7 +6367,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pygame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_locals); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_constants); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_K_RIGHT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
@@ -6417,7 +6417,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/input.py":98
- *     Right = Code([glfw.KEY_RIGHT, pygame.locals.K_RIGHT, None])
+ *     Right = Code([glfw.KEY_RIGHT, pygame.constants.K_RIGHT, None])
  * 
  * def GetKey(keycode):             # <<<<<<<<<<<<<<
  *     """

@@ -1,9 +1,9 @@
+from pyunity.scenes.sceneManager import KeyboardInterruptKill
 from . import (
     example1, example2, example3, example4, example5, example6, example7, example8, example9
 )
 from ..scenes import SceneManager
 from .. import Logger
-
 import sys
 
 example_list = [
@@ -17,6 +17,8 @@ example_list = [
     example8,
     example9,
 ]
+
+SceneManager.KeyboardInterruptKill = True
 
 def show():
     if len(sys.argv) == 1:

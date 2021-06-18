@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.meshes",
         "sources": [
-            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\meshes.py"
+            "C:\\Ray-Data\\pyunity\\pyunity\\meshes.py"
         ]
     },
     "module_name": "pyunity.meshes"
