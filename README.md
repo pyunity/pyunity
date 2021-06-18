@@ -1,27 +1,8 @@
 # PyUnity
 
-[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]
-(https://pyunity.readthedocs.io/en/latest/?badge=latest)
-[![License](https://img.shields.io/pypi/l/pyunity.svg?logo=python&logoColor=FBE072)]
-(https://pypi.python.org/pypi/pyunity)
-[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)]
-(https://pypi.python.org/pypi/pyunity)
-[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]
-(https://pypi.python.org/pypi/pyunity)
-[![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/latest?logo=github)]
-(https://github.com/pyunity/pyunity/releases/latest)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)]
-(https://lgtm.com/projects/g/pyunity/pyunity/context:python)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]
-(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
-[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]
-(https://ci.appveyor.com/project/rayzchen/pyunity)
-[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)]
-(https://discord.gg/zTn48BEbF9)
-[![Gitter](https://badges.gitter.im/pyunity/community.svg)]
-(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)]
-(https://github.com/pyunity/pyunity/stargazers)
+[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)](https://pyunity.readthedocs.io/en/latest/?badge=latest)
+[![License](https://img.shields.io/pypi/l/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
+[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)[![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/latest?logo=github)](https://github.com/pyunity/pyunity/releases/latest)[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)](https://discord.gg/zTn48BEbF9)[![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
 
 ## Version 0.6.0 (in development)
 PyUnity is a Python implementation of the
