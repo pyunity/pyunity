@@ -57,7 +57,7 @@ class Special:
         self.func = func
 
 
-RUNNING_TIME = Special(lambda: f"Time taken: {time() - start}")
+RUNNING_TIME = Special(lambda: "Time taken: " + str(time() - start))
 
 def Log(*message):
     """
@@ -84,7 +84,7 @@ def LogLine(level, *message):
         if level.name is not None:
             print(level.name + msg)
     with open(os.path.join(folder, "latest.log"), "a") as f:
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + f" |{level.abbr}| {msg}\n")
+        f.write(strftime("%Y-%m-%d %H:%M:%S") + " |" + level.abbr + "| " + msg + "\n")
 
 def LogException(e):
     """
