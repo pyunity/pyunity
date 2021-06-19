@@ -48,6 +48,15 @@ class Scene:
         light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
+    
+    @staticmethod
+    def Bare(name):
+        cls = Scene.__new__(Scene)
+        cls.name = name
+        cls.gameObjects = []
+        cls.rootGameObjects = []
+        cls.mainCamera = None
+        return cls
 
     def Add(self, gameObject):
         """
@@ -75,8 +84,7 @@ class Scene:
         Raises
         ------
         PyUnityException
-            If the specified GameObject is the Main Camera,
-            or if the specified GameObject is not part
+            If the specified GameObject is not part
             of the Scene.
 
         """
