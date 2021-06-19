@@ -159,6 +159,8 @@ class Texture2D:
     def __init__(self, path):
         self.path = path
         self.loaded = False
+        self.img = Image.open(self.path).convert("RGBA")
+        self.img_data = self.img.tobytes()
 
     def load(self):
         """
@@ -211,10 +213,12 @@ class Project:
         self.name = name
         self.firstScene = 0
         self.files = {}
+        self.file_paths = {}
     
     def import_file(self, localPath, type, uuid=None):
         file = File(os.path.join(self.path, localPath), type, uuid)
         self.files[file.uuid] = (file, localPath)
+        self.file_paths[localPath] = file
         return file
     
     def get_file_obj(self, uuid):
@@ -227,7 +231,7 @@ class Project:
             f.write("    firstScene: " + str(self.firstScene) + "\n")
             f.write("Files\n")
             for uuid, file in self.files.items():
-                f.write("    " + uuid + ": " + file[0].path + "\n")
+                f.write("    " + uuid + ": " + file[1] + "\n")
     
     @staticmethod
     def from_folder(filePath):
@@ -266,3 +270,23 @@ class Project:
             project.import_file(path, type_, uuid)
         
         return project
+    
+    def save_mat(self, mat, name):
+        directory = os.path.join(self.path, "Materials")
+        os.makedirs(directory, exist_ok=True)
+
+        if mat.texture is not None:
+            if os.path.join("Textures", name + ".png") in self.file_paths:
+                uuid = self.file_paths[os.path.join("Textures", name + ".png")].uuid
+            else:
+                path = os.path.join(self.path, "Textures", name + ".png")
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                mat.texture.img.save(path)
+                uuid = self.import_file(path, "Texture2D").uuid
+        else:
+            uuid = "None"
+
+        with open(os.path.join(directory, name + ".mat"), "w+") as f:
+            f.write("Material\n")
+            f.write("    albedoColor: " + mat.color.toString() + "\n")
+            f.write("    albedoTexture: " + uuid + "\n")
