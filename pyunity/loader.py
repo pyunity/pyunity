@@ -14,7 +14,7 @@ from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
 from .audio import AudioSource
-from .physics import AABBoxCollider, SphereCollider
+from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
 from uuid import uuid4
 import inspect
 import json
@@ -70,6 +70,7 @@ def SaveObj(mesh, name, filePath=None):
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
+    os.makedirs(directory, exist_ok=True)
 
     with open(os.path.join(directory, name + ".obj"), "w+") as f:
         for vertex in mesh.verts:
@@ -150,6 +151,7 @@ def SaveMesh(mesh, name, filePath=None):
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
+    os.makedirs(directory, exist_ok=True)
 
     with open(os.path.join(directory, name + ".mesh"), "w+") as f:
         i = 0
@@ -191,6 +193,18 @@ def SaveMesh(mesh, name, filePath=None):
             if i != len(mesh.texcoords):
                 f.write("/")
         f.write("\n")
+
+def SaveMaterial(mat, name, filePath=None):
+    if filePath:
+        directory = os.path.dirname(os.path.realpath(filePath))
+    else:
+        directory = os.getcwd()
+    os.makedirs(directory, exist_ok=True)
+
+    with open(os.path.join(directory, name + ".mat"), "w+") as f:
+        f.write("Material\n")
+        f.write("    albedoColor: " + mat.color.toString() + "\n")
+        f.write("    albedoTexture: " + str(mat.texture) + "\n")
 
 def GetImports(file):
     with open(file) as f:
@@ -256,8 +270,22 @@ def SaveSceneToProject(scene, filePath=None):
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             for attr in component.attrs:
                 value = getattr(component, attr)
-                if hasattr(value, "_convert"):
-                    written = value._convert()
+                if isinstance(value, Mesh):
+                    if id(value) in ids:
+                        written = ids[id(value)]
+                    else:
+                        written = str(uuid4())
+                        path = os.path.join(directory, "Meshes", gameObject.name + ".mesh")
+                        SaveMesh(value, gameObject.name, path)
+                        project.import_file(path, "Mesh", written)
+                elif isinstance(value, Material):
+                    if id(value) in ids:
+                        written = ids[id(value)]
+                    else:
+                        written = str(uuid4())
+                        path = os.path.join(directory, "Materials", gameObject.name + ".mat")
+                        SaveMaterial(value, gameObject.name, path)
+                        project.import_file(path, "Material", written)
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
