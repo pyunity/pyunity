@@ -216,9 +216,8 @@ class Scene:
         """
         components = []
         for gameObject in self.gameObjects:
-            query = gameObject.GetComponent(component)
-            if query is not None:
-                components.append(query)
+            query = gameObject.GetComponents(component)
+            components.extend(query)
         return components
 
     def inside_frustrum(self, renderer):
