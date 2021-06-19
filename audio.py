@@ -4,26 +4,45 @@ import ctypes
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore")
     from sdl2.sdlmixer import *
+    from sdl2 import SDL_GetError
+
+channels = 0
 
 class AudioSource:
     def __init__(self, clip):
+        global channels
         self.clip = clip
         self.playing = False
+        self.channel = channels
+        channels += 1
+
+        Mix_AllocateChannels(channels)
     
     def Play(self):
-        def finished():
+        def finished(channel):
             self.playing = False
         
         self.playing = True
-        self.func = ctypes.CFUNCTYPE(None)(finished)
-        if Mix_PlayMusic(self.clip.music, 0) == -1:
+        self.func = ctypes.CFUNCTYPE(None, ctypes.c_int)(finished)
+        if Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
             print("Unable to play Ogg file: %s" % Mix_GetError())
-        Mix_HookMusicFinished(self.func)
+        Mix_ChannelFinished(self.func)
+    
+    def Stop(self):
+        Mix_HaltChannel(self.channel)
+    
+    def Pause(self):
+        Mix_Pause(self.channel)
+        self.playing = False
+    
+    def UnPause(self):
+        Mix_Resume(self.channel)
+        self.playing = True
 
 class AudioClip:
     def __init__(self, path):
         self.path = path
-        self.music = Mix_LoadMUS(path.encode())
+        self.music = Mix_LoadWAV(path.encode())
 
 class AudioListener:
     def __init__(self, sources=[]):
@@ -42,12 +61,11 @@ class AudioListener:
             for source in self.sources:
                 if source.playing == False:
                     finished += 1
-            print(finished)
     
     def deinit(self):
-        Mix_HaltMusic()
         for source in self.sources:
-            Mix_FreeMusic(source.clip.music)
+            Mix_HaltChannel(source.channel)
+            Mix_FreeChunk(source.clip.music)
         Mix_CloseAudio()
 
 listener = AudioListener()
