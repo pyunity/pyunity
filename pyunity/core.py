@@ -559,3 +559,14 @@ class Color:
 
     def __truediv__(self, other):
         return self.r / other, self.g / other, self.b / other
+    
+    def __repr__(self):
+        return f"Color({self.r}, {self.g}, {self.b})"
+    __str__ = __repr__
+    
+    def toString(self):
+        return f"{self.r}, {self.g}, {self.b}"
+    
+    @staticmethod
+    def fromString(string):
+        return Color(list(map(int, string.split(", "))))
