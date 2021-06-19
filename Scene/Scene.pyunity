@@ -2,5 +2,7 @@ Project
     name: Scene
     firstScene: 0
 Files
-    d003ec1a-a6d2-4657-8495-6252ee54c751: C:\Ray-Data\pyunity\Scene\Scenes\Scene.scene
-    a9b801fe-287c-406a-bf91-853fa421c52c: C:\Ray-Data\pyunity\Scene\Scripts\Rotator.py
+    2334c338-fbb9-4856-83db-ab8ee6174321: D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\Scene\Scenes\Scene.scene
+    ae5867a9-2a42-4d5a-bd88-2d1220075f3a: D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\Scene\Meshes\Cube.mesh
+    9a491cb8-0f69-4b4f-9e69-f3eb9581c12a: D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\Scene\Materials\Cube.mat
+    d43bacc4-e730-497e-8582-c2cf401343cd: D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\Scene\Scripts\Rotator.py
