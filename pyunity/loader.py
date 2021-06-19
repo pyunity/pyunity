@@ -324,9 +324,7 @@ def LoadProject(filePath):
         behaviourInfo = list(filter(lambda x: "(Behaviour)" in x.type, infos))
         
         scene_info = infos.pop(0)
-        scene = SceneManager.AddScene(json.loads(scene_info.name))
-        scene.Remove(scene.gameObjects[0])
-        scene.Remove(scene.gameObjects[0])
+        scene = SceneManager.AddBareScene(json.loads(scene_info.name))
 
         ids = {}
 
@@ -353,7 +351,12 @@ def LoadProject(filePath):
                 elif value in ["True", "False"]:
                     setattr(component, name, value == "True")
                 elif value in project.files:
-                    setattr(component, name, project.files[value][0].obj)
+                    file = project.files[value][0]
+                    if file.type == "Material":
+                        obj = project.load_mat(file)
+                    elif file.type == "Mesh":
+                        obj = LoadMesh(os.path.join(project.path, file.path))
+                    setattr(component, name, obj)
         
         for info in behaviourInfo:
             gameObject = ids[info.gameObject]
@@ -363,6 +366,8 @@ def LoadProject(filePath):
 
         for gameObject in gameObjects:
             scene.Add(gameObject)
+        
+        scene.mainCamera = scene.FindGameObjectsByName("Main Camera")[0].GetComponent(Camera)
 
     return project
 

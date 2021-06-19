@@ -50,6 +50,35 @@ def AddScene(sceneName):
     scenesByName[sceneName] = scene
     return scene
 
+def AddBareScene(sceneName):
+    """
+    Add a scene to the SceneManager. Pass
+    in a scene name to create a scene.
+
+    Parameters
+    ----------
+    sceneName : str
+        Name of the scene
+
+    Returns
+    -------
+    Scene
+        Newly created scene
+
+    Raises
+    ------
+    PyUnityException
+        If there already exists a scene called `sceneName`
+
+    """
+    if sceneName in scenesByName:
+        raise PyUnityException("SceneManager already contains scene \"" +
+                               sceneName + "\"")
+    scene = Scene.Bare(sceneName)
+    scenesByIndex.append(scene)
+    scenesByName[sceneName] = scene
+    return scene
+
 def GetSceneByIndex(index):
     """
     Get a scene by its index.
