@@ -561,11 +561,11 @@ class Color:
         return self.r / other, self.g / other, self.b / other
     
     def __repr__(self):
-        return f"Color({self.r}, {self.g}, {self.b})"
+        return "Color(" + self.to_string + ")"
     __str__ = __repr__
     
     def to_string(self):
-        return f"{self.r}, {self.g}, {self.b}"
+        return "{}, {}, {}".format(self.r, self.g, self.b)
     
     @staticmethod
     def from_string(string):
