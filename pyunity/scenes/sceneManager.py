@@ -258,6 +258,7 @@ def __loadScene(scene):
             windowObject.update_func = scene.update
         else:
             scene.no_interactive()
+    scene.clean_up()
     __running_scene = None
 
 def CurrentScene():

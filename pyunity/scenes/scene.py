@@ -43,6 +43,7 @@ class Scene:
     def __init__(self, name):
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
+        self.mainCamera.AddComponent(AudioListener)
         light = GameObject("Light")
         light.AddComponent(Light)
         light.transform.localPosition = Vector3(10, 10, -10)
@@ -170,6 +171,56 @@ class Scene:
             raise GameObjectException(
                 "No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
 
+    def FindComponentByType(self, component):
+        """
+        Finds the first matching Component that is in the Scene.
+
+        Parameters
+        ----------
+        component : type
+            Component type
+
+        Returns
+        -------
+        Component
+            The matching Component
+        
+        Raises
+        ------
+        ComponentException
+            If the component is not found
+
+        """
+        for gameObject in self.gameObjects:
+            query = gameObject.GetComponent(component)
+            if query is not None:
+                break
+        if query is None:
+            raise ComponentException("Cannot find component " + component.__name__ + " in scene")
+        return query
+
+    def FindComponentsByType(self, component):
+        """
+        Finds all matching Components that are in the Scene.
+
+        Parameters
+        ----------
+        component : type
+            Component type
+
+        Returns
+        -------
+        list
+            List of the matching Components
+
+        """
+        components = []
+        for gameObject in self.gameObjects:
+            query = gameObject.GetComponent(component)
+            if query is not None:
+                components.append(query)
+        return components
+
     def inside_frustrum(self, renderer):
         """
         Check if the renderer's mesh can be
@@ -228,26 +279,30 @@ class Scene:
     def start_scripts(self):
         """Start the scripts in the Scene."""
         self.lastFrame = time()
-        numChannels = 0
+
+        audioListeners = self.FindComponentsByType(AudioListener)
+        if len(audioListeners) == 0:
+            Logger.LogLine(Logger.WARN, "No AudioListeners found, audio is disabled")
+            self.audioListener = None
+        elif len(audioListeners) > 1:
+            Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " + str(len(audioListeners)) + " found")
+            self.audioListener = None
+        else:
+            self.audioListener = audioListeners[0]
+            self.audioListener.Init()
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
                     component.Start()
                 elif isinstance(component, AudioSource):
-                    component.channel = pygame.mixer.Channel(numChannels)
-                    if numChannels < 8:
-                        numChannels += 1
-                    if component.clip:
-                        component.clip.sound = pygame.mixer.Sound(
-                            component.clip.file)
                     if component.PlayOnStart:
                         component.Play()
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     mesh = component.mesh
                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
                     mesh.vao = render.gen_array()
-
+        
         self.physics = any(
             isinstance(
                 component, physics.Collider
@@ -322,3 +377,7 @@ class Scene:
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
             self.mainCamera.Render(self.gameObjects)
+    
+    def clean_up(self):
+        if self.audioListener is not None:
+            self.audioListener.DeInit()
