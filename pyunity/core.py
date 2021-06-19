@@ -197,12 +197,17 @@ class GameObject:
         """
         Gets a component from the GameObject.
         Will return first match.
-        For all matches, do a manual loop.
+        For all matches, use `GetComponents`.
 
         Parameters
         ----------
         componentClass : Component
             Component to get. Must inherit from ``Component``
+        
+        Returns
+        -------
+        Component or None
+            The specified component, or `None` if the component is not found
 
         """
         for component in self.components:
@@ -210,6 +215,69 @@ class GameObject:
                 return component
 
         return None
+    
+    def RemoveComponent(self, componentClass):
+        """
+        Removes the first matching component from a GameObject.
+
+        Parameters
+        ----------
+        componentClass : type
+            Component to remove
+
+        Raises
+        ------
+        ComponentException
+            If the GameObject doesn't have the specified component
+        ComponentException
+            If the specified component is a Transform
+        
+        """
+        component = self.GetComponent(componentClass)
+        if component is None:
+            raise ComponentException("Cannot remove " + componentClass.__name__ + "from the GameObject, it doesn't have one")
+        if componentClass is Transform:
+            raise ComponentException("Cannot remove a Transform from a GameObject")
+        self.components.remove(component)
+
+    def GetComponents(self, componentClass):
+        """
+        Gets all matching components from the GameObject.
+
+        Parameters
+        ----------
+        componentClass : Component
+            Component to get. Must inherit from ``Component``
+        
+        Returns
+        -------
+        list
+            A list of all matching components
+
+        """
+
+        return [component for component in self.components if isinstance(component, componentClass)]
+    
+    def RemoveComponents(self, componentClass):
+        """
+        Removes all matching component from a GameObject.
+
+        Parameters
+        ----------
+        componentClass : type
+            Component to remove
+
+        Raises
+        ------
+        ComponentException
+            If the specified component is a Transform
+        
+        """
+        components = self.GetComponents(componentClass)
+        if componentClass is Transform:
+            raise ComponentException("Cannot remove a Transform from a GameObject")
+        for component in components:
+            self.components.remove(component)
 
     def __repr__(self):
         return "<GameObject name=" + repr(self.name) + " components=" + \
@@ -229,12 +297,24 @@ class Component:
 
     """
 
-    attrs: List[str] = []
+    attrs = []
 
     def __init__(self):
         self.gameObject = None
         self.transform = None
         self.enabled = True
+
+    def AddComponent(self, component):
+        """
+        Calls `AddComponent` on the component's GameObject.
+
+        Parameters
+        ----------
+        component : Component
+            Component to add. Must inherit from ``Component``
+
+        """
+        return self.gameObject.AddComponent(component)
 
     def GetComponent(self, component):
         """
@@ -248,17 +328,41 @@ class Component:
         """
         return self.gameObject.GetComponent(component)
 
-    def AddComponent(self, component):
+    def RemoveComponent(self, component):
         """
-        Calls `AddComponent` on the component's GameObject.
+        Calls `RemoveComponent` on the component's GameObject.
 
         Parameters
         ----------
         component : Component
-            Component to add. Must inherit from ``Component``
+            Component to remove. Must inherit from ``Component``
 
         """
-        return self.gameObject.AddComponent(component)
+        return self.gameObject.RemoveComponent(component)
+
+    def GetComponents(self, component):
+        """
+        Calls `GetComponents` on the component's GameObject.
+
+        Parameters
+        ----------
+        componentClass : Component
+            Component to get. Must inherit from ``Component``
+
+        """
+        return self.gameObject.GetComponents(component)
+
+    def RemoveComponents(self, component):
+        """
+        Calls `RemoveComponents` on the component's GameObject.
+
+        Parameters
+        ----------
+        component : Component
+            Component to remove. Must inherit from ``Component``
+
+        """
+        return self.gameObject.RemoveComponents(component)
 
 class SingleComponent(Component):
     """
