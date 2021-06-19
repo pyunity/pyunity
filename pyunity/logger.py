@@ -82,7 +82,7 @@ def LogLine(level, *message):
         " ".join(map(lambda a: str(a).rstrip(), message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
-            print(level.name + msg)
+            print(msg)
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(strftime("%Y-%m-%d %H:%M:%S") + " |" + level.abbr + "| " + msg + "\n")
 
