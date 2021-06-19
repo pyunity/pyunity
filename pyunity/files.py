@@ -8,7 +8,7 @@ __all__ = ["Behaviour", "Texture2D", "Prefab", "File", "Project"]
 
 from OpenGL import GL as gl
 from PIL import Image
-from .core import Component
+from .core import Component, Material, Color
 from . import Logger
 from types import ModuleType
 from uuid import uuid4
@@ -124,7 +124,6 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
-        print(path)
         files = glob.glob(os.path.join(path, "*.py"))
         a = {}
 
@@ -216,7 +215,7 @@ class Project:
         self.file_paths = {}
     
     def import_file(self, localPath, type, uuid=None):
-        file = File(os.path.join(self.path, localPath), type, uuid)
+        file = File(localPath, type, uuid)
         self.files[file.uuid] = (file, localPath)
         self.file_paths[localPath] = file
         return file
@@ -267,6 +266,8 @@ class Project:
             type_ = os.path.splitext(path)[1][1:].capitalize()
             if type_ == "Py":
                 type_ = "Behaviour"
+            elif type_ == "Mat":
+                type_ = "Material"
             project.import_file(path, type_, uuid)
         
         return project
@@ -288,5 +289,25 @@ class Project:
 
         with open(os.path.join(directory, name + ".mat"), "w+") as f:
             f.write("Material\n")
-            f.write("    albedoColor: " + mat.color.toString() + "\n")
+            f.write("    albedoColor: " + mat.color.to_string() + "\n")
             f.write("    albedoTexture: " + uuid + "\n")
+    
+    def load_mat(self, file):
+        with open(os.path.join(self.path, file.path)) as f:
+            lines = f.read().rstrip().splitlines()
+        
+        lines.pop(0)
+        
+        data = {}
+        for line in lines:
+            name, value = line[4:].split(": ")
+            data[name] = value
+        
+        color = Color.from_string(data["albedoColor"])
+        material = Material(color)
+        if "albedoTexture" in data and data["albedoTexture"] != "None":
+            uuid = data["albedoTexture"]
+            if self.files[uuid].obj != "None":
+                self.files[uuid].obj = Texture2D(os.path.join(self.path, self.files[uuid].path))
+            material.texture = self.files[uuid].obj
+        return material

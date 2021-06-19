@@ -2,7 +2,7 @@ Project
     name: Scene
     firstScene: 0
 Files
-    b728607b-9791-43d8-b5fb-81a9187a8d88: Scenes\Scene.scene
-    f872743d-3368-40e7-abc2-d1ccf6688ee9: Meshes\Cube.mesh
-    a5941184-c4b7-4891-831b-b61a0d283f12: Materials\Cube.mat
-    61d551cb-77ce-4e94-b244-a04dc545191e: Scripts\Rotator.py
+    75b75234-486d-443f-84fd-83db6b077b3a: Scenes\Scene.scene
+    eac55706-4d4d-4203-8c39-6217f8ddc6ea: Meshes\Cube.mesh
+    534b90bf-dd55-4172-8598-3661ae2c7429: Materials\Cube.mat
+    07932003-9e96-4cbe-b6fa-612bd9378449: Scripts\Rotator.py
