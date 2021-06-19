@@ -194,18 +194,6 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write("/")
         f.write("\n")
 
-def SaveMaterial(mat, name, filePath=None):
-    if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
-    else:
-        directory = os.getcwd()
-    os.makedirs(directory, exist_ok=True)
-
-    with open(os.path.join(directory, name + ".mat"), "w+") as f:
-        f.write("Material\n")
-        f.write("    albedoColor: " + mat.color.toString() + "\n")
-        f.write("    albedoTexture: " + str(mat.texture) + "\n")
-
 def GetImports(file):
     with open(file) as f:
         lines = f.read().rstrip().splitlines()
@@ -262,7 +250,7 @@ def SaveSceneToProject(scene, filePath=None):
                 with open(path, "w+") as f2:
                     f2.write(GetImports(inspect.getfile(type(component))))
                     f2.write(inspect.getsource(type(component)))
-                project.import_file(path, "Behaviour", uuid)
+                project.import_file(os.path.join("Scripts", type(component).__name__ + ".py"), "Behaviour", uuid)
             else:
                 name = type(component).__name__ + "(Component)"
             f.write(name + " : " + uuid + "\n")
@@ -275,17 +263,15 @@ def SaveSceneToProject(scene, filePath=None):
                         written = ids[id(value)]
                     else:
                         written = str(uuid4())
-                        path = os.path.join(directory, "Meshes", gameObject.name + ".mesh")
-                        SaveMesh(value, gameObject.name, path)
-                        project.import_file(path, "Mesh", written)
+                        SaveMesh(value, gameObject.name, os.path.join(directory, "Meshes", gameObject.name + ".mesh"))
+                        project.import_file(os.path.join("Meshes", gameObject.name + ".mesh"), "Mesh", written)
                 elif isinstance(value, Material):
                     if id(value) in ids:
                         written = ids[id(value)]
                     else:
                         written = str(uuid4())
-                        path = os.path.join(directory, "Materials", gameObject.name + ".mat")
-                        SaveMaterial(value, gameObject.name, path)
-                        project.import_file(path, "Material", written)
+                        project.save_mat(value, gameObject.name)
+                        project.import_file(os.path.join("Materials", gameObject.name + ".mat"), "Material", written)
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
@@ -317,7 +303,7 @@ def LoadProject(filePath):
     
     scenes = [value[1] for value in project.files.values() if value[0].type == "Scene"]
     for path in scenes:
-        with open(path, "r") as f:
+        with open(os.path.join(project.path, path), "r") as f:
             lines = f.read().rstrip().splitlines()
         
         data = []
@@ -366,6 +352,8 @@ def LoadProject(filePath):
                     setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
                 elif value in ["True", "False"]:
                     setattr(component, name, value == "True")
+                elif value in project.files:
+                    setattr(component, name, project.files[value][0].obj)
         
         for info in behaviourInfo:
             gameObject = ids[info.gameObject]
