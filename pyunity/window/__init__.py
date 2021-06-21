@@ -35,10 +35,15 @@ import os
 import pkgutil
 import importlib
 
+def checkModule(module):
+    if os.getenv("PYUNITY_TESTING") is not None:
+        return
+    if not pkgutil.find_loader(module):
+        raise Exception
+
 def glfwCheck():
     """Checks to see if GLFW works"""
-    if not pkgutil.find_loader("glfw"):
-        raise Exception
+    checkModule("glfw")
     import glfw
     if not glfw.init():
         raise Exception
@@ -47,16 +52,14 @@ def glfwCheck():
 
 def pygameCheck():
     """Checks to see if Pygame works"""
-    if not pkgutil.find_loader("pygame"):
-        raise Exception
+    checkModule("pygame")
     import pygame
     if pygame.init()[0] == 0:
         raise Exception
 
 def glutCheck():
     """Checks to see if GLUT works"""
-    if not pkgutil.find_loader("OpenGL.GLUT"):
-        raise Exception
+    checkModule("OpenGL.GLUT")
     import OpenGL.GLUT
     OpenGL.GLUT.glutInit()
 

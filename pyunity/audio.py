@@ -13,7 +13,7 @@ import warnings
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore")
-    from sdl2.sdlmixer import *
+    from sdl2 import sdlmixer as mixer
     from sdl2 import SDL_GetError
 
 from . import config, logger as Logger
@@ -21,7 +21,7 @@ from .core import Component
 
 channels = 0
 
-if Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG) == 0:
+if mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
 
@@ -51,7 +51,7 @@ class AudioSource(Component):
         self.channel = channels
         channels += 1
 
-        Mix_AllocateChannels(channels)
+        mixer.Mix_AllocateChannels(channels)
     
         self.PlayOnStart = False
         self.Loop = False
@@ -77,9 +77,9 @@ class AudioSource(Component):
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
             return
         if self.clip.music is None:
-            self.clip.music = Mix_LoadWAV(self.clip.path.encode())
-        if Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
-            print("Unable to play file: %s" % Mix_GetError())
+            self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
+        if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
+            print("Unable to play file: %s" % mixer.Mix_GetError())
     
     def Stop(self):
         """
@@ -88,7 +88,7 @@ class AudioSource(Component):
         """
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
-        Mix_HaltChannel(self.channel)
+        mixer.Mix_HaltChannel(self.channel)
     
     def Pause(self):
         """
@@ -97,7 +97,7 @@ class AudioSource(Component):
         """
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
-        Mix_Pause(self.channel)
+        mixer.Mix_Pause(self.channel)
     
     def UnPause(self):
         """
@@ -106,7 +106,7 @@ class AudioSource(Component):
         """
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
-        Mix_Resume(self.channel)
+        mixer.Mix_Resume(self.channel)
     
     @property
     def Playing(self):
@@ -116,7 +116,7 @@ class AudioSource(Component):
         """
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
-        return Mix_Playing(self.channel)
+        return mixer.Mix_Playing(self.channel)
 
 class AudioClip:
     """
@@ -126,7 +126,7 @@ class AudioClip:
     ----------
     path : str
         Path to the file
-    music : sdl2.sdlmixer.Mix_Chunk
+    music : sdl2.sdlmixer.mixer.Mix_Chunk
         Sound chunk that can be played with
         an SDL2 Mixer Channel.
         Only set when the AudioClip is played
@@ -154,7 +154,7 @@ class AudioListener(Component):
         Initializes the SDL2 Mixer.
 
         """
-        if Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+        if mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
             print("SDL2_mixer could not be initialized!\nSDL_Error: %s" % SDL_GetError())
     
     def DeInit(self):
@@ -165,6 +165,6 @@ class AudioListener(Component):
         """
         from .scenes import SceneManager
         for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
-            Mix_HaltChannel(source.channel)
-            Mix_FreeChunk(source.clip.music)
-        Mix_CloseAudio()
+            mixer.Mix_HaltChannel(source.channel)
+            mixer.Mix_FreeChunk(source.clip.music)
+        mixer.Mix_CloseAudio()
