@@ -6,7 +6,7 @@ of Scenes.
 
 from ..audio import *
 from ..core import *
-from .. import config, window
+from .. import config
 from ..errors import *
 from .scene import Scene
 from .. import logger as Logger
@@ -232,7 +232,7 @@ def __loadScene(scene):
     __running_scene = scene
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = config.windowProvider.Window(
-            config, scene.name, scene.mainCamera.Resize)
+            scene.name, scene.mainCamera.Resize)
         render.compile_shaders()
         scene.Start()
         try:

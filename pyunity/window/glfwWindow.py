@@ -3,6 +3,7 @@
 import glfw
 from ..errors import *
 from ..core import Clock
+from .. import config
 
 class Window:
     """
@@ -15,8 +16,7 @@ class Window:
 
     """
 
-    def __init__(self, config, name, resize):
-        self.config = config
+    def __init__(self, name, resize):
         self.resize = resize
         glfw.init()
 
@@ -57,7 +57,7 @@ class Window:
         """
         self.update_func = update_func
         clock = Clock()
-        clock.Start(60)
+        clock.Start(config.fps)
         while not glfw.window_should_close(self.window):
             glfw.poll_events()
             self.check_quit()

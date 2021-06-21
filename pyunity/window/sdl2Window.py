@@ -1,6 +1,7 @@
 """Class to create a window using Pygame."""
 
 from ..core import Clock
+from .. import config
 import sdl2
 import sdl2.ext
 from sdl2 import video
@@ -11,8 +12,7 @@ class Window:
 
     """
 
-    def __init__(self, config, name, resize):
-        self.config = config
+    def __init__(self, name, resize):
         self.resize = resize
 
         self.screen = sdl2.SDL_CreateWindow(
@@ -42,7 +42,7 @@ class Window:
 
         done = False
         clock = Clock()
-        clock.Start(60)
+        clock.Start(config.fps)
         while not done:
             events = sdl2.ext.get_events()
             for event in events:
