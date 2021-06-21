@@ -20,4 +20,8 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
     windowProvider = window.GetWindowProvider()
     del window
 
+    def SetWindowProvider(name):
+        global windowProvider
+        windowProvider = window.SetWindowProvider(name)
+
 del os

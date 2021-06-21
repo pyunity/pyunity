@@ -2,6 +2,7 @@
 
 import glfw
 from ..errors import *
+from ..core import Clock
 
 class Window:
     """
@@ -19,7 +20,6 @@ class Window:
         self.resize = resize
         glfw.init()
 
-        # glfw.window_hint(glfw.RESIZABLE, glfw.FALSE)
         self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
             glfw.terminate()
@@ -40,15 +40,11 @@ class Window:
         self.released = (False, None)
 
     def framebuffer_size_callback(self, window, width, height):
-        # if window != self.window:
-        #     return
         self.resize(width, height)
         self.update_func()
         glfw.swap_buffers(self.window)
 
     def key_callback(self, window, key, scancode, action, mods):
-        # if window != self.window:
-        #     return
         if action == glfw.PRESS:
             self.keys["up"][key] = 0
             self.keys["down"][key] = 1
@@ -83,7 +79,8 @@ class Window:
 
         """
         self.update_func = update_func
-        last = glfw.get_time()
+        clock = Clock()
+        clock.Start(60)
         while not glfw.window_should_close(self.window):
             glfw.poll_events()
             self.check_quit()
@@ -93,12 +90,8 @@ class Window:
 
             self.update_func()
             glfw.swap_buffers(self.window)
+            clock.Maintain()
 
-            while (glfw.get_time() < last + 1 / self.config.fps):
-                pass
-
-            last += 1 / self.config.fps
-        
         self.quit()
 
     def get_keys(self):
