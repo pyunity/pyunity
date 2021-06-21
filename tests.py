@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock
 import sys
 import math
+import os
 sys.modules["pygame"] = Mock()
 sys.modules["pygame.constants"] = Mock()
 sys.modules["sdl2"] = Mock()
@@ -13,6 +14,7 @@ sys.modules["OpenGL"] = Mock()
 sys.modules["OpenGL.GL"] = Mock()
 sys.modules["OpenGL.GLU"] = Mock()
 sys.modules["OpenGL.GLUT"] = Mock()
+os.environ["PYUNITY_TESTING"] = "1"
 
 from pyunity import *
 

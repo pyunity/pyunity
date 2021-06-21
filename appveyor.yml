@@ -24,7 +24,7 @@ environment:
       windows_location2: "C:\\Python36\\python"
 
 test_script:
-  - python -m unittest tests.py
+  # - python -m unittest tests.py
   - python prepare.py -x
   - python setup.py bdist_wheel
   - sphinx-apidoc -e -F -M -o docs/source pyunity pyunity/config.py pyunity/examples/*
