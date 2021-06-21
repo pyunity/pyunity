@@ -27,7 +27,6 @@ test_script:
   # - python -m unittest tests.py
   - python prepare.py -x
   - python setup.py bdist_wheel
-  - sphinx-apidoc -e -F -M -o docs/source pyunity pyunity/config.py pyunity/examples/*
   - sphinx-build -T -E -b html docs/source docs/en
 
 for:
