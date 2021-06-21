@@ -37,8 +37,8 @@ for:
     install:
       - source $venv/bin/activate
       - python -m pip install cython wheel sphinx pyglm pillow coverage
-      - coverage run -m unittest tests.py
-      - bash <(curl -s https://codecov.io/bash)
+      # - coverage run -m unittest tests.py
+      # - bash <(curl -s https://codecov.io/bash)
       - rm -rf docs/source/pyunity*
   - matrix:
       only:
