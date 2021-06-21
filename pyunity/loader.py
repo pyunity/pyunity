@@ -13,7 +13,7 @@ from .core import *
 from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
-from .audio import AudioSource
+from .audio import AudioSource, AudioListener
 from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
 from uuid import uuid4
 import inspect
@@ -294,7 +294,8 @@ components = {
     "MeshRenderer": MeshRenderer,
     "AABBoxCollider": AABBoxCollider,
     "SphereCollider": SphereCollider,
-    "AudioSource": AudioSource
+    "AudioSource": AudioSource,
+    "AudioListener": AudioListener
 }
 """List of all components by name"""
 
