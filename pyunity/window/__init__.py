@@ -61,8 +61,8 @@ def glutCheck():
     OpenGL.GLUT.glutInit()
 
 providers = {
-    "Pygame": ("pygameWindow", pygameCheck),
     "GLFW": ("glfwWindow", glfwCheck),
+    "Pygame": ("pygameWindow", pygameCheck),
     "GLUT": ("glutWindow", glutCheck),
 }
 
@@ -107,5 +107,5 @@ def SetWindowProvider(name):
         pass
     if windowProvider is None:
         raise PyUnityException("Cannot use window provider " + repr(name))
-    window = importlib.import_module(module, ".")
+    window = importlib.import_module("." + module, __name__)
     return window
