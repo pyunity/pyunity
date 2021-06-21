@@ -4,6 +4,10 @@ import sys
 import math
 sys.modules["pygame"] = Mock()
 sys.modules["pygame.constants"] = Mock()
+sys.modules["sdl2"] = Mock()
+sys.modules["sdl2.sdlmixer"] = Mock()
+sys.modules["sdl2.ext"] = Mock()
+sys.modules["sdl2.video"] = Mock()
 sys.modules["glfw"] = Mock()
 sys.modules["OpenGL"] = Mock()
 sys.modules["OpenGL.GL"] = Mock()
