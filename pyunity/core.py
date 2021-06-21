@@ -46,12 +46,13 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "Color",
+__all__ = ["Component", "GameObject", "Light", "Color", "Clock",
            "Material", "MeshRenderer", "Tag", "Transform"]
 
 import os
-from typing import List
 import glm
+import sys
+import time
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
@@ -674,3 +675,33 @@ class Color:
     @staticmethod
     def from_string(string):
         return Color(*list(map(int, string.split(", "))))
+
+class Clock:
+    def __init__(self):
+        self._fps = 60
+        self._frameDuration = 1 / self._fps
+    
+    @property
+    def fps(self):
+        return self._fps
+    
+    @fps.setter
+    def fps(self, value):
+        self._fps = value
+        self._frameDuration = 1 / self._fps
+    
+    def Start(self, fps=None):
+        if fps is not None:
+            self.fps = fps
+        self._start = time.time()
+
+    def Maintain(self):
+        self._end = time.time()
+        elapsedMS = self._end - self._start
+        sleep = self._frameDuration - elapsedMS
+        print(sleep)
+        if sleep < 0:
+            return sys.float_info.epsilon
+        time.sleep(sleep)
+        self._start = time.time()
+        return sleep

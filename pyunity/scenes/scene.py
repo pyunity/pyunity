@@ -18,7 +18,6 @@ from ..errors import *
 from time import time
 import os
 import math
-import pygame
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
@@ -354,11 +353,12 @@ class Scene:
 
     def no_interactive(self):
         done = False
-        clock = pygame.time.Clock()
+        clock = Clock()
+        clock.fps = config.fps
         while not done:
             try:
                 self.update_scripts()
-                clock.tick(config.fps)
+                clock.Maintain()
             except KeyboardInterrupt:
                 Logger.LogLine(Logger.DEBUG, "Exiting")
                 done = True
