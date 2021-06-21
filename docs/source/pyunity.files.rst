@@ -3,5 +3,5 @@ pyunity.files module
 
 .. automodule:: pyunity.files
    :members:
-   :undoc-members:
+   :inherited-members:
    :show-inheritance:
