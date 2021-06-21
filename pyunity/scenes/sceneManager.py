@@ -231,7 +231,7 @@ def __loadScene(scene):
     global windowObject, __running_scene
     __running_scene = scene
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
-        windowObject = window.window_providers[config.windowProvider](
+        windowObject = config.windowProvider.Window(
             config, scene.name, scene.mainCamera.Resize)
         render.compile_shaders()
         scene.Start()

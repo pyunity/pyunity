@@ -189,6 +189,7 @@ class Camera(SingleComponent):
 
     def __init__(self):
         super(Camera, self).__init__()
+        self.size = config.size
         self.near = 0.05
         self.far = 100
         self.fov = 90
@@ -205,8 +206,8 @@ class Camera(SingleComponent):
     def fov(self, fov):
         self._fov = fov
         self.projMat = glm.perspective(
-            glm.radians(self._fov / config.size[0] * config.size[1]),
-            config.size[0] / config.size[1],
+            glm.radians(self._fov / self.size[0] * self.size[1]),
+            self.size[0] / self.size[1],
             self.near,
             self.far)
 
@@ -223,14 +224,11 @@ class Camera(SingleComponent):
 
         """
         gl.glViewport(0, 0, width, height)
-        gl.glMatrixMode(gl.GL_PROJECTION)
-        gl.glLoadIdentity()
-        glu.gluPerspective(
-            self.fov / width * height,
-            width / height,
+        self.projMat = glm.perspective(
+            glm.radians(self._fov / self.size[0] * self.size[1]),
+            self.size[0] / self.size[1],
             self.near,
             self.far)
-        gl.glMatrixMode(gl.GL_MODELVIEW)
 
     def getMatrix(self, transform):
         rotation = transform.rotation.angleAxisPair
