@@ -148,6 +148,7 @@ from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
 from . import loader as Loader  # lgtm[py/import-own-module]
+from . import input as Input  # lgtm[py/import-own-module]
 from .physics import *
 from .errors import *
 from .files import *
@@ -155,6 +156,7 @@ from .scenes import sceneManager as SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
+from .input import KeyCode
 
 __version__ = "0.6.0"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
@@ -167,7 +169,7 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 from . import audio, core, physics, errors, files
 __all__ = ["__version__", "Vector3", "Quaternion",
            "SceneManager", "Mesh", "Loader",
-           "Logger", "Behaviour"]
+           "Logger", "Behaviour", "Input", "KeyCode"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
