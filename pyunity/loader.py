@@ -19,7 +19,6 @@ from uuid import uuid4
 import inspect
 import json
 import os
-# import random
 
 def LoadObj(filename):
     """
@@ -213,8 +212,27 @@ def SaveSceneToProject(scene, filePath=None):
     os.makedirs(directory, exist_ok=True)
 
     project = Project(directory, scene.name)
-    project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
     
+    project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
+    SaveScene(scene, directory, project)
+    return project
+
+def SaveAllScenes(name, filePath=None):
+    if filePath:
+        directory = os.path.dirname(os.path.realpath(filePath))
+    else:
+        directory = os.getcwd()
+    directory = os.path.join(directory, name)
+    os.makedirs(directory, exist_ok=True)
+
+    project = Project(directory, name)
+    
+    for scene in SceneManager.scenesByIndex:
+        SaveScene(scene, directory, project)
+        project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
+    return project
+
+def SaveScene(scene, directory, project):
     os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
@@ -299,6 +317,35 @@ components = {
 }
 """List of all components by name"""
 
+def parse_string(string):
+    if string.startswith("Vector3("):
+        return True, Vector3(*list(map(float, string[8:-1].split(", "))))
+    if string.startswith("Quaternion("):
+        return True, Quaternion(*list(map(float, string[11:-1].split(", "))))
+    if string in ["True", "False"]:
+        return True, string == "True"
+    if string == "None":
+        return True, None
+    if string.isdigit():
+        return True, int(string)
+    try:
+        return True, float(string)
+    except (ValueError, OverflowError):
+        pass
+    try:
+        return True, json.loads(string)
+    except json.decoder.JSONDecodeError:
+        pass
+    if string.startswith("(") and string.endswith(")"):
+        check, items = zip(*list(map(parse_string, string.split(", "))))
+        if all(check):
+            return True, tuple(items)
+    if string.startswith("[") and string.endswith("]"):
+        check, items = zip(*list(map(parse_string, string[1:-1].split(", "))))
+        if all(check):
+            return True, list(items)
+    return False, None
+
 def LoadProject(filePath):
     project = Project.from_folder(filePath)
     
@@ -343,14 +390,11 @@ def LoadProject(filePath):
             component = gameObject.AddComponent(component)
             ids[info.uuid] = component
             for name, value in reversed(info.attrs.items()):
-                if value in ids:
+                check, obj = parse_string(value)
+                if check:
+                    setattr(component, name, obj)
+                elif value in ids:
                     setattr(component, name, ids[value])
-                elif value.startswith("Vector3("):
-                    setattr(component, name, Vector3(*list(map(float, value[8:-1].split(", ")))))
-                elif value.startswith("Quaternion("):
-                    setattr(component, name, Quaternion(*list(map(float, value[11:-1].split(", ")))))
-                elif value in ["True", "False"]:
-                    setattr(component, name, value == "True")
                 elif value in project.files:
                     file = project.files[value][0]
                     if file.type == "Material":
