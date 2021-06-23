@@ -5,9 +5,12 @@ import os
 def main():
     scene = SceneManager.AddScene("Scene")
     if config.audio:
-        path = os.path.realpath(os.path.dirname(__file__))
+        path = os.path.abspath(os.path.dirname(__file__))
         clip = AudioClip(os.path.join(path, "explode.ogg"))
-        scene.mainCamera.AddComponent(AudioSource).SetClip(clip)
+        source = scene.mainCamera.AddComponent(AudioSource)
+        source.SetClip(clip)
+        source.PlayOnStart = True
+
     SceneManager.LoadScene(scene)
 
 
