@@ -20,8 +20,6 @@ if len(sys.argv) < 2:
             "(https://pypi.python.org/pypi/pyunity)\n",
             "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
             "(https://pypi.python.org/pypi/pyunity)\n",
-            "[![Commits since last release](https://img.shields.io/github/commits-since/pyunity/pyunity/latest?logo=github)]",
-            "(https://github.com/pyunity/pyunity/releases/latest)\n",
             "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)]",
             "(https://lgtm.com/projects/g/pyunity/pyunity/context:python)\n",
             "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
