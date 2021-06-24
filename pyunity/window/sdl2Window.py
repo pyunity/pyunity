@@ -1,7 +1,7 @@
 """Class to create a window using Pygame."""
 
 from ..core import Clock
-from ..input import KeyCode
+from ..input import KeyCode, KeyState
 from .. import config
 import sdl2
 import sdl2.ext

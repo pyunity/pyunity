@@ -149,6 +149,7 @@ from .audio import *
 from .core import *
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
+from .input import KeyCode, KeyState
 from .physics import *
 from .errors import *
 from .files import *
@@ -156,7 +157,6 @@ from .scenes import sceneManager as SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
 from .meshes import Mesh
-from .input import KeyCode
 
 __version__ = "0.6.0"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
