@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from .scenes import SceneManager
 
 class KeyCode(Enum):
     A = auto()
@@ -38,7 +39,6 @@ class KeyCode(Enum):
     Alpha7 = auto()
     Alpha8 = auto()
     Alpha9 = auto()
-    F0 = auto()
     F1 = auto()
     F2 = auto()
     F3 = auto()
@@ -81,7 +81,7 @@ def GetKey(keycode):
         If the key is pressed
     
     """
-    pass
+    return SceneManager.windowObject.GetKey(keycode)
 
 def GetKeyUp(keycode):
     """
@@ -98,7 +98,7 @@ def GetKeyUp(keycode):
         If the key is pressed
     
     """
-    pass
+    return SceneManager.windowObject.GetKeyUp(keycode)
 
 def GetKeyDown(keycode):
     """
@@ -115,4 +115,4 @@ def GetKeyDown(keycode):
         If the key is pressed
     
     """
-    pass
+    return SceneManager.windowObject.GetKeyDown(keycode)
