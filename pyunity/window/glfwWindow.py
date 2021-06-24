@@ -3,7 +3,7 @@
 import glfw
 from ..errors import *
 from ..core import Clock
-from ..input import KeyCode
+from ..input import KeyCode, KeyState
 from .. import config
 
 class Window:
@@ -31,11 +31,37 @@ class Window:
         self.resize = resize
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)
+        glfw.set_key_callback(self.window, self.key_callback)
+
+        self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
 
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)
         self.update_func()
         glfw.swap_buffers(window)
+    
+    def key_callback(self, window, key, scancode, action, mods):
+        if action == glfw.RELEASE:
+            self.keys[key] = KeyState.UP
+        elif action == glfw.PRESS:
+            if self.keys[key] == KeyState.NONE:
+                self.keys[key] = KeyState.PRESS
+            else:
+                self.keys[key] = KeyState.DOWN
+    
+    def check_keys(self):
+        for i in range(len(self.keys)):
+            if self.keys[i] == KeyState.UP:
+                self.keys[i] = KeyState.NONE
+
+    def get_key(self, keycode, keystate):
+        key = keyMap[keycode]
+        if keystate == KeyState.PRESS:
+            if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.keys[key] == keystate:
+            return True
+        return False
 
     def check_quit(self):
         alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
@@ -61,9 +87,10 @@ class Window:
         clock = Clock()
         clock.Start(config.fps)
         while not glfw.window_should_close(self.window):
-            glfw.poll_events()
             self.check_quit()
+            self.check_keys()
 
+            glfw.poll_events()
             self.update_func()
             glfw.swap_buffers(self.window)
             clock.Maintain()
