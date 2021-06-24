@@ -18,10 +18,7 @@ Logger.LogLine(Logger.DEBUG, "Loaded config")
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     from . import window
     windowProvider = window.GetWindowProvider()
-    del window
 
     def SetWindowProvider(name):
         global windowProvider
         windowProvider = window.SetWindowProvider(name)
-
-del os
