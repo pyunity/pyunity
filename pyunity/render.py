@@ -4,7 +4,6 @@ Classes to aid in rendering in a Scene.
 """
 from typing import Dict
 from OpenGL import GL as gl
-from OpenGL import GLU as glu
 from ctypes import c_float, c_ubyte, c_void_p
 from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
