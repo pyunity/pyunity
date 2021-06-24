@@ -6,7 +6,7 @@ of Scenes.
 
 from ..audio import *
 from ..core import *
-from .. import config, window
+from .. import config
 from ..errors import *
 from .scene import Scene
 from .. import logger as Logger
