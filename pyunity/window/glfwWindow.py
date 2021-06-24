@@ -3,6 +3,7 @@
 import glfw
 from ..errors import *
 from ..core import Clock
+from ..input import KeyCode
 from .. import config
 
 class Window:
@@ -67,3 +68,69 @@ class Window:
             clock.Maintain()
 
         self.quit()
+
+keyMap = {
+    KeyCode.A: glfw.KEY_A,
+    KeyCode.B: glfw.KEY_B,
+    KeyCode.C: glfw.KEY_C,
+    KeyCode.D: glfw.KEY_D,
+    KeyCode.E: glfw.KEY_E,
+    KeyCode.F: glfw.KEY_F,
+    KeyCode.G: glfw.KEY_G,
+    KeyCode.H: glfw.KEY_H,
+    KeyCode.I: glfw.KEY_I,
+    KeyCode.J: glfw.KEY_J,
+    KeyCode.K: glfw.KEY_K,
+    KeyCode.L: glfw.KEY_L,
+    KeyCode.M: glfw.KEY_M,
+    KeyCode.N: glfw.KEY_N,
+    KeyCode.O: glfw.KEY_O,
+    KeyCode.P: glfw.KEY_P,
+    KeyCode.Q: glfw.KEY_Q,
+    KeyCode.R: glfw.KEY_R,
+    KeyCode.S: glfw.KEY_S,
+    KeyCode.T: glfw.KEY_T,
+    KeyCode.U: glfw.KEY_U,
+    KeyCode.V: glfw.KEY_V,
+    KeyCode.W: glfw.KEY_W,
+    KeyCode.X: glfw.KEY_X,
+    KeyCode.Y: glfw.KEY_Y,
+    KeyCode.Z: glfw.KEY_Z,
+    KeyCode.Space: glfw.KEY_SPACE,
+    KeyCode.Alpha0: glfw.KEY_0,
+    KeyCode.Alpha1: glfw.KEY_1,
+    KeyCode.Alpha2: glfw.KEY_2,
+    KeyCode.Alpha3: glfw.KEY_3,
+    KeyCode.Alpha4: glfw.KEY_4,
+    KeyCode.Alpha5: glfw.KEY_5,
+    KeyCode.Alpha6: glfw.KEY_6,
+    KeyCode.Alpha7: glfw.KEY_7,
+    KeyCode.Alpha8: glfw.KEY_8,
+    KeyCode.Alpha9: glfw.KEY_9,
+    KeyCode.F1: glfw.KEY_F1,
+    KeyCode.F2: glfw.KEY_F2,
+    KeyCode.F3: glfw.KEY_F3,
+    KeyCode.F4: glfw.KEY_F4,
+    KeyCode.F5: glfw.KEY_F5,
+    KeyCode.F6: glfw.KEY_F6,
+    KeyCode.F7: glfw.KEY_F7,
+    KeyCode.F8: glfw.KEY_F8,
+    KeyCode.F9: glfw.KEY_F9,
+    KeyCode.F10: glfw.KEY_F10,
+    KeyCode.F11: glfw.KEY_F11,
+    KeyCode.F12: glfw.KEY_F12,
+    KeyCode.Keypad0: glfw.KEY_KP_0,
+    KeyCode.Keypad1: glfw.KEY_KP_1,
+    KeyCode.Keypad2: glfw.KEY_KP_2,
+    KeyCode.Keypad3: glfw.KEY_KP_3,
+    KeyCode.Keypad4: glfw.KEY_KP_4,
+    KeyCode.Keypad5: glfw.KEY_KP_5,
+    KeyCode.Keypad6: glfw.KEY_KP_6,
+    KeyCode.Keypad7: glfw.KEY_KP_7,
+    KeyCode.Keypad8: glfw.KEY_KP_8,
+    KeyCode.Keypad9: glfw.KEY_KP_9,
+    KeyCode.Up: glfw.KEY_UP,
+    KeyCode.Down: glfw.KEY_DOWN,
+    KeyCode.Left: glfw.KEY_LEFT,
+    KeyCode.Right: glfw.KEY_RIGHT
+}
