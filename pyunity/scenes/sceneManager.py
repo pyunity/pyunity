@@ -4,7 +4,6 @@ of Scenes.
 
 """
 
-from ..audio import *
 from ..core import *
 from .. import config
 from ..errors import *
