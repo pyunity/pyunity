@@ -17,7 +17,7 @@ import copy
 scenesByIndex = []
 scenesByName = {}
 windowObject = None
-__running_scene = None
+__running_scenes = []
 
 KeyboardInterruptKill = False
 
@@ -228,8 +228,8 @@ def LoadScene(scene):
     __loadScene(copy.deepcopy(scene))
 
 def __loadScene(scene):
-    global windowObject, __running_scene
-    __running_scene = scene
+    global windowObject
+    __running_scenes.append(scene)
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = config.windowProvider.Window(
             config, scene.name, scene.mainCamera.Resize)
@@ -259,8 +259,10 @@ def __loadScene(scene):
         else:
             scene.no_interactive()
     scene.clean_up()
-    __running_scene = None
+    __running_scenes.pop()
 
 def CurrentScene():
     """Gets the current scene being run"""
-    return __running_scene
+    if len(__running_scenes) == 0:
+        return None
+    return __running_scenes[-1]
