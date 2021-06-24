@@ -35,12 +35,13 @@ class Window:
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)
         self.update_func()
-        glfw.swap_buffers(self.window)
+        glfw.swap_buffers(window)
 
     def check_quit(self):
         alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
             self.window, glfw.KEY_RIGHT_ALT)
-        if glfw.get_key(self.window, glfw.KEY_ESCAPE) or (alt_pressed and glfw.get_key(self.window, glfw.KEY_F4)):
+        if glfw.get_key(self.window, glfw.KEY_ESCAPE) or \
+                (alt_pressed and glfw.get_key(self.window, glfw.KEY_F4)):
             glfw.set_window_should_close(self.window, 1)
 
     def quit(self):
