@@ -50,10 +50,9 @@ for:
       - "%windows_location2% -m virtualenv venv2"
       - venv2\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
-      
+
       - python prepare.py -x
       - python setup.py bdist_wheel
-      - sphinx-build -T -E -b html docs/source docs/en
       - venv\Scripts\activate
   - matrix:
       only:
