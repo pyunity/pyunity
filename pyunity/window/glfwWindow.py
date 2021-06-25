@@ -43,16 +43,17 @@ class Window:
     def key_callback(self, window, key, scancode, action, mods):
         if action == glfw.RELEASE:
             self.keys[key] = KeyState.UP
-        elif action == glfw.PRESS:
-            if self.keys[key] == KeyState.NONE:
-                self.keys[key] = KeyState.PRESS
-            else:
-                self.keys[key] = KeyState.DOWN
+        elif action == glfw.REPEAT:
+            self.keys[key] = KeyState.PRESS
+        else:
+            self.keys[key] = KeyState.DOWN
     
     def check_keys(self):
         for i in range(len(self.keys)):
             if self.keys[i] == KeyState.UP:
                 self.keys[i] = KeyState.NONE
+            elif self.keys[i] == KeyState.DOWN:
+                self.keys[i] = KeyState.PRESS
 
     def get_key(self, keycode, keystate):
         key = keyMap[keycode]
