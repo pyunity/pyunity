@@ -149,7 +149,7 @@ from .audio import *
 from .core import *
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
-from .input import KeyCode
+from .input import KeyCode, KeyState
 from .physics import *
 from .errors import *
 from .files import *
@@ -167,10 +167,9 @@ __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics, errors, files
-__all__ = ["Vector3", "Quaternion",
+__all__ = ["Vector3", "Quaternion", "KeyState",
            "SceneManager", "Mesh", "Loader",
-           "Input", "KeyCode", "Logger",
-           "Behaviour"]
+           "Logger", "Behaviour", "Input", "KeyCode"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
