@@ -1734,7 +1734,6 @@ static const char __pyx_k_componentInfo[] = "componentInfo";
 static const char __pyx_k_scenesByIndex[] = "scenesByIndex";
 static const char __pyx_k_write_project[] = "write_project";
 static const char __pyx_k_AABBoxCollider[] = "AABBoxCollider";
-static const char __pyx_k_PhysicMaterial[] = "PhysicMaterial";
 static const char __pyx_k_SphereCollider[] = "SphereCollider";
 static const char __pyx_k_gameObjectInfo[] = "gameObjectInfo";
 static const char __pyx_k_pyunity_loader[] = "pyunity.loader";
@@ -1802,7 +1801,6 @@ static PyObject *__pyx_n_s_ObjectInfo;
 static PyObject *__pyx_n_s_ObjectInfo___getattr;
 static PyObject *__pyx_n_s_ObjectInfo___init;
 static PyObject *__pyx_n_s_OverflowError;
-static PyObject *__pyx_n_s_PhysicMaterial;
 static PyObject *__pyx_kp_s_Primitive_preloaded_meshes_Do_n;
 static PyObject *__pyx_n_s_Primitives;
 static PyObject *__pyx_n_s_Primitives__path;
@@ -14225,7 +14223,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ObjectInfo___getattr, __pyx_k_ObjectInfo___getattr, sizeof(__pyx_k_ObjectInfo___getattr), 0, 0, 1, 1},
   {&__pyx_n_s_ObjectInfo___init, __pyx_k_ObjectInfo___init, sizeof(__pyx_k_ObjectInfo___init), 0, 0, 1, 1},
   {&__pyx_n_s_OverflowError, __pyx_k_OverflowError, sizeof(__pyx_k_OverflowError), 0, 0, 1, 1},
-  {&__pyx_n_s_PhysicMaterial, __pyx_k_PhysicMaterial, sizeof(__pyx_k_PhysicMaterial), 0, 0, 1, 1},
   {&__pyx_kp_s_Primitive_preloaded_meshes_Do_n, __pyx_k_Primitive_preloaded_meshes_Do_n, sizeof(__pyx_k_Primitive_preloaded_meshes_Do_n), 0, 0, 1, 0},
   {&__pyx_n_s_Primitives, __pyx_k_Primitives, sizeof(__pyx_k_Primitives), 0, 0, 1, 1},
   {&__pyx_n_s_Primitives__path, __pyx_k_Primitives__path, sizeof(__pyx_k_Primitives__path), 0, 0, 1, 1},
@@ -15152,7 +15149,7 @@ if (!__Pyx_RefNanny) {
  * from .files import Behaviour, Project, Scripts
  * from .render import Camera             # <<<<<<<<<<<<<<
  * from .audio import AudioSource, AudioListener
- * from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
+ * from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -15172,7 +15169,7 @@ if (!__Pyx_RefNanny) {
  * from .files import Behaviour, Project, Scripts
  * from .render import Camera
  * from .audio import AudioSource, AudioListener             # <<<<<<<<<<<<<<
- * from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
+ * from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial
  * from uuid import uuid4
  */
   __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
@@ -15199,11 +15196,11 @@ if (!__Pyx_RefNanny) {
   /* "pyunity/loader.py":17
  * from .render import Camera
  * from .audio import AudioSource, AudioListener
- * from .physics import AABBoxCollider, SphereCollider, PhysicMaterial             # <<<<<<<<<<<<<<
+ * from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial             # <<<<<<<<<<<<<<
  * from uuid import uuid4
  * import inspect
  */
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_AABBoxCollider);
   __Pyx_GIVEREF(__pyx_n_s_AABBoxCollider);
@@ -15211,9 +15208,6 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_SphereCollider);
   __Pyx_GIVEREF(__pyx_n_s_SphereCollider);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_SphereCollider);
-  __Pyx_INCREF(__pyx_n_s_PhysicMaterial);
-  __Pyx_GIVEREF(__pyx_n_s_PhysicMaterial);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_PhysicMaterial);
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_physics, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15225,15 +15219,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SphereCollider, __pyx_t_1) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_PhysicMaterial); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PhysicMaterial, __pyx_t_1) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pyunity/loader.py":18
  * from .audio import AudioSource, AudioListener
- * from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
+ * from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial
  * from uuid import uuid4             # <<<<<<<<<<<<<<
  * import inspect
  * import json
@@ -15253,7 +15243,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pyunity/loader.py":19
- * from .physics import AABBoxCollider, SphereCollider, PhysicMaterial
+ * from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial
  * from uuid import uuid4
  * import inspect             # <<<<<<<<<<<<<<
  * import json

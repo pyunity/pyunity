@@ -65,8 +65,8 @@ def glutCheck():
     OpenGL.GLUT.glutInit()
 
 providers = {
-    "PySDL2": ("sdl2Window", sdl2Check),
     "GLFW": ("glfwWindow", glfwCheck),
+    "PySDL2": ("sdl2Window", sdl2Check),
     "GLUT": ("glutWindow", glutCheck),
 }
 

@@ -1,4 +1,4 @@
-"""Class to create a window using Pygame."""
+"""Class to create a window using PySDL2."""
 
 from ..core import Clock
 from ..input import KeyCode, KeyState
@@ -9,7 +9,7 @@ from sdl2 import video
 
 class Window:
     """
-    A window provider that uses PyGame.
+    A window provider that uses PySDL2.
 
     """
 
