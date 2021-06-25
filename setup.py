@@ -56,7 +56,8 @@ setup(
     install_requires=[
         "pyopengl",
         "pillow",
-        "pygame",
+        "pysdl2",
+        "pysdl2-dll",
         "pyglm",
         "glfw",
     ],
