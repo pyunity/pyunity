@@ -3,8 +3,6 @@ from unittest.mock import Mock
 import sys
 import math
 import os
-sys.modules["pygame"] = Mock()
-sys.modules["pygame.constants"] = Mock()
 sys.modules["sdl2"] = Mock()
 sys.modules["sdl2.sdlmixer"] = Mock()
 sys.modules["sdl2.ext"] = Mock()
