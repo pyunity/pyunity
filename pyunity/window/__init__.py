@@ -50,11 +50,12 @@ def glfwCheck():
     glfw.create_window(5, 5, "a", None, None)
     glfw.terminate()
 
-def pygameCheck():
-    """Checks to see if Pygame works"""
-    checkModule("pygame")
-    import pygame
-    if pygame.init()[0] == 0:
+def sdl2Check():
+    """Checks to see if PySDL2 works"""
+    if not pkgutil.find_loader("sdl2"):
+        raise Exception
+    import sdl2
+    if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
         raise Exception
 
 def glutCheck():
@@ -64,8 +65,8 @@ def glutCheck():
     OpenGL.GLUT.glutInit()
 
 providers = {
+    "PySDL2": ("sdl2Window", sdl2Check),
     "GLFW": ("glfwWindow", glfwCheck),
-    "Pygame": ("pygameWindow", pygameCheck),
     "GLUT": ("glutWindow", glutCheck),
 }
 
