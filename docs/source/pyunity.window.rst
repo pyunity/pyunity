@@ -14,4 +14,5 @@ Submodules
 
    pyunity.window.glfwWindow
    pyunity.window.glutWindow
-   pyunity.window.pygameWindow
+   pyunity.window.sdl2Window
+   pyunity.window.templateWindow
