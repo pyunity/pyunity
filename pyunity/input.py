@@ -1,5 +1,4 @@
 from enum import Enum, auto
-from .scenes import SceneManager
 
 class KeyState(Enum):
     UP = auto()
@@ -87,6 +86,7 @@ def GetKey(keycode):
         If the key is pressed
     
     """
+    from .scenes import SceneManager
     return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
 
 def GetKeyUp(keycode):
@@ -104,6 +104,7 @@ def GetKeyUp(keycode):
         If the key is pressed
     
     """
+    from .scenes import SceneManager
     return SceneManager.windowObject.get_key(keycode, KeyState.UP)
 
 def GetKeyDown(keycode):
@@ -121,4 +122,5 @@ def GetKeyDown(keycode):
         If the key is pressed
     
     """
+    from .scenes import SceneManager
     return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
