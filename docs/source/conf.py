@@ -59,7 +59,7 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-autodoc_mock_imports = ["pygame", "glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.mixer"]
+autodoc_mock_imports = ["glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.sdlmixer", "sdl2.ext", "sdl2.video"]
 
 viewcode_enable_epub = True
 pygments_style = "friendly"

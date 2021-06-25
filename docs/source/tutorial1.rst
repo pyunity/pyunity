@@ -55,9 +55,9 @@ program it all! To start, we need to import PyUnity.
    >>> from pyunity import *
    Loaded config
    Trying GLFW as a window provider
-   GLFW doesn't work, trying Pygame
-   Trying Pygame as a window provider
-   Using window provider Pygame
+   GLFW doesn't work, trying PySDL2
+   Trying PySDL2 as a window provider
+   Using window provider PySDL2
    Loaded PyUnity version 0.4.0
 
 The output beneath the import is just for debug, you

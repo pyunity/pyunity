@@ -27,7 +27,7 @@ Cython to compile.
 
     > python setup.py install
 
-Its only dependencies are PyOpenGL, Pygame,
+Its only dependencies are PyOpenGL, PySDL2,
 GLFW, Pillow and PyGLM.
 
 Importing
@@ -44,8 +44,8 @@ This is the output with debugging::
 
     Loaded config
     Trying GLFW as a window provider
-    GLFW doesn't work, trying Pygame
-    Using window provider Pygame
+    GLFW doesn't work, trying PySDL2
+    Using window provider PySDL2
     Loaded PyUnity version 0.6.0
 
 If debugging is off, there is no output:
@@ -82,7 +82,7 @@ To see what you have added to the scene, call ``scene.List()``:
     /Cube
 
 Finally, to run the scene, call ``scene.Run()``. The window that
-is created is one of FreeGLUT, GLFW or Pygame. The window is
+is created is one of FreeGLUT, GLFW or PySDL2. The window is
 selected on module initialization (see Windows subheading).
 
 Behaviours
@@ -98,11 +98,11 @@ parameter, ``dt``, which is the same as ``Time.deltaTime``.
 Windows
 -------
 The window is provided by one of three
-providers: GLFW, Pygame and FreeGLUT.
+providers: GLFW, PySDL2 and FreeGLUT.
 When you first import PyUnity, it checks
 to see if any of the three providers
 work. The testing order is as above, so
-Pygame is tested last.
+FreeGLUT is tested last.
 
 To create your own provider, create a
 class that has the following methods:
@@ -127,8 +127,8 @@ To run an example, import it like so:
     Loaded config
     Trying FreeGLUT as a window provider
     FreeGLUT doesn't work, trying GLFW
-    GLFW doesn't work, trying Pygame
-    Using window provider Pygame
+    GLFW doesn't work, trying PySDL2
+    Using window provider PySDL2
     Loaded PyUnity version 0.6.0
     >>> main()
 
@@ -149,7 +149,7 @@ from .audio import *
 from .core import *
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import input as Input  # lgtm[py/import-own-module]
-from .input import KeyCode
+from .input import KeyCode, KeyState
 from .physics import *
 from .errors import *
 from .files import *
@@ -167,10 +167,9 @@ __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 from . import audio, core, physics, errors, files
-__all__ = ["__version__", "Vector3", "Quaternion",
+__all__ = ["Vector3", "Quaternion", "KeyState",
            "SceneManager", "Mesh", "Loader",
-           "Input", "KeyCode", "Logger",
-           "Behaviour"]
+           "Logger", "Behaviour", "Input", "KeyCode"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)

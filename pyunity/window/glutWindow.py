@@ -1,12 +1,13 @@
 """Class to create a window using FreeGLUT."""
 
 from OpenGL import GLUT as glut
+from ..input import KeyCode, KeyState
+from .. import config
 
 class Window:
     """A window provider that uses FreeGLUT."""
 
-    def __init__(self, config, name, resize):
-        self.config = config
+    def __init__(self, name, resize):
         self.resize = resize
 
         glut.glutInit()
