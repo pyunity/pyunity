@@ -3,6 +3,8 @@
 import glfw
 from ..errors import *
 from ..core import Clock
+from ..input import KeyCode, KeyState
+from .. import config
 
 class Window:
     """
@@ -15,8 +17,7 @@ class Window:
 
     """
 
-    def __init__(self, config, name, resize):
-        self.config = config
+    def __init__(self, name, resize):
         self.resize = resize
         glfw.init()
 
@@ -32,37 +33,41 @@ class Window:
             self.window, self.framebuffer_size_callback)
         glfw.set_key_callback(self.window, self.key_callback)
 
-        self.keys = {
-            "up": [0 for i in range(glfw.KEY_LAST)],
-            "down": [0 for i in range(glfw.KEY_LAST)],
-            "pressed": [0 for i in range(glfw.KEY_LAST)],
-        }
-        self.released = (False, None)
+        self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
 
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)
         self.update_func()
-        glfw.swap_buffers(self.window)
-
+        glfw.swap_buffers(window)
+    
     def key_callback(self, window, key, scancode, action, mods):
-        if action == glfw.PRESS:
-            self.keys["up"][key] = 0
-            self.keys["down"][key] = 1
-            self.keys["pressed"][key] = 1
+        if action == glfw.RELEASE:
+            self.keys[key] = KeyState.UP
         elif action == glfw.REPEAT:
-            self.keys["up"][key] = 0
-            self.keys["down"][key] = 0
-            self.keys["pressed"][key] = 1
+            self.keys[key] = KeyState.PRESS
         else:
-            self.keys["up"][key] = 1
-            self.keys["down"][key] = 0
-            self.keys["pressed"][key] = 0
-            self.released = (True, key)
+            self.keys[key] = KeyState.DOWN
+    
+    def check_keys(self):
+        for i in range(len(self.keys)):
+            if self.keys[i] == KeyState.UP:
+                self.keys[i] = KeyState.NONE
+            elif self.keys[i] == KeyState.DOWN:
+                self.keys[i] = KeyState.PRESS
+
+    def get_key(self, keycode, keystate):
+        key = keyMap[keycode]
+        if keystate == KeyState.PRESS:
+            if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.keys[key] == keystate:
+            return True
+        return False
 
     def check_quit(self):
         alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
             self.window, glfw.KEY_RIGHT_ALT)
-        if glfw.get_key(self.window, glfw.KEY_ESCAPE) or (alt_pressed and glfw.get_key(self.window, glfw.KEY_F4)):
+        if alt_pressed and glfw.get_key(self.window, glfw.KEY_F4):
             glfw.set_window_should_close(self.window, 1)
 
     def quit(self):
@@ -80,25 +85,80 @@ class Window:
         """
         self.update_func = update_func
         clock = Clock()
-        clock.Start(60)
+        clock.Start(config.fps)
         while not glfw.window_should_close(self.window):
-            glfw.poll_events()
             self.check_quit()
-            if self.released[0]:
-                self.keys["up"][self.released[1]] = 0
-                self.released = (False, None)
+            self.check_keys()
 
+            glfw.poll_events()
             self.update_func()
             glfw.swap_buffers(self.window)
             clock.Maintain()
 
         self.quit()
 
-    def get_keys(self):
-        return self.keys["pressed"]
-
-    def get_keys_down(self):
-        return self.keys["down"]
-
-    def get_keys_up(self):
-        return self.keys["up"]
+keyMap = {
+    KeyCode.A: glfw.KEY_A,
+    KeyCode.B: glfw.KEY_B,
+    KeyCode.C: glfw.KEY_C,
+    KeyCode.D: glfw.KEY_D,
+    KeyCode.E: glfw.KEY_E,
+    KeyCode.F: glfw.KEY_F,
+    KeyCode.G: glfw.KEY_G,
+    KeyCode.H: glfw.KEY_H,
+    KeyCode.I: glfw.KEY_I,
+    KeyCode.J: glfw.KEY_J,
+    KeyCode.K: glfw.KEY_K,
+    KeyCode.L: glfw.KEY_L,
+    KeyCode.M: glfw.KEY_M,
+    KeyCode.N: glfw.KEY_N,
+    KeyCode.O: glfw.KEY_O,
+    KeyCode.P: glfw.KEY_P,
+    KeyCode.Q: glfw.KEY_Q,
+    KeyCode.R: glfw.KEY_R,
+    KeyCode.S: glfw.KEY_S,
+    KeyCode.T: glfw.KEY_T,
+    KeyCode.U: glfw.KEY_U,
+    KeyCode.V: glfw.KEY_V,
+    KeyCode.W: glfw.KEY_W,
+    KeyCode.X: glfw.KEY_X,
+    KeyCode.Y: glfw.KEY_Y,
+    KeyCode.Z: glfw.KEY_Z,
+    KeyCode.Space: glfw.KEY_SPACE,
+    KeyCode.Alpha0: glfw.KEY_0,
+    KeyCode.Alpha1: glfw.KEY_1,
+    KeyCode.Alpha2: glfw.KEY_2,
+    KeyCode.Alpha3: glfw.KEY_3,
+    KeyCode.Alpha4: glfw.KEY_4,
+    KeyCode.Alpha5: glfw.KEY_5,
+    KeyCode.Alpha6: glfw.KEY_6,
+    KeyCode.Alpha7: glfw.KEY_7,
+    KeyCode.Alpha8: glfw.KEY_8,
+    KeyCode.Alpha9: glfw.KEY_9,
+    KeyCode.F1: glfw.KEY_F1,
+    KeyCode.F2: glfw.KEY_F2,
+    KeyCode.F3: glfw.KEY_F3,
+    KeyCode.F4: glfw.KEY_F4,
+    KeyCode.F5: glfw.KEY_F5,
+    KeyCode.F6: glfw.KEY_F6,
+    KeyCode.F7: glfw.KEY_F7,
+    KeyCode.F8: glfw.KEY_F8,
+    KeyCode.F9: glfw.KEY_F9,
+    KeyCode.F10: glfw.KEY_F10,
+    KeyCode.F11: glfw.KEY_F11,
+    KeyCode.F12: glfw.KEY_F12,
+    KeyCode.Keypad0: glfw.KEY_KP_0,
+    KeyCode.Keypad1: glfw.KEY_KP_1,
+    KeyCode.Keypad2: glfw.KEY_KP_2,
+    KeyCode.Keypad3: glfw.KEY_KP_3,
+    KeyCode.Keypad4: glfw.KEY_KP_4,
+    KeyCode.Keypad5: glfw.KEY_KP_5,
+    KeyCode.Keypad6: glfw.KEY_KP_6,
+    KeyCode.Keypad7: glfw.KEY_KP_7,
+    KeyCode.Keypad8: glfw.KEY_KP_8,
+    KeyCode.Keypad9: glfw.KEY_KP_9,
+    KeyCode.Up: glfw.KEY_UP,
+    KeyCode.Down: glfw.KEY_DOWN,
+    KeyCode.Left: glfw.KEY_LEFT,
+    KeyCode.Right: glfw.KEY_RIGHT
+}
