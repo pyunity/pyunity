@@ -35,6 +35,8 @@ class Window:
         sdl2.SDL_RenderClear(renderer)
         sdl2.SDL_RenderPresent(renderer)
 
+        self.keys = [KeyState.NONE for _ in range(sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
+
     def quit(self):
         pass
 
@@ -49,13 +51,38 @@ class Window:
             for event in events:
                 if event.type == sdl2.SDL_QUIT:
                     done = True
-            
+
+            self.process_keys(events)
             self.update_func()
             sdl2.SDL_GL_SwapWindow(self.screen)
 
             clock.Maintain()
 
         self.quit()
+    
+    def process_keys(self, events):
+        for i in range(len(self.keys)):
+            if self.keys[i] == KeyState.UP:
+                self.keys[i] = KeyState.NONE
+            elif self.keys[i] == KeyState.DOWN:
+                self.keys[i] = KeyState.PRESS
+        for event in events:
+            if event.type == sdl2.SDL_KEYDOWN:
+                if self.keys[event.key.keysym.scancode] == KeyState.NONE:
+                    self.keys[event.key.keysym.scancode] = KeyState.DOWN
+                else:
+                    self.keys[event.key.keysym.scancode] = KeyState.PRESS
+            elif event.type == sdl2.SDL_KEYUP:
+                self.keys[event.key.keysym.scancode] = KeyState.UP
+
+    def get_key(self, keycode, keystate):
+        key = keyMap[keycode]
+        if keystate == KeyState.PRESS:
+            if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.keys[key] == keystate:
+            return True
+        return False
 
 keyMap = {
     KeyCode.A: sdl2.SDL_SCANCODE_A,
