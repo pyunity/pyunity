@@ -38,7 +38,7 @@ class Window:
         self.keys = [KeyState.NONE for _ in range(sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
 
     def quit(self):
-        pass
+        sdl2.SDL_DestroyWindow(self.screen)
 
     def start(self, update_func):
         self.update_func = update_func
