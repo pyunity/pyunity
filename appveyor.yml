@@ -46,10 +46,11 @@ for:
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
       - del docs\source\pyunity*
+
       - "%windows_location2% -m virtualenv venv2"
       - venv2\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
-      - del docs\source\pyunity*
+      
       - python prepare.py -x
       - python setup.py bdist_wheel
       - sphinx-build -T -E -b html docs/source docs/en
