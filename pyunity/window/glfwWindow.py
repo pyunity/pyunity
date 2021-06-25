@@ -67,8 +67,7 @@ class Window:
     def check_quit(self):
         alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
             self.window, glfw.KEY_RIGHT_ALT)
-        if glfw.get_key(self.window, glfw.KEY_ESCAPE) or \
-                (alt_pressed and glfw.get_key(self.window, glfw.KEY_F4)):
+        if alt_pressed and glfw.get_key(self.window, glfw.KEY_F4):
             glfw.set_window_should_close(self.window, 1)
 
     def quit(self):
