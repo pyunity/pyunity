@@ -1,7 +1,6 @@
 image:
-  - Ubuntu
-  - Visual Studio 2017
   - Visual Studio 2019
+  - Ubuntu
   - macos
 
 environment:
@@ -41,20 +40,20 @@ for:
       - rm -rf docs/source/pyunity*
   - matrix:
       only:
-        - image: Visual Studio 2017
-    install:
-      - "%windows_location2% -m virtualenv venv"
-      - venv\Scripts\activate
-      - python -m pip install cython wheel sphinx pyglm pillow
-      - del docs\source\pyunity*
-  - matrix:
-      only:
         - image: Visual Studio 2019
     install:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install cython wheel sphinx pyglm pillow
       - del docs\source\pyunity*
+      - "%windows_location% -m virtualenv venv2"
+      - venv2\Scripts\activate
+      - python -m pip install cython wheel sphinx pyglm pillow
+      - del docs\source\pyunity*
+      - python prepare.py -x
+      - python setup.py bdist_wheel
+      - sphinx-build -T -E -b html docs/source docs/en
+      - venv\Scripts\activate
   - matrix:
       only:
         - image: macos
