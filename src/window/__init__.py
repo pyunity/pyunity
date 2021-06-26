@@ -31,6 +31,7 @@ pull request.
 
 from ..errors import *
 from .. import Logger
+from .. import config
 import os
 import pkgutil
 import importlib
@@ -112,4 +113,5 @@ def SetWindowProvider(name):
     if windowProvider is None:
         raise PyUnityException("Cannot use window provider " + repr(name))
     window = importlib.import_module("." + module, __name__)
+    config.windowProvider = window
     return window
