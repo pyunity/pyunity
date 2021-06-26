@@ -5,6 +5,7 @@ of Scenes.
 """
 
 from ..core import *
+from ..window import GetWindowProvider
 from .. import config
 from ..errors import *
 from .scene import Scene
@@ -12,6 +13,8 @@ from .. import logger as Logger
 from .. import render
 import os
 import copy
+
+config.windowProvider = GetWindowProvider()
 
 scenesByIndex = []
 scenesByName = {}
