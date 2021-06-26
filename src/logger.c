@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.logger",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\logger.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\logger.py"
         ]
     },
     "module_name": "pyunity.logger"

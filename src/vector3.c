@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.vector3",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\vector3.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\vector3.py"
         ]
     },
     "module_name": "pyunity.vector3"

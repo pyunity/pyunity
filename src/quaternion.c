@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.quaternion",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\quaternion.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\quaternion.py"
         ]
     },
     "module_name": "pyunity.quaternion"

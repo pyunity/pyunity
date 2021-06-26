@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.glutWindow",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\window\\glutWindow.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\window\\glutWindow.py"
         ]
     },
     "module_name": "pyunity.window.glutWindow"

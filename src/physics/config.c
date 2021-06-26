@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.physics.config",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\physics\\config.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\physics\\config.py"
         ]
     },
     "module_name": "pyunity.physics.config"

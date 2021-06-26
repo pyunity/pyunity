@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.templateWindow",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\window\\templateWindow.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\window\\templateWindow.py"
         ]
     },
     "module_name": "pyunity.window.templateWindow"

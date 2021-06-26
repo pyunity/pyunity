@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.window.sdl2Window",
         "sources": [
-            "C:\\Ray-Data\\pyunity\\pyunity\\window\\sdl2Window.py"
+            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\window\\sdl2Window.py"
         ]
     },
     "module_name": "pyunity.window.sdl2Window"
