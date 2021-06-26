@@ -77,9 +77,9 @@ The full code:
    >>> from pyunity import *
    Loaded config
    Trying GLFW as a window provider
-   GLFW doesn't work, trying Pygame
-   Trying Pygame as a window provider
-   Using window provider Pygame
+   GLFW doesn't work, trying PySDL2
+   Trying PySDL2 as a window provider
+   Using window provider PySDL2
    Loaded PyUnity version 0.4.0
    >>> scene = SceneManager.AddScene("Scene")
    >>> scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
