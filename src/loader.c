@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.loader",
         "sources": [
-            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\loader.py"
+            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\loader.py"
         ]
     },
     "module_name": "pyunity.loader"

@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.scenes.sceneManager",
         "sources": [
-            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\scenes\\sceneManager.py"
+            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\scenes\\sceneManager.py"
         ]
     },
     "module_name": "pyunity.scenes.sceneManager"

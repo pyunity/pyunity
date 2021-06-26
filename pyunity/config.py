@@ -11,13 +11,6 @@ size = (800, 500)
 fps = 60
 faceCulling = True
 audio: bool = True
+windowProvider = None
 
 Logger.LogLine(Logger.DEBUG, "Loaded config")
-
-if os.environ["PYUNITY_INTERACTIVE"] == "1":
-    from . import window
-    windowProvider = window.GetWindowProvider()
-
-    def SetWindowProvider(name):
-        global windowProvider
-        windowProvider = window.SetWindowProvider(name)

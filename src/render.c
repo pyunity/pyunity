@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.render",
         "sources": [
-            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\render.py"
+            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\render.py"
         ]
     },
     "module_name": "pyunity.render"

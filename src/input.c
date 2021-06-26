@@ -5,7 +5,7 @@
     "distutils": {
         "name": "pyunity.input",
         "sources": [
-            "C:\\Users\\edche\\OneDrive\\Documents\\Ray\\pyunity\\pyunity\\input.py"
+            "D:\\RayChen2\\Ray's docs and txts...anythin!\\python\\share\\pyunity\\pyunity\\input.py"
         ]
     },
     "module_name": "pyunity.input"
