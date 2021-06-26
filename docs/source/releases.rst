@@ -2,13 +2,23 @@
 Releases
 ========
 
+v0.5.2
+======
+Small minor fix of shader inclusion in binary distributions.
+
 v0.5.1
 ======
 Bugfix that fixes the shaders and dependency management.
 
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.5.2
+
 v0.5.0
 ======
 Big rendering update that completely rewrites rendering code and optimizes it.
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.5.1
 
 New features:
 
@@ -20,6 +30,9 @@ New features:
 - Textures
 - New lighting system
 - New meshes and mesh loading
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.5.0
 
 v0.4.0
 ======
