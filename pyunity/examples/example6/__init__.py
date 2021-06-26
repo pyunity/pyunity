@@ -3,10 +3,19 @@ import math
 
 rt50 = math.sqrt(50)
 
+def average(l):
+    return sum(l) / len(l)
+
 class Rotator(Behaviour):
+    def Start(self):
+        self.fps = []
+    
     def Update(self, dt):
         self.transform.localEulerAngles += Vector3(0, 45 * dt, 0)
-        Logger.Log(round(1 / dt, 3))
+        if len(self.fps) == 10:
+            self.fps.pop(0)
+        self.fps.append(1 / dt)
+        Logger.Log(round(average(self.fps), 3))
 
 def main():
     mat = Material(Color(255, 0, 0))
