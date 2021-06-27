@@ -31,8 +31,11 @@ class Window:
         clock = Clock()
         clock.Start(config.fps)
         while True:
-            self.update_func()
-            clock.Maintain()
+            try:
+                self.update_func()
+                clock.Maintain()
+            except KeyboardInterrupt:
+                break
 
         self.quit()
 
