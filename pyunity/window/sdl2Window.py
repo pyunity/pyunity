@@ -24,9 +24,12 @@ class Window:
 
         sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLEBUFFERS, 1)
         sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLESAMPLES, 8)
-        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
-        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_MINOR_VERSION, 3)
-        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.video.SDL_GL_CONTEXT_PROFILE_CORE)
+        sdl2.video.SDL_GL_SetAttribute(
+            sdl2.video.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+        sdl2.video.SDL_GL_SetAttribute(
+            sdl2.video.SDL_GL_CONTEXT_MINOR_VERSION, 3)
+        sdl2.video.SDL_GL_SetAttribute(
+            sdl2.video.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.video.SDL_GL_CONTEXT_PROFILE_CORE)
 
         self.context = sdl2.SDL_GL_CreateContext(self.screen)
 
@@ -35,7 +38,8 @@ class Window:
         sdl2.SDL_RenderClear(renderer)
         sdl2.SDL_RenderPresent(renderer)
 
-        self.keys = [KeyState.NONE for _ in range(sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
+        self.keys = [KeyState.NONE for _ in range(
+            sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
 
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)
@@ -59,7 +63,7 @@ class Window:
             clock.Maintain()
 
         self.quit()
-    
+
     def process_keys(self, events):
         for i in range(len(self.keys)):
             if self.keys[i] == KeyState.UP:
@@ -83,6 +87,7 @@ class Window:
         if self.keys[key] == keystate:
             return True
         return False
+
 
 keyMap = {
     KeyCode.A: sdl2.SDL_SCANCODE_A,
