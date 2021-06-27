@@ -2,6 +2,24 @@
 Releases
 ========
 
+v0.6.0
+======
+Project structure update.
+
+New features:
+
+- Replaced Pygame with PySDL2
+- Revamped audio module
+- Fixed input bugs
+- Added scene saving
+- Added project saving
+- Added project structure
+- Automated win32 builds on Appveyor
+- Removed redundant code from fixed function pipeline
+
+Download source code at
+https://github.com/rayzchen/pyunity/releases/tag/0.6.0
+
 v0.5.2
 ======
 Small minor fix of shader inclusion in binary distributions.
