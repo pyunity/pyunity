@@ -1,4 +1,4 @@
-from pyunity import SceneManager, GameObject, 
+from pyunity import *
 
 def main():
     scene = SceneManager.AddScene("Scene")

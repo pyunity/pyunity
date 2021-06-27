@@ -1,4 +1,4 @@
-from pyunity import Rotator, Behaviour, SceneManager, GameObject, 
+from pyunity import *
 
 class Rotator(Behaviour):
     def Update(self, dt):
