@@ -1,4 +1,4 @@
-from pyunity import *
+from pyunity import Behaviour, Logger, SceneManager, GameObject, Material, Color
 import os
 
 class Rotator(Behaviour):
