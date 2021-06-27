@@ -1,4 +1,4 @@
-from pyunity import *
+from pyunity import SceneManager
 
 def main():
     scene = SceneManager.AddScene("Scene")
