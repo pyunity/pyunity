@@ -43,9 +43,9 @@ class AudioSource(Component):
     Loop : bool
         Whether it loops or not. This is not
         fully supported.
-    
+
     """
-    
+
     attrs = ["PlayOnStart", "Loop"]
 
     def __init__(self):
@@ -56,10 +56,10 @@ class AudioSource(Component):
         channels += 1
         print(channels)
         mixer.Mix_AllocateChannels(channels)
-    
+
         self.PlayOnStart = False
         self.Loop = False
-    
+
     def SetClip(self, clip):
         """
         Sets a clip for the AudioSource to play.
@@ -68,7 +68,7 @@ class AudioSource(Component):
         ----------
         clip : AudioClip
             AudioClip to play
-        
+
         """
         self.clip = clip
 
@@ -84,16 +84,16 @@ class AudioSource(Component):
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
             print("Unable to play file: %s" % mixer.Mix_GetError())
-    
+
     def Stop(self):
         """
         Stops playing the AudioClip attached to the AudioSource.
-        
+
         """
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_HaltChannel(self.channel)
-    
+
     def Pause(self):
         """
         Pauses the AudioClip attached to the AudioSource.
@@ -102,7 +102,7 @@ class AudioSource(Component):
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_Pause(self.channel)
-    
+
     def UnPause(self):
         """
         Unpauses the AudioClip attached to the AudioSource.
@@ -111,7 +111,7 @@ class AudioSource(Component):
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_Resume(self.channel)
-    
+
     @property
     def Playing(self):
         """
@@ -135,7 +135,7 @@ class AudioClip:
         an SDL2 Mixer Channel.
         Only set when the AudioClip is played
         in an ``AudioSource``.
-    
+
     """
 
     def __init__(self, path):
@@ -159,13 +159,14 @@ class AudioListener(Component):
 
         """
         if mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-            print("SDL2_mixer could not be initialized!\nSDL_Error: %s" % SDL_GetError())
-    
+            print("SDL2_mixer could not be initialized!\nSDL_Error: %s" %
+                  SDL_GetError())
+
     def DeInit(self):
         """
         Stops all AudioSources, frees memory that is used by
         the AudioClips and de-initializes the SDL2 Mixer.
-        
+
         """
         from .scenes import SceneManager
         for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):

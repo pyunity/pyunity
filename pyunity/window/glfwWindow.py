@@ -39,7 +39,7 @@ class Window:
         self.resize(width, height)
         self.update_func()
         glfw.swap_buffers(window)
-    
+
     def key_callback(self, window, key, scancode, action, mods):
         if action == glfw.RELEASE:
             self.keys[key] = KeyState.UP
@@ -47,7 +47,7 @@ class Window:
             self.keys[key] = KeyState.PRESS
         else:
             self.keys[key] = KeyState.DOWN
-    
+
     def check_keys(self):
         for i in range(len(self.keys)):
             if self.keys[i] == KeyState.UP:
@@ -96,6 +96,7 @@ class Window:
             clock.Maintain()
 
         self.quit()
+
 
 keyMap = {
     KeyCode.A: glfw.KEY_A,

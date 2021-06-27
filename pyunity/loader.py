@@ -14,7 +14,7 @@ from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
 from .audio import AudioSource, AudioListener
-from .physics import AABBoxCollider, SphereCollider #, PhysicMaterial
+from .physics import AABBoxCollider, SphereCollider  # , PhysicMaterial
 from uuid import uuid4
 import inspect
 import json
@@ -212,7 +212,7 @@ def SaveSceneToProject(scene, filePath=None):
     os.makedirs(directory, exist_ok=True)
 
     project = Project(directory, scene.name)
-    
+
     project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
     SaveScene(scene, directory, project)
     return project
@@ -226,10 +226,11 @@ def SaveAllScenes(name, filePath=None):
     os.makedirs(directory, exist_ok=True)
 
     project = Project(directory, name)
-    
+
     for scene in SceneManager.scenesByIndex:
         SaveScene(scene, directory, project)
-        project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
+        project.import_file(os.path.join(
+            "Scenes", scene.name + ".scene"), None)
     return project
 
 def SaveScene(scene, directory, project):
@@ -237,18 +238,18 @@ def SaveScene(scene, directory, project):
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
     f.write("    name: " + json.dumps(scene.name) + "\n")
-    
+
     ids = {}
     for gameObject in scene.gameObjects:
         uuid = str(uuid4())
-        
+
         ids[id(gameObject)] = uuid
         f.write("GameObject : " + uuid + "\n")
         f.write("    name: " + json.dumps(gameObject.name) + "\n")
         f.write("    tag: " + str(gameObject.tag.tag) + "\n")
-        
+
         uuid = str(uuid4())
-        
+
         ids[id(gameObject.transform)] = uuid
 
         f.write("    transform: " + uuid + "\n")
@@ -258,21 +259,23 @@ def SaveScene(scene, directory, project):
                 uuid = ids[id(component)]
             else:
                 uuid = str(uuid4())
-                
+
                 ids[id(component)] = uuid
-            
+
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
-                path = os.path.join(directory, "Scripts", type(component).__name__ + ".py")
+                path = os.path.join(directory, "Scripts",
+                                    type(component).__name__ + ".py")
                 os.makedirs(os.path.dirname(path), exist_ok=True)
                 with open(path, "w+") as f2:
                     f2.write(GetImports(inspect.getfile(type(component))))
                     f2.write(inspect.getsource(type(component)))
-                project.import_file(os.path.join("Scripts", type(component).__name__ + ".py"), "Behaviour", uuid)
+                project.import_file(os.path.join("Scripts", type(
+                    component).__name__ + ".py"), "Behaviour", uuid)
             else:
                 name = type(component).__name__ + "(Component)"
             f.write(name + " : " + uuid + "\n")
-            
+
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             for attr in component.attrs:
                 value = getattr(component, attr)
@@ -281,19 +284,22 @@ def SaveScene(scene, directory, project):
                         written = ids[id(value)]
                     else:
                         written = str(uuid4())
-                        SaveMesh(value, gameObject.name, os.path.join(directory, "Meshes", gameObject.name + ".mesh"))
-                        project.import_file(os.path.join("Meshes", gameObject.name + ".mesh"), "Mesh", written)
+                        SaveMesh(value, gameObject.name, os.path.join(
+                            directory, "Meshes", gameObject.name + ".mesh"))
+                        project.import_file(os.path.join(
+                            "Meshes", gameObject.name + ".mesh"), "Mesh", written)
                 elif isinstance(value, Material):
                     if id(value) in ids:
                         written = ids[id(value)]
                     else:
                         written = str(uuid4())
                         project.save_mat(value, gameObject.name)
-                        project.import_file(os.path.join("Materials", gameObject.name + ".mat"), "Material", written)
+                        project.import_file(os.path.join(
+                            "Materials", gameObject.name + ".mat"), "Material", written)
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
-        
+
         project.write_project()
 
 class ObjectInfo:
@@ -301,9 +307,10 @@ class ObjectInfo:
         self.uuid = uuid
         self.type = type
         self.attrs = attrs
-    
+
     def __getattr__(self, attr):
         return self.attrs[attr]
+
 
 components = {
     "Transform": Transform,
@@ -348,29 +355,31 @@ def parse_string(string):
 
 def LoadProject(filePath):
     project = Project.from_folder(filePath)
-    
-    scenes = [value[1] for value in project.files.values() if value[0].type == "Scene"]
+
+    scenes = [value[1]
+              for value in project.files.values() if value[0].type == "Scene"]
     for path in scenes:
         with open(os.path.join(project.path, path), "r") as f:
             lines = f.read().rstrip().splitlines()
-        
+
         data = []
         for line in lines:
             if not line.startswith("    "):
                 data.append([line])
             else:
                 data[-1].append(line)
-        
+
         infos = []
         for info in data:
             type_, uuid = info[0].split(" : ")
-            attrs = {attr: value for attr, value in map(lambda x: x[4:].split(": "), info[1:])}
+            attrs = {attr: value for attr, value in map(
+                lambda x: x[4:].split(": "), info[1:])}
             infos.append(ObjectInfo(uuid, type_, attrs))
-        
+
         gameObjectInfo = list(filter(lambda x: x.type == "GameObject", infos))
         componentInfo = list(filter(lambda x: "(Component)" in x.type, infos))
         behaviourInfo = list(filter(lambda x: "(Behaviour)" in x.type, infos))
-        
+
         scene_info = infos.pop(0)
         scene = SceneManager.AddBareScene(json.loads(scene_info.name))
 
@@ -382,7 +391,7 @@ def LoadProject(filePath):
             gameObjects.append(gameObject)
             gameObject.tag = Tag(int(info.tag))
             ids[info.uuid] = gameObject
-        
+
         for info in componentInfo:
             gameObject = ids[info.gameObject]
             del info.attrs["gameObject"]
@@ -402,7 +411,7 @@ def LoadProject(filePath):
                     elif file.type == "Mesh":
                         obj = LoadMesh(os.path.join(project.path, file.path))
                     setattr(component, name, obj)
-        
+
         for info in behaviourInfo:
             gameObject = ids[info.gameObject]
             del info.attrs["gameObject"]
@@ -411,8 +420,9 @@ def LoadProject(filePath):
 
         for gameObject in gameObjects:
             scene.Add(gameObject)
-        
-        scene.mainCamera = scene.FindGameObjectsByName("Main Camera")[0].GetComponent(Camera)
+
+        scene.mainCamera = scene.FindGameObjectsByName(
+            "Main Camera")[0].GetComponent(Camera)
 
     return project
 

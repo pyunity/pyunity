@@ -9,7 +9,7 @@ def average(l):
 class Rotator(Behaviour):
     def Start(self):
         self.fps = []
-    
+
     def Update(self, dt):
         self.transform.localEulerAngles += Vector3(0, 45 * dt, 0)
         if len(self.fps) == 10:

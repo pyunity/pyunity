@@ -45,6 +45,6 @@ class Window:
         """Function to render in the scene."""
         self.update_func()
         glut.glutSwapBuffers()
-    
+
     def quit(self):
         glut.glutDestroyWindow(glut.glutGetWindow())
