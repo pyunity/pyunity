@@ -36,7 +36,7 @@ GLFW, Pillow and PyGLM.
 For more information check out :doc:`the API Documentation <api>` 
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
    :caption: Contents:
 
    releases

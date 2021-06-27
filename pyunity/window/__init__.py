@@ -1,10 +1,6 @@
 """
-pyunity.window
-==============
 A module used to load the window providers.
 
-Windows
--------
 The window is provided by one of three
 providers: GLFW, PySDL2 and GLUT.
 When you first import PyUnity, it checks
