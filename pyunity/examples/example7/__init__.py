@@ -1,4 +1,4 @@
-from pyunity import *
+from pyunity import Behaviour, GameObject, SceneManager, Material, Color, Mesh
 
 class Switch(Behaviour):
     a = 3
