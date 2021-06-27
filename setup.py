@@ -29,7 +29,7 @@ else:
 
 setup(
     name="pyunity",
-    version="0.6.0",
+    version="0.7.0",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
