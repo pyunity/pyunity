@@ -33,7 +33,7 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel pyglm pillow coverage
+      - python -m pip install cython wheel pyglm pillow autopep8 coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
       - rm -rf docs/source/pyunity*
@@ -43,12 +43,12 @@ for:
     install:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
-      - python -m pip install cython wheel pyglm pillow
+      - python -m pip install cython wheel pyglm pillow autopep8
       - del docs\source\pyunity*
 
       - "%windows_location2% -m virtualenv venv2"
       - venv2\Scripts\activate
-      - python -m pip install cython wheel pyglm pillow
+      - python -m pip install cython wheel pyglm pillow autopep8
 
       - python prepare.py -x
       - python setup.py bdist_wheel
@@ -58,7 +58,7 @@ for:
         - image: macos
     install:
       - source $venv/bin/activate
-      - python -m pip install cython wheel pyglm pillow
+      - python -m pip install cython wheel pyglm pillow autopep8
       - rm -rf docs/source/pyunity*
 
 build: off

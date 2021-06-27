@@ -6,6 +6,11 @@ import pkgutil
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
+if pkgutil.find_loader("autopep8") is None:
+    raise Exception("autopep8 is needed to parse the source code.")
+import autopep8
+autopep8.main(["-i", "-r", "--ignore", "E301,E302", "pyunity", "setup.py", "prepare.py", "cli.py"])
+
 if len(sys.argv) < 2:
     import pyunity
     desc = pyunity.__doc__.split("\n")

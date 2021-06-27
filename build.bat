@@ -1,7 +1,6 @@
 @ECHO OFF
 
 py tests.py
-py -m autopep8 -i -r --ignore E301,E302 pyunity setup.py prepare.py cli.py
 py prepare.py
 py -3.6 setup.py build -c mingw32 bdist_wheel -d dist\0.7.0\
 py -3.7 setup.py build -c mingw32 bdist_wheel -d dist\0.7.0\
