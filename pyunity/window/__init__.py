@@ -61,6 +61,7 @@ def glutCheck():
     import OpenGL.GLUT
     OpenGL.GLUT.glutInit()
 
+
 providers = {
     "GLFW": ("glfwWindow", glfwCheck),
     "PySDL2": ("sdl2Window", sdl2Check),
@@ -98,7 +99,8 @@ def GetWindowProvider():
 
 def SetWindowProvider(name):
     if name not in providers:
-        raise PyUnityException("No window provider named " + repr(name) + " found")
+        raise PyUnityException(
+            "No window provider named " + repr(name) + " found")
     module, checker = providers[name]
     windowProvider = None
     try:

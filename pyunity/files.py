@@ -131,7 +131,8 @@ class Scripts:
             module = sys.modules["PyUnityScripts"]
         else:
             if "PyUnityScripts" in sys.modules:
-                Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
+                Logger.LogLine(
+                    Logger.WARN, "PyUnityScripts is already a package!")
             module = ModuleType("PyUnityScripts", None)
             module.__pyunity__ = True
             module.__all__ = []
@@ -213,16 +214,16 @@ class Project:
         self.firstScene = 0
         self.files = {}
         self.file_paths = {}
-    
+
     def import_file(self, localPath, type, uuid=None):
         file = File(localPath, type, uuid)
         self.files[file.uuid] = (file, localPath)
         self.file_paths[localPath] = file
         return file
-    
+
     def get_file_obj(self, uuid):
         return self.files[uuid][0].obj
-    
+
     def write_project(self):
         with open(os.path.join(self.path, self.name + ".pyunity"), "w+") as f:
             f.write("Project\n")
@@ -231,22 +232,23 @@ class Project:
             f.write("Files\n")
             for uuid, file in self.files.items():
                 f.write("    " + uuid + ": " + file[1] + "\n")
-    
+
     @staticmethod
     def from_folder(filePath):
         if not os.path.isdir(filePath):
             raise ValueError("The specified folder does not exist")
-        
+
         files = glob.glob(os.path.join(filePath, "*.pyunity"))
         if len(files) == 0:
             raise ValueError("The specified folder is not a PyUnity project")
         elif len(files) > 1:
-            raise ValueError("Ambiguity in specified folder: " + str(len(files)) + " project files found")
+            raise ValueError("Ambiguity in specified folder: " +
+                             str(len(files)) + " project files found")
         file = files[0]
 
         with open(file) as f:
             lines = f.read().rstrip().splitlines()
-        
+
         data = {}
         lines.pop(0)
         for line in lines:
@@ -254,13 +256,13 @@ class Project:
                 break
             name, value = line[4:].split(": ")
             data[name] = value
-        
+
         data["files"] = {}
         lines = lines[lines.index("Files") + 1:]
         for line in lines:
             name, value = line[4:].split(": ")
             data["files"][name] = value
-        
+
         project = Project(filePath, data["name"])
         for uuid, path in data["files"].items():
             type_ = os.path.splitext(path)[1][1:].capitalize()
@@ -269,16 +271,17 @@ class Project:
             elif type_ == "Mat":
                 type_ = "Material"
             project.import_file(path, type_, uuid)
-        
+
         return project
-    
+
     def save_mat(self, mat, name):
         directory = os.path.join(self.path, "Materials")
         os.makedirs(directory, exist_ok=True)
 
         if mat.texture is not None:
             if os.path.join("Textures", name + ".png") in self.file_paths:
-                uuid = self.file_paths[os.path.join("Textures", name + ".png")].uuid
+                uuid = self.file_paths[os.path.join(
+                    "Textures", name + ".png")].uuid
             else:
                 path = os.path.join(self.path, "Textures", name + ".png")
                 os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -291,23 +294,24 @@ class Project:
             f.write("Material\n")
             f.write("    albedoColor: " + mat.color.to_string() + "\n")
             f.write("    albedoTexture: " + uuid + "\n")
-    
+
     def load_mat(self, file):
         with open(os.path.join(self.path, file.path)) as f:
             lines = f.read().rstrip().splitlines()
-        
+
         lines.pop(0)
-        
+
         data = {}
         for line in lines:
             name, value = line[4:].split(": ")
             data[name] = value
-        
+
         color = Color.from_string(data["albedoColor"])
         material = Material(color)
         if "albedoTexture" in data and data["albedoTexture"] != "None":
             uuid = data["albedoTexture"]
             if self.files[uuid].obj != "None":
-                self.files[uuid].obj = Texture2D(os.path.join(self.path, self.files[uuid].path))
+                self.files[uuid].obj = Texture2D(
+                    os.path.join(self.path, self.files[uuid].path))
             material.texture = self.files[uuid].obj
         return material

@@ -80,12 +80,12 @@ def GetKey(keycode):
     ----------
     keycode : KeyCode
         Key to query
-    
+
     Returns
     -------
     boolean
         If the key is pressed
-    
+
     """
     return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
 
@@ -97,12 +97,12 @@ def GetKeyUp(keycode):
     ----------
     keycode : KeyCode
         Key to query
-    
+
     Returns
     -------
     boolean
         If the key is pressed
-    
+
     """
     return SceneManager.windowObject.get_key(keycode, KeyState.UP)
 
@@ -114,11 +114,11 @@ def GetKeyDown(keycode):
     ----------
     keycode : KeyCode
         Key to query
-    
+
     Returns
     -------
     boolean
         If the key is pressed
-    
+
     """
     return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
