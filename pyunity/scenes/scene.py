@@ -48,7 +48,7 @@ class Scene:
         light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
-    
+
     @staticmethod
     def Bare(name):
         cls = Scene.__new__(Scene)
@@ -94,7 +94,8 @@ class Scene:
             raise PyUnityException(
                 "The provided GameObject is not part of the Scene")
         if gameObject is self.mainCamera:
-            Logger.LogLine(Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
+            Logger.LogLine(
+                Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
 
     def List(self):
         """Lists all the GameObjects currently in the scene."""
@@ -183,7 +184,7 @@ class Scene:
         -------
         Component
             The matching Component
-        
+
         Raises
         ------
         ComponentException
@@ -195,7 +196,8 @@ class Scene:
             if query is not None:
                 break
         if query is None:
-            raise ComponentException("Cannot find component " + component.__name__ + " in scene")
+            raise ComponentException(
+                "Cannot find component " + component.__name__ + " in scene")
         return query
 
     def FindComponentsByType(self, component):
@@ -280,10 +282,12 @@ class Scene:
 
         audioListeners = self.FindComponentsByType(AudioListener)
         if len(audioListeners) == 0:
-            Logger.LogLine(Logger.WARN, "No AudioListeners found, audio is disabled")
+            Logger.LogLine(
+                Logger.WARN, "No AudioListeners found, audio is disabled")
             self.audioListener = None
         elif len(audioListeners) > 1:
-            Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " + str(len(audioListeners)) + " found")
+            Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
+                           str(len(audioListeners)) + " found")
             self.audioListener = None
         else:
             self.audioListener = audioListeners[0]
@@ -300,7 +304,7 @@ class Scene:
                     mesh = component.mesh
                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
                     mesh.vao = render.gen_array()
-        
+
         self.physics = any(
             isinstance(
                 component, physics.Collider
@@ -376,7 +380,7 @@ class Scene:
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
             self.mainCamera.Render(self.gameObjects)
-    
+
     def clean_up(self):
         if self.audioListener is not None:
             self.audioListener.DeInit()

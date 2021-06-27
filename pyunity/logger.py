@@ -84,7 +84,8 @@ def LogLine(level, *message):
         if level.name is not None:
             print(msg)
     with open(os.path.join(folder, "latest.log"), "a") as f:
-        f.write(strftime("%Y-%m-%d %H:%M:%S") + " |" + level.abbr + "| " + msg + "\n")
+        f.write(strftime("%Y-%m-%d %H:%M:%S") +
+                " |" + level.abbr + "| " + msg + "\n")
 
 def LogException(e):
     """

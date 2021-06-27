@@ -1,9 +1,24 @@
-from pyunity import SceneManager
+from pyunity import Behaviour, Vector3, Loader, SceneManager, GameObject, MeshRenderer, Material, Color
+
+class Rotator(Behaviour):
+    def Update(self, dt):
+        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
     scene = SceneManager.AddScene("Scene")
 
+    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
+
+    cube = GameObject("Cube")
+    cube.AddComponent(Rotator)
+    renderer = cube.AddComponent(MeshRenderer)
+    renderer.mesh = Loader.Primitives.cube
+    renderer.mat = Material(Color(0, 255, 0))
+    scene.Add(cube)
+
+    scene.List()
     SceneManager.LoadScene(scene)
+
 
 if __name__ == "__main__":
     main()

@@ -152,7 +152,7 @@ class GameObject:
         if parent:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
-    
+
     @staticmethod
     def BareObject(name="GameObject"):
         obj = GameObject.__new__(GameObject)
@@ -204,7 +204,7 @@ class GameObject:
         ----------
         componentClass : Component
             Component to get. Must inherit from ``Component``
-        
+
         Returns
         -------
         Component or None
@@ -216,7 +216,7 @@ class GameObject:
                 return component
 
         return None
-    
+
     def RemoveComponent(self, componentClass):
         """
         Removes the first matching component from a GameObject.
@@ -232,13 +232,15 @@ class GameObject:
             If the GameObject doesn't have the specified component
         ComponentException
             If the specified component is a Transform
-        
+
         """
         component = self.GetComponent(componentClass)
         if component is None:
-            raise ComponentException("Cannot remove " + componentClass.__name__ + "from the GameObject, it doesn't have one")
+            raise ComponentException(
+                "Cannot remove " + componentClass.__name__ + "from the GameObject, it doesn't have one")
         if componentClass is Transform:
-            raise ComponentException("Cannot remove a Transform from a GameObject")
+            raise ComponentException(
+                "Cannot remove a Transform from a GameObject")
         self.components.remove(component)
 
     def GetComponents(self, componentClass):
@@ -249,7 +251,7 @@ class GameObject:
         ----------
         componentClass : Component
             Component to get. Must inherit from ``Component``
-        
+
         Returns
         -------
         list
@@ -258,7 +260,7 @@ class GameObject:
         """
 
         return [component for component in self.components if isinstance(component, componentClass)]
-    
+
     def RemoveComponents(self, componentClass):
         """
         Removes all matching component from a GameObject.
@@ -272,11 +274,12 @@ class GameObject:
         ------
         ComponentException
             If the specified component is a Transform
-        
+
         """
         components = self.GetComponents(componentClass)
         if componentClass is Transform:
-            raise ComponentException("Cannot remove a Transform from a GameObject")
+            raise ComponentException(
+                "Cannot remove a Transform from a GameObject")
         for component in components:
             self.components.remove(component)
 
@@ -664,14 +667,14 @@ class Color:
 
     def __truediv__(self, other):
         return self.r / other, self.g / other, self.b / other
-    
+
     def __repr__(self):
         return "Color(" + self.to_string + ")"
     __str__ = __repr__
-    
+
     def to_string(self):
         return "{}, {}, {}".format(self.r, self.g, self.b)
-    
+
     @staticmethod
     def from_string(string):
         return Color(*list(map(int, string.split(", "))))
@@ -680,16 +683,16 @@ class Clock:
     def __init__(self):
         self._fps = 60
         self._frameDuration = 1 / self._fps
-    
+
     @property
     def fps(self):
         return self._fps
-    
+
     @fps.setter
     def fps(self, value):
         self._fps = value
         self._frameDuration = 1 / self._fps
-    
+
     def Start(self, fps=None):
         if fps is not None:
             self.fps = fps

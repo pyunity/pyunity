@@ -144,6 +144,7 @@ create a new pull request.
 
 """
 
+import os
 from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
@@ -176,7 +177,6 @@ __all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
 __all__.extend(files.__all__)
 
-import os
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = window.GetWindowProvider()
