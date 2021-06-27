@@ -1,4 +1,4 @@
-from pyunity import *
+from pyunity import SceneManager, GameObject, Material, Color, MeshRenderer, Vector3, Mesh, RidigBody, AABBoxCollider, 
 
 def main():
     scene = SceneManager.AddScene("Scene")
