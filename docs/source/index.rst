@@ -2,7 +2,7 @@
 Welcome to PyUnity's documentation!
 ===================================
 
-Version 0.6.0 (in development)
+Version 0.7.0 (in development)
 ------------------------------
 PyUnity is a Python implementation of the
 Unity Engine, written in C++. This is just
