@@ -1,4 +1,4 @@
-from pyunity import Behaviour, Vector3, Logger, Material, Color, SceneManager, GameObject, MeshRenderer, Loader, 
+from pyunity import Behaviour, Vector3, Logger, Material, Color, SceneManager, GameObject, MeshRenderer, Loader
 import math
 
 rt50 = math.sqrt(50)
