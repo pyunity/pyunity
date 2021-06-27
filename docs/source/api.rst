@@ -9,9 +9,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   pyunity.physics
-   pyunity.scenes
-   pyunity.window
+   api/pyunity.physics
+   api/pyunity.scenes
+   api/pyunity.window
 
 Submodules
 ----------
@@ -19,15 +19,15 @@ Submodules
 .. toctree::
    :maxdepth: 4
    
-   pyunity
-   pyunity.audio
-   pyunity.core
-   pyunity.errors
-   pyunity.files
-   pyunity.input
-   pyunity.loader
-   pyunity.logger
-   pyunity.meshes
-   pyunity.quaternion
-   pyunity.render
-   pyunity.vector3
+   api/pyunity
+   api/pyunity.audio
+   api/pyunity.core
+   api/pyunity.errors
+   api/pyunity.files
+   api/pyunity.input
+   api/pyunity.loader
+   api/pyunity.logger
+   api/pyunity.meshes
+   api/pyunity.quaternion
+   api/pyunity.render
+   api/pyunity.vector3
