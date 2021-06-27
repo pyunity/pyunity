@@ -5,7 +5,7 @@ from ..input import KeyCode, KeyState
 from .. import config
 import sdl2
 import sdl2.ext
-from sdl2 import video
+import sdl2.video
 
 class Window:
     """
@@ -22,11 +22,11 @@ class Window:
             sdl2.SDL_WINDOW_OPENGL
         )
 
-        video.SDL_GL_SetAttribute(video.SDL_GL_MULTISAMPLEBUFFERS, 1)
-        video.SDL_GL_SetAttribute(video.SDL_GL_MULTISAMPLESAMPLES, 8)
-        video.SDL_GL_SetAttribute(video.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
-        video.SDL_GL_SetAttribute(video.SDL_GL_CONTEXT_MINOR_VERSION, 3)
-        video.SDL_GL_SetAttribute(video.SDL_GL_CONTEXT_PROFILE_MASK, video.SDL_GL_CONTEXT_PROFILE_CORE)
+        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLEBUFFERS, 1)
+        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLESAMPLES, 8)
+        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_MINOR_VERSION, 3)
+        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.video.SDL_GL_CONTEXT_PROFILE_CORE)
 
         self.context = sdl2.SDL_GL_CreateContext(self.screen)
 
