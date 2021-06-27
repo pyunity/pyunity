@@ -14,7 +14,8 @@ from .. import render
 import os
 import copy
 
-config.windowProvider = GetWindowProvider()
+if "PYUNITY_TESTING" not in os.environ:
+    config.windowProvider = GetWindowProvider()
 
 scenesByIndex = []
 scenesByName = {}
