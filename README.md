@@ -11,7 +11,7 @@
 [![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
 
-## Version 0.6.0 (in development)
+## Version 0.7.0 (in development)
 PyUnity is a Python implementation of the
 Unity Engine, written in C++. This is just
 a fun project and many features have been
@@ -54,7 +54,7 @@ This is the output with debugging:
     Trying GLFW as a window provider
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.6.0
+    Loaded PyUnity version 0.7.0
 
 If debugging is off, there is no output:
 
@@ -133,7 +133,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.6.0
+    Loaded PyUnity version 0.7.0
     >>> main()
 
 Or from the command line:
