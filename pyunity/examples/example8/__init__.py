@@ -1,4 +1,4 @@
-from pyunity import config, SceneManager, AudioClip
+from pyunity import config, SceneManager, AudioClip, AudioSource
 import os
 
 def main():

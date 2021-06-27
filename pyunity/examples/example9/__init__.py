@@ -1,4 +1,4 @@
-from pyunity import Behaviour, Vector3, SceneManager, GameObject, Mesh, Material, Color, Texture2D
+from pyunity import Behaviour, Vector3, SceneManager, GameObject, Mesh, Material, Color, Texture2D, MeshRenderer
 
 class Rotator(Behaviour):
     def Update(self, dt):
