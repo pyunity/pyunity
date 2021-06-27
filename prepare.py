@@ -9,7 +9,8 @@ if "cython" not in os.environ:
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.")
 import autopep8
-autopep8.main(["-i", "-r", "--ignore", "E301,E302", "pyunity", "setup.py", "prepare.py", "cli.py"])
+autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302",
+              "pyunity", "setup.py", "prepare.py", "cli.py"])
 
 if len(sys.argv) < 2:
     import pyunity
@@ -70,9 +71,6 @@ if os.environ["cython"] == "1":
         raise Exception("Cython is needed to create CPython extensions.")
     if os.path.exists("src"):
         shutil.rmtree("src")
-    # pxd_files = glob.glob("ext/**/*.pxd", recursive=True)
-    # for f in pxd_files:
-    #     shutil.copy(f, os.path.join("pyunity", f[4:]))
     for path in glob.glob("pyunity/**/*.*", recursive=True):
         if path.endswith(".pyc") or path.endswith(".pxd"):
             continue
@@ -94,5 +92,3 @@ if os.environ["cython"] == "1":
         destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
         os.makedirs(destPath, exist_ok=True)
         op(srcPath, destPath)
-    # for f in pxd_files:
-    #     os.remove(os.path.join("pyunity", f[4:]))
