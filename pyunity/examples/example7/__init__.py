@@ -1,11 +1,13 @@
 from pyunity import Behaviour, GameObject, SceneManager, Material, Color, Mesh, Vector3, MeshRenderer
 
 class Switch(Behaviour):
-    a = 3
+    def Start(self):
+        self.a = 3
+    
     def Update(self, dt):
         self.a -= dt
         if self.a < 0:
-            SceneManager.LoadSceneByName("Scene 2")
+            SceneManager.LoadSceneByIndex(1)
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -17,7 +19,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(Color(255, 0, 0))
-    cube.AddComponent(Switch).scene2 = scene2
+    cube.AddComponent(Switch)
     scene.Add(cube)
 
     cube2 = GameObject("Cube 2")
