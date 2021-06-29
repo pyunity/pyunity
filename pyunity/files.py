@@ -271,6 +271,7 @@ class Project:
             elif type_ == "Mat":
                 type_ = "Material"
             project.import_file(path, type_, uuid)
+        project.firstScene = int(data["firstScene"])
 
         return project
 

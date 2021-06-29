@@ -203,12 +203,15 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-def SaveSceneToProject(scene, filePath=None):
+def SaveSceneToProject(scene, filePath=None, name=None):
     if filePath:
         directory = os.path.dirname(os.path.realpath(filePath))
     else:
         directory = os.getcwd()
-    directory = os.path.join(directory, scene.name)
+    if name is None:
+        directory = os.path.join(directory, scene.name)
+    else:
+        directory = os.path.join(directory, name)
     os.makedirs(directory, exist_ok=True)
 
     project = Project(directory, scene.name)
@@ -227,10 +230,11 @@ def SaveAllScenes(name, filePath=None):
 
     project = Project(directory, name)
 
+    print(SceneManager.scenesByIndex)
     for scene in SceneManager.scenesByIndex:
         SaveScene(scene, directory, project)
         project.import_file(os.path.join(
-            "Scenes", scene.name + ".scene"), None)
+            directory, "Scenes", scene.name + ".scene"), None)
     return project
 
 def SaveScene(scene, directory, project):
@@ -279,23 +283,21 @@ def SaveScene(scene, directory, project):
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             for attr in component.attrs:
                 value = getattr(component, attr)
-                if isinstance(value, Mesh):
-                    if id(value) in ids:
-                        written = ids[id(value)]
-                    else:
-                        written = str(uuid4())
-                        SaveMesh(value, gameObject.name, os.path.join(
-                            directory, "Meshes", gameObject.name + ".mesh"))
-                        project.import_file(os.path.join(
-                            "Meshes", gameObject.name + ".mesh"), "Mesh", written)
+                if id(value) in ids:
+                    written = ids[id(value)]
+                elif isinstance(value, Mesh):
+                    written = str(uuid4())
+                    SaveMesh(value, gameObject.name, os.path.join(
+                        directory, "Meshes", gameObject.name + ".mesh"))
+                    project.import_file(os.path.join(
+                        "Meshes", gameObject.name + ".mesh"), "Mesh", written)
+                    ids[id(value)] = written
                 elif isinstance(value, Material):
-                    if id(value) in ids:
-                        written = ids[id(value)]
-                    else:
-                        written = str(uuid4())
-                        project.save_mat(value, gameObject.name)
-                        project.import_file(os.path.join(
-                            "Materials", gameObject.name + ".mat"), "Material", written)
+                    written = str(uuid4())
+                    project.save_mat(value, gameObject.name)
+                    project.import_file(os.path.join(
+                        "Materials", gameObject.name + ".mat"), "Material", written)
+                    ids[id(value)] = written
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
@@ -417,6 +419,19 @@ def LoadProject(filePath):
             del info.attrs["gameObject"]
             script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
             gameObject.AddComponent(getattr(script, info.type[:-11]))
+            for name, value in reversed(info.attrs.items()):
+                check, obj = parse_string(value)
+                if check:
+                    setattr(component, name, obj)
+                elif value in ids:
+                    setattr(component, name, ids[value])
+                elif value in project.files:
+                    file = project.files[value][0]
+                    if file.type == "Material":
+                        obj = project.load_mat(file)
+                    elif file.type == "Mesh":
+                        obj = LoadMesh(os.path.join(project.path, file.path))
+                    setattr(component, name, obj)
 
         for gameObject in gameObjects:
             scene.Add(gameObject)
