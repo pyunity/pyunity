@@ -257,15 +257,15 @@ def SaveScene(scene, directory, project):
         ids[id(gameObject.transform)] = uuid
 
         f.write("    transform: " + uuid + "\n")
-
+    
+    # 2nd pass (for components)
+    for gameObject in scene.gameObjects:
         for component in gameObject.components:
             if id(component) in ids:
                 uuid = ids[id(component)]
             else:
                 uuid = str(uuid4())
-
                 ids[id(component)] = uuid
-
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
                 path = os.path.join(directory, "Scripts",

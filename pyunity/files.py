@@ -232,6 +232,17 @@ class Project:
             f.write("Files\n")
             for uuid, file in self.files.items():
                 f.write("    " + uuid + ": " + file[1] + "\n")
+        
+        with open(os.path.join(self.path, "__init__.py"), "w+") as f:
+            f.write("from pyunity import *\n")
+            f.write("import os\n\n")
+            f.write("project = Loader.LoadProject(os.path.abspath(os.path.dirname(__file__)))\n")
+            f.write("firstScene = SceneManager.GetSceneByIndex(project.firstScene)\n")
+        
+        with open(os.path.join(self.path, "__main__.py"), "w+") as f:
+            f.write("from pyunity import *\n")
+            f.write("from . import firstScene\n\n")
+            f.write("SceneManager.LoadScene(firstScene)\n")
 
     @staticmethod
     def from_folder(filePath):
