@@ -149,9 +149,10 @@ class Quaternion:
         assign like ``q.eulerAngles = (angle, vector)``.
 
         """
-        magnitude = glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-        angle = glm.degrees(glm.atan(magnitude, self.w))
-        return (angle * 2, self.x * magnitude, self.y * magnitude, self.z * magnitude)
+        magnitude = glm.sqrt(1 - self.w ** 2)
+        angle = 2 * glm.degrees(glm.acos(self.w))
+        if magnitude == 0: return (0, 1, 0, 0)
+        return (angle, self.x / magnitude, self.y / magnitude, self.z / magnitude)
 
     @angleAxisPair.setter
     def angleAxisPair(self, value):
