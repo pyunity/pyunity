@@ -418,20 +418,20 @@ def LoadProject(filePath):
             gameObject = ids[info.gameObject]
             del info.attrs["gameObject"]
             script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
-            gameObject.AddComponent(getattr(script, info.type[:-11]))
+            behaviour = gameObject.AddComponent(getattr(script, info.type[:-11]))
             for name, value in reversed(info.attrs.items()):
                 check, obj = parse_string(value)
                 if check:
-                    setattr(component, name, obj)
+                    setattr(behaviour, name, obj)
                 elif value in ids:
-                    setattr(component, name, ids[value])
+                    setattr(behaviour, name, ids[value])
                 elif value in project.files:
                     file = project.files[value][0]
                     if file.type == "Material":
                         obj = project.load_mat(file)
                     elif file.type == "Mesh":
                         obj = LoadMesh(os.path.join(project.path, file.path))
-                    setattr(component, name, obj)
+                    setattr(behaviour, name, obj)
 
         for gameObject in gameObjects:
             scene.Add(gameObject)
