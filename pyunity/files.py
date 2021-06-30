@@ -230,7 +230,7 @@ class Project:
             f.write("    name: " + self.name + "\n")
             f.write("    firstScene: " + str(self.firstScene) + "\n")
             f.write("Files\n")
-            for uuid, file in sorted(self.files.items(), key=lambda x: x[0]):
+            for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
                 f.write("    " + uuid + ": " + file[1] + "\n")
         
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
