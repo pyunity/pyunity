@@ -192,6 +192,24 @@ class Texture2D:
             self.load()
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
+class SkyBox:
+    names = ["right.png", "left.png", "top.png", "bottom.png", "front.png", "back.png"]
+    def __init__(self, path):
+        self.imgs = []
+        self.data = []
+        for name in SkyBox.names:
+            img_path = os.path.join(path, name)
+            img = Image.open(img_path).convert("RGBA")
+            img_data = img.tobytes()
+            self.imgs.append(img)
+            self.data.append(img_data)
+    
+    def compile(self):
+        for i in range(len(self.imgs)):
+            width, height = self.imgs[i].size
+            gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGB,
+                width, height, 0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, self.data[i])
+
 class Prefab:
     def __init__(self, gameObject, components):
         self.gameObject = gameObject
