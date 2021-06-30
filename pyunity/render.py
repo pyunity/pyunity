@@ -8,6 +8,7 @@ from ctypes import c_float, c_ubyte, c_void_p
 from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
 from .vector3 import Vector3
+from .files import Skybox
 from . import config
 import glm
 import itertools
@@ -161,6 +162,7 @@ class Shader:
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders: Dict[str, Shader] = dict()
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
+Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
 
 def compile_shaders():
     for shader in shaders.values():
@@ -194,6 +196,9 @@ class Camera(SingleComponent):
         self.fov = 90
         self.clearColor = (0, 0, 0, 1)
         self.shader = shaders["Standard"]
+        self.skyboxShader = shaders["Skybox"]
+        self.skybox = Skybox(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+            "shaders", "skybox", "textures"))
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
 
@@ -223,6 +228,7 @@ class Camera(SingleComponent):
 
         """
         gl.glViewport(0, 0, width, height)
+        self.size = (width, height)
         self.projMat = glm.perspective(
             glm.radians(self._fov / self.size[0] * self.size[1]),
             self.size[0] / self.size[1],
@@ -257,8 +263,18 @@ class Camera(SingleComponent):
         self.shader = shaders[name]
 
     def Render(self, gameObjects):
+        gl.glDepthMask(gl.GL_FALSE)
+        self.skyboxShader.use()
+        viewMat = self.getViewMat()
+        self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+        self.skyboxShader.setMat4(b"projection", self.projMat)
+        self.skybox.use()
+        gl.glBindVertexArray(self.skybox.vao)
+        gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
+        gl.glDepthMask(gl.GL_TRUE)
+            
         self.shader.use()
-        self.shader.setMat4(b"view", self.getViewMat())
+        self.shader.setMat4(b"view", viewMat)
         self.shader.setMat4(b"projection", self.projMat)
 
         self.shader.setVec3(b"lightPos", [10, 10, 10])

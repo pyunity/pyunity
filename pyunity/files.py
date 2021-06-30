@@ -15,6 +15,26 @@ from uuid import uuid4
 import glob
 import os
 import sys
+import ctypes
+
+def convert(type, list):
+    """
+    Converts a Python array to a C type from
+    ``ctypes``.
+
+    Parameters
+    ----------
+    type : _ctypes.PyCSimpleType
+        Type to cast to.
+    list : list
+        List to cast
+
+    Returns
+    -------
+    Any
+        A C array
+    """
+    return (type * len(list))(*list)
 
 class Behaviour(Component):
     """
@@ -192,12 +212,51 @@ class Texture2D:
             self.load()
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
-class SkyBox:
-    names = ["right.png", "left.png", "top.png", "bottom.png", "front.png", "back.png"]
+class Skybox:
+    names = ["right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"]
+    points = [
+        -1,  1, -1,
+        -1, -1, -1,
+         1, -1, -1,
+         1, -1, -1,
+         1,  1, -1,
+        -1,  1, -1,
+        -1, -1,  1,
+        -1, -1, -1,
+        -1,  1, -1,
+        -1,  1, -1,
+        -1,  1,  1,
+        -1, -1,  1,
+         1, -1, -1,
+         1, -1,  1,
+         1,  1,  1,
+         1,  1,  1,
+         1,  1, -1,
+         1, -1, -1,
+        -1, -1,  1,
+        -1,  1,  1,
+         1,  1,  1,
+         1,  1,  1,
+         1, -1,  1,
+        -1, -1,  1,
+        -1,  1, -1,
+         1,  1, -1,
+         1,  1,  1,
+         1,  1,  1,
+        -1,  1,  1,
+        -1,  1, -1,
+        -1, -1, -1,
+        -1, -1,  1,
+         1, -1, -1,
+         1, -1, -1,
+        -1, -1,  1,
+         1, -1,  1
+    ]
     def __init__(self, path):
         self.imgs = []
         self.data = []
-        for name in SkyBox.names:
+        self.compiled = False
+        for name in Skybox.names:
             img_path = os.path.join(path, name)
             img = Image.open(img_path).convert("RGBA")
             img_data = img.tobytes()
@@ -205,10 +264,37 @@ class SkyBox:
             self.data.append(img_data)
     
     def compile(self):
+        self.texture = gl.glGenTextures(1)
+        gl.glEnable(gl.GL_TEXTURE_CUBE_MAP)
+        gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
         for i in range(len(self.imgs)):
             width, height = self.imgs[i].size
-            gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGB,
-                width, height, 0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, self.data[i])
+            gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
+                width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.data[i])
+        
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_R, gl.GL_CLAMP_TO_EDGE)
+        
+        self.vbo = gl.glGenBuffers(1)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
+        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(Skybox.points) * gl.sizeof(ctypes.c_float),
+                        convert(ctypes.c_float, Skybox.points), gl.GL_STATIC_DRAW)
+        
+        self.vao = gl.glGenVertexArrays(1)
+        gl.glBindVertexArray(self.vao)
+        gl.glEnableVertexAttribArray(0)
+        gl.glVertexAttribPointer(
+            0, 3, gl.GL_FLOAT, gl.GL_FALSE, 3 * gl.sizeof(ctypes.c_float), None)
+        
+        self.compiled = True
+    
+    def use(self):
+        if not self.compiled:
+            self.compile()
+        gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
 class Prefab:
     def __init__(self, gameObject, components):
