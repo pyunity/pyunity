@@ -16,6 +16,7 @@ import glob
 import os
 import sys
 import ctypes
+import inspect
 
 def convert(type, list):
     """
@@ -49,7 +50,13 @@ class Behaviour(Component):
 
     """
 
-    attrs = []
+    def __init_subclass__(cls):
+        super().__init_subclass__()
+        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
+        variables = filter(lambda a: not (a[0].startswith("__") or a[0].endswith("__")), members)
+        names = list(map(lambda a: a[0], variables))
+        names.remove("attrs")
+        cls.attrs = names
 
     def Start(self):
         """
