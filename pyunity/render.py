@@ -8,6 +8,7 @@ from ctypes import c_float, c_ubyte, c_void_p
 from .errors import PyUnityException
 from .core import SingleComponent, MeshRenderer
 from .vector3 import Vector3
+from .quaternion import Quaternion
 from .files import Skybox
 from . import config
 import glm
@@ -240,11 +241,11 @@ class Camera(SingleComponent):
         angle = glm.radians(rotation[0])
         axis = Vector3(rotation[1:]).normalized()
 
-        scaled = glm.scale(glm.mat4(1), list(transform.scale))
-        rotated = scaled * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         position = glm.translate(rotated, list(
             transform.position * Vector3(1, 1, -1)))
-        return position
+        scaled = glm.scale(position, list(transform.scale))
+        return scaled
 
     def getViewMat(self):
         if self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
@@ -255,6 +256,8 @@ class Camera(SingleComponent):
             up = self.transform.rotation.RotateVector(
                 Vector3.up()) * Vector3(1, 1, -1)
             self.viewMat = glm.lookAt(list(pos), list(look), list(up))
+            # self.viewMat = glm.translate(glm.mat4_cast(glm.quat(
+            #     *(self.transform.rotation.convert()))), list(self.transform.position))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
         return self.viewMat
@@ -263,17 +266,8 @@ class Camera(SingleComponent):
         self.shader = shaders[name]
 
     def Render(self, gameObjects):
-        gl.glDepthMask(gl.GL_FALSE)
-        self.skyboxShader.use()
-        viewMat = self.getViewMat()
-        self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
-        self.skyboxShader.setMat4(b"projection", self.projMat)
-        self.skybox.use()
-        gl.glBindVertexArray(self.skybox.vao)
-        gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
-        gl.glDepthMask(gl.GL_TRUE)
-
         self.shader.use()
+        viewMat = self.getViewMat()
         self.shader.setMat4(b"view", viewMat)
         self.shader.setMat4(b"projection", self.projMat)
 
@@ -294,3 +288,13 @@ class Camera(SingleComponent):
                 else:
                     self.shader.setInt(b"textured", 0)
                 renderer.Render()
+
+        gl.glDepthFunc(gl.GL_LEQUAL)
+        self.skyboxShader.use()
+        self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+        self.skyboxShader.setMat4(b"projection", self.projMat)
+        self.skybox.use()
+        gl.glBindVertexArray(self.skybox.vao)
+        gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
+        gl.glBindVertexArray(0)
+        gl.glDepthFunc(gl.GL_LESS)

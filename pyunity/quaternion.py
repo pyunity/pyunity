@@ -211,3 +211,7 @@ class Quaternion:
     def identity():
         """Identity quaternion representing no rotation"""
         return Quaternion(1, 0, 0, 0)
+
+    def convert(self):
+        angle, x, y, z = self.angleAxisPair
+        return Quaternion.FromAxis(180 - angle, Vector3(x, y, z))

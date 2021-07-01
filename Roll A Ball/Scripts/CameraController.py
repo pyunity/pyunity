@@ -1,8 +1,7 @@
 from pyunity import *
 
 class CameraController(Behaviour):
-
-    attrs = ["other"]
+    other = None
 
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
