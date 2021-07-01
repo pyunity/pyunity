@@ -72,7 +72,7 @@ if os.environ["cython"] == "1":
     if os.path.exists("src"):
         shutil.rmtree("src")
     for path in glob.glob("pyunity/**/*.*", recursive=True):
-        if path.endswith(".pyc") or path.endswith(".pxd"):
+        if path.endswith(".pyc"):
             continue
         dirpath, file = os.path.split(path)
         print(file)

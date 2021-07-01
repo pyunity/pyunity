@@ -213,44 +213,45 @@ class Texture2D:
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
 class Skybox:
-    names = ["right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"]
+    names = ["right.jpg", "left.jpg", "top.jpg",
+             "bottom.jpg", "front.jpg", "back.jpg"]
     points = [
-        -1,  1, -1,
+        -1, 1, -1,
         -1, -1, -1,
-         1, -1, -1,
-         1, -1, -1,
-         1,  1, -1,
-        -1,  1, -1,
-        -1, -1,  1,
+        1, -1, -1,
+        1, -1, -1,
+        1, 1, -1,
+        -1, 1, -1,
+        -1, -1, 1,
         -1, -1, -1,
-        -1,  1, -1,
-        -1,  1, -1,
-        -1,  1,  1,
-        -1, -1,  1,
-         1, -1, -1,
-         1, -1,  1,
-         1,  1,  1,
-         1,  1,  1,
-         1,  1, -1,
-         1, -1, -1,
-        -1, -1,  1,
-        -1,  1,  1,
-         1,  1,  1,
-         1,  1,  1,
-         1, -1,  1,
-        -1, -1,  1,
-        -1,  1, -1,
-         1,  1, -1,
-         1,  1,  1,
-         1,  1,  1,
-        -1,  1,  1,
-        -1,  1, -1,
+        -1, 1, -1,
+        -1, 1, -1,
+        -1, 1, 1,
+        -1, -1, 1,
+        1, -1, -1,
+        1, -1, 1,
+        1, 1, 1,
+        1, 1, 1,
+        1, 1, -1,
+        1, -1, -1,
+        -1, -1, 1,
+        -1, 1, 1,
+        1, 1, 1,
+        1, 1, 1,
+        1, -1, 1,
+        -1, -1, 1,
+        -1, 1, -1,
+        1, 1, -1,
+        1, 1, 1,
+        1, 1, 1,
+        -1, 1, 1,
+        -1, 1, -1,
         -1, -1, -1,
-        -1, -1,  1,
-         1, -1, -1,
-         1, -1, -1,
-        -1, -1,  1,
-         1, -1,  1
+        -1, -1, 1,
+        1, -1, -1,
+        1, -1, -1,
+        -1, -1, 1,
+        1, -1, 1
     ]
     def __init__(self, path):
         self.imgs = []
@@ -262,7 +263,7 @@ class Skybox:
             img_data = img.tobytes()
             self.imgs.append(img)
             self.data.append(img_data)
-    
+
     def compile(self):
         self.texture = gl.glGenTextures(1)
         gl.glEnable(gl.GL_TEXTURE_CUBE_MAP)
@@ -270,27 +271,32 @@ class Skybox:
         for i in range(len(self.imgs)):
             width, height = self.imgs[i].size
             gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
-                width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.data[i])
-        
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP_TO_EDGE)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP_TO_EDGE)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_R, gl.GL_CLAMP_TO_EDGE)
-        
+                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.data[i])
+
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
+                           gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
+                           gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
+                           gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
+                           gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
+                           gl.GL_TEXTURE_WRAP_R, gl.GL_CLAMP_TO_EDGE)
+
         self.vbo = gl.glGenBuffers(1)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
         gl.glBufferData(gl.GL_ARRAY_BUFFER, len(Skybox.points) * gl.sizeof(ctypes.c_float),
                         convert(ctypes.c_float, Skybox.points), gl.GL_STATIC_DRAW)
-        
+
         self.vao = gl.glGenVertexArrays(1)
         gl.glBindVertexArray(self.vao)
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 3, gl.GL_FLOAT, gl.GL_FALSE, 3 * gl.sizeof(ctypes.c_float), None)
-        
+
         self.compiled = True
-    
+
     def use(self):
         if not self.compiled:
             self.compile()
@@ -336,13 +342,14 @@ class Project:
             f.write("Files\n")
             for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
                 f.write("    " + uuid + ": " + file[1] + "\n")
-        
+
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
             f.write("from pyunity import *\n")
             f.write("import os\n\n")
-            f.write("project = Loader.LoadProject(os.path.abspath(os.path.dirname(__file__)))\n")
+            f.write(
+                "project = Loader.LoadProject(os.path.abspath(os.path.dirname(__file__)))\n")
             f.write("firstScene = SceneManager.GetSceneByIndex(project.firstScene)\n")
-        
+
         with open(os.path.join(self.path, "__main__.py"), "w+") as f:
             f.write("from pyunity import *\n")
             f.write("from . import firstScene\n\n")

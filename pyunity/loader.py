@@ -257,7 +257,7 @@ def SaveScene(scene, directory, project):
         ids[id(gameObject.transform)] = uuid
 
         f.write("    transform: " + uuid + "\n")
-    
+
     # 2nd pass (for components)
     for gameObject in scene.gameObjects:
         for component in gameObject.components:
@@ -418,7 +418,8 @@ def LoadProject(filePath):
             gameObject = ids[info.gameObject]
             del info.attrs["gameObject"]
             script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
-            behaviour = gameObject.AddComponent(getattr(script, info.type[:-11]))
+            behaviour = gameObject.AddComponent(
+                getattr(script, info.type[:-11]))
             for name, value in reversed(info.attrs.items()):
                 check, obj = parse_string(value)
                 if check:

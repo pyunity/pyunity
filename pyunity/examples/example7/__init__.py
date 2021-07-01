@@ -3,7 +3,7 @@ from pyunity import Behaviour, GameObject, SceneManager, Material, Color, Mesh, 
 class Switch(Behaviour):
     def Start(self):
         self.a = 3
-    
+
     def Update(self, dt):
         self.a -= dt
         if self.a < 0:
