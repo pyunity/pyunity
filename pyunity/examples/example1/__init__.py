@@ -1,6 +1,8 @@
+from pyunity.files import ShowInInspector
 from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, Color
 
 class Rotator(Behaviour):
+    a = ShowInInspector(int, 0)
     def Update(self, dt):
         self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 

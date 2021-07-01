@@ -1,7 +1,7 @@
 from pyunity import *
 
 class PlayerController(Behaviour):
-    speed = 8
+    speed = ShowInInspector(int, 8)
     
     def Update(self, dt):
         x = Input.GetKey(KeyCode.D) - Input.GetKey(KeyCode.A)

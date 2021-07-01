@@ -4,7 +4,7 @@ Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab", "File", "Project"]
+__all__ = ["Behaviour", "Texture2D", "Prefab", "File", "Project", "ShowInInspector"]
 
 from OpenGL import GL as gl
 from PIL import Image
@@ -53,10 +53,14 @@ class Behaviour(Component):
     def __init_subclass__(cls):
         super().__init_subclass__()
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = filter(lambda a: not (a[0].startswith("__") or a[0].endswith("__")), members)
+        variables = list(filter(lambda a: not (a[0].startswith("__") or a[0] == "attrs"), members))
+        shown = {a[0]: a[1] for a in variables if isinstance(a[1], ShowInInspector)}
         names = list(map(lambda a: a[0], variables))
-        names.remove("attrs")
-        cls.attrs = names
+        print(names)
+        cls.attrs = list(names)
+        cls.shown = shown
+        for name, val in shown.items():
+            setattr(cls, name, val.default)
 
     def Start(self):
         """
@@ -77,6 +81,11 @@ class Behaviour(Component):
 
         """
         pass
+
+class ShowInInspector:
+    def __init__(self, type, default=None):
+        self.type = type
+        self.default = default
 
 class Scripts:
     @staticmethod
