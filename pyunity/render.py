@@ -241,23 +241,23 @@ class Camera(SingleComponent):
         angle = glm.radians(rotation[0])
         axis = Vector3(rotation[1:]).normalized()
 
-        scaled = glm.scale(glm.mat4(1), list(transform.scale))
-        rotated = scaled * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         position = glm.translate(rotated, list(
             transform.position * Vector3(1, 1, -1)))
-        return position
+        scaled = glm.scale(position, list(transform.scale))
+        return scaled
 
     def getViewMat(self):
         if self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
-            # pos = self.transform.position * Vector3(1, 1, -1)
-            # look = pos + \
-            #     self.transform.rotation.RotateVector(
-            #         Vector3.forward()) * Vector3(1, 1, -1)
-            # up = self.transform.rotation.RotateVector(
-            #     Vector3.up()) * Vector3(1, 1, -1)
-            # self.viewMat = glm.lookAt(list(pos), list(look), list(up))
-            self.viewMat = glm.translate(glm.mat4_cast(glm.quat(
-                *(self.transform.rotation.reverse(2)))), list(self.transform.position))
+            pos = self.transform.position * Vector3(1, 1, -1)
+            look = pos + \
+                self.transform.rotation.RotateVector(
+                    Vector3.forward()) * Vector3(1, 1, -1)
+            up = self.transform.rotation.RotateVector(
+                Vector3.up()) * Vector3(1, 1, -1)
+            self.viewMat = glm.lookAt(list(pos), list(look), list(up))
+            # self.viewMat = glm.translate(glm.mat4_cast(glm.quat(
+            #     *(self.transform.rotation.convert()))), list(self.transform.position))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
         return self.viewMat
