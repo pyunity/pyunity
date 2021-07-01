@@ -1,8 +1,7 @@
 from pyunity import *
 
 class PlayerController(Behaviour):
-    def Start(self):
-        self.speed = 8
+    speed = ShowInInspector(int, 8)
     
     def Update(self, dt):
         x = Input.GetKey(KeyCode.D) - Input.GetKey(KeyCode.A)
@@ -12,8 +11,7 @@ class PlayerController(Behaviour):
         self.transform.position += movement * self.speed * dt
 
 class CameraController(Behaviour):
-
-    attrs = ["other"]
+    other = None
 
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
@@ -45,7 +43,7 @@ scene.Add(floor)
 mat = Material(Color(200, 200, 200))
 
 wall1 = GameObject("Wall")
-wall1.transform.position = Vector3(0, 0.5, 50)
+wall1.transform.position = Vector3(0, 0.5, 51)
 wall1.transform.scale = Vector3(50, 3, 1)
 renderer = wall1.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
@@ -53,7 +51,7 @@ renderer.mat = mat
 scene.Add(wall1)
 
 wall2 = GameObject("Wall")
-wall2.transform.position = Vector3(0, 0.5, -50)
+wall2.transform.position = Vector3(0, 0.5, -51)
 wall2.transform.scale = Vector3(50, 3, 1)
 renderer = wall2.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
@@ -61,7 +59,7 @@ renderer.mat = mat
 scene.Add(wall2)
 
 wall3 = GameObject("Wall")
-wall3.transform.position = Vector3(50, 0.5, 0)
+wall3.transform.position = Vector3(49, 0.5, 0)
 wall3.transform.scale = Vector3(1, 3, 50)
 renderer = wall3.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
@@ -69,7 +67,7 @@ renderer.mat = mat
 scene.Add(wall3)
 
 wall4 = GameObject("Wall")
-wall4.transform.position = Vector3(-50, 0.5, 0)
+wall4.transform.position = Vector3(-49, 0.5, 0)
 wall4.transform.scale = Vector3(1, 3, 50)
 renderer = wall4.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
