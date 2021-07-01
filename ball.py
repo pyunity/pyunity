@@ -1,8 +1,7 @@
 from pyunity import *
 
 class PlayerController(Behaviour):
-    def Start(self):
-        self.speed = 8
+    speed = 8
     
     def Update(self, dt):
         x = Input.GetKey(KeyCode.D) - Input.GetKey(KeyCode.A)
@@ -13,7 +12,7 @@ class PlayerController(Behaviour):
 
 class CameraController(Behaviour):
 
-    attrs = ["other"]
+    other = None
 
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
