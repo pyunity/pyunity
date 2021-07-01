@@ -198,7 +198,7 @@ class Camera(SingleComponent):
         self.shader = shaders["Standard"]
         self.skyboxShader = shaders["Skybox"]
         self.skybox = Skybox(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-            "shaders", "skybox", "textures"))
+                                          "shaders", "skybox", "textures"))
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
 
@@ -272,7 +272,7 @@ class Camera(SingleComponent):
         gl.glBindVertexArray(self.skybox.vao)
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
         gl.glDepthMask(gl.GL_TRUE)
-            
+
         self.shader.use()
         self.shader.setMat4(b"view", viewMat)
         self.shader.setMat4(b"projection", self.projMat)
