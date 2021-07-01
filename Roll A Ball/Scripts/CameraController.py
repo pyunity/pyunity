@@ -1,7 +1,6 @@
 from pyunity import *
 
 class CameraController(Behaviour):
-
     other = None
 
     def Start(self):
