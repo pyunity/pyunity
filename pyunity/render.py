@@ -162,8 +162,10 @@ class Shader:
 
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders: Dict[str, Shader] = dict()
+skyboxes: Dict[str, Skybox] = dict()
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
+skyboxes["Water"] = Skybox(os.path.join(__dir, "shaders", "skybox", "textures"))
 
 def compile_shaders():
     for shader in shaders.values():
@@ -198,8 +200,7 @@ class Camera(SingleComponent):
         self.clearColor = (0, 0, 0, 1)
         self.shader = shaders["Standard"]
         self.skyboxShader = shaders["Skybox"]
-        self.skybox = Skybox(os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                          "shaders", "skybox", "textures"))
+        self.skybox = skyboxes["Water"]
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
 
