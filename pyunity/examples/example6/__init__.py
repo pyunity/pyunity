@@ -15,7 +15,7 @@ class Rotator(Behaviour):
         if len(self.fps) == 10:
             self.fps.pop(0)
         self.fps.append(1 / dt)
-        Logger.Log(round(average(self.fps), 3))
+        print(round(average(self.fps), 3))
 
 def main():
     mat = Material(Color(255, 0, 0))
