@@ -59,7 +59,6 @@ class Behaviour(Component):
         shown = {a[0]: a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
         names = list(map(lambda a: a[0], variables))
-        print(names)
         cls.attrs = list(names)
         cls.shown = shown
         for name, val in shown.items():

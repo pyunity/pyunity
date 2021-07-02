@@ -278,8 +278,6 @@ class Scene:
 
     def start_scripts(self):
         """Start the scripts in the Scene."""
-        self.lastFrame = time()
-
         audioListeners = self.FindComponentsByType(AudioListener)
         if len(audioListeners) == 0:
             Logger.LogLine(
@@ -314,6 +312,8 @@ class Scene:
             self.collManager = physics.CollManager()
             self.collManager.AddPhysicsInfo(self)
 
+        self.lastFrame = time()
+
     def Start(self):
         """
         Start the internal parts of the
@@ -345,10 +345,9 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Update(dt)
                 elif isinstance(component, AudioSource):
-                    if component.Loop:
-                        if component.PlayOnStart:
-                            if component.channel and not component.channel.get_busy():
-                                component.Play()
+                    if component.Loop and component.PlayOnStart:
+                        if component.channel and not component.channel.get_busy():
+                            component.Play()
 
         if self.physics:
             self.collManager.Step(dt)
