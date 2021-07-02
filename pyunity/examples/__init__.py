@@ -11,16 +11,17 @@ example_list = [
     example2,
     example3,
     example4,
-    example5,
+    # example5,
     example6,
     example7,
-    example8,
+    # example8,
     example9,
 ]
 
 SceneManager.KeyboardInterruptKill = True
 
 def show():
+    Logger.LogLine(Logger.WARN, "Currently broken examples: 5, 8")
     if len(sys.argv) == 1:
         num = 0
     else:
