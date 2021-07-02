@@ -273,24 +273,20 @@ class Skybox:
         1, -1, 1
     ]
     def __init__(self, path):
-        self.imgs = []
-        self.data = []
+        self.path = path
         self.compiled = False
-        for name in Skybox.names:
-            img_path = os.path.join(path, name)
-            img = Image.open(img_path).convert("RGBA")
-            img_data = img.tobytes()
-            self.imgs.append(img)
-            self.data.append(img_data)
 
     def compile(self):
         self.texture = gl.glGenTextures(1)
         gl.glEnable(gl.GL_TEXTURE_CUBE_MAP)
         gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
-        for i in range(len(self.imgs)):
-            width, height = self.imgs[i].size
+        for i, name in enumerate(Skybox.names):
+            img_path = os.path.join(self.path, name)
+            img = Image.open(img_path).convert("RGBA")
+            img_data = img.tobytes()
+            width, height = img.size
             gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
-                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.data[i])
+                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, img_data)
 
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
                            gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
