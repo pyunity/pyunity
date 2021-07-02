@@ -20,8 +20,6 @@ with warnings.catch_warnings():
 from . import config, logger as Logger
 from .core import Component
 
-import ctypes
-
 channels = 0
 
 if "PYUNITY_TESTING" in os.environ:
@@ -155,6 +153,9 @@ class AudioListener(Component):
 
     """
 
+    def __init__(self):
+        self.opened = 0
+
     def Init(self):
         """
         Initializes the SDL2 Mixer.
@@ -163,6 +164,8 @@ class AudioListener(Component):
         if mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
             print("SDL2_mixer could not be initialized!\nSDL_Error: %s" %
                   SDL_GetError())
+        else:
+            self.opened += 1
 
     def DeInit(self):
         """
@@ -175,8 +178,7 @@ class AudioListener(Component):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
         
-        for i in range(mixer.Mix_QuerySpec(
-                ctypes.POINTER(ctypes.c_int)(),
-                ctypes.POINTER(ctypes.c_ushort)(),
-                ctypes.POINTER(ctypes.c_int)())):
+        for i in range(self.opened):
             mixer.Mix_CloseAudio()
+        
+        self.opened = 0
