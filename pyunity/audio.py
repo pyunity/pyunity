@@ -20,6 +20,8 @@ with warnings.catch_warnings():
 from . import config, logger as Logger
 from .core import Component
 
+import ctypes
+
 channels = 0
 
 if "PYUNITY_TESTING" in os.environ:
@@ -172,4 +174,9 @@ class AudioListener(Component):
         for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
-        mixer.Mix_CloseAudio()
+        
+        for i in range(mixer.Mix_QuerySpec(
+                ctypes.POINTER(ctypes.c_int)(),
+                ctypes.POINTER(ctypes.c_ushort)(),
+                ctypes.POINTER(ctypes.c_int)())):
+            mixer.Mix_CloseAudio()
