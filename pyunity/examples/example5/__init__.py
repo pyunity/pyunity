@@ -17,9 +17,9 @@ def main():
 
     house = GameObject("House")
     house.transform.eulerAngles = Vector3(0, 180, 0)
-    renderer = house.AddComponent(MeshRenderer)
+    # renderer = house.AddComponent(MeshRenderer)
     # renderer.mesh = mesh
-    renderer.mat = Material(Color(255, 0, 0))
+    # renderer.mat = Material(Color(255, 0, 0))
     house.AddComponent(Rotator)
 
     scene.Add(house)
