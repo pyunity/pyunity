@@ -28,6 +28,9 @@ if "PYUNITY_TESTING" in os.environ:
 elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
+elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+    Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " + \
+        SDL_GetError())
 
 class AudioSource(Component):
     """
@@ -156,30 +159,21 @@ class AudioListener(Component):
     def __init__(self, transform):
         super(AudioListener, self).__init__(transform)
         self.opened = 0
-
+    
     def Init(self):
         """
-        Initializes the SDL2 Mixer.
+        Initializes the AudioListener.
 
         """
-        if mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-            print("SDL2_mixer could not be initialized!\nSDL_Error: %s" %
-                  SDL_GetError())
-        else:
-            self.opened += 1
+        pass
 
     def DeInit(self):
         """
-        Stops all AudioSources, frees memory that is used by
-        the AudioClips and de-initializes the SDL2 Mixer.
+        Stops all AudioSources and frees memory that is used by
+        the AudioClips.
 
         """
         from .scenes import SceneManager
         for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
-
-        for i in range(self.opened):
-            mixer.Mix_CloseAudio()
-
-        self.opened = 0
