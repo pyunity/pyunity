@@ -70,7 +70,7 @@ class Manifold:
 class Collider(Component):
     """Collider base class."""
 
-    attrs = []
+    attrs = ["enabled"]
 
 class SphereCollider(Collider):
     """
@@ -90,10 +90,11 @@ class SphereCollider(Collider):
 
     """
 
-    attrs = ["min", "max", "pos", "radius"]
+    attrs = ["enabled", "min", "max", "pos", "radius"]
 
-    def __init__(self):
-        super(SphereCollider, self).__init__()
+    def __init__(self, transform):
+        super(SphereCollider, self).__init__(transform)
+        self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
 
     def SetSize(self, radius, offset):
         """
@@ -212,10 +213,13 @@ class AABBoxCollider(Collider):
 
     """
 
-    attrs = ["min", "max", "pos"]
+    attrs = ["enabled", "min", "max", "pos"]
 
-    def __init__(self):
-        super(AABBoxCollider, self).__init__()
+    def __init__(self, transform):
+        super(AABBoxCollider, self).__init__(transform)
+        pos = self.transform.position
+        size = self.transform.scale
+        self.SetSize(pos - size, pos + size)
 
     def SetSize(self, min, max):
         """
@@ -370,11 +374,12 @@ class Rigidbody(Component):
 
     """
 
-    attrs = ["mass", "velocity", "physicMaterial", "position"]
+    attrs = ["enabled", "mass", "velocity", "physicMaterial", "position"]
 
-    def __init__(self):
-        super(Rigidbody, self).__init__()
+    def __init__(self, transform, dummy=False):
+        super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
+        self.position = Vector3.zero()
         self.velocity = Vector3.zero()
         self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
@@ -394,13 +399,13 @@ class Rigidbody(Component):
         """
         if self.gravity:
             self.force += config.gravity
+        print(self.position)
         self.velocity += self.force * (1 / self.mass) * dt
         self.position += self.velocity * dt
-        for component in self.gameObject.components:
-            if isinstance(component, Collider):
-                component.min += self.velocity * dt
-                component.max += self.velocity * dt
-                component.pos += self.velocity * dt
+        for component in self.gameObject.GetComponents(Collider):
+            component.min += self.velocity * dt
+            component.max += self.velocity * dt
+            component.pos += self.velocity * dt
 
         self.force = Vector3.zero()
 
@@ -416,11 +421,10 @@ class Rigidbody(Component):
 
         """
         self.position += offset
-        for component in self.gameObject.components:
-            if isinstance(component, Collider):
-                component.min += offset
-                component.max += offset
-                component.pos += offset
+        for component in self.gameObject.GetComponents(Collider):
+            component.min += offset
+            component.max += offset
+            component.pos += offset
 
     def AddForce(self, force):
         """
@@ -475,7 +479,7 @@ class CollManager:
 
     def __init__(self):
         self.rigidbodies = {}
-        self.dummyRigidbody = Rigidbody()
+        self.dummyRigidbody = Rigidbody(None, True)
         self.dummyRigidbody.mass = infinity
 
     def AddPhysicsInfo(self, scene):
@@ -506,12 +510,8 @@ class CollManager:
         self.rigidbodies = {}
         dummies = []
         for gameObject in scene.gameObjects:
-            if gameObject.GetComponent(Collider):
-                colliders = []
-                for component in gameObject.components:
-                    if isinstance(component, Collider):
-                        colliders.append(component)
-
+            colliders = gameObject.GetComponents(Collider)
+            if colliders != []:
                 rb = gameObject.GetComponent(Rigidbody)
                 if rb is None:
                     dummies += colliders
@@ -617,10 +617,18 @@ class CollManager:
 
                             correction = m.penetration * \
                                 (rbA.mass + rbB.mass) * 0.8 * m.normal
-                            rbA.MovePos(
-                                -1 / rbA.mass * correction if not math.isinf(rbA.mass + rbB.mass) else 0)
-                            rbB.MovePos(
-                                1 / rbB.mass * correction if not math.isinf(rbA.mass + rbB.mass) else 0)
+                            if rbA is not self.dummyRigidbody:
+                                rbA.MovePos(
+                                    self.correct_inf(rbA.mass, rbB.mass, correction, rbA.mass))
+                            if rbB is not self.dummyRigidbody:
+                                rbB.MovePos(
+                                    self.correct_inf(rbA.mass, rbB.mass, correction, rbB.mass))
+    
+    def correct_inf(self, a, b, correction, target):
+        if not math.isinf(a + b):
+            return 1 / target * correction
+        else:
+            return 0
 
     def Step(self, dt):
         """
@@ -638,10 +646,10 @@ class CollManager:
         so that it is more precise.
 
         """
-        for i in range(10):
+        for i in range(1):
             for rb in self.rigidbodies:
                 if rb is not self.dummyRigidbody:
-                    rb.Move(dt / 10)
+                    rb.Move(dt / 1)
             self.CheckCollisions()
         for rb in self.rigidbodies:
             if rb is not self.dummyRigidbody:
