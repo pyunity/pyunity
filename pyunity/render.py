@@ -165,7 +165,8 @@ shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
-skyboxes["Water"] = Skybox(os.path.join(__dir, "shaders", "skybox", "textures"))
+skyboxes["Water"] = Skybox(os.path.join(
+    __dir, "shaders", "skybox", "textures"))
 
 def compile_shaders():
     for shader in shaders.values():

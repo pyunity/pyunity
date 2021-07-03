@@ -178,8 +178,8 @@ class AudioListener(Component):
         for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
-        
+
         for i in range(self.opened):
             mixer.Mix_CloseAudio()
-        
+
         self.opened = 0

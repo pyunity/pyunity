@@ -355,7 +355,7 @@ class Scene:
                 for gameObject in self.gameObjects:
                     for component in gameObject.GetComponents(Behaviour):
                         component.FixedUpdate(dt / self.collManager.steps)
-        
+
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
                 component.LateUpdate(dt)

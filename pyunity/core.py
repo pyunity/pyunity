@@ -403,7 +403,8 @@ class Transform(SingleComponent):
 
     """
 
-    attrs = ["enabled", "localPosition", "localRotation", "localScale", "parent"]
+    attrs = ["enabled", "localPosition",
+             "localRotation", "localScale", "parent"]
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
