@@ -358,7 +358,7 @@ class Scene:
         
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
-                component.LateUpdate(dt / self.collManager.steps)
+                component.LateUpdate(dt)
 
         self.lastFrame = time()
 
