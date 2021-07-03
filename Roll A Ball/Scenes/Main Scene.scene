@@ -1,124 +1,186 @@
-Scene : d7c27cfe-3c31-4c87-b73a-97a39ab11eda
+Scene : dd25632d-c78c-45ec-8863-005698c01c99
     name: "Main Scene"
-GameObject : 462e3984-968c-47a1-a813-61c6e943dff2
+GameObject : b3e8baa4-e3c1-4fbe-af7a-cec08dd386fc
     name: "Main Camera"
     tag: 0
-    transform: 9fd4447c-c875-40bc-8463-fb520186012d
-GameObject : 6f1f1cc5-8f97-4194-b0e1-7c909c725948
+    transform: 1d8735a8-ad8b-49df-9c7f-562916c1f11f
+GameObject : f390874e-df95-418d-9613-05b3745d975f
     name: "Light"
     tag: 0
-    transform: 705316ab-afe3-4f5f-a85a-85e432d0e9c7
-GameObject : 305e51c5-3f83-4be8-9d5c-36d80022a884
+    transform: bfb171cd-79c0-40cc-b876-54d6b7e78f19
+GameObject : 7ab835c9-eaba-429e-a023-2f4e29216edc
     name: "Ball"
     tag: 0
-    transform: d225c6db-6729-4785-87ff-9944bee8b5b3
-GameObject : 3172c2a6-984c-4ac4-996f-8cdad055d4a8
+    transform: 335e0f92-b1f0-4d04-a3f1-addc101ecb5d
+GameObject : b2680c4b-097f-48a3-9124-ea60bfd51f8c
     name: "Floor"
     tag: 0
-    transform: 53949bc0-510c-45c9-a6e3-351d8b49ab99
-GameObject : 178db365-b3ca-46fb-b620-cd138376fedc
+    transform: 529a04d6-56dc-4aca-b2a5-c1f0b55b9159
+GameObject : 9c232099-f0dc-461d-8ef5-f1aa60205353
     name: "Wall"
     tag: 0
-    transform: 3025efdf-7c9f-462e-bace-b5535a8eda93
-GameObject : 6184261c-6199-4383-b266-aacf53c46b8f
+    transform: 2e1eb5a8-6848-427f-909a-697a3617aebd
+GameObject : eaa64bc3-c056-49aa-8f7a-683c1a43f788
     name: "Wall"
     tag: 0
-    transform: 69f845a5-f6d7-4a1c-b962-c7da4d410f04
-GameObject : d5961288-93a6-44cb-83fd-56a45d8084d5
+    transform: d00722f9-9f87-4e00-a70b-224f1ecca30e
+GameObject : 35584a93-1580-4330-be6a-035692626cd5
     name: "Wall"
     tag: 0
-    transform: 564e79b4-f187-4ae6-9786-88ac0efe258f
-GameObject : 74989371-c928-4d4c-af0f-1ff4b6465067
+    transform: 8c62e8e7-0f96-4c03-92df-f113133c3b3a
+GameObject : 3e1cf61d-86a5-4c26-b4a8-8b100bdcd031
     name: "Wall"
     tag: 0
-    transform: dd3b4c94-f29c-4c74-ae70-1ce085bbcf2a
-Transform(Component) : 9fd4447c-c875-40bc-8463-fb520186012d
-    gameObject: 462e3984-968c-47a1-a813-61c6e943dff2
+    transform: 41ae2756-d16c-4b86-8f08-c48d514fc5ce
+Transform(Component) : 1d8735a8-ad8b-49df-9c7f-562916c1f11f
+    gameObject: b3e8baa4-e3c1-4fbe-af7a-cec08dd386fc
+    enabled: True
     localPosition: Vector3(0, 10, -20)
     localRotation: Quaternion(0.9733792584604485, 0.22920039092241415, 0.0, 0.0)
     localScale: Vector3(1, 1, 1)
     parent: None
-Camera(Component) : def5f47e-60d3-438b-babc-9198c07b1a65
-    gameObject: 462e3984-968c-47a1-a813-61c6e943dff2
+Camera(Component) : 88c0c5e6-e483-454e-ad5b-8ce34862bfd4
+    gameObject: b3e8baa4-e3c1-4fbe-af7a-cec08dd386fc
+    enabled: True
     near: 0.05
     far: 100
     fov: 90
     clearColor: (0, 0, 0, 1)
-    shader: <pyunity.render.Shader object at 0x03E24F58>
-AudioListener(Component) : fc494dbb-6ff9-4f64-af7e-0b63fbd2e566
-    gameObject: 462e3984-968c-47a1-a813-61c6e943dff2
-CameraController(Behaviour) : 726e88fd-82c4-4a32-9ad9-60f17c60d567
-    gameObject: 462e3984-968c-47a1-a813-61c6e943dff2
-    other: 305e51c5-3f83-4be8-9d5c-36d80022a884
-Transform(Component) : 705316ab-afe3-4f5f-a85a-85e432d0e9c7
-    gameObject: 6f1f1cc5-8f97-4194-b0e1-7c909c725948
+    shader: <pyunity.render.Shader object at 0x03E63178>
+AudioListener(Component) : 21000a61-8cb9-4bb0-a351-a84b038c99af
+    gameObject: b3e8baa4-e3c1-4fbe-af7a-cec08dd386fc
+    enabled: True
+CameraController(Behaviour) : 61fd8834-5a02-4e56-8f13-29d6c1b8902c
+    gameObject: b3e8baa4-e3c1-4fbe-af7a-cec08dd386fc
+    other: 7ab835c9-eaba-429e-a023-2f4e29216edc
+Transform(Component) : bfb171cd-79c0-40cc-b876-54d6b7e78f19
+    gameObject: f390874e-df95-418d-9613-05b3745d975f
+    enabled: True
     localPosition: Vector3(10, 10, -10)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 1, 1)
     parent: None
-Light(Component) : 0a9bac33-ab1f-489b-96b5-7d427ed87506
-    gameObject: 6f1f1cc5-8f97-4194-b0e1-7c909c725948
+Light(Component) : c298b0bd-9a25-473e-b9dc-9fba5ac91498
+    gameObject: f390874e-df95-418d-9613-05b3745d975f
+    enabled: True
     intensity: 100
-Transform(Component) : d225c6db-6729-4785-87ff-9944bee8b5b3
-    gameObject: 305e51c5-3f83-4be8-9d5c-36d80022a884
+Transform(Component) : 335e0f92-b1f0-4d04-a3f1-addc101ecb5d
+    gameObject: 7ab835c9-eaba-429e-a023-2f4e29216edc
+    enabled: True
     localPosition: Vector3(0, 0, 0)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 1, 1)
     parent: None
-MeshRenderer(Component) : d57c5dde-b3ae-4587-9af7-16ddbed61bec
-    gameObject: 305e51c5-3f83-4be8-9d5c-36d80022a884
-    mesh: b6afe106-19d6-4c33-ad51-7831daf95d8a
-    mat: 162f15c3-cc0e-46e6-9109-6b2d7006646d
-PlayerController(Behaviour) : 38e0f2c1-d258-47f4-b361-93f3cc66620f
-    gameObject: 305e51c5-3f83-4be8-9d5c-36d80022a884
+AABBoxCollider(Component) : 20bcaeae-e177-4a0f-a4a1-7e882e630056
+    gameObject: 7ab835c9-eaba-429e-a023-2f4e29216edc
+    enabled: True
+    min: Vector3(-1, -1, -1)
+    max: Vector3(1, 1, 1)
+    pos: Vector3(0.0, 0.0, 0.0)
+Rigidbody(Component) : 1968177d-63ce-4325-adb4-a9d7b6036ebb
+    gameObject: 7ab835c9-eaba-429e-a023-2f4e29216edc
+    enabled: True
+    mass: 50
+    velocity: Vector3(0, 0, 0)
+    physicMaterial: <pyunity.physics.core.PhysicMaterial object at 0x03FD64A8>
+    position: Vector3(0, 0, 0)
+    gravity: False
+MeshRenderer(Component) : c36ef89f-6515-41a1-b1ac-9cb3320d206b
+    gameObject: 7ab835c9-eaba-429e-a023-2f4e29216edc
+    enabled: True
+    mesh: d2754581-a46f-4649-9a98-9c0767c1c276
+    mat: deb92502-1690-472e-bc40-4e6fcd055d2b
+PlayerController(Behaviour) : 3fa72e0a-c320-4643-8978-d2f160757b15
+    gameObject: 7ab835c9-eaba-429e-a023-2f4e29216edc
+    rigidbody: 1968177d-63ce-4325-adb4-a9d7b6036ebb
     speed: 8
-Transform(Component) : 53949bc0-510c-45c9-a6e3-351d8b49ab99
-    gameObject: 3172c2a6-984c-4ac4-996f-8cdad055d4a8
+Transform(Component) : 529a04d6-56dc-4aca-b2a5-c1f0b55b9159
+    gameObject: b2680c4b-097f-48a3-9124-ea60bfd51f8c
+    enabled: True
     localPosition: Vector3(0, -2, 0)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(50, 1, 50)
     parent: None
-MeshRenderer(Component) : 0967ac16-b7a6-47c4-af4b-ec79df59e40e
-    gameObject: 3172c2a6-984c-4ac4-996f-8cdad055d4a8
-    mesh: 8afdd13d-e1aa-4a3e-a53b-76ae8cc010ee
-    mat: 999e9464-ba52-4a54-b9a9-bbe25809acf1
-Transform(Component) : 3025efdf-7c9f-462e-bace-b5535a8eda93
-    gameObject: 178db365-b3ca-46fb-b620-cd138376fedc
+AABBoxCollider(Component) : e4de8057-d6c8-4d63-8e63-c1a4406534a3
+    gameObject: b2680c4b-097f-48a3-9124-ea60bfd51f8c
+    enabled: True
+    min: Vector3(-50, -3, -50)
+    max: Vector3(50, -1, 50)
+    pos: Vector3(0.0, -2.0, 0.0)
+MeshRenderer(Component) : 6cdeb5a6-ae3a-482e-a6dc-987f650a5b6d
+    gameObject: b2680c4b-097f-48a3-9124-ea60bfd51f8c
+    enabled: True
+    mesh: dd8f0988-ee64-4840-bc74-52ff178e8409
+    mat: e12411ab-b58a-45bd-b3d5-6a6699417eb1
+Transform(Component) : 2e1eb5a8-6848-427f-909a-697a3617aebd
+    gameObject: 9c232099-f0dc-461d-8ef5-f1aa60205353
+    enabled: True
     localPosition: Vector3(0, 0.5, 51)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(50, 3, 1)
     parent: None
-MeshRenderer(Component) : 365a5842-c64a-49e5-8fc5-aab9c7d2aa7a
-    gameObject: 178db365-b3ca-46fb-b620-cd138376fedc
-    mesh: 8afdd13d-e1aa-4a3e-a53b-76ae8cc010ee
-    mat: 1ca617eb-9ff9-4b97-81a1-fb85df6cec3c
-Transform(Component) : 69f845a5-f6d7-4a1c-b962-c7da4d410f04
-    gameObject: 6184261c-6199-4383-b266-aacf53c46b8f
+AABBoxCollider(Component) : 79b07212-bdc8-48c7-9f0f-bcf74584709d
+    gameObject: 9c232099-f0dc-461d-8ef5-f1aa60205353
+    enabled: True
+    min: Vector3(-50, -2.5, 50)
+    max: Vector3(50, 3.5, 52)
+    pos: Vector3(0.0, 0.5, 51.0)
+MeshRenderer(Component) : b928a08a-e4e6-4dc5-b227-360098f5c147
+    gameObject: 9c232099-f0dc-461d-8ef5-f1aa60205353
+    enabled: True
+    mesh: dd8f0988-ee64-4840-bc74-52ff178e8409
+    mat: 0b7e3409-c5ef-4bc9-ae37-84db80983f8e
+Transform(Component) : d00722f9-9f87-4e00-a70b-224f1ecca30e
+    gameObject: eaa64bc3-c056-49aa-8f7a-683c1a43f788
+    enabled: True
     localPosition: Vector3(0, 0.5, -51)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(50, 3, 1)
     parent: None
-MeshRenderer(Component) : 8c71eaba-bbf0-4dee-9654-b157ba9a09fc
-    gameObject: 6184261c-6199-4383-b266-aacf53c46b8f
-    mesh: 8afdd13d-e1aa-4a3e-a53b-76ae8cc010ee
-    mat: 1ca617eb-9ff9-4b97-81a1-fb85df6cec3c
-Transform(Component) : 564e79b4-f187-4ae6-9786-88ac0efe258f
-    gameObject: d5961288-93a6-44cb-83fd-56a45d8084d5
+AABBoxCollider(Component) : 71ef03f6-5247-434f-89ec-ef16560b23ce
+    gameObject: eaa64bc3-c056-49aa-8f7a-683c1a43f788
+    enabled: True
+    min: Vector3(-50, -2.5, -52)
+    max: Vector3(50, 3.5, -50)
+    pos: Vector3(0.0, 0.5, -51.0)
+MeshRenderer(Component) : 489a5780-2e95-47c6-93db-6d8df640d8b2
+    gameObject: eaa64bc3-c056-49aa-8f7a-683c1a43f788
+    enabled: True
+    mesh: dd8f0988-ee64-4840-bc74-52ff178e8409
+    mat: 0b7e3409-c5ef-4bc9-ae37-84db80983f8e
+Transform(Component) : 8c62e8e7-0f96-4c03-92df-f113133c3b3a
+    gameObject: 35584a93-1580-4330-be6a-035692626cd5
+    enabled: True
     localPosition: Vector3(49, 0.5, 0)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 3, 50)
     parent: None
-MeshRenderer(Component) : e7ad00e8-5b50-42fb-81b6-1a00857fdb69
-    gameObject: d5961288-93a6-44cb-83fd-56a45d8084d5
-    mesh: 8afdd13d-e1aa-4a3e-a53b-76ae8cc010ee
-    mat: 1ca617eb-9ff9-4b97-81a1-fb85df6cec3c
-Transform(Component) : dd3b4c94-f29c-4c74-ae70-1ce085bbcf2a
-    gameObject: 74989371-c928-4d4c-af0f-1ff4b6465067
+AABBoxCollider(Component) : 14112c92-4c29-47da-869d-87f841fd8bd2
+    gameObject: 35584a93-1580-4330-be6a-035692626cd5
+    enabled: True
+    min: Vector3(48, -2.5, -50)
+    max: Vector3(50, 3.5, 50)
+    pos: Vector3(49.0, 0.5, 0.0)
+MeshRenderer(Component) : 256ff15f-8e50-4fea-831f-155c76aab891
+    gameObject: 35584a93-1580-4330-be6a-035692626cd5
+    enabled: True
+    mesh: dd8f0988-ee64-4840-bc74-52ff178e8409
+    mat: 0b7e3409-c5ef-4bc9-ae37-84db80983f8e
+Transform(Component) : 41ae2756-d16c-4b86-8f08-c48d514fc5ce
+    gameObject: 3e1cf61d-86a5-4c26-b4a8-8b100bdcd031
+    enabled: True
     localPosition: Vector3(-49, 0.5, 0)
     localRotation: Quaternion(1, 0, 0, 0)
     localScale: Vector3(1, 3, 50)
     parent: None
-MeshRenderer(Component) : b490cf85-e7d9-4ac2-8c65-56c4e22ca2be
-    gameObject: 74989371-c928-4d4c-af0f-1ff4b6465067
-    mesh: 8afdd13d-e1aa-4a3e-a53b-76ae8cc010ee
-    mat: 1ca617eb-9ff9-4b97-81a1-fb85df6cec3c
+AABBoxCollider(Component) : f1bdbd3b-6bd6-42b3-a6c6-503ea8e0592a
+    gameObject: 3e1cf61d-86a5-4c26-b4a8-8b100bdcd031
+    enabled: True
+    min: Vector3(-50, -2.5, -50)
+    max: Vector3(-48, 3.5, 50)
+    pos: Vector3(-49.0, 0.5, 0.0)
+MeshRenderer(Component) : 9b0079d9-234f-4ace-a2c5-35e9eabdc48b
+    gameObject: 3e1cf61d-86a5-4c26-b4a8-8b100bdcd031
+    enabled: True
+    mesh: dd8f0988-ee64-4840-bc74-52ff178e8409
+    mat: 0b7e3409-c5ef-4bc9-ae37-84db80983f8e

@@ -84,6 +84,31 @@ class Behaviour(Component):
         """
         pass
 
+    def FixedUpdate(self, dt):
+        """
+        Called every frame, in each physics step.
+
+        Parameters
+        ----------
+        dt : float
+            Length of this physics step
+
+        """
+        pass
+
+    def LateUpdate(self, dt):
+        """
+        Called every frame, after physics processing.
+
+        Parameters
+        ----------
+        dt : float
+            Time since last frame, sent by the scene 
+            that the Behaviour is in.
+
+        """
+        pass
+
 class ShowInInspector:
     def __init__(self, type, default=None):
         self.type = type

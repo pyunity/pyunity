@@ -374,7 +374,7 @@ class Rigidbody(Component):
 
     """
 
-    attrs = ["enabled", "mass", "velocity", "physicMaterial", "position"]
+    attrs = ["enabled", "mass", "velocity", "physicMaterial", "position", "gravity", "force"]
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
@@ -399,8 +399,8 @@ class Rigidbody(Component):
         """
         if self.gravity:
             self.force += config.gravity
-        print(self.position)
-        self.velocity += self.force * (1 / self.mass) * dt
+        self.velocity += self.force * (1 / self.mass)
+        self.velocity *= 0.999
         self.position += self.velocity * dt
         for component in self.gameObject.GetComponents(Collider):
             component.min += self.velocity * dt
@@ -481,6 +481,7 @@ class CollManager:
         self.rigidbodies = {}
         self.dummyRigidbody = Rigidbody(None, True)
         self.dummyRigidbody.mass = infinity
+        self.steps = 10
 
     def AddPhysicsInfo(self, scene):
         """
@@ -572,19 +573,22 @@ class CollManager:
                                 continue
                             b = velAlongNormal / normal.dot(normal)
 
+                            # Infinite mass testing
                             if math.isinf(rbA.mass):
                                 a = 0
                             elif math.isinf(rbB.mass):
-                                a = 2
+                                a = 1 + e
                             else:
                                 a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
 
                             velA = a * b * normal
 
+                            # Reverse the normal (normal from B to A)
                             normal *= -1
 
+                            # Infinite mass testing
                             if math.isinf(rbA.mass):
-                                a = 2
+                                a = 1 + e
                             elif math.isinf(rbB.mass):
                                 a = 0
                             else:
@@ -595,25 +599,27 @@ class CollManager:
                             rbA.velocity -= velA
                             rbB.velocity -= velB
 
-                            # rv = rbB.velocity - rbA.velocity
-                            # t = (rv - rv.dot(m.normal) * m.normal).normalized()
+                            # Start friction
+                            rv = rbB.velocity - rbA.velocity
+                            t = (rv - rv.dot(m.normal) * m.normal).normalized()
 
-                            # jt = rv.dot(t)
-                            # jt /= 1 / rbA.mass + 1 / rbB.mass
+                            jt = rv.dot(t)
+                            jt /= 1 / rbA.mass + 1 / rbB.mass
 
-                            # if math.isinf(rbA.mass + rbB.mass): j = 0
-                            # else:
-                            #     j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
-                            #     j /= 1 / rbA.mass + 1 / rbB.mass
+                            if math.isinf(rbA.mass + rbB.mass): j = 0
+                            else:
+                                j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
+                                j /= 1 / rbA.mass + 1 / rbB.mass
 
-                            # mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
-                            # if abs(jt) < j * mu:
-                            #     frictionImpulse = jt * t
-                            # else:
-                            #     frictionImpulse = -j * t * mu
+                            mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
+                            if abs(jt) < j * mu:
+                                frictionImpulse = jt * t
+                            else:
+                                frictionImpulse = -j * t * mu
 
-                            # rbA.velocity -= 1 / rbA.mass * frictionImpulse
-                            # rbB.velocity += 1 / rbB.mass * frictionImpulse
+                            rbA.velocity -= 1 / rbA.mass * frictionImpulse
+                            rbB.velocity += 1 / rbB.mass * frictionImpulse
+                            # End friction
 
                             correction = m.penetration * \
                                 (rbA.mass + rbB.mass) * 0.8 * m.normal
@@ -642,15 +648,15 @@ class CollManager:
 
         Notes
         -----
-        The simulation is stepped 10 times,
-        so that it is more precise.
+        The simulation is stepped 10 times
+        manually by the scene, so it is more
+        precise.
 
         """
-        for i in range(1):
-            for rb in self.rigidbodies:
-                if rb is not self.dummyRigidbody:
-                    rb.Move(dt / 1)
-            self.CheckCollisions()
+        for rb in self.rigidbodies:
+            if rb is not self.dummyRigidbody:
+                rb.Move(dt / 1)
+        self.CheckCollisions()
         for rb in self.rigidbodies:
             if rb is not self.dummyRigidbody:
                 rb.transform.position = rb.position

@@ -9,7 +9,7 @@ class PlayerController(Behaviour):
         y = Input.GetKey(KeyCode.W) - Input.GetKey(KeyCode.S)
 
         movement = Vector3(x, 0, y)
-        self.rigidbody.AddForce(movement * self.speed)
+        self.rigidbody.AddForce(movement * self.speed * 2)
 
 class CameraController(Behaviour):
     other = None
@@ -17,16 +17,18 @@ class CameraController(Behaviour):
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
     
-    def Update(self, dt):
+    def LateUpdate(self, dt):
         self.transform.position = self.other.transform.position + self.offset
 
 scene = SceneManager.AddScene("Main Scene")
 scene.mainCamera.transform.localPosition = Vector3(0, 10, -20)
 
 ball = GameObject("Ball")
-collider = ball.AddComponent(SphereCollider)
+collider = ball.AddComponent(AABBoxCollider)
 rb = ball.AddComponent(Rigidbody)
+rb.mass = 50
 rb.gravity = False
+rb.physicMaterial = PhysicMaterial(0.5, 0)
 renderer = ball.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.sphere
 renderer.mat = Material(Color(200, 200, 200))
@@ -85,4 +87,4 @@ scene.Add(wall4)
 
 SceneManager.LoadSceneByIndex(0)
 
-# Loader.SaveSceneToProject(scene, name="Roll A Ball")
+Loader.SaveSceneToProject(scene, name="Roll A Ball")

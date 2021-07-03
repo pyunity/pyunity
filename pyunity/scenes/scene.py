@@ -350,7 +350,15 @@ class Scene:
                             component.Play()
 
         if self.physics:
-            self.collManager.Step(dt)
+            for i in range(self.collManager.steps):
+                self.collManager.Step(dt / self.collManager.steps)
+                for gameObject in self.gameObjects:
+                    for component in gameObject.GetComponents(Behaviour):
+                        component.FixedUpdate(dt / self.collManager.steps)
+        
+        for gameObject in self.gameObjects:
+            for component in gameObject.GetComponents(Behaviour):
+                component.LateUpdate(dt / self.collManager.steps)
 
         self.lastFrame = time()
 
