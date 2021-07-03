@@ -69,7 +69,7 @@ class Manifold:
 
 class Collider(Component):
     """Collider base class."""
-    
+
     pass
 
 class SphereCollider(Collider):
@@ -374,7 +374,8 @@ class Rigidbody(Component):
 
     """
 
-    attrs = ["enabled", "mass", "velocity", "physicMaterial", "position", "gravity", "force"]
+    attrs = ["enabled", "mass", "velocity",
+             "physicMaterial", "position", "gravity", "force"]
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
@@ -606,12 +607,15 @@ class CollManager:
                             jt = rv.dot(t)
                             jt /= 1 / rbA.mass + 1 / rbB.mass
 
-                            if math.isinf(rbA.mass + rbB.mass): j = 0
+                            if math.isinf(rbA.mass + rbB.mass):
+                                j = 0
                             else:
-                                j = -(1 + e) * (rbB.velocity - rbA.velocity).dot(normal)
+                                j = -(1 + e) * (rbB.velocity -
+                                                rbA.velocity).dot(normal)
                                 j /= 1 / rbA.mass + 1 / rbB.mass
 
-                            mu = (rbA.physicMaterial.friction + rbB.physicMaterial.friction) / 2
+                            mu = (rbA.physicMaterial.friction +
+                                  rbB.physicMaterial.friction) / 2
                             if abs(jt) < j * mu:
                                 frictionImpulse = jt * t
                             else:
@@ -629,7 +633,7 @@ class CollManager:
                             if rbB is not self.dummyRigidbody:
                                 rbB.MovePos(
                                     self.correct_inf(rbA.mass, rbB.mass, correction, rbB.mass))
-    
+
     def correct_inf(self, a, b, correction, target):
         if not math.isinf(a + b):
             return 1 / target * correction
