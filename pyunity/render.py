@@ -195,7 +195,7 @@ class Camera(SingleComponent):
         super(Camera, self).__init__(transform)
         self.size = config.size
         self.near = 0.05
-        self.far = 100
+        self.far = 200
         self.fov = 90
         self.clearColor = (0, 0, 0, 1)
         self.shader = shaders["Standard"]
