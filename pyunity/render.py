@@ -189,10 +189,10 @@ class Camera(SingleComponent):
 
     """
 
-    attrs = ["near", "far", "fov", "clearColor", "shader"]
+    attrs = ["enabled", "near", "far", "fov", "clearColor", "shader"]
 
-    def __init__(self):
-        super(Camera, self).__init__()
+    def __init__(self, transform):
+        super(Camera, self).__init__(transform)
         self.size = config.size
         self.near = 0.05
         self.far = 100

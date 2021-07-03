@@ -148,16 +148,19 @@ class GameObject:
     def __init__(self, name="GameObject", parent=None):
         self.name = name
         self.components = []
+        self.transform = None
         self.AddComponent(Transform)
         if parent:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
+        self.enabled = True
 
     @staticmethod
     def BareObject(name="GameObject"):
         obj = GameObject.__new__(GameObject)
         obj.name = name
         obj.components = []
+        obj.transform = None
         return obj
 
     def AddComponent(self, componentClass):
@@ -180,7 +183,7 @@ class GameObject:
         if not (
                 issubclass(componentClass, SingleComponent) and
                 any(isinstance(component, componentClass) for component in self.components)):
-            component = componentClass()
+            component = componentClass(self.transform)
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
@@ -301,11 +304,14 @@ class Component:
 
     """
 
-    attrs = []
+    attrs = ["enabled"]
 
-    def __init__(self):
-        self.gameObject = None
-        self.transform = None
+    def __init__(self, transform, is_transform=False):
+        if is_transform:
+            self.gameObject = None
+        else:
+            self.gameObject = transform.gameObject
+        self.transform = transform
         self.enabled = True
 
     def AddComponent(self, component):
@@ -397,10 +403,11 @@ class Transform(SingleComponent):
 
     """
 
-    attrs = ["localPosition", "localRotation", "localScale", "parent"]
+    attrs = ["enabled", "localPosition", "localRotation", "localScale", "parent"]
 
-    def __init__(self):
-        super(Transform, self).__init__()
+    def __init__(self, transform=None):
+        super(Transform, self).__init__(self, True)
+        assert transform is None
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
         self.localScale = Vector3.one()
@@ -582,10 +589,10 @@ class Light(SingleComponent):
 
     """
 
-    attrs = ["intensity"]
+    attrs = ["enabled", "intensity"]
 
-    def __init__(self):
-        super(Light, self).__init__()
+    def __init__(self, transform):
+        super(Light, self).__init__(transform)
         self.intensity = 100
 
 class MeshRenderer(SingleComponent):
@@ -601,10 +608,10 @@ class MeshRenderer(SingleComponent):
 
     """
 
-    attrs = ["mesh", "mat"]
+    attrs = ["enabled", "mesh", "mat"]
 
-    def __init__(self):
-        super(MeshRenderer, self).__init__()
+    def __init__(self, transform):
+        super(MeshRenderer, self).__init__(transform)
         self.mesh = None
         self.mat = None
 

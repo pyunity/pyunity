@@ -46,10 +46,10 @@ class AudioSource(Component):
 
     """
 
-    attrs = ["PlayOnStart", "Loop"]
+    attrs = ["enabled", "PlayOnStart", "Loop"]
 
-    def __init__(self):
-        super(AudioSource, self).__init__()
+    def __init__(self, transform):
+        super(AudioSource, self).__init__(transform)
         global channels
         self.clip = None
         self.channel = channels
@@ -153,7 +153,8 @@ class AudioListener(Component):
 
     """
 
-    def __init__(self):
+    def __init__(self, transform):
+        super(AudioListener, self).__init__(transform)
         self.opened = 0
 
     def Init(self):
