@@ -6,5 +6,5 @@ class CameraController(Behaviour):
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
     
-    def Update(self, dt):
+    def LateUpdate(self, dt):
         self.transform.position = self.other.transform.position + self.offset
