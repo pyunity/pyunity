@@ -69,8 +69,8 @@ class Manifold:
 
 class Collider(Component):
     """Collider base class."""
-
-    attrs = ["enabled"]
+    
+    pass
 
 class SphereCollider(Collider):
     """
@@ -400,7 +400,7 @@ class Rigidbody(Component):
         if self.gravity:
             self.force += config.gravity
         self.velocity += self.force * (1 / self.mass)
-        self.velocity *= 0.999
+        # self.velocity *= 0.999
         self.position += self.velocity * dt
         for component in self.gameObject.GetComponents(Collider):
             component.min += self.velocity * dt
