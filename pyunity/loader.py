@@ -66,7 +66,7 @@ def LoadObj(filename):
 
 def SaveObj(mesh, name, filePath=None):
     if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
+        directory = os.path.dirname(os.path.abspath(filePath))
     else:
         directory = os.getcwd()
     os.makedirs(directory, exist_ok=True)
@@ -147,7 +147,7 @@ def SaveMesh(mesh, name, filePath=None):
 
     """
     if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
+        directory = os.path.dirname(os.path.abspath(filePath))
     else:
         directory = os.getcwd()
     os.makedirs(directory, exist_ok=True)
@@ -205,7 +205,7 @@ def GetImports(file):
 
 def SaveSceneToProject(scene, filePath=None, name=None):
     if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
+        directory = os.path.dirname(os.path.abspath(filePath))
     else:
         directory = os.getcwd()
     if name is None:
@@ -222,7 +222,7 @@ def SaveSceneToProject(scene, filePath=None, name=None):
 
 def SaveAllScenes(name, filePath=None):
     if filePath:
-        directory = os.path.dirname(os.path.realpath(filePath))
+        directory = os.path.dirname(os.path.abspath(filePath))
     else:
         directory = os.getcwd()
     directory = os.path.join(directory, name)
@@ -449,7 +449,7 @@ class Primitives:
 
     """
 
-    __path = os.path.dirname(os.path.realpath(__file__))
+    __path = os.path.dirname(os.path.abspath(__file__))
     cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
     quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
     double_quad = LoadMesh(os.path.join(__path, "primitives/double_quad.mesh"))
