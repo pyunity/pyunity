@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 if os.environ["cython"] == "1":
     c_files = glob.glob("src/**/*.c", recursive=True)
-    data_files = list(filter(lambda a: ".py" not in a,
+    data_files = list(filter(lambda a: ".c" not in a,
                       glob.glob("src/**/*.*", recursive=True)))
     config = {
         "package_dir": {"pyunity": "src"},
