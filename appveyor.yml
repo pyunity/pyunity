@@ -36,7 +36,6 @@ for:
       - python -m pip install --pre cython wheel pyglm pillow autopep8 coverage
       - coverage run -m unittest tests.py
       - bash <(curl -s https://codecov.io/bash)
-      - rm -rf docs/source/pyunity*
   - matrix:
       only:
         - image: Visual Studio 2019
@@ -44,7 +43,6 @@ for:
       - "%windows_location% -m virtualenv venv"
       - venv\Scripts\activate
       - python -m pip install --pre cython wheel pyglm pillow autopep8
-      - del docs\source\pyunity*
 
       - "%windows_location2% -m virtualenv venv2"
       - venv2\Scripts\activate
@@ -59,7 +57,6 @@ for:
     install:
       - source $venv/bin/activate
       - python -m pip install --pre cython wheel pyglm pillow autopep8
-      - rm -rf docs/source/pyunity*
 
 build: off
 skip_branch_with_pr: true
