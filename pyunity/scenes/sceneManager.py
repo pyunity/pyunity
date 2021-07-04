@@ -152,6 +152,15 @@ def RemoveScene(scene):
     scenesByIndex.remove(scene)
     scenesByName.pop(scene.name)
 
+def RemoveAllScenes():
+    """
+    Removes all scenes from the SceneManager.
+
+    """
+    for scene in scenesByIndex:
+        scenesByName.pop(scene.name)
+    scenesByIndex.clear()
+
 def LoadSceneByName(name):
     """
     Loads a scene by its name.

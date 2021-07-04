@@ -1,35 +1,30 @@
-from pyunity.scenes.sceneManager import KeyboardInterruptKill
-from . import (
-    example1, example2, example3, example4, example5, example6, example7, example8, example9
-)
 from ..scenes import SceneManager
 from .. import Logger
 import sys
-
-example_list = [
-    example1,
-    example2,
-    example3,
-    example4,
-    # example5,
-    example6,
-    example7,
-    example8,
-    example9,
-]
+import os
+import glob
+import importlib
 
 SceneManager.KeyboardInterruptKill = True
+broken = [5, 8]
+directory = os.path.dirname(os.path.abspath(__file__))
+
+def load_example(i):
+    module = importlib.import_module(".example" + str(i), __name__)
+    module.main()
+    SceneManager.RemoveAllScenes()
 
 def show():
-    Logger.LogLine(Logger.WARN, "Currently broken examples: 5, 8")
+    Logger.LogLine(Logger.WARN, "Currently broken examples: " + ", ".join(map(str, broken)))
     if len(sys.argv) == 1:
         num = 0
     else:
         num = int(sys.argv[1])
-    if not num:
-        for index, example in enumerate(example_list):
-            Logger.Log("\nExample", str(index + 1))
-            example.main()
-            SceneManager.RemoveScene(SceneManager.GetSceneByName("Scene"))
+    if num == 0:
+        for i in range(1, len(glob.glob(os.path.join(directory, "example*"))) + 1):
+            if i in broken:
+                continue
+            Logger.Log("\nExample", i)
+            load_example(i)
     else:
-        example_list[num - 1].main()
+        load_example(num)
