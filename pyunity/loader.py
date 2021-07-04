@@ -230,7 +230,6 @@ def SaveAllScenes(name, filePath=None):
 
     project = Project(directory, name)
 
-    print(SceneManager.scenesByIndex)
     for scene in SceneManager.scenesByIndex:
         SaveScene(scene, directory, project)
         project.import_file(os.path.join(
