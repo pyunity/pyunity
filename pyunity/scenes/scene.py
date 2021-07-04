@@ -321,9 +321,6 @@ class Scene:
 
         """
 
-        self.mainCamera.lastPos = Vector3.zero()
-        self.mainCamera.lastRot = Quaternion.identity()
-
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.Resize(*config.size)
 

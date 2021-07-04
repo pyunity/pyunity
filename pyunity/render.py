@@ -204,6 +204,8 @@ class Camera(SingleComponent):
         self.skybox = skyboxes["Water"]
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
+        self.lastPos = Vector3.zero()
+        self.lastRot = Quaternion.identity()
 
     @property
     def fov(self):
