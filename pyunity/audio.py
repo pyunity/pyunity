@@ -29,8 +29,8 @@ elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
 elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-    Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " + \
-        SDL_GetError())
+    Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
+                   SDL_GetError())
 
 class AudioSource(Component):
     """
@@ -159,7 +159,7 @@ class AudioListener(Component):
     def __init__(self, transform):
         super(AudioListener, self).__init__(transform)
         self.opened = 0
-    
+
     def Init(self):
         """
         Initializes the AudioListener.
