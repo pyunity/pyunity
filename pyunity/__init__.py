@@ -167,17 +167,17 @@ __summary__ = "A Python implementation of the Unity Engine"
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import audio, core, physics, errors, files, config, window
-__all__ = ["Vector3", "Quaternion", "KeyState",
-           "SceneManager", "Mesh", "Loader",
-           "Logger", "Behaviour", "Input", "KeyCode"]
+from . import audio, core, physics, errors, files
+__all__ = ["Logger", "Input", "Loader", "KeyCode",
+           "KeyState", "SceneManager", "Quaternion",
+           "Vector3", "Mesh"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
 __all__.extend(files.__all__)
 
-
+from . import config, window
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = window.GetWindowProvider()
 
