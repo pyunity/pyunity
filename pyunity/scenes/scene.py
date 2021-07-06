@@ -12,7 +12,6 @@ from ..audio import *
 from ..core import *
 from ..files import Behaviour
 from ..vector3 import Vector3
-from ..quaternion import Quaternion
 from .. import config, physics, logger as Logger, render
 from ..errors import *
 from time import time

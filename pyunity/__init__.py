@@ -171,14 +171,14 @@ from . import config, window
 
 # __all__ starts here
 __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
-           "Behaviour""Clock", "CollManager", "Collider", "Color",
-           "Component""ComponentException", "File", "GameObject",
-           "GameObjectException""Input", "KeyCode", "KeyState",
-           "Light""Loader", "Logger", "Material", "Mesh", "MeshRenderer",
-           "PhysicMaterial""Prefab", "Project", "PyUnityException",
-           "Quaternion""Rigidbody", "SceneManager", "ShowInInspector",
-           "SphereCollider""Tag", "Texture2D", "Transform", "Vector3",
-           "infinity]
+           "Behaviour", "Clock", "CollManager", "Collider", "Color",
+           "Component", "ComponentException", "File", "GameObject",
+           "GameObjectException", "Input", "KeyCode", "KeyState",
+           "Light", "Loader", "Logger", "Material", "Mesh", "MeshRenderer",
+           "PhysicMaterial", "Prefab", "Project", "PyUnityException",
+           "Quaternion", "Rigidbody", "SceneManager", "ShowInInspector",
+           "SphereCollider", "Tag", "Texture2D", "Transform",
+           "Vector3", "infinity"]
 # __all__ ends here
 
 if "PYUNITY_TESTING" not in os.environ:

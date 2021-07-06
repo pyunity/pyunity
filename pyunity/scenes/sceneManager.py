@@ -5,7 +5,6 @@ of Scenes.
 """
 
 from ..core import *
-from ..window import GetWindowProvider
 from .. import config
 from ..errors import *
 from .scene import Scene
