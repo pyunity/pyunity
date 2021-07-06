@@ -2,18 +2,18 @@ import os
 import glob
 import shutil
 import pkgutil
-import pyunity
 import autopep8
 from types import ModuleType
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 os.environ["PYUNITY_TESTING"] = "1"
+import pyunity
 
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
                     "Install using \"pip install autopep8\".")
 autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302",
-              "pyunity", "setup.py", "prepare.py", "cli.py"])
+              "pyunity", "setup.py", "cli.py"])
 
 items = []
 
