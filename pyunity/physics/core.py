@@ -565,74 +565,8 @@ class CollManager:
                             colliderB) and colliderA.collidingWith(colliderB)
                         if m:
                             e = self.GetRestitution(rbA, rbB)
-
                             normal = m.normal.copy()
-
-                            rv = rbA.velocity - rbB.velocity
-                            velAlongNormal = rv.dot(normal)
-                            if velAlongNormal < 0:
-                                continue
-                            b = velAlongNormal / normal.dot(normal)
-
-                            # Infinite mass testing
-                            if math.isinf(rbA.mass):
-                                a = 0
-                            elif math.isinf(rbB.mass):
-                                a = 1 + e
-                            else:
-                                a = (1 + e) * rbB.mass / (rbA.mass + rbB.mass)
-
-                            velA = a * b * normal
-
-                            # Reverse the normal (normal from B to A)
-                            normal *= -1
-
-                            # Infinite mass testing
-                            if math.isinf(rbA.mass):
-                                a = 1 + e
-                            elif math.isinf(rbB.mass):
-                                a = 0
-                            else:
-                                a = (1 + e) * rbA.mass / (rbA.mass + rbB.mass)
-
-                            velB = a * b * normal
-
-                            rbA.velocity -= velA
-                            rbB.velocity -= velB
-
-                            # Start friction
-                            rv = rbB.velocity - rbA.velocity
-                            t = (rv - rv.dot(m.normal) * m.normal).normalized()
-
-                            jt = rv.dot(t)
-                            jt /= 1 / rbA.mass + 1 / rbB.mass
-
-                            if math.isinf(rbA.mass + rbB.mass):
-                                j = 0
-                            else:
-                                j = -(1 + e) * (rbB.velocity -
-                                                rbA.velocity).dot(normal)
-                                j /= 1 / rbA.mass + 1 / rbB.mass
-
-                            mu = (rbA.physicMaterial.friction +
-                                  rbB.physicMaterial.friction) / 2
-                            if abs(jt) < j * mu:
-                                frictionImpulse = jt * t
-                            else:
-                                frictionImpulse = -j * t * mu
-
-                            rbA.velocity -= 1 / rbA.mass * frictionImpulse
-                            rbB.velocity += 1 / rbB.mass * frictionImpulse
-                            # End friction
-
-                            correction = m.penetration * \
-                                (rbA.mass + rbB.mass) * 0.8 * m.normal
-                            if rbA is not self.dummyRigidbody:
-                                rbA.MovePos(
-                                    self.correct_inf(rbA.mass, rbB.mass, correction, rbA.mass))
-                            if rbB is not self.dummyRigidbody:
-                                rbB.MovePos(
-                                    self.correct_inf(rbA.mass, rbB.mass, correction, rbB.mass))
+                            # Resolve collisions here
 
     def correct_inf(self, a, b, correction, target):
         if not math.isinf(a + b):
