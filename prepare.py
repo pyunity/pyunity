@@ -2,12 +2,12 @@ import os
 import glob
 import shutil
 import pkgutil
+import tests  # lgtm[py/unused-import]
+import pyunity
 import autopep8
 from types import ModuleType
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
-os.environ["PYUNITY_TESTING"] = "1"
-import pyunity
 
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
