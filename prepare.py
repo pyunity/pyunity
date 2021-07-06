@@ -38,7 +38,7 @@ if len(sys.argv) < 2:
             line += "\"" + item + "\", "
         else:
             text += line[:-1] + "\n           "
-            line = ""
+            line = "\"" + item + "\""
 
     if line == "":
         text = text[:-13] + "]\n# __all__ ends here"
