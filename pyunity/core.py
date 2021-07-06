@@ -421,7 +421,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localPosition
         else:
-            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.scale
+            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.parent.scale
 
     @position.setter
     def position(self, value):
@@ -494,7 +494,7 @@ class Transform(SingleComponent):
         if self.parent is None or not bool(self.parent.scale):
             self.localScale = value
         else:
-            value / self.parent.scale
+            self.localScale = value / self.parent.scale
 
     def ReparentTo(self, parent):
         """
