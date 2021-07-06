@@ -566,7 +566,10 @@ class CollManager:
                         if m:
                             e = self.GetRestitution(rbA, rbB)
                             normal = m.normal.copy()
-                            # Resolve collisions here
+                            self.ResolveCollisions(rbA, rbB, e, normal, m.penetration)
+
+    def ResolveCollisions(a, b, restitution, normal, penetration):
+        pass
 
     def correct_inf(self, a, b, correction, target):
         if not math.isinf(a + b):
