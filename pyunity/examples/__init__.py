@@ -15,7 +15,8 @@ def load_example(i):
     SceneManager.RemoveAllScenes()
 
 def show():
-    Logger.LogLine(Logger.WARN, "Currently broken examples: " + ", ".join(map(str, broken)))
+    Logger.LogLine(Logger.WARN, "Currently broken examples: " +
+                   ", ".join(map(str, broken)))
     if len(sys.argv) == 1:
         num = 0
     else:
