@@ -421,7 +421,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localPosition
         else:
-            return self.parent.position + self.localRotation.RotateVector(self.localPosition)
+            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.scale
 
     @position.setter
     def position(self, value):
@@ -433,7 +433,7 @@ class Transform(SingleComponent):
             self.localPosition = value
         else:
             self.localPosition = self.localRotation.conjugate.RotateVector(
-                value - self.parent.position)
+                value / self.scale - self.parent.position)
 
     @property
     def rotation(self):
