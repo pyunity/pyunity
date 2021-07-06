@@ -24,7 +24,7 @@ scene = SceneManager.AddScene("Main Scene")
 scene.mainCamera.transform.localPosition = Vector3(0, 10, -20)
 
 ball = GameObject("Ball")
-collider = ball.AddComponent(AABBoxCollider)
+ball.AddComponent(AABBoxCollider)
 rb = ball.AddComponent(Rigidbody)
 rb.mass = 50
 rb.gravity = False
@@ -41,7 +41,7 @@ scene.mainCamera.transform.localEulerAngles = Vector3(26.5, 0, 0)
 floor = GameObject("Floor")
 floor.transform.position = Vector3(0, -2, 0)
 floor.transform.scale = Vector3(50, 1, 50)
-collider = floor.AddComponent(AABBoxCollider)
+floor.AddComponent(AABBoxCollider)
 renderer = floor.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
 renderer.mat = Material(Color(50, 50, 50))
@@ -52,7 +52,7 @@ mat = Material(Color(200, 200, 200))
 wall1 = GameObject("Wall")
 wall1.transform.position = Vector3(0, 0.5, 51)
 wall1.transform.scale = Vector3(50, 3, 1)
-collider = wall1.AddComponent(AABBoxCollider)
+wall1.AddComponent(AABBoxCollider)
 renderer = wall1.AddComponent(MeshRenderer)
 renderer.mesh = Loader.Primitives.cube
 renderer.mat = mat
