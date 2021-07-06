@@ -3,17 +3,51 @@ import glob
 import shutil
 import sys
 import pkgutil
+from types import ModuleType
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
 if pkgutil.find_loader("autopep8") is None:
-    raise Exception("autopep8 is needed to parse the source code.")
+    raise Exception("autopep8 is needed to parse the source code.\n" +
+                    "Install using \"pip install autopep8\".")
 import autopep8
 autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302",
               "pyunity", "setup.py", "prepare.py", "cli.py"])
 
 if len(sys.argv) < 2:
     import pyunity
+
+    items = []
+
+    for name in dir(pyunity):
+        if not (isinstance(getattr(pyunity, name), ModuleType) and
+                name.islower() or name.startswith("__")):
+            items.append(name)
+
+    with open(os.path.join("pyunity", "__init__.py"), "r") as f:
+        content = f.read()
+
+    index = content.index("# __all__ starts here")
+    end = content.index("# __all__ ends here") + 19
+    before = content[:index]
+    after = content[end:]
+    text = "# __all__ starts here\n__all__ = ["
+    line = ""
+    for item in items:
+        if len(line) < 50:
+            line += "\"" + item + "\", "
+        else:
+            text += line[:-1] + "\n           "
+            line = ""
+
+    if line == "":
+        text = text[:-13] + "]\n# __all__ ends here"
+    else:
+        text += line[:-1] + "]\n# __all__ ends here"
+
+    with open(os.path.join("pyunity", "__init__.py"), "w") as f:
+        f.write(before + text + after)
+
     desc = pyunity.__doc__.split("\n")
     desc_new = [
         "# PyUnity", "",
