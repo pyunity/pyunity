@@ -12,10 +12,11 @@ __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 import warnings
 import os
 
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore")
-    from sdl2 import sdlmixer as mixer
-    from sdl2 import SDL_GetError
+if "PYUNITY_TESTING" not in os.environ:
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore")
+        from sdl2 import sdlmixer as mixer
+        from sdl2 import SDL_GetError
 
 from . import config, logger as Logger
 from .core import Component
