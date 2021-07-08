@@ -172,6 +172,42 @@ class Collider(Component):
             if Collider.nextSimplex(args):
                 return args[0]
             points, direction = args
+    
+    @staticmethod
+    def epa(a, b):
+        # https://blog.winter.dev/2020/epa-algorithm/
+        points = Collider.gjk(a, b)
+        faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
+        normals, minFace = Collider.getFaceNormals(points, faces)
+        minDistance = math.inf
+        while minDistance == math.inf:
+            minNormal = normals[minFace][0]
+            minDistance = normals[minFace][1]
+            support = Collider.supportPoint(a, b, minNormal)
+            sDistance = minNormal.dot(support)
+            if abs(sDistance - minDistance) > 0.001:
+                minDistance = math.inf
+                uniqueEdges = []
+                i = 0
+                while i < len(normals):
+                    if normals[i].dot(support) > 0:
+                        f = i * 3
+                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f, f + 1)
+                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f + 1, f + 2)
+                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f + 2, f)
+                        faces[f + 2] = faces.pop()
+                        faces[f + 1] = faces.pop()
+                        faces[f] = faces.pop()
+                        i -= 1
+                    i += 1
+                newFaces = []
+                for edgeIndex1, edgeIndex2 in uniqueEdges:
+                    newFaces.append(edgeIndex1)
+                    newFaces.append(edgeIndex2)
+                    newFaces.append(len(points))
+                points.append(support)
+                newNormals, newMinFace = Collider.getFaceNormals(points, newFaces)
+                oldMinDistance = math.inf
 
 class SphereCollider(Collider):
     """
