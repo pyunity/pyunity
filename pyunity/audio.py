@@ -29,8 +29,9 @@ elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
 elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+    config.audio = False
     Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
-                   SDL_GetError())
+                   SDL_GetError().decode())
 
 class AudioSource(Component):
     """
@@ -86,7 +87,7 @@ class AudioSource(Component):
         if self.clip.music is None:
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
-            print("Unable to play file: %s" % mixer.Mix_GetError())
+            print("Unable to play file: %s" % mixer.Mix_GetError().decode())
 
     def Stop(self):
         """
