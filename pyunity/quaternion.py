@@ -74,6 +74,9 @@ class Quaternion:
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
+        else:
+            angle, x, y, z = self.angleAxisPair
+            return Quaternion.FromAxis((angle * other) % 360, Vector3(x, y, z))
 
     def copy(self):
         """

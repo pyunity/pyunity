@@ -8,6 +8,7 @@ __all__ = ["PhysicMaterial", "Collider", "SphereCollider",
            "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
 
 from ..vector3 import *
+from ..quaternion import *
 from ..core import *
 from . import config
 import math
@@ -69,8 +70,45 @@ class Manifold:
 
 class Collider(Component):
     """Collider base class."""
+    
+    attrs = []
 
-    pass
+    @property
+    def pos(self):
+        return self.transform.position
+    
+    @pos.setter
+    def pos(self, value):
+        self.transform.position = value
+    
+    @pos.setter
+    def rot(self, value):
+        self.transform.position = value
+    
+    def CheckOverlap(self, other):
+        """
+        Checks to see if the bounding box
+        of two colliders overlap.
+
+        Parameters
+        ----------
+        other : Collider
+            Other collider to check against
+
+        Returns
+        -------
+        bool
+            Whether they are overlapping or not
+
+        """
+        if self.min.x > other.max.x or self.max.x < other.min.x:
+            return False
+        elif self.min.y > other.max.y or self.max.y < other.min.y:
+            return False
+        elif self.min.z > other.max.z or self.max.z < other.min.z:
+            return False
+        else:
+            return True
 
 class SphereCollider(Collider):
     """
@@ -90,11 +128,19 @@ class SphereCollider(Collider):
 
     """
 
-    attrs = ["enabled", "min", "max", "pos", "radius"]
+    attrs = ["enabled", "radius", "offset"]
 
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
         self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
+    
+    @property
+    def min(self):
+        return self.pos - self.radius
+    
+    @property
+    def max(self):
+        return self.pos + self.radius
 
     def SetSize(self, radius, offset):
         """
@@ -109,9 +155,7 @@ class SphereCollider(Collider):
 
         """
         self.radius = radius
-        self.pos = offset + self.transform.position
-        self.min = self.pos - radius
-        self.max = self.pos + radius
+        self.offset = offset
 
     def collidingWith(self, other):
         """
@@ -172,31 +216,6 @@ class SphereCollider(Collider):
                 return None
             return Manifold(self, other, self.pos - other.pos, self.radius - dist)
 
-    def CheckOverlap(self, other):
-        """
-        Checks to see if the bounding box
-        of two colliders overlap.
-
-        Parameters
-        ----------
-        other : Collider
-            Other collider to check against
-
-        Returns
-        -------
-        bool
-            Whether they are overlapping or not
-
-        """
-        if self.min.x > other.max.x or self.max.x < other.min.x:
-            return False
-        elif self.min.y > other.max.y or self.max.y < other.min.y:
-            return False
-        elif self.min.z > other.max.z or self.max.z < other.min.z:
-            return False
-        else:
-            return True
-
 class AABBoxCollider(Collider):
     """
     An axis-aligned box collider that
@@ -213,15 +232,14 @@ class AABBoxCollider(Collider):
 
     """
 
-    attrs = ["enabled", "min", "max", "pos"]
+    attrs = ["enabled", "pos", "size"]
 
     def __init__(self, transform):
         super(AABBoxCollider, self).__init__(transform)
-        pos = self.transform.position
-        size = self.transform.scale
-        self.SetSize(pos - size, pos + size)
+        size = self.transform.scale * 2
+        self.SetSize(size, Vector3.zero())
 
-    def SetSize(self, min, max):
+    def SetSize(self, size, offset):
         """
         Sets the size of the collider.
 
@@ -233,10 +251,16 @@ class AABBoxCollider(Collider):
             The corner with the highest coordinates.
 
         """
-        self.min = min
-        self.max = max
-        self.pos = Vector3((min.x + max.x) / 2,
-                           (min.y + max.y) / 2, (min.z + max.z) / 2)
+        self.size = size
+        self.offset = offset
+    
+    @property
+    def min(self):
+        return self.pos - self.size / 2
+    
+    @property
+    def max(self):
+        return self.pos + self.size / 2
 
     def collidingWith(self, other):
         """
@@ -327,31 +351,6 @@ class AABBoxCollider(Collider):
                 return None
             return Manifold(self, other, self.pos - other.pos, other.radius - dist)
 
-    def CheckOverlap(self, other):
-        """
-        Checks to see if the bounding box
-        of two colliders overlap.
-
-        Parameters
-        ----------
-        other : Collider
-            Other collider to check against
-
-        Returns
-        -------
-        bool
-            Whether they are overlapping or not
-
-        """
-        if self.min.x > other.max.x or self.max.x < other.min.x:
-            return False
-        elif self.min.y > other.max.y or self.max.y < other.min.y:
-            return False
-        elif self.min.z > other.max.z or self.max.z < other.min.z:
-            return False
-        else:
-            return True
-
 class Rigidbody(Component):
     """
     Class to let a GameObject follow physics
@@ -374,16 +373,16 @@ class Rigidbody(Component):
 
     """
 
-    attrs = ["enabled", "mass", "velocity",
-             "physicMaterial", "position", "gravity", "force"]
+    attrs = ["enabled", "mass", "velocity", "rotVel", "torque", "physicMaterial", "gravity", "force"]
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
-        self.position = Vector3.zero()
         self.velocity = Vector3.zero()
+        self.rotVel = Quaternion.identity()
         self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
+        self.torque = Quaternion.identity()
         self.gravity = True
 
     def Move(self, dt):
@@ -402,11 +401,7 @@ class Rigidbody(Component):
             self.force += config.gravity
         self.velocity += self.force * (1 / self.mass)
         # self.velocity *= 0.999
-        self.position += self.velocity * dt
-        for component in self.gameObject.GetComponents(Collider):
-            component.min += self.velocity * dt
-            component.max += self.velocity * dt
-            component.pos += self.velocity * dt
+        self.transform.position += self.velocity * dt
 
         self.force = Vector3.zero()
 
@@ -421,11 +416,7 @@ class Rigidbody(Component):
             Offset to move
 
         """
-        self.position += offset
-        for component in self.gameObject.GetComponents(Collider):
-            component.min += offset
-            component.max += offset
-            component.pos += offset
+        self.transform.position += offset
 
     def AddForce(self, force):
         """
@@ -598,6 +589,3 @@ class CollManager:
             if rb is not self.dummyRigidbody:
                 rb.Move(dt / 1)
         self.CheckCollisions()
-        for rb in self.rigidbodies:
-            if rb is not self.dummyRigidbody:
-                rb.transform.position = rb.position
