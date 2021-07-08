@@ -94,22 +94,72 @@ class Collider(Component):
     def nextSimplex(args):
         length = len(args[0])
         if length == 2:
-            a, b = args[0]
-            ab = a - b
-            ao = -a
-            if ab.dot(ao) > 0:
-                args[1] = ab.cross(ao).cross(ab)
-            else:
-                args[0] = [a]
-                args[1] = ao
+            return Collider.lineSimplex(args)
         if length == 3:
-            return Collider.triSimplex(points, direction)
+            return Collider.triSimplex(args)
         if length == 4:
             return Collider.tetraSimplex(points, direction)
         return False
+    
+    @staticmethod
+    def lineSimplex(args):
+        a, b = args[0]
+        ab = a - b
+        ao = -a
+        if ab.dot(ao) > 0:
+            args[1] = ab.cross(ao).cross(ab)
+        else:
+            args[0] = [a]
+            args[1] = ao
+    
+    @staticmethod
+    def triSimplex(args):
+        a, b, c = args[0]
+        ab = a - b
+        ac = a - c
+        ao = -a
+        abc = ab.cross(ac)
+        if abc.cross(ac).dot(ao) > 0:
+            if ac.dot(ao) > 0:
+                args[0] = [a, c]
+                args[1] = ac.cross(ao).cross(ac)
+            else:
+                args[0] = [a, b]
+                return Collider.lineSimplex(args)
+        elif ab.cross(abc).dot(ao) > 0:
+            args[0] = [a, b]
+            return Collider.lineSimplex(args)
+        else:
+            if abc.dot(ao) > 0:
+                args[1] = abc
+            else:
+                args[0] = [a, c, b]
+                args[1] = -abc
+        return False
+    
+    @staticmethod
+    def tetraSimplex(args):
+        a, b, c, d = args[0]
+        ab = b - a
+        ac = c - a
+        ad = d - a
+        ao = -a
+        abc = ab.cross(ac)
+        acd = ac.cross(ad)
+        adb = ad.cross(ab)
+        if abc.dot(ao) > 0:
+            args[0] = [a, b, c]
+            return Collider.triSimplex(args)
+        if acd.dot(ao) > 0:
+            args[0] = [a, c, d]
+            return Collider.triSimplex(args)
+        if adb.dot(ao) > 0:
+            args[0] = [a, d, b]
+            return Collider.triSimplex(args)
+        return True
 
     @staticmethod
-    def generateManifold(a, b):
+    def gjk(a, b):
         support = Collider.supportPoint(a, b, Vector3.right())
         points = [support]
         direction = -support
@@ -118,8 +168,10 @@ class Collider(Component):
             if support.dot(direction) <= 0:
                 return None
             points.append(support)
-            if Collider.nextSimplex(points, direction):
-                pass # Need to return manifold
+            args = [points, direction]
+            if Collider.nextSimplex(args):
+                return args[0]
+            points, direction = args
 
 class SphereCollider(Collider):
     """
