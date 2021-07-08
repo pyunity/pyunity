@@ -85,30 +85,41 @@ class Collider(Component):
     def rot(self, value):
         self.transform.position = value
     
-    def CheckOverlap(self, other):
-        """
-        Checks to see if the bounding box
-        of two colliders overlap.
+    @staticmethod
+    def supportPoint(a, b, direction):
+        return a.supportPoint(direction) - \
+            b.supportPoint(direction)
 
-        Parameters
-        ----------
-        other : Collider
-            Other collider to check against
+    @staticmethod
+    def nextSimplex(args):
+        length = len(args[0])
+        if length == 2:
+            a, b = args[0]
+            ab = a - b
+            ao = -a
+            if ab.dot(ao) > 0:
+                args[1] = ab.cross(ao).cross(ab)
+            else:
+                args[0] = [a]
+                args[1] = ao
+        if length == 3:
+            return Collider.triSimplex(points, direction)
+        if length == 4:
+            return Collider.tetraSimplex(points, direction)
+        return False
 
-        Returns
-        -------
-        bool
-            Whether they are overlapping or not
-
-        """
-        if self.min.x > other.max.x or self.max.x < other.min.x:
-            return False
-        elif self.min.y > other.max.y or self.max.y < other.min.y:
-            return False
-        elif self.min.z > other.max.z or self.max.z < other.min.z:
-            return False
-        else:
-            return True
+    @staticmethod
+    def generateManifold(a, b):
+        support = Collider.supportPoint(a, b, Vector3.right())
+        points = [support]
+        direction = -support
+        while True:
+            support = Collider.supportPoint(a, b, direction)
+            if support.dot(direction) <= 0:
+                return None
+            points.append(support)
+            if Collider.nextSimplex(points, direction):
+                pass # Need to return manifold
 
 class SphereCollider(Collider):
     """
@@ -158,63 +169,18 @@ class SphereCollider(Collider):
         self.offset = offset
 
     def collidingWith(self, other):
-        """
-        Check to see if the collider is
-        colliding with another collider.
-
-        Parameters
-        ----------
-        other : Collider
-            Other collider to check against
-
-        Returns
-        -------
-        Manifold or None
-            Collision data
-
-        Notes
-        -----
-        To check against another SphereCollider, the
-        distance and the sum of the radii is checked.
-
-        To check against an AABBoxColider, the check
-        is as follows:
-
-        1.  The sphere's center is checked to see if it
-            is inside the AABB.
-        #.  If it is, then the two are colliding.
-        #.  If it isn't, then a copy of the position is
-            clamped to the AABB's bounds.
-        #.  Finally, the distance between the clamped
-            position and the original position is
-            measured.
-        #.  If the distance is bigger than the sphere's
-            radius, then the two are colliding.
-        #.  If not, then they aren't colliding.
-
-        """
         if isinstance(other, SphereCollider):
-            objDistSqrd = abs(self.pos - other.pos).get_length_sqrd()
-            radDistSqrd = (self.radius + other.radius) ** 2
-            normal = self.pos - other.pos
-            penetration = radDistSqrd - objDistSqrd
-            return Manifold(self, other, normal, penetration) if objDistSqrd <= radDistSqrd else None
-        elif isinstance(other, AABBoxCollider):
-            inside = (other.min.x < self.pos.x < other.max.x and
-                      other.min.y < self.pos.y < other.max.y and
-                      other.min.z < self.pos.z < other.max.z)
+            radii = (self.radius + other.radius) ** 2
+            distance = self.pos.get_dist_sqrd(other.pos)
+            if distance < radii:
+                return Manifold(self, other, other.pos - self.pos,
+                    math.sqrt(distance))
+        else:
+            return Collider.generateManifold(self, other)
+    
+    def supportPoint(self, direction):
+        return self.pos + direction.normalized()
 
-            pos = self.pos.copy()
-            if inside:
-                pos.x = other.min.x if pos.x - other.min.x < other.max.x - pos.x else other.max.x
-                pos.y = other.min.y if pos.y - other.min.y < other.max.y - pos.y else other.max.y
-                pos.z = other.min.z if pos.z - other.min.z < other.max.z - pos.z else other.max.z
-            else:
-                pos.clamp(other.min, other.max)
-            dist = (self.pos - pos).get_length_sqrd()
-            if not inside and dist > self.radius ** 2:
-                return None
-            return Manifold(self, other, self.pos - other.pos, self.radius - dist)
 
 class AABBoxCollider(Collider):
     """
@@ -263,93 +229,19 @@ class AABBoxCollider(Collider):
         return self.pos + self.size / 2
 
     def collidingWith(self, other):
-        """
-        Check to see if the collider is
-        colliding with another collider.
-
-        Parameters
-        ----------
-        other : Collider
-            Other collider to check against
-
-        Returns
-        -------
-        Manifold or None
-            Collision data
-
-        Notes
-        -----
-        To check against another AABBoxCollider, the
-        corners are checked to see if they are inside
-        the other collider.
-
-        To check against a SphereCollider, the check
-        is as follows:
-
-        1.  The sphere's center is checked to see if it
-            is inside the AABB.
-        #.  If it is, then the two are colliding.
-        #.  If it isn't, then a copy of the position is
-            clamped to the AABB's bounds.
-        #.  Finally, the distance between the clamped
-            position and the original position is
-            measured.
-        #.  If the distance is bigger than the sphere's
-            radius, then the two are colliding.
-        #.  If not, then they aren't colliding.
-
-        """
-        if isinstance(other, AABBoxCollider):
-            n = other.pos - self.pos
-
-            a_extent = (self.max.x - self.min.x) / 2
-            b_extent = (other.max.x - other.min.x) / 2
-            x_overlap = a_extent + b_extent - abs(n.x)
-            if x_overlap > 0:
-                a_extent = (self.max.y - self.min.y) / 2
-                b_extent = (other.max.y - other.min.y) / 2
-                y_overlap = a_extent + b_extent - abs(n.y)
-                if y_overlap > 0:
-                    a_extent = (self.max.z - self.min.z) / 2
-                    b_extent = (other.max.z - other.min.z) / 2
-                    z_overlap = a_extent + b_extent - abs(n.z)
-                    if z_overlap > 0:
-                        if x_overlap < y_overlap and x_overlap < z_overlap:
-                            if n.x < 0:
-                                normal = Vector3.left()
-                            else:
-                                normal = Vector3.right()
-                            penetration = x_overlap
-                        elif y_overlap < x_overlap and y_overlap < z_overlap:
-                            if n.y < 0:
-                                normal = Vector3.down()
-                            else:
-                                normal = Vector3.up()
-                            penetration = y_overlap
-                        else:
-                            if n.z < 0:
-                                normal = Vector3.back()
-                            else:
-                                normal = Vector3.forward()
-                            penetration = z_overlap
-                        return Manifold(self, other, normal, penetration)
-
-        elif isinstance(other, SphereCollider):
-            inside = (self.min.x < other.pos.x < self.max.x and
-                      self.min.y < other.pos.y < self.max.y and
-                      self.min.z < other.pos.z < self.max.z)
-
-            pos = other.pos.copy()
-            if inside:
-                pos.x = self.min.x if pos.x - self.min.x < self.max.x - pos.x else self.max.x
-                pos.y = self.min.y if pos.y - self.min.y < self.max.y - pos.y else self.max.y
-                pos.z = self.min.z if pos.z - self.min.z < self.max.z - pos.z else self.max.z
-            else:
-                pos.clamp(self.min, self.max)
-            dist = (other.pos - pos).get_length_sqrd()
-            if not inside and dist > other.radius ** 2:
-                return None
-            return Manifold(self, other, self.pos - other.pos, other.radius - dist)
+        return Collider.generateManifold(self, other)
+    
+    def supportPoint(self, direction):
+        maxDistance = -infinity
+        min, max = self.min, self.max
+        for x in (min.x, max.x):
+            for y in (min.y, max.y):
+                for z in (min.z, max.z):
+                    distance = Vector3(x, y, z).dot(direction)
+                    if distance > maxDistance:
+                        maxDistance = distance
+                        maxVertex = Vector3(x, y, z)
+        return maxVertex
 
 class Rigidbody(Component):
     """
@@ -552,8 +444,7 @@ class CollManager:
             for y, rbB in zip(range(x + 1, len(self.rigidbodies)), list(self.rigidbodies.keys())[x + 1:]):
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = colliderA.CheckOverlap(
-                            colliderB) and colliderA.collidingWith(colliderB)
+                        m = colliderA.collidingWith(colliderB)
                         if m:
                             e = self.GetRestitution(rbA, rbB)
                             normal = m.normal.copy()
