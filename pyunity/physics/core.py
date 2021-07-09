@@ -333,12 +333,12 @@ class CollManager:
         self.rigidbodies = {}
         self.dummyRigidbody = Rigidbody(None, True)
         self.dummyRigidbody.mass = Infinity
-        self.steps = 10
+        self.steps = 1
     
     @staticmethod
     def supportPoint(a, b, direction):
         return a.supportPoint(direction) - \
-            b.supportPoint(direction)
+            b.supportPoint(-direction)
 
     @staticmethod
     def nextSimplex(args):
@@ -354,7 +354,7 @@ class CollManager:
     @staticmethod
     def lineSimplex(args):
         a, b = args[0]
-        ab = a - b
+        ab = b - a
         ao = -a
         if ab.dot(ao) > 0:
             args[1] = ab.cross(ao).cross(ab)
@@ -365,8 +365,8 @@ class CollManager:
     @staticmethod
     def triSimplex(args):
         a, b, c = args[0]
-        ab = a - b
-        ac = a - c
+        ab = b - a
+        ac = c - a
         ao = -a
         abc = ab.cross(ac)
         if abc.cross(ac).dot(ao) > 0:
@@ -416,9 +416,8 @@ class CollManager:
         while True:
             support = CollManager.supportPoint(a, b, direction)
             if support.dot(direction) <= 0:
-                print(args[0])
                 return None
-            points.append(support)
+            points.insert(0, support)
             args = [points, direction]
             if CollManager.nextSimplex(args):
                 return args[0]
@@ -430,6 +429,8 @@ class CollManager:
         points = CollManager.gjk(a, b)
         if points is None:
             return None
+        else:
+            return True
         faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
         normals, minFace = CollManager.getFaceNormals(points, faces)
         minDistance = Infinity
@@ -575,7 +576,6 @@ class CollManager:
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
                         m = CollManager.epa(colliderA, colliderB)
-                        print(m)
                         # if m:
                         #     e = self.GetRestitution(rbA, rbB)
                         #     normal = m.normal.copy()
