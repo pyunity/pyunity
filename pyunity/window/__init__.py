@@ -75,12 +75,16 @@ def GetWindowProvider():
     i = 0
     winfo = list(map(lambda x: (x[0], x[1][1]), providers.items()))
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
-    if env is not None and env in providers:
-        for item in winfo:
-            if item[0] == env:
-                selected = item
-        winfo.remove(selected)
-        winfo.insert(0, selected)
+    if env is not None:
+        env = env.split(",")
+        for specified in reversed(env):
+            if specified not in providers:
+                continue
+            for item in winfo:
+                if item[0] == specified:
+                    selected = item
+            winfo.remove(selected)
+            winfo.insert(0, selected)
 
     for name, checker in winfo:
         next = winfo[i + 1][0] if i < len(winfo) - 1 else None
