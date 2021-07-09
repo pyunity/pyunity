@@ -238,6 +238,23 @@ class Vector3:
     def __xor__(self, other):
         return self._o2(other, operator.xor)
     __rxor__ = __xor__
+    
+    def __gt__(self, other):
+        return self._o2(other, operator.gt)
+    def __rgt__(self, other):
+        return self._o2(other, operator.lt)
+    def __lt__(self, other):
+        return self._o2(other, operator.lt)
+    def __rlt__(self, other):
+        return self._o2(other, operator.gt)
+    def __ge__(self, other):
+        return self._o2(other, operator.ge)
+    def __rge__(self, other):
+        return self._o2(other, operator.le)
+    def __le__(self, other):
+        return self._o2(other, operator.le)
+    def __rle__(self, other):
+        return self._o2(other, operator.ge)
 
     def __neg__(self):
         return Vector3(operator.neg(self.x), operator.neg(self.y), operator.neg(self.z))
