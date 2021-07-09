@@ -302,7 +302,6 @@ class Skybox:
 
     def compile(self):
         self.texture = gl.glGenTextures(1)
-        gl.glEnable(gl.GL_TEXTURE_CUBE_MAP)
         gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
         for i, name in enumerate(Skybox.names):
             img_path = os.path.join(self.path, name)
