@@ -5,7 +5,7 @@ physics engine.
 """
 
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider",
-           "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
+           "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from ..vector3 import *
 from ..quaternion import *
@@ -13,7 +13,7 @@ from ..core import *
 from . import config
 import math
 
-infinity = math.inf
+Infinity = math.inf
 """A representation of infinity"""
 
 class PhysicMaterial:
@@ -81,133 +81,13 @@ class Collider(Component):
     def pos(self, value):
         self.transform.position = value
     
-    @pos.setter
+    @property
+    def rot(self):
+        return self.transform.rotation
+
+    @rot.setter
     def rot(self, value):
-        self.transform.position = value
-    
-    @staticmethod
-    def supportPoint(a, b, direction):
-        return a.supportPoint(direction) - \
-            b.supportPoint(direction)
-
-    @staticmethod
-    def nextSimplex(args):
-        length = len(args[0])
-        if length == 2:
-            return Collider.lineSimplex(args)
-        if length == 3:
-            return Collider.triSimplex(args)
-        if length == 4:
-            return Collider.tetraSimplex(points, direction)
-        return False
-    
-    @staticmethod
-    def lineSimplex(args):
-        a, b = args[0]
-        ab = a - b
-        ao = -a
-        if ab.dot(ao) > 0:
-            args[1] = ab.cross(ao).cross(ab)
-        else:
-            args[0] = [a]
-            args[1] = ao
-    
-    @staticmethod
-    def triSimplex(args):
-        a, b, c = args[0]
-        ab = a - b
-        ac = a - c
-        ao = -a
-        abc = ab.cross(ac)
-        if abc.cross(ac).dot(ao) > 0:
-            if ac.dot(ao) > 0:
-                args[0] = [a, c]
-                args[1] = ac.cross(ao).cross(ac)
-            else:
-                args[0] = [a, b]
-                return Collider.lineSimplex(args)
-        elif ab.cross(abc).dot(ao) > 0:
-            args[0] = [a, b]
-            return Collider.lineSimplex(args)
-        else:
-            if abc.dot(ao) > 0:
-                args[1] = abc
-            else:
-                args[0] = [a, c, b]
-                args[1] = -abc
-        return False
-    
-    @staticmethod
-    def tetraSimplex(args):
-        a, b, c, d = args[0]
-        ab = b - a
-        ac = c - a
-        ad = d - a
-        ao = -a
-        abc = ab.cross(ac)
-        acd = ac.cross(ad)
-        adb = ad.cross(ab)
-        if abc.dot(ao) > 0:
-            args[0] = [a, b, c]
-            return Collider.triSimplex(args)
-        if acd.dot(ao) > 0:
-            args[0] = [a, c, d]
-            return Collider.triSimplex(args)
-        if adb.dot(ao) > 0:
-            args[0] = [a, d, b]
-            return Collider.triSimplex(args)
-        return True
-
-    @staticmethod
-    def gjk(a, b):
-        support = Collider.supportPoint(a, b, Vector3.right())
-        points = [support]
-        direction = -support
-        while True:
-            support = Collider.supportPoint(a, b, direction)
-            if support.dot(direction) <= 0:
-                return None
-            points.append(support)
-            args = [points, direction]
-            if Collider.nextSimplex(args):
-                return args[0]
-            points, direction = args
-    
-    @staticmethod
-    def epa(a, b):
-        # https://blog.winter.dev/2020/epa-algorithm/
-        points = Collider.gjk(a, b)
-        faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
-        normals, minFace = Collider.getFaceNormals(points, faces)
-        minDistance = math.inf
-        while minDistance == math.inf:
-            minNormal = normals[minFace][0]
-            minDistance = normals[minFace][1]
-            support = Collider.supportPoint(a, b, minNormal)
-            sDistance = minNormal.dot(support)
-            if abs(sDistance - minDistance) > 0.001:
-                minDistance = math.inf
-                uniqueEdges = []
-                i = 0
-                while i < len(normals):
-                    if normals[i].dot(support) > 0:
-                        f = i * 3
-                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f, f + 1)
-                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f + 1, f + 2)
-                        Collider.AddIfUniqueEdge(uniqueEdges, faces, f + 2, f)
-                        faces[f + 2] = faces.pop()
-                        faces[f + 1] = faces.pop()
-                        faces[f] = faces.pop()
-                        i -= 1
-                    i += 1
-                newFaces = []
-                for edgeIndex1, edgeIndex2 in uniqueEdges:
-                    newFaces.append(edgeIndex1)
-                    newFaces.append(edgeIndex2)
-                    newFaces.append(len(points))
-                points.append(support)
-                newNormals, newMinFace = Collider.getFaceNormals(points, newFaces)
-                oldMinDistance = math.inf
+        self.transform.rotation = value
 
 class SphereCollider(Collider):
     """
@@ -310,17 +190,17 @@ class AABBoxCollider(Collider):
     
     @property
     def min(self):
-        return self.pos - self.size / 2
+        return self.pos - self.rot.RotateVector(self.size / 2)
     
     @property
     def max(self):
-        return self.pos + self.size / 2
+        return self.pos + self.rot.RotateVector(self.size / 2)
 
     def collidingWith(self, other):
         return Collider.generateManifold(self, other)
     
     def supportPoint(self, direction):
-        maxDistance = -infinity
+        maxDistance = -Infinity
         min, max = self.min, self.max
         for x in (min.x, max.x):
             for y in (min.y, max.y):
@@ -452,8 +332,170 @@ class CollManager:
     def __init__(self):
         self.rigidbodies = {}
         self.dummyRigidbody = Rigidbody(None, True)
-        self.dummyRigidbody.mass = infinity
+        self.dummyRigidbody.mass = Infinity
         self.steps = 10
+    
+    @staticmethod
+    def supportPoint(a, b, direction):
+        return a.supportPoint(direction) - \
+            b.supportPoint(direction)
+
+    @staticmethod
+    def nextSimplex(args):
+        length = len(args[0])
+        if length == 2:
+            return CollManager.lineSimplex(args)
+        if length == 3:
+            return CollManager.triSimplex(args)
+        if length == 4:
+            return CollManager.tetraSimplex(args)
+        return False
+    
+    @staticmethod
+    def lineSimplex(args):
+        a, b = args[0]
+        ab = a - b
+        ao = -a
+        if ab.dot(ao) > 0:
+            args[1] = ab.cross(ao).cross(ab)
+        else:
+            args[0] = [a]
+            args[1] = ao
+    
+    @staticmethod
+    def triSimplex(args):
+        a, b, c = args[0]
+        ab = a - b
+        ac = a - c
+        ao = -a
+        abc = ab.cross(ac)
+        if abc.cross(ac).dot(ao) > 0:
+            if ac.dot(ao) > 0:
+                args[0] = [a, c]
+                args[1] = ac.cross(ao).cross(ac)
+            else:
+                args[0] = [a, b]
+                return CollManager.lineSimplex(args)
+        elif ab.cross(abc).dot(ao) > 0:
+            args[0] = [a, b]
+            return CollManager.lineSimplex(args)
+        else:
+            if abc.dot(ao) > 0:
+                args[1] = abc
+            else:
+                args[0] = [a, c, b]
+                args[1] = -abc
+        return False
+    
+    @staticmethod
+    def tetraSimplex(args):
+        a, b, c, d = args[0]
+        ab = b - a
+        ac = c - a
+        ad = d - a
+        ao = -a
+        abc = ab.cross(ac)
+        acd = ac.cross(ad)
+        adb = ad.cross(ab)
+        if abc.dot(ao) > 0:
+            args[0] = [a, b, c]
+            return CollManager.triSimplex(args)
+        if acd.dot(ao) > 0:
+            args[0] = [a, c, d]
+            return CollManager.triSimplex(args)
+        if adb.dot(ao) > 0:
+            args[0] = [a, d, b]
+            return CollManager.triSimplex(args)
+        return True
+
+    @staticmethod
+    def gjk(a, b):
+        support = CollManager.supportPoint(a, b, Vector3.right())
+        points = [support]
+        direction = -support
+        while True:
+            support = CollManager.supportPoint(a, b, direction)
+            if support.dot(direction) <= 0:
+                print(args[0])
+                return None
+            points.append(support)
+            args = [points, direction]
+            if CollManager.nextSimplex(args):
+                return args[0]
+            points, direction = args
+    
+    @staticmethod
+    def epa(a, b):
+        # https://blog.winter.dev/2020/epa-algorithm/
+        points = CollManager.gjk(a, b)
+        if points is None:
+            return None
+        faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
+        normals, minFace = CollManager.getFaceNormals(points, faces)
+        minDistance = Infinity
+        while minDistance == Infinity:
+            minNormal = normals[minFace][0]
+            minDistance = normals[minFace][1]
+            support = CollManager.supportPoint(a, b, minNormal)
+            sDistance = minNormal.dot(support)
+            if abs(sDistance - minDistance) > 0.001:
+                minDistance = Infinity
+                uniqueEdges = []
+                i = 0
+                while i < len(normals):
+                    if normals[i].dot(support) > 0:
+                        f = i * 3
+                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f, f + 1)
+                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 1, f + 2)
+                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 2, f)
+                        faces[f + 2] = faces.pop()
+                        faces[f + 1] = faces.pop()
+                        faces[f] = faces.pop()
+                        i -= 1
+                    i += 1
+                newFaces = []
+                for edgeIndex1, edgeIndex2 in uniqueEdges:
+                    newFaces.append(edgeIndex1)
+                    newFaces.append(edgeIndex2)
+                    newFaces.append(len(points))
+                points.append(support)
+                newNormals, newMinFace = CollManager.getFaceNormals(points, newFaces)
+                oldMinDistance = Infinity
+                for i in range(len(normals)):
+                    if normals[i][1] < oldMinDistance:
+                        oldMinDistance = normals[i][1]
+                        minFace = i
+                if newNormals[newMinFace][1] < oldMinDistance:
+                    minFace = newMinFace + len(normals)
+                faces += newFaces
+                normals += newNormals
+        return Manifold(a, b, minNormal, minDistance + 0.001)
+    
+    @staticmethod
+    def getFaceNormals(points, faces):
+        normals = []
+        minDistance = -Infinity
+        for i in range(len(faces)):
+            a = points[faces[i]]
+            b = points[faces[i + 1]]
+            c = points[faces[i + 2]]
+            normal = (b - a).cross(c - a).normalized()
+            distance = normal.dot(a)
+            if distance < 0:
+                normal *= -1
+                distance *= -1
+            normals.append([normal, distance])
+            if distance < minDistance:
+                minTriangle = i // 3
+                minDistance = distance
+        return normals, minTriangle
+    
+    @staticmethod
+    def addIfUniqueEdge(edges, faces, a, b):
+        if (faces[b], faces[a]) in edges:
+            edges.remove((faces[b], faces[a]))
+        else:
+            edges.append((faces[a], faces[b]))
 
     def AddPhysicsInfo(self, scene):
         """
@@ -529,14 +571,15 @@ class CollManager:
 
         """
         for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
-            for y, rbB in zip(range(x + 1, len(self.rigidbodies)), list(self.rigidbodies.keys())[x + 1:]):
+            for rbB in list(self.rigidbodies.keys())[x + 1:]:
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = colliderA.collidingWith(colliderB)
-                        if m:
-                            e = self.GetRestitution(rbA, rbB)
-                            normal = m.normal.copy()
-                            self.ResolveCollisions(rbA, rbB, e, normal, m.penetration)
+                        m = CollManager.epa(colliderA, colliderB)
+                        print(m)
+                        # if m:
+                        #     e = self.GetRestitution(rbA, rbB)
+                        #     normal = m.normal.copy()
+                        #     self.ResolveCollisions(rbA, rbB, e, normal, m.penetration)
 
     def ResolveCollisions(a, b, restitution, normal, penetration):
         pass
