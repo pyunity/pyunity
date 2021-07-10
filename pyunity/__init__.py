@@ -20,7 +20,7 @@ use pip::
     > pip install pyunity
 
 Alternatively, you can clone the repository
-`here <https://github.com/rayzchen/pyunity>`_
+`here <https://github.com/pyunity/pyunity>`_
 to build the package from source. Then use
 ``setup.py`` to build. Note that it will install
 Cython to compile.
