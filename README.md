@@ -6,7 +6,7 @@
 [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
-[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
+[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/pyunity/pyunity)
 [![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)](https://discord.gg/zTn48BEbF9)
 [![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
@@ -144,6 +144,6 @@ The ``1`` just means to load example 1, and there
 are 9 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
-[create a new pull request](https://github.com/rayzchen/pyunity/pulls).
+[create a new pull request](https://github.com/pyunity/pyunity/pulls).
 
 

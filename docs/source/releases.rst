@@ -18,21 +18,21 @@ New features:
 - Removed redundant code from fixed function pipeline
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.6.0
+https://github.com/pyunity/pyunity/releases/tag/0.6.0
 
 v0.5.2
 ======
 Small minor fix of shader inclusion in binary distributions.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.2
+https://github.com/pyunity/pyunity/releases/tag/0.5.2
 
 v0.5.1
 ======
 Bugfix that fixes the shaders and dependency management.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.1
+https://github.com/pyunity/pyunity/releases/tag/0.5.1
 
 v0.5.0
 ======
@@ -50,7 +50,7 @@ New features:
 - New meshes and mesh loading
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.0
+https://github.com/pyunity/pyunity/releases/tag/0.5.0
 
 v0.4.0
 ======
@@ -65,14 +65,14 @@ New features:
 - Clarified README.md
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.4.0
+https://github.com/pyunity/pyunity/releases/tag/0.4.0
 
 v0.3.1
 ======
 Bugfix on basically everything because 0.3.0 was messed up.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.1
+https://github.com/pyunity/pyunity/releases/tag/0.3.1
 
 v0.3.0
 ======
@@ -94,14 +94,14 @@ New features:
 - Cleaned up working directory
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.0
+https://github.com/pyunity/pyunity/releases/tag/0.3.0
 
 v0.2.1
 ======
 Small bugfix around the AudioClip loading and inclusion of the OGG file in example 8.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.2.1
+https://github.com/pyunity/pyunity/releases/tag/0.2.1
 
 v0.2.0
 ======
@@ -122,7 +122,7 @@ Features:
 - 1 more example, bringing the total to 8
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.2.0
+https://github.com/pyunity/pyunity/releases/tag/0.2.0
 
 v0.1.0
 ======
@@ -157,7 +157,7 @@ Notes:
         > python setup.py install
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.1.0
+https://github.com/pyunity/pyunity/releases/tag/0.1.0
 
 
 v0.0.5
@@ -177,7 +177,7 @@ Features:
 - Vector division
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.5
+https://github.com/pyunity/pyunity/releases/tag/0.0.5
 
 v0.0.4
 ======
@@ -197,7 +197,7 @@ New features:
 - Auto README.md updater
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.4
+https://github.com/pyunity/pyunity/releases/tag/0.0.4
 
 v0.0.3
 ======
@@ -213,7 +213,7 @@ Features:
 - File loader for .obj files
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.3
+https://github.com/pyunity/pyunity/releases/tag/0.0.3
 
 v0.0.2
 ======
@@ -226,4 +226,4 @@ Features:
 - Meshes
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.2
+https://github.com/pyunity/pyunity/releases/tag/0.0.2

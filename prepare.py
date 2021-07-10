@@ -60,7 +60,7 @@ desc_new = [
         "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
         "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n",
         "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
-        "(https://ci.appveyor.com/project/rayzchen/pyunity)\n",
+        "(https://ci.appveyor.com/project/pyunity/pyunity)\n",
         "[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)]",
         "(https://discord.gg/zTn48BEbF9)\n",
         "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
@@ -85,9 +85,9 @@ for i in range(len(desc)):
         if "create a new pull request" in desc[i]:
             desc[i] = desc[i].replace(
                 "create a new pull request",
-                "[create a new pull request](https://github.com/rayzchen/pyunity/pulls)"
+                "[create a new pull request](https://github.com/pyunity/pyunity/pulls)"
             )
-        if desc[i] == "`here <https://github.com/rayzchen/pyunity>`_":
+        if desc[i] == "`here <https://github.com/pyunity/pyunity>`_":
             continue
         desc_new.append(desc[i].replace("::", ":"))
 
