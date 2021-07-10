@@ -62,10 +62,11 @@ class Manifold:
 
     """
 
-    def __init__(self, a, b, normal, penetration):
+    def __init__(self, a, b, points, normal, penetration):
         self.a = a
         self.b = b
         self.normal = normal
+        self.points = points
         self.penetration = penetration
 
 class Collider(Component):
@@ -141,8 +142,11 @@ class SphereCollider(Collider):
             radii = (self.radius + other.radius) ** 2
             distance = self.pos.get_dist_sqrd(other.pos)
             if distance < radii:
-                return Manifold(self, other, other.pos - self.pos,
-                    math.sqrt(distance))
+                relative = (other.pos - self.pos).normalized()
+                return Manifold(self, other,
+                    [self.pos + relative * self.radius,
+                     other.pos - relative * other.radius],
+                    relative, math.sqrt(distance))
         else:
             return Collider.generateManifold(self, other)
     
