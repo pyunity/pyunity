@@ -410,12 +410,18 @@ class CollManager:
 
     @staticmethod
     def gjk(a, b):
-        support = CollManager.supportPoint(a, b, Vector3.right())
+        ab = a.pos - b.pos
+        c = Vector3(ab.z, ab.z, -ab.x - ab.y)
+        if c == Vector3.zero():
+            c = Vector3(-ab.y - ab.z, ab.x, ab.x)
+
+        support = CollManager.supportPoint(a, b, ab.cross(c))
         points = [support]
         direction = -support
         while True:
             support = CollManager.supportPoint(a, b, direction)
             if support.dot(direction) <= 0:
+                print(len(points), direction, support)
                 return None
             points.insert(0, support)
             args = [points, direction]
@@ -429,8 +435,6 @@ class CollManager:
         points = CollManager.gjk(a, b)
         if points is None:
             return None
-        else:
-            return True
         faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
         normals, minFace = CollManager.getFaceNormals(points, faces)
         minDistance = Infinity
@@ -444,14 +448,15 @@ class CollManager:
                 uniqueEdges = []
                 i = 0
                 while i < len(normals):
-                    if normals[i].dot(support) > 0:
+                    if normals[i][0].dot(support) > 0:
                         f = i * 3
                         CollManager.addIfUniqueEdge(uniqueEdges, faces, f, f + 1)
                         CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 1, f + 2)
                         CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 2, f)
-                        faces[f + 2] = faces.pop()
-                        faces[f + 1] = faces.pop()
-                        faces[f] = faces.pop()
+                        faces[f + 2] = faces[-1]; faces.pop()
+                        faces[f + 1] = faces[-1]; faces.pop()
+                        faces[f] = faces[-1]; faces.pop()
+                        normals[i] = normals[-1]; normals.pop()
                         i -= 1
                     i += 1
                 newFaces = []
@@ -476,7 +481,8 @@ class CollManager:
     def getFaceNormals(points, faces):
         normals = []
         minDistance = -Infinity
-        for i in range(len(faces)):
+        minTriangle = 0
+        for i in range(0, len(faces), 3):
             a = points[faces[i]]
             b = points[faces[i + 1]]
             c = points[faces[i + 2]]
