@@ -83,9 +83,11 @@ def LogLine(level, *message):
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None:
             print(msg)
+    time = strftime("%Y-%m-%d %H:%M:%S")
     with open(os.path.join(folder, "latest.log"), "a") as f:
-        f.write(strftime("%Y-%m-%d %H:%M:%S") +
+        f.write(time +
                 " |" + level.abbr + "| " + msg + "\n")
+    return time, msg
 
 def LogException(e):
     """
