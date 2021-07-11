@@ -361,7 +361,7 @@ class CollManager:
         ab = b - a
         ao = -a
         if ab.dot(ao) > 0:
-            args[1] = ab.cross(ao).cross(ab)
+            args[1] = ab / 2
         else:
             args[0] = [a]
             args[1] = ao
@@ -376,7 +376,7 @@ class CollManager:
         if abc.cross(ac).dot(ao) > 0:
             if ac.dot(ao) > 0:
                 args[0] = [a, c]
-                args[1] = ac.cross(ao).cross(ac)
+                args[1] = ac / 2
             else:
                 args[0] = [a, b]
                 return CollManager.lineSimplex(args)
