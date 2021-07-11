@@ -25,7 +25,8 @@ class Window:
             glfw.window_hint(glfw.GLFW_CONTEXT_VERSION_MAJOR, 3)
             glfw.window_hint(glfw.GLFW_CONTEXT_VERSION_MINOR, 3)
             glfw.window_hint(glfw.GLFW_OPENGL_FORWARD_COMPAT, glfw.GL_TRUE)
-            glfw.window_hint(glfw.GLFW_OPENGL_PROFILE, glfw.GLFW_OPENGL_CORE_PROFILE)
+            glfw.window_hint(glfw.GLFW_OPENGL_PROFILE,
+                             glfw.GLFW_OPENGL_CORE_PROFILE)
 
         self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
