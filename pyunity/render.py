@@ -107,7 +107,7 @@ class Shader:
         success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(self.vertexShader)
-            raise PyUnityException(log.decode())
+            raise PyUnityException(log)
 
         self.fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
         gl.glShaderSource(self.fragShader, self.frag, 1, None)
@@ -116,7 +116,7 @@ class Shader:
         success = gl.glGetShaderiv(self.fragShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(self.fragShader)
-            raise PyUnityException(log.decode())
+            raise PyUnityException(log)
 
         self.program = gl.glCreateProgram()
         gl.glAttachShader(self.program, self.vertexShader)
@@ -126,7 +126,7 @@ class Shader:
         success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
         if not success:
             log = gl.glGetProgramInfoLog(self.program)
-            raise PyUnityException(log.decode())
+            raise PyUnityException(log)
 
         gl.glDeleteShader(self.vertexShader)
         gl.glDeleteShader(self.fragShader)
