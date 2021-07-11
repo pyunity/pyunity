@@ -148,7 +148,7 @@ class SphereCollider(Collider):
                      other.pos - relative * other.radius],
                     relative, math.sqrt(distance))
         else:
-            return Collider.generateManifold(self, other)
+            return CollManager.epa(self, other)
     
     def supportPoint(self, direction):
         return self.pos + direction.normalized()
@@ -201,7 +201,7 @@ class AABBoxCollider(Collider):
         return self.pos + self.rot.RotateVector(self.size / 2)
 
     def collidingWith(self, other):
-        return Collider.generateManifold(self, other)
+        return CollManager.epa(self, other)
     
     def supportPoint(self, direction):
         maxDistance = -Infinity
@@ -341,8 +341,11 @@ class CollManager:
     
     @staticmethod
     def supportPoint(a, b, direction):
-        return a.supportPoint(direction) - \
-            b.supportPoint(-direction)
+        supportA = a.supportPoint(direction)
+        supportB = b.supportPoint(-direction)
+        support = supportA - supportB
+        support.original = [supportA, supportB]
+        return support
 
     @staticmethod
     def nextSimplex(args):
@@ -479,7 +482,15 @@ class CollManager:
                     minFace = newMinFace + len(normals)
                 faces += newFaces
                 normals += newNormals
-        return Manifold(a, b, minNormal, minDistance + 0.001)
+        u, v, w = CollManager.barycentric(
+            minNormal * (minDistance + 0.001),
+            points[faces[minFace]],
+            points[faces[minFace + 1]],
+            points[faces[minFace + 2]])
+        point = u * points[faces[minFace]].original[0] + \
+            v * points[faces[minFace + 1]].original[0] + \
+            w * points[faces[minFace + 2]].original[0]
+        return Manifold(a, b, point, minNormal, minDistance + 0.001)
     
     @staticmethod
     def getFaceNormals(points, faces):
@@ -507,6 +518,22 @@ class CollManager:
             edges.remove((faces[b], faces[a]))
         else:
             edges.append((faces[a], faces[b]))
+    
+    @staticmethod
+    def barycentric(p, a, b, c):
+        v0 = b - a
+        v1 = c - a
+        v2 = p - a
+        d00 = v0.dot(v0)
+        d01 = v0.dot(v1)
+        d11 = v1.dot(v1)
+        d20 = v2.dot(v0)
+        d21 = v2.dot(v1)
+        denom = d00 * d11 - d01 * d01
+        v = (d11 * d20 - d01 * d21) / denom
+        w = (d00 * d21 - d01 * d20) / denom
+        u = 1 - v - w
+        return u, v, w
 
     def AddPhysicsInfo(self, scene):
         """
