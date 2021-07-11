@@ -678,7 +678,7 @@ class Color:
         return self.r / other, self.g / other, self.b / other
 
     def __repr__(self):
-        return "Color(" + self.to_string + ")"
+        return "Color(" + self.to_string() + ")"
     __str__ = __repr__
 
     def to_string(self):
