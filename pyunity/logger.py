@@ -66,7 +66,7 @@ def Log(*message):
     """
     LogLine(OUTPUT, *message)
 
-def LogLine(level, silent=False, *message):
+def LogLine(level, *message, silent=False):
     """
     Logs a line in `latest.log` found in these two locations:
     Windows: ``%appdata%\\PyUnity\\Logs\\latest.log``
@@ -81,7 +81,7 @@ def LogLine(level, silent=False, *message):
     msg = (level.name if level.name is not None else "") + \
         " ".join(map(lambda a: str(a).rstrip(), message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        if level.name is not None and silent == True:
+        if level.name is not None and not silent:
             print(msg)
     time = strftime("%Y-%m-%d %H:%M:%S")
     with open(os.path.join(folder, "latest.log"), "a") as f:
