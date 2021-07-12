@@ -363,8 +363,8 @@ class CollManager:
         a, b = args[0]
         ab = b - a
         ao = -a
-        if ab.dot(ao) > 0:
-            args[1] = ab / 2
+        if ab.dot(ao) > 0 and a.cross(b) != Vector3.zero():
+            args[1] = ab.cross(ao).cross(ab)
         else:
             args[0] = [a]
             args[1] = ao
@@ -377,9 +377,9 @@ class CollManager:
         ao = -a
         abc = ab.cross(ac)
         if abc.cross(ac).dot(ao) > 0:
-            if ac.dot(ao) > 0:
+            if ac.dot(ao) > 0 and a.cross(c) != Vector3.zero():
                 args[0] = [a, c]
-                args[1] = ac / 2
+                args[1] = ac.cross(ao).cross(ac)
             else:
                 args[0] = [a, b]
                 return CollManager.lineSimplex(args)
@@ -428,7 +428,6 @@ class CollManager:
         while True:
             support = CollManager.supportPoint(a, b, direction)
             if support.dot(direction) <= 0:
-                print(len(points), direction, support)
                 return None
             points.insert(0, support)
             args = [points, direction]
@@ -482,6 +481,7 @@ class CollManager:
                     minFace = newMinFace + len(normals)
                 faces += newFaces
                 normals += newNormals
+        minFace *= 3
         u, v, w = CollManager.barycentric(
             minNormal * (minDistance + 0.001),
             points[faces[minFace]],
