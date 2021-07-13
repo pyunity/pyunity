@@ -324,6 +324,17 @@ class Vector3:
         if length != 0:
             return 1 / length * self
         return self.copy()
+    
+    def normalize(self):
+        """
+        Normalize the vector in place.
+
+        """
+        length = self.length
+        if length != 0:
+            self.x /= length
+            self.y /= length
+            self.z /= length
 
     def normalize_return_length(self):
         """
