@@ -1,6 +1,9 @@
 from typing import Any, Callable, Iterable, List
 
 class Vector3:
+    x: float
+    y: float
+    z: float
     def __init__(self) -> None: ...
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
