@@ -1,6 +1,14 @@
 import os
 import glob
 import re
+import sys
+
+def print(*values, sep=" ", end="\n"):
+    out = sep.join(values) + end
+    sys.stdout.write(out)
+    with open("missing.txt", "a+") as f:
+        f.write(out)
+    return out
 
 def check_folder(folder, ext):
     os.chdir(folder)
@@ -51,6 +59,7 @@ for class_ in a:
         if class2["name"] == class_["name"]:
             break
     else:
+        classes.append(class_)
         continue
 
     if class_["methods"] == []:
@@ -68,9 +77,9 @@ for class_ in classes:
     print("Class missing: " + class_["name"])
     for method in class_["methods"]:
         print("    Method missing: " + method)
-# print()
-# for func in functions:
-#     print("Function missing: " + func)
-# print()
-# for attr in attrs:
-#     print("Variable missing: " + attr)
+print()
+for func in functions:
+    print("Function missing: " + func)
+print()
+for attr in attrs:
+    print("Variable missing: " + attr)
