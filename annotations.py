@@ -39,7 +39,7 @@ def check_folder(folder, ext):
                 current_class = {"name": module + re.search(class_find, line).group(),
                                 "methods": []}
             elif re.search(method_find, line):
-                current_class["methods"].append(module + current_class["name"] + \
+                current_class["methods"].append(current_class["name"] + \
                     "." + re.search(method_find, line).group())
             elif re.search(func_find, line):
                 functions.append(module + re.search(func_find, line).group())
