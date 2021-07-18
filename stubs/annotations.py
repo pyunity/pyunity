@@ -3,7 +3,9 @@ import glob
 import re
 import sys
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+orig = os.path.dirname(os.path.abspath(__file__))
+os.chdir(orig)
+open("missing.txt", "w+").close()
 
 def print(*values, sep=" ", end="\n"):
     out = sep.join(values) + end
@@ -50,11 +52,11 @@ def check_folder(folder, ext):
         
         if current_class != {}:
             classes.append(current_class)
-    os.chdir("..")
+    os.chdir(orig)
     return classes, functions, attrs
 
-a, b, c = check_folder("pyunity", "py")
-d, e, f = check_folder("stubs", "pyi")
+a, b, c = check_folder("../pyunity", "py")
+d, e, f = check_folder("pyunity", "pyi")
 classes = []
 for class_ in a:
     for class2 in d:
