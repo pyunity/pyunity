@@ -3,6 +3,8 @@ import glob
 import re
 import sys
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 def print(*values, sep=" ", end="\n"):
     out = sep.join(values) + end
     sys.stdout.write(out)
