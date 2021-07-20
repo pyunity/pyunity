@@ -49,7 +49,6 @@ and all have MeshRenderers:
 __all__ = ["Component", "GameObject", "Light", "Color", "Clock",
            "Material", "MeshRenderer", "Tag", "Transform"]
 
-import os
 import glm
 import sys
 import time
@@ -57,8 +56,6 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from . import Logger
-if os.environ["PYUNITY_INTERACTIVE"] == "1":
-    from OpenGL import GL as gl
 
 
 class Tag:
@@ -620,13 +617,9 @@ class MeshRenderer(SingleComponent):
         """Render the mesh that the MeshRenderer has."""
         if self.mesh is None:
             return
-
-        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
-        gl.glBindVertexArray(self.mesh.vao)
-        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
-        gl.glBindVertexArray(self.mesh.vao)
-        gl.glDrawElements(gl.GL_TRIANGLES, len(
-            self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
+        
+        self.mesh.recompile()
+        self.mesh.draw()
 
 class Material:
     """

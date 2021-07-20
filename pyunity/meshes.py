@@ -5,6 +5,7 @@ __all__ = ["Mesh"]
 from .vector3 import Vector3
 from . import render
 from .scenes import SceneManager
+import OpenGL.GL as gl
 
 class Mesh:
     """
@@ -78,9 +79,17 @@ class Mesh:
         #         self.max.z = vert.z
 
     def recompile(self):
-        self.vbo, self.ibo = render.gen_buffers(self)
-        self.ibo = render.gen_array()
-        self.compiled = True
+        if not self.compiled:
+            self.vbo, self.ibo = render.gen_buffers(self)
+            self.vao = render.gen_array()
+            self.compiled = True
+    
+    def draw(self):
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
+        gl.glBindVertexArray(self.vao)
+        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ibo)
+        gl.glDrawElements(gl.GL_TRIANGLES, len(
+            self.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
 
     def copy(self):
         """
