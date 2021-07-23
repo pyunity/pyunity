@@ -280,7 +280,7 @@ def SaveScene(scene, directory, project):
             f.write(name + " : " + uuid + "\n")
 
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
-            for attr in component.attrs:
+            for attr in component.shown:
                 value = getattr(component, attr)
                 if id(value) in ids:
                     written = ids[id(value)]
