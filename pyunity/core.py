@@ -431,6 +431,7 @@ class Transform(SingleComponent):
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
         self.localPosition = Vector3.zero()
+        self.parent = None
         self.children = []
 
     @property
