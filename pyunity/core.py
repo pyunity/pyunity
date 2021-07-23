@@ -292,9 +292,10 @@ class GameObject:
     __str__ = __repr__
 
 class ShowInInspector:
-    def __init__(self, type=None, default=None):
+    def __init__(self, type=None, default=None, name=None):
         self.type = type
         self.default = default
+        self.name = name
 
 class Component:
     """
@@ -323,7 +324,7 @@ class Component:
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
         variables = list(filter(lambda a: not (
             a[0].startswith("__") or a[0] == "attrs"), members))
-        shown = {a[0]: a[1]
+        shown = {(a[0] if a[1].name is None else a[1].name): a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
         cls.shown = shown
         for name, val in shown.items():
@@ -420,10 +421,9 @@ class Transform(SingleComponent):
 
     """
 
-    localPosition = ShowInInspector(Vector3, Vector3.zero())
-    localRotation = ShowInInspector(Quaternion, Quaternion.identity())
-    localScale = ShowInInspector(Vector3, Vector3.one())
-    parent = ShowInInspector()
+    localPosition = ShowInInspector(Vector3, Vector3.zero(), "position")
+    localRotation = ShowInInspector(Quaternion, Quaternion.identity(), "rotation")
+    localScale = ShowInInspector(Vector3, Vector3.one(), "scale")
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
