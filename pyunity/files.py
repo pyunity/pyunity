@@ -115,6 +115,9 @@ class ShowInInspector:
         self.default = default
 
 class Scripts:
+
+    var = {}
+
     @staticmethod
     def CheckScript(text):
         """
@@ -188,7 +191,6 @@ class Scripts:
 
         """
         files = glob.glob(os.path.join(path, "*.py"))
-        a = {}
 
         if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
             module = sys.modules["PyUnityScripts"]
@@ -207,8 +209,9 @@ class Scripts:
 
             name = os.path.basename(file[:-3])
             if Scripts.CheckScript(text):
-                exec("\n".join(text), a)
-                setattr(module, name, a[name])
+                c = compile("\n".join(text), name + ".py", "exec")
+                exec(c, Scripts.var)
+                setattr(module, name, Scripts.var[name])
                 module.__all__.append(name)
 
         return module
