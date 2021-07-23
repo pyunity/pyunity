@@ -1,5 +1,4 @@
-from pyunity.files import ShowInInspector
-from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, Color
+from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, Color, ShowInInspector
 
 class Rotator(Behaviour):
     a = ShowInInspector(int, 0)

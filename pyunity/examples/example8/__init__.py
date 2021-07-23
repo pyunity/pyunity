@@ -8,7 +8,7 @@ def main():
         clip = AudioClip(os.path.join(path, "explode.ogg"))
         source = scene.mainCamera.AddComponent(AudioSource)
         source.SetClip(clip)
-        source.PlayOnStart = True
+        source.playOnStart = True
 
     SceneManager.LoadScene(scene)
 

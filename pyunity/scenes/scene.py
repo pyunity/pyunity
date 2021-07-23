@@ -295,7 +295,7 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Start()
                 elif isinstance(component, AudioSource):
-                    if component.PlayOnStart:
+                    if component.playOnStart:
                         component.Play()
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     mesh = component.mesh
@@ -341,7 +341,7 @@ class Scene:
                 if isinstance(component, Behaviour):
                     component.Update(dt)
                 elif isinstance(component, AudioSource):
-                    if component.Loop and component.PlayOnStart:
+                    if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
                             component.Play()
 

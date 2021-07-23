@@ -18,7 +18,7 @@ with warnings.catch_warnings():
     from sdl2 import SDL_GetError
 
 from . import config, logger as Logger
-from .core import Component
+from .core import Component, ShowInInspector
 
 channels = 0
 
@@ -42,7 +42,7 @@ class AudioSource(Component):
     clip : AudioClip
         Clip to play. Best way to set the clip
         is to use the ``SetClip`` function.
-    PlayOnStart : bool
+    playOnStart : bool
         Whether it plays on start or not.
     Loop : bool
         Whether it loops or not. This is not
@@ -50,7 +50,8 @@ class AudioSource(Component):
 
     """
 
-    attrs = ["enabled", "PlayOnStart", "Loop"]
+    playOnStart = ShowInInspector(bool, False)
+    loop = ShowInInspector(bool, False)
 
     def __init__(self, transform):
         super(AudioSource, self).__init__(transform)
@@ -60,9 +61,6 @@ class AudioSource(Component):
         channels += 1
         print(channels)
         mixer.Mix_AllocateChannels(channels)
-
-        self.PlayOnStart = False
-        self.Loop = False
 
     def SetClip(self, clip):
         """

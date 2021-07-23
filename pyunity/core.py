@@ -47,14 +47,17 @@ and all have MeshRenderers:
 """
 
 __all__ = ["Component", "GameObject", "Light", "Color", "Clock",
-           "Material", "MeshRenderer", "Tag", "Transform"]
+           "Material", "MeshRenderer", "Tag", "Transform",
+           "ShowInInspector"]
 
 import glm
 import sys
 import time
+import inspect
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
+from .meshes import *
 from . import Logger
 
 
@@ -288,6 +291,11 @@ class GameObject:
             str(list(map(lambda x: type(x).__name__, self.components))) + ">"
     __str__ = __repr__
 
+class ShowInInspector:
+    def __init__(self, type=None, default=None):
+        self.type = type
+        self.default = default
+
 class Component:
     """
     Base class for built-in components.
@@ -301,15 +309,26 @@ class Component:
 
     """
 
-    attrs = ["enabled"]
+    shown = {}
 
-    def __init__(self, transform, is_transform=False):
-        if is_transform:
+    def __init__(self, transform, is_dummy=False):
+        if is_dummy:
             self.gameObject = None
         else:
             self.gameObject = transform.gameObject
         self.transform = transform
         self.enabled = True
+
+    def __init_subclass__(cls):
+        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
+        variables = list(filter(lambda a: not (
+            a[0].startswith("__") or a[0] == "attrs"), members))
+        shown = {a[0]: a[1]
+                 for a in variables if isinstance(a[1], ShowInInspector)}
+        cls.shown = shown
+        for name, val in shown.items():
+            val.type = cls
+            setattr(cls, name, val.default)
 
     def AddComponent(self, component):
         """
@@ -400,16 +419,17 @@ class Transform(SingleComponent):
 
     """
 
-    attrs = ["enabled", "localPosition",
-             "localRotation", "localScale", "parent"]
+    localPosition = ShowInInspector(Vector3, Vector3.zero())
+    localRotation = ShowInInspector(Quaternion, Quaternion.identity())
+    localScale = ShowInInspector(Vector3, Vector3.one())
+    parent = ShowInInspector()
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
         assert transform is None
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
-        self.localScale = Vector3.one()
-        self.parent = None
+        self.localPosition = Vector3.zero()
         self.children = []
 
     @property
@@ -587,11 +607,7 @@ class Light(SingleComponent):
 
     """
 
-    attrs = ["enabled", "intensity"]
-
-    def __init__(self, transform):
-        super(Light, self).__init__(transform)
-        self.intensity = 100
+    intensity = ShowInInspector(int, 100)
 
 class MeshRenderer(SingleComponent):
     """
@@ -606,12 +622,8 @@ class MeshRenderer(SingleComponent):
 
     """
 
-    attrs = ["enabled", "mesh", "mat"]
-
-    def __init__(self, transform):
-        super(MeshRenderer, self).__init__(transform)
-        self.mesh = None
-        self.mat = None
+    mesh = ShowInInspector(Mesh)
+    mat = ShowInInspector(Material)
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
@@ -620,66 +632,6 @@ class MeshRenderer(SingleComponent):
         
         self.mesh.recompile()
         self.mesh.draw()
-
-class Material:
-    """
-    Class to hold data on a material.
-
-    Attributes
-    ----------
-    color : Color
-        An albedo tint.
-    texture : Texture2D
-        A texture to map onto the mesh provided by a MeshRenderer
-
-    """
-
-    def __init__(self, color, texture=None):
-        self.color = color
-        self.texture = texture
-
-class Color:
-    """
-    A class to represent a color.
-
-    Parameters
-    ----------
-    r : int
-        Red value (0-255)
-    g : int
-        Green value (0-255)
-    b : int
-        Blue value (0-255)
-
-    Atrributes
-    ----------
-    r : int
-        Red value (0-255)
-    g : int
-        Green value (0-255)
-    b : int
-        Blue value (0-255)
-
-    """
-
-    def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
-
-    def __truediv__(self, other):
-        return self.r / other, self.g / other, self.b / other
-
-    def __repr__(self):
-        return "Color(" + self.to_string() + ")"
-    __str__ = __repr__
-
-    def to_string(self):
-        return "{}, {}, {}".format(self.r, self.g, self.b)
-
-    @staticmethod
-    def from_string(string):
-        return Color(*list(map(int, string.split(", "))))
 
 class Clock:
     def __init__(self):
