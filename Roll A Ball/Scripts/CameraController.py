@@ -1,7 +1,7 @@
 from pyunity import *
 
 class CameraController(Behaviour):
-    other = None
+    other = ShowInInspector(GameObject)
 
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position

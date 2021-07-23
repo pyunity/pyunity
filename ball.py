@@ -12,7 +12,7 @@ class PlayerController(Behaviour):
         self.rigidbody.AddForce(movement * self.speed * 2)
 
 class CameraController(Behaviour):
-    other = None
+    other = ShowInInspector(GameObject)
 
     def Start(self):
         self.offset = self.transform.position - self.other.transform.position
@@ -85,6 +85,6 @@ renderer.mesh = Loader.Primitives.cube
 renderer.mat = mat
 scene.Add(wall4)
 
-SceneManager.LoadSceneByIndex(0)
+# SceneManager.LoadSceneByIndex(0)
 
 Loader.SaveSceneToProject(scene, name="Roll A Ball")
