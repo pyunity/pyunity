@@ -7,6 +7,7 @@ physics engine.
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider",
            "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
 
+from ..errors import PyUnityException
 from ..vector3 import *
 from ..core import *
 from . import config
@@ -39,10 +40,16 @@ class PhysicMaterial:
 
     """
 
-    def __init__(self, restitution=0.75, friction=1):
+    def exception(self, *args, **kwargs):
+        raise PyUnityException(
+            "Cannot modify properties of PhysicMaterial: it is immutable")
+
+    def __init__(self, restitution=0.75, friction=1, immutable=False):
         self.restitution = restitution
         self.friction = friction
         self.combine = -1
+        if immutable:
+            self.__setattr__ = self.exception
 
 class Manifold:
     """
@@ -382,7 +389,7 @@ class Rigidbody(Component):
     mass = ShowInInspector(float, 100)
     position = ShowInInspector(Vector3, Vector3.zero())
     velocity = ShowInInspector(Vector3, Vector3.zero())
-    physicMaterial = ShowInInspector(PhysicMaterial, PhysicMaterial())
+    physicMaterial = ShowInInspector(PhysicMaterial, PhysicMaterial(immutable=True))
     force = ShowInInspector(Vector3, Vector3.zero())
     gravity = ShowInInspector(bool, True)
 
