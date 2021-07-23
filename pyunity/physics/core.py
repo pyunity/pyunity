@@ -90,7 +90,10 @@ class SphereCollider(Collider):
 
     """
 
-    attrs = ["enabled", "min", "max", "pos", "radius"]
+    min = ShowInInspector(Vector3, Vector3.zero())
+    max = ShowInInspector(Vector3, Vector3.zero())
+    pos = ShowInInspector(Vector3, Vector3.zero())
+    radius = ShowInInspector(float, 0)
 
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
@@ -213,7 +216,9 @@ class AABBoxCollider(Collider):
 
     """
 
-    attrs = ["enabled", "min", "max", "pos"]
+    min = ShowInInspector(Vector3, Vector3.zero())
+    max = ShowInInspector(Vector3, Vector3.zero())
+    pos = ShowInInspector(Vector3, Vector3.zero())
 
     def __init__(self, transform):
         super(AABBoxCollider, self).__init__(transform)
@@ -374,17 +379,19 @@ class Rigidbody(Component):
 
     """
 
-    attrs = ["enabled", "mass", "velocity",
-             "physicMaterial", "position", "gravity", "force"]
+    mass = ShowInInspector(float, 100)
+    position = ShowInInspector(Vector3, Vector3.zero())
+    velocity = ShowInInspector(Vector3, Vector3.zero())
+    physicMaterial = ShowInInspector(PhysicMaterial, PhysicMaterial())
+    force = ShowInInspector(Vector3, Vector3.zero())
+    gravity = ShowInInspector(bool, True)
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
         self.position = Vector3.zero()
         self.velocity = Vector3.zero()
-        self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
-        self.gravity = True
 
     def Move(self, dt):
         """

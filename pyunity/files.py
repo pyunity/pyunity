@@ -5,7 +5,7 @@ Also manages project structure.
 """
 
 __all__ = ["Behaviour", "Texture2D", "Prefab",
-           "File", "Project", "ShowInInspector"]
+           "File", "Project"]
 
 from OpenGL import GL as gl
 from PIL import Image
@@ -17,7 +17,6 @@ import glob
 import os
 import sys
 import ctypes
-import inspect
 
 def convert(type, list):
     """
@@ -50,19 +49,6 @@ class Behaviour(Component):
         Transform that the component belongs to.
 
     """
-
-    def __init_subclass__(cls):
-        super().__init_subclass__()
-        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(filter(lambda a: not (
-            a[0].startswith("__") or a[0] == "attrs"), members))
-        shown = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], ShowInInspector)}
-        names = list(map(lambda a: a[0], variables))
-        cls.attrs = list(names)
-        cls.shown = shown
-        for name, val in shown.items():
-            setattr(cls, name, val.default)
 
     def Start(self):
         """
@@ -108,11 +94,6 @@ class Behaviour(Component):
 
         """
         pass
-
-class ShowInInspector:
-    def __init__(self, type, default=None):
-        self.type = type
-        self.default = default
 
 class Scripts:
 

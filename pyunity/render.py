@@ -5,8 +5,9 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
+from .meshes import Color
 from .errors import PyUnityException
-from .core import SingleComponent, MeshRenderer
+from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .files import Skybox
@@ -190,18 +191,19 @@ class Camera(SingleComponent):
 
     """
 
-    attrs = ["enabled", "near", "far", "fov", "clearColor", "shader"]
+    near = ShowInInspector(float, 0.05)
+    far = ShowInInspector(float, 200)
+    clearColor = ShowInInspector(Color, Color(0, 0, 0))
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
         self.size = config.size
-        self.near = 0.05
-        self.far = 200
-        self.fov = 90
-        self.clearColor = (0, 0, 0, 1)
         self.shader = shaders["Standard"]
         self.skyboxShader = shaders["Skybox"]
         self.skybox = skyboxes["Water"]
+        self.shown["fov"] = ShowInInspector(int, 90)
+        self.fov = 90
+        self.clearColor = Color(0, 0, 0)
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
         self.lastPos = Vector3.zero()
