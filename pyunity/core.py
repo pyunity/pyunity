@@ -327,7 +327,8 @@ class Component:
                  for a in variables if isinstance(a[1], ShowInInspector)}
         cls.shown = shown
         for name, val in shown.items():
-            val.type = cls
+            if val.type is None:
+                val.type = cls
             setattr(cls, name, val.default)
 
     def AddComponent(self, component):
