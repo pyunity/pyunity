@@ -324,12 +324,14 @@ class Component:
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
         variables = list(filter(lambda a: not (
             a[0].startswith("__") or a[0] == "attrs"), members))
-        shown = {(a[0] if a[1].name is None else a[1].name): a[1]
+        shown = {a[0]: a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
         cls.shown = shown
         for name, val in shown.items():
             if val.type is None:
                 val.type = cls
+            if val.name is None:
+                val.name = name
             setattr(cls, name, val.default)
 
     def AddComponent(self, component):
