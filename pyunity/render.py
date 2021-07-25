@@ -201,7 +201,7 @@ class Camera(SingleComponent):
         self.shader = shaders["Standard"]
         self.skyboxShader = shaders["Skybox"]
         self.skybox = skyboxes["Water"]
-        self.shown["fov"] = ShowInInspector(int, 90)
+        self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.fov = 90
         self.clearColor = Color(0, 0, 0)
 
