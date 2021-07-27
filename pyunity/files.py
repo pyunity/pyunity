@@ -253,7 +253,7 @@ class Skybox:
         -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1,
         1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1
     ]
-    
+
     def __init__(self, path):
         self.path = path
         self.compiled = False
@@ -326,7 +326,7 @@ class Project:
         self.files[file.uuid] = (file, localPath)
         self.file_paths[localPath] = file
         return file
-    
+
     def reimport_file(self, localPath):
         old = self.file_paths[localPath]
         file = File(localPath, old.type, old.uuid)
@@ -344,8 +344,8 @@ class Project:
             f.write("    firstScene: " + str(self.firstScene) + "\n")
             f.write("Files\n")
             for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
-                f.write("    " + uuid + ": " + \
-                    os.path.normpath(file[1]).replace("\\", "/") + "\n")
+                f.write("    " + uuid + ": " +
+                        os.path.normpath(file[1]).replace("\\", "/") + "\n")
 
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
             f.write("from pyunity import *\n")

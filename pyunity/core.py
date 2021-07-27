@@ -424,7 +424,8 @@ class Transform(SingleComponent):
     """
 
     localPosition = ShowInInspector(Vector3, Vector3.zero(), "position")
-    localRotation = ShowInInspector(Quaternion, Quaternion.identity(), "rotation")
+    localRotation = ShowInInspector(
+        Quaternion, Quaternion.identity(), "rotation")
     localScale = ShowInInspector(Vector3, Vector3.one(), "scale")
 
     def __init__(self, transform=None):
@@ -633,7 +634,7 @@ class MeshRenderer(SingleComponent):
         """Render the mesh that the MeshRenderer has."""
         if self.mesh is None:
             return
-        
+
         self.mesh.recompile()
         self.mesh.draw()
 

@@ -389,7 +389,8 @@ class Rigidbody(Component):
     mass = ShowInInspector(float, 100)
     position = ShowInInspector(Vector3, Vector3.zero())
     velocity = ShowInInspector(Vector3, Vector3.zero())
-    physicMaterial = ShowInInspector(PhysicMaterial, PhysicMaterial(immutable=True))
+    physicMaterial = ShowInInspector(
+        PhysicMaterial, PhysicMaterial(immutable=True))
     force = ShowInInspector(Vector3, Vector3.zero())
     gravity = ShowInInspector(bool, True)
 
