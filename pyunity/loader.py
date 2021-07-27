@@ -13,12 +13,13 @@ from .core import *
 from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
-from .audio import AudioSource, AudioListener
+from .audio import AudioSource, AudioListener, AudioClip
 from .physics import AABBoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
 from uuid import uuid4
 import inspect
 import json
 import os
+import shutil
 
 def LoadObj(filename):
     """
@@ -297,6 +298,14 @@ def SaveScene(scene, directory, project):
                     project.import_file(os.path.join(
                         "Materials", gameObject.name + ".mat"), "Material", written)
                     ids[id(value)] = written
+                elif isinstance(value, AudioClip):
+                    written = str(uuid4())
+                    os.makedirs(os.path.join(directory, "Sounds"), exist_ok=True)
+                    shutil.copy(value.path, os.path.join(directory,
+                        "Sounds", os.path.basename(value.path)))
+                    project.import_file(os.path.join("Sounds",
+                        os.path.basename(value.path)), written)
+                    ids[id(value)] = written
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
@@ -412,12 +421,14 @@ def LoadProject(filePath):
                         obj = project.load_mat(file)
                     elif file.type == "Mesh":
                         obj = LoadMesh(os.path.join(project.path, file.path))
+                    elif file.type == "Ogg":
+                        obj = AudioClip(os.path.join(project.path, file.path))
                     setattr(component, name, obj)
 
+        script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
         for info in behaviourInfo:
             gameObject = ids[info.gameObject]
             del info.attrs["gameObject"]
-            script = Scripts.LoadScripts(os.path.join(filePath, "Scripts"))
             behaviour = gameObject.AddComponent(
                 getattr(script, info.type[:-11]))
             for name, value in reversed(info.attrs.items()):
@@ -432,6 +443,8 @@ def LoadProject(filePath):
                         obj = project.load_mat(file)
                     elif file.type == "Mesh":
                         obj = LoadMesh(os.path.join(project.path, file.path))
+                    elif file.type == "Ogg":
+                        obj = AudioClip(os.path.join(project.path, file.path))
                     setattr(behaviour, name, obj)
 
         for gameObject in gameObjects:
