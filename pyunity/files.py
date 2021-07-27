@@ -326,6 +326,13 @@ class Project:
         self.files[file.uuid] = (file, localPath)
         self.file_paths[localPath] = file
         return file
+    
+    def reimport_file(self, localPath):
+        old = self.file_paths[localPath]
+        file = File(localPath, old.type, old.uuid)
+        self.files[file.uuid] = (file, localPath)
+        self.file_paths[localPath] = file
+        return file
 
     def get_file_obj(self, uuid):
         return self.files[uuid][0].obj
