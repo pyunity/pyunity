@@ -33,6 +33,26 @@ elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
     Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
                    SDL_GetError().decode())
 
+class AudioClip:
+    """
+    Class to store information about an audio file.
+
+    Attributes
+    ----------
+    path : str
+        Path to the file
+    music : sdl2.sdlmixer.mixer.Mix_Chunk
+        Sound chunk that can be played with
+        an SDL2 Mixer Channel.
+        Only set when the AudioClip is played
+        in an ``AudioSource``.
+
+    """
+
+    def __init__(self, path):
+        self.path = path
+        self.music = None
+
 class AudioSource(Component):
     """
     Manages playback on an AudioSource.
@@ -52,6 +72,7 @@ class AudioSource(Component):
 
     playOnStart = ShowInInspector(bool, False)
     loop = ShowInInspector(bool, False)
+    clip = ShowInInspector(AudioClip, None)
 
     def __init__(self, transform):
         super(AudioSource, self).__init__(transform)
@@ -123,26 +144,6 @@ class AudioSource(Component):
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         return mixer.Mix_Playing(self.channel)
-
-class AudioClip:
-    """
-    Class to store information about an audio file.
-
-    Attributes
-    ----------
-    path : str
-        Path to the file
-    music : sdl2.sdlmixer.mixer.Mix_Chunk
-        Sound chunk that can be played with
-        an SDL2 Mixer Channel.
-        Only set when the AudioClip is played
-        in an ``AudioSource``.
-
-    """
-
-    def __init__(self, path):
-        self.path = path
-        self.music = None
 
 class AudioListener(Component):
     """

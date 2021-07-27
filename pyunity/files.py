@@ -337,7 +337,8 @@ class Project:
             f.write("    firstScene: " + str(self.firstScene) + "\n")
             f.write("Files\n")
             for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
-                f.write("    " + uuid + ": " + file[1] + "\n")
+                f.write("    " + uuid + ": " + \
+                    os.path.normpath(file[1]).replace("\\", "/") + "\n")
 
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
             f.write("from pyunity import *\n")
@@ -379,7 +380,7 @@ class Project:
         lines = lines[lines.index("Files") + 1:]
         for line in lines:
             name, value = line[4:].split(": ")
-            data["files"][name] = value
+            data["files"][name] = os.path.normpath(value)
 
         project = Project(filePath, data["name"])
         for uuid, path in data["files"].items():
