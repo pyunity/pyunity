@@ -60,7 +60,7 @@ class Mesh:
         from .scenes import SceneManager
         if SceneManager.CurrentScene() is not None:
             self.recompile()
-    
+
         # self.min, self.max = Vector3.zero(), Vector3.zero()
         # for vert in verts:
         #     if vert.x < self.min.x:
@@ -83,7 +83,7 @@ class Mesh:
             self.vbo, self.ibo = render.gen_buffers(self)
             self.vao = render.gen_array()
             self.compiled = True
-    
+
     def draw(self):
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
         gl.glBindVertexArray(self.vao)

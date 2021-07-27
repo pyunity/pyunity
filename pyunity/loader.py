@@ -233,7 +233,8 @@ def SaveAllScenes(name, filePath=None):
 
     for scene in SceneManager.scenesByIndex:
         SaveScene(scene, directory, project)
-        project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
+        project.import_file(os.path.join(
+            "Scenes", scene.name + ".scene"), None)
     project.write_project()
     return project
 
@@ -300,11 +301,12 @@ def SaveScene(scene, directory, project):
                     ids[id(value)] = written
                 elif isinstance(value, AudioClip):
                     written = str(uuid4())
-                    os.makedirs(os.path.join(directory, "Sounds"), exist_ok=True)
+                    os.makedirs(os.path.join(
+                        directory, "Sounds"), exist_ok=True)
                     shutil.copy(value.path, os.path.join(directory,
-                        "Sounds", os.path.basename(value.path)))
+                                                         "Sounds", os.path.basename(value.path)))
                     project.import_file(os.path.join("Sounds",
-                        os.path.basename(value.path)), written)
+                                                     os.path.basename(value.path)), written)
                     ids[id(value)] = written
                 else:
                     written = str(value)
