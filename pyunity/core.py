@@ -17,7 +17,7 @@ and all have MeshRenderers:
     GLFW doesn't work, trying PySDL2
     Trying PySDL2 as a window provider
     Using window provider PySDL2
-    Loaded PyUnity version 0.7.0
+    Loaded PyUnity version 0.7.1
     >>> mat = Material(Color(255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
