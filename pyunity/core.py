@@ -297,6 +297,12 @@ class ShowInInspector:
         self.default = default
         self.name = name
 
+class HideInInspector:
+    def __init__(self, type=None, default=None):
+        self.type = type
+        self.default = default
+        self.name = None
+
 class Component:
     """
     Base class for built-in components.
@@ -326,8 +332,12 @@ class Component:
             a[0].startswith("__") or a[0] == "attrs"), members))
         shown = {a[0]: a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
+        saved = {a[0]: a[1]
+                 for a in variables if isinstance(a[1], HideInInspector)}
+        saved.update(shown)
         cls.shown = shown
-        for name, val in shown.items():
+        cls.saved = saved
+        for name, val in saved.items():
             if val.type is None:
                 val.type = cls
             if val.name is None:
@@ -427,6 +437,7 @@ class Transform(SingleComponent):
     localRotation = ShowInInspector(
         Quaternion, Quaternion.identity(), "rotation")
     localScale = ShowInInspector(Vector3, Vector3.one(), "scale")
+    parent = HideInInspector()
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
