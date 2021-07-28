@@ -269,23 +269,28 @@ def SaveScene(scene, directory, project):
                 ids[id(component)] = uuid
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
-                path = os.path.join(directory, "Scripts",
-                                    type(component).__name__ + ".py")
-                os.makedirs(os.path.dirname(path), exist_ok=True)
-                with open(path, "w+") as f2:
-                    f2.write(GetImports(inspect.getfile(type(component))))
-                    f2.write(inspect.getsource(type(component)))
-                project.import_file(os.path.join("Scripts", type(
-                    component).__name__ + ".py"), "Behaviour", uuid)
+                file = os.path.join("Scripts", type(component).__name__ + ".py")
+                path = os.path.join(directory, file)
+                if file not in project.file_paths:
+                    os.makedirs(os.path.dirname(path), exist_ok=True)
+                    with open(path, "w+") as f2:
+                        f2.write(GetImports(inspect.getfile(type(component))))
+                        f2.write(inspect.getsource(type(component)))
+                    project.import_file(file, "Behaviour")
             else:
                 name = type(component).__name__ + "(Component)"
             f.write(name + " : " + uuid + "\n")
 
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
+            if isinstance(component, Behaviour):
+                f.write("    _script: " + project.file_paths[os.path.join(
+                    "Scripts", type(component).__name__ + ".py")].uuid + "\n")
             for attr in component.saved:
                 value = getattr(component, attr)
                 if id(value) in ids:
                     written = ids[id(value)]
+                elif isinstance(value, Behaviour) and attr == "_script":
+                    continue
                 elif isinstance(value, Mesh):
                     written = str(uuid4())
                     SaveMesh(value, gameObject.name, os.path.join(
