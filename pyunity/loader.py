@@ -421,11 +421,12 @@ def LoadProject(filePath):
             component = gameObject.AddComponent(component)
             ids[info.uuid] = component
             for name, value in reversed(info.attrs.items()):
-                check, obj = parse_string(value)
                 if isinstance(component, MeshRenderer) and \
                         [name, value] == ["mat", "default"]:
                     component.mat = MeshRenderer.DefaultMaterial
-                elif check:
+                    continue
+                check, obj = parse_string(value)
+                if check:
                     setattr(component, name, obj)
                 elif value in ids:
                     setattr(component, name, ids[value])
