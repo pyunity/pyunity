@@ -9,7 +9,7 @@ __all__ = ["Behaviour", "Texture2D", "Prefab",
 
 from OpenGL import GL as gl
 from PIL import Image
-from .core import Component, Material, Color
+from .core import Component, Material, Color, ShowInInspector
 from . import Logger
 from types import ModuleType
 from uuid import uuid4
@@ -49,6 +49,8 @@ class Behaviour(Component):
         Transform that the component belongs to.
 
     """
+
+    _script = ShowInInspector(type)
 
     def Start(self):
         """
