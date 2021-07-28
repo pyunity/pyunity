@@ -6,6 +6,7 @@ This will be imported as ``pyunity.Loader``.
 
 """
 
+from pyunity.errors import ComponentException
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .meshes import Mesh
@@ -299,11 +300,14 @@ def SaveScene(scene, directory, project):
                         "Meshes", gameObject.name + ".mesh"), "Mesh", written)
                     ids[id(value)] = written
                 elif isinstance(value, Material):
-                    written = str(uuid4())
-                    project.save_mat(value, gameObject.name)
-                    project.import_file(os.path.join(
-                        "Materials", gameObject.name + ".mat"), "Material", written)
-                    ids[id(value)] = written
+                    if hasattr(component, "default"):
+                        written = "None"
+                    else:
+                        written = str(uuid4())
+                        project.save_mat(value, gameObject.name)
+                        project.import_file(os.path.join(
+                            "Materials", gameObject.name + ".mat"), "Material", written)
+                        ids[id(value)] = written
                 elif isinstance(value, AudioClip):
                     written = str(uuid4())
                     os.makedirs(os.path.join(
@@ -418,7 +422,10 @@ def LoadProject(filePath):
             ids[info.uuid] = component
             for name, value in reversed(info.attrs.items()):
                 check, obj = parse_string(value)
-                if check:
+                if isinstance(component, MeshRenderer) and \
+                        [name, value] == ["mat", "default"]:
+                    component.mat = MeshRenderer.DefaultMaterial
+                elif check:
                     setattr(component, name, obj)
                 elif value in ids:
                     setattr(component, name, ids[value])

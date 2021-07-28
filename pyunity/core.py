@@ -638,7 +638,9 @@ class MeshRenderer(SingleComponent):
 
     """
 
-    mesh = ShowInInspector(Mesh)
+    DefaultMaterial = Material(Color(200, 200, 200))
+    DefaultMaterial.default = True
+    mesh = ShowInInspector(Mesh, DefaultMaterial)
     mat = ShowInInspector(Material)
 
     def Render(self):
