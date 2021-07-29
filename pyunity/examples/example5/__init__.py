@@ -1,4 +1,4 @@
-from pyunity import Behaviour, Logger, SceneManager, GameObject, Material, Color, Vector3, MeshRenderer
+from pyunity import Behaviour, Logger, SceneManager, GameObject, Material, RGB, Vector3, MeshRenderer
 import os
 
 class Rotator(Behaviour):
@@ -19,7 +19,7 @@ def main():
     house.transform.eulerAngles = Vector3(0, 180, 0)
     # renderer = house.AddComponent(MeshRenderer)
     # renderer.mesh = mesh
-    # renderer.mat = Material(Color(255, 0, 0))
+    # renderer.mat = Material(RGB(255, 0, 0))
     house.AddComponent(Rotator)
 
     scene.Add(house)
