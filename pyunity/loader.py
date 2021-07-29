@@ -269,7 +269,8 @@ def SaveScene(scene, directory, project):
                 ids[id(component)] = uuid
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
-                file = os.path.join("Scripts", type(component).__name__ + ".py")
+                file = os.path.join("Scripts", type(
+                    component).__name__ + ".py")
                 path = os.path.join(directory, file)
                 if file not in project.file_paths:
                     os.makedirs(os.path.dirname(path), exist_ok=True)
