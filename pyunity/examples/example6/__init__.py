@@ -1,4 +1,4 @@
-from pyunity import Behaviour, Vector3, Logger, Material, Color, SceneManager, GameObject, MeshRenderer, Loader
+from pyunity import Behaviour, Vector3, Logger, Material, RGB, SceneManager, GameObject, MeshRenderer, Loader
 import math
 
 rt50 = math.sqrt(50)
@@ -18,7 +18,7 @@ class Rotator(Behaviour):
         print(round(average(self.fps), 3))
 
 def main():
-    mat = Material(Color(255, 0, 0))
+    mat = Material(RGB(255, 0, 0))
 
     scene = SceneManager.AddScene("Scene")
     scene.mainCamera.transform.localPosition = Vector3(0, 3, 0)

@@ -5,7 +5,7 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .values import Color
+from .values import RGB
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .vector3 import Vector3
@@ -193,7 +193,7 @@ class Camera(SingleComponent):
 
     near = ShowInInspector(float, 0.05)
     far = ShowInInspector(float, 200)
-    clearColor = ShowInInspector(Color, Color(0, 0, 0))
+    clearColor = ShowInInspector(RGB, RGB(0, 0, 0))
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
@@ -203,7 +203,7 @@ class Camera(SingleComponent):
         self.skybox = skyboxes["Water"]
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.fov = 90
-        self.clearColor = Color(0, 0, 0)
+        self.clearColor = RGB(0, 0, 0)
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
         self.lastPos = Vector3.zero()

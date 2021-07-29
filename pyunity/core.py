@@ -18,7 +18,7 @@ and all have MeshRenderers:
     Trying PySDL2 as a window provider
     Using window provider PySDL2
     Loaded PyUnity version 0.7.1
-    >>> mat = Material(Color(255, 0, 0)) # Create a default material
+    >>> mat = Material(RGB(255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
     >>> child1.transform.localPosition = Vector3(-2, 0, 0) # Move the child
@@ -46,7 +46,7 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "Color", "Clock",
+__all__ = ["Component", "GameObject", "Light", "RGB", "Clock",
            "Material", "MeshRenderer", "Tag", "Transform",
            "ShowInInspector"]
 
@@ -58,7 +58,7 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import Mesh
-from .values import Material, Color
+from .values import Material, RGB
 from . import Logger
 
 
@@ -639,7 +639,7 @@ class MeshRenderer(SingleComponent):
 
     """
 
-    DefaultMaterial = Material(Color(200, 200, 200))
+    DefaultMaterial = Material(RGB(200, 200, 200))
     DefaultMaterial.default = True
     mesh = ShowInInspector(Mesh)
     mat = ShowInInspector(Material, DefaultMaterial)

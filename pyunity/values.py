@@ -47,8 +47,10 @@ class RGB(Color):
     def __list__(self):
         return [self.r, self.g, self.b]
 
-    def __tuple__(self):
-        return (self.r, self.g, self.b)
+    def __iter__(self):
+        yield self.r
+        yield self.g
+        yield self.b
     
     def __repr__(self):
         return "RGB(%d, %d, %d)" % tuple(self)
@@ -84,8 +86,11 @@ class HSV(Color):
     def __list__(self):
         return [self.h, self.s, self.v]
     
-    def __tuple__(self):
-        return (self.h, self.s, self.v)
+    def __iter__(self):
+        yield self.h
+        yield self.s
+        yield self.v
+        raise StopIteration
     
     def __repr__(self):
         return "HSV(%d, %d, %d)" % tuple(self)

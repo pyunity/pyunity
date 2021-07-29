@@ -1,4 +1,4 @@
-from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, Color, ShowInInspector
+from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, RGB, ShowInInspector
 
 class Rotator(Behaviour):
     a = ShowInInspector(int, 0)
@@ -13,7 +13,7 @@ def main():
     cube = GameObject("Cube")
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(255, 0, 0))
+    renderer.mat = Material(RGB(255, 0, 0))
     cube.AddComponent(Rotator)
 
     scene.Add(cube)
