@@ -150,6 +150,7 @@ from .audio import *
 from .core import *
 from . import input as Input  # lgtm[py/import-own-module]
 from . import loader as Loader  # lgtm[py/import-own-module]
+from .loader import Primitives  # lgtm[py/import-own-module]
 from .input import KeyCode, KeyState
 from .physics import *
 from .errors import *

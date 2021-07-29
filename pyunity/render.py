@@ -5,7 +5,7 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .meshes import Color
+from .values import Color
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .vector3 import Vector3
