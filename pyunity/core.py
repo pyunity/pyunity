@@ -57,7 +57,8 @@ import inspect
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
-from .meshes import *
+from .meshes import Mesh
+from .values import Material, Color
 from . import Logger
 
 

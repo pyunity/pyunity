@@ -9,7 +9,8 @@ __all__ = ["Behaviour", "Texture2D", "Prefab",
 
 from OpenGL import GL as gl
 from PIL import Image
-from .core import Component, Material, Color, ShowInInspector
+from .values import Material, Color
+from .core import Component, ShowInInspector
 from . import Logger
 from types import ModuleType
 from uuid import uuid4

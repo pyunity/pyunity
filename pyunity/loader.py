@@ -6,7 +6,6 @@ This will be imported as ``pyunity.Loader``.
 
 """
 
-from pyunity.errors import ComponentException
 from .vector3 import Vector3
 from .quaternion import Quaternion
 from .meshes import Mesh
