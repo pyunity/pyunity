@@ -1,5 +1,7 @@
 __all__ = ["Material", "Color"]
 
+import colorsys
+
 class Material:
     """
     Class to hold data on a material.
@@ -18,8 +20,13 @@ class Material:
         self.texture = texture
 
 class Color:
+    def __truediv__(self, other):
+        a, b, c = tuple(self)
+        return a / other, b / other, c / other
+
+class RGB(Color):
     """
-    A class to represent a color.
+    A class to represent an RGB color.
 
     Parameters
     ----------
@@ -36,17 +43,58 @@ class Color:
         self.r = r
         self.g = g
         self.b = b
+    
+    def __list__(self):
+        return [self.r, self.g, self.b]
 
-    def __truediv__(self, other):
-        return self.r / other, self.g / other, self.b / other
-
+    def __tuple__(self):
+        return (self.r, self.g, self.b)
+    
     def __repr__(self):
-        return "Color(" + self.to_string() + ")"
+        return "RGB(%d, %d, %d)" % tuple(self)
     __str__ = __repr__
 
-    def to_string(self):
-        return "{}, {}, {}".format(self.r, self.g, self.b)
-
+    def to_hsv(self):
+        return HSV.from_rgb(self.r, self.g, self.b)
+    
     @staticmethod
-    def from_string(string):
-        return Color(*list(map(int, string.split(", "))))
+    def from_hsv(h, s, v):
+        r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
+        return RGB(int(r * 255), int(g * 255), int(b * 255))
+
+class HSV(Color):
+    """
+    A class to represent a HSV color.
+
+    Parameters
+    ----------
+    h : int
+        Hue (0-360)
+    s : int
+        Saturation (0-100)
+    v : int
+        Value (0-100)
+
+    """
+    def __init__(self, h, s, v):
+        self.h = h
+        self.s = s
+        self.v = v
+    
+    def __list__(self):
+        return [self.h, self.s, self.v]
+    
+    def __tuple__(self):
+        return (self.h, self.s, self.v)
+    
+    def __repr__(self):
+        return "HSV(%d, %d, %d)" % tuple(self)
+    __str__ = __repr__
+    
+    def to_rgb(self):
+        return RGB.from_hsv(self.h, self.s, self.v)
+    
+    @staticmethod
+    def from_rgb(r, g, b):
+        h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+        return HSV(int(h * 360), int(s * 100), int(v * 100))
