@@ -90,7 +90,6 @@ class HSV(Color):
         yield self.h
         yield self.s
         yield self.v
-        raise StopIteration
     
     def __repr__(self):
         return "HSV(%d, %d, %d)" % tuple(self)
