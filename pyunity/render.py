@@ -5,7 +5,7 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .values import RGB
+from .values import Color, RGB
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .vector3 import Vector3
@@ -185,15 +185,14 @@ class Camera(SingleComponent):
         Distance of the near plane in the camera frustrum. Defaults to 0.05.
     far : float
         Distance of the far plane in the camera frustrum. Defaults to 100.
-    clearColor : tuple
-        Tuple of 4 floats of the clear color of the camera. Defaults to (.1, .1, .1, 1).
-        Color mode is RGBA.
+    clearColor : RGB
+        The clear color of the camera. Defaults to (0, 0, 0).
 
     """
 
     near = ShowInInspector(float, 0.05)
     far = ShowInInspector(float, 200)
-    clearColor = ShowInInspector(RGB, RGB(0, 0, 0))
+    clearColor = ShowInInspector(Color, RGB(0, 0, 0))
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
