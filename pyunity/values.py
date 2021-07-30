@@ -1,4 +1,4 @@
-__all__ = ["Material", "Color"]
+__all__ = ["Material", "Color", "RGB", "HSV"]
 
 import colorsys
 
@@ -23,6 +23,17 @@ class Color:
     def __truediv__(self, other):
         a, b, c = tuple(self)
         return a / other, b / other, c / other
+    
+    def __mul__(self, other):
+        a, b, c = tuple(self)
+        return a * other, b * other, c * other
+    
+    @staticmethod
+    def from_string(self, string):
+        if string.startswith("RGB"):
+            return RGB(*list(map(int, string.split(", ")[1:])))
+        elif string.startswith("HSV"):
+            return HSV(*list(map(int, string.split(", ")[1:])))
 
 class RGB(Color):
     """
@@ -63,6 +74,9 @@ class RGB(Color):
     def from_hsv(h, s, v):
         r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
         return RGB(int(r * 255), int(g * 255), int(b * 255))
+    
+    def to_string(self):
+        return str(self)
 
 class HSV(Color):
     """
@@ -90,7 +104,6 @@ class HSV(Color):
         yield self.h
         yield self.s
         yield self.v
-        raise StopIteration
     
     def __repr__(self):
         return "HSV(%d, %d, %d)" % tuple(self)
@@ -103,3 +116,6 @@ class HSV(Color):
     def from_rgb(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
         return HSV(int(h * 360), int(s * 100), int(v * 100))
+    
+    def to_string(self):
+        return str(self.to_rgb())

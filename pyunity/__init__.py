@@ -71,7 +71,7 @@ Finally, add a cube at the origin:
     >>> cube = GameObject("Cube")
     >>> renderer = cube.AddComponent(MeshRenderer)
     >>> renderer.mesh = Mesh.cube(2)
-    >>> renderer.mat = Material(Color(255, 0, 0))
+    >>> renderer.mat = Material(RGB(255, 0, 0))
     >>> scene.Add(cube)
 
 To see what you have added to the scene, call ``scene.List()``:
@@ -155,6 +155,7 @@ from .input import KeyCode, KeyState
 from .physics import *
 from .errors import *
 from .files import *
+from .values import *
 from .scenes import sceneManager as SceneManager
 from .quaternion import Quaternion
 from .vector3 import Vector3
@@ -174,12 +175,13 @@ from . import config, window
 __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
            "Behaviour", "Clock", "CollManager", "Collider", "Color",
            "Component", "ComponentException", "File", "GameObject",
-           "GameObjectException", "Input", "KeyCode", "KeyState",
-           "Light", "Loader", "Logger", "Material", "Mesh", "MeshRenderer",
-           "PhysicMaterial", "Prefab", "Primitives", "Project",
-           "PyUnityException", "Quaternion", "Rigidbody", "SceneManager",
-           "ShowInInspector", "SphereCollider", "Tag", "Texture2D",
-           "Transform", "Vector3", "infinity"]
+           "GameObjectException", "HSV", "Input", "KeyCode",
+           "KeyState", "Light", "Loader", "Logger", "Material",
+           "Mesh", "MeshRenderer", "PhysicMaterial", "Prefab",
+           "Primitives", "Project", "PyUnityException", "Quaternion",
+           "RGB", "Rigidbody", "SceneManager", "ShowInInspector",
+           "SphereCollider", "Tag", "Texture2D", "Transform",
+           "Vector3", "infinity"]
 # __all__ ends here
 
 if "PYUNITY_TESTING" not in os.environ:

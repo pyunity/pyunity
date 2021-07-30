@@ -87,7 +87,7 @@ This creates a spinning cube:
    >>> cube = GameObject("Cube")
    >>> renderer = cube.AddComponent(MeshRenderer)
    >>> renderer.mesh = Mesh.cube(2)
-   >>> renderer.mat = Material(Color(255, 0, 0))
+   >>> renderer.mat = Material(RGB(255, 0, 0))
    >>> cube.AddComponent(Rotator)
    >>> scene.Add(cube)
    >>> scene.Run()

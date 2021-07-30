@@ -46,7 +46,7 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "RGB", "Clock",
+__all__ = ["Component", "GameObject", "Light", "Clock",
            "Material", "MeshRenderer", "Tag", "Transform",
            "ShowInInspector"]
 
