@@ -28,12 +28,15 @@ class Color:
         a, b, c = tuple(self)
         return a * other, b * other, c * other
     
+    def to_string(self):
+        return str(self)
+    
     @staticmethod
-    def from_string(self, string):
+    def from_string(string):
         if string.startswith("RGB"):
-            return RGB(*list(map(int, string.split(", ")[1:])))
+            return RGB(*list(map(int, string[4:-1].split(", "))))
         elif string.startswith("HSV"):
-            return HSV(*list(map(int, string.split(", ")[1:])))
+            return HSV(*list(map(int, string[4:-1].split(", "))))
 
 class RGB(Color):
     """
@@ -74,9 +77,6 @@ class RGB(Color):
     def from_hsv(h, s, v):
         r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
         return RGB(int(r * 255), int(g * 255), int(b * 255))
-    
-    def to_string(self):
-        return str(self)
 
 class HSV(Color):
     """
@@ -116,6 +116,3 @@ class HSV(Color):
     def from_rgb(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
         return HSV(int(h * 360), int(s * 100), int(v * 100))
-    
-    def to_string(self):
-        return str(self.to_rgb())

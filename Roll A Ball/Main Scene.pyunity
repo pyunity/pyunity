@@ -2,11 +2,11 @@ Project
     name: Main Scene
     firstScene: 0
 Files
-    104afbaf-33d1-447b-be9a-954b57091c5b: Materials/Ball.mat
-    209f485b-4703-4c83-b2da-1f6bd41b6fd5: Materials/Floor.mat
-    8d655824-d54a-403e-bebe-3b11129b7368: Materials/Wall.mat
-    ae923325-e642-4cde-a5ab-3f90cb6de15f: Meshes/Ball.mesh
-    b0b1209c-25d0-44e2-834c-5a0b465dd82c: Meshes/Floor.mesh
-    8870d683-065d-4df0-ab43-0ef949a11097: Scenes/Main Scene.scene
-    6bcf6fad-6817-4a78-bcb9-010c7633e6e9: Scripts/CameraController.py
-    03187ad1-5705-450a-8a46-9278ad83ba64: Scripts/PlayerController.py
+    fef97e80-7654-4c95-9dcf-cbb928b36ea8: Materials/Ball.mat
+    b371f101-9f9b-4fea-b551-827a2ac1e1e1: Materials/Floor.mat
+    6ae3c4c9-6d21-43f5-a160-917ddb83a2bd: Materials/Wall.mat
+    a5f50a7b-0955-4ef4-bc98-a1f12eb44292: Meshes/Ball.mesh
+    ac49802f-5924-4012-b8ba-ad9e850aff40: Meshes/Floor.mesh
+    d9e8e99d-a431-45d2-870e-428c46345f8c: Scenes/Main Scene.scene
+    842b290d-e99c-4178-90b5-6b29922d48c6: Scripts/CameraController.py
+    52254f89-1245-4894-8760-ea490cda0a0b: Scripts/PlayerController.py
