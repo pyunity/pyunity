@@ -20,14 +20,6 @@ class Material:
         self.texture = texture
 
 class Color:
-    def __truediv__(self, other):
-        a, b, c = tuple(self)
-        return a / other, b / other, c / other
-    
-    def __mul__(self, other):
-        a, b, c = tuple(self)
-        return a * other, b * other, c * other
-    
     def to_string(self):
         return str(self)
     
@@ -53,6 +45,14 @@ class RGB(Color):
 
     """
 
+    def __truediv__(self, other):
+        a, b, c = tuple(self)
+        return a / other, b / other, c / other
+    
+    def __mul__(self, other):
+        a, b, c = tuple(self)
+        return a * other, b * other, c * other
+    
     def __init__(self, r, g, b):
         self.r = r
         self.g = g
