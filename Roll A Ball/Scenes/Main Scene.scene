@@ -40,7 +40,7 @@ Transform(Component) : 4dd5effb-43a6-4b8b-a84e-7853c32659e9
     localScale: Vector3(1, 1, 1)
 Camera(Component) : 642f1141-f5ca-448c-9f68-4defc716f9f1
     gameObject: 100ef618-38b0-4d22-bf06-90dfe79e4b69
-    clearColor: Color(0, 0, 0)
+    clearColor: RGB(0, 0, 0)
     far: 200
     near: 0.05
 AudioListener(Component) : dc86aa6c-5057-45aa-a164-2172b33d94a9

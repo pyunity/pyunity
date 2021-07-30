@@ -65,7 +65,7 @@ Now we can give our renderer the cube mesh from before.
 Finally, we need a Material to use. To create a Material,
 we need to specify a colour in RGB.
 
-   >>> renderer.mat = Material(Color(255, 0, 0))
+   >>> renderer.mat = Material(RGB(255, 0, 0))
 
 Here I used a red material. Finally we need to add the cube
 to our scene, otherwise we can't see it in the window:
@@ -87,7 +87,7 @@ The full code:
    >>> cube = GameObject("Cube")
    >>> renderer = cube.AddComponent(MeshRenderer)
    >>> renderer.mesh = cubeMesh
-   >>> renderer.mat = Material(Color(255, 0, 0))
+   >>> renderer.mat = Material(RGB(255, 0, 0))
    >>> scene.Add(cube)
 
 Then, to run our scene, we use ``scene.Run()``. And now we have
@@ -108,7 +108,7 @@ Now we can see it better:
 Let's say we want to place an image onto the cube. To do this,
 we need to change the Material and add a Texture.
 
-   >>> renderer.mat = Material(Color(255, 255, 255), Texture2D("python.png"))
+   >>> renderer.mat = Material(RGB(255, 255, 255), Texture2D("python.png"))
 
 Place ``python.png`` in the same folder as your script and run
 the code. Here is the image for reference:
@@ -126,7 +126,7 @@ And here is the complete code:
    cube = GameObject("Cube")
    renderer = cube.AddComponent(MeshRenderer)
    renderer.mesh = cubeMesh
-   renderer.mat = Material(Color(255, 0, 0), Texture2D("python.png"))
+   renderer.mat = Material(RGB(255, 0, 0), Texture2D("python.png"))
    scene.Add(cube)
    scene.Run()
 
