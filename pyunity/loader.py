@@ -219,7 +219,7 @@ def SaveSceneToProject(scene, filePath=None, name=None):
     project = Project(directory, scene.name)
 
     project.import_file(os.path.join("Scenes", scene.name + ".scene"), None)
-    SaveScene(scene, directory, project)
+    SaveScene(scene, project)
     return project
 
 def SaveAllScenes(name, filePath=None):
@@ -233,13 +233,14 @@ def SaveAllScenes(name, filePath=None):
     project = Project(directory, name)
 
     for scene in SceneManager.scenesByIndex:
-        SaveScene(scene, directory, project)
+        SaveScene(scene, project)
         project.import_file(os.path.join(
             "Scenes", scene.name + ".scene"), None)
     project.write_project()
     return project
 
-def SaveScene(scene, directory, project):
+def SaveScene(scene, project):
+    directory = project.path
     os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write("Scene : " + str(uuid4()) + "\n")
