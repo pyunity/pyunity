@@ -239,36 +239,30 @@ def SaveAllScenes(name, filePath=None):
     project.write_project()
     return project
 
+def GetId(ids, obj):
+    id_ = id(obj)
+    if id_ not in ids:
+        ids[id_] = str(uuid4())
+    return ids[id_]
+
 def SaveScene(scene, project):
     directory = project.path
     os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
-    f.write("Scene : " + str(uuid4()) + "\n")
+    f.write("Scene : " + scene.id + "\n")
     f.write("    name: " + json.dumps(scene.name) + "\n")
-
-    ids = {}
+    
+    ids = scene.ids
     for gameObject in scene.gameObjects:
-        uuid = str(uuid4())
-
-        ids[id(gameObject)] = uuid
-        f.write("GameObject : " + uuid + "\n")
+        f.write("GameObject : " + GetId(ids, gameObject) + "\n")
         f.write("    name: " + json.dumps(gameObject.name) + "\n")
         f.write("    tag: " + str(gameObject.tag.tag) + "\n")
-
-        uuid = str(uuid4())
-
-        ids[id(gameObject.transform)] = uuid
-
-        f.write("    transform: " + uuid + "\n")
+        f.write("    transform: " + GetId(ids, gameObject.transform) + "\n")
 
     # 2nd pass (for components)
     for gameObject in scene.gameObjects:
         for component in gameObject.components:
-            if id(component) in ids:
-                uuid = ids[id(component)]
-            else:
-                uuid = str(uuid4())
-                ids[id(component)] = uuid
+            uuid = GetId(ids, component)
             if issubclass(type(component), Behaviour):
                 name = type(component).__name__ + "(Behaviour)"
                 file = os.path.join("Scripts", type(
@@ -295,15 +289,20 @@ def SaveScene(scene, project):
                 elif isinstance(value, Behaviour) and attr == "_script":
                     continue
                 elif isinstance(value, Mesh):
-                    written = str(uuid4())
-                    SaveMesh(value, gameObject.name, os.path.join(
-                        directory, "Meshes", gameObject.name + ".mesh"))
-                    project.import_file(os.path.join(
-                        "Meshes", gameObject.name + ".mesh"), "Mesh", written)
-                    ids[id(value)] = written
+                    if id(value) in ids:
+                        written = ids[id(value)]
+                    else:
+                        written = str(uuid4())
+                        SaveMesh(value, gameObject.name, os.path.join(
+                            directory, "Meshes", gameObject.name + ".mesh"))
+                        project.import_file(os.path.join(
+                            "Meshes", gameObject.name + ".mesh"), "Mesh", written)
+                        ids[id(value)] = written
                 elif isinstance(value, Material):
                     if hasattr(component, "default"):
-                        written = "None"
+                        written = "default"
+                    elif id(value) in ids:
+                        written = ids[id(value)]
                     else:
                         written = str(uuid4())
                         project.save_mat(value, gameObject.name)
@@ -311,19 +310,22 @@ def SaveScene(scene, project):
                             "Materials", gameObject.name + ".mat"), "Material", written)
                         ids[id(value)] = written
                 elif isinstance(value, AudioClip):
-                    written = str(uuid4())
-                    os.makedirs(os.path.join(
-                        directory, "Sounds"), exist_ok=True)
-                    shutil.copy(value.path, os.path.join(directory,
-                                                         "Sounds", os.path.basename(value.path)))
-                    project.import_file(os.path.join("Sounds",
-                                                     os.path.basename(value.path)), written)
-                    ids[id(value)] = written
+                    if id(value) in ids:
+                        written = ids[id(value)]
+                    else:
+                        written = str(uuid4())
+                        os.makedirs(os.path.join(
+                            directory, "Sounds"), exist_ok=True)
+                        shutil.copy(value.path, os.path.join(directory,
+                                                             "Sounds", os.path.basename(value.path)))
+                        project.import_file(os.path.join("Sounds",
+                                                         os.path.basename(value.path)), written)
+                        ids[id(value)] = written
                 else:
                     written = str(value)
                 f.write("    " + attr + ": " + written + "\n")
 
-        project.write_project()
+    project.write_project()
 
 class ObjectInfo:
     def __init__(self, uuid, type, attrs):
@@ -406,6 +408,7 @@ def LoadProject(filePath):
 
         scene_info = infos.pop(0)
         scene = SceneManager.AddBareScene(json.loads(scene_info.name))
+        scene.id = scene_info.uuid
 
         ids = {}
 
@@ -469,7 +472,8 @@ def LoadProject(filePath):
 
         scene.mainCamera = scene.FindGameObjectsByName(
             "Main Camera")[0].GetComponent(Camera)
-
+        scene.ids = ids
+    
     return project
 
 class Primitives:
