@@ -17,6 +17,7 @@ from ..errors import *
 from time import time
 import os
 import math
+import uuid
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
@@ -47,6 +48,8 @@ class Scene:
         light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
+        self.ids = {}
+        self.id = str(uuid.uuid4())
 
     @staticmethod
     def Bare(name):
@@ -55,6 +58,7 @@ class Scene:
         cls.gameObjects = []
         cls.rootGameObjects = []
         cls.mainCamera = None
+        cls.ids = {}
         return cls
 
     def Add(self, gameObject):
