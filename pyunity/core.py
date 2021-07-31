@@ -47,8 +47,7 @@ and all have MeshRenderers:
 """
 
 __all__ = ["Component", "GameObject", "Light", "Clock",
-           "Material", "MeshRenderer", "Tag", "Transform",
-           "ShowInInspector"]
+           "MeshRenderer", "Tag", "Transform", "ShowInInspector"]
 
 import glm
 import sys
@@ -642,7 +641,7 @@ class MeshRenderer(SingleComponent):
     DefaultMaterial = Material(RGB(200, 200, 200))
     DefaultMaterial.default = True
     mesh = ShowInInspector(Mesh)
-    mat = ShowInInspector(Material, DefaultMaterial)
+    mat = ShowInInspector(Material, DefaultMaterial, "material")
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
