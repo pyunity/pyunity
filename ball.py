@@ -30,7 +30,7 @@ rb.mass = 50
 rb.gravity = False
 rb.physicMaterial = PhysicMaterial(0.5, 0)
 renderer = ball.AddComponent(MeshRenderer)
-renderer.mesh = Loader.Primitives.sphereerial(RGB(200, 200, 200))
+renderer.mesh = Loader.Primitives.sphere
 ball.AddComponent(PlayerController).rigidbody = rb
 scene.Add(ball)
 
@@ -42,7 +42,8 @@ floor.transform.position = Vector3(0, -2, 0)
 floor.transform.scale = Vector3(50, 1, 50)
 floor.AddComponent(AABBoxCollider)
 renderer = floor.AddComponent(MeshRenderer)
-renderer.mesh = Loader.Primitives.cubeerial(RGB(50, 50, 50))
+renderer.mesh = Loader.Primitives.cube
+renderer.mat = Material(RGB(50, 50, 50))
 scene.Add(floor)
 
 wall1 = GameObject("Wall")
