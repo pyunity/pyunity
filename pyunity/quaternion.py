@@ -136,6 +136,16 @@ class Quaternion:
         cos = glm.cos(glm.radians(angle / 2))
         sin = glm.sin(glm.radians(angle / 2))
         return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
+    
+    @staticmethod
+    def Between(v1, v2):
+        a = v1.cross(v2)
+        q = Quaternion(*a, glm.sqrt((v1.get_length_sqrd()) * (v2.get_length_sqrd())) + v1.dot(v2))
+        return q.normalized()
+    
+    @staticmethod
+    def FromDir(v):
+        return Quaternion.Between(Vector3.back(), v.normalized())
 
     @property
     def angleAxisPair(self):
