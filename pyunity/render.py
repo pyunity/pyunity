@@ -270,16 +270,17 @@ class Camera(SingleComponent):
     def UseShader(self, name):
         self.shader = shaders[name]
 
-    def Render(self, gameObjects):
+    def Render(self, gameObjects, lights):
         self.shader.use()
         viewMat = self.getViewMat()
         self.shader.setMat4(b"view", viewMat)
         self.shader.setMat4(b"projection", self.projMat)
 
-        self.shader.setVec3(b"lightPos", [10, 10, 10])
+        self.shader.setVec3(b"lightPos", list(
+            lights[0].transform.position * Vector3(1, 1, -1)))
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
-        self.shader.setVec3(b"lightColor", [1, 1, 1])
+        self.shader.setVec3(b"lightColor", list(lights[0].color.to_rgb() / 255))
 
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)

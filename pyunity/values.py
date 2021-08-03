@@ -70,6 +70,9 @@ class RGB(Color):
         return "RGB(%d, %d, %d)" % tuple(self)
     __str__ = __repr__
 
+    def to_rgb(self):
+        return self
+
     def to_hsv(self):
         return HSV.from_rgb(self.r, self.g, self.b)
     

@@ -57,7 +57,7 @@ from .vector3 import Vector3
 from .quaternion import Quaternion
 from .errors import *
 from .meshes import Mesh
-from .values import Material, RGB
+from .values import Material, RGB, Color
 from . import Logger
 
 
@@ -624,6 +624,7 @@ class Light(SingleComponent):
     """
 
     intensity = ShowInInspector(int, 100)
+    color = ShowInInspector(Color, RGB(255, 255, 255))
 
 class MeshRenderer(SingleComponent):
     """
