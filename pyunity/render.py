@@ -273,14 +273,16 @@ class Camera(SingleComponent):
     def Render(self, gameObjects, lights):
         self.shader.use()
         viewMat = self.getViewMat()
-        self.shader.setMat4(b"view", viewMat)
         self.shader.setMat4(b"projection", self.projMat)
-
-        self.shader.setVec3(b"lightPos", list(
-            lights[0].transform.position * Vector3(1, 1, -1)))
+        self.shader.setMat4(b"view", viewMat)
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
-        self.shader.setVec3(b"lightColor", list(lights[0].color.to_rgb() / 255))
+
+        if len(lights):
+            self.shader.setVec3(b"lightPos", list(
+                lights[0].transform.position * Vector3(1, 1, -1)))
+            self.shader.setVec3(b"lightColor", list(lights[0].color.to_rgb() / 255))
+            self.shader.setInt(b"lighting", 1)
 
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(MeshRenderer)
@@ -291,8 +293,6 @@ class Camera(SingleComponent):
                 if renderer.mat.texture is not None:
                     self.shader.setInt(b"textured", 1)
                     renderer.mat.texture.use()
-                else:
-                    self.shader.setInt(b"textured", 0)
                 renderer.Render()
 
         gl.glDepthFunc(gl.GL_LEQUAL)

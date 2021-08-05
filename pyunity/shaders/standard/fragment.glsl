@@ -9,11 +9,20 @@ uniform vec3 viewPos;
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 uniform sampler2D aTexture;
-uniform int textured;
+uniform int textured = 0;
+uniform int lighting = 0;
 
 void main() {
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
+    if (lighting != 0) {
+        vec3 result = ambient * objectColor;
+        if (textured != 0) {
+            FragColor = texture(aTexture, TexCoord) * vec4(result, 1.0);
+        } else {
+            FragColor = vec4(result, 1.0);
+        }
+    }
 
     vec3 norm = normalize(normal);
     vec3 lightDir = normalize(lightPos - FragPos);

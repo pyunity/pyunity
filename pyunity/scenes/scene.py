@@ -48,6 +48,7 @@ class Scene:
         light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.rootGameObjects = [self.mainCamera.gameObject, light]
+        self.lights = [light]
         self.ids = {}
         self.id = str(uuid.uuid4())
 
@@ -59,6 +60,7 @@ class Scene:
         cls.rootGameObjects = []
         cls.mainCamera = None
         cls.ids = {}
+        cls.lights = []
         return cls
 
     def Add(self, gameObject):
@@ -74,6 +76,9 @@ class Scene:
         self.gameObjects.append(gameObject)
         if gameObject.transform.parent is None:
             self.rootGameObjects.append(gameObject)
+        component = gameObject.GetComponent(Light)
+        if component is not None:
+            self.lights.append(component)
 
     def Remove(self, gameObject):
         """
@@ -92,6 +97,9 @@ class Scene:
 
         """
         if gameObject in self.gameObjects:
+            component = gameObject.GetComponent(Light)
+            if component is not None and component in self.lights:
+                self.lights.remove(component)
             self.gameObjects.remove(gameObject)
         else:
             raise PyUnityException(
@@ -99,6 +107,10 @@ class Scene:
         if gameObject is self.mainCamera:
             Logger.LogLine(
                 Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
+
+    def RegisterLight(self, light):
+        if isinstance(light, Light):
+            self.lights.append(light)
 
     def List(self):
         """Lists all the GameObjects currently in the scene."""
@@ -386,7 +398,7 @@ class Scene:
                 self.mainCamera.lastPos = self.mainCamera.transform.position
                 self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
-            self.mainCamera.Render(self.gameObjects)
+            self.mainCamera.Render(self.gameObjects, self.lights)
 
     def clean_up(self):
         if self.audioListener is not None:
