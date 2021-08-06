@@ -3,7 +3,7 @@
 import glfw
 import sys
 from ..errors import *
-from ..core import Clock
+from ..values import Clock
 from ..input import KeyCode, KeyState
 from .. import config
 

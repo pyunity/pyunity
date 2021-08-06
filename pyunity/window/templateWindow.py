@@ -1,7 +1,7 @@
 """Template window provider, use this for creating new window providers"""
 
 from ..errors import *
-from ..core import Clock
+from ..values import Clock
 from ..input import KeyCode
 from .. import config
 

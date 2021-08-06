@@ -1,6 +1,8 @@
-__all__ = ["Material", "Color", "RGB", "HSV"]
+__all__ = ["Material", "Color", "RGB", "HSV", "Clock"]
 
 import colorsys
+import time
+import sys
 
 class Material:
     """
@@ -119,3 +121,33 @@ class HSV(Color):
     def from_rgb(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
         return HSV(int(h * 360), int(s * 100), int(v * 100))
+
+class Clock:
+    def __init__(self):
+        self._fps = 60
+        self._frameDuration = 1 / self._fps
+
+    @property
+    def fps(self):
+        return self._fps
+
+    @fps.setter
+    def fps(self, value):
+        self._fps = value
+        self._frameDuration = 1 / self._fps
+
+    def Start(self, fps=None):
+        if fps is not None:
+            self.fps = fps
+        self._start = time.time()
+
+    def Maintain(self):
+        self._end = time.time()
+        elapsedMS = self._end - self._start
+        sleep = self._frameDuration - elapsedMS - 0.001
+        if sleep <= 0:
+            self._start = time.time()
+            return sys.float_info.epsilon
+        time.sleep(sleep)
+        self._start = time.time()
+        return sleep
