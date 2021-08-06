@@ -50,8 +50,6 @@ __all__ = ["Component", "GameObject", "Light", "Clock",
            "MeshRenderer", "Tag", "Transform", "ShowInInspector"]
 
 import glm
-import sys
-import time
 import inspect
 from .vector3 import Vector3
 from .quaternion import Quaternion
@@ -651,33 +649,3 @@ class MeshRenderer(SingleComponent):
 
         self.mesh.recompile()
         self.mesh.draw()
-
-class Clock:
-    def __init__(self):
-        self._fps = 60
-        self._frameDuration = 1 / self._fps
-
-    @property
-    def fps(self):
-        return self._fps
-
-    @fps.setter
-    def fps(self, value):
-        self._fps = value
-        self._frameDuration = 1 / self._fps
-
-    def Start(self, fps=None):
-        if fps is not None:
-            self.fps = fps
-        self._start = time.time()
-
-    def Maintain(self):
-        self._end = time.time()
-        elapsedMS = self._end - self._start
-        sleep = self._frameDuration - elapsedMS - 0.001
-        if sleep < 0:
-            self._start = time.time()
-            return sys.float_info.epsilon
-        time.sleep(sleep)
-        self._start = time.time()
-        return sleep
