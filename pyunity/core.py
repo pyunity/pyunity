@@ -46,7 +46,7 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "Clock",
+__all__ = ["Component", "GameObject", "Light",
            "MeshRenderer", "Tag", "Transform", "ShowInInspector"]
 
 import glm
