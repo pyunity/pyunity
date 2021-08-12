@@ -1,11 +1,13 @@
 """
 Version 0.7.1 (in development)
 ==============================
-PyUnity is a Python implementation of the
-Unity Engine, written in C++. This is just
-a fun project and many features have been
-taken out to make it as easy as possible
-to create a scene and run it.
+PyUnity is a pure Python 3D Game Engine that
+was inspired by the structure of the Unity
+Game Engine. This does not mean that PyUnity
+are bindings for the UnityEngine. However,
+this project has been made to facilitate
+any programmer, beginner or advanced, novice
+or veteran.
 
 Installing
 ----------
