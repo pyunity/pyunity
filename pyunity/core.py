@@ -152,6 +152,7 @@ class GameObject:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
         self.enabled = True
+        self.scene = None
 
     @staticmethod
     def BareObject(name="GameObject"):
@@ -159,6 +160,7 @@ class GameObject:
         obj.name = name
         obj.components = []
         obj.transform = None
+        obj.scene = None
         return obj
 
     def AddComponent(self, componentClass):
@@ -401,6 +403,14 @@ class Component:
 
         """
         return self.gameObject.RemoveComponents(component)
+    
+    @property
+    def scene(self):
+        from .scenes import SceneManager
+        if self.gameObject.scene is None:
+            return SceneManager.CurrentScene()
+        else:
+            return self.gameObject.scene
 
 class SingleComponent(Component):
     """
@@ -426,6 +436,7 @@ class Transform(SingleComponent):
     parent : Transform or None
         Parent of the Transform. The hierarchical tree is 
         actually formed by the Transform, not the GameObject.
+        Do not modify this attribute.
     children : list
         List of children
 
@@ -553,6 +564,12 @@ class Transform(SingleComponent):
         Logger.Log(self.FullPath())
         for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
+    
+    def GetDescendants(self):
+        l = [self]
+        for child in self.children:
+            l.extend(child.GetDescendants())
+        return l
 
     def FullPath(self):
         """
