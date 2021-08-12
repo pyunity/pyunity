@@ -12,14 +12,15 @@ this project has been made to facilitate
 any programmer, beginner or advanced, novice
 or veteran.
 
-
-### Disclaimer
+Disclaimer
+----------
 As we have said above, this is not a set of
 bindings for the UnityEngine, but a pure
 Python library to aid in making 3D games in
 Python.
 
-### Installing
+Installing
+----------
 To install PyUnity for Linux distributions
 based on Ubuntu or Debian, use::
 
