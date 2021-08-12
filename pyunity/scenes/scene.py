@@ -14,6 +14,7 @@ from ..files import Behaviour
 from ..vector3 import Vector3
 from .. import config, physics, logger as Logger, render
 from ..errors import *
+from ..values import Clock
 from time import time
 import os
 import math
@@ -44,11 +45,10 @@ class Scene:
         self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
         self.mainCamera.AddComponent(AudioListener)
         light = GameObject("Light")
-        light.AddComponent(Light)
         light.transform.localPosition = Vector3(10, 10, -10)
         self.gameObjects = [self.mainCamera.gameObject, light]
-        self.rootGameObjects = [self.mainCamera.gameObject, light]
-        self.lights = [light]
+        component = light.AddComponent(Light)
+        self.lights = [component]
         self.ids = {}
         self.id = str(uuid.uuid4())
 
@@ -57,11 +57,14 @@ class Scene:
         cls = Scene.__new__(Scene)
         cls.name = name
         cls.gameObjects = []
-        cls.rootGameObjects = []
         cls.mainCamera = None
         cls.ids = {}
         cls.lights = []
         return cls
+    
+    @property
+    def rootGameObjects(self):
+        return [x for x in self.gameObjects if x.transform.parent is None]
 
     def Add(self, gameObject):
         """
@@ -73,9 +76,11 @@ class Scene:
             The GameObject to add.
 
         """
+        if gameObject.scene is not None:
+            raise PyUnityException("GameObject \"%s\" is already in Scene \"%s\"" % \
+                (gameObject.name, gameObject.scene.name))
+        gameObject.scene = self
         self.gameObjects.append(gameObject)
-        if gameObject.transform.parent is None:
-            self.rootGameObjects.append(gameObject)
         component = gameObject.GetComponent(Light)
         if component is not None:
             self.lights.append(component)
@@ -97,6 +102,7 @@ class Scene:
 
         """
         if gameObject in self.gameObjects:
+            gameObject.scene = None
             component = gameObject.GetComponent(Light)
             if component is not None and component in self.lights:
                 self.lights.remove(component)
