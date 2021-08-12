@@ -281,7 +281,8 @@ class Camera(SingleComponent):
         if len(lights):
             self.shader.setVec3(b"lightPos", list(
                 lights[0].transform.position * Vector3(1, 1, -1)))
-            self.shader.setVec3(b"lightColor", list(lights[0].color.to_rgb() / 255))
+            self.shader.setVec3(b"lightColor", list(
+                lights[0].color.to_rgb() / 255))
             self.shader.setInt(b"lighting", 1)
 
         for gameObject in gameObjects:

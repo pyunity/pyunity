@@ -251,7 +251,7 @@ def SaveScene(scene, project):
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write("Scene : " + scene.id + "\n")
     f.write("    name: " + json.dumps(scene.name) + "\n")
-    
+
     ids = scene.ids
     for gameObject in scene.gameObjects:
         f.write("GameObject : " + GetId(ids, gameObject) + "\n")
@@ -473,7 +473,7 @@ def LoadProject(filePath):
         scene.mainCamera = scene.FindGameObjectsByName(
             "Main Camera")[0].GetComponent(Camera)
         scene.ids = ids
-    
+
     return project
 
 class Primitives:

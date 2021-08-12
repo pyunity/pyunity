@@ -403,7 +403,7 @@ class Component:
 
         """
         return self.gameObject.RemoveComponents(component)
-    
+
     @property
     def scene(self):
         from .scenes import SceneManager
@@ -564,7 +564,7 @@ class Transform(SingleComponent):
         Logger.Log(self.FullPath())
         for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
-    
+
     def GetDescendants(self):
         l = [self]
         for child in self.children:

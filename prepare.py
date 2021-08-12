@@ -43,57 +43,57 @@ text += line[:-2] + "]\n# __all__ ends here"
 with open(os.path.join("pyunity", "__init__.py"), "w") as f:
     f.write(before + text + after)
 
-desc = pyunity.__doc__.split("\n")
-desc_new = [
-    "# PyUnity", "",
-    "".join([
-        "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
-        "(https://pyunity.readthedocs.io/en/latest/?badge=latest)\n",
-        "[![License](https://img.shields.io/pypi/l/pyunity.svg?logo=python&logoColor=FBE072)]",
-        "(https://github.com/pyunity/pyunity/blob/develop/LICENSE)\n",
-        "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)]",
-        "(https://pypi.python.org/pypi/pyunity)\n",
-        "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
-        "(https://pypi.python.org/pypi/pyunity)\n",
-        "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)]",
-        "(https://lgtm.com/projects/g/pyunity/pyunity/context:python)\n",
-        "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
-        "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n",
-        "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
-        "(https://ci.appveyor.com/project/pyunity/pyunity)\n",
-        "[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)]",
-        "(https://discord.gg/zTn48BEbF9)\n",
-        "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
-        "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n",
-        "[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)]",
-        "(https://github.com/pyunity/pyunity/stargazers)",
-    ])
-]
-skip = 0
-for i in range(len(desc)):
-    if skip:
-        skip = 0
-        continue
-    if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
-        if desc[i + 1][0] == "-":
-            desc_new.append("### " + desc[i])
-            skip = 1
-        elif desc[i + 1][0] == "=":
-            desc_new.append("## " + desc[i])
-            skip = 1
-    else:
-        if "create a new pull request" in desc[i]:
-            desc[i] = desc[i].replace(
-                "create a new pull request",
-                "[create a new pull request](https://github.com/pyunity/pyunity/pulls)"
-            )
-        if desc[i] == "`here <https://github.com/pyunity/pyunity>`_":
-            continue
-        desc_new.append(desc[i].replace("::", ":"))
+# desc = pyunity.__doc__.split("\n")
+# desc_new = [
+#     "# PyUnity", "",
+#     "".join([
+#         "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
+#         "(https://pyunity.readthedocs.io/en/latest/?badge=latest)\n",
+#         "[![License](https://img.shields.io/pypi/l/pyunity.svg?logo=python&logoColor=FBE072)]",
+#         "(https://github.com/pyunity/pyunity/blob/develop/LICENSE)\n",
+#         "[![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)]",
+#         "(https://pypi.python.org/pypi/pyunity)\n",
+#         "[![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)]",
+#         "(https://pypi.python.org/pypi/pyunity)\n",
+#         "[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)]",
+#         "(https://lgtm.com/projects/g/pyunity/pyunity/context:python)\n",
+#         "[![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)]",
+#         "(https://lgtm.com/projects/g/pyunity/pyunity/alerts/)\n",
+#         "[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)]",
+#         "(https://ci.appveyor.com/project/pyunity/pyunity)\n",
+#         "[![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)]",
+#         "(https://discord.gg/zTn48BEbF9)\n",
+#         "[![Gitter](https://badges.gitter.im/pyunity/community.svg)]",
+#         "(https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n",
+#         "[![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)]",
+#         "(https://github.com/pyunity/pyunity/stargazers)",
+#     ])
+# ]
+# skip = 0
+# for i in range(len(desc)):
+#     if skip:
+#         skip = 0
+#         continue
+#     if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
+#         if desc[i + 1][0] == "-":
+#             desc_new.append("### " + desc[i])
+#             skip = 1
+#         elif desc[i + 1][0] == "=":
+#             desc_new.append("## " + desc[i])
+#             skip = 1
+#     else:
+#         if "create a new pull request" in desc[i]:
+#             desc[i] = desc[i].replace(
+#                 "create a new pull request",
+#                 "[create a new pull request](https://github.com/pyunity/pyunity/pulls)"
+#             )
+#         if desc[i] == "`here <https://github.com/pyunity/pyunity>`_":
+#             continue
+#         desc_new.append(desc[i].replace("::", ":"))
 
-with open("README.md", "w") as f:
-    for line in desc_new:
-        f.write(line + "\n")
+# with open("README.md", "w") as f:
+#     for line in desc_new:
+#         f.write(line + "\n")
 
 if os.environ["cython"] == "1":
     if pkgutil.find_loader("cython") is None:

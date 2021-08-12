@@ -24,7 +24,7 @@ class Material:
 class Color:
     def to_string(self):
         return str(self)
-    
+
     @staticmethod
     def from_string(string):
         if string.startswith("RGB"):
@@ -50,16 +50,16 @@ class RGB(Color):
     def __truediv__(self, other):
         a, b, c = tuple(self)
         return a / other, b / other, c / other
-    
+
     def __mul__(self, other):
         a, b, c = tuple(self)
         return a * other, b * other, c * other
-    
+
     def __init__(self, r, g, b):
         self.r = r
         self.g = g
         self.b = b
-    
+
     def __list__(self):
         return [self.r, self.g, self.b]
 
@@ -67,7 +67,7 @@ class RGB(Color):
         yield self.r
         yield self.g
         yield self.b
-    
+
     def __repr__(self):
         return "RGB(%d, %d, %d)" % tuple(self)
     __str__ = __repr__
@@ -77,7 +77,7 @@ class RGB(Color):
 
     def to_hsv(self):
         return HSV.from_rgb(self.r, self.g, self.b)
-    
+
     @staticmethod
     def from_hsv(h, s, v):
         r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
@@ -101,22 +101,22 @@ class HSV(Color):
         self.h = h
         self.s = s
         self.v = v
-    
+
     def __list__(self):
         return [self.h, self.s, self.v]
-    
+
     def __iter__(self):
         yield self.h
         yield self.s
         yield self.v
-    
+
     def __repr__(self):
         return "HSV(%d, %d, %d)" % tuple(self)
     __str__ = __repr__
-    
+
     def to_rgb(self):
         return RGB.from_hsv(self.h, self.s, self.v)
-    
+
     @staticmethod
     def from_rgb(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)

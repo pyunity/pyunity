@@ -61,7 +61,7 @@ class Scene:
         cls.ids = {}
         cls.lights = []
         return cls
-    
+
     @property
     def rootGameObjects(self):
         return [x for x in self.gameObjects if x.transform.parent is None]
@@ -77,8 +77,8 @@ class Scene:
 
         """
         if gameObject.scene is not None:
-            raise PyUnityException("GameObject \"%s\" is already in Scene \"%s\"" % \
-                (gameObject.name, gameObject.scene.name))
+            raise PyUnityException("GameObject \"%s\" is already in Scene \"%s\"" %
+                                   (gameObject.name, gameObject.scene.name))
         gameObject.scene = self
         self.gameObjects.append(gameObject)
         component = gameObject.GetComponent(Light)
