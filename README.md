@@ -67,6 +67,6 @@ PyUnity, as well as all modules and utility functions
 that come with it.
 
 If you would like to contribute, please
-first see the [code of conduct](https://github.com/pyunity/pyunity/blob/develop/CODE_OF_CONDUCT.md) then
+first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),
 check out the latest [issues](https://github.com/pyunity/pyunity/issues)
-and make a [pull request](https://github.com/pyunity/pyunity/pulls).
+and then make a [pull request](https://github.com/pyunity/pyunity/pulls).
