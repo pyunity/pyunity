@@ -110,9 +110,10 @@ class Scene:
         else:
             raise PyUnityException(
                 "The provided GameObject is not part of the Scene")
-        if gameObject is self.mainCamera:
+        if gameObject is self.mainCamera.gameObject:
             Logger.LogLine(
                 Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
+            self.mainCamera = None
 
     def RegisterLight(self, light):
         if isinstance(light, Light):
@@ -398,6 +399,8 @@ class Scene:
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+            if self.mainCamera is None:
+                return
 
             if (self.mainCamera.lastPos != self.mainCamera.transform.position or
                     self.mainCamera.lastRot != self.mainCamera.transform.rotation):
