@@ -2,12 +2,24 @@ import os
 import glob
 import shutil
 import pkgutil
-import tests  # lgtm[py/unused-import]
-import pyunity
+from unittest.mock import Mock
+import sys
 import autopep8
 from types import ModuleType
+sys.modules["sdl2"] = Mock()
+sys.modules["sdl2.sdlmixer"] = Mock()
+sys.modules["sdl2.ext"] = Mock()
+sys.modules["sdl2.video"] = Mock()
+sys.modules["glfw"] = Mock()
+sys.modules["OpenGL"] = Mock()
+sys.modules["OpenGL.GL"] = Mock()
+sys.modules["OpenGL.GLU"] = Mock()
+sys.modules["OpenGL.GLUT"] = Mock()
+os.environ["PYUNITY_TESTING"] = "1"
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
+
+import pyunity
 
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
