@@ -187,6 +187,9 @@ class GameObject:
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
+            elif issubclass(componentClass, Light):
+                if self.scene is not None:
+                    self.scene.RegisterLight(component) 
 
             component.gameObject = self
             component.transform = self.transform
