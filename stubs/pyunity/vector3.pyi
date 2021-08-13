@@ -1,5 +1,7 @@
 from typing import Any, Callable, Iterable, List
 
+def clamp(x: float, _min: float, _max: float) -> float: ...
+
 class Vector3:
     x: float
     y: float
