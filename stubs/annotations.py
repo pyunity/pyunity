@@ -22,7 +22,7 @@ def check_folder(folder, ext):
     class_find = re.compile("(?<=^class )(\\w+)(?=(\(.*?\))?:)")
     method_find = re.compile("(?<=    def )(\\w+)")
     func_find = re.compile("(?<=^def )(\\w+)")
-    attr_find = re.compile("([a-zA-Z]\w+)(?= ?= ?)")
+    attr_find = re.compile("([a-zA-Z]\w+)(?= ?(?:\: .*?)?= ?)")
 
     classes = []
     functions = []

@@ -1,3 +1,5 @@
+Class missing: pyunity.audio.AudioClip
+    Method missing: pyunity.audio.AudioClip.__init__
 Class missing: pyunity.audio.AudioSource
     Method missing: pyunity.audio.AudioSource.__init__
     Method missing: pyunity.audio.AudioSource.SetClip
@@ -6,8 +8,6 @@ Class missing: pyunity.audio.AudioSource
     Method missing: pyunity.audio.AudioSource.Pause
     Method missing: pyunity.audio.AudioSource.UnPause
     Method missing: pyunity.audio.AudioSource.Playing
-Class missing: pyunity.audio.AudioClip
-    Method missing: pyunity.audio.AudioClip.__init__
 Class missing: pyunity.audio.AudioListener
     Method missing: pyunity.audio.AudioListener.__init__
     Method missing: pyunity.audio.AudioListener.Init
@@ -24,13 +24,19 @@ Class missing: pyunity.core.GameObject
     Method missing: pyunity.core.GameObject.GetComponents
     Method missing: pyunity.core.GameObject.RemoveComponents
     Method missing: pyunity.core.GameObject.__repr__
+Class missing: pyunity.core.ShowInInspector
+    Method missing: pyunity.core.ShowInInspector.__init__
+Class missing: pyunity.core.HideInInspector
+    Method missing: pyunity.core.HideInInspector.__init__
 Class missing: pyunity.core.Component
     Method missing: pyunity.core.Component.__init__
+    Method missing: pyunity.core.Component.__init_subclass__
     Method missing: pyunity.core.Component.AddComponent
     Method missing: pyunity.core.Component.GetComponent
     Method missing: pyunity.core.Component.RemoveComponent
     Method missing: pyunity.core.Component.GetComponents
     Method missing: pyunity.core.Component.RemoveComponents
+    Method missing: pyunity.core.Component.scene
 Class missing: pyunity.core.SingleComponent
 Class missing: pyunity.core.Transform
     Method missing: pyunity.core.Transform.__init__
@@ -46,38 +52,20 @@ Class missing: pyunity.core.Transform
     Method missing: pyunity.core.Transform.scale
     Method missing: pyunity.core.Transform.ReparentTo
     Method missing: pyunity.core.Transform.List
+    Method missing: pyunity.core.Transform.GetDescendants
     Method missing: pyunity.core.Transform.FullPath
     Method missing: pyunity.core.Transform.LookAtTransform
     Method missing: pyunity.core.Transform.LookAtGameObject
     Method missing: pyunity.core.Transform.LookAtVector
     Method missing: pyunity.core.Transform.__repr__
 Class missing: pyunity.core.Light
-    Method missing: pyunity.core.Light.__init__
 Class missing: pyunity.core.MeshRenderer
-    Method missing: pyunity.core.MeshRenderer.__init__
     Method missing: pyunity.core.MeshRenderer.Render
-Class missing: pyunity.core.Material
-    Method missing: pyunity.core.Material.__init__
-Class missing: pyunity.core.Color
-    Method missing: pyunity.core.Color.__init__
-    Method missing: pyunity.core.Color.__truediv__
-    Method missing: pyunity.core.Color.__repr__
-    Method missing: pyunity.core.Color.to_string
-    Method missing: pyunity.core.Color.from_string
-Class missing: pyunity.core.Clock
-    Method missing: pyunity.core.Clock.__init__
-    Method missing: pyunity.core.Clock.fps
-    Method missing: pyunity.core.Clock.fps
-    Method missing: pyunity.core.Clock.Start
-    Method missing: pyunity.core.Clock.Maintain
 Class missing: pyunity.files.Behaviour
-    Method missing: pyunity.files.Behaviour.__init_subclass__
     Method missing: pyunity.files.Behaviour.Start
     Method missing: pyunity.files.Behaviour.Update
     Method missing: pyunity.files.Behaviour.FixedUpdate
     Method missing: pyunity.files.Behaviour.LateUpdate
-Class missing: pyunity.files.ShowInInspector
-    Method missing: pyunity.files.ShowInInspector.__init__
 Class missing: pyunity.files.Scripts
     Method missing: pyunity.files.Scripts.CheckScript
     Method missing: pyunity.files.Scripts.LoadScripts
@@ -96,6 +84,7 @@ Class missing: pyunity.files.File
 Class missing: pyunity.files.Project
     Method missing: pyunity.files.Project.__init__
     Method missing: pyunity.files.Project.import_file
+    Method missing: pyunity.files.Project.reimport_file
     Method missing: pyunity.files.Project.get_file_obj
     Method missing: pyunity.files.Project.write_project
     Method missing: pyunity.files.Project.from_folder
@@ -124,7 +113,36 @@ Class missing: pyunity.render.Camera
     Method missing: pyunity.render.Camera.getViewMat
     Method missing: pyunity.render.Camera.UseShader
     Method missing: pyunity.render.Camera.Render
+Class missing: pyunity.values.Material
+    Method missing: pyunity.values.Material.__init__
+Class missing: pyunity.values.Color
+    Method missing: pyunity.values.Color.to_string
+    Method missing: pyunity.values.Color.from_string
+Class missing: pyunity.values.RGB
+    Method missing: pyunity.values.RGB.__truediv__
+    Method missing: pyunity.values.RGB.__mul__
+    Method missing: pyunity.values.RGB.__init__
+    Method missing: pyunity.values.RGB.__list__
+    Method missing: pyunity.values.RGB.__iter__
+    Method missing: pyunity.values.RGB.__repr__
+    Method missing: pyunity.values.RGB.to_rgb
+    Method missing: pyunity.values.RGB.to_hsv
+    Method missing: pyunity.values.RGB.from_hsv
+Class missing: pyunity.values.HSV
+    Method missing: pyunity.values.HSV.__init__
+    Method missing: pyunity.values.HSV.__list__
+    Method missing: pyunity.values.HSV.__iter__
+    Method missing: pyunity.values.HSV.__repr__
+    Method missing: pyunity.values.HSV.to_rgb
+    Method missing: pyunity.values.HSV.from_rgb
+Class missing: pyunity.values.Clock
+    Method missing: pyunity.values.Clock.__init__
+    Method missing: pyunity.values.Clock.fps
+    Method missing: pyunity.values.Clock.fps
+    Method missing: pyunity.values.Clock.Start
+    Method missing: pyunity.values.Clock.Maintain
 Class missing: pyunity.physics.core.PhysicMaterial
+    Method missing: pyunity.physics.core.PhysicMaterial.exception
     Method missing: pyunity.physics.core.PhysicMaterial.__init__
 Class missing: pyunity.physics.core.Manifold
     Method missing: pyunity.physics.core.Manifold.__init__
@@ -155,8 +173,10 @@ Class missing: pyunity.physics.core.CollManager
 Class missing: pyunity.scenes.scene.Scene
     Method missing: pyunity.scenes.scene.Scene.__init__
     Method missing: pyunity.scenes.scene.Scene.Bare
+    Method missing: pyunity.scenes.scene.Scene.rootGameObjects
     Method missing: pyunity.scenes.scene.Scene.Add
     Method missing: pyunity.scenes.scene.Scene.Remove
+    Method missing: pyunity.scenes.scene.Scene.RegisterLight
     Method missing: pyunity.scenes.scene.Scene.List
     Method missing: pyunity.scenes.scene.Scene.FindGameObjectsByName
     Method missing: pyunity.scenes.scene.Scene.FindGameObjectsByTagName
@@ -207,6 +227,7 @@ Function missing: pyunity.loader.SaveMesh
 Function missing: pyunity.loader.GetImports
 Function missing: pyunity.loader.SaveSceneToProject
 Function missing: pyunity.loader.SaveAllScenes
+Function missing: pyunity.loader.GetId
 Function missing: pyunity.loader.SaveScene
 Function missing: pyunity.loader.parse_string
 Function missing: pyunity.loader.LoadProject
@@ -214,7 +235,6 @@ Function missing: pyunity.render.convert
 Function missing: pyunity.render.gen_buffers
 Function missing: pyunity.render.gen_array
 Function missing: pyunity.render.compile_shaders
-Function missing: pyunity.vector3.clamp
 Function missing: pyunity.scenes.sceneManager.AddScene
 Function missing: pyunity.scenes.sceneManager.AddBareScene
 Function missing: pyunity.scenes.sceneManager.GetSceneByIndex
@@ -234,28 +254,17 @@ Function missing: pyunity.window.GetWindowProvider
 Function missing: pyunity.window.SetWindowProvider
 
 Variable missing: pyunity.audio.channels
-Variable missing: pyunity.config.size
-Variable missing: pyunity.config.fps
-Variable missing: pyunity.config.faceCulling
-Variable missing: pyunity.config.audio
-Variable missing: pyunity.config.windowProvider
 Variable missing: pyunity.loader.components
-Variable missing: pyunity.logger.timestamp
-Variable missing: pyunity.logger.start
-Variable missing: pyunity.logger.OUTPUT
-Variable missing: pyunity.logger.INFO
-Variable missing: pyunity.logger.DEBUG
-Variable missing: pyunity.logger.ERROR
-Variable missing: pyunity.logger.WARN
-Variable missing: pyunity.logger.RUNNING_TIME
 Variable missing: pyunity.render.float_size
+Variable missing: pyunity.render.shaders
+Variable missing: pyunity.render.skyboxes
 Variable missing: pyunity.physics.config.gravity
 Variable missing: pyunity.physics.core.infinity
 Variable missing: pyunity.scenes.sceneManager.scenesByIndex
 Variable missing: pyunity.scenes.sceneManager.scenesByName
 Variable missing: pyunity.scenes.sceneManager.windowObject
 Variable missing: pyunity.scenes.sceneManager.KeyboardInterruptKill
-Variable missing: pyunity.window.providers
 Variable missing: pyunity.window.glfwWindow.keyMap
 Variable missing: pyunity.window.sdl2Window.keyMap
 Variable missing: pyunity.window.templateWindow.keyMap
+Variable missing: pyunity.window.providers
