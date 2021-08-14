@@ -8,9 +8,10 @@ sys.modules["sdl2.sdlmixer"] = Mock()
 sys.modules["sdl2.ext"] = Mock()
 sys.modules["sdl2.video"] = Mock()
 sys.modules["glfw"] = Mock()
+sys.modules["glm"] = math
+sys.modules["PIL"] = Mock()
 sys.modules["OpenGL"] = Mock()
 sys.modules["OpenGL.GL"] = Mock()
-sys.modules["OpenGL.GLU"] = Mock()
 sys.modules["OpenGL.GLUT"] = Mock()
 os.environ["PYUNITY_TESTING"] = "1"
 
