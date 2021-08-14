@@ -11,18 +11,22 @@ __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
 import warnings
 import os
-
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore")
-    from sdl2 import sdlmixer as mixer
-    from sdl2 import SDL_GetError
-
 from . import config, logger as Logger
 from .core import Component, ShowInInspector
 
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore")
+    try:
+        from sdl2 import sdlmixer as mixer
+        from sdl2 import SDL_GetError
+    except ImportError:
+        config.audio = False
+
 channels = 0
 
-if "PYUNITY_TESTING" in os.environ:
+if not config.audio:
+    Logger.LogLine(Logger.WARN, "Failed to import PySDL2, your system may not support it.")
+elif "PYUNITY_TESTING" in os.environ:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
 elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
@@ -32,6 +36,21 @@ elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
     config.audio = False
     Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
                    SDL_GetError().decode())
+
+class CustomMock:
+    def __getattr__(self, item):
+        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
+        return CustomMock()
+
+    def __setattr__(self, item, value):
+        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return CustomMock()
+
+if not config.audio:
+    mixer = CustomMock()
 
 class AudioClip:
     """
@@ -106,7 +125,7 @@ class AudioSource(Component):
         if self.clip.music is None:
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
-            print("Unable to play file: %s" % mixer.Mix_GetError().decode())
+            Logger.LogLine(Logger.WARN, "Unable to play file: %s" % mixer.Mix_GetError().decode())
 
     def Stop(self):
         """
