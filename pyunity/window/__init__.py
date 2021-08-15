@@ -36,24 +36,24 @@ def checkModule(module):
     if os.getenv("PYUNITY_TESTING") is not None:
         return
     if not pkgutil.find_loader(module):
-        raise Exception
+        raise PyUnityException
 
 def glfwCheck():
     """Checks to see if GLFW works"""
     checkModule("glfw")
     import glfw
     if not glfw.init():
-        raise Exception
+        raise PyUnityException
     glfw.create_window(5, 5, "a", None, None)
     glfw.terminate()
 
 def sdl2Check():
     """Checks to see if PySDL2 works"""
     if not pkgutil.find_loader("sdl2"):
-        raise Exception
+        raise PyUnityException
     import sdl2
     if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
-        raise Exception
+        raise PyUnityException
 
 def glutCheck():
     """Checks to see if GLUT works"""
