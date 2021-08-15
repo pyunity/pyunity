@@ -101,19 +101,36 @@ class Scene:
             of the Scene.
 
         """
-        if gameObject in self.gameObjects:
-            gameObject.scene = None
-            component = gameObject.GetComponent(Light)
-            if component is not None and component in self.lights:
-                self.lights.remove(component)
-            self.gameObjects.remove(gameObject)
-        else:
+        if gameObject not in self.gameObjects:
             raise PyUnityException(
                 "The provided GameObject is not part of the Scene")
-        if gameObject is self.mainCamera.gameObject:
-            Logger.LogLine(
-                Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
-            self.mainCamera = None
+
+        pending = [a.gameObject for a in gameObject.transform.GetDescendants()]
+        for gameObject in pending:
+            if gameObject in self.gameObjects:
+                gameObject.scene = None
+                component = gameObject.GetComponent(Light)
+                if component is not None and component in self.lights:
+                    self.lights.remove(component)
+                self.gameObjects.remove(gameObject)
+                if gameObject is self.mainCamera.gameObject:
+                    Logger.LogLine(
+                        Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
+                    self.mainCamera = None
+        
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                for saved in component.saved:
+                    attr = getattr(component, saved)
+                    if isinstance(attr, GameObject):
+                        if attr in pending:
+                            setattr(component, saved, None)
+                    elif isinstance(attr, Component):
+                        if attr.gameObject in pending:
+                            setattr(component, saved, None)
+    
+    def Has(self, gameObject):
+        return gameObject in self.gameObjects
 
     def RegisterLight(self, light):
         if isinstance(light, Light):

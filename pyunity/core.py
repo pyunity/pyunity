@@ -320,6 +320,7 @@ class Component:
     """
 
     shown = {}
+    saved = {}
 
     def __init__(self, transform, is_dummy=False):
         if is_dummy:
