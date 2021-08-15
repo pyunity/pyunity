@@ -415,16 +415,19 @@ class Scene:
         self.update_scripts()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
-            if self.mainCamera is None:
-                return
+            self.Render()
+    
+    def Render(self):
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        if self.mainCamera is None:
+            return
 
-            if (self.mainCamera.lastPos != self.mainCamera.transform.position or
-                    self.mainCamera.lastRot != self.mainCamera.transform.rotation):
-                self.mainCamera.lastPos = self.mainCamera.transform.position
-                self.mainCamera.lastRot = self.mainCamera.transform.rotation
+        if (self.mainCamera.lastPos != self.mainCamera.transform.position or
+                self.mainCamera.lastRot != self.mainCamera.transform.rotation):
+            self.mainCamera.lastPos = self.mainCamera.transform.position
+            self.mainCamera.lastRot = self.mainCamera.transform.rotation
 
-            self.mainCamera.Render(self.gameObjects, self.lights)
+        self.mainCamera.Render(self.gameObjects, self.lights)
 
     def clean_up(self):
         if self.audioListener is not None:
