@@ -113,7 +113,7 @@ class Scene:
                 if component is not None and component in self.lights:
                     self.lights.remove(component)
                 self.gameObjects.remove(gameObject)
-                if gameObject is self.mainCamera.gameObject:
+                if self.mainCamera is not None and gameObject is self.mainCamera.gameObject:
                     Logger.LogLine(
                         Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
                     self.mainCamera = None
