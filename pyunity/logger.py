@@ -6,6 +6,7 @@ This will be imported as ``pyunity.Logger``.
 """
 
 import os
+import sys
 import platform
 import traceback
 from time import strftime, time
@@ -17,6 +18,7 @@ else:
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 
+stream = sys.stdout
 timestamp = strftime("%Y-%m-%d %H-%M-%S")
 start = time()
 
@@ -82,7 +84,7 @@ def LogLine(level, *message, silent=False):
         " ".join(map(lambda a: str(a).rstrip(), message))
     if os.environ["PYUNITY_DEBUG_MODE"] == "1":
         if level.name is not None and not silent:
-            print(msg)
+            stream.write(msg + "\n")
     time = strftime("%Y-%m-%d %H:%M:%S")
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(time +
@@ -133,3 +135,8 @@ def Save():
     with open(os.path.join(folder, "latest.log")) as f:
         with open(os.path.join(folder, timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
+
+def SetStream(s):
+    global stream
+    stream = s
+    stream.write("Changed stream to " + str(s))
