@@ -21,7 +21,7 @@ def get_tmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = os.path.join(result, "files", "tmp", "PyUnity", "Logs")
+        folder = os.path.join(result, "files", "pyunity", "logs")
     elif platform.platform().startswith("Windows"):
         folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
     else:
