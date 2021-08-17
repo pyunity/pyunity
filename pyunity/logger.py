@@ -82,7 +82,7 @@ def LogLine(level, *message, silent=False):
     """
     msg = (level.name if level.name is not None else "") + \
         " ".join(map(lambda a: str(a).rstrip(), message))
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
+    if os.environ["PYUNITY_DEBUG_MODE"] != "1":
         if level.name is not None and not silent:
             stream.write(msg + "\n")
     time = strftime("%Y-%m-%d %H:%M:%S")
@@ -140,3 +140,10 @@ def SetStream(s):
     global stream
     stream = s
     stream.write("Changed stream to " + str(s))
+    LogLine(INFO, "Changed stream to " + str(s))
+
+def ResetStream():
+    global stream
+    stream = sys.stdout
+    stream.write("Changed stream back to stdout")
+    LogLine(INFO, "Changed stream back to stdout")

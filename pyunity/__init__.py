@@ -167,7 +167,7 @@ __version__ = "0.7.1"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"
-__summary__ = "A Python implementation of the Unity Engine"
+__summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
