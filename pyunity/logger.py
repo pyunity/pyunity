@@ -9,12 +9,26 @@ import os
 import sys
 import platform
 import traceback
+import re
 from time import strftime, time
 
-if platform.platform().startswith("Windows"):
-    folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
-else:
-    folder = os.path.join("/tmp", "pyunity", "logs")
+def get_tmp():
+    if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
+        pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
+        for path in sys.path:
+            if pattern.match(path):
+                result = path.split("/files")[0]
+                break
+        else:
+            raise OSError("Cannot find path to android app folder")
+        folder = os.path.join(result, "files", "tmp", "PyUnity", "Logs")
+    elif platform.platform().startswith("Windows"):
+        folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
+    else:
+        folder = os.path.join("/tmp", "pyunity", "logs")
+    return folder
+
+folder = get_tmp()
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 
