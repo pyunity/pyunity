@@ -2,6 +2,35 @@
 Releases
 ========
 
+v0.7.1
+======
+Extra features used in the PyUnity Editor.
+
+Changes:
+- Code of Conduct and Contributing guides
+- Rewrote most of the README to clear confusion about what PyUnity really is
+- RGB and HSV
+- Better GameObject deleting
+- ShowInInspector and HideInInspector 
+- Dynamic lighting
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.7.1
+
+v0.7.0
+======
+New features:
+
+- Customizable skybox
+- Editor integration
+- Rewrote scene saving and loading
+- PYUNITY_WINDOW_PROVIDER environment variable
+- Fixed example 8
+
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.7.0
+
 v0.6.0
 ======
 Project structure update.
