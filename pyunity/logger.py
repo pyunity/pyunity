@@ -14,7 +14,7 @@ from time import strftime, time
 if platform.platform().startswith("Windows"):
     folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
 else:
-    folder = os.path.join(os.getenv("TMPDIR"), "pyunity", "logs")
+    folder = os.path.join("/tmp", "pyunity", "logs")
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 
