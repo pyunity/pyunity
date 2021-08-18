@@ -51,11 +51,9 @@ __all__ = ["Component", "GameObject", "Light",
 
 import glm
 import inspect
-from .vector3 import Vector3
-from .quaternion import Quaternion
 from .errors import *
 from .meshes import Mesh
-from .values import Material, RGB, Color
+from .values import *
 from . import Logger
 
 

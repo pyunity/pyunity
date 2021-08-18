@@ -8,7 +8,7 @@ __all__ = ["PhysicMaterial", "Collider", "SphereCollider",
            "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
 
 from ..errors import PyUnityException
-from ..vector3 import *
+from ..values import *
 from ..core import *
 from . import config
 import math

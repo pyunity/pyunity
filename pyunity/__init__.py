@@ -159,8 +159,6 @@ from .errors import *
 from .files import *
 from .values import *
 from .scenes import sceneManager as SceneManager
-from .quaternion import Quaternion
-from .vector3 import Vector3
 from .meshes import Mesh
 
 __version__ = "0.8.0"

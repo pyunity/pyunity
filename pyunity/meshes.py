@@ -2,7 +2,7 @@
 
 __all__ = ["Mesh"]
 
-from .vector3 import Vector3
+from .values import Vector3
 import OpenGL.GL as gl
 
 class Mesh:

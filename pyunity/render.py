@@ -5,11 +5,9 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .values import Color, RGB
+from .values import Color, RGB, Vector3, Quaternion
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
-from .vector3 import Vector3
-from .quaternion import Quaternion
 from .files import Skybox
 from . import config
 import glm
