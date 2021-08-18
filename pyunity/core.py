@@ -444,10 +444,9 @@ class Transform(SingleComponent):
 
     """
 
-    localPosition = ShowInInspector(Vector3, Vector3.zero(), "position")
-    localRotation = ShowInInspector(
-        Quaternion, Quaternion.identity(), "rotation")
-    localScale = ShowInInspector(Vector3, Vector3.one(), "scale")
+    localPosition = ShowInInspector(Vector3, None, "position")
+    localRotation = ShowInInspector(Quaternion, None, "rotation")
+    localScale = ShowInInspector(Vector3, None, "scale")
     parent = HideInInspector()
 
     def __init__(self, transform=None):
