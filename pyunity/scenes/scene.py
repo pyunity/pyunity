@@ -11,7 +11,7 @@ the SceneManager class.
 from ..audio import *
 from ..core import *
 from ..files import Behaviour
-from ..vector3 import Vector3
+from ..values import Vector3
 from .. import config, physics, logger as Logger, render
 from ..errors import *
 from ..values import Clock

@@ -1,5 +1,5 @@
 from typing import List, Optional
-from .vector3 import Vector3
+from .values import Vector3
 
 class Mesh:
     verts: List[Vector3]

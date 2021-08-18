@@ -6,11 +6,9 @@ This will be imported as ``pyunity.Loader``.
 
 """
 
-from .vector3 import Vector3
-from .quaternion import Quaternion
 from .meshes import Mesh
 from .core import *
-from .values import Material
+from .values import Material, Vector3, Quaternion
 from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
