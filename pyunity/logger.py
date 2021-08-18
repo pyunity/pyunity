@@ -96,7 +96,7 @@ def LogLine(level, *message, silent=False):
     """
     msg = (level.name if level.name is not None else "") + \
         " ".join(map(lambda a: str(a).rstrip(), message))
-    if os.environ["PYUNITY_DEBUG_MODE"] != "1":
+    if os.environ["PYUNITY_DEBUG_MODE"] != "0":
         if level.name is not None and not silent:
             stream.write(msg + "\n")
     time = strftime("%Y-%m-%d %H:%M:%S")
