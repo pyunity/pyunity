@@ -5,9 +5,7 @@ functions.
 
 """
 
-# print(*[[x, y, z] for x in [-1, 1] for y in [-1, 1] for z in [-1, 1]], sep="\n")
-
-__all__ = ["Vector3", "clamp"]
+__all__ = ["Vector2", "clamp"]
 
 import glm
 import operator
@@ -16,30 +14,26 @@ def clamp(x, _min, _max): return min(_max, max(_min, x))
 
 """Clamp a value between a minimum and a maximum"""
 
-class Vector3:
-    def __init__(self, x_or_list=None, y=None, z=None):
+class Vector2:
+    def __init__(self, x_or_list=None, y=None):
         if x_or_list is not None:
             if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y") and hasattr(x_or_list, "z"):
+                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y"):
                     self.x = x_or_list.x
                     self.y = x_or_list.y
-                    self.z = x_or_list.z
                 else:
                     self.x = x_or_list[0]
                     self.y = x_or_list[1]
-                    self.z = x_or_list[2]
             else:
                 self.x = x_or_list
                 self.y = y
-                self.z = z
         else:
             self.x = 0
             self.y = 0
-            self.z = 0
 
     def __repr__(self):
         """String representation of the vector"""
-        return "Vector3(%r, %r, %r)" % (self.x, self.y, self.z)
+        return "Vector2(%r, %r)" % (self.x, self.y)
     __str__ = __repr__
 
     def __getitem__(self, i):
@@ -47,62 +41,55 @@ class Vector3:
             return self.x
         elif i == 1:
             return self.y
-        elif i == 2:
-            return self.z
         raise IndexError()
 
     def __iter__(self):
         yield self.x
         yield self.y
-        yield self.z
 
     def __list__(self):
-        return [self.x, self.y, self.z]
+        return [self.x, self.y]
 
     def __len__(self):
-        return 3
+        return 2
 
     def __eq__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 3:
-            return self.x == other[0] and self.y == other[1] and self.z == other[2]
+        if hasattr(other, "__getitem__") and len(other) == 2:
+            return self.x == other[0] and self.y == other[1]
         else:
             return False
 
     def __ne__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 3:
-            return self.x != other[0] or self.y != other[1] or self.z != other[2]
+        if hasattr(other, "__getitem__") and len(other) == 2:
+            return self.x != other[0] or self.y != other[1]
         else:
             return True
 
     def __bool__(self):
-        return self.x != 0 or self.y != 0 or self.z != 0
+        return self.x != 0 or self.y != 0
 
     def _o2(self, other, f):
-        """Any two-operator operation where the left operand is a Vector3"""
-        if isinstance(other, Vector3):
-            return Vector3(f(self.x, other.x), f(self.y, other.y), f(self.z, other.z))
-        elif hasattr(other, "__getitem__"):
-            return Vector3(f(self.x, other[0]), f(self.y, other[1]), f(self.z, other[2]))
+        """Any two-operator operation where the left operand is a Vector2"""
+        if hasattr(other, "__getitem__"):
+            return Vector2(f(self.x, other[0]), f(self.y, other[1]))
         else:
-            return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
+            return Vector2(f(self.x, other), f(self.y, other))
 
     def _r_o2(self, other, f):
-        """Any two-operator operation where the right operand is a Vector3"""
+        """Any two-operator operation where the right operand is a Vector2"""
         if hasattr(other, "__getitem__"):
-            return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
+            return Vector2(f(other[0], self.x), f(other[1], self.y))
         else:
-            return Vector3(f(other, self.x), f(other, self.y), f(other, self.z))
+            return Vector2(f(other, self.x), f(other, self.y))
 
     def _io(self, other, f):
         """Inplace operator"""
         if hasattr(other, "__getitem__"):
             self.x = f(self.x, other[0])
             self.y = f(self.y, other[1])
-            self.z = f(self.z, other[2])
         else:
             self.x = f(self.x, other)
             self.y = f(self.y, other)
-            self.z = f(self.z, other)
         return self
 
     def __add__(self, other):
@@ -179,31 +166,31 @@ class Vector3:
     __rxor__ = __xor__
 
     def __neg__(self):
-        return Vector3(operator.neg(self.x), operator.neg(self.y), operator.neg(self.z))
+        return Vector2(operator.neg(self.x), operator.neg(self.y))
 
     def __pos__(self):
-        return Vector3(operator.pos(self.x), operator.pos(self.y), operator.pos(self.z))
+        return Vector2(operator.pos(self.x), operator.pos(self.y))
 
     def __abs__(self):
-        return Vector3(abs(self.x), abs(self.y), abs(self.z))
+        return Vector2(abs(self.x), abs(self.y))
 
     def __round__(self, other):
         return self._r_o2(other, round)
 
     def __invert__(self):
-        return Vector3(operator.invert(self.x), operator.invert(self.y), operator.invert(self.z))
+        return Vector2(operator.invert(self.x), operator.invert(self.y))
 
     def copy(self):
         """
-        Makes a copy of the Vector3
+        Makes a copy of the Vector2
 
         Returns
         -------
-        Vector3
+        Vector2
             A shallow copy of the vector
 
         """
-        return Vector3(self.x, self.y, self.z)
+        return Vector2(self.x, self.y)
 
     def get_length_sqrd(self):
         """
@@ -216,12 +203,12 @@ class Vector3:
             The length of the vector squared
 
         """
-        return self.x ** 2 + self.y ** 2 + self.z ** 2
+        return self.x ** 2 + self.y ** 2
 
     @property
     def length(self):
         """Gets or sets the magnitude of the vector"""
-        return glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        return glm.sqrt(self.x ** 2 + self.y ** 2)
 
     @length.setter
     def length(self, value):
@@ -229,16 +216,15 @@ class Vector3:
         if length != 0:
             self.x *= value / length
             self.y *= value / length
-            self.z *= value / length
 
     def normalized(self):
         """
-        Get a normalized copy of the vector, or Vector3(0, 0, 0)
+        Get a normalized copy of the vector, or Vector2(0, 0)
         if the length is 0.
 
         Returns
         -------
-        Vector3
+        Vector2
             A normalized vector
 
         """
@@ -261,7 +247,6 @@ class Vector3:
         if length != 0:
             self.x /= length
             self.y /= length
-            self.z /= length
         return length
 
     def get_distance(self, other):
@@ -274,7 +259,7 @@ class Vector3:
             The distance
 
         """
-        return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
+        return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2)
 
     def get_dist_sqrd(self, other):
         """
@@ -288,17 +273,17 @@ class Vector3:
             The squared distance
 
         """
-        return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2
+        return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2
 
     @property
     def int_tuple(self):
         """Return the x, y and z values of this vector as ints"""
-        return int(self.x), int(self.y), int(self.z)
+        return int(self.x), int(self.y)
 
     @property
     def rounded(self):
         """Return the x, y and z values of this vector rounded to the nearest integer"""
-        return round(self.x), round(self.y), round(self.z)
+        return round(self.x), round(self.y)
 
     def clamp(self, min, max):
         """
@@ -308,15 +293,14 @@ class Vector3:
 
         Parameters
         ----------
-        min : Vector3
+        min : Vector2
             Min vector
-        max : Vector3
+        max : Vector2
             Max vector
 
         """
         self.x = clamp(self.x, min.x, max.x)
         self.y = clamp(self.y, min.y, max.y)
-        self.z = clamp(self.z, min.z, max.z)
 
     def dot(self, other):
         """
@@ -324,7 +308,7 @@ class Vector3:
 
         Parameters
         ----------
-        other : Vector3
+        other : Vector2
             Other vector
 
         Returns
@@ -333,64 +317,53 @@ class Vector3:
             Dot product of the two vectors
 
         """
-        return self.x * other[0] + self.y * other[1] + self.z * other[2]
+        return self.x * other[0] + self.y * other[1]
 
     def cross(self, other):
         """
-        Cross product of two vectors
+        Cross product of two vectors. In 2D this
+        is a scalar.
 
         Parameters
         ----------
-        other : Vector3
+        other : Vector2
             Other vector
 
         Returns
         -------
-        Vector3
+        float
             Cross product of the two vectors
 
         """
-        x = self.y * other[2] - self.z * other[1]
-        y = self.z * other[0] - self.x * other[2]
         z = self.x * other[1] - self.y * other[0]
-        return Vector3(x, y, z)
+        return z
 
     @staticmethod
     def zero():
         """A vector of zero length"""
-        return Vector3(0, 0, 0)
+        return Vector2(0, 0)
 
     @staticmethod
     def one():
         """A vector of ones"""
-        return Vector3(1, 1, 1)
-
-    @staticmethod
-    def forward():
-        """Vector3 pointing in the positive z axis"""
-        return Vector3(0, 0, 1)
-
-    @staticmethod
-    def back():
-        """Vector3 pointing in the negative z axis"""
-        return Vector3(0, 0, -1)
+        return Vector2(1, 1)
 
     @staticmethod
     def left():
-        """Vector3 pointing in the negative x axis"""
-        return Vector3(-1, 0, 0)
+        """Vector2 pointing in the negative x axis"""
+        return Vector2(-1, 0)
 
     @staticmethod
     def right():
-        """Vector3 pointing in the postive x axis"""
-        return Vector3(1, 0, 0)
+        """Vector2 pointing in the postive x axis"""
+        return Vector2(1, 0)
 
     @staticmethod
     def up():
-        """Vector3 pointing in the postive y axis"""
-        return Vector3(0, 1, 0)
+        """Vector2 pointing in the postive y axis"""
+        return Vector2(0, 1)
 
     @staticmethod
     def down():
-        """Vector3 pointing in the negative y axis"""
-        return Vector3(0, -1, 0)
+        """Vector2 pointing in the negative y axis"""
+        return Vector2(0, -1)
