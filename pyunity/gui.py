@@ -1,5 +1,5 @@
 from .values import Vector2
-from .core import Component, ShowInInspector, Transform
+from .core import Component, ShowInInspector
 
 class Canvas(Component):
     def Render(self):
@@ -11,7 +11,7 @@ class RectAnchors:
         self.min = Vector2(0.5, 0.5)
         self.max = Vector2(0.5, 0.5)
 
-class RectTransform(Transform):
+class RectTransform:
     anchoredPos = ShowInInspector(Vector2, None, "position")
     anchors = ShowInInspector(RectAnchors, None)
     pivot = ShowInInspector(Vector2, None)
