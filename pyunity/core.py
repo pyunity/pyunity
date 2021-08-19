@@ -292,17 +292,16 @@ class GameObject:
             str(list(map(lambda x: type(x).__name__, self.components))) + ">"
     __str__ = __repr__
 
-class ShowInInspector:
-    def __init__(self, type=None, default=None, name=None):
-        self.type = type
-        self.default = default
-        self.name = name
-
 class HideInInspector:
     def __init__(self, type=None, default=None):
         self.type = type
         self.default = default
         self.name = None
+
+class ShowInInspector(HideInInspector):
+    def __init__(self, type=None, default=None, name=None):
+        super(ShowInInspector, self).__init__(type, default)
+        self.name = name
 
 class Component:
     """
@@ -330,13 +329,11 @@ class Component:
 
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(filter(lambda a: not (
-            a[0].startswith("__") or a[0] == "attrs"), members))
+        variables = list(filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]
                  for a in variables if isinstance(a[1], HideInInspector)}
-        saved.update(shown)
         cls.shown = shown
         cls.saved = saved
         for name, val in saved.items():
@@ -454,7 +451,7 @@ class Transform(SingleComponent):
         assert transform is None
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
-        self.localPosition = Vector3.zero()
+        self.localScale = Vector3.one()
         self.parent = None
         self.children = []
 

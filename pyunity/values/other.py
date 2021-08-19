@@ -1,7 +1,7 @@
+__all__ = ["Clock"]
+
 import time
 import sys
-
-__all__ = ["Clock"]
 
 class Clock:
     def __init__(self):
