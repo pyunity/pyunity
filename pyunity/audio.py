@@ -25,7 +25,8 @@ with warnings.catch_warnings():
 channels = 0
 
 if not config.audio:
-    Logger.LogLine(Logger.WARN, "Failed to import PySDL2, your system may not support it.")
+    Logger.LogLine(
+        Logger.WARN, "Failed to import PySDL2, your system may not support it.")
 elif "PYUNITY_TESTING" in os.environ:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
@@ -48,6 +49,7 @@ class CustomMock:
 
     def __call__(self, *args, **kwargs):
         return CustomMock()
+
 
 if not config.audio:
     mixer = CustomMock()
@@ -91,7 +93,7 @@ class AudioSource(Component):
 
     playOnStart = ShowInInspector(bool, False)
     loop = ShowInInspector(bool, False)
-    clip = ShowInInspector(AudioClip, None)
+    clip = ShowInInspector(AudioClip)
 
     def __init__(self, transform):
         super(AudioSource, self).__init__(transform)
@@ -125,7 +127,8 @@ class AudioSource(Component):
         if self.clip.music is None:
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
-            Logger.LogLine(Logger.WARN, "Unable to play file: %s" % mixer.Mix_GetError().decode())
+            Logger.LogLine(Logger.WARN, "Unable to play file: %s" %
+                           mixer.Mix_GetError().decode())
 
     def Stop(self):
         """

@@ -2,6 +2,7 @@
 Classes to aid in rendering in a Scene.
 
 """
+from pyunity.gui import Image2D, RectTransform
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
@@ -164,6 +165,7 @@ shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
+Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
 skyboxes["Water"] = Skybox(os.path.join(
     __dir, "shaders", "skybox", "textures"))
 
@@ -196,6 +198,7 @@ class Camera(SingleComponent):
         super(Camera, self).__init__(transform)
         self.size = config.size
         self.shader = shaders["Standard"]
+        self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
         self.skybox = skyboxes["Water"]
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
@@ -205,6 +208,26 @@ class Camera(SingleComponent):
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
         self.lastPos = Vector3.zero()
         self.lastRot = Quaternion.identity()
+
+    def setup_buffers(self):
+        data = [
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
+        ]
+
+        self.guiVBO = gl.glGenBuffers(1)
+        self.guiVAO = gl.glGenVertexArrays(1)
+
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.guiVBO)
+        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size,
+                        convert(c_float, data), gl.GL_STATIC_DRAW)
+
+        gl.glBindVertexArray(self.guiVAO)
+        gl.glEnableVertexAttribArray(0)
+        gl.glVertexAttribPointer(
+            0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
 
     @property
     def fov(self):
@@ -249,6 +272,17 @@ class Camera(SingleComponent):
             transform.position * Vector3(1, 1, -1)))
         scaled = glm.scale(position, list(transform.scale))
         return scaled
+
+    def get2DMatrix(self, rectTransform):
+        # model = glm.translate(glm.mat4(1), glm.vec3(400, 250, 0))
+        model = glm.scale(glm.mat4(1), glm.vec3(100, 100, 1))
+        # model = glm.translate(model, glm.vec3(50, 50, 0))
+        # model = glm.rotate(model, glm.radians(
+        #     rectTransform.rotation), glm.vec3(0, 0, 1))
+        # model = glm.translate(model, glm.vec3(-50, -50, 0))
+        # model = glm.scale(model, glm.vec3(2, 3, 1))
+
+        return model
 
     def getViewMat(self):
         if self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
@@ -303,3 +337,16 @@ class Camera(SingleComponent):
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
         gl.glBindVertexArray(0)
         gl.glDepthFunc(gl.GL_LESS)
+
+        self.guiShader.use()
+        self.guiShader.setMat4(
+            b"projection", glm.ortho(0.0, float(self.size[0]), float(self.size[1]), 0.0, -1.0, 1.0))
+        gl.glBindVertexArray(self.guiVAO)
+        for gameObject in gameObjects:
+            renderer = gameObject.GetComponent(Image2D)
+            rectTransform = gameObject.GetComponent(RectTransform)
+            if renderer is not None and rectTransform is not None and renderer.texture is not None:
+                self.guiShader.setMat4(
+                    b"model", self.get2DMatrix(rectTransform))
+                renderer.texture.use()
+                gl.glDrawArrays(gl.GL_QUADS, 0, 4)

@@ -148,21 +148,23 @@ create a new pull request.
 
 # __all__ starts here
 __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
-           "Behaviour", "Clock", "CollManager", "Collider", "Color",
-           "Component", "ComponentException", "File", "GameObject",
-           "GameObjectException", "HSV", "Input", "KeyCode",
-           "KeyState", "Light", "Loader", "Logger", "Material",
-           "Mesh", "MeshRenderer", "PhysicMaterial", "Prefab",
-           "Primitives", "Project", "PyUnityException", "Quaternion",
-           "RGB", "Rigidbody", "SceneManager", "ShowInInspector",
+           "Behaviour", "Canvas", "Clock", "CollManager", "Collider",
+           "Color", "Component", "ComponentException", "File",
+           "GameObject", "GameObjectException", "HSV", "Image2D",
+           "Input", "KeyCode", "KeyState", "Light", "Loader",
+           "Logger", "Material", "Mesh", "MeshRenderer", "PhysicMaterial",
+           "Prefab", "Primitives", "Project", "PyUnityException",
+           "Quaternion", "RGB", "RectAnchors", "RectOffset",
+           "RectTransform", "Rigidbody", "SceneManager", "ShowInInspector",
            "SphereCollider", "Tag", "Texture2D", "Transform",
-           "Vector3", "infinity"]
+           "Vector2", "Vector3", "infinity"]
 # __all__ ends here
 
 import os
 from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
+from .gui import *
 from . import input as Input  # lgtm[py/import-own-module]
 from . import loader as Loader  # lgtm[py/import-own-module]
 from .loader import Primitives  # lgtm[py/import-own-module]

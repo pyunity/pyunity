@@ -117,7 +117,7 @@ class Scene:
                     Logger.LogLine(
                         Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
                     self.mainCamera = None
-        
+
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 for saved in component.saved:
@@ -128,7 +128,7 @@ class Scene:
                     elif isinstance(attr, Component):
                         if attr.gameObject in pending:
                             setattr(component, saved, None)
-    
+
     def Has(self, gameObject):
         return gameObject in self.gameObjects
 
@@ -342,6 +342,8 @@ class Scene:
                     mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
                     mesh.vao = render.gen_array()
 
+        self.mainCamera.setup_buffers()
+
         self.physics = any(
             isinstance(
                 component, physics.Collider
@@ -416,7 +418,7 @@ class Scene:
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.Render()
-    
+
     def Render(self):
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         if self.mainCamera is None:

@@ -187,7 +187,7 @@ class GameObject:
                 self.transform = component
             elif issubclass(componentClass, Light):
                 if self.scene is not None:
-                    self.scene.RegisterLight(component) 
+                    self.scene.RegisterLight(component)
 
             component.gameObject = self
             component.transform = self.transform
@@ -329,7 +329,8 @@ class Component:
 
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(filter(lambda a: not (a[0].startswith("__")), members))
+        variables = list(
+            filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
                  for a in variables if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]

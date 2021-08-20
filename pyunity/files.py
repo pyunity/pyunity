@@ -240,6 +240,7 @@ class Texture2D:
         """
         if not self.loaded:
             self.load()
+        gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
 class Skybox:

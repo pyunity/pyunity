@@ -28,6 +28,7 @@ def get_tmp():
         folder = os.path.join("/tmp", "pyunity", "logs")
     return folder
 
+
 folder = get_tmp()
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
