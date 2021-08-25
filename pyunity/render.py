@@ -254,6 +254,8 @@ class Camera(SingleComponent):
             Height of new window
 
         """
+        if width == 0 or height == 0:
+            return
         gl.glViewport(0, 0, width, height)
         self.size = (width, height)
         self.projMat = glm.perspective(
