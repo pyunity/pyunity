@@ -277,8 +277,8 @@ class Camera(SingleComponent):
         model = glm.translate(glm.mat4(1), glm.vec3(400, 250, 0))
         model = glm.rotate(model, glm.radians(
             rectTransform.rotation), glm.vec3(0, 0, 1))
-        model = glm.translate(model, glm.vec3(-100, -100, 0))
-        model = glm.scale(model, glm.vec3(100, 100, 1))
+        model = glm.translate(model, glm.vec3(*-rectTransform.scale, 0))
+        model = glm.scale(model, glm.vec3(*rectTransform.scale, 1))
 
         return model
 
