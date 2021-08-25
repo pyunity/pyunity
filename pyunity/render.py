@@ -274,14 +274,11 @@ class Camera(SingleComponent):
         return scaled
 
     def get2DMatrix(self, rectTransform):
-        # model = glm.translate(glm.mat4(1), glm.vec3(400, 250, 0))
-        # model = glm.scale(glm.mat4(1), glm.vec3(1, 1, 1))
-        model = glm.mat4(1)
-        # model = glm.translate(model, glm.vec3(50, 50, 0))
-        # model = glm.rotate(model, glm.radians(
-        #     rectTransform.rotation), glm.vec3(0, 0, 1))
-        # model = glm.translate(model, glm.vec3(-50, -50, 0))
-        # model = glm.scale(model, glm.vec3(2, 3, 1))
+        model = glm.translate(glm.mat4(1), glm.vec3(400, 250, 0))
+        model = glm.rotate(model, glm.radians(
+            rectTransform.rotation), glm.vec3(0, 0, 1))
+        model = glm.translate(model, glm.vec3(-100, -100, 0))
+        model = glm.scale(model, glm.vec3(100, 100, 1))
 
         return model
 
@@ -329,19 +326,18 @@ class Camera(SingleComponent):
                     renderer.mat.texture.use()
                 renderer.Render()
 
-        # gl.glDepthFunc(gl.GL_LEQUAL)
-        # self.skyboxShader.use()
-        # self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
-        # self.skyboxShader.setMat4(b"projection", self.projMat)
-        # self.skybox.use()
-        # gl.glBindVertexArray(self.skybox.vao)
-        # gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
-        # gl.glBindVertexArray(0)
-        # gl.glDepthFunc(gl.GL_LESS)
+        gl.glDepthFunc(gl.GL_LEQUAL)
+        self.skyboxShader.use()
+        self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+        self.skyboxShader.setMat4(b"projection", self.projMat)
+        self.skybox.use()
+        gl.glBindVertexArray(self.skybox.vao)
+        gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
+        gl.glDepthFunc(gl.GL_LESS)
 
         self.guiShader.use()
         self.guiShader.setMat4(
-            b"projection", glm.ortho(0, 1, 1, 0, -10, 10))
+            b"projection", glm.ortho(0, *self.size, 0, -10, 10))
         gl.glBindVertexArray(self.guiVAO)
         for gameObject in gameObjects:
             renderer = gameObject.GetComponent(Image2D)
