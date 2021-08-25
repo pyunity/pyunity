@@ -8,6 +8,6 @@ out vec2 TexCoord;
 out vec3 FragPos;
 
 void main() {
-    gl_Position = projection * position * vec4(aPos, 0.0, 1.0);
+    gl_Position = projection * vec4(aPos, 0.0, 0.5);
     TexCoord = aPos;
 }
