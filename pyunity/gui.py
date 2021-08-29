@@ -1,4 +1,4 @@
-__all__ = ["Canvas", "RectAnchors", "RectOffset", "RectTransform", "Image2D"]
+__all__ = ["Canvas", "RectData", "RectAnchors", "RectOffset", "RectTransform", "Image2D"]
 
 from .values import Vector2
 from .core import Component, ShowInInspector
@@ -11,15 +11,24 @@ class Canvas(Component):
             if renderer is not None:
                 renderer.Render()
 
-class RectAnchors:
-    def __init__(self):
-        self.min = Vector2(0.5, 0.5)
-        self.max = Vector2(0.5, 0.5)
-
-class RectOffset:
+class RectData:
     def __init__(self):
         self.min = Vector2.zero()
         self.max = Vector2.zero()
+
+class RectAnchors(RectData):
+    def SetPoint(self, p):
+        self.min = p.copy()
+        self.max = p.copy()
+    
+    def RelativeTo(self, other):
+        parentSize = other.max - other.min
+        absAnchorMin = other.min + (self.anchors.min * parentSize)
+        absAnchorMax = other.max - (self.anchors.max * parentSize)
+        return RectData(absAnchorMin, absAnchorMax)
+
+class RectOffset(RectData):
+    pass
 
 class RectTransform(Component):
     anchors = ShowInInspector(RectAnchors)
@@ -33,9 +42,14 @@ class RectTransform(Component):
         self.offset = RectOffset()
         self.pivot = Vector2(0.5, 0.5)
         self.scale = Vector2.one()
+        self.parent = self.transform.parent.GetComponent(RectTransform)
 
-    def getPosition(self):
-        pass
+    def GetRect(self):
+        if self.parent is None:
+            absAnchors = self.anchors
+        else:
+            absAnchors = self.anchors.RelativeTo(self.parent.anchors)
+        return absAnchors.RelativeTo(RectData(self.offset.min, Vector2.one() - self.offset.max))
 
 class Image2D(Component):
     texture = ShowInInspector(Texture2D)
