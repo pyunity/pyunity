@@ -18,6 +18,7 @@ scenesByName = {}
 windowObject = None
 __running_scenes = []
 
+FirstScene = True
 KeyboardInterruptKill = False
 
 def AddScene(sceneName):
@@ -236,8 +237,11 @@ def LoadScene(scene):
     __loadScene(copy.deepcopy(scene))
 
 def __loadScene(scene):
-    global windowObject
+    global windowObject, FirstScene
     __running_scenes.append(scene)
+    if not FirstScene:
+        Logger.Save()
+        FirstScene = False
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
         windowObject = config.windowProvider.Window(
             scene.name, scene.mainCamera.Resize)
@@ -247,18 +251,15 @@ def __loadScene(scene):
             windowObject.start(scene.update)
         except KeyboardInterrupt:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
-            Logger.Save()
             windowObject.quit()
             if KeyboardInterruptKill:
                 exit()
         except Exception as e:
             Logger.LogException(e)
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            Logger.Save()
             windowObject.quit()
         else:
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            Logger.Save()
         windowObject = None
     else:
         scene.Start()

@@ -10,6 +10,7 @@ import sys
 import platform
 import traceback
 import re
+import atexit
 from time import strftime, time
 
 def get_tmp():
@@ -138,6 +139,7 @@ def LogSpecial(level, type):
     """
     LogLine(level, type.func())
 
+@atexit.register
 def Save():
     """
     Saves a new log file with a timestamp
