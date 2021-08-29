@@ -29,7 +29,6 @@ def get_tmp():
         folder = os.path.join("/tmp", "pyunity", "logs")
     return folder
 
-
 folder = get_tmp()
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
@@ -100,7 +99,10 @@ def LogLine(level, *message, silent=False):
         " ".join(map(lambda a: str(a).rstrip(), message))
     if os.environ["PYUNITY_DEBUG_MODE"] != "0":
         if level.name is not None and not silent:
-            stream.write(msg + "\n")
+            if level == ERROR:
+                sys.stderr.write(msg + "\n")
+            else:
+                stream.write(msg + "\n")
     time = strftime("%Y-%m-%d %H:%M:%S")
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(time +

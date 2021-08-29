@@ -5,7 +5,7 @@ of Scenes.
 """
 
 from ..core import *
-from .. import config
+from .. import config, settings
 from ..errors import *
 from .scene import Scene
 from .. import logger as Logger
@@ -243,8 +243,20 @@ def __loadScene(scene):
         Logger.Save()
         FirstScene = False
     if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
-        windowObject = config.windowProvider.Window(
-            scene.name, scene.mainCamera.Resize)
+        try:
+            windowObject = config.windowProvider.Window(
+                scene.name, scene.mainCamera.Resize)
+        except Exception as e:
+            if "window_provider" in settings.db:
+                Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
+                if "window_cache" in settings.db:
+                    Logger.LogLine(Logger.DEBUG, "window_cache entry has been set,",
+                        "indicating window checking happened on this import")
+                Logger.LogLine(Logger.DEBUG, "settings.json entry may be faulty, removing")
+                settings.db.pop("window_provider")
+            Logger.LogException(e)
+            exit()
+
         render.compile_shaders()
         scene.Start()
         try:
