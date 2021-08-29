@@ -28,6 +28,7 @@ pull request.
 from ..errors import *
 from .. import Logger
 from .. import config
+from .. import settings
 import os
 import pkgutil
 import importlib
@@ -70,6 +71,13 @@ providers = {
 
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
+    if "window_provider" in settings.db:
+        if "window_cache" in settings.db:
+            del settings.db["window_cache"]
+        Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
+        windowProvider = settings.db["window_provider"]
+        Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
+        return importlib.import_module("." + providers[windowProvider][0], __name__)
 
     windowProvider = ""
     i = 0
@@ -79,6 +87,8 @@ def GetWindowProvider():
         env = env.split(",")
         for specified in reversed(env):
             if specified not in providers:
+                Logger.LogLine(Logger.DEBUG, "PYUNITY_WINDOW_PROVIDER environment variable contains",
+                    specified, "but there is no window provider called that")
                 continue
             for item in winfo:
                 if item[0] == specified:
@@ -103,9 +113,9 @@ def GetWindowProvider():
             break
         i += 1
 
-    if os.environ["PYUNITY_DEBUG_MODE"] == "1":
-        Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
-
+    settings.db["window_provider"] = windowProvider
+    settings.db["window_cache"] = True
+    Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
     return importlib.import_module("." + providers[windowProvider][0], __name__)
 
 def SetWindowProvider(name):
