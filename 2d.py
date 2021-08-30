@@ -8,8 +8,8 @@ class Rotator2D(Behaviour):
 scene = SceneManager.AddScene("Scene")
 imgObject = GameObject("Image")
 rectTransform = imgObject.AddComponent(RectTransform)
-rectTransform.anchors.SetPoint(Vector2(0.5, 0.5))
-rectTransform.offset = RectOffset.Square(200)
+rectTransform.anchors.SetPoint(Vector2(0.15, 0.15))
+rectTransform.offset = RectOffset.Square(100)
 
 img = imgObject.AddComponent(Image2D)
 img.texture = Texture2D("pyunity/examples/example9/logo.png")

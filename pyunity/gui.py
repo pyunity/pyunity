@@ -49,14 +49,12 @@ class RectTransform(Component):
     anchors = ShowInInspector(RectAnchors)
     offset = ShowInInspector(RectOffset)
     pivot = ShowInInspector(Vector2)
-    scale = ShowInInspector(Vector2)
     rotation = ShowInInspector(float, 0)
     def __init__(self, transform):
         super(RectTransform, self).__init__(transform)
         self.anchors = RectAnchors()
         self.offset = RectOffset()
         self.pivot = Vector2(0.5, 0.5)
-        self.scale = Vector2.one()
 
         if self.transform.parent is None:
             self.parent = None
