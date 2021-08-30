@@ -193,14 +193,15 @@ class Camera(SingleComponent):
     near = ShowInInspector(float, 0.05)
     far = ShowInInspector(float, 200)
     clearColor = ShowInInspector(Color, RGB(0, 0, 0))
+    shader = ShowInInspector(Shader, shaders["Standard"])
+    skyboxEnabled = ShowInInspector(bool, RGB(0, 0, 0))
+    skybox = ShowInInspector(Skybox, skyboxes["Water"])
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
         self.size = Vector2(config.size)
-        self.shader = shaders["Standard"]
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
-        self.skybox = skyboxes["Water"]
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.fov = 90
         self.clearColor = RGB(0, 0, 0)
