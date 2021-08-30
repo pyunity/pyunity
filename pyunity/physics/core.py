@@ -5,7 +5,7 @@ physics engine.
 """
 
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider",
-           "AABBoxCollider", "Rigidbody", "CollManager", "infinity"]
+           "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from ..errors import PyUnityException
 from ..values import *
@@ -13,7 +13,7 @@ from ..core import *
 from . import config
 import math
 
-infinity = math.inf
+Infinity = math.inf
 """A representation of infinity"""
 
 class PhysicMaterial:
@@ -496,7 +496,7 @@ class CollManager:
     def __init__(self):
         self.rigidbodies = {}
         self.dummyRigidbody = Rigidbody(None, True)
-        self.dummyRigidbody.mass = infinity
+        self.dummyRigidbody.mass = Infinity
         self.steps = 10
 
     def AddPhysicsInfo(self, scene):

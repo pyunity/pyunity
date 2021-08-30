@@ -157,7 +157,7 @@ __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
            "Quaternion", "RGB", "RectAnchors", "RectOffset",
            "RectTransform", "Rigidbody", "SceneManager", "ShowInInspector",
            "SphereCollider", "Tag", "Texture2D", "Transform",
-           "Vector2", "Vector3", "infinity"]
+           "Vector2", "Vector3", "Window", "Infinity"]
 # __all__ ends here
 
 import os
@@ -167,6 +167,7 @@ from .core import *
 from .gui import *
 from . import input as Input  # lgtm[py/import-own-module]
 from . import loader as Loader  # lgtm[py/import-own-module]
+from . import window as Window  # lgtm[py/import-own-module]
 from .loader import Primitives  # lgtm[py/import-own-module]
 from .input import KeyCode, KeyState
 from .physics import *
@@ -184,10 +185,10 @@ __summary__ = "A pure Python 3D Game Engine that was inspired by the structure o
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import config, window
+from . import config
 
 if "PYUNITY_TESTING" not in os.environ:
-    config.windowProvider = window.GetWindowProvider()
+    config.windowProvider = Window.GetWindowProvider()
 
 Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
 Logger.LogSpecial(Logger.INFO, Logger.RUNNING_TIME)
