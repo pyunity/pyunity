@@ -12,9 +12,19 @@ class Canvas(Component):
                 renderer.Render()
 
 class RectData:
-    def __init__(self):
-        self.min = Vector2.zero()
-        self.max = Vector2.zero()
+    def __init__(self, min_or_both=None, max=None):
+        if min_or_both is None:
+            self.min = Vector2.zero()
+            self.max = Vector2.zero()
+        elif max is None:
+            self.min = min_or_both.copy()
+            self.min = min_or_both.copy()
+        else:
+            self.min = min_or_both.copy()
+            self.max = max.copy()
+    
+    def __repr__(self):
+        return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
 
 class RectAnchors(RectData):
     def SetPoint(self, p):
@@ -22,7 +32,10 @@ class RectAnchors(RectData):
         self.max = p.copy()
     
     def RelativeTo(self, other):
-        parentSize = other.max - other.min
+        if other.max == other.min:
+            parentSize = Vector2.one()
+        else:
+            parentSize = other.max - other.min
         absAnchorMin = other.min + (self.anchors.min * parentSize)
         absAnchorMax = other.max - (self.anchors.max * parentSize)
         return RectData(absAnchorMin, absAnchorMax)
@@ -42,14 +55,17 @@ class RectTransform(Component):
         self.offset = RectOffset()
         self.pivot = Vector2(0.5, 0.5)
         self.scale = Vector2.one()
-        self.parent = self.transform.parent.GetComponent(RectTransform)
+
+        if self.transform.parent is None:
+            self.parent = None
+        else:
+            self.parent = self.transform.parent.GetComponent(RectTransform)
 
     def GetRect(self):
         if self.parent is None:
-            absAnchors = self.anchors
+            return self.anchors
         else:
-            absAnchors = self.anchors.RelativeTo(self.parent.anchors)
-        return absAnchors.RelativeTo(RectData(self.offset.min, Vector2.one() - self.offset.max))
+            return self.anchors.RelativeTo(self.parent.anchors)
 
 class Image2D(Component):
     texture = ShowInInspector(Texture2D)

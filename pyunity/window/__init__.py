@@ -25,24 +25,27 @@ pull request.
 
 """
 
+__all__ = ["GetWindowProvider", "SetWindowProvider", "CustomWindowProvider"]
+
 from ..errors import *
 from .. import Logger
 from .. import config
 from .. import settings
 import os
-import pkgutil
-import importlib
+import sys
+import importlib.util
 
 def checkModule(module):
     if os.getenv("PYUNITY_TESTING") is not None:
-        return
-    if not pkgutil.find_loader(module):
+        return sys.modules[module]
+    spec = importlib.util.find_spec(module)
+    if spec is None:
         raise PyUnityException
+    return importlib.util.module_from_spec(spec)
 
 def glfwCheck():
     """Checks to see if GLFW works"""
-    checkModule("glfw")
-    import glfw
+    glfw = checkModule("glfw")
     if not glfw.init():
         raise PyUnityException
     glfw.create_window(5, 5, "a", None, None)
@@ -50,9 +53,7 @@ def glfwCheck():
 
 def sdl2Check():
     """Checks to see if PySDL2 works"""
-    if not pkgutil.find_loader("sdl2"):
-        raise PyUnityException
-    import sdl2
+    sdl2 = checkModule("sdl2")
     if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
         raise PyUnityException
 
@@ -123,14 +124,19 @@ def SetWindowProvider(name):
         raise PyUnityException(
             "No window provider named " + repr(name) + " found")
     module, checker = providers[name]
-    windowProvider = None
+    e = None
     try:
         checker()
-        windowProvider = name
     except Exception as e:
         pass
-    if windowProvider is None:
+    if e is not None:
         raise PyUnityException("Cannot use window provider " + repr(name))
+    Logger.LogLine(Logger.DEBUG, "Using window provider", name)
     window = importlib.import_module("." + module, __name__)
     config.windowProvider = window
     return window
+
+def CustomWindowProvider(cls):
+    Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
+    config.windowProvider = cls
+    return cls
