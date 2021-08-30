@@ -41,7 +41,9 @@ class RectAnchors(RectData):
         return RectData(absAnchorMin, absAnchorMax)
 
 class RectOffset(RectData):
-    pass
+    @staticmethod
+    def Square(size, center=Vector2.zero()):
+        return RectOffset(center - size / 2, center + size / 2)
 
 class RectTransform(Component):
     anchors = ShowInInspector(RectAnchors)

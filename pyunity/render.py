@@ -6,7 +6,7 @@ from pyunity.gui import Image2D, RectTransform
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .values import Color, RGB, Vector3, Quaternion
+from .values import Color, RGB, Vector3, Vector2, Quaternion
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .files import Skybox
@@ -196,7 +196,7 @@ class Camera(SingleComponent):
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
-        self.size = config.size
+        self.size = Vector2(config.size)
         self.shader = shaders["Standard"]
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
@@ -237,8 +237,8 @@ class Camera(SingleComponent):
     def fov(self, fov):
         self._fov = fov
         self.projMat = glm.perspective(
-            glm.radians(self._fov / self.size[0] * self.size[1]),
-            self.size[0] / self.size[1],
+            glm.radians(self._fov / self.size.x * self.size.y),
+            self.size.x / self.size.y,
             self.near,
             self.far)
 
@@ -257,10 +257,10 @@ class Camera(SingleComponent):
         if width == 0 or height == 0:
             return
         gl.glViewport(0, 0, width, height)
-        self.size = (width, height)
+        self.size = Vector2(width, height)
         self.projMat = glm.perspective(
-            glm.radians(self._fov / self.size[0] * self.size[1]),
-            self.size[0] / self.size[1],
+            glm.radians(self._fov / self.size.x * self.size.y),
+            self.size.x / self.size.y,
             self.near,
             self.far)
 
@@ -276,11 +276,17 @@ class Camera(SingleComponent):
         return scaled
 
     def get2DMatrix(self, rectTransform):
-        model = glm.translate(glm.mat4(1), glm.vec3(400, 250, 0))
+        rect = rectTransform.GetRect()
+        rectMin = rect.min * self.size + rectTransform.offset.min
+        rectMax = rect.max * self.size + rectTransform.offset.max
+        size = rectMax - rectMin
+        pivot = size * rectTransform.pivot
+
+        model = glm.translate(glm.mat4(1), glm.vec3(*(rectMin + pivot), 0))
         model = glm.rotate(model, glm.radians(
             rectTransform.rotation), glm.vec3(0, 0, 1))
-        model = glm.translate(model, glm.vec3(*-rectTransform.scale, 0))
-        model = glm.scale(model, glm.vec3(*rectTransform.scale, 1))
+        model = glm.translate(model, glm.vec3(*-pivot, 0))
+        model = glm.scale(model, glm.vec3(*(size / 2), 1))
 
         return model
 
