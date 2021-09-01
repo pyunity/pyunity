@@ -42,7 +42,6 @@ def checkModule(name):
     if spec is None:
         raise PyUnityException
     module = importlib.util.module_from_spec(spec)
-    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -76,7 +75,7 @@ providers = {
 
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
-    if "window_provider" in settings.db:
+    if "window_provider" in settings.db and os.getenv("PYUNITY_WINDOW_PROVIDER") is None:
         if "window_cache" in settings.db:
             del settings.db["window_cache"]
         Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
