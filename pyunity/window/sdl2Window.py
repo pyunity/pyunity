@@ -113,6 +113,9 @@ class Window:
         if self.mouse[mouse] == keystate:
             return True
         return False
+    
+    def get_mouse_pos(self):
+        return sdl2.SDL_GetGlobalMouseState()
 
 keyMap = {
     KeyCode.A: sdl2.SDL_SCANCODE_A,

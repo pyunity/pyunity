@@ -97,6 +97,9 @@ class Window:
         if self.keys[key] == keystate:
             return True
         return False
+    
+    def get_mouse_pos(self):
+        return glfw.get_cursor_pos(self.window)
 
     def check_quit(self):
         alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(

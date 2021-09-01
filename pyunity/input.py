@@ -1,5 +1,12 @@
 from enum import IntEnum, auto
 from .scenes import SceneManager
+from .values import Vector3
+
+def __getattr__(name):
+    if name == "mousePosition":
+        return Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
+    else:
+        raise AttributeError("Module " + __name__ + " has no attribute " + repr(name))
 
 class KeyState(IntEnum):
     UP = auto()
