@@ -59,15 +59,12 @@ class Window:
     
     def mouse_callback(self, window, button, action, mods):
         if action == glfw.PRESS:
-            if self.mouse[button] in [KeyState.PRESS, KeyState.DOWN]:
-                self.mouse[button] = KeyState.PRESS
-            elif self.mouse[button] in [KeyState.NONE, KeyState.UP]:
+            if self.mouse[button] == KeyState.NONE:
                 self.mouse[button] = KeyState.DOWN
-        else:
-            if self.mouse[button] in [KeyState.PRESS, KeyState.DOWN]:
-                self.mouse[button] = KeyState.UP
-            elif self.mouse[button] in [KeyState.NONE, KeyState.UP]:
-                self.mouse[button] = KeyState.NONE
+            else:
+                self.mouse[button] = KeyState.PRESS
+        elif action == glfw.RELEASE:
+            self.mouse[button] = KeyState.UP
     
     def get_mouse(self, mousecode, keystate):
         mouse = mouseMap[mousecode]

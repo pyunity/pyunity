@@ -1,7 +1,7 @@
 """Class to create a window using PySDL2."""
 
 from ..values import Clock
-from ..input import KeyCode, KeyState
+from ..input import KeyCode, KeyState, MouseCode
 from .. import config
 import sdl2
 import sdl2.ext
@@ -40,6 +40,7 @@ class Window:
 
         self.keys = [KeyState.NONE for _ in range(
             sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
+        self.mouse = [None, KeyState.NONE, KeyState.NONE, KeyState.NONE]
 
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)
@@ -57,6 +58,7 @@ class Window:
                     done = True
 
             self.process_keys(events)
+            self.process_mouse(events)
             self.update_func()
             sdl2.SDL_GL_SwapWindow(self.screen)
 
@@ -79,6 +81,21 @@ class Window:
             elif event.type == sdl2.SDL_KEYUP:
                 self.keys[event.key.keysym.scancode] = KeyState.UP
 
+    def process_mouse(self, events):
+        for i in range(len(self.mouse)):
+            if self.mouse[i] == KeyState.UP:
+                self.mouse[i] = KeyState.NONE
+            elif self.mouse[i] == KeyState.DOWN:
+                self.mouse[i] = KeyState.PRESS
+        for event in events:
+            if event.type == sdl2.SDL_MOUSEBUTTONDOWN:
+                if self.mouse[event.button.button] == KeyState.NONE:
+                    self.mouse[event.button.button] = KeyState.DOWN
+                else:
+                    self.mouse[event.button.button] = KeyState.PRESS
+            elif event.type == sdl2.SDL_MOUSEBUTTONUP:
+                self.mouse[event.button.button] = KeyState.UP
+
     def get_key(self, keycode, keystate):
         key = keyMap[keycode]
         if keystate == KeyState.PRESS:
@@ -88,6 +105,14 @@ class Window:
             return True
         return False
 
+    def get_mouse(self, mousecode, keystate):
+        mouse = mouseMap[mousecode]
+        if keystate == KeyState.PRESS:
+            if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.mouse[mouse] == keystate:
+            return True
+        return False
 
 keyMap = {
     KeyCode.A: sdl2.SDL_SCANCODE_A,
@@ -153,4 +178,10 @@ keyMap = {
     KeyCode.Down: sdl2.SDL_SCANCODE_DOWN,
     KeyCode.Left: sdl2.SDL_SCANCODE_LEFT,
     KeyCode.Right: sdl2.SDL_SCANCODE_RIGHT
+}
+
+mouseMap = {
+    MouseCode.Left: sdl2.SDL_BUTTON_LEFT,
+    MouseCode.Middle: sdl2.SDL_BUTTON_MIDDLE,
+    MouseCode.Right: sdl2.SDL_BUTTON_RIGHT,
 }
