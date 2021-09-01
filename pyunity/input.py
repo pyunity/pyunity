@@ -1,13 +1,13 @@
-from enum import Enum, auto
+from enum import IntEnum, auto
 from .scenes import SceneManager
 
-class KeyState(Enum):
+class KeyState(IntEnum):
     UP = auto()
     DOWN = auto()
     PRESS = auto()
     NONE = auto()
 
-class KeyCode(Enum):
+class KeyCode(IntEnum):
     A = auto()
     B = auto()
     C = auto()
@@ -72,9 +72,14 @@ class KeyCode(Enum):
     Left = auto()
     Right = auto()
 
+class MouseCode(IntEnum):
+    Left = auto()
+    Middle = auto()
+    Right = auto()
+
 def GetKey(keycode):
     """
-    Check if key has been pressed at moment of function call
+    Check if key is pressed at moment of function call
 
     Parameters
     ----------
@@ -101,7 +106,7 @@ def GetKeyUp(keycode):
     Returns
     -------
     boolean
-        If the key is pressed
+        If the key was released
 
     """
     return SceneManager.windowObject.get_key(keycode, KeyState.UP)
@@ -118,7 +123,58 @@ def GetKeyDown(keycode):
     Returns
     -------
     boolean
-        If the key is pressed
+        If the key was pressed down
 
     """
     return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
+
+def GetMouse(mousecode):
+    """
+    Check if mouse button is pressed at moment of function call
+
+    Parameters
+    ----------
+    mousecode : MouseCode
+        Mouse button to query
+
+    Returns
+    -------
+    boolean
+        If the mouse button is pressed
+
+    """
+    return SceneManager.windowObject.get_mouse(mousecode, KeyState.PRESS)
+
+def GetMouseUp(mousecode):
+    """
+    Check if mouse button was released this frame.
+
+    Parameters
+    ----------
+    mousecode : MouseCode
+        Mouse button to query
+
+    Returns
+    -------
+    boolean
+        If the mouse button was released
+
+    """
+    return SceneManager.windowObject.get_mouse(mousecode, KeyState.UP)
+
+def GetMouseDown(mousecode):
+    """
+    Check if mouse button was pressed down this frame.
+
+    Parameters
+    ----------
+    mousecode : MouseCode
+        Mouse button to query
+
+    Returns
+    -------
+    boolean
+        If the mouse button was pressed down
+
+    """
+    return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)

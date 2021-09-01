@@ -152,7 +152,7 @@ __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
            "Color", "Component", "ComponentException", "File",
            "GameObject", "GameObjectException", "HSV", "Image2D",
            "Input", "KeyCode", "KeyState", "Light", "Loader",
-           "Logger", "Material", "Mesh", "MeshRenderer", "PhysicMaterial",
+           "Logger", "Material", "Mesh", "MeshRenderer", "MouseCode", "PhysicMaterial",
            "Prefab", "Primitives", "Project", "PyUnityException",
            "Quaternion", "RGB", "RectAnchors", "RectOffset",
            "RectTransform", "Rigidbody", "SceneManager", "ShowInInspector",
@@ -169,7 +169,7 @@ from . import input as Input  # lgtm[py/import-own-module]
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import window as Window  # lgtm[py/import-own-module]
 from .loader import Primitives  # lgtm[py/import-own-module]
-from .input import KeyCode, KeyState
+from .input import KeyCode, KeyState, MouseCode
 from .physics import *
 from .errors import *
 from .files import *
