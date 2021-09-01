@@ -2,7 +2,7 @@
 
 from OpenGL import GLUT as glut
 from ..input import KeyCode, KeyState  # lgtm [py/unused-import]
-from .. import config
+from .. import config, Logger
 
 class Window:
     """A window provider that uses FreeGLUT."""
@@ -18,6 +18,8 @@ class Window:
         glut.glutInitWindowPosition(100, 100)
         glut.glutInitWindowSize(*config.size)
         glut.glutCreateWindow(name)
+
+        Logger.Log(Logger.WARN, "GLUT window doesn't support user input")
 
     def start(self, update_func):
         """
@@ -48,3 +50,9 @@ class Window:
 
     def quit(self):
         glut.glutDestroyWindow(glut.glutGetWindow())
+    
+    def get_key(self, keycode, keystate):
+        return False
+    
+    def get_mouse(self, mousecode, keystate):
+        return False

@@ -194,7 +194,7 @@ class Camera(SingleComponent):
     far = ShowInInspector(float, 200)
     clearColor = ShowInInspector(Color, RGB(0, 0, 0))
     shader = ShowInInspector(Shader, shaders["Standard"])
-    skyboxEnabled = ShowInInspector(bool, RGB(0, 0, 0))
+    skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
 
     def __init__(self, transform):

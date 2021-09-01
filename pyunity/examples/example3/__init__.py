@@ -1,4 +1,4 @@
-from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, AABBoxCollider, infinity
+from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, AABBoxCollider, Infinity
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -16,7 +16,7 @@ def main():
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(4, 0, 0)
     rb.gravity = False
-    rb.mass = infinity
+    rb.mass = Infinity
 
     scene.Add(cube)
 

@@ -258,6 +258,7 @@ def __loadScene(scene):
             exit()
 
         render.compile_shaders()
+        scene.mainCamera.skybox.compile()
         scene.Start()
         try:
             windowObject.start(scene.update)
