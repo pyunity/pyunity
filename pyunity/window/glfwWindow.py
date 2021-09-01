@@ -4,7 +4,7 @@ import glfw
 import sys
 from ..errors import *
 from ..values import Clock
-from ..input import KeyCode, KeyState
+from ..input import KeyCode, KeyState, MouseCode
 from .. import config
 
 class Window:
@@ -39,8 +39,10 @@ class Window:
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)
         glfw.set_key_callback(self.window, self.key_callback)
+        glfw.set_mouse_button_callback(self.window, self.mouse_callback)
 
         self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
+        self.mouse = [KeyState.NONE, KeyState.NONE, KeyState.NONE]
 
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)
@@ -54,6 +56,27 @@ class Window:
             self.keys[key] = KeyState.PRESS
         else:
             self.keys[key] = KeyState.DOWN
+    
+    def mouse_callback(self, window, button, action, mods):
+        if action == glfw.PRESS:
+            if self.mouse[button] in [KeyState.PRESS, KeyState.DOWN]:
+                self.mouse[button] = KeyState.PRESS
+            elif self.mouse[button] in [KeyState.NONE, KeyState.UP]:
+                self.mouse[button] = KeyState.DOWN
+        else:
+            if self.mouse[button] in [KeyState.PRESS, KeyState.DOWN]:
+                self.mouse[button] = KeyState.UP
+            elif self.mouse[button] in [KeyState.NONE, KeyState.UP]:
+                self.mouse[button] = KeyState.NONE
+    
+    def get_mouse(self, mousecode, keystate):
+        mouse = mouseMap[mousecode]
+        if keystate == KeyState.PRESS:
+            if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.mouse[mouse] == keystate:
+            return True
+        return False
 
     def check_keys(self):
         for i in range(len(self.keys)):
@@ -61,6 +84,13 @@ class Window:
                 self.keys[i] = KeyState.NONE
             elif self.keys[i] == KeyState.DOWN:
                 self.keys[i] = KeyState.PRESS
+
+    def check_mouse(self):
+        for i in range(len(self.mouse)):
+            if self.mouse[i] == KeyState.UP:
+                self.mouse[i] = KeyState.NONE
+            elif self.mouse[i] == KeyState.DOWN:
+                self.mouse[i] = KeyState.PRESS
 
     def get_key(self, keycode, keystate):
         key = keyMap[keycode]
@@ -96,6 +126,7 @@ class Window:
         while not glfw.window_should_close(self.window):
             self.check_quit()
             self.check_keys()
+            self.check_mouse()
 
             glfw.poll_events()
             self.update_func()
@@ -169,4 +200,10 @@ keyMap = {
     KeyCode.Down: glfw.KEY_DOWN,
     KeyCode.Left: glfw.KEY_LEFT,
     KeyCode.Right: glfw.KEY_RIGHT
+}
+
+mouseMap = {
+    MouseCode.Left: glfw.MOUSE_BUTTON_LEFT,
+    MouseCode.Middle: glfw.MOUSE_BUTTON_MIDDLE,
+    MouseCode.Right: glfw.MOUSE_BUTTON_RIGHT,
 }

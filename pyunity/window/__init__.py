@@ -35,20 +35,24 @@ import os
 import sys
 import importlib.util
 
-def checkModule(module):
+def checkModule(name):
     if os.getenv("PYUNITY_TESTING") is not None:
-        return sys.modules[module]
-    spec = importlib.util.find_spec(module)
+        return sys.modules[name]
+    spec = importlib.util.find_spec(name)
     if spec is None:
         raise PyUnityException
-    return importlib.util.module_from_spec(spec)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
 
 def glfwCheck():
     """Checks to see if GLFW works"""
     glfw = checkModule("glfw")
+    print(dir(glfw))
     if not glfw.init():
         raise PyUnityException
-    glfw.create_window(5, 5, "a", None, None)
+    glfw.create_window(5, 5, "test", None, None)
     glfw.terminate()
 
 def sdl2Check():
@@ -104,6 +108,7 @@ def GetWindowProvider():
             checker()
             windowProvider = name
         except Exception as e:
+            print(e)
             if next is not None:
                 Logger.LogLine(Logger.DEBUG, name,
                                "doesn't work, trying", next)
