@@ -3,17 +3,18 @@ from unittest.mock import Mock
 import sys
 import math
 import os
-sys.modules["sdl2"] = Mock()
-sys.modules["sdl2.sdlmixer"] = Mock()
-sys.modules["sdl2.ext"] = Mock()
-sys.modules["sdl2.video"] = Mock()
-sys.modules["glfw"] = Mock()
-sys.modules["glm"] = math
-sys.modules["PIL"] = Mock()
-sys.modules["OpenGL"] = Mock()
-sys.modules["OpenGL.GL"] = Mock()
-sys.modules["OpenGL.GLUT"] = Mock()
-os.environ["PYUNITY_TESTING"] = "1"
+if "full" not in os.environ:
+    sys.modules["sdl2"] = Mock()
+    sys.modules["sdl2.sdlmixer"] = Mock()
+    sys.modules["sdl2.ext"] = Mock()
+    sys.modules["sdl2.video"] = Mock()
+    sys.modules["glfw"] = Mock()
+    sys.modules["glm"] = math
+    sys.modules["PIL"] = Mock()
+    sys.modules["OpenGL"] = Mock()
+    sys.modules["OpenGL.GL"] = Mock()
+    sys.modules["OpenGL.GLUT"] = Mock()
+    os.environ["PYUNITY_TESTING"] = "1"
 
 from pyunity import *
 
@@ -41,7 +42,7 @@ class TestGameObject(unittest.TestCase):
 
     def test_gameobject_component(self):
         gameObject = GameObject()
-        self.assertIsInstance(gameObject.transform, Component)
+        self.assertIsInstance(gameObject.transform, Transform)
         self.assertEqual(len(gameObject.components), 1)
         component = gameObject.AddComponent(Component)
         self.assertIsInstance(component, Component)
@@ -51,6 +52,35 @@ class TestGameObject(unittest.TestCase):
             gameObject.AddComponent(Transform)
         self.assertEqual(str(exception_context.exception),
                          "Cannot add 'Transform' to the GameObject; it already has one")
+    
+    def test_gameobject_position(self):
+        gameObject = GameObject()
+        gameObject2 = GameObject("GameObject2", gameObject)
+        self.assertIs(gameObject2.transform.parent.gameObject, gameObject)
+        gameObject.transform.position = Vector3(0, 1, 0)
+        self.assertEqual(gameObject.transform.localPosition, Vector3(0, 1, 0))
+
+        transform = gameObject2.transform
+        transform.position = Vector3(0, 0, 0)
+        self.assertEqual(transform.localPosition, Vector3(0, -1, 0))
+        self.assertEqual(transform.position, Vector3(0, 0, 0))
+        gameObject.transform.position = Vector3(0, 0, 1)
+        self.assertEqual(transform.localPosition, Vector3(0, -1, 0))
+        self.assertEqual(transform.position, Vector3(0, -1, 1))
+
+    def test_gameobject_scale(self):
+        gameObject = GameObject()
+        gameObject2 = GameObject("GameObject2", gameObject)
+        transform = gameObject2.transform
+
+        gameObject.transform.scale = Vector3(1, 0.5, 3)
+        self.assertEqual(gameObject.transform.localScale, Vector3(1, 0.5, 3))
+        transform.scale = Vector3(2, 1, 0.5)
+        self.assertAlmostEqual(transform.localScale, Vector3(2, 2, 1 / 6))
+        gameObject.transform.scale = Vector3(3, 2, 0.5)
+        self.assertEqual(gameObject.transform.localScale, Vector3(3, 2, 0.5))
+        self.assertAlmostEqual(transform.localScale, Vector3(2, 2, 1 / 6))
+        self.assertAlmostEqual(transform.scale, Vector3(6, 4, 1 / 12))
 
 class TestVector3(unittest.TestCase):
     def test_init(self):
