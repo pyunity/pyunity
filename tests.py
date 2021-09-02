@@ -198,6 +198,21 @@ class TestVector3(unittest.TestCase):
         self.assertEqual(v.length, math.sqrt(29))
         self.assertAlmostEqual(v.normalized().length, 1)
 
+class TestQuaternion(unittest.TestCase):
+    sqrt2 = math.sqrt(2) / 2
+    def test_init(self):
+        q = Quaternion.identity()
+        self.assertEqual(q.x, 0)
+        self.assertEqual(q.y, 0)
+        self.assertEqual(q.z, 0)
+        self.assertEqual(q.w, 1)
+        self.assertEqual(q, Quaternion(1, 0, 0, 0))
+    
+    def test_euler(self):
+        q = Quaternion.Euler(Vector3(0, 90, 0))
+        self.assertAlmostEqual(q, Quaternion(self.sqrt2, 0, self.sqrt2, 0))
+        q.eulerAngles = Vector3(180, 0, 0)
+        self.assertEqual(q, Quaternion(0, 1, 0, 0))
 
 if __name__ == "__main__":
     unittest.main()
