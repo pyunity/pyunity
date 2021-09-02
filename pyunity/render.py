@@ -199,7 +199,7 @@ class Camera(SingleComponent):
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
-        self.size = Vector2(config.size)
+        self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
@@ -264,6 +264,7 @@ class Camera(SingleComponent):
             self.size.x / self.size.y,
             self.near,
             self.far)
+        Screen._set(width, height)
 
     def getMatrix(self, transform):
         rotation = transform.rotation.angleAxisPair
@@ -356,3 +357,16 @@ class Camera(SingleComponent):
                     b"model", self.get2DMatrix(rectTransform))
                 renderer.texture.use()
                 gl.glDrawArrays(gl.GL_QUADS, 0, 4)
+
+class Screen:
+    width = config.size[0]
+    height = config.size[1]
+    size = Vector2(config.size)
+    aspect = config.size[0] / config.size[1]
+
+    @classmethod
+    def _set(cls, width, height):
+        cls.width = width
+        cls.height = height
+        cls.size = Vector2(width, height)
+        cls.aspect = width / height
