@@ -151,13 +151,14 @@ __all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
            "Behaviour", "Canvas", "Clock", "CollManager", "Collider",
            "Color", "Component", "ComponentException", "File",
            "GameObject", "GameObjectException", "HSV", "Image2D",
-           "Input", "KeyCode", "KeyState", "Light", "Loader",
-           "Logger", "Material", "Mesh", "MeshRenderer", "MouseCode", "PhysicMaterial",
-           "Prefab", "Primitives", "Project", "PyUnityException",
-           "Quaternion", "RGB", "RectAnchors", "RectOffset",
-           "RectTransform", "Rigidbody", "SceneManager", "ShowInInspector",
+           "Infinity", "Input", "KeyCode", "KeyState", "Light",
+           "Loader", "Logger", "Material", "Mesh", "MeshRenderer",
+           "MouseCode", "PhysicMaterial", "Prefab", "Primitives",
+           "Project", "PyUnityException", "Quaternion", "RGB",
+           "RectAnchors", "RectData", "RectOffset", "RectTransform",
+           "Rigidbody", "SceneManager", "Screen", "ShowInInspector",
            "SphereCollider", "Tag", "Texture2D", "Transform",
-           "Vector2", "Vector3", "Window", "Infinity"]
+           "Vector2", "Vector3", "Window"]
 # __all__ ends here
 
 import os
@@ -170,6 +171,7 @@ from . import loader as Loader  # lgtm[py/import-own-module]
 from . import window as Window  # lgtm[py/import-own-module]
 from .loader import Primitives  # lgtm[py/import-own-module]
 from .input import KeyCode, KeyState, MouseCode
+from .render import Screen
 from .physics import *
 from .errors import *
 from .files import *
