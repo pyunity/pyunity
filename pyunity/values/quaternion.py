@@ -74,6 +74,13 @@ class Quaternion:
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
+    
+    def __sub__(self, other):
+        if isinstance(other, Quaternion):
+            return QuaternionDiff(*(self * other.conjugate))
+    
+    def abs_diff(self, other):
+        return abs(other - self)
 
     def copy(self):
         """
@@ -226,3 +233,13 @@ class Quaternion:
     def convert(self):
         angle, x, y, z = self.angleAxisPair
         return Quaternion.FromAxis(180 - angle, Vector3(x, y, z))
+
+class QuaternionDiff:
+    def __init__(self, w, x, y, z):
+        self.w = w
+        self.x = x
+        self.y = y
+        self.z = z
+    
+    def __abs__(self):
+        return abs(2 * glm.degrees(glm.acos(self.w)))
