@@ -50,7 +50,6 @@ class CustomMock:
     def __call__(self, *args, **kwargs):
         return CustomMock()
 
-
 if not config.audio:
     mixer = CustomMock()
 
