@@ -588,26 +588,19 @@ class Transform(SingleComponent):
         return path
 
     def LookAtTransform(self, transform):
-        v0 = Vector3(0, 0, 1)
-        v1 = transform.position - self.position
-        xyz = v0.cross(v1)
-        w = glm.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
-        self.rotation = Quaternion(w, *xyz).normalized()
+        v = transform.position - self.position
+        self.rotation = Quaternion.FromDir(v)
 
     def LookAtGameObject(self, gameObject):
-        v0 = Vector3(0, 0, 1)
-        v1 = gameObject.transform.position - self.position
-        xyz = v0.cross(v1)
-        w = glm.degrees(glm.acos(v0.dot(v1) / v1.length))
-        print(w, xyz, v1)
-        self.rotation = Quaternion.FromAxis(w, xyz)
+        v = gameObject.transform.position - self.position
+        self.rotation = Quaternion.FromDir(v)
 
-    def LookAtVector(self, vec):
-        v0 = Vector3(0, 0, 1)
-        v1 = vec - self.position
-        xyz = v0.cross(v1)
-        w = glm.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
-        self.rotation = Quaternion(w, *xyz).normalized()
+    def LookAtPoint(self, vec):
+        v = vec - self.position
+        self.rotation = Quaternion.FromDir(v)
+
+    def LookInDirection(self, vec):
+        self.rotation = Quaternion.FromDir(vec)
 
     def __repr__(self):
         """

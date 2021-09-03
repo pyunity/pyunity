@@ -147,13 +147,13 @@ class Quaternion:
     @staticmethod
     def Between(v1, v2):
         a = v1.cross(v2)
-        q = Quaternion(*a, glm.sqrt((v1.get_length_sqrd()) *
-                       (v2.get_length_sqrd())) + v1.dot(v2))
+        angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
+        q = Quaternion.FromAxis(glm.degrees(angle), a)
         return q.normalized()
 
     @staticmethod
     def FromDir(v):
-        return Quaternion.Between(Vector3.back(), v.normalized())
+        return Quaternion.Between(Vector3.forward(), v.normalized())
 
     @property
     def angleAxisPair(self):
@@ -220,19 +220,12 @@ class Quaternion:
 
     @eulerAngles.setter
     def eulerAngles(self, value):
-        a = Quaternion.FromAxis(value.x, Vector3.right())
-        b = Quaternion.FromAxis(value.y, Vector3.up())
-        c = Quaternion.FromAxis(value.z, Vector3.forward())
-        self.w, self.x, self.y, self.z = c * a * b
+        self.w, self.x, self.y, self.z = Quaternion.Euler(value)
 
     @staticmethod
     def identity():
         """Identity quaternion representing no rotation"""
         return Quaternion(1, 0, 0, 0)
-
-    def convert(self):
-        angle, x, y, z = self.angleAxisPair
-        return Quaternion.FromAxis(180 - angle, Vector3(x, y, z))
 
 class QuaternionDiff:
     def __init__(self, w, x, y, z):
