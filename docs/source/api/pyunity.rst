@@ -1,11 +1,6 @@
 pyunity package
 ===============
 
-.. automodule:: pyunity
-   :members:
-   :inherited-members:
-   :show-inheritance:
-
 Subpackages
 -----------
 
@@ -14,6 +9,7 @@ Subpackages
 
    pyunity.physics
    pyunity.scenes
+   pyunity.values
    pyunity.window
 
 Submodules
@@ -26,10 +22,18 @@ Submodules
    pyunity.core
    pyunity.errors
    pyunity.files
+   pyunity.gui
    pyunity.input
    pyunity.loader
    pyunity.logger
    pyunity.meshes
-   pyunity.quaternion
    pyunity.render
-   pyunity.vector3
+   pyunity.settings
+
+Module contents
+---------------
+
+.. automodule:: pyunity
+   :members:
+   :inherited-members:
+   :show-inheritance:

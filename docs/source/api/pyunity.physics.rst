@@ -1,11 +1,6 @@
 pyunity.physics package
 =======================
 
-.. automodule:: pyunity.physics
-   :members:
-   :inherited-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
@@ -14,3 +9,11 @@ Submodules
 
    pyunity.physics.config
    pyunity.physics.core
+
+Module contents
+---------------
+
+.. automodule:: pyunity.physics
+   :members:
+   :inherited-members:
+   :show-inheritance:
