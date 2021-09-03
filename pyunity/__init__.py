@@ -166,11 +166,10 @@ from . import logger as Logger  # lgtm[py/import-own-module]
 from .audio import *
 from .core import *
 from .gui import *
-from . import input as Input  # lgtm[py/import-own-module]
 from . import loader as Loader  # lgtm[py/import-own-module]
 from . import window as Window  # lgtm[py/import-own-module]
 from .loader import Primitives  # lgtm[py/import-own-module]
-from .input import KeyCode, KeyState, MouseCode
+from .input import *
 from .render import Screen
 from .physics import *
 from .errors import *

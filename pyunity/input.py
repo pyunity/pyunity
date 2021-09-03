@@ -190,11 +190,6 @@ class Input:
         """
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
     
-    @property
-    def mousePosition(self):
-        """Mouse position relative to the top left corner, as a Vector3"""
-        return Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
-
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
 
     @classmethod
@@ -202,6 +197,21 @@ class Input:
         if axis not in cls._axes:
             raise PyUnityException(repr(axis) + " is not a valid axis")
         return cls._axes[axis]
+    
+    mousePosition = None
+    _mouse_last = None
+
+    @classmethod
+    def UpdateAxes(cls):
+        cls.mousePosition = Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
+
+        new = cls.mousePosition
+        if cls._mouse_last is None:
+            diff = new
+        else:
+            diff = new = cls._mouse_last
+        cls._axes["MouseX"] = diff.x
+        cls._axes["MouseY"] = diff.y
     
     mousePosition = None
     _mouse_last = None
