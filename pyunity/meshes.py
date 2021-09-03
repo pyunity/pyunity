@@ -38,12 +38,12 @@ class Mesh:
     Notes
     -----
     When any of the mesh attributes are updated while
-    a scene is running, you must use ``recompile()``
+    a scene is running, you must use ``compile(force=True)``
     to update the mesh so that it is displayed correctly.
 
         >>> mesh = Mesh.cube(2)
         >>> mesh.vertices[1] = Vector3(2, 0, 0)
-        >>> mesh.recompile()
+        >>> mesh.compile(force=True)
 
     """
 
@@ -59,7 +59,7 @@ class Mesh:
         self.compiled = False
         from .scenes import SceneManager
         if SceneManager.CurrentScene() is not None:
-            self.recompile()
+            self.compile()
 
         # self.min, self.max = Vector3.zero(), Vector3.zero()
         # for vert in verts:
@@ -77,8 +77,8 @@ class Mesh:
         #     if vert.z > self.max.z:
         #         self.max.z = vert.z
 
-    def recompile(self):
-        if not self.compiled:
+    def compile(self, force=False):
+        if not self.compiled or force:
             from . import render
             self.vbo, self.ibo = render.gen_buffers(self)
             self.vao = render.gen_array()
