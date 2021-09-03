@@ -147,6 +147,11 @@ class Quaternion:
     @staticmethod
     def Between(v1, v2):
         a = v1.cross(v2)
+        if a.dot(a) == 0:
+            if v1 == v2:
+                return Quaternion.identity()
+            else:
+                return Quaternion.FromAxis(180, Vector3.up())
         angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
         q = Quaternion.FromAxis(glm.degrees(angle), a)
         return q.normalized()

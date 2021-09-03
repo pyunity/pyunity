@@ -296,15 +296,17 @@ class Camera(SingleComponent):
 
     def getViewMat(self):
         if self.renderPass and self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
-            pos = self.transform.position * Vector3(1, 1, -1)
-            look = pos + \
-                self.transform.rotation.RotateVector(
-                    Vector3.forward()) * Vector3(1, 1, -1)
-            up = self.transform.rotation.RotateVector(
-                Vector3.up()) * Vector3(1, 1, -1)
-            self.viewMat = glm.lookAt(list(pos), list(look), list(up))
-            # self.viewMat = glm.translate(glm.mat4_cast(glm.quat(
-            #     *(self.transform.rotation.convert()))), list(self.transform.position))
+            ## OLD LOOKAT MATRIX GEN ##
+            # pos = self.transform.position * Vector3(1, 1, -1)
+            # look = pos + \
+            #     self.transform.rotation.RotateVector(
+            #         Vector3.forward()) * Vector3(1, 1, -1)
+            # up = self.transform.rotation.RotateVector(
+            #     Vector3.up()) * Vector3(1, 1, -1)
+            # self.viewMat = glm.lookAt(list(pos), list(look), list(up))
+
+            self.viewMat = glm.translate(glm.mat4_cast(glm.quat(*self.transform.rotation)),
+                list(self.transform.position * Vector3(-1, -1, 1)))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
             self.renderPass = False
