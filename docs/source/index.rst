@@ -59,9 +59,9 @@ Links
 For more information check out :doc:`the API Documentation <api>`.
 
 If you would like to contribute, please
-first see the `contributing guidelines <https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md>`,
-check out the latest `issues <https://github.com/pyunity/pyunity/issues>`
-and make a `pull request <https://github.com/pyunity/pyunity/pulls>`.
+first see the `contributing guidelines <https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md>`_,
+check out the latest `issues <https://github.com/pyunity/pyunity/issues>`_
+and make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
 
 .. toctree::
    :maxdepth: 1
