@@ -1,7 +1,7 @@
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input"]
 
 from enum import IntEnum, auto
-from pyunity.errors import PyUnityException
+from .errors import PyUnityException
 from .scenes import SceneManager
 from .values import Vector3
 

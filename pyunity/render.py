@@ -2,10 +2,10 @@
 Classes to aid in rendering in a Scene.
 
 """
-from pyunity.gui import Image2D, RectTransform
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
+from .gui import Image2D, RectTransform
 from .values import Color, RGB, Vector3, Vector2, Quaternion
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
@@ -14,6 +14,7 @@ from . import config
 import glm
 import itertools
 import os
+import inspect
 
 float_size = gl.sizeof(c_float)
 
@@ -206,9 +207,10 @@ class Camera(SingleComponent):
         self.fov = 90
         self.clearColor = RGB(0, 0, 0)
 
-        self.viewMat = glm.lookAt([0, 0, 0], [0, 0, 1], [0, 1, 0])
+        self.viewMat = glm.lookAt([0, 0, 0], [0, 0, -1], [0, 1, 0])
         self.lastPos = Vector3.zero()
         self.lastRot = Quaternion.identity()
+        self.renderPass = False
 
     def setup_buffers(self):
         data = [
@@ -229,7 +231,7 @@ class Camera(SingleComponent):
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
-
+    
     @property
     def fov(self):
         return self._fov
@@ -293,7 +295,7 @@ class Camera(SingleComponent):
         return model
 
     def getViewMat(self):
-        if self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
+        if self.renderPass and self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
             pos = self.transform.position * Vector3(1, 1, -1)
             look = pos + \
                 self.transform.rotation.RotateVector(
@@ -305,6 +307,7 @@ class Camera(SingleComponent):
             #     *(self.transform.rotation.convert()))), list(self.transform.position))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
+            self.renderPass = False
         return self.viewMat
 
     def UseShader(self, name):

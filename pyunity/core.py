@@ -656,5 +656,5 @@ class MeshRenderer(SingleComponent):
         if self.mesh is None:
             return
 
-        self.mesh.recompile()
+        self.mesh.compile()
         self.mesh.draw()

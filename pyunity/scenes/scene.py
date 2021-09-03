@@ -8,7 +8,6 @@ the SceneManager class.
 
 """
 
-from pyunity.input import Input
 from ..audio import *
 from ..core import *
 from ..files import Behaviour
@@ -378,6 +377,7 @@ class Scene:
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
+        from ..input import Input
         Input.UpdateAxes()
 
         dt = max(time() - self.lastFrame, 0.001)
@@ -426,12 +426,8 @@ class Scene:
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         if self.mainCamera is None:
             return
-
-        if (self.mainCamera.lastPos != self.mainCamera.transform.position or
-                self.mainCamera.lastRot != self.mainCamera.transform.rotation):
-            self.mainCamera.lastPos = self.mainCamera.transform.position
-            self.mainCamera.lastRot = self.mainCamera.transform.rotation
-
+        
+        self.mainCamera.renderPass = True
         self.mainCamera.Render(self.gameObjects, self.lights)
 
     def clean_up(self):
