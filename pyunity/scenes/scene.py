@@ -8,6 +8,7 @@ the SceneManager class.
 
 """
 
+from pyunity.input import Input
 from ..audio import *
 from ..core import *
 from ..files import Behaviour
@@ -377,6 +378,8 @@ class Scene:
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
+        Input.UpdateAxes()
+
         dt = max(time() - self.lastFrame, 0.001)
         for gameObject in self.gameObjects:
             for component in gameObject.components:
