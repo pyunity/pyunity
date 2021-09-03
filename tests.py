@@ -212,7 +212,7 @@ class TestQuaternion(unittest.TestCase):
         q = Quaternion.Euler(Vector3(0, 90, 0))
         self.assertAlmostEqual(q, Quaternion(self.sqrt2, 0, self.sqrt2, 0))
         q.eulerAngles = Vector3(180, 0, 0)
-        self.assertEqual(q, Quaternion(0, 1, 0, 0))
+        self.assertAlmostEqual(q, Quaternion(0, 1, 0, 0))
 
 if __name__ == "__main__":
     unittest.main()
