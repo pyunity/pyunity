@@ -2,7 +2,7 @@
 Welcome to PyUnity's documentation!
 ===================================
 
-Version 0.7.0 (in development)
+Version 0.8.0 (in development)
 ------------------------------
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
