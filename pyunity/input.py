@@ -1,12 +1,9 @@
+__all__ = ["KeyState", "KeyCode", "MouseCode", "Input"]
+
 from enum import IntEnum, auto
+from pyunity.errors import PyUnityException
 from .scenes import SceneManager
 from .values import Vector3
-
-def __getattr__(name):
-    if name == "mousePosition":
-        return Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
-    else:
-        raise AttributeError("Module " + __name__ + " has no attribute " + repr(name))
 
 class KeyState(IntEnum):
     UP = auto()
@@ -84,104 +81,139 @@ class MouseCode(IntEnum):
     Middle = auto()
     Right = auto()
 
-def GetKey(keycode):
-    """
-    Check if key is pressed at moment of function call
+class Input:
+    @classmethod
+    def GetKey(cls, keycode):
+        """
+        Check if key is pressed at moment of function call
 
-    Parameters
-    ----------
-    keycode : KeyCode
-        Key to query
+        Parameters
+        ----------
+        keycode : KeyCode
+            Key to query
 
-    Returns
-    -------
-    boolean
-        If the key is pressed
+        Returns
+        -------
+        boolean
+            If the key is pressed
 
-    """
-    return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
+        """
+        return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
 
-def GetKeyUp(keycode):
-    """
-    Check if key was released this frame.
+    @classmethod
+    def GetKeyUp(cls, keycode):
+        """
+        Check if key was released this frame.
 
-    Parameters
-    ----------
-    keycode : KeyCode
-        Key to query
+        Parameters
+        ----------
+        keycode : KeyCode
+            Key to query
 
-    Returns
-    -------
-    boolean
-        If the key was released
+        Returns
+        -------
+        boolean
+            If the key was released
 
-    """
-    return SceneManager.windowObject.get_key(keycode, KeyState.UP)
+        """
+        return SceneManager.windowObject.get_key(keycode, KeyState.UP)
 
-def GetKeyDown(keycode):
-    """
-    Check if key was pressed down this frame.
+    @classmethod
+    def GetKeyDown(cls, keycode):
+        """
+        Check if key was pressed down this frame.
 
-    Parameters
-    ----------
-    keycode : KeyCode
-        Key to query
+        Parameters
+        ----------
+        keycode : KeyCode
+            Key to query
 
-    Returns
-    -------
-    boolean
-        If the key was pressed down
+        Returns
+        -------
+        boolean
+            If the key was pressed down
 
-    """
-    return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
+        """
+        return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
 
-def GetMouse(mousecode):
-    """
-    Check if mouse button is pressed at moment of function call
+    @classmethod
+    def GetMouse(cls, mousecode):
+        """
+        Check if mouse button is pressed at moment of function call
 
-    Parameters
-    ----------
-    mousecode : MouseCode
-        Mouse button to query
+        Parameters
+        ----------
+        mousecode : MouseCode
+            Mouse button to query
 
-    Returns
-    -------
-    boolean
-        If the mouse button is pressed
+        Returns
+        -------
+        boolean
+            If the mouse button is pressed
 
-    """
-    return SceneManager.windowObject.get_mouse(mousecode, KeyState.PRESS)
+        """
+        return SceneManager.windowObject.get_mouse(mousecode, KeyState.PRESS)
 
-def GetMouseUp(mousecode):
-    """
-    Check if mouse button was released this frame.
+    @classmethod
+    def GetMouseUp(cls, mousecode):
+        """
+        Check if mouse button was released this frame.
 
-    Parameters
-    ----------
-    mousecode : MouseCode
-        Mouse button to query
+        Parameters
+        ----------
+        mousecode : MouseCode
+            Mouse button to query
 
-    Returns
-    -------
-    boolean
-        If the mouse button was released
+        Returns
+        -------
+        boolean
+            If the mouse button was released
 
-    """
-    return SceneManager.windowObject.get_mouse(mousecode, KeyState.UP)
+        """
+        return SceneManager.windowObject.get_mouse(mousecode, KeyState.UP)
 
-def GetMouseDown(mousecode):
-    """
-    Check if mouse button was pressed down this frame.
+    @classmethod
+    def GetMouseDown(cls, mousecode):
+        """
+        Check if mouse button was pressed down this frame.
 
-    Parameters
-    ----------
-    mousecode : MouseCode
-        Mouse button to query
+        Parameters
+        ----------
+        mousecode : MouseCode
+            Mouse button to query
 
-    Returns
-    -------
-    boolean
-        If the mouse button was pressed down
+        Returns
+        -------
+        boolean
+            If the mouse button was pressed down
 
-    """
-    return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
+        """
+        return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
+    
+    @property
+    def mousePosition(self):
+        """Mouse position relative to the top left corner, as a Vector3"""
+        return Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
+
+    _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
+
+    @classmethod
+    def GetAxis(cls, axis):
+        if axis not in cls._axes:
+            raise PyUnityException(repr(axis) + " is not a valid axis")
+        return cls._axes[axis]
+    
+    mousePosition = None
+    _mouse_last = None
+
+    @classmethod
+    def UpdateAxes(cls):
+        cls.mousePosition = Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
+
+        new = cls.mousePosition
+        if cls._mouse_last is None:
+            diff = new
+        else:
+            diff = new = cls._mouse_last
+        cls._axes["MouseX"] = diff.x
+        cls._axes["MouseY"] = diff.y
