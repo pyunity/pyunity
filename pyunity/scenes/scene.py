@@ -378,9 +378,9 @@ class Scene:
     def update_scripts(self):
         """Updates all scripts in the scene."""
         from ..input import Input
-        Input.UpdateAxes()
-
         dt = max(time() - self.lastFrame, 0.001)
+        Input.UpdateAxes(dt)
+
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):

@@ -1,6 +1,7 @@
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input"]
 
 from enum import IntEnum, auto
+from .values import clamp
 from .errors import PyUnityException
 from .scenes import SceneManager
 from .values import Vector3
@@ -80,6 +81,29 @@ class MouseCode(IntEnum):
     Left = auto()
     Middle = auto()
     Right = auto()
+
+class KeyboardAxis:
+    def __init__(self, name, speed, positive, negative):
+        self.positive = positive
+        self.negative = negative
+        self.value = 0
+        self.name = name
+        self.speed = speed
+
+    def get_value(self, dt):
+        change = sum([Input.GetKey(key) for key in self.positive]) - \
+            sum([Input.GetKey(key) for key in self.negative])
+        if change == 0:
+            if self.value != 0:
+                change = -abs(self.value) / self.value
+                if abs(dt) > abs(self.value):
+                    self.value = 0
+                    return 0
+            else:
+                return 0
+        self.value += clamp(change, -1, 1) * dt * self.speed
+        self.value = clamp(self.value, -1, 1)
+        return self.value
 
 class Input:
     @classmethod
@@ -191,6 +215,16 @@ class Input:
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
     
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
+    _axis_objects = [
+        KeyboardAxis("Horizontal", 2,
+            [KeyCode.D, KeyCode.Right],
+            [KeyCode.A, KeyCode.Left]
+        ),
+        KeyboardAxis("Vertical", 2,
+            [KeyCode.W, KeyCode.Up],
+            [KeyCode.S, KeyCode.Down]
+        ),
+    ]
 
     @classmethod
     def GetAxis(cls, axis):
@@ -202,7 +236,7 @@ class Input:
     _mouse_last = None
 
     @classmethod
-    def UpdateAxes(cls):
+    def UpdateAxes(cls, dt):
         cls.mousePosition = Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
 
         new = cls.mousePosition
@@ -212,18 +246,6 @@ class Input:
             diff = new = cls._mouse_last
         cls._axes["MouseX"] = diff.x
         cls._axes["MouseY"] = diff.y
-    
-    mousePosition = None
-    _mouse_last = None
 
-    @classmethod
-    def UpdateAxes(cls):
-        cls.mousePosition = Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
-
-        new = cls.mousePosition
-        if cls._mouse_last is None:
-            diff = new
-        else:
-            diff = new = cls._mouse_last
-        cls._axes["MouseX"] = diff.x
-        cls._axes["MouseY"] = diff.y
+        for axis in cls._axis_objects:
+            cls._axes[axis.name] = axis.get_value(dt)
