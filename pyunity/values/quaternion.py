@@ -154,6 +154,8 @@ class Quaternion:
                 return Quaternion.FromAxis(180, Vector3.up())
         angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
         q = Quaternion.FromAxis(glm.degrees(angle), a)
+        ## Remove z component (camera.up is Vector3.up())
+        # q2 = Quaternion.Euler(q.eulerAngles * Vector3(1, 1, 0))
         return q.normalized()
 
     @staticmethod
