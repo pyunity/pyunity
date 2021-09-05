@@ -44,6 +44,15 @@ class RectOffset(RectData):
     @staticmethod
     def Square(size, center=Vector2.zero()):
         return RectOffset(center - size / 2, center + size / 2)
+    
+    def Move(self, pos):
+        self.min += pos
+        self.max += pos
+    
+    def SetCenter(self, pos):
+        size = self.max - self.min
+        self.min = pos - size / 2
+        self.max = pos + size / 2
 
 class RectTransform(Component):
     anchors = ShowInInspector(RectAnchors)
