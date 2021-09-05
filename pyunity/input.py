@@ -216,11 +216,11 @@ class Input:
     
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
     _axis_objects = [
-        KeyboardAxis("Horizontal", 2,
+        KeyboardAxis("Horizontal", 3,
             [KeyCode.D, KeyCode.Right],
             [KeyCode.A, KeyCode.Left]
         ),
-        KeyboardAxis("Vertical", 2,
+        KeyboardAxis("Vertical", 3,
             [KeyCode.W, KeyCode.Up],
             [KeyCode.S, KeyCode.Down]
         ),
