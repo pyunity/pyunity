@@ -27,33 +27,33 @@ if pkgutil.find_loader("autopep8") is None:
 autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302",
               "pyunity", "setup.py", "cli.py"])
 
-items = []
+# items = []
 
-for name in dir(pyunity):
-    if not (isinstance(getattr(pyunity, name), ModuleType) and
-            name.islower() or name.startswith("__")):
-        items.append(name)
+# for name in dir(pyunity):
+#     if not (isinstance(getattr(pyunity, name), ModuleType) and
+#             name.islower() or name.startswith("__")):
+#         items.append(name)
 
-with open(os.path.join("pyunity", "__init__.py"), "r") as f:
-    content = f.read()
+# with open(os.path.join("pyunity", "__init__.py"), "r") as f:
+#     content = f.read()
 
-index = content.index("# __all__ starts here")
-end = content.index("# __all__ ends here") + 19
-before = content[:index]
-after = content[end:]
-text = "# __all__ starts here\n__all__ = ["
-line = ""
-for item in items:
-    if len(line) < 50:
-        line += "\"" + item + "\", "
-    else:
-        text += line[:-1] + "\n           "
-        line = "\"" + item + "\", "
+# index = content.index("# __all__ starts here")
+# end = content.index("# __all__ ends here") + 19
+# before = content[:index]
+# after = content[end:]
+# text = "# __all__ starts here\n__all__ = ["
+# line = ""
+# for item in items:
+#     if len(line) < 50:
+#         line += "\"" + item + "\", "
+#     else:
+#         text += line[:-1] + "\n           "
+#         line = "\"" + item + "\", "
 
-text += line[:-2] + "]\n# __all__ ends here"
+# text += line[:-2] + "]\n# __all__ ends here"
 
-with open(os.path.join("pyunity", "__init__.py"), "w") as f:
-    f.write(before + text + after)
+# with open(os.path.join("pyunity", "__init__.py"), "w") as f:
+#     f.write(before + text + after)
 
 # desc = pyunity.__doc__.split("\n")
 # desc_new = [

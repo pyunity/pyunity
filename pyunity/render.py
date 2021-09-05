@@ -14,7 +14,6 @@ from . import config
 import glm
 import itertools
 import os
-import inspect
 
 float_size = gl.sizeof(c_float)
 
