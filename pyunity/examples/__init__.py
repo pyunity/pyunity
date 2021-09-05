@@ -6,7 +6,7 @@ import glob
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
-broken = [5]
+broken = []
 directory = os.path.dirname(os.path.abspath(__file__))
 
 def load_example(i):
@@ -14,13 +14,15 @@ def load_example(i):
     module.main()
     SceneManager.RemoveAllScenes()
 
-def show():
-    Logger.LogLine(Logger.WARN, "Currently broken examples: " +
-                   ", ".join(map(str, broken)))
-    if len(sys.argv) == 1:
-        num = 0
-    else:
-        num = int(sys.argv[1])
+def show(num=None):
+    if len(broken):
+        Logger.LogLine(Logger.WARN, "Currently broken examples: " +
+                       ", ".join(map(str, broken)))
+    if num is None:
+        if len(sys.argv) == 1:
+            num = 0
+        else:
+            num = int(sys.argv[1])
     if num == 0:
         for i in range(1, len(glob.glob(os.path.join(directory, "example*"))) + 1):
             if i in broken:

@@ -1,22 +1,30 @@
-from pyunity import Behaviour, Vector3, Loader, SceneManager, GameObject, MeshRenderer, Material, RGB
+from pyunity import *
 
-class Rotator(Behaviour):
+class LookAt(Behaviour):
+    other = ShowInInspector(GameObject)
     def Update(self, dt):
-        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
+        self.transform.LookAtGameObject(self.other)
+
+class Mover(Behaviour):
+    speed = ShowInInspector(float, 6)
+    def Update(self, dt):
+        self.transform.localPosition += Vector3(self.speed * dt, 0, 0)
 
 def main():
     scene = SceneManager.AddScene("Scene")
-
-    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
+    scene.mainCamera.transform.position = Vector3(0, 3, -10)
+    lookAt = scene.mainCamera.AddComponent(LookAt)
 
     cube = GameObject("Cube")
-    cube.AddComponent(Rotator)
     renderer = cube.AddComponent(MeshRenderer)
-    renderer.mesh = Loader.Primitives.cube
     renderer.mat = Material(RGB(0, 255, 0))
+    renderer.mesh = Loader.Primitives.cube
+    cube.transform.position = Vector3(-20, 0, 0)
+    cube.AddComponent(Mover).speed = 6
     scene.Add(cube)
 
-    scene.List()
+    lookAt.other = cube
+
     SceneManager.LoadScene(scene)
 
 
