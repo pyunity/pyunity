@@ -45,7 +45,6 @@ class CustomMock:
 
     def __setattr__(self, item, value):
         Logger.LogLine(Logger.WARN, "Audio is currently disabled")
-        pass
 
     def __call__(self, *args, **kwargs):
         return CustomMock()

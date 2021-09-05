@@ -146,20 +146,16 @@ create a new pull request.
 
 """
 
-# __all__ starts here
-__all__ = ["AABBoxCollider", "AudioClip", "AudioListener", "AudioSource",
-           "Behaviour", "Canvas", "Clock", "CollManager", "Collider",
-           "Color", "Component", "ComponentException", "File",
-           "GameObject", "GameObjectException", "HSV", "Image2D",
-           "Infinity", "Input", "KeyCode", "KeyState", "Light",
-           "Loader", "Logger", "Material", "Mesh", "MeshRenderer",
-           "MouseCode", "PhysicMaterial", "Prefab", "Primitives",
-           "Project", "PyUnityException", "Quaternion", "RGB",
-           "RectAnchors", "RectData", "RectOffset", "RectTransform",
-           "Rigidbody", "SceneManager", "Screen", "ShowInInspector",
-           "SphereCollider", "Tag", "Texture2D", "Transform",
-           "Vector2", "Vector3", "Window"]
-# __all__ ends here
+import audio, core, gui, input, physics, errors, files, values
+__all__ = ["Logger", "Loader", "Window", "Primitives", "Screen", "SceneManager", "Mesh"]
+__all__.extend(audio.__all__)
+__all__.extend(core.__all__)
+__all__.extend(gui.__all__)
+__all__.extend(input.__all__)
+__all__.extend(physics.__all__)
+__all__.extend(errors.__all__)
+__all__.extend(files.__all__)
+__all__.extend(values.__all__)
 
 import os
 from . import logger as Logger  # lgtm[py/import-own-module]
