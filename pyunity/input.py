@@ -243,7 +243,8 @@ class Input:
         if cls._mouse_last is None:
             diff = new
         else:
-            diff = new = cls._mouse_last
+            diff = new - cls._mouse_last
+        cls._mouse_last = new
         cls._axes["MouseX"] = diff.x
         cls._axes["MouseY"] = diff.y
 
