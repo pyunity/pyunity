@@ -11,7 +11,7 @@ __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
 import warnings
 import os
-from . import config, logger as Logger
+from . import config, Logger
 from .core import Component, ShowInInspector
 
 with warnings.catch_warnings():
