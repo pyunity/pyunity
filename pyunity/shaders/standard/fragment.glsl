@@ -11,7 +11,7 @@ uniform vec3 lightColor;
 uniform sampler2D aTexture;
 uniform int textured = 0;
 uniform int lighting = 1;
-uniform float lightDistance = 1f;
+uniform float lightDistance = 1;
 
 void main() {
     float ambientStrength = 0.1;
