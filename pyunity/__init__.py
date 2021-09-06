@@ -146,7 +146,7 @@ create a new pull request.
 
 """
 
-import audio, core, gui, input, physics, errors, files, values
+from . import audio, core, gui, input, physics, errors, files, values
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen", "SceneManager", "Mesh"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
