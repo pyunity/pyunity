@@ -2,29 +2,29 @@ import os
 import glob
 import shutil
 import pkgutil
-from unittest.mock import Mock
-import sys
 import autopep8
-from types import ModuleType
-sys.modules["sdl2"] = Mock()
-sys.modules["sdl2.sdlmixer"] = Mock()
-sys.modules["sdl2.ext"] = Mock()
-sys.modules["sdl2.video"] = Mock()
-sys.modules["glfw"] = Mock()
-sys.modules["OpenGL"] = Mock()
-sys.modules["OpenGL.GL"] = Mock()
-sys.modules["OpenGL.GLU"] = Mock()
-sys.modules["OpenGL.GLUT"] = Mock()
-os.environ["PYUNITY_TESTING"] = "1"
+# import sys
+# from unittest.mock import Mock
+# from types import ModuleType
+# sys.modules["sdl2"] = Mock()
+# sys.modules["sdl2.sdlmixer"] = Mock()
+# sys.modules["sdl2.ext"] = Mock()
+# sys.modules["sdl2.video"] = Mock()
+# sys.modules["glfw"] = Mock()
+# sys.modules["OpenGL"] = Mock()
+# sys.modules["OpenGL.GL"] = Mock()
+# sys.modules["OpenGL.GLU"] = Mock()
+# sys.modules["OpenGL.GLUT"] = Mock()
+# os.environ["PYUNITY_TESTING"] = "1"
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-import pyunity
+# import pyunity
 
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
                     "Install using \"pip install autopep8\".")
-autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302",
+autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E401,E402",
               "pyunity", "setup.py", "cli.py"])
 
 # items = []
