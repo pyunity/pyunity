@@ -105,7 +105,25 @@ class KeyboardAxis:
         self.value = clamp(self.value, -1, 1)
         return self.value
 
-class Input:
+class ImmutableStruct(type):
+    def __init__(self, name, bases, attrs):
+        super(ImmutableStruct, self).__init__(name, bases, attrs)
+
+    def __setattr__(self, name, value):
+        if name in self._names:
+            raise PyUnityException("Property " + repr(name) + " is read-only")
+        super().__setattr__(name, value)
+    
+    def __delattr__(self, name):
+        if name in self._names:
+            raise PyUnityException("Property " + repr(name) + " is read-only")
+        super().__delattr__(name)
+    
+    def _set(self, name, value):
+        super().__setattr__(name, value)
+
+class Input(metaclass=ImmutableStruct):
+    _names = ["mousePosition"]
     @classmethod
     def GetKey(cls, keycode):
         """
@@ -237,7 +255,7 @@ class Input:
 
     @classmethod
     def UpdateAxes(cls, dt):
-        cls.mousePosition = Vector3(*SceneManager.windowObject.get_mouse_pos(), 0)
+        cls._set("mousePosition", Vector3(*SceneManager.windowObject.get_mouse_pos(), 0))
 
         new = cls.mousePosition
         if cls._mouse_last is None:
