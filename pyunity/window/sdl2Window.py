@@ -6,6 +6,7 @@ from .. import config
 import sdl2
 import sdl2.ext
 import sdl2.video
+import ctypes
 
 class Window:
     """
@@ -115,7 +116,11 @@ class Window:
         return False
     
     def get_mouse_pos(self):
-        return sdl2.SDL_GetGlobalMouseState()
+        a = ctypes.c_long()
+        b = ctypes.c_long()
+        sdl2.SDL_GetMouseState(a, b)
+        print(a.value, b.value)
+        return (a.value, b.value)
 
 keyMap = {
     KeyCode.A: sdl2.SDL_SCANCODE_A,
