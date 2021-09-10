@@ -119,7 +119,6 @@ class Window:
         a = ctypes.c_long()
         b = ctypes.c_long()
         sdl2.SDL_GetMouseState(a, b)
-        print(a.value, b.value)
         return (a.value, b.value)
 
 keyMap = {
