@@ -43,6 +43,7 @@ def checkModule(name):
         raise PyUnityException
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    sys.modules[name] = module
     return module
 
 def glfwCheck():
@@ -50,8 +51,8 @@ def glfwCheck():
     glfw = checkModule("glfw")
     if not glfw.init():
         raise PyUnityException
-    glfw.create_window(5, 5, "test", None, None)
-    glfw.terminate()
+    window = glfw.create_window(5, 5, "test", None, None)
+    glfw.destroy_window(window)
 
 def sdl2Check():
     """Checks to see if PySDL2 works"""
