@@ -334,7 +334,6 @@ class ObjectInfo:
     def __getattr__(self, attr):
         return self.attrs[attr]
 
-
 components = {
     "Transform": Transform,
     "Camera": Camera,

@@ -24,7 +24,7 @@ if "cython" not in os.environ:
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
                     "Install using \"pip install autopep8\".")
-autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E401,E402",
+autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E305,E401,E402",
               "pyunity", "setup.py", "cli.py"])
 
 # items = []

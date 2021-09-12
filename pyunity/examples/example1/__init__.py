@@ -21,6 +21,5 @@ def main():
     scene.List()
     SceneManager.LoadScene(scene)
 
-
 if __name__ == "__main__":
     main()

@@ -10,7 +10,8 @@ class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
     speed = ShowInInspector(float, 200)
     def Update(self, dt):
-        movement = Vector2(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"))
+        movement = Vector2(Input.GetAxis("Horizontal"), -
+                           Input.GetAxis("Vertical"))
         self.rectTransform.offset.Move(movement * dt * self.speed)
 
 def main():
@@ -27,7 +28,6 @@ def main():
     scene.Add(imgObject)
 
     SceneManager.LoadScene(scene)
-
 
 if __name__ == "__main__":
     main()

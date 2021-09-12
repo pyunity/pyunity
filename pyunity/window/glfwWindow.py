@@ -56,7 +56,7 @@ class Window:
             self.keys[key] = KeyState.PRESS
         else:
             self.keys[key] = KeyState.DOWN
-    
+
     def mouse_callback(self, window, button, action, mods):
         if action == glfw.PRESS:
             if self.mouse[button] == KeyState.NONE:
@@ -65,7 +65,7 @@ class Window:
                 self.mouse[button] = KeyState.PRESS
         elif action == glfw.RELEASE:
             self.mouse[button] = KeyState.UP
-    
+
     def get_mouse(self, mousecode, keystate):
         mouse = mouseMap[mousecode]
         if keystate == KeyState.PRESS:
@@ -97,7 +97,7 @@ class Window:
         if self.keys[key] == keystate:
             return True
         return False
-    
+
     def get_mouse_pos(self):
         return glfw.get_cursor_pos(self.window)
 
@@ -134,7 +134,6 @@ class Window:
             clock.Maintain()
 
         self.quit()
-
 
 keyMap = {
     KeyCode.A: glfw.KEY_A,

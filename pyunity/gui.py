@@ -1,4 +1,5 @@
-__all__ = ["Canvas", "RectData", "RectAnchors", "RectOffset", "RectTransform", "Image2D"]
+__all__ = ["Canvas", "RectData", "RectAnchors",
+           "RectOffset", "RectTransform", "Image2D"]
 
 from .values import Vector2
 from .core import Component, ShowInInspector
@@ -22,7 +23,7 @@ class RectData:
         else:
             self.min = min_or_both.copy()
             self.max = max.copy()
-    
+
     def __repr__(self):
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
 
@@ -30,7 +31,7 @@ class RectAnchors(RectData):
     def SetPoint(self, p):
         self.min = p.copy()
         self.max = p.copy()
-    
+
     def RelativeTo(self, other):
         if other.max == other.min:
             parentSize = Vector2.one()
@@ -44,11 +45,11 @@ class RectOffset(RectData):
     @staticmethod
     def Square(size, center=Vector2.zero()):
         return RectOffset(center - size / 2, center + size / 2)
-    
+
     def Move(self, pos):
         self.min += pos
         self.max += pos
-    
+
     def SetCenter(self, pos):
         size = self.max - self.min
         self.min = pos - size / 2

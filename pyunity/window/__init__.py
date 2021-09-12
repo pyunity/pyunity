@@ -66,7 +66,6 @@ def glutCheck():
     import OpenGL.GLUT
     OpenGL.GLUT.glutInit()
 
-
 providers = {
     "GLFW": ("glfwWindow", glfwCheck),
     "PySDL2": ("sdl2Window", sdl2Check),
@@ -92,7 +91,7 @@ def GetWindowProvider():
         for specified in reversed(env):
             if specified not in providers:
                 Logger.LogLine(Logger.DEBUG, "PYUNITY_WINDOW_PROVIDER environment variable contains",
-                    specified, "but there is no window provider called that")
+                               specified, "but there is no window provider called that")
                 continue
             for item in winfo:
                 if item[0] == specified:

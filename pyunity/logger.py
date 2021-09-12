@@ -55,7 +55,6 @@ class Level:
         self.abbr = abbr
         self.name = name
 
-
 OUTPUT = Level("O", "")
 INFO = Level("I", None)
 DEBUG = Level("D", "")
@@ -72,7 +71,6 @@ class Special:
 
     def __init__(self, func):
         self.func = func
-
 
 RUNNING_TIME = Special(lambda: "Time taken: " + str(time() - start))
 
