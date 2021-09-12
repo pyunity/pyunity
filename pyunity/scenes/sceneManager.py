@@ -246,6 +246,8 @@ def __loadScene(scene):
         try:
             windowObject = config.windowProvider.Window(
                 scene.name, scene.mainCamera.Resize)
+            render.compile_shaders()
+            scene.mainCamera.skybox.compile()
         except Exception as e:
             if "window_provider" in settings.db:
                 Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
@@ -258,8 +260,6 @@ def __loadScene(scene):
             Logger.LogException(e)
             exit()
 
-        render.compile_shaders()
-        scene.mainCamera.skybox.compile()
         scene.Start()
         try:
             windowObject.start(scene.update)

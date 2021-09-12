@@ -48,7 +48,6 @@ def checkModule(name):
 def glfwCheck():
     """Checks to see if GLFW works"""
     glfw = checkModule("glfw")
-    print(dir(glfw))
     if not glfw.init():
         raise PyUnityException
     glfw.create_window(5, 5, "test", None, None)
@@ -74,13 +73,20 @@ providers = {
 
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
-    if "window_provider" in settings.db and os.getenv("PYUNITY_WINDOW_PROVIDER") is None:
-        if "window_cache" in settings.db:
-            del settings.db["window_cache"]
-        Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
-        windowProvider = settings.db["window_provider"]
-        Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
-        return importlib.import_module("." + providers[windowProvider][0], __name__)
+    if "window_provider" in settings.db:
+        env = os.getenv("PYUNITY_WINDOW_PROVIDER")
+        if env is not None:
+            env = env.split(",")
+            use = env[0] == settings.db["window_provider"]
+        else:
+            use = False
+        if use:
+            if "window_cache" in settings.db:
+                del settings.db["window_cache"]
+            Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
+            windowProvider = settings.db["window_provider"]
+            Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
+            return importlib.import_module("." + providers[windowProvider][0], __name__)
 
     windowProvider = ""
     i = 0
@@ -90,7 +96,7 @@ def GetWindowProvider():
         env = env.split(",")
         for specified in reversed(env):
             if specified not in providers:
-                Logger.LogLine(Logger.DEBUG, "PYUNITY_WINDOW_PROVIDER environment variable contains",
+                Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
                                specified, "but there is no window provider called that")
                 continue
             for item in winfo:
