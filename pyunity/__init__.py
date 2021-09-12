@@ -148,7 +148,8 @@ create a new pull request.
 
 from . import logger as Logger  # lgtm[py/import-own-module]
 from . import audio, core, gui, input, physics, errors, files, values
-__all__ = ["Logger", "Loader", "Window", "Primitives", "Screen", "SceneManager", "Mesh"]
+__all__ = ["Logger", "Loader", "Window",
+           "Primitives", "Screen", "SceneManager", "Mesh"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(gui.__all__)

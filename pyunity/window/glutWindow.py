@@ -50,9 +50,9 @@ class Window:
 
     def quit(self):
         glut.glutDestroyWindow(glut.glutGetWindow())
-    
+
     def get_key(self, keycode, keystate):
         return False
-    
+
     def get_mouse(self, mousecode, keystate):
         return False

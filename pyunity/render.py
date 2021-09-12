@@ -159,7 +159,6 @@ class Shader:
             self.compile()
         gl.glUseProgram(self.program)
 
-
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
@@ -230,7 +229,7 @@ class Camera(SingleComponent):
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
-    
+
     @property
     def fov(self):
         return self._fov
@@ -305,7 +304,7 @@ class Camera(SingleComponent):
             # self.viewMat = glm.lookAt(list(pos), list(look), list(up))
 
             self.viewMat = glm.translate(glm.mat4_cast(glm.quat(*self.transform.rotation)),
-                list(self.transform.position * Vector3(-1, -1, 1)))
+                                         list(self.transform.position * Vector3(-1, -1, 1)))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
             self.renderPass = False

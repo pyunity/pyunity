@@ -55,7 +55,6 @@ from .meshes import Mesh
 from .values import *
 from . import Logger
 
-
 class Tag:
     """
     Class to group GameObjects together without referencing the tags.

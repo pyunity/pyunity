@@ -11,7 +11,6 @@ import glm
 import operator
 
 def clamp(x, _min, _max): return min(_max, max(_min, x))
-
 """Clamp a value between a minimum and a maximum"""
 
 class Vector2:

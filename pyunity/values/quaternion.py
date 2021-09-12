@@ -74,11 +74,11 @@ class Quaternion:
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
-    
+
     def __sub__(self, other):
         if isinstance(other, Quaternion):
             return QuaternionDiff(*(self * other.conjugate))
-    
+
     def abs_diff(self, other):
         return abs(other - self)
 
@@ -154,7 +154,7 @@ class Quaternion:
                 return Quaternion.FromAxis(180, Vector3.up())
         angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
         q = Quaternion.FromAxis(glm.degrees(angle), a)
-        ## Remove z component (camera.up is Vector3.up())
+        # Remove z component (camera.up is Vector3.up())
         # q2 = Quaternion.Euler(q.eulerAngles * Vector3(1, 1, 0))
         return q.normalized()
 
@@ -215,12 +215,12 @@ class Quaternion:
         p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
         if glm.cos(p) != 0:
             h = -glm.atan2(2 * self.x * self.z - 2 * self.w *
-                          self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
+                           self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
             b = -glm.atan2(self.x * self.y - self.w * self.z,
-                          1 / 2 - self.x ** 2 - self.z ** 2)
+                           1 / 2 - self.x ** 2 - self.z ** 2)
         else:
             h = -glm.atan2(-self.x * self.z - self.w * self.y,
-                          1 / 2 - self.y ** 2 - self.z ** 2)
+                           1 / 2 - self.y ** 2 - self.z ** 2)
             b = 0
 
         return Vector3(glm.degrees(p), glm.degrees(h), glm.degrees(b))
@@ -240,6 +240,6 @@ class QuaternionDiff:
         self.x = x
         self.y = y
         self.z = z
-    
+
     def __abs__(self):
         return abs(2 * glm.degrees(glm.acos(self.w)))

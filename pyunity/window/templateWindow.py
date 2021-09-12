@@ -39,7 +39,6 @@ class Window:
 
         self.quit()
 
-
 keyMap = {
     KeyCode.A: "A",
     KeyCode.B: "B",

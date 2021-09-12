@@ -113,12 +113,12 @@ class ImmutableStruct(type):
         if name in self._names:
             raise PyUnityException("Property " + repr(name) + " is read-only")
         super().__setattr__(name, value)
-    
+
     def __delattr__(self, name):
         if name in self._names:
             raise PyUnityException("Property " + repr(name) + " is read-only")
         super().__delattr__(name)
-    
+
     def _set(self, name, value):
         super().__setattr__(name, value)
 
@@ -231,17 +231,17 @@ class Input(metaclass=ImmutableStruct):
 
         """
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
-    
+
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
     _axis_objects = [
         KeyboardAxis("Horizontal", 3,
-            [KeyCode.D, KeyCode.Right],
-            [KeyCode.A, KeyCode.Left]
-        ),
+                     [KeyCode.D, KeyCode.Right],
+                     [KeyCode.A, KeyCode.Left]
+                     ),
         KeyboardAxis("Vertical", 3,
-            [KeyCode.W, KeyCode.Up],
-            [KeyCode.S, KeyCode.Down]
-        ),
+                     [KeyCode.W, KeyCode.Up],
+                     [KeyCode.S, KeyCode.Down]
+                     ),
     ]
 
     @classmethod
@@ -249,13 +249,14 @@ class Input(metaclass=ImmutableStruct):
         if axis not in cls._axes:
             raise PyUnityException(repr(axis) + " is not a valid axis")
         return cls._axes[axis]
-    
+
     mousePosition = None
     _mouse_last = None
 
     @classmethod
     def UpdateAxes(cls, dt):
-        cls._set("mousePosition", Vector3(*SceneManager.windowObject.get_mouse_pos(), 0))
+        cls._set("mousePosition", Vector3(
+            *SceneManager.windowObject.get_mouse_pos(), 0))
 
         new = cls.mousePosition
         if cls._mouse_last is None:

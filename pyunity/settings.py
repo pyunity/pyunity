@@ -11,10 +11,10 @@ class LiveDict:
             else:
                 self.d[name] = value
         self.parent = parent
-    
+
     def __getitem__(self, item):
         return self.d[str(item)]
-    
+
     def __setitem__(self, item, value):
         if isinstance(value, dict):
             value = LiveDict(value)
@@ -26,17 +26,17 @@ class LiveDict:
     def __delitem__(self, item):
         self.d.pop(item)
         self.update()
-    
+
     def __contains__(self, item):
         return str(item) in self.d
 
     def __iter__(self):
         return iter(self.d)
-    
+
     def update(self):
         if self.parent is not None:
             self.parent.update()
-    
+
     def todict(self):
         d = {}
         for name, value in self.d.items():
@@ -45,16 +45,16 @@ class LiveDict:
             else:
                 d[name] = value
         return d
-    
+
     def keys(self):
         return self.todict().keys()
-    
+
     def values(self):
         return self.todict().values()
-    
+
     def items(self):
         return self.todict().items()
-    
+
     def pop(self, item):
         if item in self:
             val = self[item]
@@ -67,11 +67,11 @@ class Database(LiveDict):
     def __init__(self, path):
         super(Database, self).__init__(json.loads(open(path).read()))
         self.path = path
-    
+
     def update(self):
         with open(self.path, "w+") as f:
             f.write(json.dumps(self.todict()))
-    
+
     def refresh(self):
         with open(self.path, "w+") as f:
             f.write(json.dumps(self.todict()))

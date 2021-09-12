@@ -114,7 +114,7 @@ class Window:
         if self.mouse[mouse] == keystate:
             return True
         return False
-    
+
     def get_mouse_pos(self):
         a = ctypes.c_long()
         b = ctypes.c_long()
