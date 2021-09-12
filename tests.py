@@ -188,7 +188,6 @@ class TestVector3(unittest.TestCase):
         v = Vector3(2, -3, 4)
         self.assertEqual(-v, Vector3(-2, 3, -4))
         self.assertEqual(+v, Vector3(2, -3, 4))
-        self.assertEqual(abs(v), Vector3(2, 3, 4))
         self.assertEqual(~v, Vector3(-3, 2, -5))
 
     def test_util_funcs(self):
@@ -213,6 +212,14 @@ class TestQuaternion(unittest.TestCase):
         self.assertAlmostEqual(q, Quaternion(self.sqrt2, 0, self.sqrt2, 0))
         q.eulerAngles = Vector3(180, 0, 0)
         self.assertAlmostEqual(q, Quaternion(0, 1, 0, 0))
+
+    def test_fromdir(self):
+        q = Quaternion.FromDir(Vector3(0, 0, 1))
+        self.assertEqual(q, Quaternion.identity())
+        q = Quaternion.FromDir(Vector3(0, 0, -1))
+        self.assertAlmostEqual(q, Quaternion(0, 0, 1, 0))
+        q = Quaternion.FromDir(Vector3(0, 0, 0))
+        self.assertEqual(q, Quaternion.identity())
 
 if __name__ == "__main__":
     unittest.main()

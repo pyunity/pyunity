@@ -148,7 +148,7 @@ class Quaternion:
     def Between(v1, v2):
         a = v1.cross(v2)
         if a.dot(a) == 0:
-            if v1 == v2:
+            if v1 == v2 or v1.dot(v1) == 0 or v2.dot(v2) == 0:
                 return Quaternion.identity()
             else:
                 return Quaternion.FromAxis(180, Vector3.up())
@@ -214,12 +214,12 @@ class Quaternion:
         """Gets or sets the Euler Angles of the quaternion"""
         p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
         if glm.cos(p) != 0:
-            h = -glm.atan(2 * self.x * self.z - 2 * self.w *
+            h = -glm.atan2(2 * self.x * self.z - 2 * self.w *
                           self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
-            b = -glm.atan(self.x * self.y - self.w * self.z,
+            b = -glm.atan2(self.x * self.y - self.w * self.z,
                           1 / 2 - self.x ** 2 - self.z ** 2)
         else:
-            h = -glm.atan(-self.x * self.z - self.w * self.y,
+            h = -glm.atan2(-self.x * self.z - self.w * self.y,
                           1 / 2 - self.y ** 2 - self.z ** 2)
             b = 0
 
