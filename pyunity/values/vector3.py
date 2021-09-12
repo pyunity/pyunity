@@ -185,7 +185,7 @@ class Vector3:
         return Vector3(operator.pos(self.x), operator.pos(self.y), operator.pos(self.z))
 
     def __abs__(self):
-        return Vector3(abs(self.x), abs(self.y), abs(self.z))
+        return self.length
 
     def __round__(self, other):
         return self._r_o2(other, round)
