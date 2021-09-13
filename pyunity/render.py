@@ -6,7 +6,7 @@ from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
 from .gui import Image2D, RectTransform
-from .values import Color, RGB, Vector3, Vector2, Quaternion
+from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, MeshRenderer
 from .files import Skybox
@@ -264,7 +264,7 @@ class Camera(SingleComponent):
             self.size.x / self.size.y,
             self.near,
             self.far)
-        Screen._set(width, height)
+        Screen._edit(width, height)
 
     def getMatrix(self, transform):
         rotation = transform.rotation.angleAxisPair
@@ -361,15 +361,16 @@ class Camera(SingleComponent):
                 renderer.texture.use()
                 gl.glDrawArrays(gl.GL_QUADS, 0, 4)
 
-class Screen:
+class Screen(metaclass=ImmutableStruct):
+    _names = ["width", "height", "size", "aspect"]
     width = config.size[0]
     height = config.size[1]
     size = Vector2(config.size)
     aspect = config.size[0] / config.size[1]
 
     @classmethod
-    def _set(cls, width, height):
-        cls.width = width
-        cls.height = height
-        cls.size = Vector2(width, height)
-        cls.aspect = width / height
+    def _edit(cls, width, height):
+        cls._set("width", width)
+        cls._set("height", height)
+        cls._set("size", Vector2(width, height))
+        cls._set("aspect", width / height)
