@@ -23,6 +23,8 @@ import uuid
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
 
+disallowed_chars = set(":*/\"\\?<>|")
+
 class Scene:
     """
     Class to hold all of the GameObjects, and to run the whole
@@ -115,7 +117,7 @@ class Scene:
                 self.gameObjects.remove(gameObject)
                 if self.mainCamera is not None and gameObject is self.mainCamera.gameObject:
                     Logger.LogLine(
-                        Logger.WARN, "Removing Main Camera from scene \"" + self.name + "\"")
+                        Logger.WARN, "Removing Main Camera from scene " + repr(self.name))
                     self.mainCamera = None
 
         for gameObject in self.gameObjects:
@@ -373,7 +375,7 @@ class Scene:
 
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
-        Logger.LogLine(Logger.DEBUG, "Scene \"" + self.name + "\" has started")
+        Logger.LogLine(Logger.DEBUG, "Scene " + repr(self.name) + " has started")
 
     def update_scripts(self):
         """Updates all scripts in the scene."""

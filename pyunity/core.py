@@ -466,7 +466,7 @@ class Transform(SingleComponent):
     def position(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set position to object of type \"" + type(value).__name__)
+                "Cannot set position to object of type " + repr(type(value).__name__))
 
         if self.parent is None:
             self.localPosition = value
@@ -486,7 +486,7 @@ class Transform(SingleComponent):
     def rotation(self, value):
         if not isinstance(value, Quaternion):
             raise PyUnityException(
-                "Cannot set rotation to object of type \"" + type(value).__name__)
+                "Cannot set rotation to object of type " + repr(type(value).__name__))
 
         self.localRotation = value if self.parent is None else value * \
             self.parent.rotation.conjugate
@@ -529,7 +529,7 @@ class Transform(SingleComponent):
     def scale(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set scale to object of type \"" + type(value).__name__)
+                "Cannot set scale to object of type " + repr(type(value).__name__))
         if self.parent is None or not bool(self.parent.scale):
             self.localScale = value
         else:
@@ -613,7 +613,7 @@ class Transform(SingleComponent):
 
         """
         return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
-            " scale=" + str(self.scale) + " path=\"" + self.FullPath() + "\">"
+            " scale=" + str(self.scale) + " path=" + repr(self.FullPath()) + ">"
 
     __str__ = __repr__
 

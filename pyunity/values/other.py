@@ -1,7 +1,8 @@
-__all__ = ["Clock"]
+__all__ = ["Clock", "ImmutableStruct"]
 
 import time
 import sys
+from ..errors import PyUnityException
 
 class Clock:
     def __init__(self):
@@ -32,3 +33,20 @@ class Clock:
         time.sleep(sleep)
         self._start = time.time()
         return sleep
+
+class ImmutableStruct(type):
+    def __init__(self, name, bases, attrs):
+        super(ImmutableStruct, self).__init__(name, bases, attrs)
+
+    def __setattr__(self, name, value):
+        if name in self._names:
+            raise PyUnityException("Property " + repr(name) + " is read-only")
+        super().__setattr__(name, value)
+
+    def __delattr__(self, name):
+        if name in self._names:
+            raise PyUnityException("Property " + repr(name) + " is read-only")
+        super().__delattr__(name)
+
+    def _set(self, name, value):
+        super().__setattr__(name, value)

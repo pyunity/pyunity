@@ -1,7 +1,7 @@
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input"]
 
 from enum import IntEnum, auto
-from .values import clamp
+from .values import clamp, ImmutableStruct
 from .errors import PyUnityException
 from .scenes import SceneManager
 from .values import Vector3
@@ -104,23 +104,6 @@ class KeyboardAxis:
         self.value += clamp(change, -1, 1) * dt * self.speed
         self.value = clamp(self.value, -1, 1)
         return self.value
-
-class ImmutableStruct(type):
-    def __init__(self, name, bases, attrs):
-        super(ImmutableStruct, self).__init__(name, bases, attrs)
-
-    def __setattr__(self, name, value):
-        if name in self._names:
-            raise PyUnityException("Property " + repr(name) + " is read-only")
-        super().__setattr__(name, value)
-
-    def __delattr__(self, name):
-        if name in self._names:
-            raise PyUnityException("Property " + repr(name) + " is read-only")
-        super().__delattr__(name)
-
-    def _set(self, name, value):
-        super().__setattr__(name, value)
 
 class Input(metaclass=ImmutableStruct):
     _names = ["mousePosition"]
