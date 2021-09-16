@@ -4,23 +4,28 @@ __all__ = ["Canvas", "RectData", "RectAnchors",
 from .values import Vector2
 from .core import Component, GameObject, ShowInInspector
 from .files import Texture2D
+from .input import Input, MouseCode, KeyState
+from types import FunctionType
 import os
 
 class Canvas(Component):
     def Update(self, updated):
-        from .input import Input, MouseCode
         for descendant in self.transform.GetDescendants():
             if descendant in updated:
                 continue
             updated.append(descendant)
             button = descendant.GetComponent(Button)
             if button is not None:
-                if Input.GetMouseDown(MouseCode.Left):
-                    rectTransform = descendant.GetComponent(RectTransform)
-                    rect = rectTransform.GetRect() + rectTransform.offset
-                    pos = Vector2(Input.mousePosition)
-                    if rect.min < pos < rect.max:
+                button.pressed = Input.GetMouse(button.mouseButton)
+                rectTransform = descendant.GetComponent(RectTransform)
+                rect = rectTransform.GetRect() + rectTransform.offset
+                pos = Vector2(Input.mousePosition)
+                if rect.min < pos < rect.max:
+                    button.pressed = True
+                    if Input.GetMouseState(button.mouseButton, button.state):
                         button.callback()
+                else:
+                    button.pressed = False
 
 class RectData:
     def __init__(self, min_or_both=None, max=None):
@@ -116,7 +121,10 @@ class Image2D(Component):
         self.rectTransform = self.GetComponent(RectTransform)
 
 class Button(Component):
-    pass
+    callback = ShowInInspector(FunctionType, lambda: None)
+    state = ShowInInspector(KeyState, KeyState.UP)
+    mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
+    pressed = ShowInInspector(bool, False)
 
 buttonDefault = Texture2D(os.path.join(os.path.abspath(
     os.path.dirname(__file__)), "shaders", "gui", "button.png"))

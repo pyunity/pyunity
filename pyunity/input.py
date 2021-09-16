@@ -162,6 +162,26 @@ class Input(metaclass=ImmutableStruct):
         return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
 
     @classmethod
+    def GetKeyState(cls, keycode, keystate):
+        """
+        Check key state at moment of function call
+
+        Parameters
+        ----------
+        keycode : KeyCode
+            Key to query
+        keystate : KeyState
+            Keystate, either KeyState.PRESS, KeyState.UP or KeyState.DOWN
+
+        Returns
+        -------
+        boolean
+            If the key state matches
+
+        """
+        return SceneManager.windowObject.get_key(keycode, keystate)
+
+    @classmethod
     def GetMouse(cls, mousecode):
         """
         Check if mouse button is pressed at moment of function call
@@ -214,6 +234,26 @@ class Input(metaclass=ImmutableStruct):
 
         """
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
+
+    @classmethod
+    def GetMouseState(cls, mousecode, mousestate):
+        """
+        Check for mouse button state at moment of function call
+
+        Parameters
+        ----------
+        mousecode : MouseCode
+            Key to query
+        mousestate : KeyState
+            Keystate, either KeyState.PRESS, KeyState.UP or KeyState.DOWN
+
+        Returns
+        -------
+        boolean
+            If the mouse button state matches
+
+        """
+        return SceneManager.windowObject.get_mouse(mousecode, mousestate)
 
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
     _axis_objects = [
