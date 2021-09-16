@@ -15,6 +15,7 @@ from ..values import Vector3
 from .. import config, physics, logger as Logger, render
 from ..errors import *
 from ..values import Clock
+from ..gui import Canvas
 from time import time
 import os
 import math
@@ -370,6 +371,9 @@ class Scene:
             gl.glEnable(gl.GL_DEPTH_TEST)
             if config.faceCulling:
                 gl.glEnable(gl.GL_CULL_FACE)
+            gl.glEnable(gl.GL_BLEND)
+            gl.glBlendFunc(gl.GL_SRC_ALPHA,
+                gl.GL_ONE_MINUS_SRC_ALPHA)
 
         self.start_scripts()
 
@@ -383,6 +387,7 @@ class Scene:
         dt = max(time() - self.lastFrame, 0.001)
         Input.UpdateAxes(dt)
 
+        canvasUpdated = []
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
@@ -391,6 +396,8 @@ class Scene:
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
                             component.Play()
+                elif isinstance(component, Canvas):
+                    component.Update(canvasUpdated)
 
         if self.physics:
             for i in range(self.collManager.steps):
@@ -430,7 +437,8 @@ class Scene:
             return
 
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(self.gameObjects, self.lights)
+        self.mainCamera.Render(self.FindComponentsByType(MeshRenderer), self.lights)
+        self.mainCamera.Render2D(self.FindComponentsByType(Canvas))
 
     def clean_up(self):
         if self.audioListener is not None:

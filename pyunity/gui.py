@@ -1,16 +1,26 @@
 __all__ = ["Canvas", "RectData", "RectAnchors",
-           "RectOffset", "RectTransform", "Image2D"]
+           "RectOffset", "RectTransform", "Image2D", "Gui"]
 
 from .values import Vector2
-from .core import Component, ShowInInspector
+from .core import Component, GameObject, ShowInInspector
 from .files import Texture2D
+import os
 
 class Canvas(Component):
-    def Render(self):
+    def Update(self, updated):
+        from .input import Input, MouseCode
         for descendant in self.transform.GetDescendants():
-            renderer = descendant.GetComponent(Image2D)
-            if renderer is not None:
-                renderer.Render()
+            if descendant in updated:
+                continue
+            updated.append(descendant)
+            button = descendant.GetComponent(Button)
+            if button is not None:
+                if Input.GetMouseDown(MouseCode.Left):
+                    rectTransform = descendant.GetComponent(RectTransform)
+                    rect = rectTransform.GetRect() + rectTransform.offset
+                    pos = Vector2(Input.mousePosition)
+                    if rect.min < pos < rect.max:
+                        button.callback()
 
 class RectData:
     def __init__(self, min_or_both=None, max=None):
@@ -18,14 +28,36 @@ class RectData:
             self.min = Vector2.zero()
             self.max = Vector2.zero()
         elif max is None:
-            self.min = min_or_both.copy()
-            self.min = min_or_both.copy()
+            if isinstance(min_or_both, RectData):
+                self.min = min_or_both.min.copy()
+                self.max = min_or_both.max.copy()
+            else:
+                self.min = min_or_both.copy()
+                self.min = min_or_both.copy()
         else:
             self.min = min_or_both.copy()
             self.max = max.copy()
 
     def __repr__(self):
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
+    
+    def __add__(self, other):
+        if isinstance(other, RectData):
+            return RectData(self.min + other.min, self.max + other.max)
+        else:
+            return RectData(self.min + other, self.max + other)
+    
+    def __sub__(self, other):
+        if isinstance(other, RectData):
+            return RectData(self.min - other.min, self.max - other.max)
+        else:
+            return RectData(self.min - other, self.max - other)
+    
+    def __mul__(self, other):
+        if isinstance(other, RectData):
+            return RectData(self.min * other.min, self.max * other.max)
+        else:
+            return RectData(self.min * other, self.max * other)
 
 class RectAnchors(RectData):
     def SetPoint(self, p):
@@ -33,12 +65,9 @@ class RectAnchors(RectData):
         self.max = p.copy()
 
     def RelativeTo(self, other):
-        if other.max == other.min:
-            parentSize = Vector2.one()
-        else:
-            parentSize = other.max - other.min
-        absAnchorMin = other.min + (self.anchors.min * parentSize)
-        absAnchorMax = other.max - (self.anchors.max * parentSize)
+        parentSize = other.max - other.min
+        absAnchorMin = other.min + (self.min * parentSize)
+        absAnchorMax = other.min + (self.max * parentSize)
         return RectData(absAnchorMin, absAnchorMax)
 
 class RectOffset(RectData):
@@ -72,13 +101,42 @@ class RectTransform(Component):
             self.parent = self.transform.parent.GetComponent(RectTransform)
 
     def GetRect(self):
+        from .render import Screen
         if self.parent is None:
-            return self.anchors
+            return self.anchors * Screen.size
         else:
-            return self.anchors.RelativeTo(self.parent.anchors)
+            parentRect = self.parent.GetRect() + self.parent.offset
+            rect = self.anchors.RelativeTo(parentRect)
+            return rect
 
 class Image2D(Component):
     texture = ShowInInspector(Texture2D)
     def __init__(self, transform):
         super(Image2D, self).__init__(transform)
         self.rectTransform = self.GetComponent(RectTransform)
+
+class Button(Component):
+    pass
+
+buttonDefault = Texture2D(os.path.join(os.path.abspath(
+    os.path.dirname(__file__)), "shaders", "gui", "button.png"))
+
+class Gui:
+    @classmethod
+    def MakeButton(cls, name, scene, texture2d=None):
+        if texture2d is None:
+            texture2d = buttonDefault
+        
+        button = GameObject(name)
+        transform = button.AddComponent(RectTransform)
+
+        texture = GameObject("Button", button)
+        transform2 = texture.AddComponent(RectTransform)
+        transform2.anchors = RectAnchors(Vector2.zero(), Vector2.one())
+        img = texture.AddComponent(Image2D)
+        img.texture = texture2d
+        buttonComponent = button.AddComponent(Button)
+
+        scene.Add(button)
+        scene.Add(texture)
+        return transform, buttonComponent

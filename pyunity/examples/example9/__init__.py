@@ -15,7 +15,11 @@ class Mover2D(Behaviour):
 
 def main():
     scene = SceneManager.AddScene("Scene")
-    imgObject = GameObject("Image")
+    canvas = GameObject("Canvas")
+    canvas.AddComponent(Canvas)
+    scene.Add(canvas)
+
+    imgObject = GameObject("Image", canvas)
     rectTransform = imgObject.AddComponent(RectTransform)
     rectTransform.offset = RectOffset.Square(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
@@ -24,6 +28,11 @@ def main():
     img.texture = Texture2D(os.path.join(os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))), "example8", "logo.png"))
     scene.Add(imgObject)
+
+    rect, button = Gui.MakeButton("Button", scene)
+    rect.transform.ReparentTo(canvas.transform)
+    rect.offset = RectOffset(Vector2(100, 70), Vector2(250, 100))
+    button.callback = lambda: print("Clicked")
 
     SceneManager.LoadScene(scene)
 
