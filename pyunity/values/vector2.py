@@ -52,18 +52,6 @@ class Vector2:
     def __len__(self):
         return 2
 
-    def __eq__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 2:
-            return self.x == other[0] and self.y == other[1]
-        else:
-            return False
-
-    def __ne__(self, other):
-        if hasattr(other, "__getitem__") and len(other) == 2:
-            return self.x != other[0] or self.y != other[1]
-        else:
-            return True
-
     def __bool__(self):
         return self.x != 0 or self.y != 0
 
@@ -151,6 +139,19 @@ class Vector2:
         return self._r_o2(other, operator.rshift)
     def __irshift__(self, other):
         return self._io(other, operator.rshift)
+
+    def __eq__(self, other):
+        return self._o2(other, operator.eq)
+    def __ne__(self, other):
+        return self._o2(other, operator.ne)
+    def __gt__(self, other):
+        return self._o2(other, operator.gt)
+    def __lt__(self, other):
+        return self._o2(other, operator.lt)
+    def __ge__(self, other):
+        return self._o2(other, operator.ge)
+    def __le__(self, other):
+        return self._o2(other, operator.le)
 
     def __and__(self, other):
         return self._o2(other, operator.and_)

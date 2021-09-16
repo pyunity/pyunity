@@ -278,13 +278,11 @@ class Camera(SingleComponent):
         return scaled
 
     def get2DMatrix(self, rectTransform):
-        rect = rectTransform.GetRect()
-        rectMin = rect.min * self.size + rectTransform.offset.min
-        rectMax = rect.max * self.size + rectTransform.offset.max
-        size = rectMax - rectMin
+        rect = rectTransform.GetRect() + rectTransform.offset
+        size = rect.max - rect.min
         pivot = size * rectTransform.pivot
 
-        model = glm.translate(glm.mat4(1), glm.vec3(*(rectMin + pivot), 0))
+        model = glm.translate(glm.mat4(1), glm.vec3(*(rect.min + pivot), 0))
         model = glm.rotate(model, glm.radians(
             rectTransform.rotation), glm.vec3(0, 0, 1))
         model = glm.translate(model, glm.vec3(*-pivot, 0))
@@ -313,7 +311,7 @@ class Camera(SingleComponent):
     def UseShader(self, name):
         self.shader = shaders[name]
 
-    def Render(self, gameObjects, lights):
+    def Render(self, renderers, lights):
         self.shader.use()
         viewMat = self.getViewMat()
         self.shader.setMat4(b"projection", self.projMat)
@@ -328,12 +326,11 @@ class Camera(SingleComponent):
                 lights[0].color.to_rgb() / 255))
             self.shader.setInt(b"lighting", 1)
 
-        for gameObject in gameObjects:
-            renderer = gameObject.GetComponent(MeshRenderer)
-            if renderer and "self.inside_frustrum(renderer)":
+        for renderer in renderers:
+            if "self.inside_frustrum(renderer)":
                 self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
                 self.shader.setMat4(
-                    b"model", self.getMatrix(gameObject.transform))
+                    b"model", self.getMatrix(renderer.transform))
                 if renderer.mat.texture is not None:
                     self.shader.setInt(b"textured", 1)
                     renderer.mat.texture.use()
@@ -348,18 +345,25 @@ class Camera(SingleComponent):
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
         gl.glDepthFunc(gl.GL_LESS)
 
+    def Render2D(self, canvases):
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, -10, 10))
         gl.glBindVertexArray(self.guiVAO)
-        for gameObject in gameObjects:
-            renderer = gameObject.GetComponent(Image2D)
-            rectTransform = gameObject.GetComponent(RectTransform)
-            if renderer is not None and rectTransform is not None and renderer.texture is not None:
-                self.guiShader.setMat4(
-                    b"model", self.get2DMatrix(rectTransform))
-                renderer.texture.use()
-                gl.glDrawArrays(gl.GL_QUADS, 0, 4)
+
+        gameObjects = []
+        for canvas in canvases:
+            for gameObject in canvas.transform.GetDescendants():
+                if gameObject in gameObjects:
+                    continue
+                gameObjects.append(gameObject)
+                renderer = gameObject.GetComponent(Image2D)
+                rectTransform = gameObject.GetComponent(RectTransform)
+                if renderer is not None and rectTransform is not None and renderer.texture is not None:
+                    self.guiShader.setMat4(
+                        b"model", self.get2DMatrix(rectTransform))
+                    renderer.texture.use()
+                    gl.glDrawArrays(gl.GL_QUADS, 0, 4)
 
 class Screen(metaclass=ImmutableStruct):
     _names = ["width", "height", "size", "aspect"]
