@@ -12,10 +12,9 @@ from ..audio import *
 from ..core import *
 from ..files import Behaviour
 from ..values import Vector3
-from .. import config, physics, logger as Logger, render
+from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
-from ..gui import Canvas
 from time import time
 import os
 import math
@@ -44,6 +43,7 @@ class Scene:
     """
 
     def __init__(self, name):
+        from .. import render
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
         self.mainCamera.AddComponent(AudioListener)
@@ -320,6 +320,8 @@ class Scene:
 
     def start_scripts(self):
         """Start the scripts in the Scene."""
+        from .. import render
+
         audioListeners = self.FindComponentsByType(AudioListener)
         if len(audioListeners) == 0:
             Logger.LogLine(
@@ -384,6 +386,7 @@ class Scene:
     def update_scripts(self):
         """Updates all scripts in the scene."""
         from ..input import Input
+        from ..gui import Canvas
         dt = max(time() - self.lastFrame, 0.001)
         Input.UpdateAxes(dt)
 
@@ -432,6 +435,7 @@ class Scene:
             self.Render()
 
     def Render(self):
+        from ..gui import Canvas
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         if self.mainCamera is None:
             return

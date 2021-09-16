@@ -5,10 +5,9 @@ Classes to aid in rendering in a Scene.
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
-from .gui import Image2D, RectTransform
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
-from .core import ShowInInspector, SingleComponent, MeshRenderer
+from .core import ShowInInspector, SingleComponent
 from .files import Skybox
 from . import config
 import glm
@@ -346,6 +345,7 @@ class Camera(SingleComponent):
         gl.glDepthFunc(gl.GL_LESS)
 
     def Render2D(self, canvases):
+        from .gui import Image2D, RectTransform
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, -10, 10))
