@@ -1,12 +1,16 @@
 __all__ = ["Canvas", "RectData", "RectAnchors",
-           "RectOffset", "RectTransform", "Image2D", "Gui"]
+           "RectOffset", "RectTransform", "Image2D", "Gui",
+           "Text", "FontLoader"]
 
-from .values import Vector2
+from pyunity.errors import PyUnityException
+from .values import Vector2, Color, RGB
 from .core import Component, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
 from types import FunctionType
 import os
+import sys
+from PIL import Image, ImageDraw, ImageFont
 
 class Canvas(Component):
     def Update(self, updated):
@@ -148,3 +152,76 @@ class Gui:
         scene.Add(button)
         scene.Add(texture)
         return transform, buttonComponent
+
+class _FontLoader:
+    fonts = {}
+
+    @classmethod
+    def LoadFont(cls, name, size):
+        if name in cls.fonts:
+            if size in cls.fonts[name]:
+                return cls.fonts[name][size]
+        else:
+            cls.fonts[name] = {}
+        file = cls.LoadFile(name)
+        font = ImageFont.truetype(file, size)
+        cls.fonts[name][size] = font
+        return Font(name, font)
+
+    @classmethod
+    def LoadFile(cls, name):
+        raise NotImplemented
+
+class WinFontLoader(_FontLoader):
+    @classmethod
+    def LoadFile(cls, name):
+        import winreg
+        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\\")
+        try:
+            file = winreg.QueryValueEx(key, name + " (TrueType)")
+        except WindowsError:
+            file = None
+        if file is None:
+            raise PyUnityException("Cannot find font called " + repr(name))
+        return file[0]
+
+class UnixFontLoader(_FontLoader):
+    pass
+
+if sys.platform.startswith("linux") or sys.platform == "darwin":
+    FontLoader = UnixFontLoader
+else:
+    FontLoader = WinFontLoader
+
+class Font:
+    def __init__(self, name, imagefont):
+        if not isinstance(imagefont, ImageFont.FreeTypeFont):
+            raise PyUnityException("Please specify a FreeType font" + \
+                "created from ImageFont.freetype")
+        
+        self._font = imagefont
+        self.name = name
+
+class Text(Component):
+    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 16))
+    text = ShowInInspector(str, "Text")
+    color = ShowInInspector(Color)
+    def __init__(self, transform):
+        super(Text, self).__init__(transform)
+        self.rect = None
+        self.color = RGB(255, 255, 255)
+    
+    def GetTexture(self):
+        if self.rect is None:
+            self.rect = self.GetComponent(RectTransform)
+        
+        rect = self.rect.GetRect() + self.rect.offset
+        size = rect.max - rect.min
+        im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
+
+        draw = ImageDraw.Draw(im)
+        draw.text((0, 0), self.text, font=self.font._font,
+            fill=tuple(self.color))
+        im.show()
+        return im
