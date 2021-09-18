@@ -8,7 +8,7 @@ from ctypes import c_float, c_ubyte, c_void_p
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
-from .files import Skybox
+from .files import Skybox, Texture2D
 from . import config
 import glm
 import itertools
@@ -345,7 +345,7 @@ class Camera(SingleComponent):
         gl.glDepthFunc(gl.GL_LESS)
 
     def Render2D(self, canvases):
-        from .gui import Image2D, RectTransform
+        from .gui import Image2D, RectTransform, Text
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, -10, 10))
@@ -363,6 +363,15 @@ class Camera(SingleComponent):
                     self.guiShader.setMat4(
                         b"model", self.get2DMatrix(rectTransform))
                     renderer.texture.use()
+                    gl.glDrawArrays(gl.GL_QUADS, 0, 4)
+                
+                text = gameObject.GetComponent(Text)
+                if text is not None:
+                    self.guiShader.setMat4(
+                        b"model", self.get2DMatrix(rectTransform))
+                    if text.texture is None:
+                        text.GenTexture()
+                    text.texture.use()
                     gl.glDrawArrays(gl.GL_QUADS, 0, 4)
 
 class Screen(metaclass=ImmutableStruct):

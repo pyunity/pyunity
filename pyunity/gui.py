@@ -165,8 +165,9 @@ class _FontLoader:
             cls.fonts[name] = {}
         file = cls.LoadFile(name)
         font = ImageFont.truetype(file, size)
-        cls.fonts[name][size] = font
-        return Font(name, font)
+        fontobj = Font(name, size, font)
+        cls.fonts[name][size] = fontobj
+        return fontobj
 
     @classmethod
     def LoadFile(cls, name):
@@ -195,26 +196,33 @@ else:
     FontLoader = WinFontLoader
 
 class Font:
-    def __init__(self, name, imagefont):
+    def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
             raise PyUnityException("Please specify a FreeType font" + \
                 "created from ImageFont.freetype")
         
         self._font = imagefont
         self.name = name
+        self.size = size
+    
+    def __reduce__(self):
+        return (FontLoader.LoadFont, (self.name, self.size))
 
 class Text(Component):
-    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 16))
+    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
     def __init__(self, transform):
         super(Text, self).__init__(transform)
         self.rect = None
         self.color = RGB(255, 255, 255)
+        self.texture = None
     
-    def GetTexture(self):
+    def GenTexture(self):
         if self.rect is None:
             self.rect = self.GetComponent(RectTransform)
+            if self.rect is None:
+                return
         
         rect = self.rect.GetRect() + self.rect.offset
         size = rect.max - rect.min
@@ -223,5 +231,9 @@ class Text(Component):
         draw = ImageDraw.Draw(im)
         draw.text((0, 0), self.text, font=self.font._font,
             fill=tuple(self.color))
-        im.show()
-        return im
+        self.texture = Texture2D(im)
+    
+    def __setattr__(self, name, value):
+        super(Text, self).__setattr__(name, value)
+        if name in ["font", "text", "color"]:
+            self.GenTexture()
