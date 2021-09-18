@@ -34,6 +34,17 @@ def main():
     rect.offset = RectOffset(Vector2(100, 70), Vector2(250, 100))
     button.callback = lambda: print("Clicked")
 
+    t = GameObject("text", canvas)
+    text = t.AddComponent(Text)
+    text.text = "Hello"
+    text.color = RGB(0, 0, 0)
+    text.font = FontLoader.LoadFont("Consolas", 24)
+
+    rect = t.AddComponent(RectTransform)
+    rect.offset.min = Vector2(40, 25)
+    rect.offset.max = Vector2(240, 50)
+    scene.Add(t)
+
     SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":
