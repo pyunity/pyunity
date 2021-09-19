@@ -2,15 +2,15 @@ __all__ = ["Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader"]
 
-from pyunity.errors import PyUnityException
+from .errors import PyUnityException
 from .values import Vector2, Color, RGB
 from .core import Component, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
+from PIL import Image, ImageDraw, ImageFont
 from types import FunctionType
 import os
 import sys
-from PIL import Image, ImageDraw, ImageFont
 
 class Canvas(Component):
     def Update(self, updated):
@@ -173,7 +173,7 @@ class _FontLoader:
 
     @classmethod
     def LoadFile(cls, name):
-        raise NotImplemented
+        raise PyUnityException("No font loading function found")
 
 class WinFontLoader(_FontLoader):
     @classmethod
@@ -190,7 +190,16 @@ class WinFontLoader(_FontLoader):
         return file[0]
 
 class UnixFontLoader(_FontLoader):
-    pass
+    @classmethod
+    def LoadFile(cls, name):
+        import subprocess
+        process = subprocess.Popen(["fc-match", name], stdout=subprocess.PIPE)
+        stdout, _ = process.communicate()
+        out = stdout.decode()
+        if out == "":
+            raise PyUnityException("Cannot find font called " + repr(name))
+        
+        return out.split(": ")[0]
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     FontLoader = UnixFontLoader
