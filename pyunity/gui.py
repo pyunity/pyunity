@@ -272,9 +272,9 @@ class Text(Component):
         if self.centeredY == TextAlign.Left:
             offY = 0
         elif self.centeredY == TextAlign.Center:
-            offY = (size.y - width) // 2
+            offY = (size.y - height) // 2
         else:
-            offY = size.y - width
+            offY = size.y - height
         
         draw.text((offX, offY), self.text, font=self.font._font,
             fill=tuple(self.color))
