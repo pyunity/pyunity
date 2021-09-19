@@ -26,4 +26,6 @@ with open("docs/source/api.rst", "w") as f:
     f.write("\n".join(lines))
 
 if len(sys.argv) > 1:
-    exit(subprocess.call(["sphinx-build", "-b", "html", "-a", "-E", "-v", "docs/source/", "docs/en/"]))
+    result = subprocess.call(["sphinx-build", "-b", "html", "-a", "-E", "-v", "docs/source/", "docs/en/"])
+    os.system("start docs/index.html")
+    exit(result)
