@@ -314,7 +314,8 @@ class Skybox:
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 3, gl.GL_FLOAT, gl.GL_FALSE, 3 * gl.sizeof(ctypes.c_float), None)
-
+        
+        Logger.LogLine(Logger.INFO, "Loaded skybox")
         self.compiled = True
 
     def use(self):
