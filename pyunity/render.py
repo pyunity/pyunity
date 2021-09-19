@@ -9,7 +9,7 @@ from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
-from . import config
+from . import config, Logger
 import glm
 import itertools
 import os
@@ -78,6 +78,7 @@ class Shader:
         self.vertex = vertex
         self.frag = frag
         self.compiled = False
+        self.name = name
         shaders[name] = self
 
     def compile(self):
@@ -120,6 +121,8 @@ class Shader:
         gl.glDeleteShader(self.vertexShader)
         gl.glDeleteShader(self.fragShader)
         self.compiled = True
+
+        Logger.Log(Logger.INFO, "Compiled shader", repr(self.name))
 
     @staticmethod
     def fromFolder(path, name):

@@ -7,12 +7,11 @@ Also manages project structure.
 __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project"]
 
-from inspect import FullArgSpec
-from OpenGL import GL as gl
-from PIL import Image
 from .values import Material, Color
 from .core import Component, ShowInInspector
 from . import Logger
+from OpenGL import GL as gl
+from PIL import Image
 from types import ModuleType
 from uuid import uuid4
 import glob

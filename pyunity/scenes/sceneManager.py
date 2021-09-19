@@ -272,6 +272,7 @@ def __loadScene(scene):
             Logger.LogException(e)
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             windowObject.quit()
+            exit(-1)
         else:
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
         windowObject = None
