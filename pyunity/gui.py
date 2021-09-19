@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from types import FunctionType
 import os
 import sys
+import enum
 
 class Canvas(Component):
     def Update(self, updated):
@@ -145,9 +146,22 @@ class Gui:
         texture = GameObject("Button", button)
         transform2 = texture.AddComponent(RectTransform)
         transform2.anchors = RectAnchors(Vector2.zero(), Vector2.one())
-        img = texture.AddComponent(Image2D)
-        img.texture = texture2d
-        buttonComponent = button.AddComponent(Button)
+        img = textureObj.AddComponent(Image2D)
+        img.texture = texture
+
+        textObj = GameObject("Text", button)
+        transform3 = textObj.AddComponent(RectTransform)
+        transform3.anchors = RectAnchors(Vector2.zero(), Vector2.one())
+
+        textComp = textObj.AddComponent(Text)
+        textComp.text = text
+        if font is None:
+            font = FontLoader.LoadFont("Arial", 16)
+        textComp.font = font
+        if color is None:
+            color = RGB(0, 0, 0)
+        textComp.color = color
+        textComp.centeredX = TextAlign.Center
 
         scene.Add(button)
         scene.Add(texture)
@@ -219,10 +233,18 @@ class Font:
     def __reduce__(self):
         return (FontLoader.LoadFont, (self.name, self.size))
 
+class TextAlign(enum.IntEnum):
+    Left = enum.auto()
+    Center = enum.auto()
+    Right = enum.auto()
+
 class Text(Component):
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
+    depth = ShowInInspector(float, 0.1)
+    centeredX = ShowInInspector(TextAlign, TextAlign.Left)
+    centeredY = ShowInInspector(TextAlign, TextAlign.Center)
     def __init__(self, transform):
         super(Text, self).__init__(transform)
         self.rect = None
@@ -240,7 +262,21 @@ class Text(Component):
         im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
 
         draw = ImageDraw.Draw(im)
-        draw.text((0, 0), self.text, font=self.font._font,
+        width, height = draw.textsize(self.text, font=self.font._font)
+        if self.centeredX == TextAlign.Left:
+            offX = 0
+        elif self.centeredX == TextAlign.Center:
+            offX = (size.x - width) // 2
+        else:
+            offX = size.x - width
+        if self.centeredY == TextAlign.Left:
+            offY = 0
+        elif self.centeredY == TextAlign.Center:
+            offY = (size.y - width) // 2
+        else:
+            offY = size.y - width
+        
+        draw.text((offX, offY), self.text, font=self.font._font,
             fill=tuple(self.color))
         if self.texture is not None:
             self.texture.setImg(im)
