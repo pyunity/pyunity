@@ -122,7 +122,7 @@ class Shader:
         gl.glDeleteShader(self.fragShader)
         self.compiled = True
 
-        Logger.Log(Logger.INFO, "Compiled shader", repr(self.name))
+        Logger.LogLine(Logger.INFO, "Compiled shader", repr(self.name))
 
     @staticmethod
     def fromFolder(path, name):
@@ -216,11 +216,11 @@ class Shader:
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
+skyboxes["Water"] = Skybox(os.path.join(
+    __dir, "shaders", "skybox", "textures"))
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
 Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
-skyboxes["Water"] = Skybox(os.path.join(
-    __dir, "shaders", "skybox", "textures"))
 
 def compile_shaders():
     for shader in shaders.values():
