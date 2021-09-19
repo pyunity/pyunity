@@ -450,6 +450,8 @@ class Camera(SingleComponent):
                     renderers.append(renderer)
                 if text is not None:
                     renderers.append(text)
+                    if text.texture is None:
+                        text.GenTexture()
                 
                 for renderer in renderers:
                     if renderer.texture is None:
