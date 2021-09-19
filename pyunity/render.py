@@ -339,21 +339,21 @@ class Camera(SingleComponent):
                 if gameObject in gameObjects:
                     continue
                 gameObjects.append(gameObject)
-                renderer = gameObject.GetComponent(Image2D)
                 rectTransform = gameObject.GetComponent(RectTransform)
-                if renderer is not None and rectTransform is not None and renderer.texture is not None:
-                    self.guiShader.setMat4(
-                        b"model", self.get2DMatrix(rectTransform))
-                    renderer.texture.use()
-                    gl.glDrawArrays(gl.GL_QUADS, 0, 4)
-                
+                renderer = gameObject.GetComponent(Image2D)
                 text = gameObject.GetComponent(Text)
+
+                textures = []
+                if renderer is not None and rectTransform is not None and renderer.texture is not None:
+                    textures.append(renderer.texture)
                 if text is not None:
+                    textures.append(text.texture)
+                
+                for texture in textures:
+                    texture.use()
                     self.guiShader.setMat4(
                         b"model", self.get2DMatrix(rectTransform))
-                    if text.texture is None:
-                        text.GenTexture()
-                    text.texture.use()
+                    self.guiShader.setFloat(b"depth", renderer.depth)
                     gl.glDrawArrays(gl.GL_QUADS, 0, 4)
 
 class Screen(metaclass=ImmutableStruct):
