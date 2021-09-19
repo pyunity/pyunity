@@ -18,5 +18,5 @@ Module contents
 
 .. automodule:: pyunity.values
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

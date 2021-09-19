@@ -15,5 +15,5 @@ Module contents
 
 .. automodule:: pyunity.scenes
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

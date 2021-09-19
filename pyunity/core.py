@@ -152,6 +152,15 @@ class GameObject:
 
     @staticmethod
     def BareObject(name="GameObject"):
+        """
+        Create a bare GameObject with no components or attributes.
+
+        Parameters
+        ==========
+        name : str
+            Name of the GameObject
+        
+        """
         obj = GameObject.__new__(GameObject)
         obj.name = name
         obj.components = []
@@ -404,6 +413,7 @@ class Component:
 
     @property
     def scene(self):
+        """Get either the scene of the GameObject or the current running scene."""
         from .scenes import SceneManager
         if self.gameObject.scene is None:
             return SceneManager.CurrentScene()
@@ -563,10 +573,11 @@ class Transform(SingleComponent):
             child.List()
 
     def GetDescendants(self):
-        l = [self]
+        """Iterate through all descedants of this Transform."""
+        yield self
         for child in self.children:
-            l.extend(child.GetDescendants())
-        return l
+            for subchild in child.GetDescendants():
+                yield subchild
 
     def FullPath(self):
         """
@@ -586,18 +597,60 @@ class Transform(SingleComponent):
         return path
 
     def LookAtTransform(self, transform):
+        """
+        Face towards another transform's position.
+        
+        Parameters
+        ==========
+        transform : Transform
+            Transform to face towards
+        
+        Notes
+        =====
+        The rotation generated may not be upright, and
+        to fix this just use ``transform.rotation.eulerAngles *= Vector3(1, 1, 0)``
+        which will remove the Z component of the Euler angles.
+        
+        """
         v = transform.position - self.position
         self.rotation = Quaternion.FromDir(v)
 
     def LookAtGameObject(self, gameObject):
+        """
+        Face towards another GameObject's position. See `Transform.LookAtTransform` for details.
+        
+        Parameters
+        ==========
+        gameObject : GameObject
+            GameObject to face towards
+
+        """
         v = gameObject.transform.position - self.position
         self.rotation = Quaternion.FromDir(v)
 
     def LookAtPoint(self, vec):
+        """
+        Face towards a point. See `Transform.LookAtTransform` for details.
+        
+        Parameters
+        ==========
+        vec : Vector3
+            Point to face towards
+
+        """
         v = vec - self.position
         self.rotation = Quaternion.FromDir(v)
 
     def LookInDirection(self, vec):
+        """
+        Face in a vector direction (from origin to point). See `Transform.LookAtTransform` for details.
+        
+        Parameters
+        ==========
+        vec : Vector3
+            Direction to face in
+
+        """
         self.rotation = Quaternion.FromDir(vec)
 
     def __repr__(self):

@@ -3,5 +3,5 @@ pyunity.window.glfwWindow module
 
 .. automodule:: pyunity.window.glfwWindow
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

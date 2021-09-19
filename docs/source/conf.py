@@ -68,3 +68,25 @@ pygments_style = "friendly"
 autodoc_default_options = {
     "ignore-module-all": True,
 }
+
+autodoc_class_signature = "separated"
+autodoc_member_order = "bysource"
+
+import inspect
+import enum
+
+def skip_non_undoc(app, what, name, obj, skip, options):
+    if "undoc-members" in options or skip:
+        return skip
+    if name == "__init__":
+        return True
+    if (inspect.isfunction(obj) or inspect.ismethod(obj) or \
+            isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
+        return None
+    if what == "class":
+        sys.stderr.write(str(name) + " " + str(obj) + "\n")
+        return True
+    return skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip_non_undoc)

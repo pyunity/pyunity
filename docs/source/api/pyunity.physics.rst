@@ -15,5 +15,5 @@ Module contents
 
 .. automodule:: pyunity.physics
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

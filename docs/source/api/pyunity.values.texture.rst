@@ -3,5 +3,5 @@ pyunity.values.texture module
 
 .. automodule:: pyunity.values.texture
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

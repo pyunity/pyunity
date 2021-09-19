@@ -3,5 +3,5 @@ pyunity.window.templateWindow module
 
 .. automodule:: pyunity.window.templateWindow
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
