@@ -225,13 +225,16 @@ class Text(Component):
                 return
         
         rect = self.rect.GetRect() + self.rect.offset
-        size = rect.max - rect.min
+        size = (rect.max - rect.min).abs()
         im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
 
         draw = ImageDraw.Draw(im)
         draw.text((0, 0), self.text, font=self.font._font,
             fill=tuple(self.color))
-        self.texture = Texture2D(im)
+        if self.texture is not None:
+            self.texture.setImg(im)
+        else:
+            self.texture = Texture2D(im)
     
     def __setattr__(self, name, value):
         super(Text, self).__setattr__(name, value)
