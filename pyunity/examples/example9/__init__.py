@@ -13,6 +13,17 @@ class Mover2D(Behaviour):
         self.rectTransform.offset.Move(movement * dt * self.speed)
         self.rectTransform.rotation += 180 * dt
 
+class FPSTracker(Behaviour):
+    text = ShowInInspector(Text)
+    def Start(self):
+        self.a = 0
+    
+    def Update(self, dt):
+        self.a += dt
+        if self.a > 0.05:
+            self.text.text = str(1 / dt)
+            self.a = 0
+
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
@@ -25,24 +36,24 @@ def main():
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
     img = imgObject.AddComponent(Image2D)
+    img.depth = -0.1
     img.texture = Texture2D(os.path.join(os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))), "example8", "logo.png"))
     scene.Add(imgObject)
 
-    rect, button = Gui.MakeButton("Button", scene)
+    rect, button, text = Gui.MakeButton("Button", scene, "Click me", FontLoader.LoadFont("Consolas", 20))
     rect.transform.ReparentTo(canvas.transform)
-    rect.offset = RectOffset(Vector2(100, 70), Vector2(250, 100))
-    button.callback = lambda: print("Clicked")
+    rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
+    button.callback = lambda: Logger.Log("Clicked")
 
-    t = GameObject("text", canvas)
-    text = t.AddComponent(Text)
-    text.text = "Hello"
-    text.color = RGB(0, 0, 0)
-    text.font = FontLoader.LoadFont("Consolas", 24)
-
+    t = GameObject("Text", canvas)
     rect = t.AddComponent(RectTransform)
-    rect.offset.min = Vector2(40, 25)
-    rect.offset.max = Vector2(240, 50)
+    rect.anchors.SetPoint(Vector2(1, 0))
+    rect.offset.min = Vector2(-150, 25)
+    text = t.AddComponent(Text)
+    text.text = "60"
+    text.color = RGB(0, 0, 0)
+    t.AddComponent(FPSTracker).text = text
     scene.Add(t)
 
     SceneManager.LoadScene(scene)

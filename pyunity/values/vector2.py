@@ -172,6 +172,9 @@ class Vector2:
         return Vector2(operator.pos(self.x), operator.pos(self.y))
 
     def __abs__(self):
+        return self.length
+    
+    def abs(self):
         return Vector2(abs(self.x), abs(self.y))
 
     def __round__(self, other):
@@ -337,6 +340,14 @@ class Vector2:
         """
         z = self.x * other[1] - self.y * other[0]
         return z
+
+    @staticmethod
+    def min(a, b):
+        return a._o2(b, min)
+
+    @staticmethod
+    def max(a, b):
+        return a._o2(b, max)
 
     @staticmethod
     def zero():

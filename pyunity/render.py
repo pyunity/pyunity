@@ -8,32 +8,13 @@ from ctypes import c_float, c_ubyte, c_void_p
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
-from .files import Skybox, Texture2D
+from .files import Skybox, convert
 from . import config
 import glm
 import itertools
 import os
 
 float_size = gl.sizeof(c_float)
-
-def convert(type, list):
-    """
-    Converts a Python array to a C type from
-    ``ctypes``.
-
-    Parameters
-    ----------
-    type : _ctypes.PyCSimpleType
-        Type to cast to.
-    list : list
-        List to cast
-
-    Returns
-    -------
-    Any
-        A C array
-    """
-    return (type * len(list))(*list)
 
 def gen_buffers(mesh):
     """
@@ -278,10 +259,11 @@ class Camera(SingleComponent):
 
     def get2DMatrix(self, rectTransform):
         rect = rectTransform.GetRect() + rectTransform.offset
-        size = rect.max - rect.min
+        rectMin = Vector2.min(rect.min, rect.max)
+        size = (rect.max - rect.min).abs()
         pivot = size * rectTransform.pivot
 
-        model = glm.translate(glm.mat4(1), glm.vec3(*(rect.min + pivot), 0))
+        model = glm.translate(glm.mat4(1), glm.vec3(*(rectMin + pivot), 0))
         model = glm.rotate(model, glm.radians(
             rectTransform.rotation), glm.vec3(0, 0, 1))
         model = glm.translate(model, glm.vec3(*-pivot, 0))
