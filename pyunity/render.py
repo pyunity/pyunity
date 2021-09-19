@@ -449,6 +449,8 @@ class Camera(SingleComponent):
                     textures.append(text.texture)
                 
                 for texture in textures:
+                    if texture is None:
+                        continue
                     texture.use()
                     self.guiShader.setMat4(
                         b"model", self.get2DMatrix(rectTransform))
