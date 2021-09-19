@@ -80,7 +80,7 @@ def GetWindowProvider():
             env = env.split(",")
             use = env[0] == settings.db["window_provider"]
         else:
-            use = False
+            use = True
         if use:
             if "window_cache" in settings.db:
                 del settings.db["window_cache"]

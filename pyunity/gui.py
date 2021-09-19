@@ -4,7 +4,7 @@ __all__ = ["Canvas", "RectData", "RectAnchors",
 
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
-from .core import Component, GameObject, ShowInInspector
+from .core import Component, SingleComponent, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
 from PIL import Image, ImageDraw, ImageFont
@@ -93,7 +93,7 @@ class RectOffset(RectData):
         self.min = pos - size / 2
         self.max = pos + size / 2
 
-class RectTransform(Component):
+class RectTransform(SingleComponent):
     anchors = ShowInInspector(RectAnchors)
     offset = ShowInInspector(RectOffset)
     pivot = ShowInInspector(Vector2)

@@ -439,19 +439,22 @@ class Camera(SingleComponent):
                     continue
                 gameObjects.append(gameObject)
                 rectTransform = gameObject.GetComponent(RectTransform)
+                if rectTransform is None:
+                    continue
+                
                 renderer = gameObject.GetComponent(Image2D)
                 text = gameObject.GetComponent(Text)
 
-                textures = []
-                if renderer is not None and rectTransform is not None and renderer.texture is not None:
-                    textures.append(renderer.texture)
+                renderers = []
+                if renderer is not None:
+                    renderers.append(renderer)
                 if text is not None:
-                    textures.append(text.texture)
+                    renderers.append(text)
                 
-                for texture in textures:
-                    if texture is None:
+                for renderer in renderers:
+                    if renderer.texture is None:
                         continue
-                    texture.use()
+                    renderer.texture.use()
                     self.guiShader.setMat4(
                         b"model", self.get2DMatrix(rectTransform))
                     self.guiShader.setFloat(b"depth", renderer.depth)
