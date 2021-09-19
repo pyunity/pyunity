@@ -158,6 +158,8 @@ class _FontLoader:
 
     @classmethod
     def LoadFont(cls, name, size):
+        if os.getenv("PYUNITY_TESTING") is not None:
+            return None
         if name in cls.fonts:
             if size in cls.fonts[name]:
                 return cls.fonts[name][size]
