@@ -17,5 +17,5 @@ Module contents
 
 .. automodule:: pyunity.window
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

@@ -53,10 +53,11 @@ def gen_array():
     -------
     Any
         A vertex buffer object of floats.
-        Has 3 elements:
+        Has 3 elements::
 
-        # vertex    # normal    # texcoord
-        x, y, z,    a, b, c,    u, v
+            # vertex    # normal    # texcoord
+            x, y, z,    a, b, c,    u, v
+        
 
     """
     vao = gl.glGenVertexArrays(1)
@@ -80,9 +81,17 @@ class Shader:
         shaders[name] = self
 
     def compile(self):
-        self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
-        gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
-        gl.glCompileShader(self.vertexShader)
+        """
+        Compiles shader and generates program. Checks for errors.
+
+        Notes
+        =====
+        This function will not work if there is no active framebuffer.
+        
+        """
+        vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
+        gl.glShaderSource(vertexShader, self.vertex, 1, None)
+        gl.glCompileShader(vertexShader)
 
         success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
@@ -114,6 +123,19 @@ class Shader:
 
     @staticmethod
     def fromFolder(path, name):
+        """
+        Create a Shader from a folder. It must contain ``vertex.glsl`` and ``fragment.glsl``.
+        
+        Parameters
+        ==========
+        path : str
+            Path of folder to load
+        name : str
+            Name to register this shader to. Used with `Camera.SetShader`.
+
+        """
+        if not os.path.isdir(path):
+            raise PyUnityException("Folder does not exist: " + repr(path))
         with open(os.path.join(path, "vertex.glsl")) as f:
             vertex = f.read()
 
@@ -123,18 +145,67 @@ class Shader:
         return Shader(vertex, fragment, name)
 
     def setVec3(self, var, val):
+        """
+        Set a ``vec3`` uniform variable.
+        
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : Any
+            Value of uniform variable
+        
+        """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
 
     def setMat4(self, var, val):
+        """
+        Set a ``mat4`` uniform variable.
+        
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : Any
+            Value of uniform variable
+        
+        """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
 
     def setInt(self, var, val):
+        """
+        Set an ``int`` uniform variable.
+        
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : Any
+            Value of uniform variable
+        
+        """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1i(location, val)
 
+    def setFloat(self, var, val):
+        """
+        Set a ``float`` uniform variable.
+        
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : Any
+            Value of uniform variable
+        
+        """
+        location = gl.glGetUniformLocation(self.program, var)
+        gl.glUniform1f(location, val)
+
     def use(self):
+        """Compile shader if it isn't compiled, and load it into OpenGL."""
         if not self.compiled:
             self.compile()
         gl.glUseProgram(self.program)
@@ -158,8 +229,6 @@ class Camera(SingleComponent):
 
     Attributes
     ----------
-    fov : int
-        Fov in degrees measured horizontally. Defaults to 90.
     near : float
         Distance of the near plane in the camera frustrum. Defaults to 0.05.
     far : float
@@ -191,6 +260,7 @@ class Camera(SingleComponent):
         self.renderPass = False
 
     def setup_buffers(self):
+        """Creates 2D quad VBO and VAO for GUI."""
         data = [
             0.0, 1.0,
             1.0, 1.0,
@@ -212,6 +282,7 @@ class Camera(SingleComponent):
 
     @property
     def fov(self):
+        """FOV of camera"""
         return self._fov
 
     @fov.setter
@@ -247,6 +318,7 @@ class Camera(SingleComponent):
         Screen._edit(width, height)
 
     def getMatrix(self, transform):
+        """Generates model matrix from transform."""
         rotation = transform.rotation.angleAxisPair
         angle = glm.radians(rotation[0])
         axis = Vector3(rotation[1:]).normalized()
@@ -258,6 +330,7 @@ class Camera(SingleComponent):
         return scaled
 
     def get2DMatrix(self, rectTransform):
+        """Generates model matrix from RectTransform."""
         rect = rectTransform.GetRect() + rectTransform.offset
         rectMin = Vector2.min(rect.min, rect.max)
         size = (rect.max - rect.min).abs()
@@ -272,6 +345,7 @@ class Camera(SingleComponent):
         return model
 
     def getViewMat(self):
+        """Generates view matrix from Transform of camera."""
         if self.renderPass and self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
             ## OLD LOOKAT MATRIX GEN ##
             # pos = self.transform.position * Vector3(1, 1, -1)
@@ -290,9 +364,21 @@ class Camera(SingleComponent):
         return self.viewMat
 
     def UseShader(self, name):
+        """Sets current shader from name."""
         self.shader = shaders[name]
 
     def Render(self, renderers, lights):
+        """
+        Render specific renderers, taking into account light positions.
+        
+        Parameters
+        ==========
+        renderers : List[MeshRenderer]
+            Which meshes to render
+        lights : List[Light]
+            Lights to load into shader
+        
+        """
         self.shader.use()
         viewMat = self.getViewMat()
         self.shader.setMat4(b"projection", self.projMat)
@@ -327,6 +413,16 @@ class Camera(SingleComponent):
         gl.glDepthFunc(gl.GL_LESS)
 
     def Render2D(self, canvases):
+        """
+        Render all Image2D and Text components in specified canvases.
+
+        Parameters
+        ==========
+        canvases : List[Canvas]
+            Canvases to process. All processed GameObjects are cached
+            to prevent duplicate rendering.
+        
+        """
         from .gui import Image2D, RectTransform, Text
         self.guiShader.use()
         self.guiShader.setMat4(

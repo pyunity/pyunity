@@ -100,7 +100,7 @@ class Vector3:
 
     def __sub__(self, other):
         return self._o2(other, operator.sub)
-    def rsub(self, other):
+    def __rsub__(self, other):
         return self._r_o2(other, operator.sub)
     def __isub__(self, other):
         return self._io(other, operator.sub)

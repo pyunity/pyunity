@@ -3,5 +3,5 @@ pyunity.gui module
 
 .. automodule:: pyunity.gui
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

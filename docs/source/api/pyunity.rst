@@ -35,5 +35,5 @@ Module contents
 
 .. automodule:: pyunity
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:
