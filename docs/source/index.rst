@@ -2,6 +2,10 @@
 Welcome to PyUnity's documentation!
 ===================================
 
+.. contents:: Table of Contents
+    :depth: 1
+    :local:
+
 Version 0.8.0 (in development)
 ------------------------------
 PyUnity is a pure Python 3D Game Engine that
@@ -68,7 +72,7 @@ and make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
    :caption: Contents:
 
    releases
-   tutorials
+   tutorials/tutorials
    links
    license
    api

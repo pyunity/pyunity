@@ -58,7 +58,7 @@ html_theme = 'alabaster'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = ["static"]
 
 autodoc_mock_imports = ["glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.sdlmixer", "sdl2.ext", "sdl2.video"]
 
@@ -76,7 +76,7 @@ import inspect
 import enum
 
 def skip_non_undoc(app, what, name, obj, skip, options):
-    if "undoc-members" in options or skip:
+    if "undoc-members" not in options or skip:
         return skip
     if name == "__init__":
         return True

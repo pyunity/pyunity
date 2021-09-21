@@ -7,6 +7,7 @@ v0.7.1
 Extra features used in the PyUnity Editor.
 
 Changes:
+
 - Code of Conduct and Contributing guides
 - Rewrote most of the README to clear confusion about what PyUnity really is
 - RGB and HSV
@@ -27,6 +28,8 @@ New features:
 - PYUNITY_WINDOW_PROVIDER environment variable
 - Fixed example 8
 
+Editor GitHub:
+https://github.com/pyunity/pyunity-gui
 
 Download source code at
 https://github.com/pyunity/pyunity/releases/tag/0.7.0
