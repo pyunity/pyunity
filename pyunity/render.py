@@ -397,7 +397,7 @@ class Camera(SingleComponent):
             self.shader.setInt(b"lighting", 1)
 
         for renderer in renderers:
-            if "self.inside_frustrum(renderer)":
+            # if self.inside_frustrum(renderer):
                 self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
                 self.shader.setMat4(
                     b"model", self.getMatrix(renderer.transform))

@@ -183,7 +183,7 @@ __summary__ = "A pure Python 3D Game Engine that was inspired by the structure o
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import config
+from . import config # lgtm[py/import-own-module]
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
