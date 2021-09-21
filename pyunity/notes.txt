@@ -19,4 +19,6 @@ root.transform.List() # List all GameObjects
 child1.components # List child1's components
 child2.transform.children # List child2's children
 
-(?<=(?<!setter)\n    )def (?!_.*?).*:\n *(?!""")(?=[^ ])
+^(?<=(?<!setter)\n    )def (?!_.*?).*:\n *(?!""")(?=[^ ])
+
+class (?!_.*?)\w*:\n *(?!""")(?=[^ ])

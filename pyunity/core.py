@@ -300,12 +300,40 @@ class GameObject:
     __str__ = __repr__
 
 class HideInInspector:
+    """
+    An attribute that should be saved when saving a project,
+    but not shown in the Inspector of the PyUnityEditor.
+
+    Attributes
+    ==========
+    type : type
+        Type of the variable
+    default : Any
+        Default value (will be set to the Behaviour)
+    name : NoneType
+        None
+    
+    """
     def __init__(self, type=None, default=None):
         self.type = type
         self.default = default
         self.name = None
 
 class ShowInInspector(HideInInspector):
+    """
+    An attribute that should be saved when saving a project,
+    and shown in the Inspector of the PyUnityEditor.
+
+    Attributes
+    ==========
+    type : type
+        Type of the variable
+    default : Any
+        Default value (will be set to the Behaviour)
+    name : str
+        Alternate name shown in the Inspector
+    
+    """
     def __init__(self, type=None, default=None, name=None):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name

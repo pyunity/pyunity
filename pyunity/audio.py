@@ -38,19 +38,19 @@ elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
     Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
                    SDL_GetError().decode())
 
-class CustomMock:
+class _CustomMock:
     def __getattr__(self, item):
         Logger.LogLine(Logger.WARN, "Audio is currently disabled")
-        return CustomMock()
+        return _CustomMock()
 
     def __setattr__(self, item, value):
         Logger.LogLine(Logger.WARN, "Audio is currently disabled")
 
     def __call__(self, *args, **kwargs):
-        return CustomMock()
+        return _CustomMock()
 
 if not config.audio:
-    mixer = CustomMock()
+    mixer = _CustomMock()
 
 class AudioClip:
     """

@@ -1,23 +1,95 @@
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\audio.py:docstring of pyunity.audio.AudioSource.playOnStart:1: WARNING: duplicate object description of pyunity.audio.AudioSource.playOnStart, other instance in api/pyunity.audio, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\audio.py:docstring of pyunity.audio.AudioSource.clip:1: WARNING: duplicate object description of pyunity.audio.AudioSource.clip, other instance in api/pyunity.audio, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.Transform.localPosition:1: WARNING: duplicate object description of pyunity.core.Transform.localPosition, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.Transform.localRotation:1: WARNING: duplicate object description of pyunity.core.Transform.localRotation, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.Transform.localScale:1: WARNING: duplicate object description of pyunity.core.Transform.localScale, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.Transform.parent:1: WARNING: duplicate object description of pyunity.core.Transform.parent, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.Light.intensity:1: WARNING: duplicate object description of pyunity.core.Light.intensity, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.MeshRenderer.mesh:1: WARNING: duplicate object description of pyunity.core.MeshRenderer.mesh, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\core.py:docstring of pyunity.core.MeshRenderer.mat:1: WARNING: duplicate object description of pyunity.core.MeshRenderer.mat, other instance in api/pyunity.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.SphereCollider.min:1: WARNING: duplicate object description of pyunity.physics.core.SphereCollider.min, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.SphereCollider.max:1: WARNING: duplicate object description of pyunity.physics.core.SphereCollider.max, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.SphereCollider.pos:1: WARNING: duplicate object description of pyunity.physics.core.SphereCollider.pos, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.SphereCollider.radius:1: WARNING: duplicate object description of pyunity.physics.core.SphereCollider.radius, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.AABBoxCollider.min:1: WARNING: duplicate object description of pyunity.physics.core.AABBoxCollider.min, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.AABBoxCollider.max:1: WARNING: duplicate object description of pyunity.physics.core.AABBoxCollider.max, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.AABBoxCollider.pos:1: WARNING: duplicate object description of pyunity.physics.core.AABBoxCollider.pos, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.Rigidbody.physicMaterial:1: WARNING: duplicate object description of pyunity.physics.core.Rigidbody.physicMaterial, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.Rigidbody.mass:1: WARNING: duplicate object description of pyunity.physics.core.Rigidbody.mass, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.Rigidbody.position:1: WARNING: duplicate object description of pyunity.physics.core.Rigidbody.position, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\physics\core.py:docstring of pyunity.physics.core.Rigidbody.velocity:1: WARNING: duplicate object description of pyunity.physics.core.Rigidbody.velocity, other instance in api/pyunity.physics.core, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\render.py:docstring of pyunity.render.Camera.near:1: WARNING: duplicate object description of pyunity.render.Camera.near, other instance in api/pyunity.render, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\render.py:docstring of pyunity.render.Camera.far:1: WARNING: duplicate object description of pyunity.render.Camera.far, other instance in api/pyunity.render, use :noindex: for one of them
-D:\RayChen2\Ray's docs and txts...anythin!\python\share\pyunity\pyunity\render.py:docstring of pyunity.render.Camera.clearColor:1: WARNING: duplicate object description of pyunity.render.Camera.clearColor, other instance in api/pyunity.render, use :noindex: for one of them
+clip None
+loop False
+playOnStart False
+saved {'clip': <pyunity.core.ShowInInspector object at 0x0000028D75EF9730>, 'loop': <pyunity.core.ShowInInspector object at 0x0000028D75ECA820>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0000028D75ECA310>}
+shown {'clip': <pyunity.core.ShowInInspector object at 0x0000028D75EF9730>, 'loop': <pyunity.core.ShowInInspector object at 0x0000028D75ECA820>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0000028D75ECA310>}
+saved {}
+shown {}
+tags ['Default']
+saved {}
+shown {}
+saved {}
+shown {}
+localPosition None
+localRotation None
+localScale None
+parent None
+saved {'localPosition': <pyunity.core.ShowInInspector object at 0x0000028D75ED1880>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0000028D75ED19A0>, 'localScale': <pyunity.core.ShowInInspector object at 0x0000028D75ED1A90>, 'parent': <pyunity.core.HideInInspector object at 0x0000028D75ED1C10>}
+shown {'localPosition': <pyunity.core.ShowInInspector object at 0x0000028D75ED1880>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0000028D75ED19A0>, 'localScale': <pyunity.core.ShowInInspector object at 0x0000028D75ED1A90>}
+color RGB(255, 255, 255)
+intensity 100
+saved {'color': <pyunity.core.ShowInInspector object at 0x0000028D75EF94C0>, 'intensity': <pyunity.core.ShowInInspector object at 0x0000028D75EF9460>}
+shown {'color': <pyunity.core.ShowInInspector object at 0x0000028D75EF94C0>, 'intensity': <pyunity.core.ShowInInspector object at 0x0000028D75EF9460>}
+DefaultMaterial <pyunity.values.texture.Material object at 0x0000028D75EF95B0>
+mat <pyunity.values.texture.Material object at 0x0000028D75EF95B0>
+mesh None
+saved {'mat': <pyunity.core.ShowInInspector object at 0x0000028D75EF9670>, 'mesh': <pyunity.core.ShowInInspector object at 0x0000028D75EF9610>}
+shown {'mat': <pyunity.core.ShowInInspector object at 0x0000028D75EF9670>, 'mesh': <pyunity.core.ShowInInspector object at 0x0000028D75EF9610>}
+saved {'_script': <pyunity.core.ShowInInspector object at 0x0000028D75F079D0>}
+shown {'_script': <pyunity.core.ShowInInspector object at 0x0000028D75F079D0>}
+var {}
+names ['right.jpg', 'left.jpg', 'top.jpg', 'bottom.jpg', 'front.jpg', 'back.jpg']
+points [-1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1]
+saved {}
+shown {}
+anchors None
+offset None
+pivot None
+rotation 0
+saved {'anchors': <pyunity.core.ShowInInspector object at 0x0000028D75F07160>, 'offset': <pyunity.core.ShowInInspector object at 0x0000028D75F46550>, 'pivot': <pyunity.core.ShowInInspector object at 0x0000028D75F465B0>, 'rotation': <pyunity.core.ShowInInspector object at 0x0000028D75F46610>}
+shown {'anchors': <pyunity.core.ShowInInspector object at 0x0000028D75F07160>, 'offset': <pyunity.core.ShowInInspector object at 0x0000028D75F46550>, 'pivot': <pyunity.core.ShowInInspector object at 0x0000028D75F465B0>, 'rotation': <pyunity.core.ShowInInspector object at 0x0000028D75F46610>}
+depth 0.0
+saved {'depth': <pyunity.core.ShowInInspector object at 0x0000028D75F56340>, 'texture': <pyunity.core.ShowInInspector object at 0x0000028D75F560D0>}
+shown {'depth': <pyunity.core.ShowInInspector object at 0x0000028D75F56340>, 'texture': <pyunity.core.ShowInInspector object at 0x0000028D75F560D0>}
+texture None
+pressed False
+saved {'callback': <pyunity.core.ShowInInspector object at 0x0000028D75F56A30>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x0000028D75F56B80>, 'pressed': <pyunity.core.ShowInInspector object at 0x0000028D75F56BE0>, 'state': <pyunity.core.ShowInInspector object at 0x0000028D75F569D0>}
+shown {'callback': <pyunity.core.ShowInInspector object at 0x0000028D75F56A30>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x0000028D75F56B80>, 'pressed': <pyunity.core.ShowInInspector object at 0x0000028D75F56BE0>, 'state': <pyunity.core.ShowInInspector object at 0x0000028D75F569D0>}
+centeredX False
+centeredY True
+color None
+depth 0.1
+font None
+saved {'centeredX': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B80>, 'centeredY': <pyunity.core.ShowInInspector object at 0x0000028D75FE3BE0>, 'color': <pyunity.core.ShowInInspector object at 0x0000028D75FE3AC0>, 'depth': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B20>, 'font': <pyunity.core.ShowInInspector object at 0x0000028D75FE31C0>, 'text': <pyunity.core.ShowInInspector object at 0x0000028D75FE3A60>}
+shown {'centeredX': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B80>, 'centeredY': <pyunity.core.ShowInInspector object at 0x0000028D75FE3BE0>, 'color': <pyunity.core.ShowInInspector object at 0x0000028D75FE3AC0>, 'depth': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B20>, 'font': <pyunity.core.ShowInInspector object at 0x0000028D75FE31C0>, 'text': <pyunity.core.ShowInInspector object at 0x0000028D75FE3A60>}
+text Text
+mousePosition None
+capsule <pyunity.meshes.Mesh object at 0x0000028D7604C700>
+cube <pyunity.meshes.Mesh object at 0x0000028D75FF8580>
+cylinder <pyunity.meshes.Mesh object at 0x0000028D76081160>
+double_quad <pyunity.meshes.Mesh object at 0x0000028D75FF8F40>
+quad <pyunity.meshes.Mesh object at 0x0000028D75FF88E0>
+sphere <pyunity.meshes.Mesh object at 0x0000028D7601BFA0>
+saved {}
+shown {}
+max None
+min None
+pos None
+radius 0
+saved {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F311C0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F310A0>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31340>, 'radius': <pyunity.core.ShowInInspector object at 0x0000028D75F312E0>}
+shown {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F311C0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F310A0>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31340>, 'radius': <pyunity.core.ShowInInspector object at 0x0000028D75F312E0>}
+max None
+min None
+pos None
+saved {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F314F0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F31430>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31550>}
+shown {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F314F0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F31430>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31550>}
+force None
+gravity True
+mass 100
+physicMaterial <pyunity.physics.core.PhysicMaterial object at 0x0000028D75F31760>
+position None
+saved {'force': <pyunity.core.ShowInInspector object at 0x0000028D75F31820>, 'gravity': <pyunity.core.ShowInInspector object at 0x0000028D75F31880>, 'mass': <pyunity.core.ShowInInspector object at 0x0000028D75F31610>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x0000028D75F317C0>, 'position': <pyunity.core.ShowInInspector object at 0x0000028D75F316A0>, 'velocity': <pyunity.core.ShowInInspector object at 0x0000028D75F31700>}
+shown {'force': <pyunity.core.ShowInInspector object at 0x0000028D75F31820>, 'gravity': <pyunity.core.ShowInInspector object at 0x0000028D75F31880>, 'mass': <pyunity.core.ShowInInspector object at 0x0000028D75F31610>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x0000028D75F317C0>, 'position': <pyunity.core.ShowInInspector object at 0x0000028D75F316A0>, 'velocity': <pyunity.core.ShowInInspector object at 0x0000028D75F31700>}
+velocity None
+clearColor RGB(0, 0, 0)
+far 200
+near 0.05
+saved {'clearColor': <pyunity.core.ShowInInspector object at 0x0000028D75F3D100>, 'far': <pyunity.core.ShowInInspector object at 0x0000028D75F3D040>, 'near': <pyunity.core.ShowInInspector object at 0x0000028D75F31E20>, 'shader': <pyunity.core.ShowInInspector object at 0x0000028D75F3D160>, 'skybox': <pyunity.core.ShowInInspector object at 0x0000028D75F3D220>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x0000028D75F3D1C0>}
+shader <pyunity.render.Shader object at 0x0000028D75F31DF0>
+shown {'clearColor': <pyunity.core.ShowInInspector object at 0x0000028D75F3D100>, 'far': <pyunity.core.ShowInInspector object at 0x0000028D75F3D040>, 'near': <pyunity.core.ShowInInspector object at 0x0000028D75F31E20>, 'shader': <pyunity.core.ShowInInspector object at 0x0000028D75F3D160>, 'skybox': <pyunity.core.ShowInInspector object at 0x0000028D75F3D220>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x0000028D75F3D1C0>}
+skybox <pyunity.files.Skybox object at 0x0000028D75F31F70>
+skyboxEnabled True
+aspect 1.6
+height 500
+size Vector2(800, 500)
+width 800
