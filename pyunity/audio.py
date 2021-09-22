@@ -64,7 +64,7 @@ class AudioClip:
         Sound chunk that can be played with
         an SDL2 Mixer Channel.
         Only set when the AudioClip is played
-        in an ``AudioSource``.
+        in an :class:`AudioSource`.
 
     """
 
@@ -80,7 +80,7 @@ class AudioSource(Component):
     ----------
     clip : AudioClip
         Clip to play. Best way to set the clip
-        is to use the ``SetClip`` function.
+        is to use the :meth:`SetClip` function.
     playOnStart : bool
         Whether it plays on start or not.
     Loop : bool

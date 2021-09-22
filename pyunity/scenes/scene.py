@@ -2,7 +2,7 @@
 Class to load, render and manage GameObjects
 and their various components.
 
-You should never use the ``Scene``
+You should never use the :class:`Scene`
 class directly, instead, only use
 the SceneManager class.
 

@@ -95,7 +95,7 @@ own file, but Python can't do something like that, so put all of
 your scripts in one file. Then, to add a script, just use
 ``AddComponent()``. Do not put anything in the ``__init__`` function,
 instead put it in ``Start()``. The ``Update()`` function receives one
-parameter, ``dt``, which is the same as ``Time.deltaTime``.
+parameter, ``dt``, which is the same as ``Time.deltaTime`` in Unity.
 
 Windows
 -------
