@@ -2,10 +2,6 @@
 Welcome to PyUnity's documentation!
 ===================================
 
-.. contents:: Table of Contents
-    :depth: 1
-    :local:
-
 Version 0.8.0 (in development)
 ------------------------------
 PyUnity is a pure Python 3D Game Engine that
