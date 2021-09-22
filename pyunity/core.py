@@ -177,7 +177,7 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to add. Must inherit from ``Component``
+            Component to add. Must inherit from :class:`Component`
 
         """
         if not issubclass(componentClass, Component):
@@ -214,7 +214,7 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         Returns
         -------
@@ -261,7 +261,7 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         Returns
         -------
@@ -386,7 +386,7 @@ class Component:
         Parameters
         ----------
         component : Component
-            Component to add. Must inherit from ``Component``
+            Component to add. Must inherit from :class:`Component`
 
         """
         return self.gameObject.AddComponent(component)
@@ -398,7 +398,7 @@ class Component:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         """
         return self.gameObject.GetComponent(component)
@@ -410,7 +410,7 @@ class Component:
         Parameters
         ----------
         component : Component
-            Component to remove. Must inherit from ``Component``
+            Component to remove. Must inherit from :class:`Component`
 
         """
         return self.gameObject.RemoveComponent(component)
@@ -422,7 +422,7 @@ class Component:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         """
         return self.gameObject.GetComponents(component)
@@ -434,7 +434,7 @@ class Component:
         Parameters
         ----------
         component : Component
-            Component to remove. Must inherit from ``Component``
+            Component to remove. Must inherit from :class:`Component`
 
         """
         return self.gameObject.RemoveComponents(component)

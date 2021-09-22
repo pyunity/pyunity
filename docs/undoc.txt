@@ -1,8 +1,8 @@
 clip None
 loop False
 playOnStart False
-saved {'clip': <pyunity.core.ShowInInspector object at 0x0000028D75EF9730>, 'loop': <pyunity.core.ShowInInspector object at 0x0000028D75ECA820>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0000028D75ECA310>}
-shown {'clip': <pyunity.core.ShowInInspector object at 0x0000028D75EF9730>, 'loop': <pyunity.core.ShowInInspector object at 0x0000028D75ECA820>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0000028D75ECA310>}
+saved {'clip': <pyunity.core.ShowInInspector object at 0x05439490>, 'loop': <pyunity.core.ShowInInspector object at 0x05439418>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0542C208>}
+shown {'clip': <pyunity.core.ShowInInspector object at 0x05439490>, 'loop': <pyunity.core.ShowInInspector object at 0x05439418>, 'playOnStart': <pyunity.core.ShowInInspector object at 0x0542C208>}
 saved {}
 shown {}
 tags ['Default']
@@ -14,19 +14,19 @@ localPosition None
 localRotation None
 localScale None
 parent None
-saved {'localPosition': <pyunity.core.ShowInInspector object at 0x0000028D75ED1880>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0000028D75ED19A0>, 'localScale': <pyunity.core.ShowInInspector object at 0x0000028D75ED1A90>, 'parent': <pyunity.core.HideInInspector object at 0x0000028D75ED1C10>}
-shown {'localPosition': <pyunity.core.ShowInInspector object at 0x0000028D75ED1880>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0000028D75ED19A0>, 'localScale': <pyunity.core.ShowInInspector object at 0x0000028D75ED1A90>}
+saved {'localPosition': <pyunity.core.ShowInInspector object at 0x0542C700>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0542C7A8>, 'localScale': <pyunity.core.ShowInInspector object at 0x0542C730>, 'parent': <pyunity.core.HideInInspector object at 0x05439208>}
+shown {'localPosition': <pyunity.core.ShowInInspector object at 0x0542C700>, 'localRotation': <pyunity.core.ShowInInspector object at 0x0542C7A8>, 'localScale': <pyunity.core.ShowInInspector object at 0x0542C730>}
 color RGB(255, 255, 255)
 intensity 100
-saved {'color': <pyunity.core.ShowInInspector object at 0x0000028D75EF94C0>, 'intensity': <pyunity.core.ShowInInspector object at 0x0000028D75EF9460>}
-shown {'color': <pyunity.core.ShowInInspector object at 0x0000028D75EF94C0>, 'intensity': <pyunity.core.ShowInInspector object at 0x0000028D75EF9460>}
-DefaultMaterial <pyunity.values.texture.Material object at 0x0000028D75EF95B0>
-mat <pyunity.values.texture.Material object at 0x0000028D75EF95B0>
+saved {'color': <pyunity.core.ShowInInspector object at 0x054392F8>, 'intensity': <pyunity.core.ShowInInspector object at 0x054392C8>}
+shown {'color': <pyunity.core.ShowInInspector object at 0x054392F8>, 'intensity': <pyunity.core.ShowInInspector object at 0x054392C8>}
+DefaultMaterial <pyunity.values.texture.Material object at 0x05439370>
+mat <pyunity.values.texture.Material object at 0x05439370>
 mesh None
-saved {'mat': <pyunity.core.ShowInInspector object at 0x0000028D75EF9670>, 'mesh': <pyunity.core.ShowInInspector object at 0x0000028D75EF9610>}
-shown {'mat': <pyunity.core.ShowInInspector object at 0x0000028D75EF9670>, 'mesh': <pyunity.core.ShowInInspector object at 0x0000028D75EF9610>}
-saved {'_script': <pyunity.core.ShowInInspector object at 0x0000028D75F079D0>}
-shown {'_script': <pyunity.core.ShowInInspector object at 0x0000028D75F079D0>}
+saved {'mat': <pyunity.core.ShowInInspector object at 0x054393D0>, 'mesh': <pyunity.core.ShowInInspector object at 0x054393A0>}
+shown {'mat': <pyunity.core.ShowInInspector object at 0x054393D0>, 'mesh': <pyunity.core.ShowInInspector object at 0x054393A0>}
+saved {'_script': <pyunity.core.ShowInInspector object at 0x05439BF8>}
+shown {'_script': <pyunity.core.ShowInInspector object at 0x05439BF8>}
 var {}
 names ['right.jpg', 'left.jpg', 'top.jpg', 'bottom.jpg', 'front.jpg', 'back.jpg']
 points [-1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1]
@@ -36,58 +36,56 @@ anchors None
 offset None
 pivot None
 rotation 0
-saved {'anchors': <pyunity.core.ShowInInspector object at 0x0000028D75F07160>, 'offset': <pyunity.core.ShowInInspector object at 0x0000028D75F46550>, 'pivot': <pyunity.core.ShowInInspector object at 0x0000028D75F465B0>, 'rotation': <pyunity.core.ShowInInspector object at 0x0000028D75F46610>}
-shown {'anchors': <pyunity.core.ShowInInspector object at 0x0000028D75F07160>, 'offset': <pyunity.core.ShowInInspector object at 0x0000028D75F46550>, 'pivot': <pyunity.core.ShowInInspector object at 0x0000028D75F465B0>, 'rotation': <pyunity.core.ShowInInspector object at 0x0000028D75F46610>}
+saved {'anchors': <pyunity.core.ShowInInspector object at 0x054398B0>, 'offset': <pyunity.core.ShowInInspector object at 0x0545CB08>, 'pivot': <pyunity.core.ShowInInspector object at 0x0545CB38>, 'rotation': <pyunity.core.ShowInInspector object at 0x0545CB68>}
+shown {'anchors': <pyunity.core.ShowInInspector object at 0x054398B0>, 'offset': <pyunity.core.ShowInInspector object at 0x0545CB08>, 'pivot': <pyunity.core.ShowInInspector object at 0x0545CB38>, 'rotation': <pyunity.core.ShowInInspector object at 0x0545CB68>}
 depth 0.0
-saved {'depth': <pyunity.core.ShowInInspector object at 0x0000028D75F56340>, 'texture': <pyunity.core.ShowInInspector object at 0x0000028D75F560D0>}
-shown {'depth': <pyunity.core.ShowInInspector object at 0x0000028D75F56340>, 'texture': <pyunity.core.ShowInInspector object at 0x0000028D75F560D0>}
+saved {'depth': <pyunity.core.ShowInInspector object at 0x054783E8>, 'texture': <pyunity.core.ShowInInspector object at 0x05478070>}
+shown {'depth': <pyunity.core.ShowInInspector object at 0x054783E8>, 'texture': <pyunity.core.ShowInInspector object at 0x05478070>}
 texture None
 pressed False
-saved {'callback': <pyunity.core.ShowInInspector object at 0x0000028D75F56A30>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x0000028D75F56B80>, 'pressed': <pyunity.core.ShowInInspector object at 0x0000028D75F56BE0>, 'state': <pyunity.core.ShowInInspector object at 0x0000028D75F569D0>}
-shown {'callback': <pyunity.core.ShowInInspector object at 0x0000028D75F56A30>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x0000028D75F56B80>, 'pressed': <pyunity.core.ShowInInspector object at 0x0000028D75F56BE0>, 'state': <pyunity.core.ShowInInspector object at 0x0000028D75F569D0>}
-centeredX False
-centeredY True
+saved {'callback': <pyunity.core.ShowInInspector object at 0x054783B8>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x05478430>, 'pressed': <pyunity.core.ShowInInspector object at 0x05478460>, 'state': <pyunity.core.ShowInInspector object at 0x054783A0>}
+shown {'callback': <pyunity.core.ShowInInspector object at 0x054783B8>, 'mouseButton': <pyunity.core.ShowInInspector object at 0x05478430>, 'pressed': <pyunity.core.ShowInInspector object at 0x05478460>, 'state': <pyunity.core.ShowInInspector object at 0x054783A0>}
 color None
 depth 0.1
 font None
-saved {'centeredX': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B80>, 'centeredY': <pyunity.core.ShowInInspector object at 0x0000028D75FE3BE0>, 'color': <pyunity.core.ShowInInspector object at 0x0000028D75FE3AC0>, 'depth': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B20>, 'font': <pyunity.core.ShowInInspector object at 0x0000028D75FE31C0>, 'text': <pyunity.core.ShowInInspector object at 0x0000028D75FE3A60>}
-shown {'centeredX': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B80>, 'centeredY': <pyunity.core.ShowInInspector object at 0x0000028D75FE3BE0>, 'color': <pyunity.core.ShowInInspector object at 0x0000028D75FE3AC0>, 'depth': <pyunity.core.ShowInInspector object at 0x0000028D75FE3B20>, 'font': <pyunity.core.ShowInInspector object at 0x0000028D75FE31C0>, 'text': <pyunity.core.ShowInInspector object at 0x0000028D75FE3A60>}
+saved {'centeredX': <pyunity.core.ShowInInspector object at 0x054E3EC8>, 'centeredY': <pyunity.core.ShowInInspector object at 0x054E3EF8>, 'color': <pyunity.core.ShowInInspector object at 0x054E3E68>, 'depth': <pyunity.core.ShowInInspector object at 0x054E3E98>, 'font': <pyunity.core.ShowInInspector object at 0x054E39A0>, 'text': <pyunity.core.ShowInInspector object at 0x054E3DC0>}
+shown {'centeredX': <pyunity.core.ShowInInspector object at 0x054E3EC8>, 'centeredY': <pyunity.core.ShowInInspector object at 0x054E3EF8>, 'color': <pyunity.core.ShowInInspector object at 0x054E3E68>, 'depth': <pyunity.core.ShowInInspector object at 0x054E3E98>, 'font': <pyunity.core.ShowInInspector object at 0x054E39A0>, 'text': <pyunity.core.ShowInInspector object at 0x054E3DC0>}
 text Text
 mousePosition None
-capsule <pyunity.meshes.Mesh object at 0x0000028D7604C700>
-cube <pyunity.meshes.Mesh object at 0x0000028D75FF8580>
-cylinder <pyunity.meshes.Mesh object at 0x0000028D76081160>
-double_quad <pyunity.meshes.Mesh object at 0x0000028D75FF8F40>
-quad <pyunity.meshes.Mesh object at 0x0000028D75FF88E0>
-sphere <pyunity.meshes.Mesh object at 0x0000028D7601BFA0>
+capsule <pyunity.meshes.Mesh object at 0x0551C5C8>
+cube <pyunity.meshes.Mesh object at 0x054F8280>
+cylinder <pyunity.meshes.Mesh object at 0x055361A8>
+double_quad <pyunity.meshes.Mesh object at 0x054F8D60>
+quad <pyunity.meshes.Mesh object at 0x054F8BB0>
+sphere <pyunity.meshes.Mesh object at 0x05504C58>
 saved {}
 shown {}
 max None
 min None
 pos None
 radius 0
-saved {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F311C0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F310A0>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31340>, 'radius': <pyunity.core.ShowInInspector object at 0x0000028D75F312E0>}
-shown {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F311C0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F310A0>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31340>, 'radius': <pyunity.core.ShowInInspector object at 0x0000028D75F312E0>}
+saved {'max': <pyunity.core.ShowInInspector object at 0x053BC550>, 'min': <pyunity.core.ShowInInspector object at 0x053BC958>, 'pos': <pyunity.core.ShowInInspector object at 0x053BCA48>, 'radius': <pyunity.core.ShowInInspector object at 0x053BC370>}
+shown {'max': <pyunity.core.ShowInInspector object at 0x053BC550>, 'min': <pyunity.core.ShowInInspector object at 0x053BC958>, 'pos': <pyunity.core.ShowInInspector object at 0x053BCA48>, 'radius': <pyunity.core.ShowInInspector object at 0x053BC370>}
 max None
 min None
 pos None
-saved {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F314F0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F31430>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31550>}
-shown {'max': <pyunity.core.ShowInInspector object at 0x0000028D75F314F0>, 'min': <pyunity.core.ShowInInspector object at 0x0000028D75F31430>, 'pos': <pyunity.core.ShowInInspector object at 0x0000028D75F31550>}
+saved {'max': <pyunity.core.ShowInInspector object at 0x05448610>, 'min': <pyunity.core.ShowInInspector object at 0x05448718>, 'pos': <pyunity.core.ShowInInspector object at 0x054487A8>}
+shown {'max': <pyunity.core.ShowInInspector object at 0x05448610>, 'min': <pyunity.core.ShowInInspector object at 0x05448718>, 'pos': <pyunity.core.ShowInInspector object at 0x054487A8>}
 force None
 gravity True
 mass 100
-physicMaterial <pyunity.physics.core.PhysicMaterial object at 0x0000028D75F31760>
+physicMaterial <pyunity.physics.core.PhysicMaterial object at 0x05448880>
 position None
-saved {'force': <pyunity.core.ShowInInspector object at 0x0000028D75F31820>, 'gravity': <pyunity.core.ShowInInspector object at 0x0000028D75F31880>, 'mass': <pyunity.core.ShowInInspector object at 0x0000028D75F31610>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x0000028D75F317C0>, 'position': <pyunity.core.ShowInInspector object at 0x0000028D75F316A0>, 'velocity': <pyunity.core.ShowInInspector object at 0x0000028D75F31700>}
-shown {'force': <pyunity.core.ShowInInspector object at 0x0000028D75F31820>, 'gravity': <pyunity.core.ShowInInspector object at 0x0000028D75F31880>, 'mass': <pyunity.core.ShowInInspector object at 0x0000028D75F31610>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x0000028D75F317C0>, 'position': <pyunity.core.ShowInInspector object at 0x0000028D75F316A0>, 'velocity': <pyunity.core.ShowInInspector object at 0x0000028D75F31700>}
+saved {'force': <pyunity.core.ShowInInspector object at 0x054488E0>, 'gravity': <pyunity.core.ShowInInspector object at 0x05448910>, 'mass': <pyunity.core.ShowInInspector object at 0x054487F0>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x054488B0>, 'position': <pyunity.core.ShowInInspector object at 0x05448820>, 'velocity': <pyunity.core.ShowInInspector object at 0x05448850>}
+shown {'force': <pyunity.core.ShowInInspector object at 0x054488E0>, 'gravity': <pyunity.core.ShowInInspector object at 0x05448910>, 'mass': <pyunity.core.ShowInInspector object at 0x054487F0>, 'physicMaterial': <pyunity.core.ShowInInspector object at 0x054488B0>, 'position': <pyunity.core.ShowInInspector object at 0x05448820>, 'velocity': <pyunity.core.ShowInInspector object at 0x05448850>}
 velocity None
 clearColor RGB(0, 0, 0)
 far 200
 near 0.05
-saved {'clearColor': <pyunity.core.ShowInInspector object at 0x0000028D75F3D100>, 'far': <pyunity.core.ShowInInspector object at 0x0000028D75F3D040>, 'near': <pyunity.core.ShowInInspector object at 0x0000028D75F31E20>, 'shader': <pyunity.core.ShowInInspector object at 0x0000028D75F3D160>, 'skybox': <pyunity.core.ShowInInspector object at 0x0000028D75F3D220>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x0000028D75F3D1C0>}
-shader <pyunity.render.Shader object at 0x0000028D75F31DF0>
-shown {'clearColor': <pyunity.core.ShowInInspector object at 0x0000028D75F3D100>, 'far': <pyunity.core.ShowInInspector object at 0x0000028D75F3D040>, 'near': <pyunity.core.ShowInInspector object at 0x0000028D75F31E20>, 'shader': <pyunity.core.ShowInInspector object at 0x0000028D75F3D160>, 'skybox': <pyunity.core.ShowInInspector object at 0x0000028D75F3D220>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x0000028D75F3D1C0>}
-skybox <pyunity.files.Skybox object at 0x0000028D75F31F70>
+saved {'clearColor': <pyunity.core.ShowInInspector object at 0x05448B98>, 'far': <pyunity.core.ShowInInspector object at 0x05448B80>, 'near': <pyunity.core.ShowInInspector object at 0x05448B50>, 'shader': <pyunity.core.ShowInInspector object at 0x05448BC8>, 'skybox': <pyunity.core.ShowInInspector object at 0x05448C28>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x05448BF8>}
+shader <pyunity.render.Shader object at 0x05448AC0>
+shown {'clearColor': <pyunity.core.ShowInInspector object at 0x05448B98>, 'far': <pyunity.core.ShowInInspector object at 0x05448B80>, 'near': <pyunity.core.ShowInInspector object at 0x05448B50>, 'shader': <pyunity.core.ShowInInspector object at 0x05448BC8>, 'skybox': <pyunity.core.ShowInInspector object at 0x05448C28>, 'skyboxEnabled': <pyunity.core.ShowInInspector object at 0x05448BF8>}
+skybox <pyunity.files.Skybox object at 0x05448A48>
 skyboxEnabled True
 aspect 1.6
 height 500
