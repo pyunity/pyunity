@@ -1,10 +1,11 @@
 """Class to create a window using FreeGLUT."""
 
 from OpenGL import GLUT as glut
+from .abc import ABCWindow
 from ..input import KeyCode, KeyState  # lgtm [py/unused-import]
 from .. import config, Logger
 
-class Window:
+class Window(ABCWindow, message="This window provider has been deprecated since PyUnity 0.5.0."):
     """A window provider that uses FreeGLUT."""
 
     def __init__(self, name, resize):
