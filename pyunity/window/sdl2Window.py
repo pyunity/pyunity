@@ -1,5 +1,6 @@
 """Class to create a window using PySDL2."""
 
+from .abc import ABCWindow
 from ..values import Clock
 from ..input import KeyCode, KeyState, MouseCode
 from .. import config
@@ -8,7 +9,7 @@ import sdl2.ext
 import sdl2.video
 import ctypes
 
-class Window:
+class Window(ABCWindow):
     """
     A window provider that uses PySDL2.
 

@@ -134,12 +134,12 @@ def SetWindowProvider(name):
         raise PyUnityException(
             "No window provider named " + repr(name) + " found")
     module, checker = providers[name]
-    e = None
+    exc = None
     try:
         checker()
     except Exception as e:
-        pass
-    if e is not None:
+        exc = e
+    if exc is not None:
         raise PyUnityException("Cannot use window provider " + repr(name))
     Logger.LogLine(Logger.DEBUG, "Using window provider", name)
     window = importlib.import_module("." + module, __name__)

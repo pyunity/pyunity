@@ -2,12 +2,13 @@
 
 import glfw
 import sys
+from .abc import ABCWindow
 from ..errors import *
 from ..values import Clock
 from ..input import KeyCode, KeyState, MouseCode
 from .. import config
 
-class Window:
+class Window(ABCWindow):
     """
     A window provider that uses GLFW.
 
