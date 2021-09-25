@@ -6,6 +6,7 @@
 # Builds
 *.egg-info
 build/
+src/
 **/.doctrees
 
 # Coverage
