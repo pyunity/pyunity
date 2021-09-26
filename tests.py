@@ -51,7 +51,7 @@ class TestGameObject(unittest.TestCase):
         with self.assertRaises(ComponentException) as exception_context:
             gameObject.AddComponent(Transform)
         self.assertEqual(str(exception_context.exception),
-                         "Cannot add 'Transform' to the GameObject; it already has one")
+                         "Cannot add Transform to the GameObject; it already has one")
     
     def test_gameobject_position(self):
         gameObject = GameObject()
