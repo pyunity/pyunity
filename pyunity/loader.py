@@ -244,12 +244,12 @@ def SaveScene(scene, project):
     os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
     f.write(f"Scene : {scene.id}\n"
-            f"    name: {scene.name!r}\n")
+            f"    name: {json.dumps(scene.name)}\n")
 
     ids = scene.ids
     for gameObject in scene.gameObjects:
         f.write(f"GameObject : {GetId(ids, gameObject)}\n"
-                f"    name: {gameObject.name!r}\n"
+                f"    name: {json.dumps(gameObject.name)}\n"
                 f"    tag: {gameObject.tag.tag}\n"
                 f"    transform: {GetId(ids, gameObject.transform)}\n")
 
