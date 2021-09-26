@@ -496,7 +496,7 @@ class Transform(SingleComponent):
     def position(self):
         """Position of the Transform in world space."""
         if self.parent is None:
-            return self.localPosition
+            return self.localPosition.copy()
         else:
             return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.parent.scale
 
@@ -516,7 +516,7 @@ class Transform(SingleComponent):
     def rotation(self):
         """Rotation of the Transform in world space."""
         if self.parent is None:
-            return self.localRotation
+            return self.localRotation.copy()
         else:
             return self.parent.rotation * self.localRotation
 
@@ -559,7 +559,7 @@ class Transform(SingleComponent):
     def scale(self):
         """Scale of the Transform in world space."""
         if self.parent is None:
-            return self.localScale
+            return self.localScale.copy()
         else:
             return self.parent.scale * self.localScale
 

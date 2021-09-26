@@ -349,7 +349,8 @@ class Camera(SingleComponent):
 
     def getViewMat(self):
         """Generates view matrix from Transform of camera."""
-        if self.renderPass and self.lastPos != self.transform.position or self.lastRot != self.transform.rotation:
+        if self.renderPass and (self.lastPos != self.transform.position or
+                self.lastRot != self.transform.rotation):
             ## OLD LOOKAT MATRIX GEN ##
             # pos = self.transform.position * Vector3(1, 1, -1)
             # look = pos + \
@@ -365,7 +366,7 @@ class Camera(SingleComponent):
             self.lastRot = self.transform.rotation
             self.renderPass = False
         return self.viewMat
-
+    
     def UseShader(self, name):
         """Sets current shader from name."""
         self.shader = shaders[name]
