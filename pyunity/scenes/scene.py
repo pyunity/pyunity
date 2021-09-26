@@ -287,7 +287,10 @@ class Scene:
             Vector3.up()) * Vector3(1, 1, -1)
         directionZ = self.mainCamera.transform.rotation.RotateVector(
             Vector3.forward()) * Vector3(1, 1, -1)
-        parent = renderer.transform.parent.position if renderer.transform.parent else Vector3.zero()
+        if renderer.transform.parent is not None:
+            parent = renderer.transform.parent.position
+        else:
+            parent = Vector3.zero()
         rpmin = renderer.transform.rotation.RotateVector(
             mesh.min - renderer.transform.localPosition)
         rpmax = renderer.transform.rotation.RotateVector(

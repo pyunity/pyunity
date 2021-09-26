@@ -526,8 +526,10 @@ class Transform(SingleComponent):
             raise PyUnityException(
                 f"Cannot set rotation to object of type {type(value).__name__!r}")
 
-        self.localRotation = value if self.parent is None else value * \
-            self.parent.rotation.conjugate
+        if self.parent is None:
+            self.localRotation = value
+        else:
+            self.localRotation = value * self.parent.rotation.conjugate
 
     @property
     def localEulerAngles(self):
@@ -553,7 +555,7 @@ class Transform(SingleComponent):
 
     @eulerAngles.setter
     def eulerAngles(self, value):
-        self.rotation.eulerAngles = value
+        self.rotation = Quaternion.Euler(value)
 
     @property
     def scale(self):
