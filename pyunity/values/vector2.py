@@ -173,7 +173,7 @@ class Vector2:
 
     def __abs__(self):
         return self.length
-    
+
     def abs(self):
         return Vector2(abs(self.x), abs(self.y))
 

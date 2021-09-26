@@ -375,13 +375,14 @@ class Scene:
                 gl.glEnable(gl.GL_CULL_FACE)
             gl.glEnable(gl.GL_BLEND)
             gl.glBlendFunc(gl.GL_SRC_ALPHA,
-                gl.GL_ONE_MINUS_SRC_ALPHA)
+                           gl.GL_ONE_MINUS_SRC_ALPHA)
 
         self.start_scripts()
 
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
-        Logger.LogLine(Logger.DEBUG, "Scene " + repr(self.name) + " has started")
+        Logger.LogLine(Logger.DEBUG, "Scene " +
+                       repr(self.name) + " has started")
 
     def update_scripts(self):
         """Updates all scripts in the scene."""
@@ -441,7 +442,8 @@ class Scene:
             return
 
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(self.FindComponentsByType(MeshRenderer), self.lights)
+        self.mainCamera.Render(
+            self.FindComponentsByType(MeshRenderer), self.lights)
         self.mainCamera.Render2D(self.FindComponentsByType(Canvas))
 
     def clean_up(self):

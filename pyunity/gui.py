@@ -50,19 +50,19 @@ class RectData:
 
     def __repr__(self):
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
-    
+
     def __add__(self, other):
         if isinstance(other, RectData):
             return RectData(self.min + other.min, self.max + other.max)
         else:
             return RectData(self.min + other, self.max + other)
-    
+
     def __sub__(self, other):
         if isinstance(other, RectData):
             return RectData(self.min - other.min, self.max - other.max)
         else:
             return RectData(self.min - other, self.max - other)
-    
+
     def __mul__(self, other):
         if isinstance(other, RectData):
             return RectData(self.min * other.min, self.max * other.max)
@@ -136,10 +136,10 @@ buttonDefault = Texture2D(os.path.join(os.path.abspath(
 
 class Gui:
     @classmethod
-    def MakeButton(cls, name, scene, texture2d=None):
-        if texture2d is None:
-            texture2d = buttonDefault
-        
+    def MakeButton(cls, name, scene, text="Button", font=None, color=None, texture=None):
+        if texture is None:
+            texture = buttonDefault
+
         button = GameObject(name)
         transform = button.AddComponent(RectTransform)
 
@@ -194,7 +194,7 @@ class WinFontLoader(_FontLoader):
     def LoadFile(cls, name):
         import winreg
         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\\")
+                             "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\\")
         try:
             file = winreg.QueryValueEx(key, name + " (TrueType)")
         except WindowsError:
@@ -212,7 +212,7 @@ class UnixFontLoader(_FontLoader):
         out = stdout.decode()
         if out == "":
             raise PyUnityException("Cannot find font called " + repr(name))
-        
+
         return out.split(": ")[0]
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
@@ -223,13 +223,13 @@ else:
 class Font:
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
-            raise PyUnityException("Please specify a FreeType font" + \
-                "created from ImageFont.freetype")
-        
+            raise PyUnityException("Please specify a FreeType font" +
+                                   "created from ImageFont.freetype")
+
         self._font = imagefont
         self.name = name
         self.size = size
-    
+
     def __reduce__(self):
         return (FontLoader.LoadFont, (self.name, self.size))
 
@@ -250,13 +250,13 @@ class Text(Component):
         self.rect = None
         self.color = RGB(255, 255, 255)
         self.texture = None
-    
+
     def GenTexture(self):
         if self.rect is None:
             self.rect = self.GetComponent(RectTransform)
             if self.rect is None:
                 return
-        
+
         rect = self.rect.GetRect() + self.rect.offset
         size = (rect.max - rect.min).abs()
         im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
@@ -275,14 +275,14 @@ class Text(Component):
             offY = (size.y - height) // 2
         else:
             offY = size.y - height
-        
+
         draw.text((offX, offY), self.text, font=self.font._font,
-            fill=tuple(self.color))
+                  fill=tuple(self.color))
         if self.texture is not None:
             self.texture.setImg(im)
         else:
             self.texture = Texture2D(im)
-    
+
     def __setattr__(self, name, value):
         super(Text, self).__setattr__(name, value)
         if name in ["font", "text", "color"]:

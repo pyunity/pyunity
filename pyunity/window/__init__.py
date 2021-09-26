@@ -86,7 +86,8 @@ def GetWindowProvider():
                 del settings.db["window_cache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
             windowProvider = settings.db["window_provider"]
-            Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
+            Logger.LogLine(
+                Logger.DEBUG, "Using window provider", windowProvider)
             return importlib.import_module("." + providers[windowProvider][0], __name__)
 
     windowProvider = ""

@@ -186,7 +186,7 @@ class Vector3:
 
     def __abs__(self):
         return self.length
-    
+
     def abs(self):
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
 
@@ -357,7 +357,7 @@ class Vector3:
         y = self.z * other[0] - self.x * other[2]
         z = self.x * other[1] - self.y * other[0]
         return Vector3(x, y, z)
-    
+
     @staticmethod
     def min(a, b):
         return a._o2(b, min)

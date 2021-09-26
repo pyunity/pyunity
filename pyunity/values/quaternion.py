@@ -215,12 +215,12 @@ class Quaternion:
         p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
         if glm.cos(p) != 0:
             h = -glm.atan(2 * self.x * self.z - 2 * self.w *
-                           self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
+                          self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
             b = -glm.atan(self.x * self.y - self.w * self.z,
-                           1 / 2 - self.x ** 2 - self.z ** 2)
+                          1 / 2 - self.x ** 2 - self.z ** 2)
         else:
             h = -glm.atan(-self.x * self.z - self.w * self.y,
-                           1 / 2 - self.y ** 2 - self.z ** 2)
+                          1 / 2 - self.y ** 2 - self.z ** 2)
             b = 0
 
         return Vector3(glm.degrees(p), glm.degrees(h), glm.degrees(b))

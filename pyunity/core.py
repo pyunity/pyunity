@@ -159,7 +159,7 @@ class GameObject:
         ==========
         name : str
             Name of the GameObject
-        
+
         """
         obj = GameObject.__new__(GameObject)
         obj.name = name
@@ -312,7 +312,7 @@ class HideInInspector:
         Default value (will be set to the Behaviour)
     name : NoneType
         None
-    
+
     """
     def __init__(self, type=None, default=None):
         self.type = type
@@ -332,7 +332,7 @@ class ShowInInspector(HideInInspector):
         Default value (will be set to the Behaviour)
     name : str
         Alternate name shown in the Inspector
-    
+
     """
     def __init__(self, type=None, default=None, name=None):
         super(ShowInInspector, self).__init__(type, default)
@@ -627,18 +627,18 @@ class Transform(SingleComponent):
     def LookAtTransform(self, transform):
         """
         Face towards another transform's position.
-        
+
         Parameters
         ==========
         transform : Transform
             Transform to face towards
-        
+
         Notes
         =====
         The rotation generated may not be upright, and
         to fix this just use ``transform.rotation.eulerAngles *= Vector3(1, 1, 0)``
         which will remove the Z component of the Euler angles.
-        
+
         """
         v = transform.position - self.position
         self.rotation = Quaternion.FromDir(v)
@@ -646,7 +646,7 @@ class Transform(SingleComponent):
     def LookAtGameObject(self, gameObject):
         """
         Face towards another GameObject's position. See `Transform.LookAtTransform` for details.
-        
+
         Parameters
         ==========
         gameObject : GameObject
@@ -659,7 +659,7 @@ class Transform(SingleComponent):
     def LookAtPoint(self, vec):
         """
         Face towards a point. See `Transform.LookAtTransform` for details.
-        
+
         Parameters
         ==========
         vec : Vector3
@@ -672,7 +672,7 @@ class Transform(SingleComponent):
     def LookInDirection(self, vec):
         """
         Face in a vector direction (from origin to point). See `Transform.LookAtTransform` for details.
-        
+
         Parameters
         ==========
         vec : Vector3
@@ -694,7 +694,8 @@ class Transform(SingleComponent):
 
         """
         return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
-            " scale=" + str(self.scale) + " path=" + repr(self.FullPath()) + ">"
+            " scale=" + str(self.scale) + " path=" + \
+            repr(self.FullPath()) + ">"
 
     __str__ = __repr__
 
