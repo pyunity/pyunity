@@ -141,7 +141,7 @@ def SetWindowProvider(name):
     except Exception as e:
         exc = e
     if exc is not None:
-        raise PyUnityException(f"Cannot use window provider {name!r})
+        raise PyUnityException(f"Cannot use window provider {name!r}")
     Logger.LogLine(Logger.DEBUG, "Using window provider", name)
     window = importlib.import_module(f".{module}", __name__)
     config.windowProvider = window

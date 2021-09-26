@@ -370,7 +370,8 @@ class Project:
                     f"    firstScene: {self.firstScene}\n"
                     f"Files\n")
             for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
-                f.write(f"    {uuid}: {os.path.normpath(file[1]).replace('\\', '/')}\n")
+                path = os.path.normpath(file[1]).replace("\\", '/')
+                f.write(f"    {uuid}: {path}\n")
 
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
             f.write("from pyunity import *\n")
