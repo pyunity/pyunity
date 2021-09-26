@@ -100,7 +100,7 @@ def GetSceneByIndex(index):
 
     """
     if len(scenesByIndex) <= index:
-        raise IndexError("There is no scene at index " + str(index))
+        raise IndexError(f"There is no scene at index {index}")
     return scenesByIndex[index]
 
 def GetSceneByName(name):
@@ -124,7 +124,7 @@ def GetSceneByName(name):
 
     """
     if name not in scenesByName:
-        raise KeyError("There is no scene called " + name)
+        raise KeyError(f"There is no scene called {name}")
     return scenesByName[name]
 
 def RemoveScene(scene):

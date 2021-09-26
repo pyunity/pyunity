@@ -73,16 +73,12 @@ def SaveObj(mesh, name, filePath=None):
 
     with open(os.path.join(directory, name + ".obj"), "w+") as f:
         for vertex in mesh.verts:
-            f.write("v " + " ".join(map(str, round(vertex, 8))) + "\n")
+            f.write(f"v {' '.join(map(str, round(vertex, 8)))}\n")
         for normal in mesh.normals:
-            f.write("vn " + " ".join(map(str, round(normal, 8))) + "\n")
+            f.write(f"vn {' '.join(map(str, round(normal, 8)))}\n")
         for face in mesh.triangles:
-            face = " ".join([
-                str(face[0] + 1) + "//" + str(face[0] + 1),
-                str(face[1] + 1) + "//" + str(face[1] + 1),
-                str(face[2] + 1) + "//" + str(face[2] + 1),
-            ])
-            f.write("f " + face + "\n")
+            face = " ".join([f"{x + 1}//{x + 1}" for x in face])
+            f.write(f"f {face}\n")
 
 def LoadMesh(filename):
     """
@@ -247,15 +243,15 @@ def SaveScene(scene, project):
     directory = project.path
     os.makedirs(os.path.join(directory, "Scenes"), exist_ok=True)
     f = open(os.path.join(directory, "Scenes", scene.name + ".scene"), "w+")
-    f.write("Scene : " + scene.id + "\n")
-    f.write("    name: " + json.dumps(scene.name) + "\n")
+    f.write(f"Scene : {scene.id}\n"
+            f"    name: {scene.name!r}\n")
 
     ids = scene.ids
     for gameObject in scene.gameObjects:
-        f.write("GameObject : " + GetId(ids, gameObject) + "\n")
-        f.write("    name: " + json.dumps(gameObject.name) + "\n")
-        f.write("    tag: " + str(gameObject.tag.tag) + "\n")
-        f.write("    transform: " + GetId(ids, gameObject.transform) + "\n")
+        f.write(f"GameObject : {GetId(ids, gameObject)}\n"
+                f"    name: {gameObject.name!r}\n"
+                f"    tag: {gameObject.tag.tag}\n"
+                f"    transform: {GetId(ids, gameObject.transform)}\n")
 
     # 2nd pass (for components)
     for gameObject in scene.gameObjects:
@@ -275,12 +271,14 @@ def SaveScene(scene, project):
             else:
                 name = type(component).__name__ + "(Component)"
             # lgtm [py/clear-text-storage-sensitive-data]
-            f.write(name + " : " + uuid + "\n")
+            f.write(f"{name} : {uuid}\n")
 
-            f.write("    gameObject: " + ids[id(gameObject)] + "\n")
+            f.write(f"    gameObject: {ids[id(gameObject)]}\n")
             if isinstance(component, Behaviour):
-                f.write("    _script: " + project.file_paths[os.path.join(
-                    "Scripts", type(component).__name__ + ".py")].uuid + "\n")  # lgtm [py/clear-text-storage-sensitive-data]
+                scriptId = project.file_paths[os.path.join(
+                    'Scripts', type(component).__name__ + ".py")].uuid
+                # lgtm [py/clear-text-storage-sensitive-data]
+                f.write(f"    _script: {scriptId}\n")
             for attr in component.saved:
                 value = getattr(component, attr)
                 if id(value) in ids:
@@ -323,7 +321,7 @@ def SaveScene(scene, project):
                 else:
                     written = str(value)
                 # lgtm [py/clear-text-storage-sensitive-data]
-                f.write("    " + attr + ": " + written + "\n")
+                f.write(f"    {attr}: {written}\n")
 
     project.write_project()
 

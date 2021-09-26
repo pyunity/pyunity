@@ -112,8 +112,8 @@ class Tag:
             self.tag = tagNumOrName
             self.tagName = Tag.tags[tagNumOrName]
         else:
-            raise TypeError(
-                "Argument 1: expected str or int, got " + type(tagNumOrName).__name__)
+            raise TypeError(f"Argument 1:"
+                            f"expected str or int, got {type(tagNumOrName).__name__}")
 
 class GameObject:
     """
@@ -182,8 +182,8 @@ class GameObject:
         """
         if not issubclass(componentClass, Component):
             raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) +
-                " to the GameObject; it is not a component"
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it is not a component"
             )
         if not (
                 issubclass(componentClass, SingleComponent) and
@@ -201,9 +201,8 @@ class GameObject:
             return component
         else:
             raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) +
-                " to the GameObject; it already has one"
-            )
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it already has one")
 
     def GetComponent(self, componentClass):
         """
@@ -248,7 +247,8 @@ class GameObject:
         component = self.GetComponent(componentClass)
         if component is None:
             raise ComponentException(
-                "Cannot remove " + componentClass.__name__ + "from the GameObject, it doesn't have one")
+                f"Cannot remove {componentClass.__name__} from the GameObject; "
+                f"it doesn't have one")
         if componentClass is Transform:
             raise ComponentException(
                 "Cannot remove a Transform from a GameObject")
@@ -295,8 +295,8 @@ class GameObject:
             self.components.remove(component)
 
     def __repr__(self):
-        return "<GameObject name=" + repr(self.name) + " components=" + \
-            str(list(map(lambda x: type(x).__name__, self.components))) + ">"
+        return (f"<GameObject name={self.name!r} components="
+                f"{list(map(lambda x: type(x).__name__, self.components))}>")
     __str__ = __repr__
 
 class HideInInspector:
@@ -504,7 +504,7 @@ class Transform(SingleComponent):
     def position(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set position to object of type " + repr(type(value).__name__))
+                f"Cannot set position to object of type {type(value).__name__!r}")
 
         if self.parent is None:
             self.localPosition = value
@@ -524,7 +524,7 @@ class Transform(SingleComponent):
     def rotation(self, value):
         if not isinstance(value, Quaternion):
             raise PyUnityException(
-                "Cannot set rotation to object of type " + repr(type(value).__name__))
+                f"Cannot set rotation to object of type {type(value).__name__!r}")
 
         self.localRotation = value if self.parent is None else value * \
             self.parent.rotation.conjugate
@@ -567,7 +567,7 @@ class Transform(SingleComponent):
     def scale(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set scale to object of type " + repr(type(value).__name__))
+                f"Cannot set scale to object of type {type(value).__name__!r}")
         if self.parent is None or not bool(self.parent.scale):
             self.localScale = value
         else:
@@ -617,10 +617,10 @@ class Transform(SingleComponent):
             The full path of the Transform.
 
         """
-        path = "/" + self.gameObject.name
+        path = f"/{self.gameObject.name}"
         parent = self.parent
         while parent is not None:
-            path = "/" + parent.gameObject.name + path
+            path = f"/{parent.gameObject.name}{path}"
             parent = parent.parent
         return path
 
@@ -689,13 +689,12 @@ class Transform(SingleComponent):
         -------
         str
             A string interpretation of the Transform. For example, the Main Camera would have
-            a string interpretation of <Transform position=<Vector3 x=0 y=0 z=0>
-            rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
+            a string interpretation of <Transform position=Vector3(0, 0, 0)
+            rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Main Camera">
 
         """
-        return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
-            " scale=" + str(self.scale) + " path=" + \
-            repr(self.FullPath()) + ">"
+        return (f"<Transform position={self.position} rotation={self.rotation}"
+                f" scale={self.scale} path={self.FullPath()!r}>")
 
     __str__ = __repr__
 

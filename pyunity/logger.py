@@ -72,7 +72,7 @@ class Special:
     def __init__(self, func):
         self.func = func
 
-RUNNING_TIME = Special(lambda: "Time taken: " + str(time() - start))
+RUNNING_TIME = Special(lambda: f"Time taken: {time() - start}")
 
 def Log(*message):
     """
@@ -103,8 +103,7 @@ def LogLine(level, *message, silent=False):
                 stream.write(msg + "\n")
     time = strftime("%Y-%m-%d %H:%M:%S")
     with open(os.path.join(folder, "latest.log"), "a") as f:
-        f.write(time +
-                " |" + level.abbr + "| " + msg + "\n")
+        f.write(f"{time} |{level.abbr}| {msg}\n")
     return time, msg
 
 def LogException(e):
@@ -156,8 +155,8 @@ def Save():
 def SetStream(s):
     global stream
     stream = s
-    stream.write("Changed stream to " + str(s))
-    LogLine(INFO, "Changed stream to " + str(s))
+    stream.write(f"Changed stream to {s}")
+    LogLine(INFO, f"Changed stream to {s}")
 
 def ResetStream():
     global stream

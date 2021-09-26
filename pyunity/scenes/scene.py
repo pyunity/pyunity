@@ -117,8 +117,8 @@ class Scene:
                     self.lights.remove(component)
                 self.gameObjects.remove(gameObject)
                 if self.mainCamera is not None and gameObject is self.mainCamera.gameObject:
-                    Logger.LogLine(
-                        Logger.WARN, "Removing Main Camera from scene " + repr(self.name))
+                    Logger.LogLine(Logger.WARN,
+                                   f"Removing Main Camera from scene {self.name!r}")
                     self.mainCamera = None
 
         for gameObject in self.gameObjects:
@@ -185,7 +185,7 @@ class Scene:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tagName == name]
         else:
             raise GameObjectException(
-                "No tag named " + name + "; create a new tag with Tag.AddTag")
+                f"No tag named {name}; create a new tag with Tag.AddTag")
 
     def FindGameObjectsByTagNumber(self, num):
         """
@@ -211,7 +211,7 @@ class Scene:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException(
-                "No tag at index " + str(num) + "; create a new tag with Tag.AddTag")
+                f"No tag at index {num}; create a new tag with Tag.AddTag")
 
     def FindComponentByType(self, component):
         """
@@ -239,7 +239,7 @@ class Scene:
                 break
         if query is None:
             raise ComponentException(
-                "Cannot find component " + component.__name__ + " in scene")
+                f"Cannot find component {component.__name__} in scene")
         return query
 
     def FindComponentsByType(self, component):
