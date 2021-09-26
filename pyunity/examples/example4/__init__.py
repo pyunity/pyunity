@@ -2,14 +2,16 @@ from pyunity import *
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
-    def Update(self, dt):
+    def LateUpdate(self, dt):
         self.transform.LookAtGameObject(self.other)
         self.transform.localEulerAngles *= Vector3(1, 1, 0)
 
 class Mover(Behaviour):
     speed = ShowInInspector(float, 6)
+    rb = ShowInInspector(Rigidbody)
     def Update(self, dt):
-        self.transform.localPosition += Vector3(self.speed * dt, 0, 0)
+        if Input.GetMouseDown(MouseCode.Left):
+            self.rb.velocity = Vector3(0, 0, self.speed)
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -21,7 +23,9 @@ def main():
     renderer.mat = Material(RGB(0, 255, 0))
     renderer.mesh = Loader.Primitives.cube
     cube.transform.position = Vector3(-20, 0, 0)
-    cube.AddComponent(Mover).speed = 6
+    mover = cube.AddComponent(Mover)
+    rb = cube.AddComponent(Rigidbody)
+    mover.rb = rb
     scene.Add(cube)
 
     lookAt.other = cube

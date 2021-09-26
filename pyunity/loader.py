@@ -274,12 +274,13 @@ def SaveScene(scene, project):
                     project.import_file(file, "Behaviour")
             else:
                 name = type(component).__name__ + "(Component)"
-            f.write(name + " : " + uuid + "\n") # lgtm [py/clear-text-storage-sensitive-data]
+            # lgtm [py/clear-text-storage-sensitive-data]
+            f.write(name + " : " + uuid + "\n")
 
             f.write("    gameObject: " + ids[id(gameObject)] + "\n")
             if isinstance(component, Behaviour):
                 f.write("    _script: " + project.file_paths[os.path.join(
-                    "Scripts", type(component).__name__ + ".py")].uuid + "\n") # lgtm [py/clear-text-storage-sensitive-data]
+                    "Scripts", type(component).__name__ + ".py")].uuid + "\n")  # lgtm [py/clear-text-storage-sensitive-data]
             for attr in component.saved:
                 value = getattr(component, attr)
                 if id(value) in ids:
@@ -321,7 +322,8 @@ def SaveScene(scene, project):
                         ids[id(value)] = written
                 else:
                     written = str(value)
-                f.write("    " + attr + ": " + written + "\n") # lgtm [py/clear-text-storage-sensitive-data]
+                # lgtm [py/clear-text-storage-sensitive-data]
+                f.write("    " + attr + ": " + written + "\n")
 
     project.write_project()
 

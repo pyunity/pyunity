@@ -57,7 +57,7 @@ def gen_array():
 
             # vertex    # normal    # texcoord
             x, y, z,    a, b, c,    u, v
-        
+
 
     """
     vao = gl.glGenVertexArrays(1)
@@ -88,7 +88,7 @@ class Shader:
         Notes
         =====
         This function will not work if there is no active framebuffer.
-        
+
         """
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -128,7 +128,7 @@ class Shader:
     def fromFolder(path, name):
         """
         Create a Shader from a folder. It must contain ``vertex.glsl`` and ``fragment.glsl``.
-        
+
         Parameters
         ==========
         path : str
@@ -150,14 +150,14 @@ class Shader:
     def setVec3(self, var, val):
         """
         Set a ``vec3`` uniform variable.
-        
+
         Parameters
         ==========
         var : bytes
             Variable name
         val : Any
             Value of uniform variable
-        
+
         """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
@@ -165,14 +165,14 @@ class Shader:
     def setMat4(self, var, val):
         """
         Set a ``mat4`` uniform variable.
-        
+
         Parameters
         ==========
         var : bytes
             Variable name
         val : Any
             Value of uniform variable
-        
+
         """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
@@ -180,14 +180,14 @@ class Shader:
     def setInt(self, var, val):
         """
         Set an ``int`` uniform variable.
-        
+
         Parameters
         ==========
         var : bytes
             Variable name
         val : Any
             Value of uniform variable
-        
+
         """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1i(location, val)
@@ -195,14 +195,14 @@ class Shader:
     def setFloat(self, var, val):
         """
         Set a ``float`` uniform variable.
-        
+
         Parameters
         ==========
         var : bytes
             Variable name
         val : Any
             Value of uniform variable
-        
+
         """
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1f(location, val)
@@ -373,14 +373,14 @@ class Camera(SingleComponent):
     def Render(self, renderers, lights):
         """
         Render specific renderers, taking into account light positions.
-        
+
         Parameters
         ==========
         renderers : List[MeshRenderer]
             Which meshes to render
         lights : List[Light]
             Lights to load into shader
-        
+
         """
         self.shader.use()
         viewMat = self.getViewMat()
@@ -398,13 +398,13 @@ class Camera(SingleComponent):
 
         for renderer in renderers:
             # if self.inside_frustrum(renderer):
-                self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
-                self.shader.setMat4(
-                    b"model", self.getMatrix(renderer.transform))
-                if renderer.mat.texture is not None:
-                    self.shader.setInt(b"textured", 1)
-                    renderer.mat.texture.use()
-                renderer.Render()
+            self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
+            self.shader.setMat4(
+                b"model", self.getMatrix(renderer.transform))
+            if renderer.mat.texture is not None:
+                self.shader.setInt(b"textured", 1)
+                renderer.mat.texture.use()
+            renderer.Render()
 
         gl.glDepthFunc(gl.GL_LEQUAL)
         self.skyboxShader.use()
@@ -424,7 +424,7 @@ class Camera(SingleComponent):
         canvases : List[Canvas]
             Canvases to process. All processed GameObjects are cached
             to prevent duplicate rendering.
-        
+
         """
         from .gui import Image2D, RectTransform, Text
         self.guiShader.use()
@@ -441,7 +441,7 @@ class Camera(SingleComponent):
                 rectTransform = gameObject.GetComponent(RectTransform)
                 if rectTransform is None:
                     continue
-                
+
                 renderer = gameObject.GetComponent(Image2D)
                 text = gameObject.GetComponent(Text)
 
@@ -452,7 +452,7 @@ class Camera(SingleComponent):
                     renderers.append(text)
                     if text.texture is None:
                         text.GenTexture()
-                
+
                 for renderer in renderers:
                     if renderer.texture is None:
                         continue

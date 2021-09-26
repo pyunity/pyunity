@@ -118,11 +118,8 @@ if os.environ["cython"] == "1":
         dirpath, file = os.path.split(path)
         print(file)
         if file.endswith(".py") and not file.startswith("__"):
-            loc = os.getcwd()
-            os.chdir(dirpath)
-            code = os.system("cythonize -3 -q " + file)
-            os.chdir(loc)
-            srcPath = os.path.join(dirpath, file)[:-2] + "c"
+            code = os.system("cythonize -3 -q " + path)
+            srcPath = path[:-2] + "c"
             if code != 0:
                 os.remove(srcPath)
                 break

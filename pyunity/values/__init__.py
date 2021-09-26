@@ -1,5 +1,6 @@
 from . import texture
-__all__ = ["Clock", "ImmutableStruct", "Quaternion", "Vector2", "Vector3", "clamp"]
+__all__ = ["Clock", "ImmutableStruct",
+           "Quaternion", "Vector2", "Vector3", "clamp"]
 __all__.extend(texture.__all__)
 
 from .vector3 import Vector3, clamp

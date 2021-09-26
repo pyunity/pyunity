@@ -17,7 +17,7 @@ class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
     def Start(self):
         self.a = 0
-    
+
     def Update(self, dt):
         self.a += dt
         if self.a > 0.05:
@@ -41,7 +41,8 @@ def main():
         os.path.dirname(os.path.abspath(__file__))), "example8", "logo.png"))
     scene.Add(imgObject)
 
-    rect, button, text = Gui.MakeButton("Button", scene, "Click me", FontLoader.LoadFont("Consolas", 20))
+    rect, button, text = Gui.MakeButton(
+        "Button", scene, "Click me", FontLoader.LoadFont("Consolas", 20))
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     button.callback = lambda: Logger.Log("Clicked")

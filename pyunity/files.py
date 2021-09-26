@@ -237,7 +237,7 @@ class Texture2D:
                         gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.img_data)
         gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
-    
+
     def setImg(self, im):
         self.loaded = False
         self.img = im
@@ -260,15 +260,15 @@ class Skybox:
     names = ["right.jpg", "left.jpg", "top.jpg",
              "bottom.jpg", "front.jpg", "back.jpg"]
     points = [
-        -1,  1, -1, -1, -1, -1,  1, -1, -1,  1, -1, -1,
-         1,  1, -1, -1,  1, -1, -1, -1,  1, -1, -1, -1,
-        -1,  1, -1, -1,  1, -1, -1,  1,  1, -1, -1,  1,
-         1, -1, -1,  1, -1,  1,  1,  1,  1,  1,  1,  1,
-         1,  1, -1,  1, -1, -1, -1, -1,  1, -1,  1,  1,
-         1,  1,  1,  1,  1,  1,  1, -1,  1, -1, -1,  1,
-        -1,  1, -1,  1,  1, -1,  1,  1,  1,  1,  1,  1,
-        -1,  1,  1, -1,  1, -1, -1, -1, -1, -1, -1,  1,
-         1, -1, -1,  1, -1, -1, -1, -1,  1,  1, -1,  1
+        -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1,
+        1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1,
+        -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1,
+        1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1,
+        -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, 1, 1,
+        -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1,
+        1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1
     ]
 
     def __init__(self, path):
@@ -314,7 +314,7 @@ class Skybox:
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 3, gl.GL_FLOAT, gl.GL_FALSE, 3 * gl.sizeof(ctypes.c_float), None)
-        
+
         Logger.LogLine(Logger.INFO, "Loaded skybox")
         self.compiled = True
 
