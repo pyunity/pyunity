@@ -10,7 +10,7 @@ broken = []
 directory = os.path.dirname(os.path.abspath(__file__))
 
 def load_example(i):
-    module = importlib.import_module(".example" + str(i), __name__)
+    module = importlib.import_module(f".example{i}", __name__)
     module.main()
     SceneManager.RemoveAllScenes()
 

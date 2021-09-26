@@ -200,7 +200,7 @@ class WinFontLoader(_FontLoader):
         except WindowsError:
             file = None
         if file is None:
-            raise PyUnityException("Cannot find font called " + repr(name))
+            raise PyUnityException(f"Cannot find font called {name!r}")
         return file[0]
 
 class UnixFontLoader(_FontLoader):
@@ -211,7 +211,7 @@ class UnixFontLoader(_FontLoader):
         stdout, _ = process.communicate()
         out = stdout.decode()
         if out == "":
-            raise PyUnityException("Cannot find font called " + repr(name))
+            raise PyUnityException(f"Cannot find font called {name!r}")
 
         return out.split(": ")[0]
 

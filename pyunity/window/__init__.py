@@ -88,7 +88,7 @@ def GetWindowProvider():
             windowProvider = settings.db["window_provider"]
             Logger.LogLine(
                 Logger.DEBUG, "Using window provider", windowProvider)
-            return importlib.import_module("." + providers[windowProvider][0], __name__)
+            return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
 
     windowProvider = ""
     i = 0
@@ -128,12 +128,12 @@ def GetWindowProvider():
     settings.db["window_provider"] = windowProvider
     settings.db["window_cache"] = True
     Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
-    return importlib.import_module("." + providers[windowProvider][0], __name__)
+    return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
 
 def SetWindowProvider(name):
     if name not in providers:
         raise PyUnityException(
-            "No window provider named " + repr(name) + " found")
+            f"No window provider named {name!r} found")
     module, checker = providers[name]
     exc = None
     try:
@@ -141,9 +141,9 @@ def SetWindowProvider(name):
     except Exception as e:
         exc = e
     if exc is not None:
-        raise PyUnityException("Cannot use window provider " + repr(name))
+        raise PyUnityException(f"Cannot use window provider {name!r})
     Logger.LogLine(Logger.DEBUG, "Using window provider", name)
-    window = importlib.import_module("." + module, __name__)
+    window = importlib.import_module(f".{module}", __name__)
     config.windowProvider = window
     return window
 

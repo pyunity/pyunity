@@ -365,13 +365,12 @@ class Project:
 
     def write_project(self):
         with open(os.path.join(self.path, self.name + ".pyunity"), "w+") as f:
-            f.write("Project\n")
-            f.write("    name: " + self.name + "\n")
-            f.write("    firstScene: " + str(self.firstScene) + "\n")
-            f.write("Files\n")
+            f.write(f"Project\n"
+                    f"    name: {self.name}\n"
+                    f"    firstScene: {self.firstScene}\n"
+                    f"Files\n")
             for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
-                f.write("    " + uuid + ": " +
-                        os.path.normpath(file[1]).replace("\\", "/") + "\n")
+                f.write(f"    {uuid}: {os.path.normpath(file[1]).replace('\\', '/')}\n")
 
         with open(os.path.join(self.path, "__init__.py"), "w+") as f:
             f.write("from pyunity import *\n")
@@ -445,8 +444,8 @@ class Project:
 
         with open(os.path.join(directory, name + ".mat"), "w+") as f:
             f.write("Material\n")
-            f.write("    albedoColor: " + mat.color.to_string() + "\n")
-            f.write("    albedoTexture: " + uuid + "\n")
+            f.write(f"    albedoColor: {mat.color.to_string()}\n"
+                    f"    albedoTexture: {uuid}\n")
 
     def load_mat(self, file):
         with open(os.path.join(self.path, file.path)) as f:

@@ -40,12 +40,12 @@ class ImmutableStruct(type):
 
     def __setattr__(self, name, value):
         if name in self._names:
-            raise PyUnityException("Property " + repr(name) + " is read-only")
+            raise PyUnityException(f"Property {name!r} is read-only")
         super().__setattr__(name, value)
 
     def __delattr__(self, name):
         if name in self._names:
-            raise PyUnityException("Property " + repr(name) + " is read-only")
+            raise PyUnityException(f"Property {name!r} is read-only")
         super().__delattr__(name)
 
     def _set(self, name, value):
