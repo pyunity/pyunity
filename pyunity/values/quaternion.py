@@ -124,7 +124,8 @@ class Quaternion:
 
     def RotateVector(self, vector):
         """Rotate a vector by the quaternion"""
-        return Vector3(self * Quaternion(0, *vector) * self.conjugate)
+        t = (2 * Vector3(self)).cross(vector)
+        return vector + self.w * t + Vector3(self).cross(t)
 
     @staticmethod
     def FromAxis(angle, a):
@@ -207,7 +208,7 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return c * a * b
+        return b * a * c
 
     @property
     def eulerAngles(self):
