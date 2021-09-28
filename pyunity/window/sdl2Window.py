@@ -1,6 +1,6 @@
 """Class to create a window using PySDL2."""
 
-from .abc import ABCWindow
+from . import ABCWindow
 from ..values import Clock
 from ..input import KeyCode, KeyState, MouseCode
 from .. import config

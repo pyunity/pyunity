@@ -57,28 +57,3 @@ class ABCMeta(type):
 
     def __new__(cls, fullname, bases, attrs, message=None):
         return super().__new__(cls, fullname, bases, attrs)
-
-class ABCWindow(metaclass=ABCMeta):
-    @abstractmethod
-    def __init__(self, name, resize):
-        pass
-
-    @abstractmethod
-    def get_mouse(self, mousecode, keystate):
-        pass
-
-    @abstractmethod
-    def get_key(self, keycode, keystate):
-        pass
-
-    @abstractmethod
-    def get_mouse_pos(self):
-        pass
-
-    @abstractmethod
-    def quit(self):
-        pass
-
-    @abstractmethod
-    def start(self, update_func):
-        pass

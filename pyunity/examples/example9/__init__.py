@@ -24,6 +24,12 @@ class FPSTracker(Behaviour):
             self.text.text = str(1 / dt)
             self.a = 0
 
+class CheckboxTracker(Behaviour):
+    check = ShowInInspector(CheckBox)
+    text = ShowInInspector(Text)
+    def Update(self, dt):
+        self.text.text = "On" if self.check.checked else "Off"
+
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
@@ -46,6 +52,21 @@ def main():
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     button.callback = lambda: Logger.Log("Clicked")
+
+    rect, checkbox = Gui.MakeCheckBox("Checkbox", scene)
+    rect.transform.ReparentTo(canvas.transform)
+    rect.offset = RectOffset(Vector2(300, 50), Vector2(325, 75))
+
+    label = GameObject("Label")
+    text = label.AddComponent(Text)
+    text.text = "Off"
+    text.color = RGB(0, 0, 0)
+    label.AddComponent(RectTransform).offset = RectOffset(Vector2(330, 50), Vector2(425, 75))
+    label.transform.ReparentTo(canvas.transform)
+    scene.Add(label)
+    tracker = rect.AddComponent(CheckboxTracker)
+    tracker.text = text
+    tracker.check = checkbox
 
     t = GameObject("Text", canvas)
     rect = t.AddComponent(RectTransform)

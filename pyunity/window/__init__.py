@@ -31,6 +31,7 @@ from ..errors import *
 from .. import Logger
 from .. import config
 from .. import settings
+from ..abc import ABCMeta, abstractmethod
 import os
 import sys
 import importlib.util
@@ -151,3 +152,28 @@ def CustomWindowProvider(cls):
     Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
     config.windowProvider = cls
     return cls
+
+class ABCWindow(metaclass=ABCMeta):
+    @abstractmethod
+    def __init__(self, name, resize):
+        pass
+
+    @abstractmethod
+    def get_mouse(self, mousecode, keystate):
+        pass
+
+    @abstractmethod
+    def get_key(self, keycode, keystate):
+        pass
+
+    @abstractmethod
+    def get_mouse_pos(self):
+        pass
+
+    @abstractmethod
+    def quit(self):
+        pass
+
+    @abstractmethod
+    def start(self, update_func):
+        pass
