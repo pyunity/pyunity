@@ -11,7 +11,7 @@ class Mover2D(Behaviour):
         movement = Vector2(Input.GetAxis("Horizontal"), -
                            Input.GetAxis("Vertical"))
         self.rectTransform.offset.Move(movement * dt * self.speed)
-        self.rectTransform.rotation += 180 * dt
+        self.rectTransform.rotation += 270 * dt
 
 class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
