@@ -354,7 +354,7 @@ class Scene:
 
         self.physics = any(
             isinstance(
-                component, physics.Collider
+                component, physics.Rigidbody
             ) for gameObject in self.gameObjects for component in gameObject.components
         )
         if self.physics:

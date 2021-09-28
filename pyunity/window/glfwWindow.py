@@ -2,7 +2,7 @@
 
 import glfw
 import sys
-from .abc import ABCWindow
+from . import ABCWindow
 from ..errors import *
 from ..values import Clock
 from ..input import KeyCode, KeyState, MouseCode

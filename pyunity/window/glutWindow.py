@@ -1,7 +1,7 @@
 """Class to create a window using FreeGLUT."""
 
 from OpenGL import GLUT as glut
-from .abc import ABCWindow
+from . import ABCWindow
 from ..input import KeyCode, KeyState  # lgtm [py/unused-import]
 from .. import config, Logger
 

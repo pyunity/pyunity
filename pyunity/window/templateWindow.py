@@ -1,6 +1,6 @@
 """Template window provider, use this for creating new window providers"""
 
-from .abc import ABCWindow
+from . import ABCWindow
 from ..errors import *
 from ..values import Clock
 from ..input import KeyCode

@@ -1,12 +1,14 @@
 __all__ = ["Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
-           "Text", "FontLoader"]
+           "Text", "FontLoader", "GuiComponent",
+           "NoResponseGuiComponent", "CheckBox"]
 
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
 from .core import Component, SingleComponent, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
+from .abc import ABCMeta, abstractmethod
 from PIL import Image, ImageDraw, ImageFont
 from types import FunctionType
 import os
@@ -19,18 +21,15 @@ class Canvas(Component):
             if descendant in updated:
                 continue
             updated.append(descendant)
-            button = descendant.GetComponent(Button)
-            if button is not None:
-                button.pressed = Input.GetMouse(button.mouseButton)
+            comp = descendant.GetComponent(GuiComponent)
+            if comp is not None:
+                comp.pressed = Input.GetMouse(MouseCode.Left)
                 rectTransform = descendant.GetComponent(RectTransform)
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    button.pressed = True
-                    if Input.GetMouseState(button.mouseButton, button.state):
-                        button.callback()
-                else:
-                    button.pressed = False
+                    if Input.GetMouseState(MouseCode.Left, KeyState.UP):
+                        comp.Update()
 
 class RectData:
     def __init__(self, min_or_both=None, max=None):
@@ -119,53 +118,37 @@ class RectTransform(SingleComponent):
             rect = self.anchors.RelativeTo(parentRect)
             return rect
 
-class Image2D(Component):
+class GuiComponent(Component, metaclass=ABCMeta):
+    @abstractmethod
+    def Update(self):
+        pass
+
+class NoResponseGuiComponent(GuiComponent):
+    def Update(self):
+        pass
+
+class Image2D(NoResponseGuiComponent):
     texture = ShowInInspector(Texture2D)
     def __init__(self, transform):
         super(Image2D, self).__init__(transform)
         self.rectTransform = self.GetComponent(RectTransform)
 
-class Button(Component):
+class Button(GuiComponent):
     callback = ShowInInspector(FunctionType, lambda: None)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
 
-buttonDefault = Texture2D(os.path.join(os.path.abspath(
-    os.path.dirname(__file__)), "shaders", "gui", "button.png"))
+    def Update(self):
+        self.callback()
 
-class Gui:
-    @classmethod
-    def MakeButton(cls, name, scene, text="Button", font=None, color=None, texture=None):
-        if texture is None:
-            texture = buttonDefault
-
-        button = GameObject(name)
-        transform = button.AddComponent(RectTransform)
-
-        texture = GameObject("Button", button)
-        transform2 = texture.AddComponent(RectTransform)
-        transform2.anchors = RectAnchors(Vector2.zero(), Vector2.one())
-        img = textureObj.AddComponent(Image2D)
-        img.texture = texture
-
-        textObj = GameObject("Text", button)
-        transform3 = textObj.AddComponent(RectTransform)
-        transform3.anchors = RectAnchors(Vector2.zero(), Vector2.one())
-
-        textComp = textObj.AddComponent(Text)
-        textComp.text = text
-        if font is None:
-            font = FontLoader.LoadFont("Arial", 16)
-        textComp.font = font
-        if color is None:
-            color = RGB(0, 0, 0)
-        textComp.color = color
-        textComp.centeredX = TextAlign.Center
-
-        scene.Add(button)
-        scene.Add(texture)
-        return transform, buttonComponent
+textureDir = os.path.join(os.path.abspath(
+    os.path.dirname(__file__)), "shaders", "gui", "textures")
+buttonDefault = Texture2D(os.path.join(textureDir, "button.png"))
+checkboxDefaults = [
+    Texture2D(os.path.join(textureDir, "checkboxOff.png")),
+    Texture2D(os.path.join(textureDir, "checkboxOn.png"))
+]
 
 class _FontLoader:
     fonts = {}
@@ -238,7 +221,7 @@ class TextAlign(enum.IntEnum):
     Center = enum.auto()
     Right = enum.auto()
 
-class Text(Component):
+class Text(NoResponseGuiComponent):
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
@@ -248,8 +231,8 @@ class Text(Component):
     def __init__(self, transform):
         super(Text, self).__init__(transform)
         self.rect = None
-        self.color = RGB(255, 255, 255)
         self.texture = None
+        self.color = RGB(255, 255, 255)
 
     def GenTexture(self):
         if self.rect is None:
@@ -286,4 +269,58 @@ class Text(Component):
     def __setattr__(self, name, value):
         super(Text, self).__setattr__(name, value)
         if name in ["font", "text", "color"]:
-            self.GenTexture()
+            if self.gameObject.scene is not None:
+                self.GenTexture()
+
+class CheckBox(GuiComponent):
+    checked = ShowInInspector(bool, False)
+    def __init__(self, transform):
+        super(CheckBox, self).__init__(transform)
+
+    def Update(self):
+        self.checked = not self.checked
+        self.GetComponent(Image2D).texture = checkboxDefaults[int(self.checked)]
+
+class Gui:
+    @classmethod
+    def MakeButton(cls, name, scene, text="Button", font=None, color=None, texture=None):
+        if texture is None:
+            texture = buttonDefault
+
+        button = GameObject(name)
+        transform = button.AddComponent(RectTransform)
+        buttonComponent = button.AddComponent(Button)
+
+        textureObj = GameObject("Button", button)
+        transform2 = textureObj.AddComponent(RectTransform)
+        transform2.anchors = RectAnchors(Vector2.zero(), Vector2.one())
+        img = textureObj.AddComponent(Image2D)
+        img.texture = texture
+
+        textObj = GameObject("Text", button)
+        transform3 = textObj.AddComponent(RectTransform)
+        transform3.anchors = RectAnchors(Vector2.zero(), Vector2.one())
+
+        textComp = textObj.AddComponent(Text)
+        textComp.text = text
+        if font is None:
+            font = FontLoader.LoadFont("Arial", 16)
+        textComp.font = font
+        if color is None:
+            color = RGB(0, 0, 0)
+        textComp.color = color
+        textComp.centeredX = TextAlign.Center
+
+        scene.Add(button)
+        scene.Add(textureObj)
+        return transform, buttonComponent, textComp
+    
+    @classmethod
+    def MakeCheckBox(cls, name, scene):
+        box = GameObject(name)
+        transform = box.AddComponent(RectTransform)
+        checkbox = box.AddComponent(CheckBox)
+        img = box.AddComponent(Image2D)
+        img.texture = checkboxDefaults[0]
+        scene.Add(box)
+        return transform, checkbox
