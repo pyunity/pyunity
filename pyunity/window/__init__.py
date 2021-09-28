@@ -31,7 +31,7 @@ from ..errors import *
 from .. import Logger
 from .. import config
 from .. import settings
-from ..abc import ABCMeta, abstractmethod
+from ..values import ABCMeta, abstractmethod
 import os
 import sys
 import importlib.util
