@@ -141,17 +141,17 @@ class Vector2:
         return self._io(other, operator.rshift)
 
     def __eq__(self, other):
-        return self._o2(other, operator.eq)
+        return all(self._o2(other, operator.eq))
     def __ne__(self, other):
-        return self._o2(other, operator.ne)
+        return all(self._o2(other, operator.ne))
     def __gt__(self, other):
-        return self._o2(other, operator.gt)
+        return all(self._o2(other, operator.gt))
     def __lt__(self, other):
-        return self._o2(other, operator.lt)
+        return all(self._o2(other, operator.lt))
     def __ge__(self, other):
-        return self._o2(other, operator.ge)
+        return all(self._o2(other, operator.ge))
     def __le__(self, other):
-        return self._o2(other, operator.le)
+        return all(self._o2(other, operator.le))
 
     def __and__(self, other):
         return self._o2(other, operator.and_)
