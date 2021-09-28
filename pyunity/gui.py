@@ -8,7 +8,7 @@ from .values import Vector2, Color, RGB
 from .core import Component, SingleComponent, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
-from .abc import ABCMeta, abstractmethod
+from .values import ABCMeta, abstractmethod
 from PIL import Image, ImageDraw, ImageFont
 from types import FunctionType
 import os

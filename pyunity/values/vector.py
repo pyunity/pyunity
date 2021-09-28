@@ -1,83 +1,44 @@
-"""
-A class to represent a 3D point
-in space, with a lot of utility
-functions.
-
-"""
-
-__all__ = ["Vector2", "clamp"]
-
+from .abc import ABCMeta, abstractmethod
 import glm
 import operator
 
 def clamp(x, _min, _max): return min(_max, max(_min, x))
 """Clamp a value between a minimum and a maximum"""
 
-class Vector2:
-    def __init__(self, x_or_list=None, y=None):
-        if x_or_list is not None:
-            if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y"):
-                    self.x = x_or_list.x
-                    self.y = x_or_list.y
-                else:
-                    self.x = x_or_list[0]
-                    self.y = x_or_list[1]
-            else:
-                self.x = x_or_list
-                self.y = y
-        else:
-            self.x = 0
-            self.y = 0
-
+class Vector(metaclass=ABCMeta):
     def __repr__(self):
-        """String representation of the vector"""
-        return "Vector2(%r, %r)" % (self.x, self.y)
+        return f"{self.__class__.__name__}({', '.join(map(str, self))})"
     __str__ = __repr__
 
     def __getitem__(self, i):
-        if i == 0:
-            return self.x
-        elif i == 1:
-            return self.y
-        raise IndexError()
-
+        return list(self)[i]
+    
+    @abstractmethod
     def __iter__(self):
-        yield self.x
-        yield self.y
-
+        pass
+    
     def __list__(self):
-        return [self.x, self.y]
-
+        return list(iter(self))
+    
+    @abstractmethod
     def __len__(self):
-        return 2
+        pass
+    
+    @abstractmethod
+    def _o1(self, f):
+        pass
 
-    def __bool__(self):
-        return self.x != 0 or self.y != 0
-
+    @abstractmethod
     def _o2(self, other, f):
-        """Any two-operator operation where the left operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
-            return Vector2(f(self.x, other[0]), f(self.y, other[1]))
-        else:
-            return Vector2(f(self.x, other), f(self.y, other))
-
+        pass
+    
+    @abstractmethod
     def _r_o2(self, other, f):
-        """Any two-operator operation where the right operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
-            return Vector2(f(other[0], self.x), f(other[1], self.y))
-        else:
-            return Vector2(f(other, self.x), f(other, self.y))
+        pass
 
+    @abstractmethod
     def _io(self, other, f):
-        """Inplace operator"""
-        if hasattr(other, "__getitem__"):
-            self.x = f(self.x, other[0])
-            self.y = f(self.y, other[1])
-        else:
-            self.x = f(self.x, other)
-            self.y = f(self.y, other)
-        return self
+        pass
 
     def __add__(self, other):
         return self._o2(other, operator.add)
@@ -166,22 +127,78 @@ class Vector2:
     __rxor__ = __xor__
 
     def __neg__(self):
-        return Vector2(operator.neg(self.x), operator.neg(self.y))
+        return self._o1(operator.neg)
 
     def __pos__(self):
-        return Vector2(operator.pos(self.x), operator.pos(self.y))
-
+        return self._o1(operator.pos)
+    
     def __abs__(self):
         return self.length
 
     def abs(self):
-        return Vector2(abs(self.x), abs(self.y))
-
+        return self._o1(abs)
+    
     def __round__(self, other):
         return self._r_o2(other, round)
-
+    
     def __invert__(self):
-        return Vector2(operator.invert(self.x), operator.invert(self.y))
+        return self._o1(operator.invert)
+
+    @abstractmethod
+    def length(self):
+        pass
+
+class Vector2(Vector):
+    def __init__(self, x_or_list=None, y=None):
+        if x_or_list is not None:
+            if y is None:
+                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y"):
+                    self.x = x_or_list.x
+                    self.y = x_or_list.y
+                else:
+                    self.x = x_or_list[0]
+                    self.y = x_or_list[1]
+            else:
+                self.x = x_or_list
+                self.y = y
+        else:
+            self.x = 0
+            self.y = 0
+    
+    def __iter__(self):
+        yield self.x
+        yield self.y
+    
+    def __len__(self):
+        return 2
+    
+    def _o1(self, f):
+        """Unary operator"""
+        return Vector2(f(self.x), f(self.y))
+
+    def _o2(self, other, f):
+        """Any two-operator operation where the left operand is a Vector2"""
+        if hasattr(other, "__getitem__"):
+            return Vector2(f(self.x, other[0]), f(self.y, other[1]))
+        else:
+            return Vector2(f(self.x, other), f(self.y, other))
+
+    def _r_o2(self, other, f):
+        """Any two-operator operation where the right operand is a Vector2"""
+        if hasattr(other, "__getitem__"):
+            return Vector2(f(other[0], self.x), f(other[1], self.y))
+        else:
+            return Vector2(f(other, self.x), f(other, self.y))
+
+    def _io(self, other, f):
+        """Inplace operator"""
+        if hasattr(other, "__getitem__"):
+            self.x = f(self.x, other[0])
+            self.y = f(self.y, other[1])
+        else:
+            self.x = f(self.x, other)
+            self.y = f(self.y, other)
+        return self
 
     def copy(self):
         """Makes a copy of the Vector2"""
