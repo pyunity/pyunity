@@ -99,7 +99,6 @@ class AudioSource(Component):
         self.clip = None
         self.channel = channels
         channels += 1
-        print(channels)
         mixer.Mix_AllocateChannels(channels)
 
     def SetClip(self, clip):
