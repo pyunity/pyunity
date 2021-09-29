@@ -3,7 +3,7 @@
 __all__ = ["Quaternion"]
 
 import glm
-from .vector3 import Vector3
+from .vector import Vector3
 
 class Quaternion:
     """
