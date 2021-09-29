@@ -25,7 +25,8 @@ pull request.
 
 """
 
-__all__ = ["GetWindowProvider", "SetWindowProvider", "CustomWindowProvider"]
+__all__ = ["GetWindowProvider", "SetWindowProvider",
+           "CustomWindowProvider", "ABCWindow"]
 
 from ..errors import *
 from .. import Logger

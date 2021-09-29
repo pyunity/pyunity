@@ -1,6 +1,6 @@
 """Class to represent a rotation in 3D space."""
 
-__all__ = ["Quaternion"]
+__all__ = ["Quaternion", "QuaternionDiff"]
 
 import glm
 from .vector import Vector3

@@ -1,4 +1,4 @@
-__all__ = ["KeyState", "KeyCode", "MouseCode", "Input"]
+__all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
 from enum import IntEnum, auto
 from .values import clamp, ImmutableStruct

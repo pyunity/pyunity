@@ -61,7 +61,8 @@ def main():
     text = label.AddComponent(Text)
     text.text = "Off"
     text.color = RGB(0, 0, 0)
-    label.AddComponent(RectTransform).offset = RectOffset(Vector2(330, 50), Vector2(425, 75))
+    label.AddComponent(RectTransform).offset = RectOffset(
+        Vector2(330, 50), Vector2(425, 75))
     label.transform.ReparentTo(canvas.transform)
     scene.Add(label)
     tracker = rect.AddComponent(CheckboxTracker)

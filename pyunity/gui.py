@@ -1,7 +1,8 @@
 __all__ = ["Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader", "GuiComponent",
-           "NoResponseGuiComponent", "CheckBox"]
+           "NoResponseGuiComponent", "CheckBox",
+           "TextAlign", "Font", "Button"]
 
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
@@ -279,7 +280,8 @@ class CheckBox(GuiComponent):
 
     def Update(self):
         self.checked = not self.checked
-        self.GetComponent(Image2D).texture = checkboxDefaults[int(self.checked)]
+        self.GetComponent(
+            Image2D).texture = checkboxDefaults[int(self.checked)]
 
 class Gui:
     @classmethod
@@ -314,7 +316,7 @@ class Gui:
         scene.Add(button)
         scene.Add(textureObj)
         return transform, buttonComponent, textComp
-    
+
     @classmethod
     def MakeCheckBox(cls, name, scene):
         box = GameObject(name)

@@ -5,6 +5,9 @@ This will be imported as ``pyunity.Logger``.
 
 """
 
+__all__ = ["ResetStream", "LogException", "LogSpecial",
+           "SetStream", "Log", "LogLine", "Save", "Level", "Special"]
+
 import os
 import sys
 import platform

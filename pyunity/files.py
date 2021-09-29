@@ -5,7 +5,7 @@ Also manages project structure.
 """
 
 __all__ = ["Behaviour", "Texture2D", "Prefab",
-           "File", "Project"]
+           "File", "Project", "Skybox", "Scripts"]
 
 from .values import Material, Color
 from .core import Component, ShowInInspector

@@ -2,6 +2,9 @@
 Classes to aid in rendering in a Scene.
 
 """
+
+__all__ = ["Camera", "Screen", "Shader"]
+
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
