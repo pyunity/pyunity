@@ -2,8 +2,10 @@ import os
 import glob
 import shutil
 import pkgutil
+import sys
 import autopep8
-# import sys
+import importlib
+import inspect
 # from unittest.mock import Mock
 # from types import ModuleType
 # sys.modules["sdl2"] = Mock()
@@ -26,6 +28,29 @@ if pkgutil.find_loader("autopep8") is None:
                     "Install using \"pip install autopep8\".")
 autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E305,E401,E402",
               "pyunity", "setup.py", "cli.py"])
+
+def get_packages(module):
+    for _, name, ispkg in pkgutil.iter_modules(module.__path__):
+        if "__" in name or "Window" in name or name == "config" or "example" in name:
+            continue
+        mod = importlib.import_module(module.__name__ + "." + name)
+        if ispkg:
+            get_packages(mod)
+        if hasattr(mod, "__all__"):
+            original = set(mod.__all__)
+        else:
+            original = set()
+        new = set([x for x in dir(mod) if ((inspect.isclass(getattr(mod, x)) or
+                                        inspect.isfunction(getattr(mod, x))) and 
+                                       x[0].isupper() and 
+                                       getattr(mod, x).__module__ == mod.__name__)])
+        if original != new:
+            print(mod.__name__, "Add", list(new - original),
+                  "Remove", list(original - new))
+
+if len(sys.argv) > 1:
+    import pyunity
+    get_packages(pyunity)
 
 # items = []
 
