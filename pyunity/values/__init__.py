@@ -4,9 +4,7 @@ __all__ = ["Clock", "ImmutableStruct", "ABCMeta",
            "Vector3", "clamp"]
 __all__.extend(texture.__all__)
 
-from .vector3 import Vector3, clamp
-# from .vector2 import Vector2
-from .vector import Vector2
+from .vector import clamp, Vector2, Vector3
 from .texture import *
 from .quaternion import Quaternion
 from .other import Clock, ImmutableStruct
