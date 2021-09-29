@@ -46,8 +46,9 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light",
-           "MeshRenderer", "Tag", "Transform", "ShowInInspector"]
+__all__ = ["Component", "GameObject", "Light", "SingleComponent",
+           "MeshRenderer", "Tag", "Transform", "ShowInInspector",
+           "HideInInspector"]
 
 import inspect
 from .errors import *

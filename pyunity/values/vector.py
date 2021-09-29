@@ -1,3 +1,5 @@
+__all__ = ["Vector2", "Vector", "Vector3", "clamp"]
+
 from .abc import ABCMeta, abstractmethod
 import glm
 import operator
@@ -12,18 +14,18 @@ class Vector(metaclass=ABCMeta):
 
     def __getitem__(self, i):
         return list(self)[i]
-    
+
     @abstractmethod
     def __iter__(self):
         pass
-    
+
     def __list__(self):
         return list(iter(self))
-    
+
     @abstractmethod
     def __len__(self):
         pass
-    
+
     @abstractmethod
     def _o1(self, f):
         pass
@@ -31,7 +33,7 @@ class Vector(metaclass=ABCMeta):
     @abstractmethod
     def _o2(self, other, f):
         pass
-    
+
     @abstractmethod
     def _r_o2(self, other, f):
         pass
@@ -131,16 +133,16 @@ class Vector(metaclass=ABCMeta):
 
     def __pos__(self):
         return self._o1(operator.pos)
-    
+
     def __abs__(self):
         return self.length
 
     def abs(self):
         return self._o1(abs)
-    
+
     def __round__(self, other):
         return self._r_o2(other, round)
-    
+
     def __invert__(self):
         return self._o1(operator.invert)
 
@@ -164,14 +166,14 @@ class Vector2(Vector):
         else:
             self.x = 0
             self.y = 0
-    
+
     def __iter__(self):
         yield self.x
         yield self.y
-    
+
     def __len__(self):
         return 2
-    
+
     def _o1(self, f):
         """Unary operator"""
         return Vector2(f(self.x), f(self.y))
@@ -408,12 +410,12 @@ class Vector3(Vector):
             self.x = 0
             self.y = 0
             self.z = 0
-    
+
     def __iter__(self):
         yield self.x
         yield self.y
         yield self.z
-    
+
     def __len__(self):
         return 3
 

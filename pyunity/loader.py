@@ -6,6 +6,9 @@ This will be imported as ``pyunity.Loader``.
 
 """
 
+__all__ = ["ObjectInfo", "GetId", "Primitives", "GetImports", "SaveSceneToProject",
+           "LoadProject", "SaveAllScenes", "LoadMesh", "SaveMesh", "SaveScene", "LoadObj", "SaveObj"]
+
 from .meshes import Mesh
 from .core import *
 from .values import Material, Vector3, Quaternion

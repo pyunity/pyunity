@@ -4,6 +4,9 @@ of Scenes.
 
 """
 
+__all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene", "LoadSceneByName",
+           "CurrentScene", "AddScene", "LoadScene", "RemoveAllScenes", "GetSceneByIndex"]
+
 from ..core import *
 from .. import config, settings
 from ..errors import *

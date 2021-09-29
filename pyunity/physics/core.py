@@ -4,7 +4,7 @@ physics engine.
 
 """
 
-__all__ = ["PhysicMaterial", "Collider", "SphereCollider",
+__all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
            "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from ..errors import PyUnityException

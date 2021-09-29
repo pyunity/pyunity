@@ -8,6 +8,8 @@ the SceneManager class.
 
 """
 
+__all__ = ["Scene"]
+
 from ..audio import *
 from ..core import *
 from ..files import Behaviour
