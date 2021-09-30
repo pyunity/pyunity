@@ -12,15 +12,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath("../.."))
 os.environ["PYUNITY_TESTING"] = "1"
+import pyunity
+pyunity.ABCMeta._trigger = False
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyUnity'
-copyright = '2020-2021, Ray Chen'
-author = 'Ray Chen'
+project = "PyUnity"
+copyright = "2020-2021, Ray Chen"
+author = "Ray Chen"
 
 # The full version, including alpha/beta/rc tags
 release = "0.8.0"
@@ -29,18 +31,18 @@ release = "0.8.0"
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode"
 ]
 
-master_doc = 'index'
+master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -53,7 +55,21 @@ exclude_patterns = ["api/pyunity.rst"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
+
+html_theme_options = {
+    "logo": "banner.png",
+    "touch_icon": "icon.png",
+    "github_user": "pyunity",
+    "github_repo": "pyunity",
+    "badge_branch": "develop",
+    "github_button": "true",
+    "github_type": "star",
+    "github_count": "true",
+    "code_font_family": "'Cascadia Code', 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace",
+    "show_relbars": "true",
+    "analytics_id": "G-S1LNFQ9G0H",
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -84,9 +100,10 @@ def skip_non_undoc(app, what, name, obj, skip, options):
             isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
         return None
     if what == "class":
-        sys.stderr.write(str(name) + " " + str(obj) + "\n")
+        with open("docs/undoc.txt", "a+") as f:
+            f.write(str(name) + " " + str(obj) + "\n")
         return True
     return skip
 
 def setup(app):
-    app.connect('autodoc-skip-member', skip_non_undoc)
+    app.connect("autodoc-skip-member", skip_non_undoc)
