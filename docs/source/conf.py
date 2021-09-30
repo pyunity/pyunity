@@ -68,7 +68,7 @@ html_theme_options = {
     "github_count": "true",
     "code_font_family": "'Cascadia Code', 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace",
     "show_relbars": "true",
-    "analytics_id": "G-S1LNFQ9G0H",
+    "analytics_id": os.getenv("ANALYTICS_ID"),
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
