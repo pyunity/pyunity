@@ -11,12 +11,11 @@ else:
 
 orig = os.path.dirname(os.path.abspath(__file__))
 os.chdir(orig)
-open("missing.txt", "w+").close()
+file = open("missing.txt", "w+")
 
 def print(*values, sep=" ", end="\n"):
     out = sep.join(values) + end
-    with open("missing.txt", "a+") as f:
-        f.write(out)
+    file.write(out)
     if len(values) > 1 and len(sys.argv) > 1:
         if not any(values[1].startswith(item) for item in sys.argv[1:]):
             return out
@@ -107,3 +106,4 @@ def check_classes(a, b, c, d, e, f, name):
 check_classes(a, b, c, d, e, f, "missing")
 sys.stdout.write("\n\n")
 check_classes(d, e, f, a, b, c, "extra")
+file.close()
