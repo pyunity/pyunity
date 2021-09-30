@@ -3,15 +3,24 @@ import glob
 import re
 import sys
 
+if len(sys.argv) > 1 and sys.argv[1] == "-x":
+    missing_only = True
+    sys.argv.pop()
+
 orig = os.path.dirname(os.path.abspath(__file__))
 os.chdir(orig)
 open("missing.txt", "w+").close()
 
 def print(*values, sep=" ", end="\n"):
     out = sep.join(values) + end
-    sys.stdout.write(out)
     with open("missing.txt", "a+") as f:
         f.write(out)
+    if len(values) > 1 and len(sys.argv) > 1:
+        if not any(values[1].startswith(item) for item in sys.argv[1:]):
+            return out
+    elif len(sys.argv) > 1:
+        return out
+    sys.stdout.write(out)
     return out
 
 def check_folder(folder, ext):
@@ -29,6 +38,9 @@ def check_folder(folder, ext):
     attrs = []
 
     for file in files:
+        if missing_only and ext == "py" and not os.path.isfile(
+                os.path.join(orig, "pyunity", file + "i")):
+            continue
         with open(file, "r") as f:
             content = f.read().rstrip().splitlines()
         
@@ -57,33 +69,39 @@ def check_folder(folder, ext):
 
 a, b, c = check_folder("../pyunity", "py")
 d, e, f = check_folder("pyunity", "pyi")
-classes = []
-for class_ in a:
-    for class2 in d:
-        if class2["name"] == class_["name"]:
-            break
-    else:
-        classes.append(class_)
-        continue
 
-    if class_["methods"] == []:
-        continue
-    current = {"name": class_["name"]}
-    current["methods"] = [item for item in class_["methods"] if item not in class2["methods"]]
-    if current["methods"] == []:
-        continue
-    classes.append(current)
+def check_classes(a, b, c, d, e, f, name):
+    classes = []
+    for class_ in a:
+        for class2 in d:
+            if class2["name"] == class_["name"]:
+                break
+        else:
+            classes.append(class_)
+            continue
 
-functions = [item for item in b if item not in e]
-attrs = [item for item in c if item not in f]
+        if class_["methods"] == []:
+            continue
+        current = {"name": class_["name"]}
+        current["methods"] = [item for item in class_["methods"] if item not in class2["methods"]]
+        if current["methods"] == []:
+            continue
+        classes.append(current)
 
-for class_ in classes:
-    print("Class missing: " + class_["name"])
-    for method in class_["methods"]:
-        print("    Method missing: " + method)
-print()
-for func in functions:
-    print("Function missing: " + func)
-print()
-for attr in attrs:
-    print("Variable missing: " + attr)
+    functions = [item for item in b if item not in e]
+    attrs = [item for item in c if item not in f]
+
+    for class_ in classes:
+        print("Class " + name + ":", class_["name"])
+        for method in class_["methods"]:
+            print("    Method " + name + ":", method)
+    print()
+    for func in functions:
+        print("Function " + name + ":", func)
+    print()
+    for attr in attrs:
+        print("Variable " + name + ":", attr)
+
+check_classes(a, b, c, d, e, f, "missing")
+sys.stdout.write("\n\n")
+check_classes(d, e, f, a, b, c, "extra")

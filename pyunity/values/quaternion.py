@@ -28,9 +28,9 @@ class Quaternion:
         self.z = z
 
     def __repr__(self):
-        """String representation of the quaternion"""
         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
-    __str__ = __repr__
+    def __str__(self):
+        return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
 
     def __getitem__(self, i):
         if i == 0:

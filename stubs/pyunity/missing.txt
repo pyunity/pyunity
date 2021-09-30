@@ -1,0 +1,10 @@
+config.pyi
+errors.pyi
+logger.pyi
+meshes.pyi
+values\abc.pyi
+values\other.pyi
+values\quaternion.pyi
+values\texture.pyi
+values\vector.pyi
+values\__init__.pyi
