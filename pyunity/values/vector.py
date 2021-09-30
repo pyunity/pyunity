@@ -1,6 +1,6 @@
 __all__ = ["Vector2", "Vector", "Vector3", "clamp"]
 
-from .abc import ABCMeta, abstractmethod
+from .abc import ABCMeta, abstractmethod, abstractproperty
 import glm
 import operator
 
@@ -155,7 +155,7 @@ class Vector(metaclass=ABCMeta):
     def __invert__(self):
         return self._o1(operator.invert)
 
-    @abstractmethod
+    @abstractproperty
     def length(self):
         pass
 

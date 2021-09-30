@@ -6,8 +6,8 @@ import sys
 import autopep8
 import importlib
 import inspect
-# from unittest.mock import Mock
 # from types import ModuleType
+# from unittest.mock import Mock
 # sys.modules["sdl2"] = Mock()
 # sys.modules["sdl2.sdlmixer"] = Mock()
 # sys.modules["sdl2.ext"] = Mock()

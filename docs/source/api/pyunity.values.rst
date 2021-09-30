@@ -7,11 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pyunity.values.abc
    pyunity.values.other
    pyunity.values.quaternion
    pyunity.values.texture
-   pyunity.values.vector2
-   pyunity.values.vector3
+   pyunity.values.vector
 
 Module contents
 ---------------
