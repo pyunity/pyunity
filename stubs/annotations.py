@@ -6,6 +6,8 @@ import sys
 if len(sys.argv) > 1 and sys.argv[1] == "-x":
     missing_only = True
     sys.argv.pop()
+else:
+    missing_only = False
 
 orig = os.path.dirname(os.path.abspath(__file__))
 os.chdir(orig)
