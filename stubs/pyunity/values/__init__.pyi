@@ -1,8 +1,11 @@
-from . import texture
-__all__ = ["Clock", "Quaternion", "Vector3"]
+from . import texture, vector
+__all__ = ["Clock", "ImmutableStruct", "ABCMeta",
+           "abstractmethod", "Quaternion"]
+__all__.extend(vector.__all__)
 __all__.extend(texture.__all__)
 
-from .other import Clock
-from .quaternion import Quaternion
+from .vector import *
 from .texture import *
-from .vector3 import Vector3
+from .quaternion import Quaternion
+from .other import Clock, ImmutableStruct
+from .abc import ABCMeta, abstractmethod

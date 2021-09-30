@@ -68,7 +68,8 @@ class RGB(Color):
 
     def __repr__(self):
         return "RGB(%d, %d, %d)" % tuple(self)
-    __str__ = __repr__
+    def __str__(self):
+        return "RGB(%d, %d, %d)" % tuple(self)
 
     def to_rgb(self):
         return self
@@ -110,10 +111,14 @@ class HSV(Color):
 
     def __repr__(self):
         return "HSV(%d, %d, %d)" % tuple(self)
-    __str__ = __repr__
+    def __str__(self):
+        return "HSV(%d, %d, %d)" % tuple(self)
 
     def to_rgb(self):
         return RGB.from_hsv(self.h, self.s, self.v)
+
+    def to_hsv(self):
+        return self
 
     @staticmethod
     def from_rgb(r, g, b):

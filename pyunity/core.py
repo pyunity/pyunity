@@ -298,7 +298,9 @@ class GameObject:
     def __repr__(self):
         return (f"<GameObject name={self.name!r} components="
                 f"{list(map(lambda x: type(x).__name__, self.components))}>")
-    __str__ = __repr__
+    def __str__(self):
+        return (f"<GameObject name={self.name!r} components="
+                f"{list(map(lambda x: type(x).__name__, self.components))}>")
 
 class HideInInspector:
     """
@@ -685,21 +687,11 @@ class Transform(SingleComponent):
         self.rotation = Quaternion.FromDir(vec)
 
     def __repr__(self):
-        """
-        Returns a string interpretation of the Transform.
-
-        Returns
-        -------
-        str
-            A string interpretation of the Transform. For example, the Main Camera would have
-            a string interpretation of <Transform position=Vector3(0, 0, 0)
-            rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Main Camera">
-
-        """
         return (f"<Transform position={self.position} rotation={self.rotation}"
                 f" scale={self.scale} path={self.FullPath()!r}>")
-
-    __str__ = __repr__
+    def __str__(self):
+        return (f"<Transform position={self.position} rotation={self.rotation}"
+                f" scale={self.scale} path={self.FullPath()!r}>")
 
 class Light(SingleComponent):
     """

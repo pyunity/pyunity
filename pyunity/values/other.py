@@ -35,9 +35,6 @@ class Clock:
         return sleep
 
 class ImmutableStruct(type):
-    def __init__(self, name, bases, attrs):
-        super(ImmutableStruct, self).__init__(name, bases, attrs)
-
     def __setattr__(self, name, value):
         if name in self._names:
             raise PyUnityException(f"Property {name!r} is read-only")

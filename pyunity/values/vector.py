@@ -10,7 +10,8 @@ def clamp(x, _min, _max): return min(_max, max(_min, x))
 class Vector(metaclass=ABCMeta):
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join(map(str, self))})"
-    __str__ = __repr__
+    def __str__(self):
+        return f"{self.__class__.__name__}({', '.join(map(str, self))})"
 
     def __getitem__(self, i):
         return list(self)[i]
@@ -25,6 +26,9 @@ class Vector(metaclass=ABCMeta):
     @abstractmethod
     def __len__(self):
         pass
+
+    def __bool__(self):
+        return all(self)
 
     @abstractmethod
     def _o1(self, f):
@@ -44,7 +48,8 @@ class Vector(metaclass=ABCMeta):
 
     def __add__(self, other):
         return self._o2(other, operator.add)
-    __radd__ = __add__
+    def __radd__(self, other):
+        return self._r_o2(other, operator.add)
     def __iadd__(self, other):
         return self._io(other, operator.add)
 
@@ -57,7 +62,8 @@ class Vector(metaclass=ABCMeta):
 
     def __mul__(self, other):
         return self._o2(other, operator.mul)
-    __rmul__ = __mul__
+    def __rmul__(self, other):
+        return self._r_o2(other, operator.mul)
     def __imul__(self, other):
         return self._io(other, operator.mul)
 
@@ -118,15 +124,18 @@ class Vector(metaclass=ABCMeta):
 
     def __and__(self, other):
         return self._o2(other, operator.and_)
-    __rand__ = __and__
+    def __rand__(self, other):
+        return self._r_o2(other, operator.and_)
 
     def __or__(self, other):
         return self._o2(other, operator.or_)
-    __ror__ = __or__
+    def __ror__(self, other):
+        return self._r_o2(other, operator.or_)
 
     def __xor__(self, other):
         return self._o2(other, operator.xor)
-    __rxor__ = __xor__
+    def __rxor__(self, other):
+        return self._r_o2(other, operator.xor)
 
     def __neg__(self):
         return self._o1(operator.neg)
