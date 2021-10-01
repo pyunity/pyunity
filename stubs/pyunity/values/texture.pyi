@@ -1,11 +1,11 @@
-from typing import Iterator, List, Tuple, Union
-
-__all__ = ["Material", "Color", "RGB", "HSV"]
+from typing import Iterator, List, Tuple, Union, Optional
+from ..files import Texture2D
 
 class Material:
     color: Color = ...
+    texture: Optional[Texture2D]
 
-    def __init__(self, color: Color, texture) -> None: ...
+    def __init__(self, color: Color, texture: Texture2D) -> None: ...
 
 class Color:
     def to_string(self) -> str: ...

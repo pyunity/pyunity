@@ -33,7 +33,7 @@ def convert(type, list):
 
     Returns
     -------
-    Any
+    object
         A C array
     """
     return (type * len(list))(*list)

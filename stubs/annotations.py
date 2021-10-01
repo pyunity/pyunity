@@ -1,3 +1,4 @@
+import builtins
 import os
 import glob
 import re
@@ -14,13 +15,13 @@ os.chdir(orig)
 file = open("missing.txt", "w+")
 
 def print(*values, sep=" ", end="\n"):
-    out = sep.join(values) + end
+    out = sep.join(map(str, values)) + end
     file.write(out)
-    if len(values) > 1 and len(sys.argv) > 1:
-        if not any(values[1].startswith(item) for item in sys.argv[1:]):
-            return out
-    elif len(sys.argv) > 1:
-        return out
+    # if len(values) > 1 and len(sys.argv) > 1:
+    #     if not any(values[1].startswith(item) for item in sys.argv[1:]):
+    #         return out
+    # elif len(sys.argv) > 1:
+    #     return out
     sys.stdout.write(out)
     return out
 
@@ -46,6 +47,8 @@ def check_folder(folder, ext):
             content = f.read().rstrip().splitlines()
         
         module = "pyunity." + os.path.splitext(file)[0].replace(os.path.sep, ".")
+        if not any(module.startswith(item) for item in sys.argv[1:]):
+            continue
         module = module.replace(".__init__", "") + "."
         current_class = {}
         for line in content:
@@ -107,3 +110,4 @@ check_classes(a, b, c, d, e, f, "missing")
 sys.stdout.write("\n\n")
 check_classes(d, e, f, a, b, c, "extra")
 file.close()
+print = builtins.print

@@ -83,7 +83,7 @@ class AudioSource(Component):
         is to use the :meth:`SetClip` function.
     playOnStart : bool
         Whether it plays on start or not.
-    Loop : bool
+    loop : bool
         Whether it loops or not. This is not
         fully supported.
 
