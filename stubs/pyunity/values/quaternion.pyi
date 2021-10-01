@@ -2,6 +2,10 @@ from typing import Any, Iterable, List, Tuple
 from .vector import Vector3
 
 class Quaternion:
+    w: float
+    x: float
+    y: float
+    z: float
     def __init__(self, w: float, x: float, y: float, z: float) -> None: ...
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
@@ -37,5 +41,9 @@ class Quaternion:
     def eulerAngles(self) -> Vector3: ...
 
 class QuaternionDiff:
+    w: float
+    x: float
+    y: float
+    z: float
     def __init__(self, w: float, x: float, y: float, z: float) -> None: ...
     def __abs__(self) -> float: ...
