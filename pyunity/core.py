@@ -51,6 +51,7 @@ __all__ = ["Component", "GameObject", "Light", "SingleComponent",
            "HideInInspector"]
 
 import inspect
+import enum
 from .errors import *
 from .meshes import Mesh
 from .values import *
@@ -693,6 +694,11 @@ class Transform(SingleComponent):
         return (f"<Transform position={self.position} rotation={self.rotation}"
                 f" scale={self.scale} path={self.FullPath()!r}>")
 
+class LightType(enum.IntEnum):
+    Point = 0
+    Directional = 1
+    Spot = 2
+
 class Light(SingleComponent):
     """
     Component to hold data about the light in a scene.
@@ -706,6 +712,7 @@ class Light(SingleComponent):
 
     intensity = ShowInInspector(int, 100)
     color = ShowInInspector(Color, RGB(255, 255, 255))
+    type = ShowInInspector(LightType, LightType.Point)
 
 class MeshRenderer(SingleComponent):
     """
