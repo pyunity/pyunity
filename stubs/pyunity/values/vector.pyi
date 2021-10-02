@@ -1,5 +1,5 @@
 from typing import Callable, Iterable, TypeVar, List
-from .abc import ABCMeta, abstractmethod
+from .abc import ABCMeta, abstractmethod, abstractproperty
 
 def clamp(x: float, _min: float, _max: float) -> float: ...
 

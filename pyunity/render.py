@@ -394,15 +394,19 @@ class Camera(SingleComponent):
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
 
-        if len(lights):
-            self.shader.setVec3(b"lightPos", list(
-                lights[0].transform.position * Vector3(1, 1, -1)))
-            self.shader.setVec3(b"lightColor", list(
-                lights[0].color.to_rgb() / 255))
-            self.shader.setInt(b"lighting", 1)
+        self.shader.setInt(b"light_num", len(lights))
+        for i, light in enumerate(lights):
+            lightName = f"lights[{i}].".encode()
+            self.shader.setVec3(lightName + b"pos",
+                light.transform.position * Vector3(1, 1, -1))
+            self.shader.setFloat(lightName + b"strength", 200)
+            self.shader.setVec3(lightName + b"color",
+                light.color.to_rgb() / 255)
+            self.shader.setInt(lightName + b"type", int(light.type))
+            self.shader.setVec3(lightName + b"dir",
+                light.transform.rotation.RotateVector(Vector3.forward()))
 
         for renderer in renderers:
-            # if self.inside_frustrum(renderer):
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
             self.shader.setMat4(
                 b"model", self.getMatrix(renderer.transform))

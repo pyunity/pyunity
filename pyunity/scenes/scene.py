@@ -13,7 +13,7 @@ __all__ = ["Scene"]
 from ..audio import *
 from ..core import *
 from ..files import Behaviour
-from ..values import Vector3
+from ..values import Vector3, Quaternion
 from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
@@ -51,6 +51,7 @@ class Scene:
         self.mainCamera.AddComponent(AudioListener)
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
+        light.transform.localRotation = Quaternion.Euler(Vector3(-45, 45, 0))
         self.gameObjects = [self.mainCamera.gameObject, light]
         component = light.AddComponent(Light)
         self.lights = [component]
