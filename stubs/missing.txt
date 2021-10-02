@@ -1,25 +1,89 @@
-Class missing: pyunity.render.Shader
-    Method missing: pyunity.render.Shader.setInt
-    Method missing: pyunity.render.Shader.setFloat
-    Method missing: pyunity.render.Shader.use
-Class missing: pyunity.render.Camera
-    Method missing: pyunity.render.Camera.__init__
-    Method missing: pyunity.render.Camera.setup_buffers
-    Method missing: pyunity.render.Camera.fov
-    Method missing: pyunity.render.Camera.fov
-    Method missing: pyunity.render.Camera.Resize
-    Method missing: pyunity.render.Camera.getMatrix
-    Method missing: pyunity.render.Camera.get2DMatrix
-    Method missing: pyunity.render.Camera.getViewMat
-    Method missing: pyunity.render.Camera.UseShader
-    Method missing: pyunity.render.Camera.Render
-    Method missing: pyunity.render.Camera.Render2D
-Class missing: pyunity.render.Screen
-    Method missing: pyunity.render.Screen._edit
+Class missing: pyunity.physics.core.PhysicMaterial
+    Method missing: pyunity.physics.core.PhysicMaterial.exception
+    Method missing: pyunity.physics.core.PhysicMaterial.__init__
+Class missing: pyunity.physics.core.Manifold
+    Method missing: pyunity.physics.core.Manifold.__init__
+Class missing: pyunity.physics.core.Collider
+Class missing: pyunity.physics.core.SphereCollider
+    Method missing: pyunity.physics.core.SphereCollider.__init__
+    Method missing: pyunity.physics.core.SphereCollider.SetSize
+    Method missing: pyunity.physics.core.SphereCollider.collidingWith
+    Method missing: pyunity.physics.core.SphereCollider.CheckOverlap
+Class missing: pyunity.physics.core.AABBoxCollider
+    Method missing: pyunity.physics.core.AABBoxCollider.__init__
+    Method missing: pyunity.physics.core.AABBoxCollider.SetSize
+    Method missing: pyunity.physics.core.AABBoxCollider.collidingWith
+    Method missing: pyunity.physics.core.AABBoxCollider.CheckOverlap
+Class missing: pyunity.physics.core.Rigidbody
+    Method missing: pyunity.physics.core.Rigidbody.__init__
+    Method missing: pyunity.physics.core.Rigidbody.Move
+    Method missing: pyunity.physics.core.Rigidbody.MovePos
+    Method missing: pyunity.physics.core.Rigidbody.AddForce
+    Method missing: pyunity.physics.core.Rigidbody.AddImpulse
+Class missing: pyunity.physics.core.CollManager
+    Method missing: pyunity.physics.core.CollManager.__init__
+    Method missing: pyunity.physics.core.CollManager.AddPhysicsInfo
+    Method missing: pyunity.physics.core.CollManager.GetRestitution
+    Method missing: pyunity.physics.core.CollManager.CheckCollisions
+    Method missing: pyunity.physics.core.CollManager.correct_inf
+    Method missing: pyunity.physics.core.CollManager.Step
+Class missing: pyunity.window.glfwWindow.Window
+    Method missing: pyunity.window.glfwWindow.Window.__init__
+    Method missing: pyunity.window.glfwWindow.Window.framebuffer_size_callback
+    Method missing: pyunity.window.glfwWindow.Window.key_callback
+    Method missing: pyunity.window.glfwWindow.Window.mouse_callback
+    Method missing: pyunity.window.glfwWindow.Window.get_mouse
+    Method missing: pyunity.window.glfwWindow.Window.check_keys
+    Method missing: pyunity.window.glfwWindow.Window.check_mouse
+    Method missing: pyunity.window.glfwWindow.Window.get_key
+    Method missing: pyunity.window.glfwWindow.Window.get_mouse_pos
+    Method missing: pyunity.window.glfwWindow.Window.check_quit
+    Method missing: pyunity.window.glfwWindow.Window.quit
+    Method missing: pyunity.window.glfwWindow.Window.start
+Class missing: pyunity.window.glutWindow.Window
+    Method missing: pyunity.window.glutWindow.Window.__init__
+    Method missing: pyunity.window.glutWindow.Window.start
+    Method missing: pyunity.window.glutWindow.Window.schedule_update
+    Method missing: pyunity.window.glutWindow.Window.display
+    Method missing: pyunity.window.glutWindow.Window.quit
+    Method missing: pyunity.window.glutWindow.Window.get_key
+    Method missing: pyunity.window.glutWindow.Window.get_mouse
+Class missing: pyunity.window.sdl2Window.Window
+    Method missing: pyunity.window.sdl2Window.Window.__init__
+    Method missing: pyunity.window.sdl2Window.Window.quit
+    Method missing: pyunity.window.sdl2Window.Window.start
+    Method missing: pyunity.window.sdl2Window.Window.process_keys
+    Method missing: pyunity.window.sdl2Window.Window.process_mouse
+    Method missing: pyunity.window.sdl2Window.Window.get_key
+    Method missing: pyunity.window.sdl2Window.Window.get_mouse
+    Method missing: pyunity.window.sdl2Window.Window.get_mouse_pos
+Class missing: pyunity.window.templateWindow.Window
+    Method missing: pyunity.window.templateWindow.Window.__init__
+    Method missing: pyunity.window.templateWindow.Window.quit
+    Method missing: pyunity.window.templateWindow.Window.start
+Class missing: pyunity.window.ABCWindow
+    Method missing: pyunity.window.ABCWindow.__init__
+    Method missing: pyunity.window.ABCWindow.get_mouse
+    Method missing: pyunity.window.ABCWindow.get_key
+    Method missing: pyunity.window.ABCWindow.get_mouse_pos
+    Method missing: pyunity.window.ABCWindow.quit
+    Method missing: pyunity.window.ABCWindow.start
 
-Function missing: pyunity.render.compile_shaders
+Function missing: pyunity.window.checkModule
+Function missing: pyunity.window.glfwCheck
+Function missing: pyunity.window.sdl2Check
+Function missing: pyunity.window.glutCheck
+Function missing: pyunity.window.GetWindowProvider
+Function missing: pyunity.window.SetWindowProvider
+Function missing: pyunity.window.CustomWindowProvider
 
-Variable missing: pyunity.render.shaders
-Variable missing: pyunity.render.skyboxes
+Variable missing: pyunity.physics.config.gravity
+Variable missing: pyunity.physics.core.Infinity
+Variable missing: pyunity.window.glfwWindow.keyMap
+Variable missing: pyunity.window.glfwWindow.mouseMap
+Variable missing: pyunity.window.sdl2Window.keyMap
+Variable missing: pyunity.window.sdl2Window.mouseMap
+Variable missing: pyunity.window.templateWindow.keyMap
+Variable missing: pyunity.window.providers
 
 

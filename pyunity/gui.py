@@ -275,8 +275,6 @@ class Text(NoResponseGuiComponent):
 
 class CheckBox(GuiComponent):
     checked = ShowInInspector(bool, False)
-    def __init__(self, transform):
-        super(CheckBox, self).__init__(transform)
 
     def Update(self):
         self.checked = not self.checked

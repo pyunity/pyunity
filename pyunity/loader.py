@@ -11,7 +11,7 @@ __all__ = ["ObjectInfo", "GetId", "Primitives", "GetImports", "SaveSceneToProjec
 
 from .meshes import Mesh
 from .core import *
-from .values import Material, Vector3, Quaternion
+from .values import Material, Vector3, Quaternion, ImmutableStruct
 from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
@@ -476,13 +476,13 @@ def LoadProject(filePath):
 
     return project
 
-class Primitives:
+class Primitives(metaclass=ImmutableStruct):
     """
     Primitive preloaded meshes.
     Do not instantiate this class.
 
     """
-
+    _names = ["cube", "quad", "double_quad", "sphere", "capsule", "cylinder"]
     __path = os.path.dirname(os.path.abspath(__file__))
     cube = LoadMesh(os.path.join(__path, "primitives/cube.mesh"))
     quad = LoadMesh(os.path.join(__path, "primitives/quad.mesh"))
