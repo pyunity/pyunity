@@ -74,10 +74,12 @@ class Manifold:
         self.normal = normal
         self.penetration = penetration
 
-class Collider(Component):
+class Collider(Component, metaclass=ABCMeta):
     """Collider base class."""
 
-    pass
+    @abstractmethod
+    def collidingWith(self, other):
+        pass
 
 class SphereCollider(Collider):
     """

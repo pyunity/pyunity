@@ -1,0 +1,3 @@
+from ..values import Vector3
+
+gravity: Vector3 = ...
