@@ -22,7 +22,8 @@ setup(
         "Programming Language :: Python :: 3.9",
     ],
     python_requires='>=3.6',
-    packages=["pyunity==0.8.0"],
+    packages=["pyunity"],
+    install_requires=["pyunity==0.8.0"],
     package_data={"pyunity": ["*.pyi", "*/*.pyi"]},
     zip_safe=False,
 )
