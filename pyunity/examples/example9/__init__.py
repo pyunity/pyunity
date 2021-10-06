@@ -3,7 +3,7 @@ import os
 
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
-    speed = ShowInInspector(float, 200)
+    speed = ShowInInspector(float, 300)
     def Start(self):
         self.rectTransform.offset.Move(Screen.size / 2)
 

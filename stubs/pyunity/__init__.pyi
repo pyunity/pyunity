@@ -1,10 +1,12 @@
 from . import logger as Logger
-from . import audio, core, gui, input, errors, files, values
-__all__ = ["Logger", "Loader", "Primitives", "Screen", "SceneManager", "Mesh"]
+from . import audio, core, gui, input, physics, errors, files, values
+__all__ = ["Logger", "Loader", "Window",
+           "Primitives", "Screen", "SceneManager", "Mesh"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(gui.__all__)
 __all__.extend(input.__all__)
+__all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
 __all__.extend(files.__all__)
 __all__.extend(values.__all__)
@@ -13,9 +15,11 @@ from .audio import *
 from .core import *
 from .gui import *
 from . import loader as Loader
+from . import window as Window
 from .loader import Primitives
 from .input import *
 from .render import Screen
+from .physics import *
 from .errors import *
 from .files import *
 from .values import *

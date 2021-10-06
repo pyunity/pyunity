@@ -23,7 +23,7 @@ def print(*values, sep=" ", end="\n"):
 def check_folder(folder, ext):
     os.chdir(folder)
     files = glob.glob("**/*." + ext, recursive=True)
-    files = list(filter(lambda x: not x.startswith("examples"), files))
+    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
 
     class_find = re.compile("(?<=^class )(\\w+)(?=(\(.*?\))?:)")
     method_find = re.compile("(?<=    def )(\\w+)")
