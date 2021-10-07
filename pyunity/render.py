@@ -93,9 +93,9 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
-        gl.glShaderSource(vertexShader, self.vertex, 1, None)
-        gl.glCompileShader(vertexShader)
+        self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
+        gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
+        gl.glCompileShader(self.vertexShader)
 
         success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
