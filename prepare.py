@@ -23,6 +23,18 @@ if "cython" not in os.environ:
 
 # import pyunity
 
+for file in glob.glob("**/*.py", recursive=True) + \
+        glob.glob("**/*.pyi", recursive=True):
+    with open(file) as f:
+        contents = f.read()
+    
+    print(repr(contents[-1]))
+    if not contents.endswith("\n"):
+        contents += "\n"
+    
+    with open(file, "w") as f:
+        f.write(contents)
+
 if pkgutil.find_loader("autopep8") is None:
     raise Exception("autopep8 is needed to parse the source code.\n" +
                     "Install using \"pip install autopep8\".")

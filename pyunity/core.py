@@ -48,7 +48,7 @@ and all have MeshRenderers:
 
 __all__ = ["Component", "GameObject", "Light", "SingleComponent",
            "MeshRenderer", "Tag", "Transform", "ShowInInspector",
-           "HideInInspector"]
+           "HideInInspector", "LightType"]
 
 import inspect
 import enum
