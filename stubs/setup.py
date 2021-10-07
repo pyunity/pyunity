@@ -1,11 +1,16 @@
 from setuptools import setup
 
+with open("README.md") as f:
+    long_description = f.read()
+
 setup(
     name="pyunity-stubs",
     version="0.8.0",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="Stub files for the PyUnity package",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/pyunity/pyunity",
     classifiers=[
         "Development Status :: 3 - Alpha",
