@@ -1,4 +1,5 @@
-__all__ = ["ABCMessage", "ABCException", "ABCMeta", "abstractmethod", "abstractproperty"]
+__all__ = ["ABCMessage", "ABCException", "ABCMeta",
+           "abstractmethod", "abstractproperty"]
 
 import inspect
 

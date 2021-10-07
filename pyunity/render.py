@@ -398,13 +398,13 @@ class Camera(SingleComponent):
         for i, light in enumerate(lights):
             lightName = f"lights[{i}].".encode()
             self.shader.setVec3(lightName + b"pos",
-                light.transform.position * Vector3(1, 1, -1))
+                                light.transform.position * Vector3(1, 1, -1))
             self.shader.setFloat(lightName + b"strength", 200)
             self.shader.setVec3(lightName + b"color",
-                light.color.to_rgb() / 255)
+                                light.color.to_rgb() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
             self.shader.setVec3(lightName + b"dir",
-                light.transform.rotation.RotateVector(Vector3.forward()))
+                                light.transform.rotation.RotateVector(Vector3.forward()))
 
         for renderer in renderers:
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
