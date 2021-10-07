@@ -33,9 +33,7 @@ for:
         - image: Ubuntu
     install:
       - source $venv/bin/activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8 coverage
-      - coverage run -m unittest tests.py
-      - bash <(curl -s https://codecov.io/bash)
+      - python -m pip install --pre cython wheel pyglm pillow autopep8
   - matrix:
       only:
         - image: Visual Studio 2019
