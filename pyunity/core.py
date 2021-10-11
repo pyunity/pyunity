@@ -710,7 +710,7 @@ class Light(SingleComponent):
 
     """
 
-    intensity = ShowInInspector(int, 100)
+    intensity = ShowInInspector(int, 20)
     color = ShowInInspector(Color, RGB(255, 255, 255))
     type = ShowInInspector(LightType, LightType.Point)
 

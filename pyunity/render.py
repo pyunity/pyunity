@@ -399,7 +399,7 @@ class Camera(SingleComponent):
             lightName = f"lights[{i}].".encode()
             self.shader.setVec3(lightName + b"pos",
                                 light.transform.position * Vector3(1, 1, -1))
-            self.shader.setFloat(lightName + b"strength", 200)
+            self.shader.setFloat(lightName + b"strength", light.intensity * 10)
             self.shader.setVec3(lightName + b"color",
                                 light.color.to_rgb() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))

@@ -87,12 +87,14 @@ class KeyboardAxis:
         self.positive = positive
         self.negative = negative
         self.value = 0
+        self.raw = 0
         self.name = name
         self.speed = speed
 
     def get_value(self, dt):
         change = sum([Input.GetKey(key) for key in self.positive]) - \
             sum([Input.GetKey(key) for key in self.negative])
+        self.raw = change
         if change == 0:
             if self.value != 0:
                 change = -abs(self.value) / self.value
@@ -256,22 +258,68 @@ class Input(metaclass=ImmutableStruct):
         return SceneManager.windowObject.get_mouse(mousecode, mousestate)
 
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
-    _axis_objects = [
-        KeyboardAxis("Horizontal", 3,
-                     [KeyCode.D, KeyCode.Right],
-                     [KeyCode.A, KeyCode.Left]
-                     ),
-        KeyboardAxis("Vertical", 3,
-                     [KeyCode.W, KeyCode.Up],
-                     [KeyCode.S, KeyCode.Down]
-                     ),
-    ]
+    _axis_objects = {
+        "Horizontal": KeyboardAxis(
+            "Horizontal", 3,
+            [KeyCode.D, KeyCode.Right],
+            [KeyCode.A, KeyCode.Left]
+        ),
+        "Vertical": KeyboardAxis(
+            "Vertical", 3,
+            [KeyCode.W, KeyCode.Up],
+            [KeyCode.S, KeyCode.Down]
+        ),
+    }
 
     @classmethod
     def GetAxis(cls, axis):
+        """
+        Get the value for the specified axis. This is
+        always between -1 and 1.
+
+        Parameters
+        ----------
+        axis : str
+            Specified axis
+
+        Returns
+        -------
+        float
+            Axis value
+
+        Raises
+        ------
+        PyUnityException
+            If the axis is not a valid axis
+        """
         if axis not in cls._axes:
-            raise PyUnityException(repr(axis) + " is not a valid axis")
+            raise PyUnityException(f"{axis!r} is not a valid axis")
         return cls._axes[axis]
+
+    @classmethod
+    def GetRawAxis(cls, axis):
+        """
+        Get the raw value for the specified axis. This is
+        always either -1, 0 or 1.
+
+        Parameters
+        ----------
+        axis : str
+            Specified axis
+
+        Returns
+        -------
+        float
+            Raw axis value
+
+        Raises
+        ------
+        PyUnityException
+            If the axis is not a valid axis
+        """
+        if axis not in cls._axis_objects:
+            raise PyUnityException(f"{axis!r} is not a valid axis")
+        return cls._axis_objects[axis].raw
 
     mousePosition = None
     _mouse_last = None
@@ -290,5 +338,5 @@ class Input(metaclass=ImmutableStruct):
         cls._axes["MouseX"] = diff.x
         cls._axes["MouseY"] = diff.y
 
-        for axis in cls._axis_objects:
+        for axis in cls._axis_objects.values():
             cls._axes[axis.name] = axis.get_value(dt)
