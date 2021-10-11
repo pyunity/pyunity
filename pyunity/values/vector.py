@@ -112,7 +112,7 @@ class Vector(metaclass=ABCMeta):
     def __eq__(self, other):
         return all(self._o2(other, operator.eq))
     def __ne__(self, other):
-        return all(self._o2(other, operator.ne))
+        return any(self._o2(other, operator.ne))
     def __gt__(self, other):
         return all(self._o2(other, operator.gt))
     def __lt__(self, other):
