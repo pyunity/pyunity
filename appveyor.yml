@@ -47,6 +47,7 @@ for:
       - python -m pip install --pre cython wheel pyglm pillow autopep8
 
       - python prepare.py
+      - python -m unittest tests.py # early tests
       - python setup.py bdist_wheel
       - venv\Scripts\activate
   - matrix:
