@@ -178,7 +178,7 @@ class Quaternion:
         magnitude = glm.sqrt(1 - self.w ** 2)
         angle = 2 * glm.degrees(glm.acos(self.w))
         if magnitude == 0:
-            return (0, 1, 0, 0)
+            return (0, 0, 1, 0)
         return (angle, self.x / magnitude, self.y / magnitude, self.z / magnitude)
 
     @angleAxisPair.setter

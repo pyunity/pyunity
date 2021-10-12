@@ -1,5 +1,5 @@
 """
-Version 0.8.1 (in development)
+Version 0.8.2 (in development)
 ==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
@@ -48,7 +48,7 @@ This is the output with debugging::
     Trying GLFW as a window provider
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.1
+    Loaded PyUnity version 0.8.2
 
 If debugging is off, there is no output:
 
@@ -131,7 +131,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.1
+    Loaded PyUnity version 0.8.2
     >>> main()
 
 Or from the command line::
@@ -175,7 +175,7 @@ from .values import *
 from .scenes import sceneManager as SceneManager
 from .meshes import Mesh
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"

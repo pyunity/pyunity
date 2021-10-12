@@ -11,17 +11,15 @@ class ABCMessage(ABCException):
 
 class abstractmethod:
     def __init__(self, func):
-        if not isinstance(func, type(self.__class__.getargs)):
-            raise ABCException("Provided function is not callable")
         self.func = func
         self.args = self.getargs(func)
 
     def __eq__(self, other):
-        if inspect.isfunction(other):
-            return self.args == self.getargs(other)
-        elif isinstance(other, abstractmethod):
+        print(other)
+        if isinstance(other, abstractmethod):
             return self.args == other.args
-        return False
+        else:
+            return self.args == self.getargs(other)
 
     def __get__(self, instance, owner):
         return self.func

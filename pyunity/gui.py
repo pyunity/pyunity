@@ -130,6 +130,7 @@ class NoResponseGuiComponent(GuiComponent):
 
 class Image2D(NoResponseGuiComponent):
     texture = ShowInInspector(Texture2D)
+    depth = ShowInInspector(float, 0.0)
     def __init__(self, transform):
         super(Image2D, self).__init__(transform)
         self.rectTransform = self.GetComponent(RectTransform)
@@ -296,6 +297,7 @@ class Gui:
         transform2.anchors = RectAnchors(Vector2.zero(), Vector2.one())
         img = textureObj.AddComponent(Image2D)
         img.texture = texture
+        img.depth = -0.1
 
         textObj = GameObject("Text", button)
         transform3 = textObj.AddComponent(RectTransform)
