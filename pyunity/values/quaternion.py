@@ -155,13 +155,15 @@ class Quaternion:
                 return Quaternion.FromAxis(180, Vector3.up())
         angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
         q = Quaternion.FromAxis(glm.degrees(angle), a)
-        # Remove z component (camera.up is Vector3.up())
-        # q2 = Quaternion.Euler(q.eulerAngles * Vector3(1, 1, 0))
         return q.normalized()
 
     @staticmethod
     def FromDir(v):
-        return Quaternion.Between(Vector3.forward(), v.normalized())
+        a = Quaternion.FromAxis(glm.degrees(glm.atan(v.x, v.z)), Vector3.up())
+        b = Quaternion.FromAxis(
+            glm.degrees(glm.atan(-v.y, glm.sqrt(v.z ** 2 + v.x ** 2))),
+            Vector3.right())
+        return a * b
 
     @property
     def angleAxisPair(self):
@@ -175,10 +177,10 @@ class Quaternion:
         assign like ``q.eulerAngles = (angle, vector)``.
 
         """
-        magnitude = glm.sqrt(1 - self.w ** 2)
         angle = 2 * glm.degrees(glm.acos(self.w))
-        if magnitude == 0:
+        if angle == 0:
             return (0, 0, 1, 0)
+        magnitude = glm.sin(2 * glm.acos(self.w / 2))
         return (angle, self.x / magnitude, self.y / magnitude, self.z / magnitude)
 
     @angleAxisPair.setter
@@ -208,7 +210,7 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return b * a * c
+        return c * a * b
 
     @property
     def eulerAngles(self):

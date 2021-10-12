@@ -4,7 +4,6 @@ class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
     def Update(self, dt):
         self.transform.LookAtGameObject(self.other)
-        self.transform.localEulerAngles *= Vector3(1, 1, 0)
 
 class Mover(Behaviour):
     speed = ShowInInspector(float, 6)
