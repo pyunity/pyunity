@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock
 import sys
 import math
+math.atan = math.atan2
 import os
 if "full" not in os.environ:
     sys.modules["sdl2"] = Mock()
