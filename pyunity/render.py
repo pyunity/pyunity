@@ -438,10 +438,12 @@ class Camera(SingleComponent):
         from .gui import Image2D, RectTransform, Text
         self.guiShader.use()
         self.guiShader.setMat4(
-            b"projection", glm.ortho(0, *self.size, 0, -10, 10))
+            b"projection", glm.ortho(0, *self.size, 0, 10, -10))
         gl.glBindVertexArray(self.guiVAO)
+        gl.glDepthMask(gl.GL_FALSE)
 
         gameObjects = []
+        renderers = []
         for canvas in canvases:
             for gameObject in canvas.transform.GetDescendants():
                 if gameObject in gameObjects:
@@ -454,22 +456,22 @@ class Camera(SingleComponent):
                 renderer = gameObject.GetComponent(Image2D)
                 text = gameObject.GetComponent(Text)
 
-                renderers = []
                 if renderer is not None:
-                    renderers.append(renderer)
+                    renderers.append((renderer, rectTransform))
                 if text is not None:
-                    renderers.append(text)
+                    renderers.append((text, rectTransform))
                     if text.texture is None:
                         text.GenTexture()
 
-                for renderer in renderers:
-                    if renderer.texture is None:
-                        continue
-                    renderer.texture.use()
-                    self.guiShader.setMat4(
-                        b"model", self.get2DMatrix(rectTransform))
-                    self.guiShader.setFloat(b"depth", renderer.depth)
-                    gl.glDrawArrays(gl.GL_QUADS, 0, 4)
+        for renderer, rectTransform in renderers:
+            if renderer.texture is None:
+                continue
+            renderer.texture.use()
+            self.guiShader.setMat4(
+                b"model", self.get2DMatrix(rectTransform))
+            self.guiShader.setFloat(b"depth", renderer.depth)
+            gl.glDrawArrays(gl.GL_QUADS, 0, 4)
+        gl.glDepthMask(gl.GL_TRUE)
 
 class Screen(metaclass=ImmutableStruct):
     _names = ["width", "height", "size", "aspect"]

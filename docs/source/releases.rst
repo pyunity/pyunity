@@ -2,6 +2,10 @@
 Releases
 ========
 
+v0.8.1
+======
+Bugfix regarding camera position updating and input axes.
+
 v0.8.0
 ======
 New features:

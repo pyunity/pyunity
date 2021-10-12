@@ -11,7 +11,7 @@
 [![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
 
-## Version 0.8.1 (in development)
+## Version 0.8.2 (in development)
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
 Game Engine. This does not mean that PyUnity
