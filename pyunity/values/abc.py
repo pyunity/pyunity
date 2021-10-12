@@ -15,7 +15,6 @@ class abstractmethod:
         self.args = self.getargs(func)
 
     def __eq__(self, other):
-        print(other)
         if isinstance(other, abstractmethod):
             return self.args == other.args
         else:
