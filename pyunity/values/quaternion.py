@@ -210,7 +210,7 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return c * a * b
+        return b * a * c
 
     @property
     def eulerAngles(self):
