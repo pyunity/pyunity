@@ -7,7 +7,7 @@ from .vector import Vector3
 
 class Quaternion:
     """
-    Class to represent a 4D Quaternion.
+    Class to represent a unit quaternion, also known as a versor.
 
     Parameters
     ----------
@@ -210,27 +210,34 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return b * a * c
+        return c * a * b
 
     @property
     def eulerAngles(self):
         """Gets or sets the Euler Angles of the quaternion"""
-        p = -glm.asin(-2 * (self.y * self.z + self.w * self.x))
-        if glm.cos(p) != 0:
-            h = -glm.atan(2 * self.x * self.z - 2 * self.w *
-                          self.y, 1 - 2 * self.x ** 2 - 2 * self.y ** 2)
-            b = -glm.atan(self.x * self.y - self.w * self.z,
-                          1 / 2 - self.x ** 2 - self.z ** 2)
+        sx = 2 * (self.w * self.x + self.y * self.z)
+        x = glm.degrees(glm.asin(sx))
+        if abs(x - 90) > 0.001:
+            sz = 2 * (self.w * self.z - self.y * self.x)
+            cz = 1 - 2 * (self.x ** 2 + self.z ** 2)
+            z = glm.degrees(glm.atan(sz, cz))
+            sy = 2 * (self.w * self.y - self.x * self.z)
+            cy = 1 - 2 * (self.y ** 2 + self.x ** 2)
+            y = glm.degrees(glm.atan(sy, cy))
         else:
-            h = -glm.atan(-self.x * self.z - self.w * self.y,
-                          1 / 2 - self.y ** 2 - self.z ** 2)
-            b = 0
-
-        return Vector3(glm.degrees(p), glm.degrees(h), glm.degrees(b))
+            y = 0
+            z = glm.degrees(glm.atan(self.y, self.w))
+        return Vector3(x, y, z)
 
     @eulerAngles.setter
     def eulerAngles(self, value):
         self.w, self.x, self.y, self.z = Quaternion.Euler(value)
+    
+    def SetBackward(self, value):
+        a = Quaternion.FromAxis(value.x, Vector3.right())
+        b = Quaternion.FromAxis(value.y, Vector3.up())
+        c = Quaternion.FromAxis(value.z, Vector3.forward())
+        self.w, self.x, self.y, self.z = b * a * c
 
     @staticmethod
     def identity():
