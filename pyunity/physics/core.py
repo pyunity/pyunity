@@ -62,11 +62,11 @@ class Manifold:
 
     """
 
-    def __init__(self, a, b, points, normal, penetration):
+    def __init__(self, a, b, point, normal, penetration):
         self.a = a
         self.b = b
         self.normal = normal
-        self.points = points
+        self.point = point
         self.penetration = penetration
 
 class Collider(Component):
@@ -242,13 +242,54 @@ class Rigidbody(Component):
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
+        self.inertia = 2/3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
-        self.rotVel = Quaternion.identity()
+        self.rotVel = Vector3.zero()
         self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
-        self.torque = Quaternion.identity()
+        self.torque = Vector3.zero()
         self.gravity = True
+    
+    @property
+    def mass(self):
+        if self.inv_mass == 0:
+            return Infinity
+        return 1 / self.inv_mass
+    
+    @mass.setter
+    def mass(self, val):
+        if val == Infinity or val == 0:
+            self.inv_mass = 0
+        self.inv_mass = 1 / val
 
+    @property
+    def inertia(self):
+        if self.inv_inertia == 0:
+            return Infinity
+        return 1 / self.inv_inertia
+    
+    @inertia.setter
+    def inertia(self, val):
+        if val == Infinity or val == 0:
+            self.inv_inertia = 0
+        self.inv_inertia = 1 / val
+
+    @property
+    def pos(self):
+        return self.transform.position
+    
+    @pos.setter
+    def pos(self, val):
+        self.transform.position = val
+    
+    @property
+    def rot(self):
+        return self.transform.rotation
+    
+    @rot.setter
+    def rot(self, val):
+        self.transform.rotation = val
+    
     def Move(self, dt):
         """
         Moves all colliders on the GameObject by
@@ -262,12 +303,18 @@ class Rigidbody(Component):
 
         """
         if self.gravity:
-            self.force += config.gravity
-        self.velocity += self.force * (1 / self.mass)
-        # self.velocity *= 0.999
-        self.transform.position += self.velocity * dt
+            self.force += config.gravity / self.inv_mass
+        self.velocity += self.force * self.inv_mass
+        self.pos += self.velocity * dt
+
+        self.rotVel += self.torque * self.inv_inertia
+        rotation = self.rotVel * dt
+        angle = rotation.normalize_return_length()
+        rotQuat = Quaternion.FromAxis(math.degrees(angle), rotation)
+        self.rot *= rotQuat
 
         self.force = Vector3.zero()
+        self.torque = Vector3.zero()
 
     def MovePos(self, offset):
         """
@@ -280,7 +327,7 @@ class Rigidbody(Component):
             Offset to move
 
         """
-        self.transform.position += offset
+        self.pos += offset
 
     def AddForce(self, force):
         """
@@ -613,13 +660,30 @@ class CollManager:
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
                         m = CollManager.epa(colliderA, colliderB)
-                        # if m:
-                        #     e = self.GetRestitution(rbA, rbB)
-                        #     normal = m.normal.copy()
-                        #     self.ResolveCollisions(rbA, rbB, e, normal, m.penetration)
+                        if m:
+                            e = self.GetRestitution(rbA, rbB)
+                            normal = m.normal.copy()
+                            self.ResolveCollisions(rbA, rbB, (rbA.pos + rbB.pos) / 2, e, normal, m.penetration)
 
-    def ResolveCollisions(a, b, restitution, normal, penetration):
-        pass
+    def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
+        ap = point - a.pos
+        bp = point - b.pos
+
+        vab = a.velocity + a.rotVel.cross(ap) - b.velocity - b.rotVel.cross(bp)
+        apCrossN = ap.cross(normal)
+        bpCrossN = bp.cross(normal)
+        inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
+        inertiaBcoeff = bpCrossN.dot(bpCrossN) * b.inv_inertia
+
+        top = -(1 + restitution) * vab.dot(normal)
+        bottom = a.inv_mass + b.inv_mass + inertiaAcoeff + inertiaBcoeff
+        j = top / bottom
+
+        print(j)
+        a.velocity += j * normal * a.inv_mass
+        b.velocity -= j * normal * b.inv_mass
+        a.rotVel += (point.cross(j * normal)) * a.inv_inertia
+        b.rotVel -= (point.cross(j * normal)) * b.inv_inertia
 
     def correct_inf(self, a, b, correction, target):
         if not math.isinf(a + b):

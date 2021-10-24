@@ -1,8 +1,23 @@
 from pyunity import *
-from pyunity.physics.core import CollManager
+import math
 
-a = GameObject("a").AddComponent(AABBoxCollider)
-b = GameObject("b").AddComponent(AABBoxCollider)
-b.pos = Vector3(2, 0, 0)
-m = CollManager.epa(a, b)
-print(m.points if m is not None else None)
+class Rotator(Behaviour):
+    rotVel = Vector3(-math.pi, math.pi, math.pi)
+    def Update(self, dt):
+        rot = self.rotVel * dt
+        self.transform.rotation *= Quaternion.FromAxis(math.degrees(rot.length), rot.normalized())
+
+scene = SceneManager.AddScene("Scene")
+scene.mainCamera.transform.position = Vector3(0, 3, -10)
+scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
+
+cube = GameObject("Cube")
+renderer = cube.AddComponent(MeshRenderer)
+renderer.mesh = Mesh.cube(2)
+renderer.mat = Material(Color(255, 0, 0))
+cube.AddComponent(Rotator)
+
+scene.Add(cube)
+
+scene.List()
+SceneManager.LoadScene(scene)
