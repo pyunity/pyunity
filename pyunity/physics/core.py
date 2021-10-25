@@ -143,16 +143,15 @@ class SphereCollider(Collider):
             distance = self.pos.get_dist_sqrd(other.pos)
             if distance < radii:
                 relative = (other.pos - self.pos).normalized()
+                dist = self.radius + other.radius - math.sqrt(distance)
                 return Manifold(self, other,
-                    [self.pos + relative * self.radius,
-                     other.pos - relative * other.radius],
-                    relative, math.sqrt(distance))
+                    (self.pos + other.pos) / 2,
+                    relative, dist)
         else:
             return CollManager.epa(self, other)
     
     def supportPoint(self, direction):
-        return self.pos + direction.normalized()
-
+        return self.pos + direction.normalized() * self.radius
 
 class AABBoxCollider(Collider):
     """
@@ -209,10 +208,11 @@ class AABBoxCollider(Collider):
         for x in (min.x, max.x):
             for y in (min.y, max.y):
                 for z in (min.z, max.z):
-                    distance = Vector3(x, y, z).dot(direction)
+                    vertex = Vector3(x, y, z)
+                    distance = vertex.dot(direction)
                     if distance > maxDistance:
                         maxDistance = distance
-                        maxVertex = Vector3(x, y, z)
+                        maxVertex = vertex
         return maxVertex
 
 class Rigidbody(Component):
