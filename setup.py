@@ -28,7 +28,7 @@ else:
 
 setup(
     name="pyunity",
-    version="0.8.2",
+    version="0.8.3",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
