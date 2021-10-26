@@ -232,7 +232,7 @@ class Quaternion:
     @eulerAngles.setter
     def eulerAngles(self, value):
         self.w, self.x, self.y, self.z = Quaternion.Euler(value)
-    
+
     def SetBackward(self, value):
         a = Quaternion.FromAxis(value.x, Vector3.right())
         b = Quaternion.FromAxis(value.y, Vector3.up())
