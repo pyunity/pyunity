@@ -2,6 +2,11 @@
 Releases
 ========
 
+v0.8.2
+======
+Bugfix regarding ``Quaternion.FromDir``, ``Quaternion.Euler``,
+``abstractmethod`` and 2D depth buffers.
+
 v0.8.1
 ======
 Bugfix regarding camera position updating and input axes.
