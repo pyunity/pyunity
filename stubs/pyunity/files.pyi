@@ -1,3 +1,6 @@
+__all__ = ["Behaviour", "Texture2D", "Prefab",
+           "File", "Project", "Skybox", "Scripts"]
+
 from typing import List, Dict, Optional, Type, Union, Tuple
 from types import ModuleType
 from PIL import Image

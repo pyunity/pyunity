@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setup(
     name="pyunity-stubs",
-    version="0.8.3",
+    version="0.8.3.post1",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="Stub files for the PyUnity package",
