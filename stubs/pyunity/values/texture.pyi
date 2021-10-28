@@ -1,3 +1,5 @@
+__all__ = ["Material", "Color", "RGB", "HSV"]
+
 from typing import Iterator, List, Tuple, Union, Optional
 from ..files import Texture2D
 

@@ -1,3 +1,5 @@
+__all__ = ["AudioSource", "AudioClip", "AudioListener"]
+
 from sdl2.sdlmixer import Mix_Chunk
 from .core import Component, Transform
 
