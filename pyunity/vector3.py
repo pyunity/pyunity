@@ -106,6 +106,10 @@ class Vector3:
             self.z = f(self.z, other)
         return self
 
+    def _o1(self, f):
+        """Any one-operator operation"""
+        return Vector3(f(self.x), f(self.y), f(self.z))
+
     def __add__(self, other):
         if isinstance(other, Vector3):
             return Vector3(self.x + other.x, self.y + other.y, self.z + other.z)

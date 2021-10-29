@@ -246,12 +246,6 @@ def __loadScene(scene):
         scene.Start()
         try:
             windowObject.start(scene.update)
-        except KeyboardInterrupt:
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-            Logger.Save()
-            windowObject.quit()
-            if KeyboardInterruptKill:
-                exit()
         except Exception as e:
             Logger.LogException(e)
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")

@@ -203,17 +203,12 @@ class AABBoxCollider(Collider):
         return CollManager.epa(self, other)
     
     def supportPoint(self, direction):
-        maxDistance = -Infinity
-        min, max = self.min, self.max
-        for x in (min.x, max.x):
-            for y in (min.y, max.y):
-                for z in (min.z, max.z):
-                    vertex = Vector3(x, y, z)
-                    distance = vertex.dot(direction)
-                    if distance > maxDistance:
-                        maxDistance = distance
-                        maxVertex = vertex
-        return maxVertex
+        def sign(a):
+            return abs(a) / a if a != 0 else 1
+        newdir = self.transform.rotation.conjugate.RotateVector(direction)
+        point = newdir._o1(sign) * self.size / 2
+        res = self.transform.rotation.RotateVector(point)
+        return res + self.transform.position
 
 class Rigidbody(Component):
     """
@@ -472,7 +467,12 @@ class CollManager:
         support = CollManager.supportPoint(a, b, ab.cross(c))
         points = [support]
         direction = -support
+        max_iter = 50
+        i = 0
         while True:
+            if i >= max_iter:
+                return None
+            i += 1
             support = CollManager.supportPoint(a, b, direction)
             if support.dot(direction) <= 0:
                 return None
@@ -488,84 +488,84 @@ class CollManager:
         points = CollManager.gjk(a, b)
         if points is None:
             return None
-        faces = [0, 1, 2, 0, 3, 1, 0, 2, 3, 1, 3, 2]
-        normals, minFace = CollManager.getFaceNormals(points, faces)
-        minDistance = Infinity
-        while minDistance == Infinity:
-            minNormal = normals[minFace][0]
-            minDistance = normals[minFace][1]
-            support = CollManager.supportPoint(a, b, minNormal)
-            sDistance = minNormal.dot(support)
-            if abs(sDistance - minDistance) > 0.001:
-                minDistance = Infinity
-                uniqueEdges = []
-                i = 0
-                while i < len(normals):
-                    if normals[i][0].dot(support) > 0:
-                        f = i * 3
-                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f, f + 1)
-                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 1, f + 2)
-                        CollManager.addIfUniqueEdge(uniqueEdges, faces, f + 2, f)
-                        faces[f + 2] = faces[-1]; faces.pop()
-                        faces[f + 1] = faces[-1]; faces.pop()
-                        faces[f] = faces[-1]; faces.pop()
-                        normals[i] = normals[-1]; normals.pop()
-                        i -= 1
-                    i += 1
-                newFaces = []
-                for edgeIndex1, edgeIndex2 in uniqueEdges:
-                    newFaces.append(edgeIndex1)
-                    newFaces.append(edgeIndex2)
-                    newFaces.append(len(points))
-                points.append(support)
-                newNormals, newMinFace = CollManager.getFaceNormals(points, newFaces)
-                oldMinDistance = Infinity
-                for i in range(len(normals)):
-                    if normals[i][1] < oldMinDistance:
-                        oldMinDistance = normals[i][1]
-                        minFace = i
-                if newNormals[newMinFace][1] < oldMinDistance:
-                    minFace = newMinFace + len(normals)
-                faces += newFaces
-                normals += newNormals
-        minFace *= 3
+        p0, p1, p2, p3 = points
+        triangles = []
+        edges = []
+        threshold = 0.00000001
+        limit = 50
+        cur = 0
+
+        class Triangle:
+            def __init__(self, a, b, c):
+                self.a = a
+                self.b = b
+                self.c = c
+                self.normal = (b - a).cross(c - a).normalized()
+
+        triangles.append(Triangle(p0, p1, p2))
+        triangles.append(Triangle(p0, p2, p3))
+        triangles.append(Triangle(p0, p3, p1))
+        triangles.append(Triangle(p1, p3, p2))
+
+        while True:
+            if cur >= limit:
+                return None
+            cur += 1
+
+            curTriangle = triangles[0]
+            minDst = math.inf
+            for triangle in triangles:
+                dst = abs(triangle.normal.dot(triangle.a))
+                if dst < minDst:
+                    minDst = dst
+                    curTriangle = triangle
+            
+            minSupport = CollManager.supportPoint(a, b, curTriangle.normal)
+            if curTriangle.normal.dot(minSupport) - minDst < threshold:
+                break
+            
+            i = 0
+            while i < len(triangles):
+                triangle = triangles[i]
+                if triangle.normal.dot(minSupport - triangle.a) > 0:
+                    CollManager.AddEdge(edges, triangle.a, triangle.b)
+                    CollManager.AddEdge(edges, triangle.b, triangle.c)
+                    CollManager.AddEdge(edges, triangle.c, triangle.a)
+                    triangles.remove(triangle)
+                    continue
+                i += 1
+            
+            for edge in edges:
+                triangles.append(Triangle(minSupport, edge[0], edge[1]))
+            
+            edges.clear()
+        
+        penetration = curTriangle.normal.dot(curTriangle.a)
         u, v, w = CollManager.barycentric(
-            minNormal * (minDistance + 0.001),
-            points[faces[minFace]],
-            points[faces[minFace + 1]],
-            points[faces[minFace + 2]])
-        point = u * points[faces[minFace]].original[0] + \
-            v * points[faces[minFace + 1]].original[0] + \
-            w * points[faces[minFace + 2]].original[0]
-        return Manifold(a, b, point, minNormal, minDistance + 0.001)
+            curTriangle.normal * penetration,
+            curTriangle.a,
+            curTriangle.b,
+            curTriangle.c)
+        
+        if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
+            return None
+        elif math.isnan(u + v + w):
+            return None
+        
+        point = Vector3(
+            u * curTriangle.a.original[0] + \
+            v * curTriangle.b.original[0] + \
+            w * curTriangle.c.original[0])
+        normal = -curTriangle.normal
+        return Manifold(a, b, point, normal, penetration)
     
     @staticmethod
-    def getFaceNormals(points, faces):
-        normals = []
-        minDistance = -Infinity
-        minTriangle = 0
-        for i in range(0, len(faces), 3):
-            a = points[faces[i]]
-            b = points[faces[i + 1]]
-            c = points[faces[i + 2]]
-            normal = (b - a).cross(c - a).normalized()
-            distance = normal.dot(a)
-            if distance < 0:
-                normal *= -1
-                distance *= -1
-            normals.append([normal, distance])
-            if distance < minDistance:
-                minTriangle = i // 3
-                minDistance = distance
-        return normals, minTriangle
-    
-    @staticmethod
-    def addIfUniqueEdge(edges, faces, a, b):
-        if (faces[b], faces[a]) in edges:
-            edges.remove((faces[b], faces[a]))
+    def AddEdge(edges, a, b):
+        if (b, a) in edges:
+            edges.remove((b, a))
         else:
-            edges.append((faces[a], faces[b]))
-    
+            edges.append((a, b))
+
     @staticmethod
     def barycentric(p, a, b, c):
         v0 = b - a
@@ -663,9 +663,22 @@ class CollManager:
                         if m:
                             e = self.GetRestitution(rbA, rbB)
                             normal = m.normal.copy()
+                            print(m.point, normal)
                             self.ResolveCollisions(rbA, rbB, (rbA.pos + rbB.pos) / 2, e, normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
+        if b is self.dummyRigidbody:
+            ap = point - a.pos
+            vab = a.velocity + a.rotVel.cross(ap)
+            top = -(1 + restitution) * vab.dot(normal)
+            apCrossN = ap.cross(normal)
+            inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
+            bottom = a.inv_mass + inertiaAcoeff
+            j = top / bottom
+            a.velocity += j * normal * a.inv_mass
+            a.rotVel += (point.cross(j * normal)) * a.inv_inertia
+            return
+
         ap = point - a.pos
         bp = point - b.pos
 
@@ -679,11 +692,18 @@ class CollManager:
         bottom = a.inv_mass + b.inv_mass + inertiaAcoeff + inertiaBcoeff
         j = top / bottom
 
-        print(j)
         a.velocity += j * normal * a.inv_mass
         b.velocity -= j * normal * b.inv_mass
         a.rotVel += (point.cross(j * normal)) * a.inv_inertia
         b.rotVel -= (point.cross(j * normal)) * b.inv_inertia
+
+        # Positional correction
+
+        percent = 0.4
+        slop = 0.01
+        correction = max(penetration - slop, 0) / (a.inv_mass + b.inv_mass) * percent * normal
+        a.pos += a.inv_mass * correction
+        b.pos -= b.inv_mass * correction
 
     def correct_inf(self, a, b, correction, target):
         if not math.isinf(a + b):

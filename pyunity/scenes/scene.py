@@ -311,6 +311,8 @@ class Scene:
         if self.physics:
             self.collManager = physics.CollManager()
             self.collManager.AddPhysicsInfo(self)
+        
+        self.mainCamera.Render(self.gameObjects)
 
         self.lastFrame = time()
 
