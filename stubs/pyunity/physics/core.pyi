@@ -1,3 +1,9 @@
+"""
+Core classes of the PyUnity
+physics engine.
+
+"""
+
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
            "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
 

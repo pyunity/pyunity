@@ -102,8 +102,50 @@ def check_classes(a, b, c, d, e, f, name):
     for attr in attrs:
         print("Variable " + name + ":", attr)
 
+def check_docstrings():
+    os.chdir("../pyunity")
+    files = glob.glob("**/*.py", recursive=True)
+    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
+    
+    a = {}
+    for file in files:
+        with open(file) as f:
+            content = f.read()
+        if not content.startswith('"""'):
+            continue
+        docstring = content.split('"""')
+        a[file] = docstring[1]
+    
+    os.chdir("../stubs/pyunity")
+    files = glob.glob("**/*.pyi", recursive=True)
+    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
+    
+    b = {}
+    for file in files:
+        with open(file) as f:
+            content = f.read()
+        if not content.startswith('"""'):
+            continue
+        docstring = content.split('"""')
+        b[file] = docstring[1]
+    
+    for file in a:
+        if file + "i" not in b:
+            print("Docstring missing: " + file + "i")
+        elif a[file] != b[file + "i"]:
+            print("Docstring differs: " + file + "i")
+    
+    for file in b:
+        if file[:-1] not in a:
+            print("Docstring extra: " + file)
+    
+    os.chdir(orig)
+
 check_classes(a, b, c, d, e, f, "missing")
 sys.stdout.write("\n\n")
 check_classes(d, e, f, a, b, c, "extra")
+sys.stdout.write("\n\n")
+check_docstrings()
+
 file.close()
 print = builtins.print

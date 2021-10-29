@@ -1,3 +1,5 @@
+"""Class to represent a rotation in 3D space."""
+
 from typing import Any, Iterable, List, Tuple
 from .vector import Vector3
 

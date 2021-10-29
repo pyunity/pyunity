@@ -1,3 +1,11 @@
+"""
+Utility functions related to loading
+and saving PyUnity meshes and scenes.
+
+This will be imported as ``pyunity.Loader``.
+
+"""
+
 from typing import List, Optional, Dict, Type, Tuple
 from .meshes import Mesh
 from .scenes import Scene
