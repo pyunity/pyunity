@@ -1,3 +1,9 @@
+"""
+Module to load files and scripts.
+Also manages project structure.
+
+"""
+
 __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project", "Skybox", "Scripts"]
 

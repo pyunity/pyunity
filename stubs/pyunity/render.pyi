@@ -1,9 +1,13 @@
-from pyunity.values.other import ImmutableStruct
+"""
+Classes to aid in rendering in a Scene.
+
+"""
+
 import glm
 from typing import Any, Dict, List, Tuple
 from .meshes import Mesh
 from .files import Skybox
-from .values import Color, Vector2, Vector3, Quaternion
+from .values import Color, Vector2, Vector3, Quaternion, ImmutableStruct
 from .core import SingleComponent, Transform, MeshRenderer, Light
 from .gui import RectTransform, Canvas
 

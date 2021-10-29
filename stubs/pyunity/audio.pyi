@@ -1,3 +1,12 @@
+"""
+Classes to manage the playback of audio.
+It uses the sdl2.sdlmixer library.
+A variable in the ``config`` module called
+``audio`` will be set to ``False`` if the
+mixer module cannot be initialized.
+
+"""
+
 __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
 from sdl2.sdlmixer import Mix_Chunk

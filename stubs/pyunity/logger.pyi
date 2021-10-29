@@ -1,3 +1,10 @@
+"""
+Utility functions to log output of PyUnity.
+
+This will be imported as ``pyunity.Logger``.
+
+"""
+
 from typing import Callable, Tuple, IO
 
 def get_tmp() -> str: ...

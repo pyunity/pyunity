@@ -1,3 +1,13 @@
+"""
+Class to load, render and manage GameObjects
+and their various components.
+
+You should never use the :class:`Scene`
+class directly, instead, only use
+the SceneManager class.
+
+"""
+
 from typing import Dict, List as _List, Type, TypeVar
 from ..render import Camera
 from ..core import GameObject, Light, MeshRenderer

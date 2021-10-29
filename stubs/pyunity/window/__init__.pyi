@@ -1,3 +1,30 @@
+"""
+A module used to load the window providers.
+
+The window is provided by one of three
+providers: GLFW, PySDL2 and GLUT.
+When you first import PyUnity, it checks
+to see if any of the three providers
+work. The testing order is as above, so
+GLUT is tested last.
+
+To create your own provider, create a
+class that has the following methods:
+
+- ``__init__``: initiate your window and
+    check to see if it works.
+- ``start``: start the main loop in your
+    window. The first parameter is
+    ``update_func``, which is called
+    when you want to do the OpenGL calls.
+
+Check the source code of any of the window
+providers for an example. If you have a
+window provider, then please create a new
+pull request.
+
+"""
+
 from types import ModuleType
 from typing import Callable, Dict, Tuple, Type, TypeVar
 from ..values import ABCMeta, abstractmethod

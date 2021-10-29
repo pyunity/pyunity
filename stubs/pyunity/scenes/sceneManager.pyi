@@ -1,4 +1,9 @@
-from pyunity.scenes.sceneManager import FirstScene
+"""
+Module that manages creation and deletion
+of Scenes.
+
+"""
+
 from typing import Dict, List, Type
 from .scene import Scene
 

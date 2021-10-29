@@ -1,3 +1,5 @@
+"""Module for meshes created at runtime."""
+
 from typing import List, Optional
 from .values import Vector3
 
