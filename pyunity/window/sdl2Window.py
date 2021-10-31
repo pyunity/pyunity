@@ -17,7 +17,6 @@ class Window(ABCWindow):
     def __init__(self, name, resize):
         self.resize = resize
 
-        print(dir(sdl2))
         self.screen = sdl2.SDL_CreateWindow(
             name.encode(), sdl2.SDL_WINDOWPOS_UNDEFINED,
             sdl2.SDL_WINDOWPOS_UNDEFINED, *config.size,
