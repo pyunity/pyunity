@@ -6,7 +6,6 @@ from ..input import KeyCode, KeyState, MouseCode
 from .. import config
 import sdl2
 import sdl2.ext
-import sdl2.video
 import ctypes
 
 class Window(ABCWindow):
@@ -18,20 +17,21 @@ class Window(ABCWindow):
     def __init__(self, name, resize):
         self.resize = resize
 
+        print(dir(sdl2))
         self.screen = sdl2.SDL_CreateWindow(
             name.encode(), sdl2.SDL_WINDOWPOS_UNDEFINED,
             sdl2.SDL_WINDOWPOS_UNDEFINED, *config.size,
             sdl2.SDL_WINDOW_OPENGL
         )
 
-        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLEBUFFERS, 1)
-        sdl2.video.SDL_GL_SetAttribute(sdl2.video.SDL_GL_MULTISAMPLESAMPLES, 8)
-        sdl2.video.SDL_GL_SetAttribute(
-            sdl2.video.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
-        sdl2.video.SDL_GL_SetAttribute(
-            sdl2.video.SDL_GL_CONTEXT_MINOR_VERSION, 3)
-        sdl2.video.SDL_GL_SetAttribute(
-            sdl2.video.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.video.SDL_GL_CONTEXT_PROFILE_CORE)
+        sdl2.SDL_GL_SetAttribute(sdl2.SDL_GL_MULTISAMPLEBUFFERS, 1)
+        sdl2.SDL_GL_SetAttribute(sdl2.SDL_GL_MULTISAMPLESAMPLES, 8)
+        sdl2.SDL_GL_SetAttribute(
+            sdl2.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+        sdl2.SDL_GL_SetAttribute(
+            sdl2.SDL_GL_CONTEXT_MINOR_VERSION, 3)
+        sdl2.SDL_GL_SetAttribute(
+            sdl2.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.SDL_GL_CONTEXT_PROFILE_CORE)
 
         self.context = sdl2.SDL_GL_CreateContext(self.screen)
 
