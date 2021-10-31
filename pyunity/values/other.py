@@ -16,7 +16,10 @@ class Clock:
     @fps.setter
     def fps(self, value):
         self._fps = value
-        self._frameDuration = 1 / self._fps
+        if value == 0:
+            self._frameDuration = 0
+        else:
+            self._frameDuration = 1 / self._fps
 
     def Start(self, fps=None):
         if fps is not None:
