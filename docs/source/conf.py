@@ -100,8 +100,6 @@ def skip_non_undoc(app, what, name, obj, skip, options):
             isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
         return None
     if what == "class":
-        with open("docs/undoc.txt", "a+") as f:
-            f.write(str(name) + " " + str(obj) + "\n")
         return True
     return skip
 
