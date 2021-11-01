@@ -10,6 +10,8 @@ class Clock:
 
     @property
     def fps(self) -> float: ...
+    @fps.setter
+    def fps(self, value: float) -> None: ...
 
 class ImmutableStruct(type):
     _names: str

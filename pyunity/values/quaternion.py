@@ -168,20 +168,14 @@ class Quaternion:
     @property
     def angleAxisPair(self):
         """
-        Gets or sets the angle and axis pair.
-
-        Notes
-        -----
-        When getting, it returns a tuple in the
-        form of ``(angle, x, y, z)``. When setting,
-        assign like ``q.eulerAngles = (angle, vector)``.
+        Gets or sets the angle and axis pair. Tuple of form (angle, axis).
 
         """
         angle = 2 * glm.degrees(glm.acos(self.w))
         if angle == 0:
-            return (0, 0, 1, 0)
+            return (0, Vector3.up())
         magnitude = glm.sin(2 * glm.acos(self.w / 2))
-        return (angle, self.x / magnitude, self.y / magnitude, self.z / magnitude)
+        return (angle, Vector3(self) / magnitude)
 
     @angleAxisPair.setter
     def angleAxisPair(self, value):
