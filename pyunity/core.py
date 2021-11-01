@@ -731,6 +731,7 @@ class MeshRenderer(SingleComponent):
     DefaultMaterial.default = True
     mesh = ShowInInspector(Mesh)
     mat = ShowInInspector(Material, DefaultMaterial, "material")
+    material = mat
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
