@@ -148,8 +148,8 @@ create a new pull request.
 
 from . import logger as Logger
 from . import audio, core, gui, input, physics, errors, files, values
-__all__ = ["Logger", "Loader", "Window",
-           "Primitives", "Screen", "SceneManager", "Mesh"]
+__all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
+           "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
 __all__.extend(audio.__all__)
 __all__.extend(core.__all__)
 __all__.extend(gui.__all__)
@@ -166,7 +166,7 @@ from . import loader as Loader
 from . import window as Window
 from .loader import Primitives
 from .input import *
-from .render import Screen
+from .render import Camera, Screen, Shader
 from .physics import *
 from .errors import *
 from .files import *
