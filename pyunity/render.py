@@ -250,6 +250,7 @@ class Camera(SingleComponent):
     shader = ShowInInspector(Shader, shaders["Standard"])
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
+    ortho = ShowInInspector(bool, False, "Orthographic")
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
@@ -257,6 +258,8 @@ class Camera(SingleComponent):
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
+        self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
+        self.orthoSize = 5
         self.fov = 90
         self.clearColor = RGB(0, 0, 0)
 
@@ -292,13 +295,24 @@ class Camera(SingleComponent):
         return self._fov
 
     @fov.setter
-    def fov(self, fov):
-        self._fov = fov
+    def fov(self, value):
+        self._fov = value
         self.projMat = glm.perspective(
             glm.radians(self._fov / self.size.x * self.size.y),
             self.size.x / self.size.y,
             self.near,
             self.far)
+        
+    @property
+    def orthoSize(self):
+        return self._orthoSize
+    
+    @orthoSize.setter
+    def orthoSize(self, value):
+        self._orthoSize = value
+        width = value * self.size.x / self.size.y
+        self.orthoMat = glm.ortho(
+            -width, width, -value, value, self.near, self.far)
 
     def Resize(self, width, height):
         """
@@ -325,9 +339,8 @@ class Camera(SingleComponent):
 
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
-        rotation = transform.rotation.angleAxisPair
-        angle = glm.radians(rotation[0])
-        axis = Vector3(rotation[1:]).normalized()
+        angle, axis = transform.rotation.angleAxisPair
+        angle = glm.radians(angle)
 
         rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         position = glm.translate(rotated, list(
@@ -389,7 +402,10 @@ class Camera(SingleComponent):
         """
         self.shader.use()
         viewMat = self.getViewMat()
-        self.shader.setMat4(b"projection", self.projMat)
+        if self.ortho:
+            self.shader.setMat4(b"projection", self.orthoMat)
+        else:
+            self.shader.setMat4(b"projection", self.projMat)
         self.shader.setMat4(b"view", viewMat)
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
