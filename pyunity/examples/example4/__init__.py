@@ -1,4 +1,4 @@
-from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, LookAt, MeshRenderer, Material, RGB, Loader, Mover
+from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, MeshRenderer, Material, RGB, Loader
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
