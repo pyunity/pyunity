@@ -246,7 +246,7 @@ class Camera(SingleComponent):
 
     near = ShowInInspector(float, 0.05)
     far = ShowInInspector(float, 200)
-    clearColor = ShowInInspector(Color, RGB(0, 0, 0))
+    clearColor = ShowInInspector(Color)
     shader = ShowInInspector(Shader, shaders["Standard"])
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
@@ -257,11 +257,12 @@ class Camera(SingleComponent):
         self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
+        self.clearColor = RGB(0, 0, 0)
+
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
-        self.orthoSize = 5
         self.fov = 90
-        self.clearColor = RGB(0, 0, 0)
+        self.orthoSize = 5
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, -1], [0, 1, 0])
         self.lastPos = Vector3.zero()
