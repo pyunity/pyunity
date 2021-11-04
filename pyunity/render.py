@@ -342,6 +342,7 @@ class Camera(SingleComponent):
         """Generates model matrix from transform."""
         angle, axis = transform.rotation.angleAxisPair
         angle = glm.radians(angle)
+        axis = axis.normalized()
 
         rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         position = glm.translate(rotated, list(
