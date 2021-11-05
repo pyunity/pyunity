@@ -17,7 +17,22 @@ import sys
 import enum
 
 class Canvas(Component):
+    """
+    A Component that manages GUI interactions
+    and 2D rendering. Only GameObjects which
+    are a descendant of a Canvas will be
+    rendered.
+
+    """
     def Update(self, updated):
+        """
+        Check if any components have been clicked on.
+
+        Parameters
+        ----------
+        updated : list
+            List of already updated GameObjects.
+        """
         for descendant in self.transform.GetDescendants():
             if descendant in updated:
                 continue
@@ -33,6 +48,17 @@ class Canvas(Component):
                         comp.Update()
 
 class RectData:
+    """
+    Class to represent a 2D rect.
+
+    Parameters
+    ----------
+    min_or_both : Vector2 or RectData
+        Minimum value, or another RectData object
+    max : Vector2 or None
+        Maximum value. Default is None
+
+    """
     def __init__(self, min_or_both=None, max=None):
         if min_or_both is None:
             self.min = Vector2.zero()
@@ -49,6 +75,7 @@ class RectData:
             self.max = max.copy()
 
     def __repr__(self):
+        """String representation of the RectData"""
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
 
     def __add__(self, other):
@@ -70,31 +97,119 @@ class RectData:
             return RectData(self.min * other, self.max * other)
 
 class RectAnchors(RectData):
+    """
+    A type of RectData which represents
+    the anchor points of a RectTransform.
+
+    """
+
     def SetPoint(self, p):
+        """
+        Changes both the minimum and maximum anchor points.
+
+        Parameters
+        ----------
+        p : Vector2
+            Point
+        
+        """
         self.min = p.copy()
         self.max = p.copy()
 
     def RelativeTo(self, other):
+        """
+        Get RectData of another Rect relative to the
+        anchor points.
+
+        Parameters
+        ----------
+        other : RectData
+            Querying rect
+
+        Returns
+        -------
+        RectData
+            Relative rect to this
+        """
         parentSize = other.max - other.min
         absAnchorMin = other.min + (self.min * parentSize)
         absAnchorMax = other.min + (self.max * parentSize)
         return RectData(absAnchorMin, absAnchorMax)
 
 class RectOffset(RectData):
+    """
+    Rect to represent the offset from the
+    anchor points of a RectTransform.
+
+    """
+
     @staticmethod
-    def Square(size, center=Vector2.zero()):
+    def Rectangle(size, center=Vector2.zero()):
+        """
+        Create a rectangular RectOffset.
+
+        Parameters
+        ----------
+        size : float or Vector2
+            Size of offset
+        center : Vector2, optional
+            Central point of RectOffset, by default Vector2.zero()
+
+        Returns
+        -------
+        RectOffset
+            The generated RectOffset
+        
+        """
         return RectOffset(center - size / 2, center + size / 2)
 
     def Move(self, pos):
+        """
+        Move the RectOffset by a specified amount.
+
+        Parameters
+        ----------
+        pos : Vector2
+        
+        """
         self.min += pos
         self.max += pos
 
     def SetCenter(self, pos):
+        """
+        Sets the center of the RectOffset. The size is preserved.
+
+        Parameters
+        ----------
+        pos : Vector2
+            Center point of the RectOffset
+        
+        """
         size = self.max - self.min
         self.min = pos - size / 2
         self.max = pos + size / 2
 
 class RectTransform(SingleComponent):
+    """
+    A Component that represents the size, position and
+    orientation of a 2D object.
+
+    Attributes
+    ----------
+    anchors : RectAnchors
+        Anchor points of the RectTransform. Measured
+        between Vector2(0, 0) and Vector2(1, 1)
+    offset : RectOffset
+        Offset vectors representing the offset of
+        opposite corners from the anchors. Measured
+        in pixels
+    pivot : Vector2
+        Point in which the object rotates around.
+        Measured between Vector2(0, 0) and Vector2(1, 1)
+    rotation : float
+        Rotation in degrees
+
+    """
     anchors = ShowInInspector(RectAnchors)
     offset = ShowInInspector(RectOffset)
     pivot = ShowInInspector(Vector2)
@@ -111,6 +226,15 @@ class RectTransform(SingleComponent):
             self.parent = self.transform.parent.GetComponent(RectTransform)
 
     def GetRect(self):
+        """
+        Gets screen coordinates of the bounding box.
+
+        Returns
+        -------
+        RectData
+            Screen coordinates
+        
+        """
         from .render import Screen
         if self.parent is None:
             return self.anchors * Screen.size
@@ -126,9 +250,25 @@ class GuiComponent(Component, metaclass=ABCMeta):
 
 class NoResponseGuiComponent(GuiComponent):
     def Update(self):
+        """
+        Empty Update function. This is to ensure
+        nothing happens when the component is clicked.
+
+        """
         pass
 
 class Image2D(NoResponseGuiComponent):
+    """
+    A 2D image component, which is uninteractive.
+
+    Attributes
+    ----------
+    texture : Texture2D
+        Texture to render
+    depth : float
+        Z ordering of image. Higher depths are drawn on top.
+
+    """
     texture = ShowInInspector(Texture2D)
     depth = ShowInInspector(float, 0.0)
     def __init__(self, transform):
