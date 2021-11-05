@@ -17,6 +17,7 @@ def main():
     scene = SceneManager.AddScene("Scene")
     scene.mainCamera.transform.position = Vector3(-5, 10, -5)
     scene.mainCamera.transform.localRotation.SetBackward(Vector3(30, 45, 0))
+    scene.mainCamera.skyboxEnabled = False
     mover = scene.mainCamera.AddComponent(OrthoMover)
     mover.cam = scene.mainCamera
     scene.mainCamera.ortho = True
