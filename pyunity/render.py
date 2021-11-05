@@ -432,15 +432,16 @@ class Camera(SingleComponent):
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
             renderer.Render()
-
-        gl.glDepthFunc(gl.GL_LEQUAL)
-        self.skyboxShader.use()
-        self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
-        self.skyboxShader.setMat4(b"projection", self.projMat)
-        self.skybox.use()
-        gl.glBindVertexArray(self.skybox.vao)
-        gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
-        gl.glDepthFunc(gl.GL_LESS)
+        
+        if self.skyboxEnabled:
+            gl.glDepthFunc(gl.GL_LEQUAL)
+            self.skyboxShader.use()
+            self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+            self.skyboxShader.setMat4(b"projection", self.projMat)
+            self.skybox.use()
+            gl.glBindVertexArray(self.skybox.vao)
+            gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
+            gl.glDepthFunc(gl.GL_LESS)
 
     def Render2D(self, canvases):
         """
