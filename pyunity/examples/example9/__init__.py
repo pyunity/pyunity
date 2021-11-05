@@ -38,7 +38,7 @@ def main():
 
     imgObject = GameObject("Image", canvas)
     rectTransform = imgObject.AddComponent(RectTransform)
-    rectTransform.offset = RectOffset.Square(100)
+    rectTransform.offset = RectOffset.Rectangle(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
     img = imgObject.AddComponent(Image2D)
