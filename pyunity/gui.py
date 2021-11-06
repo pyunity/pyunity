@@ -319,10 +319,36 @@ checkboxDefaults = [
 ]
 
 class _FontLoader:
+    """
+    Base font loader. Uses ImageFont.
+    
+    """
     fonts = {}
 
     @classmethod
     def LoadFont(cls, name, size):
+        """
+        Loads and returns a Font object. This
+        will internally call FontLoader.LoadFile,
+        which will fail if the default FontLoader
+        is :class:`_FontLoader`.
+
+        Parameters
+        ----------
+        name : str
+            Name of font. This should be either in
+            the Windows registry, or can be found
+            using fc-match.
+        size : int
+            Size, in points, of the font.
+
+        Returns
+        -------
+        Font
+            Generated Font object, or None if
+            ``PYUNITY_TESTING`` is set.
+        
+        """
         if os.getenv("PYUNITY_TESTING") is not None:
             return None
         if name in cls.fonts:
@@ -338,11 +364,36 @@ class _FontLoader:
 
     @classmethod
     def LoadFile(cls, name):
+        """
+        Default file loader. Overriden to return
+        the font file name. Raises PyUnityException by default.
+        Do NOT call ``super().LoadFile()``.
+        
+        """
         raise PyUnityException("No font loading function found")
 
 class WinFontLoader(_FontLoader):
     @classmethod
     def LoadFile(cls, name):
+        """
+        Use the Windows registry to find a font file name.
+
+        Parameters
+        ----------
+        name : str
+            Font name. This is not the same as the file name.
+
+        Returns
+        -------
+        str
+            Font file name
+
+        Raises
+        ------
+        PyUnityException
+            If the font is not found
+        
+        """
         import winreg
         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
                              "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\\")
@@ -357,6 +408,25 @@ class WinFontLoader(_FontLoader):
 class UnixFontLoader(_FontLoader):
     @classmethod
     def LoadFile(cls, name):
+        """
+        Use ``fc-match`` to find the font file name.
+
+        Parameters
+        ----------
+        name : str
+            Font name. This is not the same as the file name.
+
+        Returns
+        -------
+        str
+            Font file name
+
+        Raises
+        ------
+        PyUnityException
+            If the font is not found
+        
+        """
         import subprocess
         process = subprocess.Popen(["fc-match", name], stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
@@ -368,10 +438,25 @@ class UnixFontLoader(_FontLoader):
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     class FontLoader(UnixFontLoader): pass
+    """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 else:
     class FontLoader(WinFontLoader): pass
+    """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 
 class Font:
+    """
+    Font object to represent font data.
+
+    Attributes
+    ----------
+    _font : ImageFont.FreeTypeFont
+        Image font object. Do not use unless you know what you are doing.
+    name : str
+        Font name
+    size : int
+        Font size, in points
+    
+    """
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
             raise PyUnityException("Please specify a FreeType font" +
@@ -390,6 +475,34 @@ class TextAlign(enum.IntEnum):
     Right = enum.auto()
 
 class Text(NoResponseGuiComponent):
+    """
+    Component to render text.
+
+    Attributes
+    ----------
+    font : Font
+        Font object to render
+    text : str
+        Contents of the Text
+    color : Color
+        Fill color
+    depth : float
+        Z ordering of the text. Higher values are on top.
+    centeredX : TextAlign
+        How to align in the X direction
+    centeredY : TextAlign
+        How to align in the Y direction
+    rect : RectTransform
+        RectTransform of the GameObject. Can be None
+    texture : Texture2D
+        Texture of the text, to save computation time.
+    
+    Notes
+    -----
+    Modifying :attr:`font`, :attr:`text`, or :attr:`color` will call
+    :meth:`GenTexture`.
+    
+    """
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
@@ -403,6 +516,10 @@ class Text(NoResponseGuiComponent):
         self.color = RGB(255, 255, 255)
 
     def GenTexture(self):
+        """
+        Generate a :class:`Texture2D` to render.
+
+        """
         if self.rect is None:
             self.rect = self.GetComponent(RectTransform)
             if self.rect is None:
@@ -441,16 +558,76 @@ class Text(NoResponseGuiComponent):
                 self.GenTexture()
 
 class CheckBox(GuiComponent):
+    """
+    A component that updates the Image2D
+    of its GameObject when clicked.
+
+    Attributes
+    ----------
+    checked : bool
+        Current state of the checkbox
+
+    """
     checked = ShowInInspector(bool, False)
 
     def Update(self):
+        """
+        Inverts ``checked`` and updates the texture of
+        the Image2D, if there is one.
+        """
         self.checked = not self.checked
-        self.GetComponent(
-            Image2D).texture = checkboxDefaults[int(self.checked)]
+        cmp = self.GetComponent(Image2D)
+        if cmp is not None:
+            cmp.texture = checkboxDefaults[int(self.checked)]
 
 class Gui:
+    """
+    Helper class to create GUI GameObjects.
+    Do not instantiate.
+
+    """
     @classmethod
     def MakeButton(cls, name, scene, text="Button", font=None, color=None, texture=None):
+        """
+        Create a Button GameObject and add all
+        relevant GameObjects to the scene.
+
+        Parameters
+        ----------
+        name : str
+            Name of the GameObject
+        scene : Scene
+            Scene to add all generated GameObjects to
+        text : str, optional
+            Text content of the button, by default "Button"
+        font : Font, optional
+            Default font to use, if None then "Arial" is used
+        color : Color, optional
+            Fill color of the button text, by default black
+        texture : Texture2D, optional
+            Texture for the button background.
+
+        Returns
+        -------
+        Tuple
+            A tuple containing the :class:`RectTransform` of
+            button, the :class:`Button` component and
+            the :class:`Text` component.
+        
+        Notes
+        -----
+        This will create 3 GameObjects in this hierarchy::
+
+            <specified button name>
+            |- Button
+            |- Text
+        
+        The ``Button`` GameObject will have two components,
+        :class:`Button` and :class:`RectTransform`. The
+        ``Button`` GameObject will have two components,
+        :class:`Image2D` and :class:`RectTransform`.
+        
+        """
         if texture is None:
             texture = buttonDefault
 
