@@ -208,8 +208,11 @@ class RectTransform(SingleComponent):
         Measured between Vector2(0, 0) and Vector2(1, 1)
     rotation : float
         Rotation in degrees
+    parent : RectTransform
+        Parent RectTransform
 
     """
+
     anchors = ShowInInspector(RectAnchors)
     offset = ShowInInspector(RectOffset)
     pivot = ShowInInspector(Vector2)
@@ -220,10 +223,10 @@ class RectTransform(SingleComponent):
         self.offset = RectOffset()
         self.pivot = Vector2(0.5, 0.5)
 
-        if self.transform.parent is None:
-            self.parent = None
-        else:
-            self.parent = self.transform.parent.GetComponent(RectTransform)
+    @property
+    def parent(self):
+        if self.transform.parent is not None:
+            return self.transform.parent.GetComponent(RectTransform)
 
     def GetRect(self):
         """
@@ -244,11 +247,19 @@ class RectTransform(SingleComponent):
             return rect
 
 class GuiComponent(Component, metaclass=ABCMeta):
+    """
+    A Component that represents a clickable area.
+
+    """
     @abstractmethod
     def Update(self):
         pass
 
 class NoResponseGuiComponent(GuiComponent):
+    """
+    A Component that blocks all clicks that are behind it.
+
+    """
     def Update(self):
         """
         Empty Update function. This is to ensure
@@ -276,6 +287,21 @@ class Image2D(NoResponseGuiComponent):
         self.rectTransform = self.GetComponent(RectTransform)
 
 class Button(GuiComponent):
+    """
+    A Component that calls a function when clicked.
+
+    Attributes
+    ----------
+    callback : function
+        Callback function
+    state : KeyState
+        Which state triggers the callback
+    mouseButton : MouseCode
+        Which mouse button triggers the callback
+    pressed : bool
+        If the button is pressed down or not
+
+    """
     callback = ShowInInspector(FunctionType, lambda: None)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
@@ -341,9 +367,9 @@ class UnixFontLoader(_FontLoader):
         return out.split(": ")[0]
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
-    FontLoader = UnixFontLoader
+    class FontLoader(UnixFontLoader): pass
 else:
-    FontLoader = WinFontLoader
+    class FontLoader(WinFontLoader): pass
 
 class Font:
     def __init__(self, name, size, imagefont):
