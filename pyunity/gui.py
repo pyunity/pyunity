@@ -24,6 +24,7 @@ class Canvas(Component):
     rendered.
 
     """
+
     def Update(self, updated):
         """
         Check if any components have been clicked on.
@@ -59,6 +60,7 @@ class RectData:
         Maximum value. Default is None
 
     """
+
     def __init__(self, min_or_both=None, max=None):
         if min_or_both is None:
             self.min = Vector2.zero()
@@ -208,8 +210,6 @@ class RectTransform(SingleComponent):
         Measured between Vector2(0, 0) and Vector2(1, 1)
     rotation : float
         Rotation in degrees
-    parent : RectTransform
-        Parent RectTransform
 
     """
 
@@ -251,6 +251,7 @@ class GuiComponent(Component, metaclass=ABCMeta):
     A Component that represents a clickable area.
 
     """
+
     @abstractmethod
     def Update(self):
         pass
@@ -260,6 +261,7 @@ class NoResponseGuiComponent(GuiComponent):
     A Component that blocks all clicks that are behind it.
 
     """
+
     def Update(self):
         """
         Empty Update function. This is to ensure
@@ -280,6 +282,7 @@ class Image2D(NoResponseGuiComponent):
         Z ordering of image. Higher depths are drawn on top.
 
     """
+
     texture = ShowInInspector(Texture2D)
     depth = ShowInInspector(float, 0.0)
     def __init__(self, transform):
@@ -292,7 +295,7 @@ class Button(GuiComponent):
 
     Attributes
     ----------
-    callback : function
+    callback : FunctionType
         Callback function
     state : KeyState
         Which state triggers the callback
@@ -302,10 +305,15 @@ class Button(GuiComponent):
         If the button is pressed down or not
 
     """
-    callback = ShowInInspector(FunctionType, lambda: None)
+
+    callback = ShowInInspector(FunctionType)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
+
+    def __init__(self, transform):
+        super(Button, self).__init__(transform)
+        self.callback = lambda: None
 
     def Update(self):
         self.callback()
@@ -323,6 +331,7 @@ class _FontLoader:
     Base font loader. Uses ImageFont.
     
     """
+
     fonts = {}
 
     @classmethod
@@ -503,6 +512,7 @@ class Text(NoResponseGuiComponent):
     :meth:`GenTexture`.
     
     """
+
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
@@ -609,7 +619,7 @@ class Gui:
 
         Returns
         -------
-        Tuple
+        tuple
             A tuple containing the :class:`RectTransform` of
             button, the :class:`Button` component and
             the :class:`Text` component.
@@ -622,6 +632,8 @@ class Gui:
             |- Button
             |- Text
         
+        The generated GameObject can be accessed from the
+        ``gameObject`` property of the returned components.
         The ``Button`` GameObject will have two components,
         :class:`Button` and :class:`RectTransform`. The
         ``Button`` GameObject will have two components,
@@ -662,6 +674,32 @@ class Gui:
 
     @classmethod
     def MakeCheckBox(cls, name, scene):
+        """
+        Create a CheckBox GameObject and add the
+        appropriate components needed.
+
+        Parameters
+        ----------
+        name : str
+            Name of GameObject
+        scene : Scene
+            Scene to add GameObject to
+
+        Returns
+        -------
+        tuple
+            A tuple of the :class:`RectTransform` as well as the
+            :class:`CheckBox` component.
+        
+        Notes
+        -----
+        The generated GameObject can be accessed from the
+        ``gameObject`` property of the returned components.
+        The GameObject will have 3 properties added: a
+        :class:`RectTransform`, a :class:`CheckBox` and
+        an :class:`Image2D`.
+
+        """
         box = GameObject(name)
         transform = box.AddComponent(RectTransform)
         checkbox = box.AddComponent(CheckBox)

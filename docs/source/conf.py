@@ -36,7 +36,8 @@ release = "0.8.3"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
-    "sphinx.ext.viewcode"
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx"
 ]
 
 master_doc = "index"
@@ -87,6 +88,8 @@ autodoc_default_options = {
 
 autodoc_class_signature = "separated"
 autodoc_member_order = "bysource"
+
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 import inspect
 import enum

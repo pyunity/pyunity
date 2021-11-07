@@ -4,7 +4,7 @@ and their various components.
 
 You should never use the :class:`Scene`
 class directly, instead, only use
-the SceneManager class.
+the :class:`SceneManager` class.
 
 """
 
@@ -60,6 +60,20 @@ class Scene:
 
     @staticmethod
     def Bare(name):
+        """
+        Create a bare scene.
+
+        Parameters
+        ----------
+        name : str
+            Name of the scene
+
+        Returns
+        -------
+        Scene
+            A bare scene with no GameObjects
+        
+        """
         cls = Scene.__new__(Scene)
         cls.name = name
         cls.gameObjects = []
@@ -70,6 +84,7 @@ class Scene:
 
     @property
     def rootGameObjects(self):
+        """All GameObjects which have no parent"""
         return [x for x in self.gameObjects if x.transform.parent is None]
 
     def Add(self, gameObject):
@@ -136,9 +151,32 @@ class Scene:
                             setattr(component, saved, None)
 
     def Has(self, gameObject):
+        """
+        Check if a GameObject is in the scene.
+
+        Parameters
+        ----------
+        gameObject : GameObject
+            Query GameObject
+
+        Returns
+        -------
+        bool
+            If the GameObject exists in the scene
+        
+        """
         return gameObject in self.gameObjects
 
     def RegisterLight(self, light):
+        """
+        Register a light for the scene.
+
+        Parameters
+        ----------
+        light : Light
+            Light component to register
+        
+        """
         if isinstance(light, Light):
             self.lights.append(light)
 
@@ -423,6 +461,10 @@ class Scene:
         self.lastFrame = time()
 
     def no_interactive(self):
+        """
+        Run scene without rendering.
+
+        """
         done = False
         clock = Clock()
         clock.fps = config.fps
@@ -442,6 +484,11 @@ class Scene:
             self.Render()
 
     def Render(self):
+        """
+        Call the appropriate rendering functions
+        of the Main Camera.
+
+        """
         from ..gui import Canvas
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         if self.mainCamera is None:
@@ -453,5 +500,10 @@ class Scene:
         self.mainCamera.Render2D(self.FindComponentsByType(Canvas))
 
     def clean_up(self):
+        """
+        Called when the scene finishes running,
+        or stops running.
+        
+        """
         if self.audioListener is not None:
             self.audioListener.DeInit()

@@ -14,26 +14,27 @@ Bugfix regarding camera position updating and input axes.
 v0.8.0
 ======
 New features:
+
 - Rewrote documentation and docstrings
 - Reformatted code
 - F string integration
 - ``ImmutableStruct`` and ``ABCMeta`` metaclasses
-  - The ``ABCMeta`` class has more features than the default Python ``abc`` module.
+   - The ``ABCMeta`` class has more features than the default Python ``abc`` module.
 - Rewrote examples
 - Combined many functions common to both Vector2 and Vector3 into a single Vector class.
-  - If you want to implement your own Vector classes, subclass from Vector and implement
-    the required abstract methods.
+   - If you want to implement your own Vector classes, subclass from Vector and implement
+     the required abstract methods.
 - Fixed quaternion and rotation maths
 - Input axes and mouse input
 - Multiple lights
 - Different light types
 - Window provider caching and checking
 - Gui components
-  - This includes buttons, checkboxes, images and text boxes
-  - Rect transforms can be very flexible
-  - Platform-specific font loading
+   - This includes buttons, checkboxes, images and text boxes
+   - Rect transforms can be very flexible
+   - Platform-specific font loading
 - Stub package
-  - This will work with editors such as VSCode and PyCharm, just install ``pyunity-stubs`` from pip
+   - This will work with editors such as VSCode and PyCharm, just install ``pyunity-stubs`` from pip
 
 Stub package: https://pypi.org/project/pyunity-stubs
 
@@ -223,8 +224,8 @@ Notes:
   an empty string, this will disable recreating
   the c files. For example::
 
-        > set a=1
-        > python setup.py install
+      > set a=1
+      > python setup.py install
 
 Download source code at
 https://github.com/pyunity/pyunity/releases/tag/0.1.0
