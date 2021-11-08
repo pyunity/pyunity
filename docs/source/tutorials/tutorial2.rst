@@ -13,7 +13,7 @@ a window.
 
 Scenes
 ======
-A Scene is like a page to draw on: you can
+A ``Scene`` is like a page to draw on: you can
 add things, remove things and change things.
 To create a scene, you can call
 ``SceneManager.AddScene``:
@@ -28,7 +28,7 @@ Next, let's move the camera back 10 units:
 
    >>> scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
 
-``scene.mainCamera`` references the Camera Component
+``scene.mainCamera`` references the ``Camera`` Component
 on the Main Camera, so we can access the Transform
 by using its ``transform`` attribute.
 
@@ -66,8 +66,8 @@ Now we can give our renderer the cube mesh from before.
 
    >>> renderer.mesh = cubeMesh
 
-Finally, we need a Material to use. To create a Material,
-we need to specify a colour in RGB.
+Finally, we need a ``Material`` to use. To create a Material,
+we need to specify a color in ``RGB``.
 
    >>> renderer.mat = Material(RGB(255, 0, 0))
 
@@ -110,7 +110,7 @@ Now we can see it better:
 .. image:: ../static/cube2.png
 
 Let's say we want to place an image onto the cube. To do this,
-we need to change the Material and add a Texture.
+we need to change the Material and add a ``Texture2D``.
 
    >>> renderer.mat = Material(RGB(255, 255, 255), Texture2D("python.png"))
 
@@ -155,4 +155,4 @@ Finally, let's check the Main Camera's transform.
    >>> scene.mainCamera.transform
    <Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path="/Main Camera">
 
-Next tutorial, we'll be covering scripts and Behaviours.
+Next tutorial, we'll be covering scripts and ``Behaviour``_s.

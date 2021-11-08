@@ -190,6 +190,10 @@ class RectOffset(RectData):
         size = self.max - self.min
         self.min = pos - size / 2
         self.max = pos + size / 2
+    
+    def SetPoint(self, pos):
+        self.min = pos.copy()
+        self.max = pos.copy()
 
 class RectTransform(SingleComponent):
     """

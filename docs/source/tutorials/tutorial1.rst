@@ -14,27 +14,28 @@ What is PyUnity?
 ================
 PyUnity is a Python implementation of the
 UnityEngine_, which was originally written
-in C++. PyUnity has been modified to be
-easy to use in Python, which means that
-some features have been removed.
+in C++. PyUnity has been modified to be as
+easy to use in Python as possible, without
+sacrificing the flexibility and the
+versatilility of Unity.
 
 .. _UnityEngine: https://unity.com/
 
 Basic concepts
 ==============
 In PyUnity, everything belongs to a
-GameObject. A GameObject is a named object that
-has lots of Components on it that will
-affect the GameObject and other GameObjects.
-Components are Python objects that do specific
-things each frame, like rendering an object or
-deleting other GameObjects.
+``GameObject``. A GameObject is a named
+object that has lots of Components on it, each
+affecting the GameObject and other GameObjects.
+Components are Python objects that do a specific
+job, like rendering an object or deleting other
+GameObjects.
 
 Transforms
 ==========
 
 Each GameObject has a special component called
-a Transform. A Transform holds information about
+a ``Transform``. A Transform holds information about
 the GameObject's position, rotation and scale.
 
 A Transform also manages the hierarchy system in PyUnity.
@@ -53,8 +54,8 @@ the origin, and its child had a ``localPosition`` of
 
 Code
 ====
-All of that has now been established, so let's start to
-program it all! To start, we need to import PyUnity.
+All of that has now been established, so let's start
+programing it all! To start, we need to import PyUnity.
 
    >>> from pyunity import *
    Loaded config
@@ -64,18 +65,16 @@ program it all! To start, we need to import PyUnity.
    Using window provider PySDL2
    Loaded PyUnity version 0.4.0
 
-The output beneath the import is just for debug, you
+Note: the output beneath the import is debug info, you
 can turn it off with the environment variable
-``PYUNITY_DEBUG_INFO`` set to ``"0"``.
-
-For example:
+``PYUNITY_DEBUG_INFO`` set to ``"0"``. For example:
 
    >>> import os
    >>> os.environ["PYUNITY_DEBUG_INFO"] = "0"
    >>> from pyunity import *
    >>> # No output
 
-Now we have loaded the module, we can start creating our
+Now we've loaded the module, we can start creating our
 GameObjects. To create a GameObject, use the ``GameObject``
 class:
 
@@ -91,7 +90,7 @@ the right and 3 units forward:
 
    >>> root.transform.localPosition = Vector3(2, 1, 3)
 
-A Vector3 is just a way to represent a 3D vector. In PyUnity
+A ``Vector3`` is just a way to represent a 3D vector. In PyUnity
 the coordinate system is a left-hand Y-axis up system, which
 is essentially what OpenGL uses, but with the Z-axis flipped.
 
@@ -127,7 +126,7 @@ are these methods:
 
 Transforms also have ``localEulerAngles`` and ``eulerAngles``
 properties, which just represent the Euler angles of the
-rotation Quaternions. If you don't know what to do, only use
+rotation Quaternions. If you don't know how Quaternions work, only use
 the ``eulerAngles`` property.
 
 In the next tutorial, we'll be covering how to render things
