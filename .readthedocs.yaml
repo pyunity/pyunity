@@ -8,3 +8,6 @@ python:
 
 sphinx:
   builder: html
+
+submodules:
+  exclude: all
