@@ -12,7 +12,7 @@ GameObjects interact with each other.
 
 Behaviours
 ==========
-A Behaviour is a Component that you can create
+A ``Behaviour`` is a Component that you can create
 yourself. To create a Behaviour, subclass from
 it:
 
@@ -34,7 +34,8 @@ passed since the last frame.
 
 Behaviours vs Components
 ========================
-Look at the code for the Component class:
+Look at this watered-down version of the
+``Component`` class:
 
 .. code-block:: python
 
@@ -133,4 +134,5 @@ This means no rotation, position or scale change.
 It will break when you set the scale to
 ``Vector3(0, 0, 0)``.
 
-In the next tutorial we'll be looking at physics.
+In the next tutorial we'll be looking at 2D
+development.
