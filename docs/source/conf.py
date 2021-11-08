@@ -13,6 +13,10 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath("../.."))
+
+import math
+math.atan = math.atan2
+sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 import pyunity
 pyunity.ABCMeta._trigger = False
