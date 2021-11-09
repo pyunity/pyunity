@@ -94,7 +94,7 @@ The full code:
    >>> renderer.mat = Material(RGB(255, 0, 0))
    >>> scene.Add(cube)
 
-Then, to run our scene, we use ``scene.Run()``. And now we have
+Then, to run our scene, we use ``SceneManager.LoadScene(scene)``. And now we have
 a cube:
 
 .. image:: ../static/cube.png
@@ -112,27 +112,30 @@ Now we can see it better:
 Let's say we want to place an image onto the cube. To do this,
 we need to change the Material and add a ``Texture2D``.
 
-   >>> renderer.mat = Material(RGB(255, 255, 255), Texture2D("python.png"))
+   >>> renderer.mat = Material(RGB(255, 255, 255), Texture2D("pyunity.png"))
 
-Place ``python.png`` in the same folder as your script and run
+Place ``pyunity.png`` in the same folder as your script and run
 the code. Here is the image for reference:
 
-.. image:: ../static/python.png
+.. image:: ../static/pyunity.png
 
 And here is the complete code:
 
 .. code-block:: python
 
    from pyunity import *
+
    scene = SceneManager.AddScene("Scene")
    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
+
    cubeMesh = Mesh.cube(2)
    cube = GameObject("Cube")
    renderer = cube.AddComponent(MeshRenderer)
    renderer.mesh = cubeMesh
-   renderer.mat = Material(RGB(255, 0, 0), Texture2D("python.png"))
+   renderer.mat = Material(RGB(255, 0, 0), Texture2D("pyunity.png"))
    scene.Add(cube)
-   scene.Run()
+
+   SceneManager.LoadScene(scene)
 
 Debugging
 =========
@@ -155,4 +158,4 @@ Finally, let's check the Main Camera's transform.
    >>> scene.mainCamera.transform
    <Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path="/Main Camera">
 
-Next tutorial, we'll be covering scripts and ``Behaviour``_s.
+Next tutorial, we'll be covering scripts and ``Behaviour``s.
