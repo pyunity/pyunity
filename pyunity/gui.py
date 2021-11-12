@@ -40,13 +40,11 @@ class Canvas(Component):
             updated.append(descendant)
             comp = descendant.GetComponent(GuiComponent)
             if comp is not None:
-                comp.pressed = Input.GetMouse(MouseCode.Left)
                 rectTransform = descendant.GetComponent(RectTransform)
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    if Input.GetMouseState(MouseCode.Left, KeyState.UP):
-                        comp.Update()
+                    comp.HoverUpdate()
 
 class RectData:
     """
@@ -257,7 +255,7 @@ class GuiComponent(Component, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def Update(self):
+    def HoverUpdate(self):
         pass
 
 class NoResponseGuiComponent(GuiComponent):
@@ -266,10 +264,11 @@ class NoResponseGuiComponent(GuiComponent):
 
     """
 
-    def Update(self):
+    def HoverUpdate(self):
         """
-        Empty Update function. This is to ensure
-        nothing happens when the component is clicked.
+        Empty HoverUpdate function. This is to ensure
+        nothing happens when the component is clicked,
+        and so components behind won't be updated.
 
         """
         pass
@@ -319,8 +318,9 @@ class Button(GuiComponent):
         super(Button, self).__init__(transform)
         self.callback = lambda: None
 
-    def Update(self):
-        self.callback()
+    def HoverUpdate(self):
+        if Input.GetMouseState(self.mouseButton, self.state):
+            self.callback()
 
 textureDir = os.path.join(os.path.abspath(
     os.path.dirname(__file__)), "shaders", "gui", "textures")
@@ -584,15 +584,17 @@ class CheckBox(GuiComponent):
     """
     checked = ShowInInspector(bool, False)
 
-    def Update(self):
+    def HoverUpdate(self):
         """
         Inverts ``checked`` and updates the texture of
         the Image2D, if there is one.
+
         """
-        self.checked = not self.checked
-        cmp = self.GetComponent(Image2D)
-        if cmp is not None:
-            cmp.texture = checkboxDefaults[int(self.checked)]
+        if Input.GetMouseDown(MouseCode.Left):
+            self.checked = not self.checked
+            cmp = self.GetComponent(Image2D)
+            if cmp is not None:
+                cmp.texture = checkboxDefaults[int(self.checked)]
 
 class Gui:
     """

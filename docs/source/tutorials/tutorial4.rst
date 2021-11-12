@@ -114,5 +114,77 @@ This is the result:
 
 .. image:: ../static/2d.png
 
-We can use ``Behaviour``s to interact with these 2D
-objects.
+Interaction
+-----------
+The easiest way to create an interactable image
+is to use the ``Button`` class. This will trigger
+whenever any part of the rect is clicked on. Here
+is an example:
+
+.. code-block:: python
+
+   def callback():
+      print("Clicked")
+   
+   # Same canvas and image code as above
+   ...
+   button = gameObject.AddComponent(Button)
+   button.callback = callback
+
+If you check the docs for the ``Button`` class,
+you can see two more attributes: ``state`` and
+``button``. This specifies what state and which
+button must be pressed for the callback to trigger.
+
+If you would like more control over the button,
+using a Behaviour is easier as it can interact easily
+with other GameObjects and is created on a per-component
+basis. However, if you would like more interaction
+with the mouse, here is a method:
+
+.. code-block:: python
+
+   class HoverUpdater(Behaviour, GuiComponent):
+       def HoverUpdate(self):
+           print("Hovering over component")
+
+   # Same canvas and image code as above
+   ...
+   gameObject.AddComponent(HoverUpdater)
+
+The ``GuiComponent`` class defines an abstract method
+called ``HoverUpdate`` which is called whenever the mouse
+is hovering over a component. This method will be called
+exactly once per canvas in a single GuiComponent each frame.
+In fact, this is how the ``Button`` class is implemented.
+
+Anchors
+=======
+For a 2D rect to scale with the window, we can use the
+``anchors`` property of the ``RectTransform``. This has
+two values like the ``offset``, a ``min`` and a ``max``.
+These two values are between ``Vector2(0, 0)`` and
+``Vector2(1, 1)``, where 0 and 1 represent the left and
+right of the window, or the top and bottom of the window.
+The offsets are applied where the anchors are.
+
+The easiest way to understand this is when the anchors are
+a single point. For example, the default anchors are
+``RectAnchors(Vector2(0, 0), Vector2(0, 0))``. This means
+both points of the anchors are at ``Vector2(0, 0)`` so
+all offsets are calculated from the top left.
+
+If we wanted our rect to be centered in the middle at all
+times, or be offset from the middle, we can set the anchors
+to be at ``Vector2(0.5, 0.5)``. Likewise, if we wanted our
+rect to be at the bottom right, we can use ``Vector2(1, 1)``.
+
+This applies with two anchors: if we wanted our rect to be 50px
+away from the edges of the window, we would use anchors of
+``RectAnchors(Vector2(0, 0), Vector2(1, 1))`` and offset of
+``RectOffset(Vector2(50, 50), Vector2(-50, -50))``. This is how
+we can control the scaling of a rect with respect to the window size.
+
+This tutorial was quite code-heavy, and it is not quite complete.
+If you are confused, please join our discord support server at
+https://discord.com/zTn48BEbF9.
