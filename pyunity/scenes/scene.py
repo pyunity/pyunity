@@ -56,6 +56,7 @@ class Scene:
         component = light.AddComponent(Light)
         self.lights = [component]
         self.ids = {}
+        self.Run = self.Start
         self.id = str(uuid.uuid4())
 
     @staticmethod
