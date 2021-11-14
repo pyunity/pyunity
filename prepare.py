@@ -3,7 +3,6 @@ import glob
 import shutil
 import pkgutil
 import sys
-import autopep8
 import importlib
 import inspect
 # from types import ModuleType
@@ -23,24 +22,27 @@ if "cython" not in os.environ:
 
 # import pyunity
 
-if len(sys.argv) > 1:
-    for file in glob.glob("**/*.py", recursive=True) + \
-            glob.glob("**/*.pyi", recursive=True):
-        with open(file) as f:
-            contents = f.read()
-        
-        print(repr(contents[-1]))
-        if not contents.endswith("\n"):
-            contents += "\n"
-        
-        with open(file, "w") as f:
-            f.write(contents)
+def check_endings():
+    if len(sys.argv) > 1:
+        for file in glob.glob("**/*.py", recursive=True) + \
+                glob.glob("**/*.pyi", recursive=True):
+            with open(file) as f:
+                contents = f.read()
+            
+            print(repr(contents[-1]))
+            if not contents.endswith("\n"):
+                contents += "\n"
+            
+            with open(file, "w") as f:
+                f.write(contents)
 
-if pkgutil.find_loader("autopep8") is None:
-    raise Exception("autopep8 is needed to parse the source code.\n" +
-                    "Install using \"pip install autopep8\".")
-autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E305,E401,E402",
-              "pyunity", "setup.py", "cli.py"])
+def parse_code():
+    if pkgutil.find_loader("autopep8") is None:
+        raise Exception("autopep8 is needed to parse the source code.\n" +
+                        "Install using \"pip install autopep8\".")
+    import autopep8
+    autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E305,E401,E402",
+                "pyunity", "setup.py", "cli.py"])
 
 def get_packages(module):
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
@@ -61,9 +63,10 @@ def get_packages(module):
             print(mod.__name__, "Add", list(new - original),
                   "Remove", list(original - new))
 
-if len(sys.argv) > 1:
-    import pyunity
-    get_packages(pyunity)
+def check_missing():
+    if len(sys.argv) > 1:
+        import pyunity
+        get_packages(pyunity)
 
 # items = []
 
@@ -145,26 +148,38 @@ if len(sys.argv) > 1:
 #     for line in desc_new:
 #         f.write(line + "\n")
 
-if os.environ["cython"] == "1":
-    if pkgutil.find_loader("cython") is None:
-        raise Exception("Cython is needed to create CPython extensions.")
-    if os.path.exists("src"):
-        shutil.rmtree("src")
-    for path in glob.glob("pyunity/**/*.*", recursive=True):
-        if path.endswith(".pyc"):
-            continue
-        dirpath, file = os.path.split(path)
-        print(file)
-        if file.endswith(".py") and not file.startswith("__"):
-            code = os.system("cythonize -3 -q " + path)
-            srcPath = path[:-2] + "c"
-            if code != 0:
-                os.remove(srcPath)
-                break
-            op = shutil.move
-        else:
-            srcPath = os.path.join(dirpath, file)
-            op = shutil.copy
-        destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-        os.makedirs(destPath, exist_ok=True)
-        op(srcPath, destPath)
+def cythonize(error=False):
+    if os.environ["cython"] == "1":
+        if pkgutil.find_loader("cython") is None:
+            raise Exception("Cython is needed to create CPython extensions.")
+        if os.path.exists("src"):
+            shutil.rmtree("src")
+        for path in glob.glob("pyunity/**/*.*", recursive=True):
+            if path.endswith(".pyc"):
+                continue
+            dirpath, file = os.path.split(path)
+            print(file)
+            if file.endswith(".py") and not file.startswith("__"):
+                code = os.system("cythonize -3 -q " + path)
+                srcPath = path[:-2] + "c"
+                if code != 0:
+                    os.remove(srcPath)
+                    if error:
+                        raise Exception(f"Cythonization of `{path}` failed.")
+                    break
+                op = shutil.move
+            else:
+                srcPath = os.path.join(dirpath, file)
+                op = shutil.copy
+            destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+            os.makedirs(destPath, exist_ok=True)
+            op(srcPath, destPath)
+
+def main():
+    check_endings()
+    parse_code()
+    check_missing()
+    cythonize()
+
+if __name__ == "__main__":
+    main()

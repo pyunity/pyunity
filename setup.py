@@ -9,11 +9,14 @@ with open("README.md", "r") as fh:
 
 if os.environ["cython"] == "1":
     if not os.path.isdir("src"):
-        raise Exception("\n".join([
-            "Source directory `src` not found. Please run `prepare.py`.",
-            "If this is not a local clone of the repository, please report",
-            "this as a bug at https://github.com/pyunity/pyunity/issues."
-        ]))
+        if not os.path.isfile("prepare.py"):
+            raise Exception("\n".join([
+                "Source directory `src` not found but `prepare.py` does not exist.",
+                "If this is not a local clone of the repository, please report",
+                "this as a bug at https://github.com/pyunity/pyunity/issues."
+            ]))
+        import prepare
+        prepare.cythonize()
     c_files = glob.glob("src/**/*.c", recursive=True)
     data_files = list(filter(lambda a: ".c" not in a,
                       glob.glob("src/**/*.*", recursive=True)))
