@@ -8,6 +8,10 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 if os.environ["cython"] == "1":
+    if not os.path.isdir("src"):
+        print("Source directory `src` not found. Please run `prepare.py`.")
+        print("If this is not a local clone of the repository, please report")
+        print("this as a bug at https://github.com/pyunity/pyunity/issues.")
     c_files = glob.glob("src/**/*.c", recursive=True)
     data_files = list(filter(lambda a: ".c" not in a,
                       glob.glob("src/**/*.*", recursive=True)))
