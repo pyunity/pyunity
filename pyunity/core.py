@@ -116,6 +116,9 @@ class Tag:
         else:
             raise TypeError(f"Argument 1:"
                             f"expected str or int, got {type(tagNumOrName).__name__}")
+    
+    def __str__(self):
+        return str(self.tagNumOrName)
 
 class GameObject:
     """
@@ -151,6 +154,9 @@ class GameObject:
         self.tag = Tag(0)
         self.enabled = True
         self.scene = None
+    
+    def __str__(self):
+        return str(self.name)
 
     @staticmethod
     def BareObject(name="GameObject"):
