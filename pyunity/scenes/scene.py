@@ -81,6 +81,9 @@ class Scene:
         cls.ids = {}
         cls.lights = []
         return cls
+    
+    def __str__(self):
+        return str(self.name)
 
     @property
     def rootGameObjects(self):
