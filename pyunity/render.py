@@ -245,10 +245,10 @@ class Camera(SingleComponent):
         angle = glm.radians(rotation[0])
         axis = Vector3(rotation[1:]).normalized()
 
-        position = glm.translate(glm.mat4(1), list(
+        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        position = glm.translate(rotated, list(
             transform.position * Vector3(1, 1, -1)))
-        rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
-        scaled = glm.scale(rotated, list(transform.scale))
+        scaled = glm.scale(position, list(transform.scale))
         return scaled
 
     def getViewMat(self):
