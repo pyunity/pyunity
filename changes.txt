@@ -1,0 +1,13 @@
+To be considered:
+phys.py
+pyunity/core.py
+pyunity/examples/example2/__init__.py
+pyunity/physics/core.py
+pyunity/quaternion.py
+pyunity/vector3.py
+
+Copy pyunity/core.py modifications
+Copy pyunity/quaternion.py modifications to pyunity/values/quaternion.py
+Add `Vector3.normalized()` to pyunity/values/vector3.py
+Copy physics module and example2
+Copy phys.py
