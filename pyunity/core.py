@@ -502,7 +502,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localPosition.copy()
         else:
-            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.parent.scale
+            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.scale
 
     @position.setter
     def position(self, value):
@@ -707,12 +707,17 @@ class Light(SingleComponent):
     ----------
     intensity : int
         Intensity of light
+    color : Color
+        Light color (will mix with material color)
+    type : LightType
+        Type of light (currently only Point and
+        Directional are supported)
 
     """
 
     intensity = ShowInInspector(int, 20)
     color = ShowInInspector(Color, RGB(255, 255, 255))
-    type = ShowInInspector(LightType, LightType.Point)
+    type = ShowInInspector(LightType, LightType.Directional)
 
 class MeshRenderer(SingleComponent):
     """

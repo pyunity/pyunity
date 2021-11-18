@@ -1,4 +1,4 @@
-from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode
+from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType
 
 class OrthoMover(Behaviour):
     cam = ShowInInspector(Camera)
@@ -15,6 +15,7 @@ class OrthoMover(Behaviour):
 
 def main():
     scene = SceneManager.AddScene("Scene")
+    scene.gameObjects[1].GetComponent(Light).type = LightType.Point
     scene.mainCamera.transform.position = Vector3(-5, 10, -5)
     scene.mainCamera.transform.localRotation.SetBackward(Vector3(30, 45, 0))
     scene.mainCamera.skyboxEnabled = False

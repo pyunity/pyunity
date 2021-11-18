@@ -6,7 +6,7 @@ import glob
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
-broken = []
+broken = [3]
 directory = os.path.dirname(os.path.abspath(__file__))
 
 def load_example(i):

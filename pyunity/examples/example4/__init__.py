@@ -1,4 +1,4 @@
-from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, MeshRenderer, Material, RGB, Loader
+from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, MeshRenderer, Material, RGB, Loader, Light, LightType
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
@@ -12,6 +12,7 @@ class Mover(Behaviour):
 
 def main():
     scene = SceneManager.AddScene("Scene")
+    scene.gameObjects[1].GetComponent(Light).type = LightType.Point
     scene.mainCamera.transform.position = Vector3(0, 3, -10)
     lookAt = scene.mainCamera.AddComponent(LookAt)
 

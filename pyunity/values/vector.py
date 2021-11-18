@@ -256,6 +256,16 @@ class Vector2(Vector):
             return 1 / length * self
         return self.copy()
 
+    def normalize(self):
+        """
+        Normalize the vector in place.
+
+        """
+        length = self.length
+        if length != 0:
+            self.x /= length
+            self.y /= length
+
     def normalize_return_length(self):
         """
         Normalize the vector and return its length before the normalization
@@ -513,6 +523,17 @@ class Vector3(Vector):
         if length != 0:
             return 1 / length * self
         return self.copy()
+
+    def normalize(self):
+        """
+        Normalize the vector in place.
+
+        """
+        length = self.length
+        if length != 0:
+            self.x /= length
+            self.y /= length
+            self.z /= length
 
     def normalize_return_length(self):
         """
