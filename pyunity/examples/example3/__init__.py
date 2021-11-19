@@ -1,4 +1,4 @@
-from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, AABBoxCollider, Infinity
+from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, BoxCollidery
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -11,7 +11,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 0, 0))
-    collider = cube.AddComponent(AABBoxCollider)
+    collider = cube.AddComponent(BoxCollider
     collider.SetSize(Vector3(-6, -1, -1), Vector3(-4, 1, 1))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(4, 0, 0)
@@ -25,7 +25,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(0, 0, 255))
-    collider = cube.AddComponent(AABBoxCollider)
+    collider = cube.AddComponent(BoxCollider
     collider.SetSize(Vector3(4, -1, -1), Vector3(6, 1, 1))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(-4, 0, 0)
@@ -38,7 +38,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(0, 255, 0))
-    collider = cube.AddComponent(AABBoxCollider)
+    collider = cube.AddComponent(BoxCollider
     collider.SetSize(Vector3(-1, -1, -7), Vector3(1, 1, -5))
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(0, 0, 4)

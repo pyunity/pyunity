@@ -5,7 +5,7 @@ physics engine.
 """
 
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
-           "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
+           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from ..errors import PyUnityException
 from ..values import *
@@ -157,7 +157,7 @@ class SphereCollider(Collider):
     def supportPoint(self, direction):
         return self.pos + direction.normalized() * self.radius
 
-class AABBoxCollider(Collider):
+class BoxCollider(Collider):
     """
     An axis-aligned box collider that
     cannot be deformed.
@@ -177,7 +177,7 @@ class AABBoxCollider(Collider):
     offset = ShowInInspector(Vector3)
 
     def __init__(self, transform):
-        super(AABBoxCollider, self).__init__(transform)
+        super(BoxCollider, self).__init__(transform)
         self.size = self.transform.scale * 2
         self.offset = Vector3.zero()
 

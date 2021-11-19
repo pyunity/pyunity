@@ -17,7 +17,7 @@ Example
 -------
 
     >>> cube = GameObject("Cube")
-    >>> collider = cube.AddComponent(AABBoxCollider)
+    >>> collider = cube.AddComponent(BoxCollider)
     >>> collider.SetSize(-Vector3.one(), Vector3.one())
     >>> collider.velocity = Vector3.right()
 

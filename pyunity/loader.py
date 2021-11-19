@@ -16,7 +16,7 @@ from .scenes import SceneManager
 from .files import Behaviour, Project, Scripts
 from .render import Camera
 from .audio import AudioSource, AudioListener, AudioClip
-from .physics import AABBoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
+from .physics import BoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
 from uuid import uuid4
 import inspect
 import json
@@ -342,7 +342,7 @@ components = {
     "Camera": Camera,
     "Light": Light,
     "MeshRenderer": MeshRenderer,
-    "AABBoxCollider": AABBoxCollider,
+    "BoxCollider": BoxCollider,
     "SphereCollider": SphereCollider,
     "Rigidbody": Rigidbody,
     "AudioSource": AudioSource,
