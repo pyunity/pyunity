@@ -15,7 +15,15 @@ import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
 import math
-math.atan = math.atan2
+
+def atan(*args):
+    if len(args) == 2:
+        return math.atan2(*args)
+    else:
+        return math._atan(*args)
+
+math._atan = math.atan
+math.atan = atan
 sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 import pyunity
@@ -25,7 +33,7 @@ pyunity.ABCMeta._trigger = False
 # -- Project information -----------------------------------------------------
 
 project = "PyUnity"
-copyright = "2020-2021, Ray Chen"
+copyright = "2020-2021, The PyUnity Team"
 author = "Ray Chen"
 
 # The full version, including alpha/beta/rc tags
