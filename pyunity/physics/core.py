@@ -664,7 +664,7 @@ class CollManager:
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
         rv = b.velocity - a.velocity
         vn = rv.dot(normal)
-        if vn > 0:
+        if vn < 0:
             return
 
         if b is self.dummyRigidbody:
