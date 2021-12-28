@@ -400,8 +400,8 @@ class CollManager:
         a, b = args[0]
         ab = b - a
         ao = -a
-        if ab.dot(ao) > 0 and a.cross(b) != Vector3.zero():
-            args[1] = ab.cross(ao).cross(ab)
+        if ab.dot(ao) > 0:
+            args[1] = ao - ab / 2
         else:
             args[0] = [a]
             args[1] = ao
@@ -414,9 +414,9 @@ class CollManager:
         ao = -a
         abc = ab.cross(ac)
         if abc.cross(ac).dot(ao) > 0:
-            if ac.dot(ao) > 0 and a.cross(c) != Vector3.zero():
+            if ac.dot(ao) > 0:
                 args[0] = [a, c]
-                args[1] = ac.cross(ao).cross(ac)
+                args[1] = ao - ac / 2
             else:
                 args[0] = [a, b]
                 return CollManager.lineSimplex(args)
@@ -662,6 +662,11 @@ class CollManager:
                             self.ResolveCollisions(rbA, rbB, (rbA.pos + rbB.pos) / 2, e, normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
+        rv = b.velocity - a.velocity
+        vn = rv.dot(normal)
+        if vn > 0:
+            return
+
         if b is self.dummyRigidbody:
             ap = point - a.pos
             vab = a.velocity + a.rotVel.cross(ap)
