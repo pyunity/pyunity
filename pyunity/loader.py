@@ -101,9 +101,7 @@ def LoadMesh(filename):
 
     """
     with open(filename, "r") as f:
-        lines = list(map(lambda x: x.rstrip(), f.readlines()))
-        if "" in lines:
-            lines.remove("")
+        lines = list(map(str.rstrip, f.read().rstrip().splitlines()))
 
     vertices = list(map(float, lines[0].split("/")))
     vertices = [

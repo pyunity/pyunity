@@ -78,7 +78,8 @@ class Manifold:
 class Collider(Component, metaclass=ABCMeta):
     """Collider base class."""
 
-    def supportPoint(self, other):
+    @abstractmethod
+    def supportPoint(self, direction):
         pass
     
     @property
@@ -194,7 +195,7 @@ class BoxCollider(Collider):
     
     def supportPoint(self, direction):
         def sign(a):
-            return abs(a) / a if a != 0 else 1
+            return -1 if a < 0 else 1
         newdir = self.transform.rotation.conjugate.RotateVector(direction)
         point = newdir._o1(sign) * self.size / 2
         res = self.transform.rotation.RotateVector(point)
@@ -658,7 +659,6 @@ class CollManager:
                         if m:
                             e = self.GetRestitution(rbA, rbB)
                             normal = m.normal.copy()
-                            print(m.point, normal)
                             self.ResolveCollisions(rbA, rbB, (rbA.pos + rbB.pos) / 2, e, normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):

@@ -72,19 +72,20 @@ def main():
     renderer.mesh = Loader.Primitives.sphere
     scene.Add(sphere)
 
-    capsule = GameObject("Double Quad", root)
-    capsule.transform.localPosition = Vector3(-10, 0, 0)
-    renderer = capsule.AddComponent(MeshRenderer)
+    dquad = GameObject("Double Quad", root)
+    dquad.transform.localPosition = Vector3(-10, 0, 0)
+    dquad.transform.localEulerAngles = Vector3(0, -90, 0)
+    renderer = dquad.AddComponent(MeshRenderer)
     renderer.mat = mat
     renderer.mesh = Loader.Primitives.double_quad
-    scene.Add(capsule)
+    scene.Add(dquad)
 
-    quad = GameObject("Quad", root)
-    quad.transform.localPosition = Vector3(-rt50, 0, rt50)
-    quad.transform.localEulerAngles = Vector3(0, 45, 0)
-    renderer = quad.AddComponent(MeshRenderer)
+    capsule = GameObject("Capsule", root)
+    capsule.transform.localPosition = Vector3(-rt50, 0, rt50)
+    capsule.transform.localEulerAngles = Vector3(0, 45, 0)
+    renderer = capsule.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = Loader.Primitives.quad
-    scene.Add(quad)
+    renderer.mesh = Loader.Primitives.capsule
+    scene.Add(capsule)
 
     SceneManager.LoadScene(scene)

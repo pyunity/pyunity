@@ -77,6 +77,9 @@ class Quaternion:
         else:
             angle, x, y, z = self.angleAxisPair
             return Quaternion.FromAxis((angle * other) % 360, Vector3(x, y, z))
+    
+    def __imul__(self, other):
+        return other * self
 
     def __sub__(self, other):
         if isinstance(other, Quaternion):
