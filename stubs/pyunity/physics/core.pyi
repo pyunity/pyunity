@@ -5,7 +5,7 @@ physics engine.
 """
 
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
-           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
+           "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from typing import List, NoReturn, Optional
 from ..values import Vector3, ABCMeta, abstractmethod
@@ -43,7 +43,7 @@ class SphereCollider(Collider):
     def collidingWith(self, other: Collider) -> Optional[Manifold]: ...
     def CheckOverlap(self, other: Collider) -> bool: ...
 
-class BoxCollider(Collider):
+class AABBoxCollider(Collider):
     min: Vector3 = ...
     max: Vector3 = ...
     pos: Vector3 = ...

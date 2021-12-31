@@ -6,7 +6,7 @@ import glob
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
-broken = [3]
+broken = []
 directory = os.path.dirname(os.path.abspath(__file__))
 
 def load_example(i):
@@ -18,6 +18,7 @@ def show(num=None):
     if len(broken):
         Logger.LogLine(Logger.WARN, "Currently broken examples: " +
                        ", ".join(map(str, broken)))
+    Logger.Log("WASD keys may be used.")
     if num is None:
         if len(sys.argv) == 1:
             num = 0
