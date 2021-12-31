@@ -93,16 +93,12 @@ class SphereCollider(Collider):
     """
     A spherical collider that cannot be
     deformed.
+
     Attributes
     ----------
-    min : Vector3
-        The corner with the lowest coordinates.
-    max : Vector3
-        The corner with the highest coordinates.
-    pos : Vector3
-        The center of the SphereCollider
     radius : Vector3
         The radius of the SphereCollider
+    
     """
 
     radius = ShowInInspector(float, 0)
