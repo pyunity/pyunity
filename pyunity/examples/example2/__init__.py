@@ -28,10 +28,6 @@ def main():
 
     scene.Add(cube)
 
-    cont = scene.mainCamera.AddComponent(PhysicsController)
-    cont.rb1 = rb1
-    cont.rb2 = rb2
-
     SceneManager.LoadScene(scene)
 
 
