@@ -18,7 +18,7 @@ def show(num=None):
     if len(broken):
         Logger.LogLine(Logger.WARN, "Currently broken examples: " +
                        ", ".join(map(str, broken)))
-    Logger.Log("WASD keys may be used.")
+    Logger.Log("Some examples have WASD functionality.")
     if num is None:
         if len(sys.argv) == 1:
             num = 0
