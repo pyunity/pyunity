@@ -7,6 +7,7 @@ Also manages project structure.
 __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project", "Skybox", "Scripts"]
 
+from .errors import PyUnityException, ProjectParseException
 from .values import Material, Color
 from .core import Component, ShowInInspector
 from . import Logger
@@ -150,19 +151,19 @@ class Scripts:
         return True
 
     @staticmethod
-    def LoadScripts(path):
+    def LoadScript(path):
         """
-        Loads all scripts found in ``path``.
+        Loads a PyUnity script by path.
 
         Parameters
         ----------
         path : Pathlike
-            A path to a folder containing all the scripts
+            A path to a PyUnity script
 
         Returns
         -------
         ModuleType
-            A module that contains all the imported scripts
+            The module that contains all the imported scripts
 
         Notes
         -----
@@ -175,29 +176,31 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
-        files = glob.glob(os.path.join(path, "*.py"))
+        if not os.path.isfile(path):
+            raise PyUnityException(f"Could not find file: {path}")
 
         if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
             module = sys.modules["PyUnityScripts"]
         else:
             if "PyUnityScripts" in sys.modules:
                 Logger.LogLine(
-                    Logger.WARN, "PyUnityScripts is already a package!")
+                    Logger.WARN, "PyUnityScripts is already a package")
             module = ModuleType("PyUnityScripts", None)
             module.__pyunity__ = True
             module.__all__ = []
+            module._lookup = {}
             sys.modules["PyUnityScripts"] = module
 
-        for file in files:
-            with open(file) as f:
-                text = f.read().rstrip().splitlines()
+        with open(path) as f:
+            text = f.read().rstrip().splitlines()
 
-            name = os.path.basename(file[:-3])
-            if Scripts.CheckScript(text):
-                c = compile("\n".join(text), name + ".py", "exec")
-                exec(c, Scripts.var)
-                setattr(module, name, Scripts.var[name])
-                module.__all__.append(name)
+        name = os.path.basename(path)[:-3]
+        if Scripts.CheckScript(text):
+            c = compile("\n".join(text), name + ".py", "exec")
+            exec(c, Scripts.var)
+            setattr(module, name, Scripts.var[name])
+            module.__all__.append(name)
+            module._lookup[path] = Scripts.var[name]
 
         return module
 
@@ -330,141 +333,78 @@ class Prefab:
         self.components = components
 
 class File:
-    def __init__(self, path, type, uuid=None):
-        self.path = path
-        self.type = type
-        if uuid is None:
-            self.uuid = str(uuid4())
-        else:
-            self.uuid = uuid
-        self.obj = None
+    def __init__(self, path, uuid):
+        self.path = os.path.normpath(path)
+        self.uuid = uuid
 
 class Project:
-    def __init__(self, path, name):
-        self.path = path
+    def __init__(self, name="Project"):
         self.name = name
-        self.firstScene = 0
-        self.files = {}
-        self.file_paths = {}
+        self.path = os.path.join(os.path.abspath(os.getcwd()), self.name)
+        self._ids = {}
+        self._idMap = {}
+        self.fileIDs = {}
+        self.filePaths = {}
+        os.makedirs(self.name, exist_ok=True)
+        self.Write()
 
-    def import_file(self, localPath, type, uuid=None):
-        file = File(localPath, type, uuid)
-        self.files[file.uuid] = (file, localPath)
-        self.file_paths[localPath] = file
-        return file
-
-    def reimport_file(self, localPath):
-        old = self.file_paths[localPath]
-        file = File(localPath, old.type, old.uuid)
-        self.files[file.uuid] = (file, localPath)
-        self.file_paths[localPath] = file
-        return file
-
-    def get_file_obj(self, uuid):
-        return self.files[uuid][0].obj
-
-    def write_project(self):
-        with open(os.path.join(self.path, self.name + ".pyunity"), "w+") as f:
-            f.write(f"Project\n"
-                    f"    name: {self.name}\n"
-                    f"    firstScene: {self.firstScene}\n"
-                    f"Files\n")
-            for uuid, file in sorted(self.files.items(), key=lambda x: x[1][1]):
-                path = os.path.normpath(file[1]).replace("\\", '/')
-                f.write(f"    {uuid}: {path}\n")
-
-        with open(os.path.join(self.path, "__init__.py"), "w+") as f:
-            f.write("from pyunity import *\n")
-            f.write("import os\n\n")
-            f.write(
-                "project = Loader.LoadProject(os.path.abspath(os.path.dirname(__file__)))\n")
-            f.write("firstScene = SceneManager.GetSceneByIndex(project.firstScene)\n")
-
-        with open(os.path.join(self.path, "__main__.py"), "w+") as f:
-            f.write("from pyunity import *\n")
-            f.write("from . import firstScene\n\n")
-            f.write("SceneManager.LoadScene(firstScene)\n")
+    def Write(self):
+        with open(os.path.join(self.name, self.name + ".pyunity"), "w+") as f:
+            f.write(f"Project\n    name: {self.name}\nFiles")
+            for id_ in self.fileIDs:
+                normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
+                f.write(f"\n    {id_}: {normalized}")
+    
+    def ImportFile(self, file, write=True):
+        fullPath = os.path.join(self.path, file.path)
+        if not os.path.isfile(fullPath):
+            raise PyUnityException(f"The specified file does not exist: {fullPath}")
+        self.fileIDs[file.uuid] = file
+        self.filePaths[file.path] = file
+        if write:
+            self.Write()
 
     @staticmethod
-    def from_folder(filePath):
-        if not os.path.isdir(filePath):
-            raise ValueError("The specified folder does not exist")
+    def FromFolder(folder):
+        folder = os.path.abspath(folder)
+        if not os.path.isdir(folder):
+            raise PyUnityException(f"The specified folder does not exist: {folder}")
+        
+        name = os.path.basename(os.path.abspath(folder))
+        filename = os.path.join(folder, name + ".pyunity")
+        if not os.path.isfile(filename):
+            raise PyUnityException(f"The specified folder is not a PyUnity project: {folder}")
+        
+        with open(filename) as f:
+            contents = f.read().rstrip().splitlines()
+        
+        if contents.pop(0) != "Project":
+            raise ProjectParseException(f"Expected \"Project\" as first section")
+        
+        if "Files" not in contents:
+            raise ProjectParseException(f"Expected \"Files\" as second section")
 
-        files = glob.glob(os.path.join(filePath, "*.pyunity"))
-        if len(files) == 0:
-            raise ValueError("The specified folder is not a PyUnity project")
-        elif len(files) > 1:
-            raise ValueError("Ambiguity in specified folder: " +
-                             str(len(files)) + " project files found")
-        file = files[0]
+        if contents.count("Files") > 1:
+            raise ProjectParseException(f"Expected \"Files\" only once, found {contents.count('files')}")
 
-        with open(file) as f:
-            lines = f.read().rstrip().splitlines()
+        contents1 = contents[:contents.index("Files")]
+        contents2 = contents[contents.index("Files") + 1:]
+        projectData = {x[0]: x[1] for x in map(lambda x: x[4:].split(": "), contents1)}
+        fileData = {x[0]: x[1] for x in map(lambda x: x[4:].split(": "), contents2)}
 
-        data = {}
-        lines.pop(0)
-        for line in lines:
-            if not line.startswith("    "):
-                break
-            name, value = line[4:].split(": ")
-            data[name] = value
+        if "name" not in projectData:
+            raise ProjectParseException(f"Expected \"name\" value in Project section")
+        project = Project.__new__(Project)
+        project.name = projectData["name"]
+        project.path = folder
+        project._ids = {}
+        project._idMap = {}
 
-        data["files"] = {}
-        lines = lines[lines.index("Files") + 1:]
-        for line in lines:
-            name, value = line[4:].split(": ")
-            data["files"][name] = os.path.normpath(value)
-
-        project = Project(filePath, data["name"])
-        for uuid, path in data["files"].items():
-            type_ = os.path.splitext(path)[1][1:].capitalize()
-            if type_ == "Py":
-                type_ = "Behaviour"
-            elif type_ == "Mat":
-                type_ = "Material"
-            project.import_file(path, type_, uuid)
-        project.firstScene = int(data["firstScene"])
-
+        project.fileIDs = {}
+        project.filePaths = {}
+        for k, v in fileData.items():
+            file = File(v, k)
+            project.fileIDs[k] = file
+            project.filePaths[v] = file
+        
         return project
-
-    def save_mat(self, mat, name):
-        directory = os.path.join(self.path, "Materials")
-        os.makedirs(directory, exist_ok=True)
-
-        if mat.texture is not None:
-            if os.path.join("Textures", name + ".png") in self.file_paths:
-                uuid = self.file_paths[os.path.join(
-                    "Textures", name + ".png")].uuid
-            else:
-                path = os.path.join(self.path, "Textures", name + ".png")
-                os.makedirs(os.path.dirname(path), exist_ok=True)
-                mat.texture.img.save(path)
-                uuid = self.import_file(path, "Texture2D").uuid
-        else:
-            uuid = "None"
-
-        with open(os.path.join(directory, name + ".mat"), "w+") as f:
-            f.write("Material\n")
-            f.write(f"    albedoColor: {mat.color.to_string()}\n"
-                    f"    albedoTexture: {uuid}\n")
-
-    def load_mat(self, file):
-        with open(os.path.join(self.path, file.path)) as f:
-            lines = f.read().rstrip().splitlines()
-
-        lines.pop(0)
-
-        data = {}
-        for line in lines:
-            name, value = line[4:].split(": ")
-            data[name] = value
-
-        color = Color.from_string(data["albedoColor"])
-        material = Material(color)
-        if "albedoTexture" in data and data["albedoTexture"] != "None":
-            uuid = data["albedoTexture"]
-            if self.files[uuid].obj != "None":
-                self.files[uuid].obj = Texture2D(
-                    os.path.join(self.path, self.files[uuid].path))
-            material.texture = self.files[uuid].obj
-        return material
