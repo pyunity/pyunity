@@ -5,6 +5,7 @@ import pkgutil
 import sys
 import importlib
 import inspect
+from packaging import version
 # from types import ModuleType
 # from unittest.mock import Mock
 # sys.modules["sdl2"] = Mock()
@@ -152,6 +153,10 @@ def cythonize(error=False):
     if os.environ["cython"] == "1":
         if pkgutil.find_loader("cython") is None:
             raise Exception("Cython is needed to create CPython extensions.")
+        import Cython
+        cythonVer = version.parse(Cython.__version__)
+        if cythonVer < version.parse("3.0.0a8"):
+            raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install --pre cython")
         if os.path.exists("src"):
             shutil.rmtree("src")
         for path in glob.glob("pyunity/**/*.*", recursive=True):

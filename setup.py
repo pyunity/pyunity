@@ -58,9 +58,6 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    setup_requires=[
-        "cython",
-    ],
     install_requires=[
         "pyopengl",
         "pillow",
