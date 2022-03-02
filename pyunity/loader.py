@@ -14,7 +14,7 @@ from .errors import *
 from .core import *
 from .values import *
 from .scenes import SceneManager
-from .files import Behaviour, Scripts, Project, File
+from .files import Behaviour, Scripts, Project, File, Texture2D
 from .render import Camera
 from .audio import AudioSource, AudioListener, AudioClip
 from .physics import BoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
@@ -278,6 +278,57 @@ class ObjectInfo:
 def gen_uuid():
     return str(uuid4())
 
+def SaveMat(material, project, filename):
+    os.makedirs(os.path.dirname(filename))
+
+    if material.texture is None:
+        texID = "None"
+    else:
+        if material.texture not in project._ids:
+            texID = str(uuid4())
+            project._ids[material.texture] = texID
+            project._idMap[texID] = material.texture
+
+            name = os.path.splitext(os.path.basename(filename))[0]
+            path = os.path.join(project.path, "Textures", name + ".png")
+            file = File(path, texID)
+            project.ImportFile(file, write=False)
+            material.texture.img.save(path)
+        else:
+            texID = project._ids[material.texture]
+    
+    colStr = str(material.color)
+
+    with open(filename, "w+") as f:
+        f.write(f"Material\n    texture: {texID}\n    color: {colStr}")
+
+def LoadMat(path, project):
+    if not os.path.isfile(path):
+        raise PyUnityException(f"The specified file does not exist: {path}")
+    
+    with open(path) as f:
+        contents = f.read().rstrip().splitlines()
+    
+    if contents.pop(0) != "Material":
+        raise ProjectParseException("Expected \"Material\" as line 1")
+    
+    parts = {split[0][4:]: split[1] for split in map(lambda x: x.split(": "), contents)}
+
+    if not (parts["color"].startswith("RGB") or parts["color"].startswith("HSV")):
+        raise ProjectParseException("Color value does not start with RGB or HSV")
+    
+    color = Color.from_string(parts["color"])
+
+    if parts["texture"] not in project._idMap and parts["texture"] != "None":
+        raise ProjectParseException(f"Project file UUID not found: {parts['texture']}")
+    
+    if parts["texture"] == "None":
+        texture = None
+    else:
+        texture = project._idMap[parts["texture"]]
+
+    return Material(color, texture)
+
 def SaveScene(scene, project, path):
     def get_uuid(obj):
         if obj is None:
@@ -309,6 +360,19 @@ def SaveScene(scene, project, path):
                 elif isinstance(v, Mesh):
                     filename = os.path.join("Meshes", gameObject.name + ".mesh")
                     SaveMesh(v, gameObject.name, os.path.join(project.path, filename))
+                    v = get_uuid(v)
+                    file = File(filename, v)
+                    project.ImportFile(file, write=False)
+                elif isinstance(v, Material):
+                    filename = os.path.join("Materials", gameObject.name + ".mat")
+                    SaveMat(v, project, os.path.join(project.path, filename))
+                    v = get_uuid(v)
+                    file = File(filename, v)
+                    project.ImportFile(file, write=False)
+                elif isinstance(v, Texture2D):
+                    filename = os.path.join("Textures", gameObject.name + ".png")
+                    os.makedirs(os.path.join(project.path, "Textures"))
+                    v.img.save(os.path.join(project.path, filename))
                     v = get_uuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
@@ -344,7 +408,7 @@ def GenerateProject(name):
 
 def SaveProject(project):
     for scene in SceneManager.scenesByIndex:
-        SaveScene(scene, project, os.path.join("Scenes", ""))
+        SaveScene(scene, project, "Scenes")
 
 def LoadProject(folder):
     project = Project.FromFolder(folder)
@@ -357,14 +421,28 @@ def LoadProject(folder):
     # Meshes
     for file in project.filePaths:
         if file.endswith(".mesh"):
-            mesh = LoadMesh(os.path.join(project.path, file))
+            mesh = LoadMesh(os.path.join(project.path, os.path.normpath(file)))
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = mesh
+
+    # Textures
+    for file in project.filePaths:
+        if file.endswith(".png") or file.endswith(".jpg"):
+            texture = Texture2D(os.path.join(project.path, os.path.normpath(file)))
+            uuid = project.filePaths[file].uuid
+            project._idMap[uuid] = texture
+    
+    # Materials
+    for file in project.filePaths:
+        if file.endswith(".mat"):
+            material = LoadMat(os.path.join(project.path, os.path.normpath(file)), project)
+            uuid = project.filePaths[file].uuid
+            project._idMap[uuid] = material
 
     # Scenes
     for file in project.filePaths:
         if file.endswith(".scene"):
-            LoadScene(os.path.join(project.path, file), project)
+            LoadScene(os.path.join(project.path, os.path.normpath(file)), project)
     
     return project
 
