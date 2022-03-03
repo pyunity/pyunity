@@ -28,8 +28,8 @@ if os.environ["cython"] == "1":
         "package_data": {"pyunity": [file[4:] for file in data_files]},
     }
 else:
-    data_files = glob.glob("pyunity/**/*.mesh", recursive=True) + \
-        glob.glob("pyunity/**/*.ogg", recursive=True)
+    data_files = list(filter(lambda a: ".py" not in a,
+                      glob.glob("pyunity/**/*.*", recursive=True)))
     config = {
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in data_files]},

@@ -279,7 +279,7 @@ def gen_uuid():
     return str(uuid4())
 
 def SaveMat(material, project, filename):
-    os.makedirs(os.path.dirname(filename))
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
 
     if material.texture is None:
         texID = "None"
@@ -371,7 +371,7 @@ def SaveScene(scene, project, path):
                     project.ImportFile(file, write=False)
                 elif isinstance(v, Texture2D):
                     filename = os.path.join("Textures", gameObject.name + ".png")
-                    os.makedirs(os.path.join(project.path, "Textures"))
+                    os.makedirs(os.path.join(project.path, "Textures"), exist_ok=True)
                     v.img.save(os.path.join(project.path, filename))
                     v = get_uuid(v)
                     file = File(filename, v)
@@ -400,6 +400,13 @@ def SaveScene(scene, project, path):
         f.write("\n".join(map(str, data)))
     project.ImportFile(File(os.path.join(path, scene.name + ".scene"), get_uuid(scene)))
     project.Write()
+
+def ResaveScene(scene, project):
+    if scene not in project._ids:
+        raise PyUnityException("Scene is not part of project")
+    
+    path = project.fileIDs[project._ids[scene]]
+    SaveScene(scene, project, path)
 
 def GenerateProject(name):
     project = Project(name)
@@ -493,7 +500,7 @@ def LoadScene(sceneFile, project):
     scene = SceneManager.AddBareScene(json.loads(sceneInfo.attrs["name"]))
     add_uuid(scene, sceneInfo.uuid)
     for part in gameObjectInfo:
-        gameObject = GameObject.BareObject(part.attrs["name"])
+        gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         add_uuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
     
@@ -530,3 +537,5 @@ def LoadScene(sceneFile, project):
     for gameObject in gameObjects:
         scene.Add(gameObject)
     return scene
+
+
