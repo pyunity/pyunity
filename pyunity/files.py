@@ -345,12 +345,13 @@ class Project:
         self._idMap = {}
         self.fileIDs = {}
         self.filePaths = {}
+        self.firstScene = 0
         os.makedirs(self.name, exist_ok=True)
         self.Write()
 
     def Write(self):
         with open(os.path.join(self.name, self.name + ".pyunity"), "w+") as f:
-            f.write(f"Project\n    name: {self.name}\nFiles")
+            f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
             for id_ in self.fileIDs:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
                 f.write(f"\n    {id_}: {normalized}")
@@ -396,6 +397,7 @@ class Project:
             raise ProjectParseException(f"Expected \"name\" value in Project section")
         project = Project.__new__(Project)
         project.name = projectData["name"]
+        project.firstScene = projectData["firstScene"]
         project.path = folder
         project._ids = {}
         project._idMap = {}
