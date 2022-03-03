@@ -22,6 +22,7 @@ from .scenes import Scene
 from uuid import uuid4
 import inspect
 import json
+import enum
 import os
 import shutil
 
@@ -531,6 +532,17 @@ def LoadScene(sceneFile, project):
                 success, value = parseString(v)
                 if not success:
                     continue
+            if value is not None:
+                type_ = type(component).saved[k].type
+                if type_ is float:
+                    type_ = (float, int)
+                elif issubclass(type_, enum.Enum):
+                    if value in list(type_.__members__.values()):
+                        value = type_(value)
+                    else:
+                        raise ProjectParseException(f"{value} not in enum {type_}")
+                if not isinstance(value, type_):
+                    raise ProjectParseException(f"Value does not match type: {(value, type_)!r}")
             setattr(component, k, value)
     
     scene.mainCamera = project._idMap[sceneInfo.attrs["mainCamera"]]
