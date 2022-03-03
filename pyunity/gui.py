@@ -415,7 +415,7 @@ class WinFontLoader(_FontLoader):
         except WindowsError:
             file = None
         if file is None:
-            raise PyUnityException(f"Cannot find font called {name!r}")
+            raise PyUnityException(f"Cannot find font named {name!r}")
         return file[0]
 
 class UnixFontLoader(_FontLoader):
@@ -445,7 +445,7 @@ class UnixFontLoader(_FontLoader):
         stdout, _ = process.communicate()
         out = stdout.decode()
         if out == "":
-            raise PyUnityException(f"Cannot find font called {name!r}")
+            raise PyUnityException(f"Cannot find font named {name!r}")
 
         return out.split(": ")[0]
 
@@ -472,7 +472,7 @@ class Font:
     """
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
-            raise PyUnityException("Please specify a FreeType font" +
+            raise PyUnityException("Please specify a FreeType font "
                                    "created from ImageFont.freetype")
 
         self._font = imagefont

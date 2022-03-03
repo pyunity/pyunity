@@ -404,7 +404,7 @@ def SaveScene(scene, project, path):
 
 def ResaveScene(scene, project):
     if scene not in project._ids:
-        raise PyUnityException("Scene is not part of project")
+        raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
     
     path = project.fileIDs[project._ids[scene]]
     SaveScene(scene, project, path)

@@ -177,7 +177,7 @@ class Scripts:
 
         """
         if not os.path.isfile(path):
-            raise PyUnityException(f"Could not find file: {path}")
+            raise PyUnityException(f"The specified file does not exist: {path}")
 
         if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
             module = sys.modules["PyUnityScripts"]

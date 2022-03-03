@@ -293,7 +293,7 @@ class Input(metaclass=ImmutableStruct):
             If the axis is not a valid axis
         """
         if axis not in cls._axes:
-            raise PyUnityException(f"{axis!r} is not a valid axis")
+            raise PyUnityException(f"Invalid axis: {axis!r}")
         return cls._axes[axis]
 
     @classmethod
@@ -318,7 +318,7 @@ class Input(metaclass=ImmutableStruct):
             If the axis is not a valid axis
         """
         if axis not in cls._axis_objects:
-            raise PyUnityException(f"{axis!r} is not a valid axis")
+            raise PyUnityException(f"Invalid axis: {axis!r}")
         return cls._axis_objects[axis].raw
 
     mousePosition = None
