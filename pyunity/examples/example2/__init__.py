@@ -27,7 +27,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 0, 0))
-    collider = cube.AddComponent(BoxCollider)
+    cube.AddComponent(BoxCollider)
     rb1 = cube.AddComponent(Rigidbody)
     rb1.gravity = False
 
@@ -38,7 +38,7 @@ def main():
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(0, 0, 255))
-    collider = cube.AddComponent(BoxCollider)
+    cube.AddComponent(BoxCollider)
     rb2 = cube.AddComponent(Rigidbody)
     rb2.gravity = False
 

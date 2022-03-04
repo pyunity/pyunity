@@ -16,7 +16,7 @@ from .values import *
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
 from .render import Camera
-from .audio import AudioSource, AudioListener, AudioClip
+from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
 from .scenes import Scene
 from uuid import uuid4
@@ -24,7 +24,6 @@ import inspect
 import json
 import enum
 import os
-import shutil
 
 def LoadObj(filename):
     """

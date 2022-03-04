@@ -8,14 +8,11 @@ __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project", "Skybox", "Scripts"]
 
 from .errors import PyUnityException, ProjectParseException
-from .values import Material, Color
 from .core import Component, ShowInInspector
 from . import Logger
 from OpenGL import GL as gl
 from PIL import Image
 from types import ModuleType
-from uuid import uuid4
-import glob
 import os
 import sys
 import ctypes

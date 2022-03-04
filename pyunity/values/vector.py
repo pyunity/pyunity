@@ -109,8 +109,9 @@ class Vector(metaclass=ABCMeta):
     def __irshift__(self, other):
         return self._io(other, operator.rshift)
 
+    @abstractmethod
     def __eq__(self, other):
-        return all(self._o2(other, operator.eq))
+        pass
     def __ne__(self, other):
         return any(self._o2(other, operator.ne))
     def __gt__(self, other):
@@ -210,6 +211,9 @@ class Vector2(Vector):
             self.x = f(self.x, other)
             self.y = f(self.y, other)
         return self
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
 
     def copy(self):
         """Makes a copy of the Vector2"""
@@ -469,6 +473,9 @@ class Vector3(Vector):
             self.y = f(self.y, other)
             self.z = f(self.z, other)
         return self
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z
 
     def copy(self):
         """

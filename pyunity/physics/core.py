@@ -223,7 +223,6 @@ class Rigidbody(Component):
 
     """
 
-    mass = ShowInInspector(float, 100)
     position = ShowInInspector(Vector3)
     velocity = ShowInInspector(Vector3)
     physicMaterial = ShowInInspector(
