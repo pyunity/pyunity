@@ -327,7 +327,7 @@ def LoadMat(path, project):
     return Material(color, texture)
 
 def SaveScene(scene, project, path):
-    def get_uuid(obj):
+    def getUuid(obj):
         if obj is None:
             return None
         if obj in project._ids:
@@ -338,45 +338,45 @@ def SaveScene(scene, project, path):
         return project._ids[obj]
     
     location = os.path.join(project.path, path, scene.name + ".scene")
-    data = [ObjectInfo("Scene", get_uuid(scene), {"name": json.dumps(scene.name), "mainCamera": get_uuid(scene.mainCamera)})]
+    data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
 
     for gameObject in scene.gameObjects:
         attrs = {"name": json.dumps(gameObject.name),
                  "tag": gameObject.tag.tag,
-                 "transform": get_uuid(gameObject.transform)}
-        data.append(ObjectInfo("GameObject", get_uuid(gameObject), attrs))
+                 "transform": getUuid(gameObject.transform)}
+        data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
     
     for gameObject in scene.gameObjects:
-        gameObjectID = get_uuid(gameObject)
+        gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
             attrs = {"gameObject": gameObjectID}
             for k in component.saved.keys():
                 v = getattr(component, k)
-                if isinstance(v, (GameObject, Component, Scene)):
-                    v = get_uuid(v)
+                if isinstance(v, (GameObject, Component, Scene)) or v in project._ids:
+                    v = getUuid(v)
                 elif isinstance(v, Mesh):
                     filename = os.path.join("Meshes", gameObject.name + ".mesh")
                     SaveMesh(v, gameObject.name, os.path.join(project.path, filename))
-                    v = get_uuid(v)
+                    v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
                 elif isinstance(v, Material):
                     filename = os.path.join("Materials", gameObject.name + ".mat")
                     SaveMat(v, project, os.path.join(project.path, filename))
-                    v = get_uuid(v)
+                    v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
                 elif isinstance(v, Texture2D):
                     filename = os.path.join("Textures", gameObject.name + ".png")
                     os.makedirs(os.path.join(project.path, "Textures"), exist_ok=True)
                     v.img.save(os.path.join(project.path, filename))
-                    v = get_uuid(v)
+                    v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
                 attrs[k] = v
             if isinstance(component, Behaviour):
                 behaviour = component.__class__
-                uuid = get_uuid(behaviour)
+                uuid = getUuid(behaviour)
                 attrs["_script"] = uuid
                 name = behaviour.__name__ + "(Behaviour)"
 
@@ -390,19 +390,19 @@ def SaveScene(scene, project, path):
                 project.ImportFile(file, write=False)
             else:
                 name = component.__class__.__name__ + "(Component)"
-            data.append(ObjectInfo(name, get_uuid(component), attrs))
+            data.append(ObjectInfo(name, getUuid(component), attrs))
 
     os.makedirs(os.path.dirname(location), exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
-    project.ImportFile(File(os.path.join(path, scene.name + ".scene"), get_uuid(scene)))
+    project.ImportFile(File(os.path.join(path, scene.name + ".scene"), getUuid(scene)))
     project.Write()
 
 def ResaveScene(scene, project):
     if scene not in project._ids:
         raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
     
-    path = project.fileIDs[project._ids[scene]]
+    path = project.fileIDs[project._ids[scene]].path
     SaveScene(scene, project, path)
 
 def GenerateProject(name):
