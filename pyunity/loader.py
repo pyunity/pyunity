@@ -9,6 +9,7 @@ This will be imported as ``pyunity.Loader``.
 __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj"]
 
+from . import Logger
 from .meshes import Mesh
 from .errors import *
 from .core import *
@@ -326,6 +327,9 @@ def LoadMat(path, project):
 
     return Material(color, texture)
 
+savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
+"""All savable types that will not be saved as UUIDs"""
+
 def SaveScene(scene, project, path):
     def getUuid(obj):
         if obj is None:
@@ -373,21 +377,25 @@ def SaveScene(scene, project, path):
                     v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
+                if v is not None and not isinstance(v, savable):
+                    continue
                 attrs[k] = v
+            print(component, component.__class__ in project._ids)
             if isinstance(component, Behaviour):
+                if component.__class__ not in project._ids:
+                    filename = os.path.join("Scripts", behaviour.__name__ + ".py")
+                    os.makedirs(os.path.join(project.path, "Scripts"), exist_ok=True)
+                    with open(os.path.join(project.path, filename), "w+") as f:
+                        f.write(GetImports(inspect.getsourcefile(behaviour)) + \
+                                inspect.getsource(behaviour))
+
+                    file = File(filename, uuid)
+                    project.ImportFile(file, write=False)
+                
                 behaviour = component.__class__
                 uuid = getUuid(behaviour)
                 attrs["_script"] = uuid
                 name = behaviour.__name__ + "(Behaviour)"
-
-                filename = os.path.join("Scripts", behaviour.__name__ + ".py")
-                os.makedirs(os.path.join(project.path, "Scripts"), exist_ok=True)
-                with open(os.path.join(project.path, filename), "w+") as f:
-                    f.write(GetImports(inspect.getsourcefile(behaviour)) + \
-                            inspect.getsource(behaviour))
-
-                file = File(filename, uuid)
-                project.ImportFile(file, write=False)
             else:
                 name = component.__class__.__name__ + "(Component)"
             data.append(ObjectInfo(name, getUuid(component), attrs))
@@ -396,14 +404,13 @@ def SaveScene(scene, project, path):
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
     project.ImportFile(File(os.path.join(path, scene.name + ".scene"), getUuid(scene)))
-    project.Write()
 
 def ResaveScene(scene, project):
     if scene not in project._ids:
         raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
     
     path = project.fileIDs[project._ids[scene]].path
-    SaveScene(scene, project, path)
+    SaveScene(scene, project, os.path.dirname(path))
 
 def GenerateProject(name):
     project = Project(name)
@@ -428,6 +435,7 @@ def LoadProject(folder):
             mesh = LoadMesh(os.path.join(project.path, os.path.normpath(file)))
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = mesh
+            project._ids[mesh] = uuid
 
     # Textures
     for file in project.filePaths:
@@ -435,6 +443,7 @@ def LoadProject(folder):
             texture = Texture2D(os.path.join(project.path, os.path.normpath(file)))
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = texture
+            project._ids[texture] = uuid
     
     # Materials
     for file in project.filePaths:
@@ -442,6 +451,7 @@ def LoadProject(folder):
             material = LoadMat(os.path.join(project.path, os.path.normpath(file)), project)
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = material
+            project._ids[material] = uuid
 
     # Scenes
     for file in project.filePaths:
@@ -513,6 +523,7 @@ def LoadScene(sceneFile, project):
             file = project.fileIDs[part.attrs.pop("_script")]
             fullpath = os.path.join(os.path.abspath(project.path), file.path)
             behaviourType = PyUnityScripts._lookup[fullpath]
+            addUuid(behaviourType, file.uuid)
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
