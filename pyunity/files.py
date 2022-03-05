@@ -394,7 +394,7 @@ class Project:
             raise ProjectParseException(f"Expected \"name\" value in Project section")
         project = Project.__new__(Project)
         project.name = projectData["name"]
-        project.firstScene = projectData["firstScene"]
+        project.firstScene = int(projectData["firstScene"])
         project.path = folder
         project._ids = {}
         project._idMap = {}

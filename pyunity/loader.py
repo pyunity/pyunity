@@ -275,9 +275,6 @@ class ObjectInfo:
             s += f"\n    {k}: {v}"
         return s
 
-def gen_uuid():
-    return str(uuid4())
-
 def SaveMat(material, project, filename):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
@@ -501,6 +498,7 @@ def LoadScene(sceneFile, project):
     add_uuid(scene, sceneInfo.uuid)
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
+        gameObject.tag = Tag(int(part.attrs["tag"]))
         add_uuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
     
@@ -543,6 +541,13 @@ def LoadScene(sceneFile, project):
                 if not isinstance(value, type_):
                     raise ProjectParseException(f"Value does not match type: {(value, type_)!r}")
             setattr(component, k, value)
+    
+    # Transform check
+    for part in gameObjectInfo:
+        gameObject = project._idMap[part.uuid]
+        transform = project._idMap[part.attrs["transform"]]
+        if transform is not gameObject.transform:
+            Logger.LogLine(Logger.WARN, f"GameObject transform does not match transform UUID: {gameObject.name!r}")
     
     scene.mainCamera = project._idMap[sceneInfo.attrs["mainCamera"]]
     for gameObject in gameObjects:
