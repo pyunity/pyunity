@@ -7,11 +7,17 @@ import operator
 def clamp(x, _min, _max): return min(_max, max(_min, x))
 """Clamp a value between a minimum and a maximum"""
 
+def conv(num):
+    """Convert float to string and removing decimal place as necessary."""
+    if isinstance(num, float) and num.is_integer():
+        return str(int(num))
+    return str(num)
+
 class Vector(metaclass=ABCMeta):
     def __repr__(self):
-        return f"{self.__class__.__name__}({', '.join(map(str, self))})"
+        return f"{self.__class__.__name__}({', '.join(map(conv, self))})"
     def __str__(self):
-        return f"{self.__class__.__name__}({', '.join(map(str, self))})"
+        return f"{self.__class__.__name__}({', '.join(map(conv, self))})"
 
     def __getitem__(self, i):
         return list(self)[i]

@@ -3,7 +3,7 @@
 __all__ = ["Quaternion", "QuaternionDiff"]
 
 import glm
-from .vector import Vector3
+from .vector import Vector3, conv
 
 class Quaternion:
     """
@@ -30,7 +30,7 @@ class Quaternion:
     def __repr__(self):
         return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
     def __str__(self):
-        return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
+        return f"Quaternion({', '.join(map(conv, self))})"
 
     def __getitem__(self, i):
         if i == 0:
