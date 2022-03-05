@@ -22,6 +22,10 @@ class Vector(metaclass=ABCMeta):
 
     def __list__(self):
         return list(iter(self))
+    
+    @abstractmethod
+    def __hash__(self):
+        pass
 
     @abstractmethod
     def __len__(self):
@@ -183,6 +187,9 @@ class Vector2(Vector):
 
     def __len__(self):
         return 2
+    
+    def __hash__(self):
+        return hash((self.x, self.y))
 
     def _o1(self, f):
         """Unary operator"""
@@ -441,6 +448,9 @@ class Vector3(Vector):
 
     def __len__(self):
         return 3
+    
+    def __hash__(self):
+        return hash((self.x, self.y, self.z))
 
     def _o1(self, f):
         """Unary operator"""

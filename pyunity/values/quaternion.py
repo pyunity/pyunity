@@ -54,6 +54,9 @@ class Quaternion:
 
     def __len__(self):
         return 4
+    
+    def __hash__(self):
+        return hash((self.w, self.x, self.y, self.z))
 
     def __eq__(self, other):
         if hasattr(other, "__getitem__") and len(other) == 4:
