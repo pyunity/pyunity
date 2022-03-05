@@ -456,7 +456,7 @@ def LoadScene(sceneFile, project):
     except ImportError:
         raise PyUnityException("Please run Scripts.LoadScript before this function")
 
-    def add_uuid(obj, uuid):
+    def addUuid(obj, uuid):
         if obj in project._ids:
             return
         project._ids[obj] = uuid
@@ -495,11 +495,11 @@ def LoadScene(sceneFile, project):
 
     gameObjects = []
     scene = SceneManager.AddBareScene(json.loads(sceneInfo.attrs["name"]))
-    add_uuid(scene, sceneInfo.uuid)
+    addUuid(scene, sceneInfo.uuid)
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
-        add_uuid(gameObject, part.uuid)
+        addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
     
     # first pass, adding components
@@ -517,7 +517,7 @@ def LoadScene(sceneFile, project):
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
         
-        add_uuid(component, part.uuid)
+        addUuid(component, part.uuid)
     
     # second part, assigning attrs
     for part in componentInfo + behaviourInfo:
