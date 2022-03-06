@@ -158,11 +158,11 @@ def Save():
 def SetStream(s):
     global stream
     stream = s
-    stream.write(f"Changed stream to {s}")
+    stream.write(f"Changed stream to {s}\n")
     LogLine(INFO, f"Changed stream to {s}")
 
 def ResetStream():
     global stream
     stream = sys.stdout
-    stream.write("Changed stream back to stdout")
+    stream.write("Changed stream back to stdout\n")
     LogLine(INFO, "Changed stream back to stdout")
