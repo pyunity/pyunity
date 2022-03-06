@@ -380,21 +380,20 @@ def SaveScene(scene, project, path):
                 if v is not None and not isinstance(v, savable):
                     continue
                 attrs[k] = v
-            print(component, component.__class__ in project._ids)
             if isinstance(component, Behaviour):
-                if component.__class__ not in project._ids:
+                behaviour = component.__class__
+                if behaviour not in project._ids:
                     filename = os.path.join("Scripts", behaviour.__name__ + ".py")
                     os.makedirs(os.path.join(project.path, "Scripts"), exist_ok=True)
                     with open(os.path.join(project.path, filename), "w+") as f:
                         f.write(GetImports(inspect.getsourcefile(behaviour)) + \
                                 inspect.getsource(behaviour))
 
+                    uuid = getUuid(behaviour)
                     file = File(filename, uuid)
                     project.ImportFile(file, write=False)
                 
-                behaviour = component.__class__
-                uuid = getUuid(behaviour)
-                attrs["_script"] = uuid
+                attrs["_script"] = project._ids[behaviour]
                 name = behaviour.__name__ + "(Behaviour)"
             else:
                 name = component.__class__.__name__ + "(Component)"
