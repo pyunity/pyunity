@@ -490,9 +490,12 @@ class Scene:
 
         """
         from ..gui import Canvas
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        gl.glClearColor(0, 0, 0, 1)
         if self.mainCamera is None:
             return
+        
+        gl.glClearColor(*(self.mainCamera.clearColor.to_rgb() / 255), 1)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
         self.mainCamera.renderPass = True
         self.mainCamera.Render(
