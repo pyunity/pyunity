@@ -146,7 +146,7 @@ create a new pull request.
 
 """
 
-from . import logger as Logger  # lgtm[py/import-own-module]
+from . import logger as Logger # lgtm[py/import-own-module]
 from . import audio, core, gui, input, physics, errors, files, values
 __all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
            "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
@@ -163,9 +163,9 @@ import os
 from .audio import *
 from .core import *
 from .gui import *
-from . import loader as Loader  # lgtm[py/import-own-module]
-from . import window as Window  # lgtm[py/import-own-module]
-from .loader import Primitives  # lgtm[py/import-own-module]
+from . import loader as Loader # lgtm[py/import-own-module]
+from . import window as Window # lgtm[py/import-own-module]
+from .loader import Primitives # lgtm[py/import-own-module]
 from .input import *
 from .render import Camera, Screen, Shader
 from .physics import *
@@ -183,12 +183,12 @@ __summary__ = "A pure Python 3D Game Engine that was inspired by the structure o
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
-from . import config  # lgtm[py/import-own-module]
+from . import config # lgtm[py/import-own-module]
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
 
-for _obj in tuple(locals().values()):  # pragma: no cover
+for _obj in tuple(locals().values()): # pragma: no cover
     if not getattr(_obj, "__module__", "").startswith("pyunity."):
         continue
     try:

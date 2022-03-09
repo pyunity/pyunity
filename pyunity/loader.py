@@ -18,7 +18,7 @@ from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
 from .render import Camera
 from .audio import AudioSource, AudioListener
-from .physics import BoxCollider, SphereCollider, Rigidbody  # , PhysicMaterial
+from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
 from uuid import uuid4
 import inspect
