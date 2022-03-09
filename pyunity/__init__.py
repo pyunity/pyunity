@@ -147,7 +147,7 @@ create a new pull request.
 """
 
 from . import logger as Logger # lgtm[py/import-own-module]
-from . import audio, core, gui, input, physics, errors, files, values
+from . import config, errors, values, core, files, audio, physics, input, gui
 __all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
            "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
 __all__.extend(audio.__all__)
@@ -160,20 +160,20 @@ __all__.extend(files.__all__)
 __all__.extend(values.__all__)
 
 import os
-from .audio import *
-from .core import *
-from .gui import *
-from . import loader as Loader # lgtm[py/import-own-module]
-from . import window as Window # lgtm[py/import-own-module]
-from .loader import Primitives # lgtm[py/import-own-module]
-from .input import *
-from .render import Camera, Screen, Shader
-from .physics import *
 from .errors import *
-from .files import *
 from .values import *
-from .scenes import sceneManager as SceneManager
 from .meshes import Mesh
+from .core import *
+from .physics import *
+from .audio import *
+from .files import *
+from .render import Camera, Screen, Shader
+from .scenes import sceneManager as SceneManager
+from . import window as Window # lgtm[py/import-own-module]
+from . import loader as Loader # lgtm[py/import-own-module]
+from .loader import Primitives
+from .input import *
+from .gui import *
 
 __version__ = "0.8.3"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
@@ -182,8 +182,6 @@ __license__ = "MIT License"
 __summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
 __title__ = "pyunity"
 __uri__ = "https://pyunity.readthedocs.io/en/latest/"
-
-from . import config # lgtm[py/import-own-module]
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
