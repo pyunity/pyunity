@@ -17,7 +17,7 @@ from packaging import version
 # sys.modules["OpenGL.GL"] = Mock()
 # sys.modules["OpenGL.GLU"] = Mock()
 # sys.modules["OpenGL.GLUT"] = Mock()
-# os.environ["PYUNITY_TESTING"] = "1"
+# os.environ["PYUNITY_INTERACTIVE"] = "0"
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 

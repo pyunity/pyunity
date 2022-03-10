@@ -1,4 +1,11 @@
-"""Class to create a window using FreeGLUT."""
+"""
+Class to create a window using FreeGLUT.
+
+NOTE: This window provider has been deprecated since PyUnity 0.5.0.
+There may be future updates, however it is most likely going to stay
+deprecated.
+
+"""
 
 from OpenGL import GLUT as glut
 from . import ABCWindow

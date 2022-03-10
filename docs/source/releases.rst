@@ -2,14 +2,30 @@
 Releases
 ========
 
+v0.8.3
+======
+Bugfix regarding Quaternion.eulerAngles.
+
+To set the rotation of the camera using Euler angles,
+use `scene.mainCamera.localRotation.SetBackward(Vector3(...))`.
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.3
+
 v0.8.2
 ======
 Bugfix regarding ``Quaternion.FromDir``, ``Quaternion.Euler``,
 ``abstractmethod`` and 2D depth buffers.
 
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.2
+
 v0.8.1
 ======
 Bugfix regarding camera position updating and input axes.
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.1
 
 v0.8.0
 ======

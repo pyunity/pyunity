@@ -52,6 +52,7 @@ __all__ = ["Component", "GameObject", "Light", "SingleComponent",
 
 import inspect
 import enum
+import os
 from .errors import *
 from .meshes import Mesh
 from .values import *

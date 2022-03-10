@@ -25,9 +25,9 @@ def atan(*args):
 math._atan = math.atan
 math.atan = atan
 sys.modules["glm"] = math
-os.environ["PYUNITY_TESTING"] = "1"
+os.environ["PYUNITY_INTERACTIVE"] = "0"
 import pyunity
-pyunity.ABCMeta._trigger = False
+pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 
 
 # -- Project information -----------------------------------------------------
