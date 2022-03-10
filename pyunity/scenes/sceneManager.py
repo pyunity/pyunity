@@ -245,46 +245,54 @@ def __loadScene(scene):
     if not FirstScene:
         Logger.Save()
         FirstScene = False
-    if not windowObject and os.environ["PYUNITY_INTERACTIVE"] == "1":
-        try:
-            windowObject = config.windowProvider.Window(
-                scene.name, scene.mainCamera.Resize)
-            render.compile_shaders()
-            scene.mainCamera.skybox.compile()
-        except Exception as e:
-            if "window_provider" in settings.db:
-                Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
-                if "window_cache" in settings.db:
-                    Logger.LogLine(Logger.DEBUG, "window_cache entry has been set,",
-                                   "indicating window checking happened on this import")
-                Logger.LogLine(
-                    Logger.DEBUG, "settings.json entry may be faulty, removing")
-                settings.db.pop("window_provider")
-            Logger.LogException(e)
-            exit()
+    if not windowObject:
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            try:
+                windowObject = config.windowProvider.Window(
+                    scene.name, scene.mainCamera.Resize)
+                render.compile_shaders()
+                scene.mainCamera.skybox.compile()
+            except Exception as e:
+                if "window_provider" in settings.db:
+                    Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
+                    if "window_cache" in settings.db:
+                        Logger.LogLine(Logger.DEBUG, "window_cache entry has been set,",
+                                    "indicating window checking happened on this import")
+                    Logger.LogLine(
+                        Logger.DEBUG, "settings.json entry may be faulty, removing")
+                    settings.db.pop("window_provider")
+                Logger.LogException(e)
+                exit(-1)
 
+        if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
+            config.fps = 60
+            Logger.LogLine(Logger.WARN, "FPS cannot be 0 in non-interactive mode")
         scene.Start()
         try:
-            windowObject.start(scene.update)
-        except KeyboardInterrupt:
+            if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                windowObject.start(scene.update)
+            else:
+                scene.no_interactive()
+        except (KeyboardInterrupt, PyUnityExit):
             Logger.LogLine(Logger.INFO, "Stopping main loop")
-            windowObject.quit()
+            if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                windowObject.quit()
+            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             if KeyboardInterruptKill:
                 exit()
         except Exception as e:
-            Logger.LogException(e)
+            Logger.LogLine(Logger.INFO, "Stopping main loop")
+            if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                windowObject.quit()
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            windowObject.quit()
             exit(-1)
         else:
-            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+            Logger.LogLine(Logger.INFO, "Stopping main loop")
         windowObject = None
     else:
         scene.Start()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             windowObject.update_func = scene.update
-        else:
-            scene.no_interactive()
     scene.clean_up()
     __running_scenes.pop()
 

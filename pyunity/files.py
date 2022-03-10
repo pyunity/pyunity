@@ -319,9 +319,10 @@ class Skybox:
         self.compiled = True
 
     def use(self):
-        if not self.compiled:
-            self.compile()
-        gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            if not self.compiled:
+                self.compile()
+            gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
 class Prefab:
     """Prefab model"""

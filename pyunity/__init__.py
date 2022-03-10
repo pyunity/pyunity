@@ -150,14 +150,14 @@ from . import logger as Logger # lgtm[py/import-own-module]
 from . import config, errors, values, core, files, audio, physics, input, gui
 __all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
            "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
-__all__.extend(audio.__all__)
-__all__.extend(core.__all__)
-__all__.extend(gui.__all__)
-__all__.extend(input.__all__)
-__all__.extend(physics.__all__)
 __all__.extend(errors.__all__)
-__all__.extend(files.__all__)
 __all__.extend(values.__all__)
+__all__.extend(core.__all__)
+__all__.extend(files.__all__)
+__all__.extend(audio.__all__)
+__all__.extend(physics.__all__)
+__all__.extend(input.__all__)
+__all__.extend(gui.__all__)
 
 import os
 from .errors import *

@@ -1,5 +1,6 @@
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
+import os
 from enum import IntEnum, auto
 from .values import clamp, ImmutableStruct
 from .errors import PyUnityException
@@ -125,6 +126,8 @@ class Input(metaclass=ImmutableStruct):
             If the key is pressed
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
 
     @classmethod
@@ -143,6 +146,8 @@ class Input(metaclass=ImmutableStruct):
             If the key was released
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_key(keycode, KeyState.UP)
 
     @classmethod
@@ -161,6 +166,8 @@ class Input(metaclass=ImmutableStruct):
             If the key was pressed down
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
 
     @classmethod
@@ -181,6 +188,8 @@ class Input(metaclass=ImmutableStruct):
             If the key state matches
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_key(keycode, keystate)
 
     @classmethod
@@ -199,6 +208,8 @@ class Input(metaclass=ImmutableStruct):
             If the mouse button is pressed
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.PRESS)
 
     @classmethod
@@ -217,6 +228,8 @@ class Input(metaclass=ImmutableStruct):
             If the mouse button was released
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.UP)
 
     @classmethod
@@ -235,6 +248,8 @@ class Input(metaclass=ImmutableStruct):
             If the mouse button was pressed down
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
 
     @classmethod
@@ -255,6 +270,8 @@ class Input(metaclass=ImmutableStruct):
             If the mouse button state matches
 
         """
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return False
         return SceneManager.windowObject.get_mouse(mousecode, mousestate)
 
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
@@ -294,6 +311,8 @@ class Input(metaclass=ImmutableStruct):
         """
         if axis not in cls._axes:
             raise PyUnityException(f"Invalid axis: {axis!r}")
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return 0
         return cls._axes[axis]
 
     @classmethod
@@ -319,6 +338,8 @@ class Input(metaclass=ImmutableStruct):
         """
         if axis not in cls._axis_objects:
             raise PyUnityException(f"Invalid axis: {axis!r}")
+        if os.environ["PYUNITY_INTERACTIVE"] != "1":
+            return 0
         return cls._axis_objects[axis].raw
 
     mousePosition = None

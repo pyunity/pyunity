@@ -58,7 +58,8 @@ class Mesh:
 
         self.compiled = False
         from .scenes import SceneManager
-        if SceneManager.CurrentScene() is not None:
+        if SceneManager.CurrentScene() is not None and \
+                os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.compile()
 
         # self.min, self.max = Vector3.zero(), Vector3.zero()

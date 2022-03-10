@@ -212,9 +212,10 @@ class Shader:
 
     def use(self):
         """Compile shader if it isn't compiled, and load it into OpenGL."""
-        if not self.compiled:
-            self.compile()
-        gl.glUseProgram(self.program)
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            if not self.compiled:
+                self.compile()
+            gl.glUseProgram(self.program)
 
 __dir = os.path.abspath(os.path.dirname(__file__))
 shaders: Dict[str, Shader] = dict()
@@ -226,8 +227,9 @@ Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
 Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
 
 def compile_shaders():
-    for shader in shaders.values():
-        shader.compile()
+    if os.environ["PYUNITY_INTERACTIVE"] == "1":
+        for shader in shaders.values():
+            shader.compile()
 
 class Camera(SingleComponent):
     """

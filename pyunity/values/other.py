@@ -29,7 +29,7 @@ class Clock:
     def Maintain(self):
         self._end = time.time()
         elapsedMS = self._end - self._start
-        sleep = self._frameDuration - elapsedMS - 0.001
+        sleep = self._frameDuration - elapsedMS
         if sleep <= 0:
             self._start = time.time()
             return sys.float_info.epsilon

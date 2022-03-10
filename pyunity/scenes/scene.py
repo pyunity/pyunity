@@ -19,6 +19,7 @@ from ..errors import *
 from ..values import Clock
 from time import time
 import os
+import sys
 import math
 import uuid
 
@@ -387,11 +388,13 @@ class Scene:
                     if component.playOnStart:
                         component.Play()
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
-                    mesh = component.mesh
-                    mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
-                    mesh.vao = render.gen_array()
-
-        self.mainCamera.setup_buffers()
+                    if os.environ["PYUNITY_INTERACTIVE"] == "1":
+                        mesh = component.mesh
+                        mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
+                        mesh.vao = render.gen_array()
+        
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            self.mainCamera.setup_buffers()
 
         self.physics = any(
             isinstance(
@@ -432,8 +435,9 @@ class Scene:
         """Updates all scripts in the scene."""
         from ..input import Input
         from ..gui import Canvas
-        dt = max(time() - self.lastFrame, 0.001)
-        Input.UpdateAxes(dt)
+        dt = max(time() - self.lastFrame, sys.float_info.epsilon)
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            Input.UpdateAxes(dt)
 
         canvasUpdated = []
         for gameObject in self.gameObjects:
@@ -467,7 +471,7 @@ class Scene:
         """
         done = False
         clock = Clock()
-        clock.fps = config.fps
+        clock.Start(config.fps)
         while not done:
             try:
                 self.update_scripts()
@@ -475,6 +479,7 @@ class Scene:
             except KeyboardInterrupt:
                 Logger.LogLine(Logger.DEBUG, "Exiting")
                 done = True
+        raise PyUnityExit
 
     def update(self):
         """Updating function to pass to the window provider."""
