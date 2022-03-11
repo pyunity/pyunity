@@ -192,7 +192,6 @@ class AudioListener(Component):
         the AudioClips.
 
         """
-        from .scenes import SceneManager
-        for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
+        for source in self.scene.FindComponentsByType(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)

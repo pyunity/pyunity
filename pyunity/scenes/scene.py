@@ -17,6 +17,7 @@ from ..values import Vector3, Quaternion
 from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
+from .. import render
 from time import time
 import os
 import sys
@@ -46,7 +47,6 @@ class Scene:
     """
 
     def __init__(self, name):
-        from .. import render
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
         self.mainCamera.AddComponent(AudioListener)
@@ -365,7 +365,6 @@ class Scene:
 
     def start_scripts(self):
         """Start the scripts in the Scene."""
-        from .. import render
 
         audioListeners = self.FindComponentsByType(AudioListener)
         if len(audioListeners) == 0:

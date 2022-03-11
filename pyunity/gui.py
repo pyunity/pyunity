@@ -10,6 +10,7 @@ from .core import Component, SingleComponent, GameObject, ShowInInspector
 from .files import Texture2D
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
+from .render import Screen
 from PIL import Image, ImageDraw, ImageFont
 from types import FunctionType
 import os
@@ -240,7 +241,6 @@ class RectTransform(SingleComponent):
             Screen coordinates
         
         """
-        from .render import Screen
         if self.parent is None:
             return self.anchors * Screen.size
         else:
