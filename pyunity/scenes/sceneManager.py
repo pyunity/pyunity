@@ -233,7 +233,7 @@ def LoadScene(scene):
     """
     if not isinstance(scene, Scene):
         raise TypeError(
-            "The provided Scene \"%s\" is not an integer" % scene.name)
+            "The provided Scene \"%s\" is not of type \"Scene\"" % scene.name)
     if scene not in scenesByIndex:
         raise PyUnityException(
             "The provided scene is not part of the SceneManager")
@@ -249,8 +249,10 @@ def __loadScene(scene):
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
                 os.environ["PYUNITY_GL_CONTEXT"] = "1"
+                Logger.LogLine(Logger.DEBUG, "Launching window manager")
                 windowObject = config.windowProvider.Window(
                     scene.name, scene.mainCamera.Resize)
+                Logger.LogLine(Logger.DEBUG, "Compiling shaders")
                 render.compile_shaders()
                 scene.mainCamera.skybox.compile()
             except Exception as e:
@@ -268,6 +270,7 @@ def __loadScene(scene):
         if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
             config.fps = 60
             Logger.LogLine(Logger.WARN, "FPS cannot be 0 in non-interactive mode")
+        Logger.LogLine(Logger.DEBUG, "Starting scene")
         scene.Start()
         try:
             if os.environ["PYUNITY_INTERACTIVE"] == "1":

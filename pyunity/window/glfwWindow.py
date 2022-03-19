@@ -45,6 +45,8 @@ class Window(ABCWindow):
         self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
         self.mouse = [KeyState.NONE, KeyState.NONE, KeyState.NONE]
 
+        glfw.swap_buffers(self.window)
+
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)
         self.update_func()

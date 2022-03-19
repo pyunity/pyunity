@@ -28,9 +28,10 @@ it do something, use the Update function:
 
 What this does is it rotates the GameObject that
 the Behaviour is on by 90 degrees each second
-around the y-axis. The ``Update`` function takes
+around the y-axis. The ``Update`` function can take
 1 argument, ``dt``, which is how many seconds have
-passed since the last frame.
+passed since the last frame. If this argument is
+omitted, PyUnity won't complain.
 
 Behaviours vs Components
 ========================
@@ -108,7 +109,7 @@ frames:
        lastRot = Quaternion.identity()
        lastScl = Vector3.one()
        a = 0
-       def Update(self, dt):
+       def Update(self):
            self.a += 1
            if self.a == 10:
                print(self.transform.position - self.lastPos)

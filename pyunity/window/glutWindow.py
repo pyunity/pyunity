@@ -27,7 +27,7 @@ class Window(ABCWindow, message="This window provider has been deprecated since 
         glut.glutInitWindowSize(*config.size)
         glut.glutCreateWindow(name)
 
-        Logger.Log(Logger.WARN, "GLUT window doesn't support user input")
+        glut.glutSwapBuffers()
 
     def start(self, update_func):
         """
