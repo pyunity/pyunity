@@ -4,6 +4,7 @@ __all__ = ["Mesh"]
 
 from .values import Vector3
 import OpenGL.GL as gl
+import os
 
 class Mesh:
     """
@@ -57,8 +58,7 @@ class Mesh:
             self.texcoords = [[0, 0] for _ in range(len(self.verts))]
 
         self.compiled = False
-        from .scenes import SceneManager
-        if SceneManager.CurrentScene() is not None and \
+        if "PYUNITY_GL_CONTEXT" in os.environ and \
                 os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.compile()
 

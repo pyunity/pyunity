@@ -248,6 +248,7 @@ def __loadScene(scene):
     if not windowObject:
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
+                os.environ["PYUNITY_GL_CONTEXT"] = "1"
                 windowObject = config.windowProvider.Window(
                     scene.name, scene.mainCamera.Resize)
                 render.compile_shaders()
@@ -288,6 +289,7 @@ def __loadScene(scene):
             exit(-1)
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
+        del os.environ["PYUNITY_GL_CONTEXT"]
         windowObject = None
     else:
         scene.Start()
