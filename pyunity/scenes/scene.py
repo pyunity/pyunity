@@ -18,6 +18,7 @@ from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
 from .. import render
+from inspect import signature
 from time import time
 import os
 import sys
@@ -395,11 +396,12 @@ class Scene:
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.setup_buffers()
 
-        self.physics = any(
-            isinstance(
-                component, physics.Rigidbody
-            ) for gameObject in self.gameObjects for component in gameObject.components
-        )
+        # self.physics = any(
+        #     isinstance(
+        #         component, physics.Rigidbody
+        #     ) for gameObject in self.gameObjects for component in gameObject.components
+        # )
+        self.physics = True # Check is too expensive
         if self.physics:
             self.collManager = physics.CollManager()
             self.collManager.AddPhysicsInfo(self)
@@ -442,7 +444,11 @@ class Scene:
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    component.Update(dt)
+                    sig = signature(component.Update)
+                    if "dt" in sig.parameters:
+                        component.Update(dt)
+                    else:
+                        component.Update()
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():

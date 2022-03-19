@@ -2,7 +2,7 @@ from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManage
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
-    def Update(self, dt):
+    def Update(self):
         self.transform.LookAtGameObject(self.other)
 
 class Mover(Behaviour):

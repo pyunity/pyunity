@@ -27,7 +27,7 @@ class FPSTracker(Behaviour):
 class CheckboxTracker(Behaviour):
     check = ShowInInspector(CheckBox)
     text = ShowInInspector(Text)
-    def Update(self, dt):
+    def Update(self):
         self.text.text = "On" if self.check.checked else "Off"
 
 def main():
