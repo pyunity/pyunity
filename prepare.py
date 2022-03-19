@@ -5,7 +5,7 @@ import pkgutil
 import sys
 import importlib
 import inspect
-from packaging import version
+from setuptools._vendor.packaging import version # avoid pip install
 # from types import ModuleType
 # from unittest.mock import Mock
 # sys.modules["sdl2"] = Mock()
