@@ -181,6 +181,10 @@ class ABCWindow(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def refresh(self):
+        pass
+
+    @abstractmethod
     def quit(self):
         pass
 

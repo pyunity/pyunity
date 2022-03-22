@@ -76,6 +76,19 @@ def gen_array():
     gl.glEnableVertexAttribArray(2)
     return vao
 
+def fill_screen(scale=1):
+    gl.glLoadIdentity()
+    gl.glBegin(gl.GL_QUADS)
+    gl.glColor3f(1, 0, 0)
+    gl.glVertex3f(-scale, scale, 0)
+    gl.glColor3f(1, 1, 0)
+    gl.glVertex3f(scale, scale, 0)
+    gl.glColor3f(0, 1, 0)
+    gl.glVertex3f(scale, -scale, 0)
+    gl.glColor3f(0, 0, 1)
+    gl.glVertex3f(-scale, -scale, 0)
+    gl.glEnd()
+
 class Shader:
     def __init__(self, vertex, frag, name):
         self.vertex = vertex

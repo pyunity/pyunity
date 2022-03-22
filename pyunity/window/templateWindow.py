@@ -13,7 +13,11 @@ class Window(ABCWindow):
     """
 
     def __init__(self, name, resize):
+        # Use name as the window title
         self.resize = resize
+
+    def refresh(self):
+        pass
 
     def quit(self):
         pass

@@ -7,6 +7,7 @@ of Scenes.
 __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene", "LoadSceneByName",
            "CurrentScene", "AddScene", "LoadScene", "RemoveAllScenes", "GetSceneByIndex"]
 
+import threading
 from ..core import *
 from .. import config, settings
 from ..errors import *
@@ -252,6 +253,8 @@ def __loadScene(scene):
                 Logger.LogLine(Logger.DEBUG, "Launching window manager")
                 windowObject = config.windowProvider.Window(
                     scene.name, scene.mainCamera.Resize)
+                render.fill_screen()
+                windowObject.refresh()
                 Logger.LogLine(Logger.DEBUG, "Compiling shaders")
                 render.compile_shaders()
                 scene.mainCamera.skybox.compile()

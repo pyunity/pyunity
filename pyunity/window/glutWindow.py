@@ -25,8 +25,10 @@ class Window(ABCWindow, message="This window provider has been deprecated since 
         #     (glut.glutGet(glut.GLUT_SCREEN_HEIGHT) - config.size[1]) // 2)
         glut.glutInitWindowPosition(100, 100)
         glut.glutInitWindowSize(*config.size)
-        glut.glutCreateWindow(name)
+        self.winID = glut.glutCreateWindow(name)
 
+    def refresh(self):
+        glut.glutSetWindow(self.winID)
         glut.glutSwapBuffers()
 
     def start(self, update_func):
