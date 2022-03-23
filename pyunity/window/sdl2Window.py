@@ -34,11 +34,6 @@ class Window(ABCWindow):
 
         self.context = sdl2.SDL_GL_CreateContext(self.screen)
 
-        renderer = sdl2.SDL_CreateRenderer(self.screen, -1, 0)
-        sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255)
-        sdl2.SDL_RenderClear(renderer)
-        sdl2.SDL_RenderPresent(renderer)
-
         self.keys = [KeyState.NONE for _ in range(
             sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
         self.mouse = [None, KeyState.NONE, KeyState.NONE, KeyState.NONE]

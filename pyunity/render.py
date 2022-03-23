@@ -77,6 +77,7 @@ def gen_array():
     return vao
 
 def fill_screen(scale=1):
+    gl.glClear(gl.GL_COLOR_BUFFER_BIT)
     gl.glLoadIdentity()
     gl.glBegin(gl.GL_QUADS)
     gl.glColor3f(1, 0, 0)

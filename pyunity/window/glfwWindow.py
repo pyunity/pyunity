@@ -34,8 +34,6 @@ class Window(ABCWindow):
             glfw.terminate()
             raise PyUnityException("Cannot open GLFW window")
 
-        glfw.make_context_current(self.window)
-
         self.resize = resize
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)
@@ -128,6 +126,7 @@ class Window(ABCWindow):
         self.update_func = update_func
         clock = Clock()
         clock.Start(config.fps)
+        glfw.make_context_current(self.window)
         while not glfw.window_should_close(self.window):
             self.check_quit()
             self.check_keys()
