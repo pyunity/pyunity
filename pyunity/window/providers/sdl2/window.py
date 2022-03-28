@@ -1,9 +1,9 @@
 """Class to create a window using PySDL2."""
 
-from . import ABCWindow
-from ..values import Clock
-from ..input import KeyCode, KeyState, MouseCode
-from .. import config
+from pyunity.window import ABCWindow
+from pyunity.values import Clock
+from pyunity.input import KeyCode, KeyState, MouseCode
+from pyunity import config
 import sdl2
 import sdl2.ext
 import ctypes

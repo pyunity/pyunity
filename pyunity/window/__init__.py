@@ -37,43 +37,6 @@ import os
 import sys
 import importlib.util
 
-def checkModule(name):
-    if os.getenv("PYUNITY_TESTING") is not None:
-        return sys.modules[name]
-    spec = importlib.util.find_spec(name)
-    if spec is None:
-        raise PyUnityException
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    sys.modules[name] = module
-    return module
-
-def glfwCheck():
-    """Checks to see if GLFW works"""
-    glfw = checkModule("glfw")
-    if not glfw.init():
-        raise PyUnityException
-    window = glfw.create_window(5, 5, "test", None, None)
-    glfw.destroy_window(window)
-
-def sdl2Check():
-    """Checks to see if PySDL2 works"""
-    sdl2 = checkModule("sdl2")
-    if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
-        raise PyUnityException
-
-def glutCheck():
-    """Checks to see if GLUT works"""
-    checkModule("OpenGL.GLUT")
-    import OpenGL.GLUT
-    OpenGL.GLUT.glutInit()
-
-providers = {
-    "GLFW": ("glfwWindow", glfwCheck),
-    "PySDL2": ("sdl2Window", sdl2Check),
-    "GLUT": ("glutWindow", glutCheck),
-}
-
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
@@ -94,7 +57,7 @@ def GetWindowProvider():
             windowProvider = settings.db["window_provider"]
             Logger.LogLine(
                 Logger.DEBUG, "Using window provider", windowProvider)
-            return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
+            return importlib.import_module(f".providers.{providers[windowProvider][0]}", __name__)
 
     windowProvider = ""
     i = 0
