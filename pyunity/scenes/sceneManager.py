@@ -258,17 +258,16 @@ def __loadScene(scene):
                 Logger.LogLine(Logger.DEBUG, "Compiling shaders")
                 render.compile_shaders()
                 scene.mainCamera.skybox.compile()
-            except Exception as e:
+            except Exception:
                 if "window_provider" in settings.db:
-                    Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
+                    Logger.LogLine(Logger.WARN, "Detected settings.json entry")
                     if "window_cache" in settings.db:
-                        Logger.LogLine(Logger.DEBUG, "window_cache entry has been set,",
+                        Logger.LogLine(Logger.WARN, "window_cache entry has been set,",
                                     "indicating window checking happened on this import")
                     Logger.LogLine(
-                        Logger.DEBUG, "settings.json entry may be faulty, removing")
+                        Logger.WARN, "settings.json entry may be faulty, removing")
                     settings.db.pop("window_provider")
-                Logger.LogException(e)
-                exit(-1)
+                raise
 
         if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
             config.fps = 60
@@ -287,12 +286,12 @@ def __loadScene(scene):
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
             if KeyboardInterruptKill:
                 exit()
-        except Exception as e:
+        except Exception:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
                 windowObject.quit()
             Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            exit(-1)
+            raise
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
         del os.environ["PYUNITY_GL_CONTEXT"]

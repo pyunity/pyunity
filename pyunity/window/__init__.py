@@ -28,7 +28,7 @@ pull request.
 __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
-import pkgutil
+from .providers import getProviders
 from ..errors import *
 from .. import Logger
 from .. import config
@@ -64,9 +64,7 @@ def GetWindowProvider():
     windowProvider = ""
     i = 0
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
-    from . import providers as _providers
-    providers = list(map(lambda x: x.name,
-                         pkgutil.iter_modules(_providers.__path__)))
+    providers = getProviders()
     if env is not None:
         env = env.split(",")
         for specified in reversed(env):
@@ -87,11 +85,11 @@ def GetWindowProvider():
             module = importlib.import_module(f".providers.{name}", __name__)
             module.check()
             windowProvider = name
-        except Exception as e:
-            Logger.LogLine(Logger.DEBUG, name,
-                            "doesn't work")
+        except Exception:
+            Logger.LogLine(Logger.DEBUG, name, "doesn't work")
         else:
-            raise PyUnityException("No window provider found")
+            if not windowProvider:
+                raise PyUnityException("No window provider found")
         
         if windowProvider:
             break
@@ -101,15 +99,21 @@ def GetWindowProvider():
     settings.db["window_cache"] = True
     module = importlib.import_module(f".providers.{windowProvider}", __name__)
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
-    module = importlib.import_module(f".providers.{windowProvider}.window", __name__)
+    try:
+        module = importlib.import_module(f".providers.{windowProvider}.window", __name__)
+    except Exception:
+        Logger.LogLine(Logger.WARN, "window_cache entry has been set, indicating "
+                                    "window checking happened on this import")
+        Logger.LogLine(
+            Logger.WARN, "settings.json entry may be faulty, removing")
+        settings.db.pop("window_provider")
+        raise
     return module.Window
 
 def SetWindowProvider(name):
-    from . import providers as _providers
-    providers = list(pkgutil.iter_modules(_providers.__path__))
+    providers = getProviders()
     if name not in providers:
-        raise PyUnityException(
-            f"No window provider named {name!r} found")
+        raise PyUnityException(f"No window provider named {name!r} found")
     modname = providers[name]
     module = importlib.import_module(f".providers.{modname}", __name__)
     exc = None

@@ -1,6 +1,7 @@
 from ...errors import *
 import os
 import sys
+import pkgutil
 import importlib.util
 
 def checkModule(name):
@@ -13,3 +14,12 @@ def checkModule(name):
     spec.loader.exec_module(module)
     sys.modules[name] = module
     return module
+
+_loaded = False
+_names = [x.name for x in pkgutil.iter_modules(__path__)]
+
+def getProviders():
+    global _loaded
+    if not _loaded:
+        _loaded = True
+    return _names
