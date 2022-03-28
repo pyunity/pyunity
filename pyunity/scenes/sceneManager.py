@@ -251,7 +251,7 @@ def __loadScene(scene):
             try:
                 os.environ["PYUNITY_GL_CONTEXT"] = "1"
                 Logger.LogLine(Logger.DEBUG, "Launching window manager")
-                windowObject = config.windowProvider.Window(
+                windowObject = config.windowProvider(
                     scene.name, scene.mainCamera.Resize)
                 render.fill_screen()
                 windowObject.refresh()

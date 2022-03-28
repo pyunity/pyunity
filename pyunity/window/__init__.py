@@ -28,13 +28,13 @@ pull request.
 __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
+import pkgutil
 from ..errors import *
 from .. import Logger
 from .. import config
 from .. import settings
 from ..values import ABCMeta, abstractmethod
 import os
-import sys
 import importlib.util
 
 def GetWindowProvider():
@@ -54,15 +54,19 @@ def GetWindowProvider():
             if "window_cache" in settings.db:
                 del settings.db["window_cache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
-            windowProvider = settings.db["window_provider"]
+            providerName = settings.db["window_provider"]
+            module = importlib.import_module(f".providers.{providerName}", __name__)
             Logger.LogLine(
-                Logger.DEBUG, "Using window provider", windowProvider)
-            return importlib.import_module(f".providers.{providers[windowProvider][0]}", __name__)
+                Logger.DEBUG, "Using window provider", module.name)
+            module = importlib.import_module(f".providers.{providerName}.window", __name__)
+            return module.Window
 
     windowProvider = ""
     i = 0
-    winfo = list(map(lambda x: (x[0], x[1][1]), providers.items()))
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
+    from . import providers as _providers
+    providers = list(map(lambda x: x.name,
+                         pkgutil.iter_modules(_providers.__path__)))
     if env is not None:
         env = env.split(",")
         for specified in reversed(env):
@@ -70,51 +74,55 @@ def GetWindowProvider():
                 Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
                                specified, "but there is no window provider called that")
                 continue
-            for item in winfo:
-                if item[0] == specified:
+            for item in providers:
+                if item == specified:
                     selected = item
-            winfo.remove(selected)
-            winfo.insert(0, selected)
+            providers.remove(selected)
+            providers.insert(0, selected)
 
-    for name, checker in winfo:
-        next = winfo[i + 1][0] if i < len(winfo) - 1 else None
-        Logger.LogLine(Logger.DEBUG, "Trying", name, "as a window provider")
+    module = importlib.import_module(f".providers.{providers[0]}", __name__)
+    Logger.LogLine(Logger.DEBUG, "Trying", module.name, "as a window provider")
+    for name in providers:
         try:
-            checker()
+            module = importlib.import_module(f".providers.{name}", __name__)
+            module.check()
             windowProvider = name
         except Exception as e:
-            print(e)
-            if next is not None:
-                Logger.LogLine(Logger.DEBUG, name,
-                               "doesn't work, trying", next)
-
-        if next is None:
+            Logger.LogLine(Logger.DEBUG, name,
+                            "doesn't work")
+        else:
             raise PyUnityException("No window provider found")
+        
         if windowProvider:
             break
         i += 1
 
     settings.db["window_provider"] = windowProvider
     settings.db["window_cache"] = True
-    Logger.LogLine(Logger.DEBUG, "Using window provider", windowProvider)
-    return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
+    module = importlib.import_module(f".providers.{windowProvider}", __name__)
+    Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
+    module = importlib.import_module(f".providers.{windowProvider}.window", __name__)
+    return module.Window
 
 def SetWindowProvider(name):
+    from . import providers as _providers
+    providers = list(pkgutil.iter_modules(_providers.__path__))
     if name not in providers:
         raise PyUnityException(
             f"No window provider named {name!r} found")
-    module, checker = providers[name]
+    modname = providers[name]
+    module = importlib.import_module(f".providers.{modname}", __name__)
     exc = None
     try:
-        checker()
+        module.check()
     except Exception as e:
         exc = e
     if exc is not None:
-        raise PyUnityException(f"Cannot use window provider {name!r}")
-    Logger.LogLine(Logger.DEBUG, "Using window provider", name)
-    window = importlib.import_module(f".{module}", __name__)
-    config.windowProvider = window
-    return window
+        raise PyUnityException(f"Cannot use window provider {module.name!r}")
+    Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
+    module = importlib.import_module(f".providers.{modname}.window", __name__)
+    config.windowProvider = module.Window
+    return module.Window
 
 def CustomWindowProvider(cls):
     if not isinstance(cls, type):
