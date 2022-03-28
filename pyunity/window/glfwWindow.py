@@ -34,6 +34,8 @@ class Window(ABCWindow):
             glfw.terminate()
             raise PyUnityException("Cannot open GLFW window")
 
+        glfw.make_context_current(self.window)
+
         self.resize = resize
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)

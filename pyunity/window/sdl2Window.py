@@ -37,6 +37,8 @@ class Window(ABCWindow):
         self.keys = [KeyState.NONE for _ in range(
             sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
         self.mouse = [None, KeyState.NONE, KeyState.NONE, KeyState.NONE]
+        
+        sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
 
     def refresh(self):
         sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
