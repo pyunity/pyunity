@@ -9,7 +9,7 @@ def checkModule(name):
         return sys.modules[name]
     spec = importlib.util.find_spec(name)
     if spec is None:
-        raise PyUnityException
+        raise ImportError
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     sys.modules[name] = module

@@ -55,7 +55,7 @@ def GetWindowProvider():
                 del settings.db["window_cache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
             providerName = settings.db["window_provider"]
-            if windowProvider in providers:
+            if providerName in getProviders():
                 module = importlib.import_module(f".providers.{providerName}", __name__)
                 Logger.LogLine(
                     Logger.DEBUG, "Using window provider", module.name)
@@ -63,7 +63,7 @@ def GetWindowProvider():
                 return module.Window
             else:
                 Logger.LogLine(Logger.WARN,
-                    f"settings.json entry {windowProvider} is "
+                    f"settings.json entry {providerName!r} is "
                     f"not a valid window provider, removing")
                 settings.db.pop("window_provider")
 
@@ -91,7 +91,14 @@ def GetWindowProvider():
             module = importlib.import_module(f".providers.{name}", __name__)
             module.check()
             windowProvider = name
-        except Exception:
+        except Exception as e:
+            if isinstance(e, ImportError):
+                Logger.LogLine(Logger.WARN,
+                    name + ": This window manager requires on a package "
+                           "you don't have installed.")
+                Logger.LogLine(Logger.WARN,
+                    name + ": Check the source code and use `pip install` "
+                           "to resolve any missing dependencies.")
             Logger.LogLine(Logger.DEBUG, name, "doesn't work")
         else:
             if not windowProvider:
@@ -126,6 +133,13 @@ def SetWindowProvider(name):
     try:
         module.check()
     except Exception as e:
+        if isinstance(e, ImportError):
+            Logger.LogLine(Logger.WARN,
+                modname + ": This window manager requires on a package "
+                        "you don't have installed.")
+            Logger.LogLine(Logger.WARN,
+                modname + ": Check the source code and use `pip install` "
+                        "to resolve any missing dependencies.")
         exc = e
     if exc is not None:
         raise PyUnityException(f"Cannot use window provider {module.name!r}")
