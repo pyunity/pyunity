@@ -64,7 +64,6 @@ setup(
         "pysdl2",
         "pysdl2-dll",
         "pyglm",
-        "glfw",
     ],
     python_requires='>=3.6',
     **config,
