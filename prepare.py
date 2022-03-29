@@ -160,6 +160,8 @@ def cythonize(error=False):
         if os.path.exists("src"):
             shutil.rmtree("src")
         for path in glob.glob("pyunity/**/*.*", recursive=True):
+            if path.startswith(os.path.join("pyunity", "window", "providers")):
+                continue
             if path.endswith(".pyc"):
                 continue
             dirpath, file = os.path.split(path)
