@@ -97,7 +97,7 @@ def GetWindowProvider():
         except Exception as e:
             if isinstance(e, ImportError):
                 Logger.LogLine(Logger.WARN,
-                    name + ": This window manager requires on a package "
+                    name + ": This window manager requires a package "
                            "you don't have installed.")
                 Logger.LogLine(Logger.WARN,
                     name + ": Check the source code and use `pip install` "
