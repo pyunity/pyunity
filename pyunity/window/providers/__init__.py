@@ -16,10 +16,18 @@ def checkModule(name):
     return module
 
 _loaded = False
-_names = [x.name for x in pkgutil.iter_modules(__path__)]
+_names = []
+
+def sort(x):
+    module = importlib.import_module(f".{x}", __name__)
+    if hasattr(module, "prio"):
+        return module.prio
+    return 0
 
 def getProviders():
-    global _loaded
+    global _names, _loaded
     if not _loaded:
+        _names = [x.name for x in pkgutil.iter_modules(__path__)]
+        _names.sort(key=sort, reversed=True)
         _loaded = True
     return _names
