@@ -385,7 +385,6 @@ class Camera(SingleComponent):
         """Generates view matrix from Transform of camera."""
         if self.renderPass and (self.lastPos != self.transform.position or
                                 self.lastRot != self.transform.rotation):
-            ## OLD LOOKAT MATRIX GEN ##
             pos = self.transform.position * Vector3(1, 1, -1)
             look = pos + \
                 self.transform.rotation.RotateVector(

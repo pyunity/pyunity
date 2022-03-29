@@ -140,8 +140,8 @@ def SaveMesh(mesh, name, filePath=None):
         directory of script, otherwise
         pass in the path of where you
         want to save the file. For example, if you
-        want to save in C:\Downloads, then give
-        "C:\Downloads\mesh.mesh". If not
+        want to save in C:\\Downloads, then give
+        "C:\\Downloads\\mesh.mesh". If not
         specified, then the mesh is saved
         in the cwd.
 

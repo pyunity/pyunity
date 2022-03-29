@@ -475,7 +475,7 @@ class Transform(SingleComponent):
     localScale : Vector3
         Scale of the Transform in local space.
     parent : Transform or None
-        Parent of the Transform. The hierarchical tree is 
+        Parent of the Transform. The hierarchical tree is
         actually formed by the Transform, not the GameObject.
         Do not modify this attribute.
     children : list
