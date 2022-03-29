@@ -269,7 +269,7 @@ class ObjectInfo:
         self.name = name
         self.uuid = uuid
         self.attrs = attrs
-    
+
     def __str__(self):
         s = f"{self.name} : {self.uuid}"
         for k, v in self.attrs.items():
@@ -294,7 +294,7 @@ def SaveMat(material, project, filename):
             material.texture.img.save(path)
         else:
             texID = project._ids[material.texture]
-    
+
     colStr = str(material.color)
 
     with open(filename, "w+") as f:
@@ -303,23 +303,23 @@ def SaveMat(material, project, filename):
 def LoadMat(path, project):
     if not os.path.isfile(path):
         raise PyUnityException(f"The specified file does not exist: {path}")
-    
+
     with open(path) as f:
         contents = f.read().rstrip().splitlines()
-    
+
     if contents.pop(0) != "Material":
         raise ProjectParseException("Expected \"Material\" as line 1")
-    
+
     parts = {split[0][4:]: split[1] for split in map(lambda x: x.split(": "), contents)}
 
     if not (parts["color"].startswith("RGB") or parts["color"].startswith("HSV")):
         raise ProjectParseException("Color value does not start with RGB or HSV")
-    
+
     color = Color.from_string(parts["color"])
 
     if parts["texture"] not in project._idMap and parts["texture"] != "None":
         raise ProjectParseException(f"Project file UUID not found: {parts['texture']}")
-    
+
     if parts["texture"] == "None":
         texture = None
     else:
@@ -340,7 +340,7 @@ def SaveScene(scene, project, path):
         project._ids[obj] = uuid
         project._idMap[uuid] = obj
         return project._ids[obj]
-    
+
     location = os.path.join(project.path, path, scene.name + ".scene")
     data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
 
@@ -349,7 +349,7 @@ def SaveScene(scene, project, path):
                  "tag": gameObject.tag.tag,
                  "transform": getUuid(gameObject.transform)}
         data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
-    
+
     for gameObject in scene.gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
@@ -386,13 +386,13 @@ def SaveScene(scene, project, path):
                     filename = os.path.join("Scripts", behaviour.__name__ + ".py")
                     os.makedirs(os.path.join(project.path, "Scripts"), exist_ok=True)
                     with open(os.path.join(project.path, filename), "w+") as f:
-                        f.write(GetImports(inspect.getsourcefile(behaviour)) + \
+                        f.write(GetImports(inspect.getsourcefile(behaviour)) +
                                 inspect.getsource(behaviour))
 
                     uuid = getUuid(behaviour)
                     file = File(filename, uuid)
                     project.ImportFile(file, write=False)
-                
+
                 attrs["_script"] = project._ids[behaviour]
                 name = behaviour.__name__ + "(Behaviour)"
             else:
@@ -407,7 +407,7 @@ def SaveScene(scene, project, path):
 def ResaveScene(scene, project):
     if scene not in project._ids:
         raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
-    
+
     path = project.fileIDs[project._ids[scene]].path
     SaveScene(scene, project, os.path.dirname(path))
 
@@ -427,7 +427,7 @@ def LoadProject(folder):
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
             Scripts.LoadScript(os.path.join(project.path, os.path.normpath(file)))
-    
+
     # Meshes
     for file in project.filePaths:
         if file.endswith(".mesh"):
@@ -443,7 +443,7 @@ def LoadProject(folder):
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = texture
             project._ids[texture] = uuid
-    
+
     # Materials
     for file in project.filePaths:
         if file.endswith(".mat"):
@@ -456,7 +456,7 @@ def LoadProject(folder):
     for file in project.filePaths:
         if file.endswith(".scene"):
             LoadScene(os.path.join(project.path, os.path.normpath(file)), project)
-    
+
     return project
 
 def LoadScene(sceneFile, project):
@@ -470,13 +470,13 @@ def LoadScene(sceneFile, project):
             return
         project._ids[obj] = uuid
         project._idMap[uuid] = obj
-    
+
     if not os.path.isfile(sceneFile):
         raise PyUnityException(f"The specified file does not exist: {sceneFile}")
 
     with open(sceneFile) as f:
         contents = f.read().rstrip().splitlines()
-    
+
     data = []
     attrs = {}
     name, uuid = contents.pop(0).split(" : ")
@@ -490,14 +490,14 @@ def LoadScene(sceneFile, project):
             data.append(ObjectInfo(name, uuid, attrs))
             name, uuid = line.split(" : ")
             attrs = {}
-    
+
     # Final objectinfo
     data.append(ObjectInfo(name, uuid, attrs))
-    
+
     sceneInfo = data.pop(0)
     if sceneInfo.name != "Scene":
         raise ProjectParseException(f"Expected \"Scene\" as first section")
-    
+
     gameObjectInfo = [x for x in data if x.name == "GameObject"]
     componentInfo = [x for x in data if x.name.endswith("(Component)")]
     behaviourInfo = [x for x in data if x.name.endswith("(Behaviour)")]
@@ -510,7 +510,7 @@ def LoadScene(sceneFile, project):
         gameObject.tag = Tag(int(part.attrs["tag"]))
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
-    
+
     # first pass, adding components
     for part in componentInfo + behaviourInfo:
         gameObjectID = part.attrs.pop("gameObject")
@@ -526,9 +526,9 @@ def LoadScene(sceneFile, project):
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
-        
+
         addUuid(component, part.uuid)
-    
+
     # second part, assigning attrs
     for part in componentInfo + behaviourInfo:
         component = project._idMap[part.uuid]
@@ -551,17 +551,15 @@ def LoadScene(sceneFile, project):
                 if not isinstance(value, type_):
                     raise ProjectParseException(f"Value does not match type: {(value, type_)!r}")
             setattr(component, k, value)
-    
+
     # Transform check
     for part in gameObjectInfo:
         gameObject = project._idMap[part.uuid]
         transform = project._idMap[part.attrs["transform"]]
         if transform is not gameObject.transform:
             Logger.LogLine(Logger.WARN, f"GameObject transform does not match transform UUID: {gameObject.name!r}")
-    
+
     scene.mainCamera = project._idMap[sceneInfo.attrs["mainCamera"]]
     for gameObject in gameObjects:
         scene.Add(gameObject)
     return scene
-
-

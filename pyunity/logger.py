@@ -137,7 +137,7 @@ def LogTraceback(exctype, value, tb):
         Value of the exception contents
     tb : traceback
         Traceback object to log
-    
+
     Notes
     -----
     This function is not meant to be used by general users.

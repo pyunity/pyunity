@@ -353,7 +353,7 @@ class Project:
             for id_ in self.fileIDs:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
                 f.write(f"\n    {id_}: {normalized}")
-    
+
     def ImportFile(self, file, write=True):
         fullPath = os.path.join(self.path, file.path)
         if not os.path.isfile(fullPath):
@@ -368,18 +368,18 @@ class Project:
         folder = os.path.abspath(folder)
         if not os.path.isdir(folder):
             raise PyUnityException(f"The specified folder does not exist: {folder}")
-        
+
         name = os.path.basename(os.path.abspath(folder))
         filename = os.path.join(folder, name + ".pyunity")
         if not os.path.isfile(filename):
             raise PyUnityException(f"The specified folder is not a PyUnity project: {folder}")
-        
+
         with open(filename) as f:
             contents = f.read().rstrip().splitlines()
-        
+
         if contents.pop(0) != "Project":
             raise ProjectParseException(f"Expected \"Project\" as first section")
-        
+
         if "Files" not in contents:
             raise ProjectParseException(f"Expected \"Files\" as second section")
 
@@ -406,5 +406,5 @@ class Project:
             file = File(v, k)
             project.fileIDs[k] = file
             project.filePaths[v] = file
-        
+
         return project

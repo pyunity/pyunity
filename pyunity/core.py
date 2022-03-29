@@ -742,7 +742,7 @@ class MeshRenderer(SingleComponent):
         """Render the mesh that the MeshRenderer has."""
         if self.mesh is None:
             return
-        
+
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mesh.compile()
             self.mesh.draw()

@@ -42,7 +42,8 @@ def parse_code():
         raise Exception("autopep8 is needed to parse the source code.\n" +
                         "Install using \"pip install autopep8\".")
     import autopep8
-    autopep8.main(["autopep8", "-i", "-r", "--ignore", "E301,E302,E305,E401,E402",
+    autopep8.main(["autopep8", "-i", "-r", "--ignore",
+                "E26,E301,E302,E305,E401,E402,E501",
                 "pyunity", "setup.py", "cli.py"])
 
 def get_packages(module):

@@ -112,7 +112,7 @@ class RectAnchors(RectData):
         ----------
         p : Vector2
             Point
-        
+
         """
         self.min = p.copy()
         self.max = p.copy()
@@ -160,7 +160,7 @@ class RectOffset(RectData):
         -------
         RectOffset
             The generated RectOffset
-        
+
         """
         return RectOffset(center - size / 2, center + size / 2)
 
@@ -171,7 +171,7 @@ class RectOffset(RectData):
         Parameters
         ----------
         pos : Vector2
-        
+
         """
         self.min += pos
         self.max += pos
@@ -184,12 +184,12 @@ class RectOffset(RectData):
         ----------
         pos : Vector2
             Center point of the RectOffset
-        
+
         """
         size = self.max - self.min
         self.min = pos - size / 2
         self.max = pos + size / 2
-    
+
     def SetPoint(self, pos):
         self.min = pos.copy()
         self.max = pos.copy()
@@ -239,7 +239,7 @@ class RectTransform(SingleComponent):
         -------
         RectData
             Screen coordinates
-        
+
         """
         if self.parent is None:
             return self.anchors * Screen.size
@@ -333,7 +333,7 @@ checkboxDefaults = [
 class _FontLoader:
     """
     Base font loader. Uses ImageFont.
-    
+
     """
 
     fonts = {}
@@ -360,7 +360,7 @@ class _FontLoader:
         Font
             Generated Font object, or None if
             ``PYUNITY_TESTING`` is set.
-        
+
         """
         if os.getenv("PYUNITY_TESTING") is not None:
             return None
@@ -381,7 +381,7 @@ class _FontLoader:
         Default file loader. Overriden to return
         the font file name. Raises PyUnityException by default.
         Do NOT call ``super().LoadFile()``.
-        
+
         """
         raise PyUnityException("No font loading function found")
 
@@ -405,7 +405,7 @@ class WinFontLoader(_FontLoader):
         ------
         PyUnityException
             If the font is not found
-        
+
         """
         import winreg
         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
@@ -438,7 +438,7 @@ class UnixFontLoader(_FontLoader):
         ------
         PyUnityException
             If the font is not found
-        
+
         """
         import subprocess
         process = subprocess.Popen(["fc-match", name], stdout=subprocess.PIPE)
@@ -450,10 +450,12 @@ class UnixFontLoader(_FontLoader):
         return out.split(": ")[0]
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
-    class FontLoader(UnixFontLoader): pass
+    class FontLoader(UnixFontLoader):
+        pass
     """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 else:
-    class FontLoader(WinFontLoader): pass
+    class FontLoader(WinFontLoader):
+        pass
     """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 
 class Font:
@@ -468,7 +470,7 @@ class Font:
         Font name
     size : int
         Font size, in points
-    
+
     """
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
@@ -509,12 +511,12 @@ class Text(NoResponseGuiComponent):
         RectTransform of the GameObject. Can be None
     texture : Texture2D
         Texture of the text, to save computation time.
-    
+
     Notes
     -----
     Modifying :attr:`font`, :attr:`text`, or :attr:`color` will call
     :meth:`GenTexture`.
-    
+
     """
 
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
@@ -629,7 +631,7 @@ class Gui:
             A tuple containing the :class:`RectTransform` of
             button, the :class:`Button` component and
             the :class:`Text` component.
-        
+
         Notes
         -----
         This will create 3 GameObjects in this hierarchy::
@@ -637,14 +639,14 @@ class Gui:
             <specified button name>
             |- Button
             |- Text
-        
+
         The generated GameObject can be accessed from the
         ``gameObject`` property of the returned components.
         The ``Button`` GameObject will have two components,
         :class:`Button` and :class:`RectTransform`. The
         ``Button`` GameObject will have two components,
         :class:`Image2D` and :class:`RectTransform`.
-        
+
         """
         if texture is None:
             texture = buttonDefault
@@ -696,7 +698,7 @@ class Gui:
         tuple
             A tuple of the :class:`RectTransform` as well as the
             :class:`CheckBox` component.
-        
+
         Notes
         -----
         The generated GameObject can be accessed from the

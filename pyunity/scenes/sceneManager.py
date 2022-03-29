@@ -263,7 +263,7 @@ def __loadScene(scene):
                     Logger.LogLine(Logger.WARN, "Detected settings.json entry")
                     if "window_cache" in settings.db:
                         Logger.LogLine(Logger.WARN, "window_cache entry has been set,",
-                                    "indicating window checking happened on this import")
+                                       "indicating window checking happened on this import")
                     Logger.LogLine(
                         Logger.WARN, "settings.json entry may be faulty, removing")
                     settings.db.pop("window_provider")

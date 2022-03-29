@@ -28,7 +28,7 @@ class Vector(metaclass=ABCMeta):
 
     def __list__(self):
         return list(iter(self))
-    
+
     @abstractmethod
     def __hash__(self):
         pass
@@ -193,7 +193,7 @@ class Vector2(Vector):
 
     def __len__(self):
         return 2
-    
+
     def __hash__(self):
         return hash((self.x, self.y))
 
@@ -224,7 +224,7 @@ class Vector2(Vector):
             self.x = f(self.x, other)
             self.y = f(self.y, other)
         return self
-    
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
@@ -454,7 +454,7 @@ class Vector3(Vector):
 
     def __len__(self):
         return 3
-    
+
     def __hash__(self):
         return hash((self.x, self.y, self.z))
 
@@ -489,7 +489,7 @@ class Vector3(Vector):
             self.y = f(self.y, other)
             self.z = f(self.z, other)
         return self
-    
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
 

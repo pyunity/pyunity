@@ -7,7 +7,7 @@ class OrthoMover(Behaviour):
             self.cam.orthoSize -= dt * 3
         if Input.GetKey(KeyCode.Q):
             self.cam.orthoSize += dt * 3
-        
+
         x = Vector3(1, 0, -1) * dt * 8
         y = Vector3(1, 0, 1) * dt * 8
         self.cam.transform.position += x * Input.GetAxis("Horizontal")
@@ -35,7 +35,7 @@ def main():
             renderer.mesh = Loader.Primitives.cube
             renderer.mat = red if (i * 11 + j) % 2 == 0 else blue
             scene.Add(g)
-    
+
     SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":

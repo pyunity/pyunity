@@ -81,15 +81,15 @@ class Collider(Component, metaclass=ABCMeta):
     @abstractmethod
     def supportPoint(self, direction):
         pass
-    
+
     @property
     def pos(self):
         return self.transform.position
-    
+
     @pos.setter
     def pos(self, value):
         self.transform.position = value
-    
+
     @property
     def rot(self):
         return self.transform.rotation
@@ -118,7 +118,7 @@ class SphereCollider(Collider):
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
         self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
-    
+
     def SetSize(self, radius, offset):
         """
         Sets the size of the collider.
@@ -137,7 +137,7 @@ class SphereCollider(Collider):
     @property
     def min(self):
         return self.pos - self.radius
-    
+
     @property
     def max(self):
         return self.pos + self.radius
@@ -150,11 +150,11 @@ class SphereCollider(Collider):
                 relative = (other.pos - self.pos).normalized()
                 dist = self.radius + other.radius - math.sqrt(distance)
                 return Manifold(self, other,
-                    (self.pos + other.pos) / 2,
-                    relative, dist)
+                                (self.pos + other.pos) / 2,
+                                relative, dist)
         else:
             return CollManager.epa(self, other)
-    
+
     def supportPoint(self, direction):
         return self.pos + direction.normalized() * self.radius
 
@@ -185,14 +185,14 @@ class BoxCollider(Collider):
     @property
     def min(self):
         return self.pos - self.rot.RotateVector(self.size / 2)
-    
+
     @property
     def max(self):
         return self.pos + self.rot.RotateVector(self.size / 2)
 
     def collidingWith(self, other):
         return CollManager.epa(self, other)
-    
+
     def supportPoint(self, direction):
         def sign(a):
             return -1 if a < 0 else 1
@@ -233,19 +233,19 @@ class Rigidbody(Component):
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
-        self.inertia = 2/3 * self.mass # (1/6 ms^2)
+        self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
         self.force = Vector3.zero()
         self.torque = Vector3.zero()
         self.gravity = True
-    
+
     @property
     def mass(self):
         if self.inv_mass == 0:
             return Infinity
         return 1 / self.inv_mass
-    
+
     @mass.setter
     def mass(self, val):
         if val == Infinity or val == 0:
@@ -257,7 +257,7 @@ class Rigidbody(Component):
         if self.inv_inertia == 0:
             return Infinity
         return 1 / self.inv_inertia
-    
+
     @inertia.setter
     def inertia(self, val):
         if val == Infinity or val == 0:
@@ -267,19 +267,19 @@ class Rigidbody(Component):
     @property
     def pos(self):
         return self.transform.position
-    
+
     @pos.setter
     def pos(self, val):
         self.transform.position = val
-    
+
     @property
     def rot(self):
         return self.transform.rotation
-    
+
     @rot.setter
     def rot(self, val):
         self.transform.rotation = val
-    
+
     def Move(self, dt):
         """
         Moves all colliders on the GameObject by
@@ -375,7 +375,7 @@ class CollManager:
         self.dummyRigidbody = Rigidbody(None, True)
         self.dummyRigidbody.mass = Infinity
         self.steps = 1
-    
+
     @staticmethod
     def supportPoint(a, b, direction):
         supportA = a.supportPoint(direction)
@@ -394,7 +394,7 @@ class CollManager:
         if length == 4:
             return CollManager.tetraSimplex(args)
         return False
-    
+
     @staticmethod
     def lineSimplex(args):
         a, b = args[0]
@@ -405,7 +405,7 @@ class CollManager:
         else:
             args[0] = [a]
             args[1] = ao
-    
+
     @staticmethod
     def triSimplex(args):
         a, b, c = args[0]
@@ -430,7 +430,7 @@ class CollManager:
                 args[0] = [a, c, b]
                 args[1] = -abc
         return False
-    
+
     @staticmethod
     def tetraSimplex(args):
         a, b, c, d = args[0]
@@ -476,7 +476,7 @@ class CollManager:
             if CollManager.nextSimplex(args):
                 return args[0]
             points, direction = args
-    
+
     @staticmethod
     def epa(a, b):
         # https://blog.winter.dev/2020/epa-algorithm/
@@ -514,11 +514,11 @@ class CollManager:
                 if dst < minDst:
                     minDst = dst
                     curTriangle = triangle
-            
+
             minSupport = CollManager.supportPoint(a, b, curTriangle.normal)
             if curTriangle.normal.dot(minSupport) - minDst < threshold:
                 break
-            
+
             i = 0
             while i < len(triangles):
                 triangle = triangles[i]
@@ -529,31 +529,31 @@ class CollManager:
                     triangles.remove(triangle)
                     continue
                 i += 1
-            
+
             for edge in edges:
                 triangles.append(Triangle(minSupport, edge[0], edge[1]))
-            
+
             edges.clear()
-        
+
         penetration = curTriangle.normal.dot(curTriangle.a)
         u, v, w = CollManager.barycentric(
             curTriangle.normal * penetration,
             curTriangle.a,
             curTriangle.b,
             curTriangle.c)
-        
+
         if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
             return None
         elif math.isnan(u + v + w):
             return None
-        
+
         point = Vector3(
-            u * curTriangle.a.original[0] + \
-            v * curTriangle.b.original[0] + \
+            u * curTriangle.a.original[0] +
+            v * curTriangle.b.original[0] +
             w * curTriangle.c.original[0])
         normal = -curTriangle.normal
         return Manifold(a, b, point, normal, penetration)
-    
+
     @staticmethod
     def AddEdge(edges, a, b):
         if (b, a) in edges:

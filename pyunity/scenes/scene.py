@@ -74,7 +74,7 @@ class Scene:
         -------
         Scene
             A bare scene with no GameObjects
-        
+
         """
         cls = Scene.__new__(Scene)
         cls.name = name
@@ -165,7 +165,7 @@ class Scene:
         -------
         bool
             If the GameObject exists in the scene
-        
+
         """
         return gameObject in self.gameObjects
 
@@ -177,7 +177,7 @@ class Scene:
         ----------
         light : Light
             Light component to register
-        
+
         """
         if isinstance(light, Light):
             self.lights.append(light)
@@ -392,7 +392,7 @@ class Scene:
                         mesh = component.mesh
                         mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
                         mesh.vao = render.gen_array()
-        
+
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.setup_buffers()
 
@@ -503,7 +503,7 @@ class Scene:
         gl.glClearColor(0, 0, 0, 1)
         if self.mainCamera is None:
             return
-        
+
         gl.glClearColor(*(self.mainCamera.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
@@ -516,7 +516,7 @@ class Scene:
         """
         Called when the scene finishes running,
         or stops running.
-        
+
         """
         if self.audioListener is not None:
             self.audioListener.DeInit()

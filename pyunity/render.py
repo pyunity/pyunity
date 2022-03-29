@@ -319,11 +319,11 @@ class Camera(SingleComponent):
             self.size.x / self.size.y,
             self.near,
             self.far)
-        
+
     @property
     def orthoSize(self):
         return self._orthoSize
-    
+
     @orthoSize.setter
     def orthoSize(self, value):
         self._orthoSize = value
@@ -448,7 +448,7 @@ class Camera(SingleComponent):
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
             renderer.Render()
-        
+
         if self.skyboxEnabled:
             gl.glDepthFunc(gl.GL_LEQUAL)
             self.skyboxShader.use()

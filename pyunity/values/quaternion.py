@@ -54,7 +54,7 @@ class Quaternion:
 
     def __len__(self):
         return 4
-    
+
     def __hash__(self):
         return hash((self.w, self.x, self.y, self.z))
 
@@ -80,7 +80,7 @@ class Quaternion:
         else:
             angle, x, y, z = self.angleAxisPair
             return Quaternion.FromAxis((angle * other) % 360, Vector3(x, y, z))
-    
+
     def __imul__(self, other):
         return other * self
 
