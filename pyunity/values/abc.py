@@ -11,6 +11,8 @@ class ABCMessage(ABCException):
 
 class abstractmethod:
     def __init__(self, func):
+        if not callable(func):
+            raise ABCException(f"Function is not callable: {func}")
         self.func = func
         self.args = self.getargs(func)
 
