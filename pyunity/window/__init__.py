@@ -84,6 +84,9 @@ def GetWindowProvider():
             providers.remove(selected)
             providers.insert(0, selected)
 
+    if len(providers) == 0:
+        raise PyUnityException("No window providers installed")
+
     module = importlib.import_module(f".providers.{providers[0]}", __name__)
     Logger.LogLine(Logger.DEBUG, "Trying", module.name, "as a window provider")
     for name in providers:

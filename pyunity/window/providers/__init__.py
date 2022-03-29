@@ -28,6 +28,6 @@ def getProviders():
     global _names, _loaded
     if not _loaded:
         _names = [x.name for x in pkgutil.iter_modules(__path__)]
-        _names.sort(key=sort, reversed=True)
+        _names.sort(key=sort, reverse=True)
         _loaded = True
     return _names
