@@ -5,7 +5,7 @@ This will be imported as ``pyunity.Logger``.
 
 """
 
-__all__ = ["ResetStream", "LogException", "LogSpecial",
+__all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
            "SetStream", "Log", "LogLine", "Save", "Level", "Special"]
 
 import os
@@ -124,6 +124,32 @@ def LogException(e):
         for line2 in line.split("\n"):
             if line2:
                 LogLine(ERROR, line2)
+
+def LogTraceback(exctype, value, tb):
+    """
+    Log an exception.
+
+    Parameters
+    ----------
+    exctype : type
+        Type of exception that is to be raised
+    value : Any
+        Value of the exception contents
+    tb : traceback
+        Traceback object to log
+    
+    Notes
+    -----
+    This function is not meant to be used by general users.
+
+    """
+    exception = traceback.format_exception(exctype, value, tb)
+    for line in exception:
+        for line2 in line.split("\n"):
+            if line2:
+                LogLine(ERROR, line2)
+
+sys.excepthook = LogTraceback
 
 def LogSpecial(level, type):
     """
