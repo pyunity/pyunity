@@ -84,7 +84,7 @@ def GetWindowProvider():
         env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")
-            use = env[0] == settings.db["window_provider"]
+            use = settings.db["window_provider"] in env[0]
         else:
             use = True
         if use:
@@ -92,9 +92,15 @@ def GetWindowProvider():
                 del settings.db["window_cache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
             windowProvider = settings.db["window_provider"]
-            Logger.LogLine(
-                Logger.DEBUG, "Using window provider", windowProvider)
-            return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
+            if windowProvider in providers:
+                Logger.LogLine(
+                    Logger.DEBUG, "Using window provider", windowProvider)
+                return importlib.import_module(f".{providers[windowProvider][0]}", __name__)
+            else:
+                Logger.LogLine(Logger.WARN,
+                    f"settings.json entry {windowProvider} is "
+                    f"not a valid window provider, removing")
+                settings.db.pop("window_provider")
 
     windowProvider = ""
     i = 0
