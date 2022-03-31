@@ -13,6 +13,7 @@ from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
+import hashlib
 import glm
 import itertools
 import os
@@ -107,27 +108,51 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        self.vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
-        gl.glShaderSource(self.vertexShader, self.vertex, 1, None)
-        gl.glCompileShader(self.vertexShader)
+        folder = os.path.join(os.path.dirname(Logger.folder), "ShaderCache")
+        md5 = hashlib.md5(self.vertex.encode("utf-8"))
+        md5.update(self.frag.encode("utf-8"))
+        digest = md5.hexdigest()
 
-        success = gl.glGetShaderiv(self.vertexShader, gl.GL_COMPILE_STATUS)
+        if os.path.isfile(os.path.join(folder, digest + ".bin")):
+            with open(os.path.join(folder, digest + ".bin"), "rb") as f:
+                binary = f.read()
+            
+            binaryFormat = int(binary[0])
+            self.program = gl.glCreateProgram()
+            gl.glProgramBinary(
+                self.program, binaryFormat, binary[1:], len(binary))
+            
+            success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+            if success:
+                self.compiled = True
+                Logger.LogLine(Logger.INFO, "Loaded shader",
+                    repr(self.name), "hash", digest)
+                return
+            else:
+                log = gl.glGetProgramInfoLog(self.program)
+                Logger.LogLine(Logger.WARN, log)
+
+        vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
+        gl.glShaderSource(vertexShader, self.vertex, 1, None)
+        gl.glCompileShader(vertexShader)
+
+        success = gl.glGetShaderiv(vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
-            log = gl.glGetShaderInfoLog(self.vertexShader)
+            log = gl.glGetShaderInfoLog(vertexShader)
             raise PyUnityException(log)
 
-        self.fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
-        gl.glShaderSource(self.fragShader, self.frag, 1, None)
-        gl.glCompileShader(self.fragShader)
+        fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
+        gl.glShaderSource(fragShader, self.frag, 1, None)
+        gl.glCompileShader(fragShader)
 
-        success = gl.glGetShaderiv(self.fragShader, gl.GL_COMPILE_STATUS)
+        success = gl.glGetShaderiv(fragShader, gl.GL_COMPILE_STATUS)
         if not success:
-            log = gl.glGetShaderInfoLog(self.fragShader)
+            log = gl.glGetShaderInfoLog(fragShader)
             raise PyUnityException(log)
 
         self.program = gl.glCreateProgram()
-        gl.glAttachShader(self.program, self.vertexShader)
-        gl.glAttachShader(self.program, self.fragShader)
+        gl.glAttachShader(self.program, vertexShader)
+        gl.glAttachShader(self.program, fragShader)
         gl.glLinkProgram(self.program)
 
         success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
@@ -135,11 +160,22 @@ class Shader:
             log = gl.glGetProgramInfoLog(self.program)
             raise PyUnityException(log)
 
-        gl.glDeleteShader(self.vertexShader)
-        gl.glDeleteShader(self.fragShader)
+        gl.glDeleteShader(vertexShader)
+        gl.glDeleteShader(fragShader)
         self.compiled = True
 
         Logger.LogLine(Logger.INFO, "Compiled shader", repr(self.name))
+
+        length = gl.glGetProgramiv(self.program, gl.GL_PROGRAM_BINARY_LENGTH)
+        out = gl.glGetProgramBinary(self.program, length)
+
+        os.makedirs(folder, exist_ok=True)
+        with open(os.path.join(folder, digest + ".bin"), "wb+") as f:
+            f.write(bytes([out[1]]))
+            f.write(bytes(out[0]))
+        
+        Logger.LogLine(
+            Logger.INFO, "Saved shader", repr(self.name), "hash", digest)
 
     @staticmethod
     def fromFolder(path, name):
