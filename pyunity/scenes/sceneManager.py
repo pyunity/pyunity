@@ -247,17 +247,32 @@ def __loadScene(scene):
         Logger.Save()
         FirstScene = False
     if not windowObject:
+        has_closed = False
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
                 os.environ["PYUNITY_GL_CONTEXT"] = "1"
                 Logger.LogLine(Logger.DEBUG, "Launching window manager")
                 windowObject = config.windowProvider(
                     scene.name, scene.mainCamera.Resize)
+
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                windowObject.refresh()
                 render.fill_screen()
                 windowObject.refresh()
-                Logger.LogLine(Logger.DEBUG, "Compiling shaders")
+                render.fill_screen() # double buffering
+                
+                Logger.LogLine(Logger.DEBUG, "Compiling objects")
+
+                Logger.LogLine(Logger.INFO, "Compiling shaders")
                 render.compile_shaders()
-                scene.mainCamera.skybox.compile()
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+
+                Logger.LogLine(Logger.INFO, "Loading skyboxes")
+                render.compile_skyboxes()
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                done = True
+            except PyUnityExit:
+                has_closed = True
             except Exception:
                 if "window_provider" in settings.db:
                     Logger.LogLine(Logger.WARN, "Detected settings.json entry")
@@ -275,6 +290,8 @@ def __loadScene(scene):
         Logger.LogLine(Logger.DEBUG, "Starting scene")
         scene.Start()
         try:
+            if has_closed:
+                raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
                 windowObject.start(scene.update)
             else:

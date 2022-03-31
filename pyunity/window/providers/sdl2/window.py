@@ -3,6 +3,7 @@
 from pyunity.window import ABCWindow
 from pyunity.values import Clock
 from pyunity.input import KeyCode, KeyState, MouseCode
+from pyunity.errors import PyUnityExit
 from pyunity import config
 import sdl2
 import sdl2.ext
@@ -41,8 +42,12 @@ class Window(ABCWindow):
         sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
 
     def refresh(self):
-        sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
         sdl2.SDL_GL_SwapWindow(self.screen)
+        events = sdl2.ext.get_events()
+        for event in events:
+            if event.type == sdl2.SDL_QUIT:
+                self.quit()
+                raise PyUnityExit
 
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)

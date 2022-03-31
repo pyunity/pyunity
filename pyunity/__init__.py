@@ -185,6 +185,7 @@ __uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
+    Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
 for _obj in tuple(locals().values()): # pragma: no cover
     if not getattr(_obj, "__module__", "").startswith("pyunity."):
@@ -195,4 +196,4 @@ for _obj in tuple(locals().values()): # pragma: no cover
         pass
 
 Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
-Logger.LogSpecial(Logger.INFO, Logger.RUNNING_TIME)
+Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)

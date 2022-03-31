@@ -3,7 +3,7 @@
 import glfw
 import sys
 from pyunity.window import ABCWindow
-from pyunity.errors import *
+from pyunity.errors import PyUnityException, PyUnityExit
 from pyunity.values import Clock
 from pyunity.input import KeyCode, KeyState, MouseCode
 from pyunity import config
@@ -46,8 +46,11 @@ class Window(ABCWindow):
         self.mouse = [KeyState.NONE, KeyState.NONE, KeyState.NONE]
 
     def refresh(self):
-        glfw.make_context_current(self.window)
         glfw.swap_buffers(self.window)
+        glfw.poll_events()
+        if glfw.window_should_close(self.window):
+            self.quit()
+            raise PyUnityExit
 
     def framebuffer_size_callback(self, window, width, height):
         self.resize(width, height)

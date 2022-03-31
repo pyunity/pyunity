@@ -27,7 +27,6 @@ class Window(ABCWindow, message="This window provider has been deprecated since 
         self.winID = glut.glutCreateWindow(name)
 
     def refresh(self):
-        glut.glutSetWindow(self.winID)
         glut.glutSwapBuffers()
 
     def start(self, update_func):

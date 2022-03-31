@@ -245,6 +245,11 @@ def compile_shaders():
         for shader in shaders.values():
             shader.compile()
 
+def compile_skyboxes():
+    if os.environ["PYUNITY_INTERACTIVE"] == "1":
+        for skybox in skyboxes.values():
+            skybox.compile()
+
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.

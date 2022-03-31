@@ -72,10 +72,22 @@ class Special:
 
     """
 
-    def __init__(self, func):
+    def __init__(self, name, func):
+        self.name = name
         self.func = func
 
-RUNNING_TIME = Special(lambda: f"Time taken: {time() - start}")
+class Elapsed:
+    def __init__(self):
+        self.time = time()
+    
+    def tick(self):
+        old = self.time
+        self.time = time()
+        return self.time - old
+
+elapsed = Elapsed()
+RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time() - start))
+ELAPSED_TIME = Special("ELAPSED_TIME", lambda: str(elapsed.tick()))
 
 def Log(*message):
     """
@@ -165,7 +177,7 @@ def LogSpecial(level, type):
         The special line to log
 
     """
-    LogLine(level, type.func())
+    LogLine(level, "(" + type.name + ")", type.func())
 
 @atexit.register
 def Save():
