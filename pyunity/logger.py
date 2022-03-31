@@ -108,15 +108,19 @@ def LogLine(level, *message, silent=False):
         Level or severity of log.
 
     """
+    time = strftime("%Y-%m-%d %H:%M:%S")
     msg = (level.name if level.name is not None else "") + \
         " ".join(map(lambda a: str(a).rstrip(), message))
+    if msg.count("\n") > 0:
+        for line in msg.split("\n"):
+            if not line.isspace():
+                LogLine(level, line, silent=silent)
+        return time, msg
     if os.environ["PYUNITY_DEBUG_MODE"] != "0":
         if level.name is not None and not silent:
             if level == ERROR:
                 sys.stderr.write(msg + "\n")
-            else:
-                stream.write(msg + "\n")
-    time = strftime("%Y-%m-%d %H:%M:%S")
+            stream.write(msg + "\n")
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(f"{time} |{level.abbr}| {msg}\n")
     return time, msg
