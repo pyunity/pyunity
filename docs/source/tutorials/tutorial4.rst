@@ -180,7 +180,7 @@ to be at ``Vector2(0.5, 0.5)``. Likewise, if we wanted our
 rect to be at the bottom right, we can use ``Vector2(1, 1)``.
 
 This applies with two anchors: if we wanted our rect to be 50px
-away from the edges of the window, we would use anchors of
+away from each edge of the window, we would use anchors of
 ``RectAnchors(Vector2(0, 0), Vector2(1, 1))`` and offset of
 ``RectOffset(Vector2(50, 50), Vector2(-50, -50))``. This is how
 we can control the scaling of a rect with respect to the window size.

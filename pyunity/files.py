@@ -58,13 +58,13 @@ class Behaviour(Component):
         """
         pass
 
-    def Update(self):
+    def Update(self, dt):
         """
         Called every frame.
 
         Parameters
         ----------
-        dt : float, optional
+        dt : float
             Time since last frame, sent by the scene 
             that the Behaviour is in.
 
