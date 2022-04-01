@@ -312,6 +312,10 @@ def __loadScene(scene):
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
         del os.environ["PYUNITY_GL_CONTEXT"]
+        render.reset_shaders()
+        Logger.LogLine(Logger.INFO, "Reset shaders")
+        render.reset_skyboxes()
+        Logger.LogLine(Logger.INFO, "Reset skyboxes")
         windowObject = None
     else:
         scene.Start()

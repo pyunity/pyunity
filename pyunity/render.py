@@ -109,9 +109,9 @@ class Shader:
 
         """
         folder = os.path.join(os.path.dirname(Logger.folder), "ShaderCache")
-        md5 = hashlib.md5(self.vertex.encode("utf-8"))
-        md5.update(self.frag.encode("utf-8"))
-        digest = md5.hexdigest()
+        sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
+        sha256.update(self.frag.encode("utf-8"))
+        digest = sha256.hexdigest()
 
         if os.path.isfile(os.path.join(folder, digest + ".bin")):
             with open(os.path.join(folder, digest + ".bin"), "rb") as f:
@@ -285,6 +285,14 @@ def compile_skyboxes():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
         for skybox in skyboxes.values():
             skybox.compile()
+
+def reset_shaders():
+    for shader in shaders.values():
+        shader.compiled = False
+
+def reset_skyboxes():
+    for skybox in skyboxes.values():
+        skybox.compiled = False
 
 class Camera(SingleComponent):
     """
