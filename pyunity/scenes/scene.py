@@ -514,6 +514,38 @@ class Scene:
         self.mainCamera.Render(renderers, self.lights)
         self.mainCamera.Render2D(canvases)
 
+        fbo = gl.glGenFramebuffers(1)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, fbo)
+        tex = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, tex)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *self.mainCamera.size,
+            0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+        
+        rbo = gl.glGenRenderbuffers(1)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, rbo)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *self.mainCamera.size)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, rbo)
+        gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, tex, 0)
+        gl.glDrawBuffers(1, convert(gl.GLenum, [gl.GL_COLOR_ATTACHMENT0]))
+
+        if (gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) != 
+                gl.GL_FRAMEBUFFER_COMPLETE):
+            raise PyUnityException("Framebuffer setup failed")
+        
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, fbo)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        self.mainCamera.Resize(*self.mainCamera.size)
+        self.mainCamera.Render(renderers, self.lights)
+        self.mainCamera.Render2D(canvases)
+
+        data = gl.glReadPixels(0, 0, *self.mainCamera.size,
+            gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
+        im = Image.frombytes("RGB", tuple(self.mainCamera.size), data)
+        im.rotate(180).save("test.png")
+        raise PyUnityExit
+
     def clean_up(self):
         """
         Called when the scene finishes running,
