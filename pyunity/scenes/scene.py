@@ -12,12 +12,13 @@ __all__ = ["Scene"]
 
 from ..audio import *
 from ..core import *
-from ..files import Behaviour
+from ..files import Behaviour, convert
 from ..values import Vector3, Quaternion
 from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
 from .. import render
+from PIL import Image
 from inspect import signature
 from time import time
 import os
@@ -507,10 +508,11 @@ class Scene:
         gl.glClearColor(*(self.mainCamera.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
+        renderers = self.FindComponentsByType(MeshRenderer)
+        canvases = self.FindComponentsByType(Canvas)
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(
-            self.FindComponentsByType(MeshRenderer), self.lights)
-        self.mainCamera.Render2D(self.FindComponentsByType(Canvas))
+        self.mainCamera.Render(renderers, self.lights)
+        self.mainCamera.Render2D(canvases)
 
     def clean_up(self):
         """
