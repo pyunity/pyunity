@@ -120,7 +120,8 @@ def LogLine(level, *message, silent=False):
         if level.name is not None and not silent:
             if level == ERROR:
                 sys.stderr.write(msg + "\n")
-            stream.write(msg + "\n")
+            else:
+                stream.write(msg + "\n")
     with open(os.path.join(folder, "latest.log"), "a") as f:
         f.write(f"{time} |{level.abbr}| {msg}\n")
     return time, msg

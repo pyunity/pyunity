@@ -1,4 +1,5 @@
 from ..scenes import SceneManager
+from ..errors import PyUnityException
 from .. import Logger
 import sys
 import os
@@ -10,7 +11,11 @@ broken = [3]
 directory = os.path.dirname(os.path.abspath(__file__))
 
 def load_example(i):
-    module = importlib.import_module(f".example{i}", __name__)
+    try:
+        module = importlib.import_module(f".example{i}", __name__)
+    except ImportError:
+        raise PyUnityException(f"Invalid example: {i!r}")
+    Logger.Log("\nExample", i)
     module.main()
     SceneManager.RemoveAllScenes()
 
@@ -20,14 +25,13 @@ def show(num=None):
                        ", ".join(map(str, broken)))
     if num is None:
         if len(sys.argv) == 1:
-            num = 0
+            num = "0"
         else:
-            num = int(sys.argv[1])
-    if num == 0:
+            num = sys.argv[1]
+    if num == "0":
         for i in range(1, len(glob.glob(os.path.join(directory, "example*"))) + 1):
             if i in broken:
                 continue
-            Logger.Log("\nExample", i)
             load_example(i)
     else:
         load_example(num)
