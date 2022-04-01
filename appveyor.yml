@@ -36,7 +36,7 @@ for:
         - image: Ubuntu2004
         - image: macos
     install:
-      - source ../../venv$version/bin/activate
+      - source $HOME/venv$version/bin/activate
       - python -m pip install --pre cython wheel pyglm pillow autopep8
 
 build: off
