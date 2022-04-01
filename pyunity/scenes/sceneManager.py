@@ -7,7 +7,6 @@ of Scenes.
 __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene", "LoadSceneByName",
            "CurrentScene", "AddScene", "LoadScene", "RemoveAllScenes", "GetSceneByIndex"]
 
-import threading
 from ..core import *
 from .. import config, settings
 from ..errors import *
@@ -16,6 +15,7 @@ from .. import logger as Logger
 from .. import render
 import os
 import copy
+# import threading
 
 scenesByIndex = []
 scenesByName = {}
@@ -260,6 +260,14 @@ def __loadScene(scene):
                 render.fill_screen()
                 windowObject.refresh()
                 render.fill_screen() # double buffering
+
+                # done = False
+                # def loop():
+                #     while not done:
+                #         windowObject.refresh()
+                # t = threading.Thread(target=loop)
+                # t.daemon = True
+                # t.start()
                 
                 Logger.LogLine(Logger.DEBUG, "Compiling objects")
 
@@ -270,7 +278,9 @@ def __loadScene(scene):
                 Logger.LogLine(Logger.INFO, "Loading skyboxes")
                 render.compile_skyboxes()
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-                done = True
+
+                # done = True
+                # t.join()
             except PyUnityExit:
                 has_closed = True
             except Exception:
