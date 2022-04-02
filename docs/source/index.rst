@@ -3,7 +3,7 @@ Welcome to PyUnity's documentation!
 ===================================
 
 Version 0.8.3 (in development)
-------------------------------
+==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
 Game Engine. This does not mean that PyUnity
@@ -63,20 +63,20 @@ first see the `contributing guidelines <https://github.com/pyunity/pyunity/blob/
 check out the latest `issues <https://github.com/pyunity/pyunity/issues>`_
 and make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
+.. only:: html
+   .. toctree::
+      :maxdepth: 1
+      :caption: Contents:
 
-   releases
-   tutorials/tutorials
-   links
-   license
-   api
+      releases
+      tutorials/tutorials
+      links
+      license
+      api
 
+   Indices and tables
+   ------------------
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
