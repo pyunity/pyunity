@@ -1,4 +1,4 @@
-__all__ = ["Canvas", "RectData", "RectAnchors",
+__all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader", "GuiComponent",
            "NoResponseGuiComponent", "CheckBox",
@@ -11,11 +11,13 @@ from .files import Texture2D
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
 from .render import Screen
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, features
 from types import FunctionType
 import os
 import sys
 import enum
+
+RAQM_SUPPORT = features.check("raqm")
 
 class Canvas(Component):
     """
@@ -374,6 +376,38 @@ class _FontLoader:
         fontobj = Font(name, size, font)
         cls.fonts[name][size] = fontobj
         return fontobj
+    
+    @classmethod
+    def FromFile(cls, name, file, size):
+        """
+        Loads a font file into PyUnity.
+
+        Parameters
+        ----------
+        name : str
+            Font name
+        file : str
+            Path to the font file
+        size : int
+            Size in points of the font
+
+        Returns
+        -------
+        Font
+            The loaded font, or a preloaded one
+        
+        """
+        if os.getenv("PYUNITY_TESTING") is not None:
+            return None
+        if name in cls.fonts:
+            if size in cls.fonts[name]:
+                return cls.fonts[name][size]
+        else:
+            cls.fonts[name] = {}
+        font = ImageFont.truetype(file, size)
+        fontobj = Font(name, size, font)
+        cls.fonts[name][size] = fontobj
+        return fontobj
 
     @classmethod
     def LoadFile(cls, name):
@@ -545,8 +579,14 @@ class Text(NoResponseGuiComponent):
         size = (rect.max - rect.min).abs()
         im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
 
+        if RAQM_SUPPORT:
+            ft = "-liga"
+        else:
+            ft = None
+        
         draw = ImageDraw.Draw(im)
-        width, height = draw.textsize(self.text, font=self.font._font)
+        width, height = draw.textsize(self.text, font=self.font._font,
+            features=ft)
         if self.centeredX == TextAlign.Left:
             offX = 0
         elif self.centeredX == TextAlign.Center:
@@ -561,7 +601,7 @@ class Text(NoResponseGuiComponent):
             offY = size.y - height
 
         draw.text((offX, offY), self.text, font=self.font._font,
-                  fill=tuple(self.color))
+                  fill=tuple(self.color), features=ft)
         if self.texture is not None:
             self.texture.setImg(im)
         else:
