@@ -1,1 +1,4 @@
 docutils
+pyopengl
+pysdl2
+pillow
