@@ -63,20 +63,19 @@ first see the `contributing guidelines <https://github.com/pyunity/pyunity/blob/
 check out the latest `issues <https://github.com/pyunity/pyunity/issues>`_
 and make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
 
-.. only:: html
-   .. toctree::
-      :maxdepth: 1
-      :caption: Contents:
+.. toctree::
+    :maxdepth: 1
+    :caption: Contents:
 
-      releases
-      tutorials/tutorials
-      links
-      license
-      api
+    releases
+    tutorials/tutorials
+    links
+    license
+    api
 
-   Indices and tables
-   ------------------
+Indices and tables
+------------------
 
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :ref:`search`
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

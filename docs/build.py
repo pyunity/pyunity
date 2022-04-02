@@ -18,11 +18,11 @@ if result != 0:
 with open("docs/source/api/pyunity.rst") as f:
     lines = f.read().splitlines()[:-8]
 
-lines.insert(0, "=================")
 lines[0] = "API Documentation"
 lines[1] = "================="
 lines.insert(2, "Information on specific functions, classes, and methods.")
 lines.insert(2, "")
+lines.insert(0, "=================")
 for i in range(len(lines)):
     if lines[i].startswith("   pyunity"):
         lines[i] = "   api/" + lines[i][3:]
