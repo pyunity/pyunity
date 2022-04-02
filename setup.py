@@ -29,7 +29,7 @@ if os.environ["cython"] == "1":
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
         "package_data": {"pyunity": [file[4:] for file in data_files]},
     }
-    VERSIONFILE="src/_version.py"
+    versionfile = "src/_version.py"
 else:
     data_files = list(filter(lambda a: ".py" not in a,
                       glob.glob("pyunity/**/*.*", recursive=True)))
@@ -37,15 +37,15 @@ else:
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in data_files]},
     }
-    VERSIONFILE="pyunity/_version.py"
+    versionfile = "pyunity/_version.py"
 
-verstrline = open(VERSIONFILE, "r").read()
-VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
-mo = re.search(VSRE, verstrline, re.M)
-if mo:
-    version = mo.group(1)
+verstrline = open(versionfile, "r").read()
+versionexp = r"^__version__ = ['\"]([^'\"]*)['\"]"
+match = re.search(versionexp, verstrline, re.M)
+if match:
+    version = match.group(1)
 else:
-    raise RuntimeError(f"Unable to find version string in {VERSIONFILE}")
+    raise RuntimeError(f"Unable to find version string in {versionfile}")
 
 setup(
     name="pyunity",
