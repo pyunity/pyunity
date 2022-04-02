@@ -1,16 +1,13 @@
 pyunity.window package
 ======================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   pyunity.window.glfwWindow
-   pyunity.window.glutWindow
-   pyunity.window.sdl2Window
-   pyunity.window.templateWindow
+   pyunity.window.providers
 
 Module contents
 ---------------

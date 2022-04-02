@@ -2,8 +2,14 @@ import subprocess
 import sys
 import os
 
+providers = []
+for folder in os.listdir("pyunity/window/providers"):
+    path = os.path.join("pyunity/window/providers", folder)
+    if os.path.isdir(path):
+        providers.append(path)
+
 result = subprocess.call(["sphinx-apidoc", "-e", "-f", "-T", "-o",
-                "docs/source/api/", "pyunity", "pyunity/config.py", "pyunity/examples/"],
+                "docs/source/api/", "pyunity", "pyunity/config.py", "pyunity/examples/", *providers],
                 env={**os.environ, "SPHINX_APIDOC_OPTIONS": "members,undoc-members,show-inheritance"})
 
 if result != 0:

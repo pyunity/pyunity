@@ -165,7 +165,8 @@ def cythonize(error=False):
                 continue
             dirpath, file = os.path.split(path)
             print(file)
-            if file.endswith(".py") and not file.startswith("__"):
+            if (file.endswith(".py") and not file.startswith("__") and
+                    file != "_version.py"):
                 if path.startswith(os.path.join("pyunity", "window", "providers")):
                     continue
                 code = os.system("cythonize -3 -q " + path)
@@ -177,6 +178,7 @@ def cythonize(error=False):
                     break
                 op = shutil.move
             else:
+                # _version.py should go here
                 srcPath = os.path.join(dirpath, file)
                 op = shutil.copy
             destPath = os.path.join("src", os.path.dirname(srcPath[8:]))

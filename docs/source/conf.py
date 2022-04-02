@@ -37,7 +37,7 @@ copyright = "2020-2021, The PyUnity Team"
 author = "Ray Chen"
 
 # The full version, including alpha/beta/rc tags
-release = "0.8.3"
+release = pyunity.__version__
 
 
 # -- General configuration ---------------------------------------------------

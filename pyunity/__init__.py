@@ -174,8 +174,8 @@ from . import loader as Loader # lgtm[py/import-own-module]
 from .loader import Primitives
 from .input import *
 from .gui import *
+from ._version import __version__
 
-__version__ = "0.8.3"
 __copyright__ = "Copyright 2020-2021 Ray Chen"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"

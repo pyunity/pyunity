@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages, Extension
 import os
+import re
 import glob
+
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
@@ -27,6 +29,7 @@ if os.environ["cython"] == "1":
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
         "package_data": {"pyunity": [file[4:] for file in data_files]},
     }
+    VERSIONFILE="src/_version.py"
 else:
     data_files = list(filter(lambda a: ".py" not in a,
                       glob.glob("pyunity/**/*.*", recursive=True)))
@@ -34,10 +37,19 @@ else:
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in data_files]},
     }
+    VERSIONFILE="pyunity/_version.py"
+
+verstrline = open(VERSIONFILE, "r").read()
+VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+mo = re.search(VSRE, verstrline, re.M)
+if mo:
+    version = mo.group(1)
+else:
+    raise RuntimeError(f"Unable to find version string in {VERSIONFILE}")
 
 setup(
     name="pyunity",
-    version="0.8.3",
+    version=version,
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
