@@ -1,6 +1,1 @@
-docutils<0.18
-pysdl2-dll
-pyopengl
-pysdl2
-pillow
-glfw
+docutils
