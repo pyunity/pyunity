@@ -19,7 +19,7 @@ _loaded = False
 _names = []
 
 def sort(x):
-    module = importlib.import_module(f".{x}", __name__)
+    module = importlib.import_module(f".{x}.checker", __name__)
     if hasattr(module, "prio"):
         return module.prio
     return 0
