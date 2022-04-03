@@ -16,6 +16,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: ${{ matrix.architecture }}
       - name: Build wheel
+        env:
+          PYUNITY_TESTING: 1
         run: |
           python -m pip install --pre cython wheel pyglm pillow autopep8
           python prepare.py
