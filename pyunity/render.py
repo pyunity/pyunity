@@ -525,24 +525,26 @@ class Camera(SingleComponent):
             self.shader.setVec3(lightName + b"color",
                                 light.color.to_rgb() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
+            direction = light.transform.rotation.RotateVector(Vector3.forward())
             self.shader.setVec3(lightName + b"dir",
-                                light.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1))
+                                direction * Vector3(1, 1, -1))
+            gl.glActiveTexture(gl.GL_TEXTURE1 + i)
+            gl.glBindTexture(gl.GL_TEXTURE_2D, light.depthMap)
+            self.shader.setInt(f"shadowMaps[{i}]".encode(), i + 1)
 
-    def SetupDepthShader(self, lights):
+    def SetupDepthShader(self, light):
         self.depthShader.use()
-        for i in range(len(lights)):
-            proj = glm.ortho(-10, 10, -10, 10, self.near, self.far)
-            pos = lights[i].transform.position * Vector3(1, 1, -1)
-            look = pos + \
-                lights[i].transform.rotation.RotateVector(
-                    Vector3.forward()) * Vector3(1, 1, -1)
-            up = lights[i].transform.rotation.RotateVector(
-                Vector3.up()) * Vector3(1, 1, -1)
-            view = glm.lookAt(list(pos), list(look), list(up))
-            lights[i].lightSpaceMatrix = proj * view
+        proj = glm.ortho(-10, 10, -10, 10, 0.03, 15)
+        pos = light.transform.position * Vector3(1, 1, -1)
+        look = pos + light.transform.rotation.RotateVector(
+            Vector3.forward()) * Vector3(1, 1, -1)
+        up = light.transform.rotation.RotateVector(
+            Vector3.up()) * Vector3(1, 1, -1)
+        view = glm.lookAt(list(pos), list(look), list(up))
+        light.lightSpaceMatrix = proj * view
 
-            location = f"lightSpaceMatrices[{i}]".encode()
-            self.depthShader.setMat4(location, lights[i].lightSpaceMatrix)
+        location = b"lightSpaceMatrix"
+        self.depthShader.setMat4(location, light.lightSpaceMatrix)
 
     def Draw(self, renderers, lights):
         """
@@ -582,12 +584,13 @@ class Camera(SingleComponent):
                 light.setupBuffers(self.depthMapSize)
             gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
             gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
-            self.SetupDepthShader(lights)
+            self.SetupDepthShader(light)
             gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
             gl.glCullFace(gl.GL_FRONT)
             self.DrawDepth(renderers)
             gl.glCullFace(gl.GL_BACK)
 
+        # from PIL import Image
         # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
         #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
         # im = Image.fromarray(data, "L")
@@ -598,13 +601,10 @@ class Camera(SingleComponent):
         gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.SetupShader(lights)
-        gl.glBindTexture(gl.GL_TEXTURE_2D, lights[0].depthMap)
         self.Draw(renderers, lights)
 
         self.RenderSkybox()
         self.Draw2D(canvases)
-
-        # raise PyUnityExit
 
     def RenderSkybox(self):
         if self.skyboxEnabled:
