@@ -321,6 +321,29 @@ class Light(SingleComponent):
     color = ShowInInspector(Color, RGB(255, 255, 255))
     type = ShowInInspector(LightType, LightType.Directional)
 
+    def setupBuffers(self, depthMapSize):
+        self.depthFBO = gl.glGenFramebuffers(1)
+        self.depthMap = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT, 
+            depthMapSize, depthMapSize, 0, gl.GL_DEPTH_COMPONENT,
+            gl.GL_FLOAT, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
+            gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
+            gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S,
+            gl.GL_REPEAT) 
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T,
+            gl.GL_REPEAT)
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
+        gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
+            gl.GL_TEXTURE_2D, self.depthMap, 0)
+        gl.glDrawBuffer(gl.GL_NONE)
+        gl.glReadBuffer(gl.GL_NONE)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
@@ -383,24 +406,6 @@ class Camera(SingleComponent):
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
-        
-        # Depthmap
-        self.depthFBO = gl.glGenFramebuffers(1)
-        self.depthMap = gl.glGenTextures(1)
-        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
-        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT, 
-            self.depthMapSize, self.depthMapSize, 0, gl.GL_DEPTH_COMPONENT, gl.GL_FLOAT, None)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT) 
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_REPEAT)
-
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
-        gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
-            gl.GL_TEXTURE_2D, self.depthMap, 0)
-        gl.glDrawBuffer(gl.GL_NONE)
-        gl.glReadBuffer(gl.GL_NONE)
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
     @property
     def fov(self):
@@ -524,20 +529,22 @@ class Camera(SingleComponent):
                                 light.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1))
 
     def SetupDepthShader(self, lights):
-        proj = glm.ortho(-10, 10, -10, 10, self.near, self.far)
-        pos = lights[0].transform.position * Vector3(1, 1, -1)
-        look = pos + \
-            lights[0].transform.rotation.RotateVector(
-                Vector3.forward()) * Vector3(1, 1, -1)
-        up = lights[0].transform.rotation.RotateVector(
-            Vector3.up()) * Vector3(1, 1, -1)
-        view = glm.lookAt(list(pos), list(look), list(up))
-        self.lightSpaceMatrix = proj * view
-
         self.depthShader.use()
-        self.depthShader.setMat4(b"lightSpaceMatrices[0]", self.lightSpaceMatrix)
+        for i in range(len(lights)):
+            proj = glm.ortho(-10, 10, -10, 10, self.near, self.far)
+            pos = lights[i].transform.position * Vector3(1, 1, -1)
+            look = pos + \
+                lights[i].transform.rotation.RotateVector(
+                    Vector3.forward()) * Vector3(1, 1, -1)
+            up = lights[i].transform.rotation.RotateVector(
+                Vector3.up()) * Vector3(1, 1, -1)
+            view = glm.lookAt(list(pos), list(look), list(up))
+            lights[i].lightSpaceMatrix = proj * view
 
-    def Draw(self, renderers):
+            location = f"lightSpaceMatrices[{i}]".encode()
+            self.depthShader.setMat4(location, lights[i].lightSpaceMatrix)
+
+    def Draw(self, renderers, lights):
         """
         Draw specific renderers, taking into account light positions.
 
@@ -550,11 +557,13 @@ class Camera(SingleComponent):
 
         """
         self.shader.use()
+        for i in range(len(lights)):
+            location = f"lightSpaceMatrices[{i}]".encode()
+            self.shader.setMat4(location, lights[i].lightSpaceMatrix)
         for renderer in renderers:
             model = self.getMatrix(renderer.transform)
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
             self.shader.setMat4(b"model", model)
-            self.shader.setMat4(b"lightSpaceMatrices[0]", self.lightSpaceMatrix)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
@@ -568,13 +577,16 @@ class Camera(SingleComponent):
             renderer.Render()
     
     def Render(self, renderers, lights, canvases):
-        gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
-        self.SetupDepthShader(lights)
-        gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
-        gl.glCullFace(gl.GL_FRONT)
-        self.DrawDepth(renderers)
-        gl.glCullFace(gl.GL_BACK)
+        for light in lights:
+            if not hasattr(light, "depthFBO"):
+                light.setupBuffers(self.depthMapSize)
+            gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
+            gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
+            self.SetupDepthShader(lights)
+            gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
+            gl.glCullFace(gl.GL_FRONT)
+            self.DrawDepth(renderers)
+            gl.glCullFace(gl.GL_BACK)
 
         # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
         #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
@@ -586,8 +598,8 @@ class Camera(SingleComponent):
         gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.SetupShader(lights)
-        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
-        self.Draw(renderers)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, lights[0].depthMap)
+        self.Draw(renderers, lights)
 
         self.RenderSkybox()
         self.Draw2D(canvases)
