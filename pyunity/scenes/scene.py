@@ -54,7 +54,7 @@ class Scene:
         self.mainCamera.AddComponent(AudioListener)
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
-        light.transform.localRotation = Quaternion.Euler(Vector3(-45, 45, 0))
+        light.transform.LookAtPoint(Vector3.zero())
         self.gameObjects = [self.mainCamera.gameObject, light]
         component = light.AddComponent(Light)
         self.lights = [component]
@@ -505,14 +505,10 @@ class Scene:
         if self.mainCamera is None:
             return
 
-        gl.glClearColor(*(self.mainCamera.clearColor.to_rgb() / 255), 1)
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
-
         renderers = self.FindComponentsByType(MeshRenderer)
         canvases = self.FindComponentsByType(Canvas)
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(renderers, self.lights)
-        self.mainCamera.Render2D(canvases)
+        self.mainCamera.Render(renderers, self.lights, canvases)
 
     def clean_up(self):
         """

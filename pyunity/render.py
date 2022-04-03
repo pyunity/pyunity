@@ -8,11 +8,14 @@ __all__ = ["Camera", "Screen", "Shader"]
 from typing import Dict
 from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
+
+import numpy as np
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
-from .errors import PyUnityException
+from .errors import *
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
+from PIL import Image
 import hashlib
 import glm
 import itertools
@@ -275,6 +278,7 @@ skyboxes["Water"] = Skybox(os.path.join(
 Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
 Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
 Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
+Shader.fromFolder(os.path.join(__dir, "shaders", "depth"), "Depth")
 
 def compile_shaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -316,12 +320,14 @@ class Camera(SingleComponent):
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
+    depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
         self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
+        self.depthShader = shaders["Depth"]
         self.clearColor = RGB(0, 0, 0)
 
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
@@ -354,6 +360,24 @@ class Camera(SingleComponent):
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
             0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
+        
+        # Depthmap
+        self.depthFBO = gl.glGenFramebuffers(1)
+        self.depthMap = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT, 
+            self.depthMapSize, self.depthMapSize, 0, gl.GL_DEPTH_COMPONENT, gl.GL_FLOAT, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT) 
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_REPEAT)
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
+        gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
+            gl.GL_TEXTURE_2D, self.depthMap, 0)
+        gl.glDrawBuffer(gl.GL_NONE)
+        gl.glReadBuffer(gl.GL_NONE)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
     @property
     def fov(self):
@@ -453,26 +477,14 @@ class Camera(SingleComponent):
     def UseShader(self, name):
         """Sets current shader from name."""
         self.shader = shaders[name]
-
-    def Render(self, renderers, lights):
-        """
-        Render specific renderers, taking into account light positions.
-
-        Parameters
-        ==========
-        renderers : List[MeshRenderer]
-            Which meshes to render
-        lights : List[Light]
-            Lights to load into shader
-
-        """
+    
+    def SetupShader(self, lights):
         self.shader.use()
-        viewMat = self.getViewMat()
         if self.ortho:
             self.shader.setMat4(b"projection", self.orthoMat)
         else:
             self.shader.setMat4(b"projection", self.projMat)
-        self.shader.setMat4(b"view", viewMat)
+        self.shader.setMat4(b"view", self.getViewMat())
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
 
@@ -486,30 +498,93 @@ class Camera(SingleComponent):
                                 light.color.to_rgb() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
             self.shader.setVec3(lightName + b"dir",
-                                light.transform.rotation.RotateVector(Vector3.forward()))
+                                light.transform.rotation.RotateVector(Vector3.forward()) * Vector3(1, 1, -1))
 
+    def SetupDepthShader(self, lights):
+        proj = glm.ortho(-10, 10, -10, 10, self.near, self.far)
+        pos = lights[0].transform.position * Vector3(1, 1, -1)
+        look = pos + \
+            lights[0].transform.rotation.RotateVector(
+                Vector3.forward()) * Vector3(1, 1, -1)
+        up = lights[0].transform.rotation.RotateVector(
+            Vector3.up()) * Vector3(1, 1, -1)
+        view = glm.lookAt(list(pos), list(look), list(up))
+        self.lightSpaceMatrix = proj * view
+
+        self.depthShader.use()
+        self.depthShader.setMat4(b"lightSpaceMatrices[0]", self.lightSpaceMatrix)
+
+    def Draw(self, renderers):
+        """
+        Draw specific renderers, taking into account light positions.
+
+        Parameters
+        ==========
+        renderers : List[MeshRenderer]
+            Which meshes to render
+        lights : List[Light]
+            Lights to load into shader
+
+        """
+        self.shader.use()
         for renderer in renderers:
+            model = self.getMatrix(renderer.transform)
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
-            self.shader.setMat4(
-                b"model", self.getMatrix(renderer.transform))
+            self.shader.setMat4(b"model", model)
+            self.shader.setMat4(b"lightSpaceMatrices[0]", self.lightSpaceMatrix)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
             renderer.Render()
+    
+    def DrawDepth(self, renderers):
+        self.depthShader.use()
+        for renderer in renderers:
+            model = self.getMatrix(renderer.transform)
+            self.depthShader.setMat4(b"model", model)
+            renderer.Render()
+    
+    def Render(self, renderers, lights, canvases):
+        gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
+        self.SetupDepthShader(lights)
+        gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
+        gl.glCullFace(gl.GL_FRONT)
+        self.DrawDepth(renderers)
+        gl.glCullFace(gl.GL_BACK)
 
+        # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
+        #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
+        # im = Image.fromarray(data, "L")
+        # im.rotate(180).save("test.png")
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+        gl.glViewport(0, 0, *self.size)
+        gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        self.SetupShader(lights)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
+        self.Draw(renderers)
+
+        self.RenderSkybox()
+        self.Draw2D(canvases)
+
+        # raise PyUnityExit
+
+    def RenderSkybox(self):
         if self.skyboxEnabled:
             gl.glDepthFunc(gl.GL_LEQUAL)
             self.skyboxShader.use()
-            self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+            self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(self.getViewMat())))
             self.skyboxShader.setMat4(b"projection", self.projMat)
             self.skybox.use()
             gl.glBindVertexArray(self.skybox.vao)
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 
-    def Render2D(self, canvases):
+    def Draw2D(self, canvases):
         """
-        Render all Image2D and Text components in specified canvases.
+        Draw all Image2D and Text components in specified canvases.
 
         Parameters
         ==========
