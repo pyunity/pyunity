@@ -54,9 +54,11 @@ sometimes broken, so use at your own risk.
     > python setup.py install
 
 Its only dependencies are PyOpenGL, PySDL2,
-GLFW, Pillow and PyGLM. Microsoft Visual
+Pillow and PyGLM. Microsoft Visual
 C++ Build Tools are required on Windows
-for building yourself.
+for building yourself. GLFW can be optionally
+installed if you would like to use the GLFW
+window provider.
 
 ### Links
 
