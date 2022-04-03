@@ -54,15 +54,19 @@ class Level:
 
     """
 
-    def __init__(self, abbr, name):
+    def __init__(self, abbr):
         self.abbr = abbr
-        self.name = name
+    
+    def __eq__(self, other):
+        if isinstance(other, Level):
+            return self.abbr == other.abbr
+        return False
 
-OUTPUT = Level("O", "")
-INFO = Level("I", None)
-DEBUG = Level("D", "")
-ERROR = Level("E", "")
-WARN = Level("W", "Warning: ")
+OUTPUT = Level("O")
+INFO = Level("I")
+DEBUG = Level("D")
+ERROR = Level("E")
+WARN = Level("W")
 
 class Special:
     """
@@ -109,15 +113,22 @@ def LogLine(level, *message, silent=False):
 
     """
     time = strftime("%Y-%m-%d %H:%M:%S")
-    msg = (level.name if level.name is not None else "") + \
-        " ".join(map(lambda a: str(a).rstrip(), message))
+    msg = " ".join(map(lambda a: str(a).rstrip(), message))
+    if level == WARN:
+        msg = "Warning: " + msg
     if msg.count("\n") > 0:
         for line in msg.split("\n"):
             if not line.isspace():
                 LogLine(level, line, silent=silent)
         return time, msg
-    if os.environ["PYUNITY_DEBUG_MODE"] != "0":
-        if level.name is not None and not silent:
+    if not silent:
+        output = False
+        if level == DEBUG:
+            if os.environ["PYUNITY_DEBUG_MODE"] != "0":
+                output = True
+        elif level != INFO:
+            output = True
+        if output:
             if level == ERROR:
                 sys.stderr.write(msg + "\n")
             else:
