@@ -46,12 +46,11 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "SingleComponent",
+__all__ = ["Component", "GameObject", "SingleComponent",
            "MeshRenderer", "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "LightType"]
+           "HideInInspector"]
 
 import inspect
-import enum
 import os
 from .errors import *
 from .meshes import Mesh
@@ -195,9 +194,6 @@ class GameObject:
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
-            elif issubclass(componentClass, Light):
-                if self.scene is not None:
-                    self.scene.RegisterLight(component)
 
             component.gameObject = self
             component.transform = self.transform
@@ -694,31 +690,6 @@ class Transform(SingleComponent):
     def __str__(self):
         return (f"<Transform position={self.position} rotation={self.rotation}"
                 f" scale={self.scale} path={self.FullPath()!r}>")
-
-class LightType(enum.IntEnum):
-    Point = 0
-    Directional = 1
-    Spot = 2
-
-class Light(SingleComponent):
-    """
-    Component to hold data about the light in a scene.
-
-    Attributes
-    ----------
-    intensity : int
-        Intensity of light
-    color : Color
-        Light color (will mix with material color)
-    type : LightType
-        Type of light (currently only Point and
-        Directional are supported)
-
-    """
-
-    intensity = ShowInInspector(int, 20)
-    color = ShowInInspector(Color, RGB(255, 255, 255))
-    type = ShowInInspector(LightType, LightType.Directional)
 
 class MeshRenderer(SingleComponent):
     """

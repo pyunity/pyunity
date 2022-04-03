@@ -147,13 +147,15 @@ create a new pull request.
 """
 
 from . import logger as Logger # lgtm[py/import-own-module]
-from . import config, errors, values, core, files, audio, physics, input, gui
-__all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
-           "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
+from . import (config, errors, values, core, files, render, audio,
+               physics, input, gui)
+__all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
+           "SceneManager", "Mesh"]
 __all__.extend(errors.__all__)
 __all__.extend(values.__all__)
 __all__.extend(core.__all__)
 __all__.extend(files.__all__)
+__all__.extend(render.__all__)
 __all__.extend(audio.__all__)
 __all__.extend(physics.__all__)
 __all__.extend(input.__all__)
@@ -167,7 +169,7 @@ from .core import *
 from .physics import *
 from .audio import *
 from .files import *
-from .render import Camera, Screen, Shader
+from .render import *
 from .scenes import sceneManager as SceneManager
 from . import window as Window # lgtm[py/import-own-module]
 from . import loader as Loader # lgtm[py/import-own-module]

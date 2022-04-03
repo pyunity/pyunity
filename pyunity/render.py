@@ -3,19 +3,17 @@ Classes to aid in rendering in a Scene.
 
 """
 
-__all__ = ["Camera", "Screen", "Shader"]
+__all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from typing import Dict
-from OpenGL import GL as gl
-from ctypes import c_float, c_ubyte, c_void_p
-
-import numpy as np
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import *
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
-from PIL import Image
+from typing import Dict
+from OpenGL import GL as gl
+from ctypes import c_float, c_ubyte, c_void_p
+import enum
 import hashlib
 import glm
 import itertools
@@ -297,6 +295,31 @@ def reset_shaders():
 def reset_skyboxes():
     for skybox in skyboxes.values():
         skybox.compiled = False
+
+class LightType(enum.IntEnum):
+    Point = 0
+    Directional = 1
+    Spot = 2
+
+class Light(SingleComponent):
+    """
+    Component to hold data about the light in a scene.
+
+    Attributes
+    ----------
+    intensity : int
+        Intensity of light
+    color : Color
+        Light color (will mix with material color)
+    type : LightType
+        Type of light (currently only Point and
+        Directional are supported)
+
+    """
+
+    intensity = ShowInInspector(int, 20)
+    color = ShowInInspector(Color, RGB(255, 255, 255))
+    type = ShowInInspector(LightType, LightType.Directional)
 
 class Camera(SingleComponent):
     """

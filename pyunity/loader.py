@@ -16,7 +16,7 @@ from .core import *
 from .values import *
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
-from .render import Camera
+from .render import Camera, Light
 from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene

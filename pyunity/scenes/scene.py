@@ -55,9 +55,8 @@ class Scene:
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
         light.transform.LookAtPoint(Vector3.zero())
+        light.AddComponent(render.Light)
         self.gameObjects = [self.mainCamera.gameObject, light]
-        component = light.AddComponent(Light)
-        self.lights = [component]
         self.ids = {}
         self.id = str(uuid.uuid4())
 
@@ -105,9 +104,6 @@ class Scene:
                                    (gameObject.name, gameObject.scene.name))
         gameObject.scene = self
         self.gameObjects.append(gameObject)
-        component = gameObject.GetComponent(Light)
-        if component is not None:
-            self.lights.append(component)
 
     def Remove(self, gameObject):
         """
@@ -133,9 +129,6 @@ class Scene:
         for gameObject in pending:
             if gameObject in self.gameObjects:
                 gameObject.scene = None
-                component = gameObject.GetComponent(Light)
-                if component is not None and component in self.lights:
-                    self.lights.remove(component)
                 self.gameObjects.remove(gameObject)
                 if self.mainCamera is not None and gameObject is self.mainCamera.gameObject:
                     Logger.LogLine(Logger.WARN,
@@ -169,19 +162,6 @@ class Scene:
 
         """
         return gameObject in self.gameObjects
-
-    def RegisterLight(self, light):
-        """
-        Register a light for the scene.
-
-        Parameters
-        ----------
-        light : Light
-            Light component to register
-
-        """
-        if isinstance(light, Light):
-            self.lights.append(light)
 
     def List(self):
         """Lists all the GameObjects currently in the scene."""
@@ -506,9 +486,10 @@ class Scene:
             return
 
         renderers = self.FindComponentsByType(MeshRenderer)
+        lights = self.FindComponentsByType(render.Light)
         canvases = self.FindComponentsByType(Canvas)
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(renderers, self.lights, canvases)
+        self.mainCamera.Render(renderers, lights, canvases)
 
     def clean_up(self):
         """
