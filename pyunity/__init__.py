@@ -9,6 +9,13 @@ this project has been made to facilitate
 any programmer, beginner or advanced, novice
 or veteran.
 
+Disclaimer
+----------
+As we have said above, this is not a set of
+bindings for the UnityEngine, but a pure
+Python library to aid in making 3D games in
+Python.
+
 Installing
 ----------
 To install PyUnity for Linux distributions
@@ -29,12 +36,23 @@ Cython to compile.
 
     > python setup.py install
 
+The latest builds are on the ``develop`` branch
+which is the default branch. These builds are
+sometimes broken, so use at your own risk.
+
+    > git clone https://github.com/pyunity/pyunity
+    > python setup.py install
+
 Its only dependencies are PyOpenGL, PySDL2,
-GLFW, Pillow and PyGLM.
+Pillow and PyGLM. Microsoft Visual
+C++ Build Tools are required on Windows
+for building yourself. GLFW can be optionally
+installed if you would like to use the GLFW
+window provider.
 
 Importing
 ---------
-To start using pyunity, you must import it.
+To start using PyUnity, you must import it.
 A standard way to import is like so:
 
     >>> from pyunity import *
@@ -117,9 +135,9 @@ class that has the following methods:
   when you want to do the OpenGL calls.
 
 Check the source code of any of the window
-providers for an example. If you have a
-window provider, then please create a new
-pull request.
+providers for an example. If you would like
+to contribute a new window provider, then
+please `create a pull request <https://github.com/pyunity/pyunity/compare>`.
 
 Examples
 --------
@@ -142,7 +160,7 @@ The ``1`` just means to load example 1, and there
 are 9 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
-create a new pull request.
+`create a pull request <https://github.com/pyunity/pyunity/compare>`.
 
 """
 
