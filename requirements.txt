@@ -3,4 +3,4 @@ pillow
 pysdl2
 pysdl2-dll
 pyglm
-glfw
+
