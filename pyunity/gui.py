@@ -12,7 +12,7 @@ from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
 from .render import Screen
 from PIL import Image, ImageDraw, ImageFont, features
-from types import FunctionType
+from collections.abc import Callable
 import os
 import sys
 import enum
@@ -300,7 +300,7 @@ class Button(GuiComponent):
 
     Attributes
     ----------
-    callback : FunctionType
+    callback : Callable
         Callback function
     state : KeyState
         Which state triggers the callback
@@ -311,7 +311,7 @@ class Button(GuiComponent):
 
     """
 
-    callback = ShowInInspector(FunctionType)
+    callback = ShowInInspector(Callable)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
