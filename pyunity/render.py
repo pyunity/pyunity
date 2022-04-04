@@ -117,12 +117,12 @@ class Shader:
         if os.path.isfile(os.path.join(folder, digest + ".bin")):
             with open(os.path.join(folder, digest + ".bin"), "rb") as f:
                 binary = f.read()
-            
+
             binaryFormat = int(binary[0])
             self.program = gl.glCreateProgram()
             gl.glProgramBinary(
                 self.program, binaryFormat, binary[1:], len(binary))
-            
+
             success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
             if success:
                 self.compiled = True
@@ -174,7 +174,7 @@ class Shader:
         with open(os.path.join(folder, digest + ".bin"), "wb+") as f:
             f.write(bytes([out[1]]))
             f.write(bytes(out[0]))
-        
+
         Logger.LogLine(
             Logger.INFO, "Saved shader", repr(self.name), "hash", digest)
 
@@ -321,21 +321,28 @@ class Light(SingleComponent):
     color = ShowInInspector(Color, RGB(255, 255, 255))
     type = ShowInInspector(LightType, LightType.Directional)
 
+    def __init__(self, transform):
+        super(Light, self).__init__(transform)
+        self.near = 0.03
+        self.far = 30
+
     def setupBuffers(self, depthMapSize):
         self.depthFBO = gl.glGenFramebuffers(1)
         self.depthMap = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
-        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT, 
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT,
             depthMapSize, depthMapSize, 0, gl.GL_DEPTH_COMPONENT,
             gl.GL_FLOAT, None)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_NEAREST)
+            gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
-            gl.GL_NEAREST)
+            gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S,
-            gl.GL_REPEAT) 
+            gl.GL_REPEAT)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T,
             gl.GL_REPEAT)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_COMPARE_MODE,
+            gl.GL_COMPARE_REF_TO_TEXTURE)
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
         gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
@@ -506,7 +513,7 @@ class Camera(SingleComponent):
     def UseShader(self, name):
         """Sets current shader from name."""
         self.shader = shaders[name]
-    
+
     def SetupShader(self, lights):
         self.shader.use()
         if self.ortho:
@@ -539,7 +546,7 @@ class Camera(SingleComponent):
 
     def SetupDepthShader(self, light):
         self.depthShader.use()
-        proj = glm.ortho(-10, 10, -10, 10, 0.03, 30)
+        proj = glm.ortho(-10, 10, -10, 10, light.near, light.far)
         pos = light.transform.position * Vector3(1, 1, -1)
         look = pos + light.transform.rotation.RotateVector(
             Vector3.forward()) * Vector3(1, 1, -1)
@@ -551,7 +558,7 @@ class Camera(SingleComponent):
         location = b"lightSpaceMatrix"
         self.depthShader.setMat4(location, light.lightSpaceMatrix)
 
-    def Draw(self, renderers, lights):
+    def Draw(self, renderers):
         """
         Draw specific renderers, taking into account light positions.
 
@@ -572,14 +579,14 @@ class Camera(SingleComponent):
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
             renderer.Render()
-    
+
     def DrawDepth(self, renderers):
         self.depthShader.use()
         for renderer in renderers:
             model = self.getMatrix(renderer.transform)
             self.depthShader.setMat4(b"model", model)
             renderer.Render()
-    
+
     def Render(self, renderers, lights, canvases):
         if self.shadows:
             gl.glDisable(gl.GL_CULL_FACE)
@@ -604,7 +611,7 @@ class Camera(SingleComponent):
         gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.SetupShader(lights)
-        self.Draw(renderers, lights)
+        self.Draw(renderers)
 
         self.RenderSkybox()
         self.Draw2D(canvases)
