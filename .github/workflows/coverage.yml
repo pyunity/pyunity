@@ -1,7 +1,8 @@
 name: Coverage run
 on: [push]
 jobs:
-  build:
+  test:
+    name: Python 3.9-x64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
