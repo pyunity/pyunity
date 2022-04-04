@@ -401,7 +401,8 @@ class Camera(SingleComponent):
             self.size.x / self.size.y,
             self.near,
             self.far)
-        Screen._edit(width, height)
+        if self.scene.mainCamera is self:
+            Screen._edit(width, height)
 
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
