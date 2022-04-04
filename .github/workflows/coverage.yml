@@ -16,6 +16,7 @@ jobs:
       - name: Run tests
         env:
           full: 1
+          PYUNITY_INTERACTIVE: 0
         run: coverage run -m unittest tests.py
       - name: Upload report
         run: codecov -f .coverage
