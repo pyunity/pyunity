@@ -49,18 +49,35 @@ float getAttenuation(Light light) {
     return attenuation;
 }
 
-float GetShadow(int num) {
+float getShadow(int num) {
     // perform perspective divide
     vec3 projCoords = FragPosLightSpaces[num].xyz / FragPosLightSpaces[num].w;
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
-    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+
+    if (projCoords.z > 1.0) {
+        return 0.0;
+    }
+
+    // get closest depth value from light's perspective
+    // (using [0,1] range fragPosLight as coords)
     float closestDepth = texture(shadowMaps[num], projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
     float bias = max(0.05 * (1.0 - dot(normal, lights[num].dir)), 0.005);
-    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMaps[num], 0);
+    const int halfkernelWidth = 2;
+    for (int x = -halfkernelWidth; x <= halfkernelWidth; ++x) {
+        for (int y = -halfkernelWidth; y <= halfkernelWidth; ++y) {
+            vec2 pos = projCoords.xy + vec2(x, y) * texelSize;
+            float pcfDepth = texture(shadowMaps[num], pos).r;
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+        }
+    }
+    shadow /= ((halfkernelWidth*2+1)*(halfkernelWidth*2+1));
 
     return shadow;
 }
@@ -77,7 +94,7 @@ void main() {
             strength += getSpecular(lights[i], norm);
             strength *= getAttenuation(lights[i]);
         }
-        float shadow = (useShadowMap == 1) ? GetShadow(i) : 0.0;
+        float shadow = (useShadowMap == 1) ? getShadow(i) : 0.0;
         total += (1.0 - shadow) * strength * lights[i].color;
     }
 

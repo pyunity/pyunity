@@ -131,7 +131,7 @@ class Shader:
                 return
             else:
                 log = gl.glGetProgramInfoLog(self.program)
-                Logger.LogLine(Logger.WARN, log)
+                Logger.LogLine(Logger.WARN, log.decode())
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -140,7 +140,7 @@ class Shader:
         success = gl.glGetShaderiv(vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(vertexShader)
-            raise PyUnityException(log)
+            raise PyUnityException(log.decode())
 
         fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
         gl.glShaderSource(fragShader, self.frag, 1, None)
@@ -149,7 +149,7 @@ class Shader:
         success = gl.glGetShaderiv(fragShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(fragShader)
-            raise PyUnityException(log)
+            raise PyUnityException(log.decode())
 
         self.program = gl.glCreateProgram()
         gl.glAttachShader(self.program, vertexShader)
@@ -534,7 +534,7 @@ class Camera(SingleComponent):
 
     def SetupDepthShader(self, light):
         self.depthShader.use()
-        proj = glm.ortho(-10, 10, -10, 10, 0.03, 15)
+        proj = glm.ortho(-10, 10, -10, 10, 0.03, 30)
         pos = light.transform.position * Vector3(1, 1, -1)
         look = pos + light.transform.rotation.RotateVector(
             Vector3.forward()) * Vector3(1, 1, -1)
@@ -579,6 +579,7 @@ class Camera(SingleComponent):
             renderer.Render()
     
     def Render(self, renderers, lights, canvases):
+        gl.glDisable(gl.GL_CULL_FACE)
         for light in lights:
             if not hasattr(light, "depthFBO"):
                 light.setupBuffers(self.depthMapSize)
@@ -586,9 +587,8 @@ class Camera(SingleComponent):
             gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
             self.SetupDepthShader(light)
             gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
-            gl.glCullFace(gl.GL_FRONT)
             self.DrawDepth(renderers)
-            gl.glCullFace(gl.GL_BACK)
+        gl.glEnable(gl.GL_CULL_FACE)
 
         # from PIL import Image
         # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
