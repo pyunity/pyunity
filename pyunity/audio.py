@@ -30,6 +30,9 @@ if not config.audio:
 elif "PYUNITY_TESTING" in os.environ:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
+elif os.environ["PYUNITY_INTERACTIVE"] == "0":
+    config.audio = False
+    Logger.LogLine(Logger.WARN, "Non-interactive mode, audio is disabled")
 elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
