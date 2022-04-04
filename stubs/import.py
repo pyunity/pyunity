@@ -15,7 +15,7 @@ for file in glob.glob("pyunity/**/*.pyi", recursive=True):
     shutil.copy(file, new)
     with open(new) as f:
         content = f.read()
-    
+
     if content.startswith('"""'):
         new_content = content.replace('"""\n\n','"""\n\nfrom __future__ import annotations\n\n')
     else:

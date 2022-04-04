@@ -376,7 +376,7 @@ class _FontLoader:
         fontobj = Font(name, size, font)
         cls.fonts[name][size] = fontobj
         return fontobj
-    
+
     @classmethod
     def FromFile(cls, name, file, size):
         """
@@ -395,7 +395,7 @@ class _FontLoader:
         -------
         Font
             The loaded font, or a preloaded one
-        
+
         """
         if os.getenv("PYUNITY_TESTING") is not None:
             return None
@@ -583,7 +583,7 @@ class Text(NoResponseGuiComponent):
             ft = "-liga"
         else:
             ft = None
-        
+
         draw = ImageDraw.Draw(im)
         width, height = draw.textsize(self.text, font=self.font._font,
             features=ft)

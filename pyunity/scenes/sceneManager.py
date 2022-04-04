@@ -268,7 +268,7 @@ def __loadScene(scene):
                 # t = threading.Thread(target=loop)
                 # t.daemon = True
                 # t.start()
-                
+
                 Logger.LogLine(Logger.DEBUG, "Compiling objects")
 
                 Logger.LogLine(Logger.INFO, "Compiling shaders")

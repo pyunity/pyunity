@@ -55,7 +55,7 @@ class TestGameObject(unittest.TestCase):
             gameObject.AddComponent(Transform)
         self.assertEqual(str(exception_context.exception),
                          "Cannot add Transform to the GameObject; it already has one")
-    
+
     def test_gameobject_position(self):
         gameObject = GameObject()
         gameObject2 = GameObject("GameObject2", gameObject)
@@ -209,7 +209,7 @@ class TestQuaternion(unittest.TestCase):
         self.assertEqual(q.z, 0)
         self.assertEqual(q.w, 1)
         self.assertEqual(q, Quaternion(1, 0, 0, 0))
-    
+
     def test_euler(self):
         q = Quaternion.Euler(Vector3(0, 90, 0))
         self.assertAlmostEqual(q, Quaternion(self.sqrt2, 0, self.sqrt2, 0))

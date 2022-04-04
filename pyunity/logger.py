@@ -56,7 +56,7 @@ class Level:
 
     def __init__(self, abbr):
         self.abbr = abbr
-    
+
     def __eq__(self, other):
         if isinstance(other, Level):
             return self.abbr == other.abbr
@@ -83,7 +83,7 @@ class Special:
 class Elapsed:
     def __init__(self):
         self.time = time()
-    
+
     def tick(self):
         old = self.time
         self.time = time()

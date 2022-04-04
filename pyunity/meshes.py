@@ -116,7 +116,7 @@ class Mesh:
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of ``size`` 
+            A quad centered at Vector3(0, 0) with side length of ``size``
             facing in the direction of the negative z axis.
 
         """

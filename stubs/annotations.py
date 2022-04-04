@@ -40,7 +40,7 @@ def check_folder(folder, ext):
             continue
         with open(file, "r") as f:
             content = f.read().rstrip().splitlines()
-        
+
         module = "pyunity." + os.path.splitext(file)[0].replace(os.path.sep, ".")
         if (len(sys.argv) > 1 and
                 not any(module.startswith(item) for item in sys.argv[1:])):
@@ -61,7 +61,7 @@ def check_folder(folder, ext):
                 functions.append(module + re.search(func_find, line).group())
             elif re.match(attr_find, line):
                 attrs.append(module + re.match(attr_find, line).group())
-        
+
         if current_class != {}:
             classes.append(current_class)
     os.chdir(orig)
@@ -106,7 +106,7 @@ def check_docstrings():
     os.chdir("../pyunity")
     files = glob.glob("**/*.py", recursive=True)
     files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
-    
+
     a = {}
     for file in files:
         with open(file) as f:
@@ -115,11 +115,11 @@ def check_docstrings():
             continue
         docstring = content.split('"""')
         a[file] = docstring[1]
-    
+
     os.chdir("../stubs/pyunity")
     files = glob.glob("**/*.pyi", recursive=True)
     files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
-    
+
     b = {}
     for file in files:
         with open(file) as f:
@@ -128,17 +128,17 @@ def check_docstrings():
             continue
         docstring = content.split('"""')
         b[file] = docstring[1]
-    
+
     for file in a:
         if file + "i" not in b:
             print("Docstring missing: " + file + "i")
         elif a[file] != b[file + "i"]:
             print("Docstring differs: " + file + "i")
-    
+
     for file in b:
         if file[:-1] not in a:
             print("Docstring extra: " + file)
-    
+
     os.chdir(orig)
 
 check_classes(a, b, c, d, e, f, "missing")

@@ -29,11 +29,11 @@ def check_endings():
                 glob.glob("**/*.pyi", recursive=True):
             with open(file) as f:
                 contents = f.read()
-            
+
             print(repr(contents[-1]))
             if not contents.endswith("\n"):
                 contents += "\n"
-            
+
             with open(file, "w") as f:
                 f.write(contents)
 
@@ -58,8 +58,8 @@ def get_packages(module):
         else:
             original = set()
         new = set([x for x in dir(mod) if ((inspect.isclass(getattr(mod, x)) or
-                                        inspect.isfunction(getattr(mod, x))) and 
-                                       x[0].isupper() and 
+                                        inspect.isfunction(getattr(mod, x))) and
+                                       x[0].isupper() and
                                        getattr(mod, x).__module__ == mod.__name__)])
         if original != new:
             print(mod.__name__, "Add", list(new - original),
