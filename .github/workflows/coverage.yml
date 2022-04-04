@@ -1,4 +1,4 @@
-name: Coverage run
+name: Testing
 on: [push]
 jobs:
   test:
@@ -19,4 +19,7 @@ jobs:
           PYUNITY_INTERACTIVE: 0
         run: coverage run -m unittest tests.py
       - name: Upload report
-        run: codecov -f .coverage
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -f .coverage
