@@ -366,6 +366,7 @@ class Camera(SingleComponent):
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
+    shadows = ShowInInspector(bool, True)
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -512,6 +513,7 @@ class Camera(SingleComponent):
             self.shader.setMat4(b"projection", self.orthoMat)
         else:
             self.shader.setMat4(b"projection", self.projMat)
+        self.shader.setInt(b"useShadowMap", int(self.shadows))
         self.shader.setMat4(b"view", self.getViewMat())
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
@@ -528,9 +530,12 @@ class Camera(SingleComponent):
             direction = light.transform.rotation.RotateVector(Vector3.forward())
             self.shader.setVec3(lightName + b"dir",
                                 direction * Vector3(1, 1, -1))
-            gl.glActiveTexture(gl.GL_TEXTURE1 + i)
-            gl.glBindTexture(gl.GL_TEXTURE_2D, light.depthMap)
-            self.shader.setInt(f"shadowMaps[{i}]".encode(), i + 1)
+            if self.shadows:
+                gl.glActiveTexture(gl.GL_TEXTURE1 + i)
+                gl.glBindTexture(gl.GL_TEXTURE_2D, light.depthMap)
+                self.shader.setInt(f"shadowMaps[{i}]".encode(), i + 1)
+                location = f"lightSpaceMatrices[{i}]".encode()
+                self.shader.setMat4(location, light.lightSpaceMatrix)
 
     def SetupDepthShader(self, light):
         self.depthShader.use()
@@ -559,9 +564,6 @@ class Camera(SingleComponent):
 
         """
         self.shader.use()
-        for i in range(len(lights)):
-            location = f"lightSpaceMatrices[{i}]".encode()
-            self.shader.setMat4(location, lights[i].lightSpaceMatrix)
         for renderer in renderers:
             model = self.getMatrix(renderer.transform)
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
@@ -579,22 +581,23 @@ class Camera(SingleComponent):
             renderer.Render()
     
     def Render(self, renderers, lights, canvases):
-        gl.glDisable(gl.GL_CULL_FACE)
-        for light in lights:
-            if not hasattr(light, "depthFBO"):
-                light.setupBuffers(self.depthMapSize)
-            gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
-            gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
-            self.SetupDepthShader(light)
-            gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
-            self.DrawDepth(renderers)
-        gl.glEnable(gl.GL_CULL_FACE)
+        if self.shadows:
+            gl.glDisable(gl.GL_CULL_FACE)
+            for light in lights:
+                if not hasattr(light, "depthFBO"):
+                    light.setupBuffers(self.depthMapSize)
+                gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
+                gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
+                self.SetupDepthShader(light)
+                gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
+                self.DrawDepth(renderers)
+            gl.glEnable(gl.GL_CULL_FACE)
 
-        # from PIL import Image
-        # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
-        #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
-        # im = Image.fromarray(data, "L")
-        # im.rotate(180).save("test.png")
+            # from PIL import Image
+            # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
+            #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
+            # im = Image.fromarray(data, "L")
+            # im.rotate(180).save("test.png")
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
         gl.glViewport(0, 0, *self.size)
