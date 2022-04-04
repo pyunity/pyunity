@@ -43,7 +43,7 @@ def GetWindowProvider():
         Logger.LogLine(Logger.DEBUG, "Interactive mode on")
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
-    if "window_provider" in settings.db:
+    if "window_provider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
         env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")

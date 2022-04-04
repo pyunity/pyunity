@@ -16,6 +16,8 @@ if "full" not in os.environ:
     sys.modules["OpenGL.GL"] = Mock()
     sys.modules["OpenGL.GLUT"] = Mock()
     os.environ["PYUNITY_INTERACTIVE"] = "0"
+else:
+    os.environ["PYUNITY_CHECK_WINDOW"] = "1"
 
 from pyunity import *
 
