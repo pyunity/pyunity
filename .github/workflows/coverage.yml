@@ -17,9 +17,10 @@ jobs:
         env:
           full: 1
           PYUNITY_INTERACTIVE: 0
-        run: coverage run -m unittest tests.py
-      - name: Upload report
         run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -f .coverage
+          coverage run -m unittest tests.py
+          coverage xml
+      - name: Upload report
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
