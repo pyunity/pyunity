@@ -218,6 +218,7 @@ class Texture2D:
             self.img_data = self.img.tobytes()
         self.loaded = False
         self.texture = None
+        self.mipmaps = False
 
     def load(self):
         """
@@ -234,12 +235,13 @@ class Texture2D:
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
             gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_LINEAR_MIPMAP_LINEAR)
+            gl.GL_LINEAR_MIPMAP_LINEAR if self.mipmaps else gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
             gl.GL_LINEAR)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
                         gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.img_data)
-        gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
+        if self.mipmaps:
+            gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
         gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
 
