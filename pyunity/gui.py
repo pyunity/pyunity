@@ -2,17 +2,19 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader", "GuiComponent",
            "NoResponseGuiComponent", "CheckBox",
-           "TextAlign", "Font", "Button"]
+           "GuiRenderComponent", "TextAlign", "Font",
+           "Button", "RenderTarget"]
 
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
-from .core import Component, SingleComponent, GameObject, ShowInInspector
-from .files import Texture2D
+from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer
+from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
-from .render import Screen
+from .render import Screen, Camera
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
+import OpenGL.GL as gl
 import os
 import sys
 import enum
@@ -76,6 +78,9 @@ class RectData:
         else:
             self.min = min_or_both.copy()
             self.max = max.copy()
+    
+    def size(self):
+        return self.max - self.min
 
     def __repr__(self):
         """String representation of the RectData"""
@@ -275,7 +280,16 @@ class NoResponseGuiComponent(GuiComponent):
         """
         pass
 
-class Image2D(NoResponseGuiComponent):
+class GuiRenderComponent(NoResponseGuiComponent):
+    """
+    A Component that renders something in its RectTransform.
+    
+    """
+
+    def PreRender(self):
+        pass
+
+class Image2D(GuiRenderComponent):
     """
     A 2D image component, which is uninteractive.
 
@@ -293,6 +307,83 @@ class Image2D(NoResponseGuiComponent):
     def __init__(self, transform):
         super(Image2D, self).__init__(transform)
         self.rectTransform = self.GetComponent(RectTransform)
+
+class RenderTarget(GuiRenderComponent):
+    source = ShowInInspector(Camera)
+    depth = ShowInInspector(float, 0.0)
+
+    def __init__(self, transform):
+        super(RenderTarget, self).__init__(transform)
+        self.setup = False
+        self.size = Vector2.zero()
+        self.texture = None
+    
+    def PreRender(self):
+        rectTransform = self.GetComponent(RectTransform)
+        if rectTransform is None:
+            return
+        
+        self.genBuffers()
+        size = (rectTransform.GetRect() + rectTransform.offset).size()
+        if size != self.size:
+            self.setSize(size)
+        
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        gl.glActiveTexture(gl.GL_TEXTURE0)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
+        self.source.Resize(*self.size)
+        gl.glDepthMask(gl.GL_TRUE)
+        gl.glClearColor(*(self.source.clearColor.to_rgb() / 255), 1)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+
+        renderers = self.scene.FindComponentsByType(MeshRenderer)
+        self.source.renderPass = True
+        self.source.Render(renderers, self.scene.lights)
+
+        # data = gl.glReadPixels(0, 0, *self.size,
+        #     gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
+        # im = Image.frombytes("RGB", tuple(self.size), data)
+        # im.rotate(180).save("test.png")
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+        gl.glViewport(0, 0, *Screen.size)
+        gl.glDepthMask(gl.GL_FALSE)
+
+    def genBuffers(self, force=False):
+        if self.setup and not force:
+            return
+
+        self.framebuffer = gl.glGenFramebuffers(1)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        self.texID = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *Screen.size,
+            0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+
+        self.texture = Texture2D.FromOpenGL(self.texID)
+
+        self.renderbuffer = gl.glGenRenderbuffers(1)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *Screen.size)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, self.texID, 0)
+        gl.glDrawBuffers(1, convert(gl.GLenum, [gl.GL_COLOR_ATTACHMENT0]))
+
+        if (gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) !=
+                gl.GL_FRAMEBUFFER_COMPLETE):
+            raise PyUnityException("Framebuffer setup failed")
+
+    def setSize(self, size):
+        self.size = size
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *size,
+            0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *size)
 
 class Button(GuiComponent):
     """
@@ -523,7 +614,7 @@ class TextAlign(enum.IntEnum):
     Center = enum.auto()
     Right = enum.auto()
 
-class Text(NoResponseGuiComponent):
+class Text(GuiRenderComponent):
     """
     Component to render text.
 
@@ -564,6 +655,10 @@ class Text(NoResponseGuiComponent):
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)
+    
+    def PreRender(self):
+        if self.texture is None:
+            self.GenTexture()
 
     def GenTexture(self):
         """
