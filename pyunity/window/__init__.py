@@ -40,7 +40,6 @@ import importlib.util
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
-        Logger.LogLine(Logger.DEBUG, "Non-interactive mode")
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
     if "window_provider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
