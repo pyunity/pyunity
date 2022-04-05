@@ -17,11 +17,16 @@ class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
     def Start(self):
         self.a = 0
+        self.t = []
 
     def Update(self, dt):
+        self.t.append(dt)
+        if len(self.t) > 200:
+            self.t.pop(0)
+
         self.a += dt
-        if self.a > 0.05:
-            self.text.text = str(1 / dt)
+        if self.a > 0.1:
+            self.text.text = str(1 / (sum(self.t) / len(self.t)))
             self.a = 0
 
 class CheckboxTracker(Behaviour):
@@ -81,6 +86,7 @@ def main():
 
     cam = GameObject("Camera")
     camera = cam.AddComponent(Camera)
+    camera.shadows = False
     cam.transform.eulerAngles = Vector3(0, 180, 0)
     scene.Add(cam)
 

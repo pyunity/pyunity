@@ -11,7 +11,7 @@ from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshR
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
-from .render import Screen, Camera
+from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
 import OpenGL.GL as gl
@@ -78,7 +78,7 @@ class RectData:
         else:
             self.min = min_or_both.copy()
             self.max = max.copy()
-    
+
     def size(self):
         return self.max - self.min
 
@@ -283,7 +283,7 @@ class NoResponseGuiComponent(GuiComponent):
 class GuiRenderComponent(NoResponseGuiComponent):
     """
     A Component that renders something in its RectTransform.
-    
+
     """
 
     def PreRender(self):
@@ -317,17 +317,17 @@ class RenderTarget(GuiRenderComponent):
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
-    
+
     def PreRender(self):
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
-        
+
         self.genBuffers()
         size = (rectTransform.GetRect() + rectTransform.offset).size()
         if size != self.size:
             self.setSize(size)
-        
+
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
@@ -337,8 +337,10 @@ class RenderTarget(GuiRenderComponent):
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
         renderers = self.scene.FindComponentsByType(MeshRenderer)
+        lights = self.scene.FindComponentsByType(Light)
         self.source.renderPass = True
-        self.source.Render(renderers, self.scene.lights)
+        self.source.RenderScene(renderers, lights)
+        self.source.RenderSkybox()
 
         # data = gl.glReadPixels(0, 0, *self.size,
         #     gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
@@ -346,7 +348,6 @@ class RenderTarget(GuiRenderComponent):
         # im.rotate(180).save("test.png")
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
-        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
         gl.glViewport(0, 0, *Screen.size)
         gl.glDepthMask(gl.GL_FALSE)
 
@@ -362,6 +363,7 @@ class RenderTarget(GuiRenderComponent):
             0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+        gl.glEnable(gl.GL_TEXTURE_2D)
 
         self.texture = Texture2D.FromOpenGL(self.texID)
 
@@ -375,6 +377,8 @@ class RenderTarget(GuiRenderComponent):
         if (gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) !=
                 gl.GL_FRAMEBUFFER_COMPLETE):
             raise PyUnityException("Framebuffer setup failed")
+
+        self.setup = True
 
     def setSize(self, size):
         self.size = size
@@ -655,7 +659,7 @@ class Text(GuiRenderComponent):
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)
-    
+
     def PreRender(self):
         if self.texture is None:
             self.GenTexture()

@@ -588,7 +588,9 @@ class Camera(SingleComponent):
             self.depthShader.setMat4(b"model", model)
             renderer.Render()
 
-    def Render(self, renderers, lights, canvases):
+    def RenderDepth(self, renderers, lights):
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
         if self.shadows:
             gl.glDisable(gl.GL_CULL_FACE)
             for light in lights:
@@ -607,13 +609,18 @@ class Camera(SingleComponent):
             # im = Image.fromarray(data, "L")
             # im.rotate(180).save("test.png")
 
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
-        gl.glViewport(0, 0, *self.size)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
+        gl.glViewport(*previousViewport)
+
+    def RenderScene(self, renderers, lights):
         gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.SetupShader(lights)
         self.Draw(renderers)
 
+    def Render(self, renderers, lights, canvases):
+        self.RenderDepth(renderers, lights)
+        self.RenderScene(renderers, lights)
         self.RenderSkybox()
         self.Draw2D(canvases)
 
@@ -656,7 +663,7 @@ class Camera(SingleComponent):
                 rectTransform = gameObject.GetComponent(RectTransform)
                 if rectTransform is None:
                     continue
-                
+
                 components = gameObject.GetComponents(GuiRenderComponent)
                 transforms = [rectTransform] * len(components)
                 renderers.extend(zip(components, transforms))
@@ -669,6 +676,7 @@ class Camera(SingleComponent):
             self.guiShader.setMat4(
                 b"model", self.get2DMatrix(rectTransform))
             self.guiShader.setFloat(b"depth", renderer.depth)
+            self.guiShader.setInt(b"image", 0)
             gl.glDrawArrays(gl.GL_QUADS, 0, 4)
         gl.glDepthMask(gl.GL_TRUE)
 
