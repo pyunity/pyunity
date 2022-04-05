@@ -1,4 +1,4 @@
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material
 import os
 
 class Mover2D(Behaviour):
@@ -78,6 +78,25 @@ def main():
     text.color = RGB(0, 0, 0)
     t.AddComponent(FPSTracker).text = text
     scene.Add(t)
+
+    cam = GameObject("Camera")
+    camera = cam.AddComponent(Camera)
+    cam.transform.eulerAngles = Vector3(0, 180, 0)
+    scene.Add(cam)
+
+    target = GameObject("Target", canvas)
+    rect = target.AddComponent(RectTransform)
+    rect.anchors.SetPoint(Vector2(1, 1))
+    rect.offset.min = Vector2(-320, -200)
+    target.AddComponent(RenderTarget).source = camera
+    scene.Add(target)
+
+    cube = GameObject("Cube")
+    cube.transform.position = Vector3(0, 0, -10)
+    renderer = cube.AddComponent(MeshRenderer)
+    renderer.mesh = Mesh.cube(2)
+    renderer.mat = Material(RGB(255, 0, 0))
+    scene.Add(cube)
 
     SceneManager.LoadScene(scene)
 

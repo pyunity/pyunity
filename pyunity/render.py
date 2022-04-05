@@ -519,7 +519,7 @@ class Camera(SingleComponent):
             to prevent duplicate rendering.
 
         """
-        from .gui import Image2D, RectTransform, Text
+        from .gui import RectTransform, GuiRenderComponent
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, 10, -10))
@@ -536,18 +536,13 @@ class Camera(SingleComponent):
                 rectTransform = gameObject.GetComponent(RectTransform)
                 if rectTransform is None:
                     continue
-
-                renderer = gameObject.GetComponent(Image2D)
-                text = gameObject.GetComponent(Text)
-
-                if renderer is not None:
-                    renderers.append((renderer, rectTransform))
-                if text is not None:
-                    renderers.append((text, rectTransform))
-                    if text.texture is None:
-                        text.GenTexture()
+                
+                components = gameObject.GetComponents(GuiRenderComponent)
+                transforms = [rectTransform] * len(components)
+                renderers.extend(zip(components, transforms))
 
         for renderer, rectTransform in renderers:
+            renderer.PreRender()
             if renderer.texture is None:
                 continue
             renderer.texture.use()

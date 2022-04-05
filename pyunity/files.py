@@ -254,6 +254,13 @@ class Texture2D:
             self.load()
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
+    
+    @classmethod
+    def FromOpenGL(cls, texture):
+        obj = cls.__new__(cls)
+        obj.loaded = True
+        obj.texture = texture
+        return obj
 
 class Skybox:
     """Skybox model consisting of 6 images"""
