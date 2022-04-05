@@ -239,6 +239,7 @@ class Texture2D:
             gl.GL_LINEAR)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
                         gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.img_data)
+        gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
         gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
 
@@ -258,7 +259,7 @@ class Texture2D:
             self.load()
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
-    
+
     @classmethod
     def FromOpenGL(cls, texture):
         obj = cls.__new__(cls)
