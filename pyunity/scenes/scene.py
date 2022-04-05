@@ -12,8 +12,8 @@ __all__ = ["Scene"]
 
 from ..audio import *
 from ..core import *
-from ..files import Behaviour, convert
-from ..values import Vector3, Quaternion
+from ..files import Behaviour
+from ..values import Vector3
 from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
