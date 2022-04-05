@@ -238,9 +238,15 @@ class RectTransform(SingleComponent):
         if self.transform.parent is not None:
             return self.transform.parent.GetComponent(RectTransform)
 
-    def GetRect(self):
+    def GetRect(self, bb=None):
         """
-        Gets screen coordinates of the bounding box.
+        Gets screen coordinates of the bounding box
+        not including offset.
+
+        Parameters
+        ----------
+        bb : Vector2, optional
+            Bounding box to base anchors off of
 
         Returns
         -------
@@ -249,7 +255,10 @@ class RectTransform(SingleComponent):
 
         """
         if self.parent is None:
-            return self.anchors * Screen.size
+            if bb is None:
+                return self.anchors * Screen.size
+            else:
+                return self.anchors * bb
         else:
             parentRect = self.parent.GetRect() + self.parent.offset
             rect = self.anchors.RelativeTo(parentRect)
@@ -311,14 +320,20 @@ class Image2D(GuiRenderComponent):
 class RenderTarget(GuiRenderComponent):
     source = ShowInInspector(Camera)
     depth = ShowInInspector(float, 0.0)
+    canvas = ShowInInspector(bool, False, "Render Canvas")
 
     def __init__(self, transform):
         super(RenderTarget, self).__init__(transform)
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
+        self.renderPass = False
 
     def PreRender(self):
+        if self.renderPass:
+            return
+        self.renderPass = True
+
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
@@ -328,6 +343,7 @@ class RenderTarget(GuiRenderComponent):
         if size != self.size:
             self.setSize(size)
 
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
@@ -340,16 +356,24 @@ class RenderTarget(GuiRenderComponent):
         lights = self.scene.FindComponentsByType(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
-        self.source.RenderSkybox()
+        self.source.DrawSkybox()
 
-        # data = gl.glReadPixels(0, 0, *self.size,
-        #     gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
-        # im = Image.frombytes("RGB", tuple(self.size), data)
-        # im.rotate(180).save("test.png")
+        if self.canvas:
+            canvases = self.scene.FindComponentsByType(Canvas)
+            self.source.Draw2D(canvases)
 
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(0, 0, *Screen.size)
         gl.glDepthMask(gl.GL_FALSE)
+
+    def saveImg(self, path):
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        data = gl.glReadPixels(0, 0, *self.size,
+            gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
+        im = Image.frombytes("RGB", tuple(self.size), data)
+        im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
 
     def genBuffers(self, force=False):
         if self.setup and not force:
@@ -648,7 +672,7 @@ class Text(GuiRenderComponent):
 
     """
 
-    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
+    font = ShowInInspector(Font)
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
     depth = ShowInInspector(float, 0.1)
@@ -656,6 +680,7 @@ class Text(GuiRenderComponent):
     centeredY = ShowInInspector(TextAlign, TextAlign.Center)
     def __init__(self, transform):
         super(Text, self).__init__(transform)
+        self.font = FontLoader.LoadFont("Arial", 24)
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)
@@ -673,6 +698,9 @@ class Text(GuiRenderComponent):
             self.rect = self.GetComponent(RectTransform)
             if self.rect is None:
                 return
+
+        if self.font is None:
+            return
 
         rect = self.rect.GetRect() + self.rect.offset
         size = (rect.max - rect.min).abs()

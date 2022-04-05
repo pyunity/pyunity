@@ -6,7 +6,7 @@ Classes to aid in rendering in a Scene.
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
-from .errors import *
+from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
@@ -396,6 +396,9 @@ class Camera(SingleComponent):
 
     def setup_buffers(self):
         """Creates 2D quad VBO and VAO for GUI."""
+        if hasattr(self, "guiVBO") and hasattr(self, "guiVAO"):
+            return
+
         data = [
             0.0, 1.0,
             1.0, 1.0,
@@ -478,7 +481,7 @@ class Camera(SingleComponent):
 
     def get2DMatrix(self, rectTransform):
         """Generates model matrix from RectTransform."""
-        rect = rectTransform.GetRect() + rectTransform.offset
+        rect = rectTransform.GetRect(self.size) + rectTransform.offset
         rectMin = Vector2.min(rect.min, rect.max)
         size = (rect.max - rect.min).abs()
         pivot = size * rectTransform.pivot
@@ -621,10 +624,10 @@ class Camera(SingleComponent):
     def Render(self, renderers, lights, canvases):
         self.RenderDepth(renderers, lights)
         self.RenderScene(renderers, lights)
-        self.RenderSkybox()
+        self.DrawSkybox()
         self.Draw2D(canvases)
 
-    def RenderSkybox(self):
+    def DrawSkybox(self):
         if self.skyboxEnabled:
             gl.glDepthFunc(gl.GL_LEQUAL)
             self.skyboxShader.use()
@@ -647,6 +650,7 @@ class Camera(SingleComponent):
 
         """
         from .gui import RectTransform, GuiRenderComponent
+        self.setup_buffers()
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, 10, -10))

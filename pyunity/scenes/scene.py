@@ -10,7 +10,7 @@ the :class:`SceneManager` class.
 
 __all__ = ["Scene"]
 
-from ..audio import *
+from ..audio import AudioListener, AudioSource
 from ..core import *
 from ..files import Behaviour
 from ..values import Vector3
@@ -18,7 +18,6 @@ from .. import config, physics, logger as Logger
 from ..errors import *
 from ..values import Clock
 from .. import render
-from PIL import Image
 from inspect import signature
 from time import time
 import os
@@ -52,10 +51,12 @@ class Scene:
         self.name = name
         self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
         self.mainCamera.AddComponent(AudioListener)
+        self.mainCamera.gameObject.scene = self
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
         light.transform.LookAtPoint(Vector3.zero())
         light.AddComponent(render.Light)
+        light.scene = self
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.ids = {}
         self.id = str(uuid.uuid4())
