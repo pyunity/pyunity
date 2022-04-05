@@ -52,9 +52,9 @@ __all__ = ["Component", "GameObject", "SingleComponent",
 
 import inspect
 import os
-from .errors import *
+from .errors import PyUnityException, ComponentException
 from .meshes import Mesh
-from .values import *
+from .values import Vector3, Quaternion, Material, RGB
 from . import Logger
 
 class Tag:

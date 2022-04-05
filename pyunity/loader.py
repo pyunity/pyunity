@@ -11,7 +11,7 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 
 from . import Logger
 from .meshes import Mesh
-from .errors import *
+from .errors import PyUnityException, ProjectParseException
 from .core import *
 from .values import *
 from .scenes import SceneManager

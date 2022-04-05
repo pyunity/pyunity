@@ -29,7 +29,7 @@ __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
 from .providers import getProviders
-from ..errors import *
+from ..errors import PyUnityException
 from .. import Logger
 from .. import config
 from .. import settings

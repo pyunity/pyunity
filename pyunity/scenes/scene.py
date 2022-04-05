@@ -11,11 +11,11 @@ the :class:`SceneManager` class.
 __all__ = ["Scene"]
 
 from ..audio import AudioListener, AudioSource
-from ..core import *
+from ..core import GameObject, Tag, MeshRenderer, Component
 from ..files import Behaviour
 from ..values import Vector3
 from .. import config, physics, logger as Logger
-from ..errors import *
+from ..errors import PyUnityException, PyUnityExit, ComponentException, GameObjectException
 from ..values import Clock
 from .. import render
 from inspect import signature
