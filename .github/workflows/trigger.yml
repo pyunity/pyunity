@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        workflow: ["coverage.yml", "linux.yml", "trigger.yml", "windows.yml"]
+        workflow: ["coverage.yml", "linux.yml", "macos.yml", "windows.yml"]
     name: Run ${{ matrix.workflow }}
     steps:
       - name: Trigger build
