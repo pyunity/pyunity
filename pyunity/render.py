@@ -324,7 +324,7 @@ class Light(SingleComponent):
     def __init__(self, transform):
         super(Light, self).__init__(transform)
         self.near = 0.03
-        self.far = 30
+        self.far = 20
 
     def setupBuffers(self, depthMapSize):
         self.depthFBO = gl.glGenFramebuffers(1)

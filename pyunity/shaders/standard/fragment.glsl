@@ -49,7 +49,7 @@ float getAttenuation(Light light) {
     return attenuation;
 }
 
-float getShadow(int num) {
+float getShadow(int num, sampler2DShadow tex) {
     // perform perspective divide
     vec3 projCoords = FragPosLightSpaces[num].xyz / FragPosLightSpaces[num].w;
     // transform to [0,1] range
@@ -65,14 +65,14 @@ float getShadow(int num) {
     float bias = max(0.05 * (1.0 - dot(normal, lights[num].dir)), 0.005);
 
     float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(shadowMaps[num], 0);
+    vec2 texelSize = 1.0 / textureSize(tex, 0);
     const int halfkernelWidth = 2;
     for (int x = -halfkernelWidth; x <= halfkernelWidth; ++x) {
         for (int y = -halfkernelWidth; y <= halfkernelWidth; ++y) {
             vec2 posXY = projCoords.xy + vec2(x, y) * texelSize;
             // Query depth as z coord
             vec3 pos = vec3(posXY, currentDepth - bias);
-            shadow += 1.0 - texture(shadowMaps[num], pos);
+            shadow += 1.0 - texture(tex, pos);
         }
     }
     shadow /= ((halfkernelWidth*2+1)*(halfkernelWidth*2+1));
@@ -92,7 +92,8 @@ void main() {
             strength += getSpecular(lights[i], norm);
             strength *= getAttenuation(lights[i]);
         }
-        float shadow = (useShadowMap == 1) ? getShadow(i) : 0.0;
+        float shadow = (useShadowMap == 1) ? getShadow(i, shadowMaps[i]) : 0.0;
+        // if (shadow == 0.0) discard;
         total += (1.0 - shadow) * strength * lights[i].color;
     }
 
