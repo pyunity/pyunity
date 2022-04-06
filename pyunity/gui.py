@@ -327,30 +327,27 @@ class RenderTarget(GuiRenderComponent):
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
-        self.renderPass = False
+        # self.renderPass = False
 
     def PreRender(self):
-        if self.renderPass:
-            return
-        self.renderPass = True
-
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
+
+        previousShader = gl.glGetIntegerv(gl.GL_CURRENT_PROGRAM)
+        previousVAO = gl.glGetIntegerv(gl.GL_VERTEX_ARRAY_BINDING)
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
 
         self.genBuffers()
         size = (rectTransform.GetRect() + rectTransform.offset).size()
         if size != self.size:
             self.setSize(size)
 
-        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
-        gl.glActiveTexture(gl.GL_TEXTURE0)
-        gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
-        self.source.Resize(*self.size)
         gl.glDepthMask(gl.GL_TRUE)
-        gl.glClearColor(*(self.source.clearColor.to_rgb() / 255), 1)
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        gl.glClipControl(gl.GL_UPPER_LEFT, gl.GL_ZERO_TO_ONE)
+        self.source.Resize(*self.size)
 
         renderers = self.scene.FindComponentsByType(MeshRenderer)
         lights = self.scene.FindComponentsByType(Light)
@@ -362,9 +359,14 @@ class RenderTarget(GuiRenderComponent):
             canvases = self.scene.FindComponentsByType(Canvas)
             self.source.Draw2D(canvases)
 
+        gl.glUseProgram(previousShader)
+        gl.glBindVertexArray(previousVAO)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
-        gl.glViewport(0, 0, *Screen.size)
+        gl.glViewport(*previousViewport)
         gl.glDepthMask(gl.GL_FALSE)
+        gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
+
+        # self.saveImg("test.png")
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
@@ -372,7 +374,7 @@ class RenderTarget(GuiRenderComponent):
         data = gl.glReadPixels(0, 0, *self.size,
             gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
         im = Image.frombytes("RGB", tuple(self.size), data)
-        im.transpose(Image.FLIP_TOP_BOTTOM).save(path)
+        im.save(path)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
 
     def genBuffers(self, force=False):
@@ -385,8 +387,8 @@ class RenderTarget(GuiRenderComponent):
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *Screen.size,
             0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
-        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
         gl.glEnable(gl.GL_TEXTURE_2D)
 
         self.texture = Texture2D.FromOpenGL(self.texID)

@@ -35,6 +35,10 @@ class CheckboxTracker(Behaviour):
     def Update(self, dt):
         self.text.text = "On" if self.check.checked else "Off"
 
+class Rotator(Behaviour):
+    def Update(self, dt):
+        self.transform.position += Vector3(0, 0, dt / 10)
+
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
@@ -97,11 +101,22 @@ def main():
     target.AddComponent(RenderTarget).source = camera
     scene.Add(target)
 
+    label = GameObject("Label", canvas)
+    rect = label.AddComponent(RectTransform)
+    rect.anchors.SetPoint(Vector2(1, 1))
+    rect.offset.min = Vector2(-320, -225)
+    rect.offset.max = Vector2(0, -200)
+    text = label.AddComponent(Text)
+    text.text = "RenderTarget"
+    text.color = RGB(0, 0, 0)
+    scene.Add(label)
+
     cube = GameObject("Cube")
     cube.transform.position = Vector3(0, 0, -10)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 0, 0))
+    cube.AddComponent(Rotator)
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
