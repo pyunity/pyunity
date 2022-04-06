@@ -137,7 +137,7 @@ def LogLine(level, *message, silent=False):
         f.write(f"{time} |{level.abbr}| {msg}\n")
     return time, msg
 
-def LogException(e):
+def LogException(e, silent=False):
     """
     Log an exception.
 
@@ -151,7 +151,7 @@ def LogException(e):
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
-                LogLine(ERROR, line2)
+                LogLine(ERROR, line2, silent=silent)
 
 def LogTraceback(exctype, value, tb):
     """
@@ -208,6 +208,15 @@ def Save():
     with open(os.path.join(folder, "latest.log")) as f:
         with open(os.path.join(folder, timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
+
+    # Upload to ftp
+    try:
+        import urllib.request
+        url = "https://ftp.pyunity.repl.co/upload?confirm=1"
+        with urllib.request.urlopen(url):
+            pass
+    except Exception as e:
+        LogException(e, silent=True)
 
 def SetStream(s):
     global stream
