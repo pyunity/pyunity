@@ -1,5 +1,5 @@
 name: Windows Wheel Builds
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: windows-latest
