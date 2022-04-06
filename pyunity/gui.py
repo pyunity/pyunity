@@ -5,6 +5,7 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
            "GuiRenderComponent", "TextAlign", "Font",
            "Button", "RenderTarget"]
 
+from . import Logger
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
 from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer
@@ -20,6 +21,8 @@ import sys
 import enum
 
 RAQM_SUPPORT = features.check("raqm")
+if not RAQM_SUPPORT:
+    Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
 
 class Canvas(Component):
     """
@@ -407,13 +410,14 @@ class RenderTarget(GuiRenderComponent):
         self.setup = True
 
     def setSize(self, size):
-        self.size = size
+        self.size = round(size)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
-        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *size,
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *self.size,
             0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
 
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
-        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *size)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER,
+            gl.GL_DEPTH_COMPONENT, *self.size)
 
 class Button(GuiComponent):
     """
@@ -644,6 +648,9 @@ class TextAlign(enum.IntEnum):
     Center = enum.auto()
     Right = enum.auto()
 
+    Top = Left
+    Bottom = Right
+
 class Text(GuiRenderComponent):
     """
     Component to render text.
@@ -706,7 +713,7 @@ class Text(GuiRenderComponent):
 
         rect = self.rect.GetRect() + self.rect.offset
         size = (rect.max - rect.min).abs()
-        im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
+        im = Image.new("RGBA", tuple(round(size)), (255, 255, 255, 0))
 
         if RAQM_SUPPORT:
             ft = "-liga"

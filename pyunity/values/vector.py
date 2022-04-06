@@ -160,8 +160,8 @@ class Vector(metaclass=ABCMeta):
     def abs(self):
         return self._o1(abs)
 
-    def __round__(self, other):
-        return self._r_o2(other, round)
+    def __round__(self, other=None):
+        return self._o2(other, round)
 
     def __invert__(self):
         return self._o1(operator.invert)

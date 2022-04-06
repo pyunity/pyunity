@@ -1,4 +1,4 @@
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, TextAlign
 import os
 
 class Mover2D(Behaviour):
@@ -37,7 +37,7 @@ class CheckboxTracker(Behaviour):
 
 class Rotator(Behaviour):
     def Update(self, dt):
-        self.transform.position += Vector3(0, 0, dt / 10)
+        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -57,7 +57,7 @@ def main():
     scene.Add(imgObject)
 
     rect, button, text = Gui.MakeButton(
-        "Button", scene, "Click me", FontLoader.LoadFont("Consolas", 20))
+        "Button", scene, "-> Click me", FontLoader.LoadFont("Consolas", 20))
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     button.callback = lambda: Logger.Log("Clicked")
@@ -89,30 +89,29 @@ def main():
     scene.Add(t)
 
     cam = GameObject("Camera")
+    cam.transform.position = Vector3(-5, 2, -5)
+    cam.transform.LookAtPoint(Vector3.zero())
     camera = cam.AddComponent(Camera)
     camera.shadows = False
-    cam.transform.eulerAngles = Vector3(0, 180, 0)
     scene.Add(cam)
 
     target = GameObject("Target", canvas)
     rect = target.AddComponent(RectTransform)
-    rect.anchors.SetPoint(Vector2(1, 1))
-    rect.offset.min = Vector2(-320, -200)
+    rect.anchors.min = Vector2(0.6, 0.6)
+    rect.anchors.max = Vector2(1, 1)
     target.AddComponent(RenderTarget).source = camera
     scene.Add(target)
 
     label = GameObject("Label", canvas)
     rect = label.AddComponent(RectTransform)
-    rect.anchors.SetPoint(Vector2(1, 1))
-    rect.offset.min = Vector2(-320, -225)
-    rect.offset.max = Vector2(0, -200)
+    rect.anchors.min = Vector2(0.6, 0.55)
+    rect.anchors.max = Vector2(1, 0.6)
     text = label.AddComponent(Text)
     text.text = "RenderTarget"
     text.color = RGB(0, 0, 0)
     scene.Add(label)
 
     cube = GameObject("Cube")
-    cube.transform.position = Vector3(0, 0, -10)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 0, 0))
