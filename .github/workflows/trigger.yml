@@ -12,7 +12,7 @@ jobs:
         run: |
           curl \
             -X POST \
-            -u rayzchen:${{ secrets.GITHUB_TOKEN }} \
+            -u rayzchen:${{ secrets.USER_TOKEN }} \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/pyunity/pyunity/actions/workflows/${{ matrix.workflow }}/dispatches \
             -d '{"ref":"develop"}'
