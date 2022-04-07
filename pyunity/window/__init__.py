@@ -66,8 +66,6 @@ def GetWindowProvider():
                                f"not a valid window provider, removing")
                 settings.db.pop("window_provider")
 
-    windowProvider = ""
-    i = 0
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
     if env is not None:
@@ -86,29 +84,31 @@ def GetWindowProvider():
     if len(providers) == 0:
         raise PyUnityException("No window providers installed")
 
+    windowProvider = ""
     module = importlib.import_module(f".providers.{providers[0]}", __name__)
     Logger.LogLine(Logger.DEBUG, "Trying", module.name, "as a window provider")
-    for name in providers:
+    for i, name in enumerate(providers):
         try:
-            module = importlib.import_module(f".providers.{name}", __name__)
             module.check()
             windowProvider = name
         except Exception as e:
             if isinstance(e, ImportError):
                 Logger.LogLine(Logger.WARN,
-                               name + ": This window manager requires a package "
-                               "you don't have installed.")
-                Logger.LogLine(Logger.WARN,
-                               name + ": Check the source code and use `pip install` "
+                               name + ": This window manager requires a "
+                               "package that you haven't installed.")
+                Logger.LogLine(Logger.WARN, name + \
+                               ": Check the source code and use `pip install` "
                                "to resolve any missing dependencies.")
-            Logger.LogLine(Logger.DEBUG, name, "doesn't work")
-        else:
-            if not windowProvider:
-                raise PyUnityException("No window provider found")
+            if i == len(providers) - 1:
+                Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
+            else:
+                new_module = importlib.import_module(f".providers.{name}", __name__)
+                Logger.LogLine(Logger.DEBUG,
+                    module.name, "doesn't work, trying", new_module.name)
+                module = new_module
 
         if windowProvider:
             break
-        i += 1
 
     settings.db["window_provider"] = windowProvider
     settings.db["window_cache"] = True
