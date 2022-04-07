@@ -166,9 +166,9 @@ def cythonize(error=False):
             dirpath, file = os.path.split(path)
             print(file)
             if (file.endswith(".py") and not file.startswith("__") and
-                    file != "_version.py"):
-                if path.startswith(os.path.join("pyunity", "window", "providers")):
-                    continue
+                    file != "_version.py" and
+                    not path.startswith(os.path.join(
+                        "pyunity", "window", "providers"))):
                 code = os.system("cythonize -3 -q " + path)
                 srcPath = path[:-2] + "c"
                 if code != 0:
