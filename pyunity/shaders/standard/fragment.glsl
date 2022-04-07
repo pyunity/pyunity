@@ -86,7 +86,10 @@ void main() {
     vec3 norm = normalize(normal);
 
     vec3 total;
-    for (int i = 0; i < light_num; i++) {
+    for (int i = 0; i < NR_LIGHTS; i++) {
+        if (i == light_num) {
+            break;
+        }
         float strength = getDiffuse(lights[i], norm);
         if (lights[i].type == 0) {
             strength += getSpecular(lights[i], norm);
