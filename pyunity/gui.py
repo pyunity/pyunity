@@ -379,7 +379,7 @@ class RenderTarget(GuiRenderComponent):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
         data = gl.glReadPixels(0, 0, *self.size,
-            gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
+                               gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
         im = Image.frombytes("RGB", tuple(self.size), data)
         im.save(path)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
@@ -393,7 +393,7 @@ class RenderTarget(GuiRenderComponent):
         self.texID = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *Screen.size,
-            0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+                        0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
         gl.glEnable(gl.GL_TEXTURE_2D)
@@ -417,11 +417,11 @@ class RenderTarget(GuiRenderComponent):
         self.size = round(size)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *self.size,
-            0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+                        0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
 
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
         gl.glRenderbufferStorage(gl.GL_RENDERBUFFER,
-            gl.GL_DEPTH_COMPONENT, *self.size)
+                                 gl.GL_DEPTH_COMPONENT, *self.size)
 
 class Button(GuiComponent):
     """
@@ -726,7 +726,7 @@ class Text(GuiRenderComponent):
 
         draw = ImageDraw.Draw(im)
         width, height = draw.textsize(self.text, font=self.font._font,
-            features=ft)
+                                      features=ft)
         if self.centeredX == TextAlign.Left:
             offX = 0
         elif self.centeredX == TextAlign.Center:

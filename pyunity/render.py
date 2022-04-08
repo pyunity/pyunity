@@ -131,7 +131,7 @@ class Shader:
             if success:
                 self.compiled = True
                 Logger.LogLine(Logger.INFO, "Loaded shader",
-                    repr(self.name), "hash", digest)
+                               repr(self.name), "hash", digest)
                 return
             else:
                 log = gl.glGetProgramInfoLog(self.program)
@@ -335,22 +335,22 @@ class Light(SingleComponent):
         self.depthMap = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT,
-            depthMapSize, depthMapSize, 0, gl.GL_DEPTH_COMPONENT,
-            gl.GL_FLOAT, None)
+                        depthMapSize, depthMapSize, 0, gl.GL_DEPTH_COMPONENT,
+                        gl.GL_FLOAT, None)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S,
-            gl.GL_REPEAT)
+                           gl.GL_REPEAT)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T,
-            gl.GL_REPEAT)
+                           gl.GL_REPEAT)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_COMPARE_MODE,
-            gl.GL_COMPARE_REF_TO_TEXTURE)
+                           gl.GL_COMPARE_REF_TO_TEXTURE)
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
         gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
-            gl.GL_TEXTURE_2D, self.depthMap, 0)
+                                  gl.GL_TEXTURE_2D, self.depthMap, 0)
         gl.glDrawBuffer(gl.GL_NONE)
         gl.glReadBuffer(gl.GL_NONE)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)

@@ -184,7 +184,7 @@ def cythonize(error=False):
         import Cython
         cythonVer = version.parse(Cython.__version__)
         if cythonVer < version.parse("3.0.0a8"):
-            raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install --pre cython")
+            raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install cython==3.0.0a8")
         if os.path.exists("src"):
             shutil.rmtree("src")
         for path in glob.glob("pyunity/**/*.*", recursive=True):

@@ -235,13 +235,13 @@ class Texture2D:
             self.texture = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_LINEAR_MIPMAP_LINEAR if self.mipmaps else gl.GL_LINEAR)
+                           gl.GL_LINEAR_MIPMAP_LINEAR if self.mipmaps else gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
                         gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.imgData)
         if self.mipmaps:
@@ -306,15 +306,15 @@ class Skybox:
                             width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, imgData)
 
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MIN_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MAG_FILTER,
-            gl.GL_LINEAR)
+                           gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_S,
-            gl.GL_CLAMP_TO_EDGE)
+                           gl.GL_CLAMP_TO_EDGE)
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_T,
-            gl.GL_CLAMP_TO_EDGE)
+                           gl.GL_CLAMP_TO_EDGE)
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_R,
-            gl.GL_CLAMP_TO_EDGE)
+                           gl.GL_CLAMP_TO_EDGE)
 
         self.vbo = gl.glGenBuffers(1)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)

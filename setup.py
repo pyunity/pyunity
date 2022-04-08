@@ -25,7 +25,7 @@ if os.environ["cython"] == "1":
         prepare.cythonize()
     cFiles = glob.glob("src/**/*.c", recursive=True)
     dataFiles = list(filter(lambda a: ".c" not in a,
-                      glob.glob("src/**/*.*", recursive=True)))
+                            glob.glob("src/**/*.*", recursive=True)))
     config = {
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
@@ -36,7 +36,7 @@ if os.environ["cython"] == "1":
     versionfile = "src/_version.py"
 else:
     dataFiles = list(filter(lambda a: ".py" not in a,
-                      glob.glob("pyunity/**/*.*", recursive=True)))
+                            glob.glob("pyunity/**/*.*", recursive=True)))
     config = {
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in dataFiles]},

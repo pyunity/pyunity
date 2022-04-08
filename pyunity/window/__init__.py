@@ -100,7 +100,7 @@ def GetWindowProvider():
                 Logger.LogLine(Logger.WARN,
                                name + ": This window manager requires a "
                                "package that you haven't installed.")
-                Logger.LogLine(Logger.WARN, name + \
+                Logger.LogLine(Logger.WARN, name +
                                ": Check the source code and use `pip install` "
                                "to resolve any missing dependencies.")
             if i == len(providers) - 1:
@@ -108,7 +108,7 @@ def GetWindowProvider():
             else:
                 newModule = importlib.import_module(f".providers.{name}", __name__)
                 Logger.LogLine(Logger.DEBUG,
-                    module.name, "doesn't work, trying", newModule.name)
+                               module.name, "doesn't work, trying", newModule.name)
                 module = newModule
 
         if windowProvider:

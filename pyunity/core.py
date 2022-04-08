@@ -156,8 +156,8 @@ class GameObject:
         self.enabled = True
         self.scene = None
 
-    @staticmethod
-    def BareObject(name="GameObject"):
+    @classmethod
+    def BareObject(cls, name="GameObject"):
         """
         Create a bare GameObject with no components or attributes.
 
@@ -167,7 +167,7 @@ class GameObject:
             Name of the GameObject
 
         """
-        obj = GameObject.__new__(GameObject)
+        obj = cls.__new__(cls)
         obj.name = name
         obj.components = []
         obj.transform = None
@@ -367,6 +367,7 @@ class Component:
         self.transform = transform
         self.enabled = True
 
+    @classmethod
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
         variables = list(
