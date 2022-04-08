@@ -55,7 +55,12 @@ setup(
     description="A Python implementation of the Unity Engine",
     long_description=longDesc,
     long_description_content_type="text/markdown",
-    url="https://github.com/pyunity/pyunity",
+    license="MIT",
+    project_urls={
+        "Documentation": "https://docs.pyunity.x10.bz/",
+        "Source": "https://github.com/pyunity/pyunity",
+        "Tracker": "https://github.com/pyunity/pyunity/issues"
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Natural Language :: English",
@@ -77,7 +82,7 @@ setup(
         "pysdl2-dll",
         "pyglm",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
     zip_safe=False,
     **config,
 )

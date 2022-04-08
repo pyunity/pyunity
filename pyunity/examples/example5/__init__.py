@@ -77,7 +77,7 @@ def main():
     dquad.transform.localEulerAngles = Vector3(0, -90, 0)
     renderer = dquad.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = Loader.Primitives.double_quad
+    renderer.mesh = Loader.Primitives.doubleQuad
     scene.Add(dquad)
 
     capsule = GameObject("Capsule", root)

@@ -288,35 +288,29 @@ class Skybox:
     def __init__(self, path):
         self.path = path
         self.compiled = False
-        self.images = []
 
     def compile(self):
         self.texture = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
-        loaded = len(self.images)
         for i, name in enumerate(Skybox.names):
-            if loaded:
-                img = self.images[i]
-            else:
-                imgPath = os.path.join(self.path, name)
-                img = Image.open(imgPath).convert("RGBA")
-                self.images.append(img)
+            imgPath = os.path.join(self.path, name)
+            img = Image.open(imgPath).convert("RGBA")
             imgData = img.tobytes()
             width, height = img.size
             gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
                             width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, imgData)
 
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
-                           gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
-                           gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
-                           gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP_TO_EDGE)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
-                           gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP_TO_EDGE)
-        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
-                           gl.GL_TEXTURE_WRAP_R, gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MIN_FILTER,
+            gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MAG_FILTER,
+            gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_S,
+            gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_T,
+            gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_R,
+            gl.GL_CLAMP_TO_EDGE)
 
         self.vbo = gl.glGenBuffers(1)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
