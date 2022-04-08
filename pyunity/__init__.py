@@ -164,20 +164,30 @@ contribute an example, then please
 
 """
 
+# Logger must start first, config straight after
 from . import logger as Logger # lgtm[py/import-own-module]
-from . import (config, errors, values, core, files, render, audio,
-               physics, input, gui)
+from . import config # lgtm[py/import-own-module]
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
            "SceneManager", "Mesh"]
-__all__.extend(errors.__all__)
-__all__.extend(values.__all__)
-__all__.extend(core.__all__)
-__all__.extend(files.__all__)
-__all__.extend(render.__all__)
-__all__.extend(audio.__all__)
-__all__.extend(physics.__all__)
-__all__.extend(input.__all__)
-__all__.extend(gui.__all__)
+
+from .errors import __all__ as _errors_all
+from .values import __all__ as _values_all
+from .core import __all__ as _core_all
+from .files import __all__ as _files_all
+from .render import __all__ as _render_all
+from .audio import __all__ as _audio_all
+from .physics import __all__ as _physics_all
+from .input import __all__ as _input_all
+from .gui import __all__ as _gui_all
+__all__.extend(_errors_all)
+__all__.extend(_values_all)
+__all__.extend(_core_all)
+__all__.extend(_files_all)
+__all__.extend(_render_all)
+__all__.extend(_audio_all)
+__all__.extend(_physics_all)
+__all__.extend(_input_all)
+__all__.extend(_gui_all)
 
 import os
 from .errors import *
