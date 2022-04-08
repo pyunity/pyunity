@@ -62,6 +62,9 @@ class Level:
             return self.abbr == other.abbr
         return False
 
+    def __hash__(self):
+        return hash(self.abbr)
+
 OUTPUT = Level("O")
 INFO = Level("I")
 DEBUG = Level("D")
