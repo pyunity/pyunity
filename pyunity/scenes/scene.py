@@ -466,7 +466,6 @@ class Scene:
             except KeyboardInterrupt:
                 Logger.LogLine(Logger.DEBUG, "Exiting")
                 done = True
-        raise PyUnityExit
 
     def update(self):
         """Updating function to pass to the window provider."""
