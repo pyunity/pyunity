@@ -20,11 +20,11 @@ class Material:
         self.texture = texture
 
 class Color:
-    def to_string(self):
+    def toString(self):
         return str(self)
 
     @staticmethod
-    def from_string(string):
+    def fromString(string):
         if string.startswith("RGB"):
             return RGB(*list(map(int, string[4:-1].split(", "))))
         elif string.startswith("HSV"):
@@ -71,14 +71,14 @@ class RGB(Color):
     def __str__(self):
         return "RGB(%d, %d, %d)" % tuple(self)
 
-    def to_rgb(self):
+    def toRGB(self):
         return self
 
-    def to_hsv(self):
-        return HSV.from_rgb(self.r, self.g, self.b)
+    def toHSV(self):
+        return HSV.fromRGB(self.r, self.g, self.b)
 
     @staticmethod
-    def from_hsv(h, s, v):
+    def fromHSV(h, s, v):
         r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
         return RGB(int(r * 255), int(g * 255), int(b * 255))
 
@@ -114,13 +114,13 @@ class HSV(Color):
     def __str__(self):
         return "HSV(%d, %d, %d)" % tuple(self)
 
-    def to_rgb(self):
-        return RGB.from_hsv(self.h, self.s, self.v)
+    def toRGB(self):
+        return RGB.fromHSV(self.h, self.s, self.v)
 
-    def to_hsv(self):
+    def toHSV(self):
         return self
 
     @staticmethod
-    def from_rgb(r, g, b):
+    def fromRGB(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
         return HSV(int(h * 360), int(s * 100), int(v * 100))

@@ -20,7 +20,7 @@ import copy
 scenesByIndex = []
 scenesByName = {}
 windowObject = None
-__running_scenes = []
+__runningScenes = []
 
 FirstScene = True
 KeyboardInterruptKill = False
@@ -242,12 +242,12 @@ def LoadScene(scene):
 
 def __loadScene(scene):
     global windowObject, FirstScene
-    __running_scenes.append(scene)
+    __runningScenes.append(scene)
     if not FirstScene:
         Logger.Save()
         FirstScene = False
     if not windowObject:
-        has_closed = False
+        hasClosed = False
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
                 os.environ["PYUNITY_GL_CONTEXT"] = "1"
@@ -257,9 +257,9 @@ def __loadScene(scene):
 
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
                 windowObject.refresh()
-                render.fill_screen()
+                render.fillScreen()
                 windowObject.refresh()
-                render.fill_screen() # double buffering
+                render.fillScreen() # double buffering
 
                 # done = False
                 # def loop():
@@ -272,26 +272,26 @@ def __loadScene(scene):
                 Logger.LogLine(Logger.DEBUG, "Compiling objects")
 
                 Logger.LogLine(Logger.INFO, "Compiling shaders")
-                render.compile_shaders()
+                render.compileShaders()
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
                 Logger.LogLine(Logger.INFO, "Loading skyboxes")
-                render.compile_skyboxes()
+                render.compileSkyboxes()
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
                 # done = True
                 # t.join()
             except PyUnityExit:
-                has_closed = True
+                hasClosed = True
             except Exception:
-                if "window_provider" in settings.db:
+                if "windowProvider" in settings.db:
                     Logger.LogLine(Logger.WARN, "Detected settings.json entry")
-                    if "window_cache" in settings.db:
-                        Logger.LogLine(Logger.WARN, "window_cache entry has been set,",
+                    if "windowCache" in settings.db:
+                        Logger.LogLine(Logger.WARN, "windowCache entry has been set,",
                                        "indicating window checking happened on this import")
                     Logger.LogLine(
                         Logger.WARN, "settings.json entry may be faulty, removing")
-                    settings.db.pop("window_provider")
+                    settings.db.pop("windowProvider")
                 raise
 
         if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
@@ -300,12 +300,12 @@ def __loadScene(scene):
         Logger.LogLine(Logger.DEBUG, "Starting scene")
         scene.Start()
         try:
-            if has_closed:
+            if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
                 windowObject.start(scene.update)
             else:
-                scene.no_interactive()
+                scene.noInteractive()
         except (KeyboardInterrupt, PyUnityExit):
             Logger.LogLine(Logger.INFO, "Stopping main loop")
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -322,20 +322,20 @@ def __loadScene(scene):
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
         del os.environ["PYUNITY_GL_CONTEXT"]
-        render.reset_shaders()
+        render.resetShaders()
         Logger.LogLine(Logger.INFO, "Reset shaders")
-        render.reset_skyboxes()
+        render.resetSkyboxes()
         Logger.LogLine(Logger.INFO, "Reset skyboxes")
         windowObject = None
     else:
         scene.Start()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            windowObject.update_func = scene.update
-    scene.clean_up()
-    __running_scenes.pop()
+            windowObject.updateFunc = scene.update
+    scene.cleanUp()
+    __runningScenes.pop()
 
 def CurrentScene():
     """Gets the current scene being run"""
-    if len(__running_scenes) == 0:
+    if len(__runningScenes) == 0:
         return None
-    return __running_scenes[-1]
+    return __runningScenes[-1]

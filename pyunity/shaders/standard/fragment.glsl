@@ -15,7 +15,7 @@ struct Light {
     int type;
 };
 
-uniform int light_num;
+uniform int numLights;
 uniform Light lights[NR_LIGHTS];
 uniform vec3 viewPos;
 uniform vec3 objectColor;
@@ -87,7 +87,7 @@ void main() {
 
     vec3 total;
     for (int i = 0; i < NR_LIGHTS; i++) {
-        if (i == light_num) {
+        if (i == numLights) {
             break;
         }
         float strength = getDiffuse(lights[i], norm);

@@ -15,7 +15,7 @@ class that has the following methods:
     check to see if it works.
 - ``start``: start the main loop in your
     window. The first parameter is
-    ``update_func``, which is called
+    ``updateFunc``, which is called
     when you want to do the OpenGL calls.
 
 Check the source code of any of the window
@@ -42,18 +42,18 @@ def GetWindowProvider():
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
-    if "window_provider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
+    if "windowProvider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
         env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")
-            use = settings.db["window_provider"] in env[0]
+            use = settings.db["windowProvider"] in env[0]
         else:
             use = True
         if use:
-            if "window_cache" in settings.db:
-                del settings.db["window_cache"]
+            if "windowCache" in settings.db:
+                del settings.db["windowCache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
-            providerName = settings.db["window_provider"]
+            providerName = settings.db["windowProvider"]
             if providerName in getProviders():
                 module = importlib.import_module(f".providers.{providerName}", __name__)
                 Logger.LogLine(
@@ -64,7 +64,7 @@ def GetWindowProvider():
                 Logger.LogLine(Logger.WARN,
                                f"settings.json entry {providerName!r} is "
                                f"not a valid window provider, removing")
-                settings.db.pop("window_provider")
+                settings.db.pop("windowProvider")
 
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
@@ -102,26 +102,26 @@ def GetWindowProvider():
             if i == len(providers) - 1:
                 Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
             else:
-                new_module = importlib.import_module(f".providers.{name}", __name__)
+                newModule = importlib.import_module(f".providers.{name}", __name__)
                 Logger.LogLine(Logger.DEBUG,
-                    module.name, "doesn't work, trying", new_module.name)
-                module = new_module
+                    module.name, "doesn't work, trying", newModule.name)
+                module = newModule
 
         if windowProvider:
             break
 
-    settings.db["window_provider"] = windowProvider
-    settings.db["window_cache"] = True
+    settings.db["windowProvider"] = windowProvider
+    settings.db["windowCache"] = True
     module = importlib.import_module(f".providers.{windowProvider}", __name__)
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
     try:
         module = importlib.import_module(f".providers.{windowProvider}.window", __name__)
     except Exception:
-        Logger.LogLine(Logger.WARN, "window_cache entry has been set, indicating "
+        Logger.LogLine(Logger.WARN, "windowCache entry has been set, indicating "
                                     "window checking happened on this import")
         Logger.LogLine(
             Logger.WARN, "settings.json entry may be faulty, removing")
-        settings.db.pop("window_provider")
+        settings.db.pop("windowProvider")
         raise
     return module.Window
 
@@ -166,15 +166,15 @@ class ABCWindow(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_mouse(self, mousecode, keystate):
+    def getMouse(self, mousecode, keystate):
         pass
 
     @abstractmethod
-    def get_key(self, keycode, keystate):
+    def getKey(self, keycode, keystate):
         pass
 
     @abstractmethod
-    def get_mouse_pos(self):
+    def getMousePos(self):
         pass
 
     @abstractmethod
@@ -186,5 +186,5 @@ class ABCWindow(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def start(self, update_func):
+    def start(self, updateFunc):
         pass

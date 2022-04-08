@@ -28,7 +28,7 @@ import uuid
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
 
-disallowed_chars = set(":*/\"\\?<>|")
+disallowedChars = set(":*/\"\\?<>|")
 
 class Scene:
     """
@@ -288,7 +288,7 @@ class Scene:
             components.extend(query)
         return components
 
-    def inside_frustrum(self, renderer):
+    def insideFrustrum(self, renderer):
         """
         Check if the renderer's mesh can be
         seen by the main camera.
@@ -346,7 +346,7 @@ class Scene:
             config.size[0] / config.size[1]
         return minX > -wmin / 2 or maxX < wmax / 2
 
-    def start_scripts(self):
+    def startScripts(self):
         """Start the scripts in the Scene."""
 
         audioListeners = self.FindComponentsByType(AudioListener)
@@ -372,11 +372,11 @@ class Scene:
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     if os.environ["PYUNITY_INTERACTIVE"] == "1":
                         mesh = component.mesh
-                        mesh.vbo, mesh.ibo = render.gen_buffers(mesh)
-                        mesh.vao = render.gen_array()
+                        mesh.vbo, mesh.ibo = render.genBuffers(mesh)
+                        mesh.vao = render.genArray()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mainCamera.setup_buffers()
+            self.mainCamera.setupBuffers()
 
         # self.physics = any(
         #     isinstance(
@@ -407,14 +407,14 @@ class Scene:
             gl.glBlendFunc(gl.GL_SRC_ALPHA,
                            gl.GL_ONE_MINUS_SRC_ALPHA)
 
-        self.start_scripts()
+        self.startScripts()
 
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene " +
                        repr(self.name) + " has started")
 
-    def update_scripts(self):
+    def updateScripts(self):
         """Updates all scripts in the scene."""
         from ..input import Input
         from ..gui import Canvas
@@ -451,7 +451,7 @@ class Scene:
 
         self.lastFrame = time()
 
-    def no_interactive(self):
+    def noInteractive(self):
         """
         Run scene without rendering.
 
@@ -461,7 +461,7 @@ class Scene:
         clock.Start(config.fps)
         while not done:
             try:
-                self.update_scripts()
+                self.updateScripts()
                 clock.Maintain()
             except KeyboardInterrupt:
                 Logger.LogLine(Logger.DEBUG, "Exiting")
@@ -469,7 +469,7 @@ class Scene:
 
     def update(self):
         """Updating function to pass to the window provider."""
-        self.update_scripts()
+        self.updateScripts()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.Render()
@@ -491,7 +491,7 @@ class Scene:
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights, canvases)
 
-    def clean_up(self):
+    def cleanUp(self):
         """
         Called when the scene finishes running,
         or stops running.

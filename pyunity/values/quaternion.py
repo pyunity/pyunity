@@ -88,7 +88,7 @@ class Quaternion:
         if isinstance(other, Quaternion):
             return QuaternionDiff(*(self * other.conjugate))
 
-    def abs_diff(self, other):
+    def absDiff(self, other):
         return abs(other - self)
 
     def copy(self):

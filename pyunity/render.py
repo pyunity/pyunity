@@ -19,9 +19,9 @@ import glm
 import itertools
 import os
 
-float_size = gl.sizeof(c_float)
+floatSize = gl.sizeof(c_float)
 
-def gen_buffers(mesh):
+def genBuffers(mesh):
     """
     Create buffers for a mesh.
 
@@ -42,7 +42,7 @@ def gen_buffers(mesh):
 
     vbo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, vbo)
-    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size,
+    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
                     convert(c_float, data), gl.GL_STATIC_DRAW)
     ibo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
@@ -50,7 +50,7 @@ def gen_buffers(mesh):
                     convert(c_ubyte, indices), gl.GL_STATIC_DRAW)
     return vbo, ibo
 
-def gen_array():
+def genArray():
     """
     Generate a vertex array object.
 
@@ -68,17 +68,17 @@ def gen_array():
     vao = gl.glGenVertexArrays(1)
     gl.glBindVertexArray(vao)
     gl.glVertexAttribPointer(
-        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, None)
+        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, None)
     gl.glEnableVertexAttribArray(0)
     gl.glVertexAttribPointer(
-        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(3 * float_size))
+        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(3 * floatSize))
     gl.glEnableVertexAttribArray(1)
     gl.glVertexAttribPointer(
-        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(6 * float_size))
+        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(6 * floatSize))
     gl.glEnableVertexAttribArray(2)
     return vao
 
-def fill_screen(scale=1):
+def fillScreen(scale=1):
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)
     gl.glLoadIdentity()
     gl.glBegin(gl.GL_QUADS)
@@ -278,21 +278,21 @@ Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
 Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
 Shader.fromFolder(os.path.join(__dir, "shaders", "depth"), "Depth")
 
-def compile_shaders():
+def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
         for shader in shaders.values():
             shader.compile()
 
-def compile_skyboxes():
+def compileSkyboxes():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
         for skybox in skyboxes.values():
             skybox.compile()
 
-def reset_shaders():
+def resetShaders():
     for shader in shaders.values():
         shader.compiled = False
 
-def reset_skyboxes():
+def resetSkyboxes():
     for skybox in skyboxes.values():
         skybox.compiled = False
 
@@ -394,7 +394,7 @@ class Camera(SingleComponent):
         self.lastRot = Quaternion.identity()
         self.renderPass = False
 
-    def setup_buffers(self):
+    def setupBuffers(self):
         """Creates 2D quad VBO and VAO for GUI."""
         if hasattr(self, "guiVBO") and hasattr(self, "guiVAO"):
             return
@@ -410,13 +410,13 @@ class Camera(SingleComponent):
         self.guiVAO = gl.glGenVertexArrays(1)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.guiVBO)
-        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size,
+        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
                         convert(c_float, data), gl.GL_STATIC_DRAW)
 
         gl.glBindVertexArray(self.guiVAO)
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
-            0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
+            0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * floatSize, None)
 
     @property
     def fov(self):
@@ -529,14 +529,14 @@ class Camera(SingleComponent):
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
 
-        self.shader.setInt(b"light_num", len(lights))
+        self.shader.setInt(b"numLights", len(lights))
         for i, light in enumerate(lights):
             lightName = f"lights[{i}].".encode()
             self.shader.setVec3(lightName + b"pos",
                                 light.transform.position * Vector3(1, 1, -1))
             self.shader.setFloat(lightName + b"strength", light.intensity * 10)
             self.shader.setVec3(lightName + b"color",
-                                light.color.to_rgb() / 255)
+                                light.color.toRGB() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
             direction = light.transform.rotation.RotateVector(Vector3.forward())
             self.shader.setVec3(lightName + b"dir",
@@ -616,7 +616,7 @@ class Camera(SingleComponent):
         gl.glViewport(*previousViewport)
 
     def RenderScene(self, renderers, lights):
-        gl.glClearColor(*(self.clearColor.to_rgb() / 255), 1)
+        gl.glClearColor(*(self.clearColor.toRGB() / 255), 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.SetupShader(lights)
         self.Draw(renderers)
@@ -650,7 +650,7 @@ class Camera(SingleComponent):
 
         """
         from .gui import RectTransform, GuiRenderComponent
-        self.setup_buffers()
+        self.setupBuffers()
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, 10, -10))

@@ -5,10 +5,10 @@ import re
 import sys
 
 if len(sys.argv) > 1 and sys.argv[1] == "-x":
-    missing_only = True
+    missingOnly = True
     sys.argv.pop()
 else:
-    missing_only = False
+    missingOnly = False
 
 orig = os.path.dirname(os.path.abspath(__file__))
 os.chdir(orig)
@@ -20,22 +20,22 @@ def print(*values, sep=" ", end="\n"):
     sys.stdout.write(out)
     return out
 
-def check_folder(folder, ext):
+def checkFolder(folder, ext):
     os.chdir(folder)
     files = glob.glob("**/*." + ext, recursive=True)
     files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
 
-    class_find = re.compile("(?<=^class )(\\w+)(?=(\(.*?\))?:)")
-    method_find = re.compile("(?<=    def )(\\w+)")
-    func_find = re.compile("(?<=^def )(\\w+)")
-    attr_find = re.compile("([a-zA-Z]\w+)(?= ?(?:\: .*?)?= ?)")
+    classFind = re.compile("(?<=^class )(\\w+)(?=(\(.*?\))?:)")
+    methodFind = re.compile("(?<=    def )(\\w+)")
+    funcFind = re.compile("(?<=^def )(\\w+)")
+    attrFind = re.compile("([a-zA-Z]\w+)(?= ?(?:\: .*?)?= ?)")
 
     classes = []
     functions = []
     attrs = []
 
     for file in files:
-        if missing_only and ext == "py" and not os.path.isfile(
+        if missingOnly and ext == "py" and not os.path.isfile(
                 os.path.join(orig, "pyunity", file + "i")):
             continue
         with open(file, "r") as f:
@@ -46,31 +46,31 @@ def check_folder(folder, ext):
                 not any(module.startswith(item) for item in sys.argv[1:])):
             continue
         module = module.replace(".__init__", "") + "."
-        current_class = {}
+        currentClass = {}
         for line in content:
-            if re.search(class_find, line):
-                if current_class != {}:
-                    current_class["name"] = current_class["name"]
-                    classes.append(current_class)
-                current_class = {"name": module + re.search(class_find, line).group(),
+            if re.search(classFind, line):
+                if currentClass != {}:
+                    currentClass["name"] = currentClass["name"]
+                    classes.append(currentClass)
+                currentClass = {"name": module + re.search(classFind, line).group(),
                                 "methods": []}
-            elif re.search(method_find, line):
-                current_class["methods"].append(current_class["name"] + \
-                    "." + re.search(method_find, line).group())
-            elif re.search(func_find, line):
-                functions.append(module + re.search(func_find, line).group())
-            elif re.match(attr_find, line):
-                attrs.append(module + re.match(attr_find, line).group())
+            elif re.search(methodFind, line):
+                currentClass["methods"].append(currentClass["name"] + \
+                    "." + re.search(methodFind, line).group())
+            elif re.search(funcFind, line):
+                functions.append(module + re.search(funcFind, line).group())
+            elif re.match(attrFind, line):
+                attrs.append(module + re.match(attrFind, line).group())
 
-        if current_class != {}:
-            classes.append(current_class)
+        if currentClass != {}:
+            classes.append(currentClass)
     os.chdir(orig)
     return classes, functions, attrs
 
-a, b, c = check_folder("../pyunity", "py")
-d, e, f = check_folder("pyunity", "pyi")
+a, b, c = checkFolder("../pyunity", "py")
+d, e, f = checkFolder("pyunity", "pyi")
 
-def check_classes(a, b, c, d, e, f, name):
+def checkClasses(a, b, c, d, e, f, name):
     classes = []
     for class_ in a:
         for class2 in d:
@@ -102,7 +102,7 @@ def check_classes(a, b, c, d, e, f, name):
     for attr in attrs:
         print("Variable " + name + ":", attr)
 
-def check_docstrings():
+def checkDocstrings():
     os.chdir("../pyunity")
     files = glob.glob("**/*.py", recursive=True)
     files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
@@ -141,11 +141,11 @@ def check_docstrings():
 
     os.chdir(orig)
 
-check_classes(a, b, c, d, e, f, "missing")
+checkClasses(a, b, c, d, e, f, "missing")
 sys.stdout.write("\n\n")
-check_classes(d, e, f, a, b, c, "extra")
+checkClasses(d, e, f, a, b, c, "extra")
 sys.stdout.write("\n\n")
-check_docstrings()
+checkDocstrings()
 
 file.close()
 print = builtins.print

@@ -23,7 +23,7 @@ if "cython" not in os.environ:
 
 # import pyunity
 
-def check_endings():
+def checkEndings():
     if len(sys.argv) > 1:
         for file in glob.glob("**/*.py", recursive=True) + \
                 glob.glob("**/*.pyi", recursive=True):
@@ -37,7 +37,7 @@ def check_endings():
             with open(file, "w") as f:
                 f.write(contents)
 
-def parse_code():
+def parseCode():
     if pkgutil.find_loader("autopep8") is None:
         raise Exception("autopep8 is needed to parse the source code.\n" +
                         "Install using \"pip install autopep8\".")
@@ -46,13 +46,13 @@ def parse_code():
                 "E26,E301,E302,E305,E401,E402,E501",
                 "pyunity", "setup.py", "cli.py"])
 
-def get_packages(module):
+def getPackages(module):
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
         if "__" in name or "Window" in name or name == "config" or "example" in name:
             continue
         mod = importlib.import_module(module.__name__ + "." + name)
         if ispkg:
-            get_packages(mod)
+            getPackages(mod)
         if hasattr(mod, "__all__"):
             original = set(mod.__all__)
         else:
@@ -65,10 +65,10 @@ def get_packages(module):
             print(mod.__name__, "Add", list(new - original),
                   "Remove", list(original - new))
 
-def check_missing():
+def checkMissing():
     if len(sys.argv) > 1:
         import pyunity
-        get_packages(pyunity)
+        getPackages(pyunity)
 
 # items = []
 
@@ -99,7 +99,7 @@ def check_missing():
 #     f.write(before + text + after)
 
 # desc = pyunity.__doc__.split("\n")
-# desc_new = [
+# descNew = [
 #     "# PyUnity", "",
 #     "".join([
 #         "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
@@ -131,10 +131,10 @@ def check_missing():
 #         continue
 #     if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
 #         if desc[i + 1][0] == "-":
-#             desc_new.append("### " + desc[i])
+#             descNew.append("### " + desc[i])
 #             skip = 1
 #         elif desc[i + 1][0] == "=":
-#             desc_new.append("## " + desc[i])
+#             descNew.append("## " + desc[i])
 #             skip = 1
 #     else:
 #         if "create a new pull request" in desc[i]:
@@ -144,10 +144,10 @@ def check_missing():
 #             )
 #         if desc[i] == "`here <https://github.com/pyunity/pyunity>`_":
 #             continue
-#         desc_new.append(desc[i].replace("::", ":"))
+#         descNew.append(desc[i].replace("::", ":"))
 
 # with open("README.md", "w") as f:
-#     for line in desc_new:
+#     for line in descNew:
 #         f.write(line + "\n")
 
 def cythonize(error=False):
@@ -186,9 +186,9 @@ def cythonize(error=False):
             op(srcPath, destPath)
 
 def main():
-    check_endings()
-    parse_code()
-    check_missing()
+    checkEndings()
+    parseCode()
+    checkMissing()
     cythonize()
 
 if __name__ == "__main__":

@@ -29,38 +29,38 @@ class Window(ABCWindow, message="This window provider has been deprecated since 
     def refresh(self):
         glut.glutSwapBuffers()
 
-    def start(self, update_func):
+    def start(self, updateFunc):
         """
         Start the main loop of the window.
 
         Parameters
         ----------
-        update_func : function
+        updateFunc : function
             The function that calls the OpenGL calls.
 
         """
-        self.update_func = update_func
+        self.updateFunc = updateFunc
         glut.glutDisplayFunc(self.display)
         glut.glutReshapeFunc(self.resize)
 
-        self.schedule_update(0)
+        self.scheduleUpdate(0)
         glut.glutMainLoop()
 
-    def schedule_update(self, t):
+    def scheduleUpdate(self, t):
         """Starts the window refreshing."""
         glut.glutPostRedisplay()
-        glut.glutTimerFunc(1000 // self.config.fps, self.schedule_update, 0)
+        glut.glutTimerFunc(1000 // self.config.fps, self.scheduleUpdate, 0)
 
     def display(self):
         """Function to render in the scene."""
-        self.update_func()
+        self.updateFunc()
         glut.glutSwapBuffers()
 
     def quit(self):
         glut.glutDestroyWindow(glut.glutGetWindow())
 
-    def get_key(self, keycode, keystate):
+    def getKey(self, keycode, keystate):
         return False
 
-    def get_mouse(self, mousecode, keystate):
+    def getMouse(self, mousecode, keystate):
         return False

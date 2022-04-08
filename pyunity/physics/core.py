@@ -145,7 +145,7 @@ class SphereCollider(Collider):
     def collidingWith(self, other):
         if isinstance(other, SphereCollider):
             radii = (self.radius + other.radius) ** 2
-            distance = self.pos.get_dist_sqrd(other.pos)
+            distance = self.pos.getDistSqrd(other.pos)
             if distance < radii:
                 relative = (other.pos - self.pos).normalized()
                 dist = self.radius + other.radius - math.sqrt(distance)
@@ -242,27 +242,27 @@ class Rigidbody(Component):
 
     @property
     def mass(self):
-        if self.inv_mass == 0:
+        if self.invMass == 0:
             return Infinity
-        return 1 / self.inv_mass
+        return 1 / self.invMass
 
     @mass.setter
     def mass(self, val):
         if val == Infinity or val == 0:
-            self.inv_mass = 0
-        self.inv_mass = 1 / val
+            self.invMass = 0
+        self.invMass = 1 / val
 
     @property
     def inertia(self):
-        if self.inv_inertia == 0:
+        if self.invInertia == 0:
             return Infinity
-        return 1 / self.inv_inertia
+        return 1 / self.invInertia
 
     @inertia.setter
     def inertia(self, val):
         if val == Infinity or val == 0:
-            self.inv_inertia = 0
-        self.inv_inertia = 1 / val
+            self.invInertia = 0
+        self.invInertia = 1 / val
 
     @property
     def pos(self):
@@ -293,13 +293,13 @@ class Rigidbody(Component):
 
         """
         if self.gravity:
-            self.force += config.gravity / self.inv_mass
-        self.velocity += self.force * self.inv_mass
+            self.force += config.gravity / self.invMass
+        self.velocity += self.force * self.invMass
         self.pos += self.velocity * dt
 
-        self.rotVel += self.torque * self.inv_inertia
+        self.rotVel += self.torque * self.invInertia
         rotation = self.rotVel * dt
-        angle = rotation.normalize_return_length()
+        angle = rotation.normalize()
         rotQuat = Quaternion.FromAxis(math.degrees(angle), rotation)
         self.rot *= rotQuat
 
@@ -462,10 +462,10 @@ class CollManager:
         support = CollManager.supportPoint(a, b, ab.cross(c))
         points = [support]
         direction = -support
-        max_iter = 50
+        maxIter = 50
         i = 0
         while True:
-            if i >= max_iter:
+            if i >= maxIter:
                 return None
             i += 1
             support = CollManager.supportPoint(a, b, direction)
@@ -671,11 +671,11 @@ class CollManager:
             vab = a.velocity + a.rotVel.cross(ap)
             top = -(1 + restitution) * vab.dot(normal)
             apCrossN = ap.cross(normal)
-            inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
-            bottom = a.inv_mass + inertiaAcoeff
+            inertiaAcoeff = apCrossN.dot(apCrossN) * a.invInertia
+            bottom = a.invMass + inertiaAcoeff
             j = top / bottom
-            a.velocity += j * normal * a.inv_mass
-            a.rotVel += (point.cross(j * normal)) * a.inv_inertia
+            a.velocity += j * normal * a.invMass
+            a.rotVel += (point.cross(j * normal)) * a.invInertia
             return
 
         ap = point - a.pos
@@ -684,27 +684,27 @@ class CollManager:
         vab = a.velocity + a.rotVel.cross(ap) - b.velocity - b.rotVel.cross(bp)
         apCrossN = ap.cross(normal)
         bpCrossN = bp.cross(normal)
-        inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
-        inertiaBcoeff = bpCrossN.dot(bpCrossN) * b.inv_inertia
+        inertiaAcoeff = apCrossN.dot(apCrossN) * a.invInertia
+        inertiaBcoeff = bpCrossN.dot(bpCrossN) * b.invInertia
 
         top = -(1 + restitution) * vab.dot(normal)
-        bottom = a.inv_mass + b.inv_mass + inertiaAcoeff + inertiaBcoeff
+        bottom = a.invMass + b.invMass + inertiaAcoeff + inertiaBcoeff
         j = top / bottom
 
-        a.velocity += j * normal * a.inv_mass
-        b.velocity -= j * normal * b.inv_mass
-        a.rotVel += (point.cross(j * normal)) * a.inv_inertia
-        b.rotVel -= (point.cross(j * normal)) * b.inv_inertia
+        a.velocity += j * normal * a.invMass
+        b.velocity -= j * normal * b.invMass
+        a.rotVel += (point.cross(j * normal)) * a.invInertia
+        b.rotVel -= (point.cross(j * normal)) * b.invInertia
 
         # Positional correction
 
         percent = 0.4
         slop = 0.01
-        correction = max(penetration - slop, 0) / (a.inv_mass + b.inv_mass) * percent * normal
-        a.pos += a.inv_mass * correction
-        b.pos -= b.inv_mass * correction
+        correction = max(penetration - slop, 0) / (a.invMass + b.invMass) * percent * normal
+        a.pos += a.invMass * correction
+        b.pos -= b.invMass * correction
 
-    def correct_inf(self, a, b, correction, target):
+    def correctInf(self, a, b, correction, target):
         if not math.isinf(a + b):
             return 1 / target * correction
         else:

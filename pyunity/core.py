@@ -355,8 +355,8 @@ class Component:
     shown = {}
     saved = {}
 
-    def __init__(self, transform, is_dummy=False):
-        if is_dummy:
+    def __init__(self, transform, isDummy=False):
+        if isDummy:
             self.gameObject = None
         else:
             self.gameObject = transform.gameObject

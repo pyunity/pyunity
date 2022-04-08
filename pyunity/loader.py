@@ -199,11 +199,11 @@ class Primitives(metaclass=ImmutableStruct):
     Do not instantiate this class.
 
     """
-    _names = ["cube", "quad", "double_quad", "sphere", "capsule", "cylinder"]
+    _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
     _path = os.path.dirname(os.path.abspath(__file__))
     cube = LoadMesh(os.path.join(_path, "primitives/cube.mesh"))
     quad = LoadMesh(os.path.join(_path, "primitives/quad.mesh"))
-    double_quad = LoadMesh(os.path.join(_path, "primitives/double_quad.mesh"))
+    doubleQuad = LoadMesh(os.path.join(_path, "primitives/doubleQuad.mesh"))
     sphere = LoadMesh(os.path.join(_path, "primitives/sphere.mesh"))
     capsule = LoadMesh(os.path.join(_path, "primitives/capsule.mesh"))
     cylinder = LoadMesh(os.path.join(_path, "primitives/cylinder.mesh"))
@@ -315,7 +315,7 @@ def LoadMat(path, project):
     if not (parts["color"].startswith("RGB") or parts["color"].startswith("HSV")):
         raise ProjectParseException("Color value does not start with RGB or HSV")
 
-    color = Color.from_string(parts["color"])
+    color = Color.fromString(parts["color"])
 
     if parts["texture"] not in project._idMap and parts["texture"] != "None":
         raise ProjectParseException(f"Project file UUID not found: {parts['texture']}")

@@ -81,8 +81,8 @@ class Mesh:
     def compile(self, force=False):
         if not self.compiled or force:
             from . import render
-            self.vbo, self.ibo = render.gen_buffers(self)
-            self.vao = render.gen_array()
+            self.vbo, self.ibo = render.genBuffers(self)
+            self.vao = render.genArray()
             self.compiled = True
 
     def draw(self):
@@ -133,7 +133,7 @@ class Mesh:
         )
 
     @staticmethod
-    def double_quad(size):
+    def doubleQuad(size):
         """
         Creates a two-sided quadrilateral mesh.
 

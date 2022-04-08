@@ -16,7 +16,7 @@ import re
 import atexit
 from time import strftime, time
 
-def get_tmp():
+def getTmp():
     if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
         pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
         for path in sys.path:
@@ -32,7 +32,7 @@ def get_tmp():
         folder = os.path.join("/tmp", "pyunity", "logs")
     return folder
 
-folder = get_tmp()
+folder = getTmp()
 if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 

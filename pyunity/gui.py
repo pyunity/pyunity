@@ -60,26 +60,26 @@ class RectData:
 
     Parameters
     ----------
-    min_or_both : Vector2 or RectData
+    minOrBoth : Vector2 or RectData
         Minimum value, or another RectData object
     max : Vector2 or None
         Maximum value. Default is None
 
     """
 
-    def __init__(self, min_or_both=None, max=None):
-        if min_or_both is None:
+    def __init__(self, minOrBoth=None, max=None):
+        if minOrBoth is None:
             self.min = Vector2.zero()
             self.max = Vector2.zero()
         elif max is None:
-            if isinstance(min_or_both, RectData):
-                self.min = min_or_both.min.copy()
-                self.max = min_or_both.max.copy()
+            if isinstance(minOrBoth, RectData):
+                self.min = minOrBoth.min.copy()
+                self.max = minOrBoth.max.copy()
             else:
-                self.min = min_or_both.copy()
-                self.min = min_or_both.copy()
+                self.min = minOrBoth.copy()
+                self.min = minOrBoth.copy()
         else:
-            self.min = min_or_both.copy()
+            self.min = minOrBoth.copy()
             self.max = max.copy()
 
     def size(self):

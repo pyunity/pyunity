@@ -52,8 +52,8 @@ class Window(ABCWindow):
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)
 
-    def start(self, update_func):
-        self.update_func = update_func
+    def start(self, updateFunc):
+        self.updateFunc = updateFunc
 
         done = False
         clock = Clock()
@@ -64,16 +64,16 @@ class Window(ABCWindow):
                 if event.type == sdl2.SDL_QUIT:
                     done = True
 
-            self.process_keys(events)
-            self.process_mouse(events)
-            self.update_func()
+            self.processKeys(events)
+            self.processMouse(events)
+            self.updateFunc()
             sdl2.SDL_GL_SwapWindow(self.screen)
 
             clock.Maintain()
 
         self.quit()
 
-    def process_keys(self, events):
+    def processKeys(self, events):
         for i in range(len(self.keys)):
             if self.keys[i] == KeyState.UP:
                 self.keys[i] = KeyState.NONE
@@ -88,7 +88,7 @@ class Window(ABCWindow):
             elif event.type == sdl2.SDL_KEYUP:
                 self.keys[event.key.keysym.scancode] = KeyState.UP
 
-    def process_mouse(self, events):
+    def processMouse(self, events):
         for i in range(len(self.mouse)):
             if self.mouse[i] == KeyState.UP:
                 self.mouse[i] = KeyState.NONE
@@ -103,7 +103,7 @@ class Window(ABCWindow):
             elif event.type == sdl2.SDL_MOUSEBUTTONUP:
                 self.mouse[event.button.button] = KeyState.UP
 
-    def get_key(self, keycode, keystate):
+    def getKey(self, keycode, keystate):
         key = keyMap[keycode]
         if keystate == KeyState.PRESS:
             if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
@@ -112,7 +112,7 @@ class Window(ABCWindow):
             return True
         return False
 
-    def get_mouse(self, mousecode, keystate):
+    def getMouse(self, mousecode, keystate):
         mouse = mouseMap[mousecode]
         if keystate == KeyState.PRESS:
             if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
@@ -121,7 +121,7 @@ class Window(ABCWindow):
             return True
         return False
 
-    def get_mouse_pos(self):
+    def getMousePos(self):
         a = ctypes.c_long()
         b = ctypes.c_long()
         sdl2.SDL_GetMouseState(a, b)

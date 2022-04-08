@@ -49,7 +49,7 @@ class Vector(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def _r_o2(self, other, f):
+    def _o2r(self, other, f):
         pass
 
     @abstractmethod
@@ -59,63 +59,63 @@ class Vector(metaclass=ABCMeta):
     def __add__(self, other):
         return self._o2(other, operator.add)
     def __radd__(self, other):
-        return self._r_o2(other, operator.add)
+        return self._o2r(other, operator.add)
     def __iadd__(self, other):
         return self._io(other, operator.add)
 
     def __sub__(self, other):
         return self._o2(other, operator.sub)
     def __rsub__(self, other):
-        return self._r_o2(other, operator.sub)
+        return self._o2r(other, operator.sub)
     def __isub__(self, other):
         return self._io(other, operator.sub)
 
     def __mul__(self, other):
         return self._o2(other, operator.mul)
     def __rmul__(self, other):
-        return self._r_o2(other, operator.mul)
+        return self._o2r(other, operator.mul)
     def __imul__(self, other):
         return self._io(other, operator.mul)
 
     def __div__(self, other):
         return self._o2(other, operator.div)
     def __rdiv__(self, other):
-        return self._r_o2(other, operator.div)
+        return self._o2r(other, operator.div)
     def __idiv__(self, other):
         return self._io(other, operator.div)
 
     def __floordiv__(self, other):
         return self._o2(other, operator.floordiv)
     def __rfloordiv__(self, other):
-        return self._r_o2(other, operator.floordiv)
+        return self._o2r(other, operator.floordiv)
     def __ifloordiv__(self, other):
         return self._io(other, operator.floordiv)
 
     def __truediv__(self, other):
         return self._o2(other, operator.truediv)
     def __rtruediv__(self, other):
-        return self._r_o2(other, operator.truediv)
+        return self._o2r(other, operator.truediv)
     def __itruediv__(self, other):
         return self._io(other, operator.truediv)
 
     def __mod__(self, other):
         return self._o2(other, operator.mod)
     def __rmod__(self, other):
-        return self._r_o2(other, operator.mod)
+        return self._o2r(other, operator.mod)
     def __imod__(self, other):
         return self._io(other, operator.mod)
 
     def __lshift__(self, other):
         return self._o2(other, operator.lshift)
     def __rlshift__(self, other):
-        return self._r_o2(other, operator.lshift)
+        return self._o2r(other, operator.lshift)
     def __ilshift__(self, other):
         return self._io(other, operator.lshift)
 
     def __rshift__(self, other):
         return self._o2(other, operator.rshift)
     def __rrshift__(self, other):
-        return self._r_o2(other, operator.rshift)
+        return self._o2r(other, operator.rshift)
     def __irshift__(self, other):
         return self._io(other, operator.rshift)
 
@@ -136,17 +136,17 @@ class Vector(metaclass=ABCMeta):
     def __and__(self, other):
         return self._o2(other, operator.and_)
     def __rand__(self, other):
-        return self._r_o2(other, operator.and_)
+        return self._o2r(other, operator.and_)
 
     def __or__(self, other):
         return self._o2(other, operator.or_)
     def __ror__(self, other):
-        return self._r_o2(other, operator.or_)
+        return self._o2r(other, operator.or_)
 
     def __xor__(self, other):
         return self._o2(other, operator.xor)
     def __rxor__(self, other):
-        return self._r_o2(other, operator.xor)
+        return self._o2r(other, operator.xor)
 
     def __neg__(self):
         return self._o1(operator.neg)
@@ -171,17 +171,17 @@ class Vector(metaclass=ABCMeta):
         pass
 
 class Vector2(Vector):
-    def __init__(self, x_or_list=None, y=None):
-        if x_or_list is not None:
+    def __init__(self, xOrList=None, y=None):
+        if xOrList is not None:
             if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y"):
-                    self.x = x_or_list.x
-                    self.y = x_or_list.y
+                if hasattr(xOrList, "x") and hasattr(xOrList, "y"):
+                    self.x = xOrList.x
+                    self.y = xOrList.y
                 else:
-                    self.x = x_or_list[0]
-                    self.y = x_or_list[1]
+                    self.x = xOrList[0]
+                    self.y = xOrList[1]
             else:
-                self.x = x_or_list
+                self.x = xOrList
                 self.y = y
         else:
             self.x = 0
@@ -208,7 +208,7 @@ class Vector2(Vector):
         else:
             return Vector2(f(self.x, other), f(self.y, other))
 
-    def _r_o2(self, other, f):
+    def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector2"""
         if hasattr(other, "__getitem__"):
             return Vector2(f(other[0], self.x), f(other[1], self.y))
@@ -232,7 +232,7 @@ class Vector2(Vector):
         """Makes a copy of the Vector2"""
         return Vector2(self.x, self.y)
 
-    def get_length_sqrd(self):
+    def getLengthSqrd(self):
         """
         Gets the length of the vector squared. This
         is much faster than finding the length.
@@ -275,17 +275,8 @@ class Vector2(Vector):
 
     def normalize(self):
         """
-        Normalize the vector in place.
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-
-    def normalize_return_length(self):
-        """
-        Normalize the vector and return its length before the normalization
+        Normalize the vector in placeand return its length
+        before the normalization.
 
         Returns
         -------
@@ -299,7 +290,7 @@ class Vector2(Vector):
             self.y /= length
         return length
 
-    def get_distance(self, other):
+    def getDistance(self, other):
         """
         The distance between this vector and the other vector
 
@@ -311,10 +302,10 @@ class Vector2(Vector):
         """
         return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2)
 
-    def get_dist_sqrd(self, other):
+    def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `get_distance` and
+        It is more efficient to call this than to call `getDistance` and
         square it.
 
         Returns
@@ -326,7 +317,7 @@ class Vector2(Vector):
         return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2
 
     @property
-    def int_tuple(self):
+    def intTuple(self):
         """Return the x, y and z values of this vector as ints"""
         return int(self.x), int(self.y)
 
@@ -427,19 +418,19 @@ class Vector2(Vector):
         return Vector2(0, -1)
 
 class Vector3(Vector):
-    def __init__(self, x_or_list=None, y=None, z=None):
-        if x_or_list is not None:
+    def __init__(self, xOrList=None, y=None, z=None):
+        if xOrList is not None:
             if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y") and hasattr(x_or_list, "z"):
-                    self.x = x_or_list.x
-                    self.y = x_or_list.y
-                    self.z = x_or_list.z
+                if hasattr(xOrList, "x") and hasattr(xOrList, "y") and hasattr(xOrList, "z"):
+                    self.x = xOrList.x
+                    self.y = xOrList.y
+                    self.z = xOrList.z
                 else:
-                    self.x = x_or_list[0]
-                    self.y = x_or_list[1]
-                    self.z = x_or_list[2]
+                    self.x = xOrList[0]
+                    self.y = xOrList[1]
+                    self.z = xOrList[2]
             else:
-                self.x = x_or_list
+                self.x = xOrList
                 self.y = y
                 self.z = z
         else:
@@ -471,7 +462,7 @@ class Vector3(Vector):
         else:
             return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
 
-    def _r_o2(self, other, f):
+    def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector3"""
         if hasattr(other, "__getitem__"):
             return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
@@ -505,7 +496,7 @@ class Vector3(Vector):
         """
         return Vector3(self.x, self.y, self.z)
 
-    def get_length_sqrd(self):
+    def getLengthSqrd(self):
         """
         Gets the length of the vector squared. This
         is much faster than finding the length.
@@ -549,18 +540,8 @@ class Vector3(Vector):
 
     def normalize(self):
         """
-        Normalize the vector in place.
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-
-    def normalize_return_length(self):
-        """
-        Normalize the vector and return its length before the normalization
+        Normalize the vector in placeand return its length
+        before the normalization.
 
         Returns
         -------
@@ -575,7 +556,7 @@ class Vector3(Vector):
             self.z /= length
         return length
 
-    def get_distance(self, other):
+    def getDistance(self, other):
         """
         The distance between this vector and the other vector
 
@@ -587,10 +568,10 @@ class Vector3(Vector):
         """
         return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
 
-    def get_dist_sqrd(self, other):
+    def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `get_distance` and
+        It is more efficient to call this than to call `getDistance` and
         square it.
 
         Returns
@@ -602,7 +583,7 @@ class Vector3(Vector):
         return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2
 
     @property
-    def int_tuple(self):
+    def intTuple(self):
         """Return the x, y and z values of this vector as ints"""
         return int(self.x), int(self.y), int(self.z)
 

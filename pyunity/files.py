@@ -207,15 +207,15 @@ class Texture2D:
 
     """
 
-    def __init__(self, path_or_im):
-        if isinstance(path_or_im, str):
-            self.path = path_or_im
+    def __init__(self, pathOrImg):
+        if isinstance(pathOrImg, str):
+            self.path = pathOrImg
             self.img = Image.open(self.path).convert("RGBA")
-            self.img_data = self.img.tobytes()
+            self.imgData = self.img.tobytes()
         else:
             self.path = None
-            self.img = path_or_im
-            self.img_data = self.img.tobytes()
+            self.img = pathOrImg
+            self.imgData = self.img.tobytes()
         self.loaded = False
         self.texture = None
         self.mipmaps = False
@@ -239,7 +239,7 @@ class Texture2D:
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
             gl.GL_LINEAR)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
-                        gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.img_data)
+                        gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.imgData)
         if self.mipmaps:
             gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
         gl.glEnable(gl.GL_TEXTURE_2D)
@@ -249,7 +249,7 @@ class Texture2D:
         self.loaded = False
         self.img = im
         self.path = None
-        self.img_data = self.img.tobytes()
+        self.imgData = self.img.tobytes()
 
     def use(self):
         """
@@ -299,13 +299,13 @@ class Skybox:
             if loaded:
                 img = self.images[i]
             else:
-                img_path = os.path.join(self.path, name)
-                img = Image.open(img_path).convert("RGBA")
+                imgPath = os.path.join(self.path, name)
+                img = Image.open(imgPath).convert("RGBA")
                 self.images.append(img)
-            img_data = img.tobytes()
+            imgData = img.tobytes()
             width, height = img.size
             gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
-                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, img_data)
+                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, imgData)
 
         gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP,
                            gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)

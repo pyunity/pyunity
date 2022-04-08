@@ -7,7 +7,7 @@ if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    longDesc = fh.read()
 
 if os.environ["cython"] == "1":
     if not os.path.isdir("src"):
@@ -19,23 +19,23 @@ if os.environ["cython"] == "1":
             ]))
         import prepare
         prepare.cythonize()
-    c_files = glob.glob("src/**/*.c", recursive=True)
-    data_files = list(filter(lambda a: ".c" not in a,
+    cFiles = glob.glob("src/**/*.c", recursive=True)
+    dataFiles = list(filter(lambda a: ".c" not in a,
                       glob.glob("src/**/*.*", recursive=True)))
     config = {
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
-        "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in c_files],
-        "package_data": {"pyunity": [file[4:] for file in data_files]},
+        "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
+        "package_data": {"pyunity": [file[4:] for file in dataFiles]},
     }
     versionfile = "src/_version.py"
 else:
-    data_files = list(filter(lambda a: ".py" not in a,
+    dataFiles = list(filter(lambda a: ".py" not in a,
                       glob.glob("pyunity/**/*.*", recursive=True)))
     config = {
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
-        "package_data": {"pyunity": [file[8:] for file in data_files]},
+        "package_data": {"pyunity": [file[8:] for file in dataFiles]},
     }
     versionfile = "pyunity/_version.py"
 
@@ -53,7 +53,7 @@ setup(
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="A Python implementation of the Unity Engine",
-    long_description=long_description,
+    long_description=longDesc,
     long_description_content_type="text/markdown",
     url="https://github.com/pyunity/pyunity",
     classifiers=[
@@ -78,5 +78,6 @@ setup(
         "pyglm",
     ],
     python_requires='>=3.6',
+    zip_safe=False,
     **config,
 )
