@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 import os
 import glob
 import shutil
@@ -23,19 +27,42 @@ if "cython" not in os.environ:
 
 # import pyunity
 
-def checkEndings():
+def checkLicense():
+    others = [
+        "prepare.py", "setup.py", "tests.py", # Root files
+        os.path.join("stubs", "setup.py") # Stubs
+    ]
+
+    with open("LICENSE") as f:
+        content = f.read()
+    header = "# " + content.split("\n")[2] + "\n"
+    header += "# This file is licensed under the MIT License.\n"
+    header += "# See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
+    for file in glob.glob("pyunity/**/*.py", recursive=True) + others:
+        with open(file) as f:
+            contents = f.read()
+        if contents.startswith("#"):
+            continue
+        if not contents.startswith(header):
+            with open(file, "w") as f:
+                f.write(header)
+                f.write(contents)
+
+def checkWhitespace():
     if len(sys.argv) > 1:
         for file in glob.glob("**/*.py", recursive=True) + \
                 glob.glob("**/*.pyi", recursive=True):
             with open(file) as f:
-                contents = f.read()
+                contents = f.read().rstrip()
 
-            print(repr(contents[-1]))
-            if not contents.endswith("\n"):
-                contents += "\n"
+            lines = contents.split("\n")
+            for i in range(len(lines)):
+                if lines[i].isspace():
+                    lines[i] = ""
+            lines.append("")
 
             with open(file, "w") as f:
-                f.write(contents)
+                f.write("\n".join(lines))
 
 def parseCode():
     if pkgutil.find_loader("autopep8") is None:
@@ -186,7 +213,8 @@ def cythonize(error=False):
             op(srcPath, destPath)
 
 def main():
-    checkEndings()
+    checkLicense()
+    checkWhitespace()
     parseCode()
     checkMissing()
     cythonize()
