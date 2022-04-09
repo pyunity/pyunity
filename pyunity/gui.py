@@ -346,6 +346,7 @@ class RenderTarget(GuiRenderComponent):
         previousVAO = gl.glGetIntegerv(gl.GL_VERTEX_ARRAY_BINDING)
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
+        previousDepthMask = gl.glGetIntegerv(gl.GL_DEPTH_WRITEMASK)
 
         self.genBuffers()
         size = (rectTransform.GetRect() + rectTransform.offset).size()
@@ -354,6 +355,7 @@ class RenderTarget(GuiRenderComponent):
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
         gl.glClipControl(gl.GL_UPPER_LEFT, gl.GL_ZERO_TO_ONE)
+        gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
         renderers = self.scene.FindComponentsByType(MeshRenderer)
@@ -371,6 +373,7 @@ class RenderTarget(GuiRenderComponent):
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
+        gl.glDepthMask(previousDepthMask)
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
