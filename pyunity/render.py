@@ -614,11 +614,11 @@ class Camera(SingleComponent):
                 self.DrawDepth(renderers)
             gl.glEnable(gl.GL_CULL_FACE)
 
-            from PIL import Image
-            data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
-                gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
-            im = Image.fromarray(data, "L")
-            im.rotate(180).save("test.png")
+            # from PIL import Image
+            # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
+            #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
+            # im = Image.fromarray(data, "L")
+            # im.rotate(180).save("test.png")
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
