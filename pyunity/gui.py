@@ -23,6 +23,7 @@ import OpenGL.GL as gl
 import os
 import sys
 import enum
+import ctypes
 
 RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:
@@ -405,7 +406,7 @@ class RenderTarget(GuiRenderComponent):
         gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *Screen.size)
         gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.renderbuffer)
         gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, self.texID, 0)
-        gl.glDrawBuffers(1, convert(gl.GLenum, [gl.GL_COLOR_ATTACHMENT0]))
+        gl.glDrawBuffers(1, convert(ctypes.c_int, [gl.GL_COLOR_ATTACHMENT0]))
 
         if (gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) !=
                 gl.GL_FRAMEBUFFER_COMPLETE):

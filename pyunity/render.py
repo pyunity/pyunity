@@ -15,8 +15,8 @@ from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
 from typing import Dict
-from OpenGL import GL as gl
 from ctypes import c_float, c_ubyte, c_void_p
+import OpenGL.GL as gl
 import enum
 import hashlib
 import glm
@@ -103,6 +103,10 @@ class Shader:
         self.compiled = False
         self.name = name
         shaders[name] = self
+
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+        return self
 
     def compile(self):
         """
@@ -610,11 +614,11 @@ class Camera(SingleComponent):
                 self.DrawDepth(renderers)
             gl.glEnable(gl.GL_CULL_FACE)
 
-            # from PIL import Image
-            # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
-            #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
-            # im = Image.fromarray(data, "L")
-            # im.rotate(180).save("test.png")
+            from PIL import Image
+            data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
+                gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
+            im = Image.fromarray(data, "L")
+            im.rotate(180).save("test.png")
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)

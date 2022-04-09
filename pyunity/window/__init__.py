@@ -133,24 +133,23 @@ def SetWindowProvider(name):
     providers = getProviders()
     if name not in providers:
         raise PyUnityException(f"No window provider named {name!r} found")
-    modname = providers[name]
-    module = importlib.import_module(f".providers.{modname}", __name__)
+    module = importlib.import_module(f".providers.{name}", __name__)
     exc = None
     try:
         module.check()
     except Exception as e:
         if isinstance(e, ImportError):
             Logger.LogLine(Logger.WARN,
-                           modname + ": This window manager requires on a package "
+                           name + ": This window manager requires on a package "
                            "you don't have installed.")
             Logger.LogLine(Logger.WARN,
-                           modname + ": Check the source code and use `pip install` "
+                           name + ": Check the source code and use `pip install` "
                            "to resolve any missing dependencies.")
         exc = e
     if exc is not None:
         raise PyUnityException(f"Cannot use window provider {module.name!r}")
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
-    module = importlib.import_module(f".providers.{modname}.window", __name__)
+    module = importlib.import_module(f".providers.{name}.window", __name__)
     config.windowProvider = module.Window
     return module.Window
 

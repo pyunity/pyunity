@@ -43,6 +43,7 @@ class abstractproperty(abstractmethod):
 
 class ABCMeta(type):
     _trigger = True
+
     def __init__(cls, fullname, bases, attrs, message=None):
         super().__init__(fullname, bases, attrs)
 
@@ -70,6 +71,3 @@ class ABCMeta(type):
                         if message is not None:
                             raise ABCMessage(message)
                         raise
-
-    def __new__(cls, fullname, bases, attrs, message=None):
-        return super().__new__(cls, fullname, bases, attrs)
