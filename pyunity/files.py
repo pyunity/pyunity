@@ -224,6 +224,9 @@ class Texture2D:
         self.texture = None
         self.mipmaps = False
 
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+
     def load(self):
         """
         Loads the texture and sets up an OpenGL
