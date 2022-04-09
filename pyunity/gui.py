@@ -353,7 +353,6 @@ class RenderTarget(GuiRenderComponent):
             self.setSize(size)
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
-        gl.glDepthMask(gl.GL_TRUE)
         gl.glClipControl(gl.GL_UPPER_LEFT, gl.GL_ZERO_TO_ONE)
         self.source.Resize(*self.size)
 
@@ -371,10 +370,7 @@ class RenderTarget(GuiRenderComponent):
         gl.glBindVertexArray(previousVAO)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
-        gl.glDepthMask(gl.GL_FALSE)
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
-
-        # self.saveImg("test.png")
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
