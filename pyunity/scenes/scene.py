@@ -23,7 +23,7 @@ from ..errors import PyUnityException, PyUnityExit, ComponentException, GameObje
 from ..values import Clock
 from .. import render
 from inspect import signature
-from time import time
+from time import sleep, time
 import os
 import sys
 import math

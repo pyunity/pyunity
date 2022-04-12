@@ -328,16 +328,20 @@ class Image2D(GuiRenderComponent):
 class RenderTarget(GuiRenderComponent):
     source = ShowInInspector(Camera)
     depth = ShowInInspector(float, 0.0)
-    canvas = ShowInInspector(bool, False, "Render Canvas")
+    canvas = ShowInInspector(bool, True, "Render Canvas")
 
     def __init__(self, transform):
         super(RenderTarget, self).__init__(transform)
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
-        # self.renderPass = False
+        self.renderPass = False
 
     def PreRender(self):
+        if self.renderPass:
+            return
+        self.renderPass = True
+
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
@@ -373,6 +377,8 @@ class RenderTarget(GuiRenderComponent):
         gl.glViewport(*previousViewport)
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
         gl.glDepthMask(previousDepthMask)
+
+        self.renderPass = False
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)

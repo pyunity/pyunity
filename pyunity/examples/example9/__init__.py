@@ -103,7 +103,7 @@ def main():
     rect = target.AddComponent(RectTransform)
     rect.anchors.min = Vector2(0.6, 0.6)
     rect.anchors.max = Vector2(1, 1)
-    target.AddComponent(RenderTarget).source = camera
+    target.AddComponent(RenderTarget).source = scene.mainCamera
     scene.Add(target)
 
     label = GameObject("Label", canvas)
