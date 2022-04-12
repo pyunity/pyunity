@@ -316,11 +316,20 @@ class HideInInspector:
     default : Any
         Default value (will be set to the Behaviour)
     name : NoneType
-        None
+        Set when ``Component.__init_subclass__`` is excecuted
 
     """
-    def __init__(self, type=None, default=None):
-        self.type = type
+
+    def __init__(self, type_=None, default=None):
+        if isinstance(type_, str):
+            import pyunity
+            if type_ not in pyunity.__all__:
+                raise PyUnityException(f"No type named {type_!r}")
+            self.type = getattr(pyunity, type_)
+        else:
+            self.type = type_
+        if not isinstance(self.type, type):
+            raise PyUnityException(f"{self.type!r} is not a type")
         self.default = default
         self.name = None
 
