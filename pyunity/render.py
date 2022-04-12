@@ -397,7 +397,7 @@ class Camera(SingleComponent):
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
     shadows = ShowInInspector(bool, True)
-    canvas = ShowInInspector(Canvas)
+    canvas = ShowInInspector("Canvas")
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):

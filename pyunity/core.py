@@ -487,7 +487,7 @@ class Transform(SingleComponent):
     localPosition = ShowInInspector(Vector3, None, "position")
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
-    parent = HideInInspector()
+    parent = HideInInspector("Transform")
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
