@@ -12,8 +12,8 @@ __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
            "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
 from ..errors import PyUnityException
-from ..values import *
-from ..core import *
+from ..values import Vector3, Quaternion, ABCMeta, abstractmethod
+from ..core import Component, ShowInInspector
 from . import config
 import math
 

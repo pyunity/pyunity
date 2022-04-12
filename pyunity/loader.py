@@ -16,8 +16,8 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 from . import Logger
 from .meshes import Mesh
 from .errors import PyUnityException, ProjectParseException
-from .core import *
-from .values import *
+from .core import Transform, MeshRenderer, GameObject, Component, Tag
+from .values import Vector3, ImmutableStruct, Quaternion, Material, Color
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
 from .render import Camera, Light
@@ -240,10 +240,8 @@ def parseString(string):
         return True, Vector3(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Quaternion("):
         return True, Quaternion(*list(map(float, string[11:-1].split(", "))))
-    if string.startswith("RGB("):
-        return True, RGB(*list(map(float, string[4:-1].split(", "))))
-    if string.startswith("HSV("):
-        return True, HSV(*list(map(float, string[4:-1].split(", "))))
+    if string.startswith("RGB(") or string.startswith("HSV("):
+        return True, Color.fromString(string)
     if string in ["True", "False"]:
         return True, string == "True"
     if string == "None":

@@ -2,11 +2,13 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from . import texture, vector, abc
 __all__ = ["Clock", "ImmutableStruct", "Quaternion"]
-__all__.extend(vector.__all__)
-__all__.extend(texture.__all__)
-__all__.extend(abc.__all__)
+from .vector import __all__ as _vector_all
+from .texture import __all__ as _texture_all
+from .abc import __all__ as _abc_all
+__all__.extend(_vector_all)
+__all__.extend(_texture_all)
+__all__.extend(_abc_all)
 
 from .vector import *
 from .texture import *
