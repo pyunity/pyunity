@@ -369,8 +369,23 @@ class Camera(SingleComponent):
         Distance of the near plane in the camera frustrum. Defaults to 0.05.
     far : float
         Distance of the far plane in the camera frustrum. Defaults to 100.
-    clearColor : RGB
-        The clear color of the camera. Defaults to (0, 0, 0).
+    clearColor : Color
+        The clear color of the camera. Defaults to black.
+    shader : Shader
+        The shader to use for 3D objects.
+    skyboxEnabled : bool
+        Toggle skybox on or off. Defaults to True.
+    skybox : Skybox
+        Selected skybox to render.
+    ortho : bool
+        Orthographic or perspective proection. Defaults to False.
+    shadows : bool
+        Whether to render depthmaps and use them. Defaults to True.
+    canvas : Canvas
+        Target canvas to render. Defaults to None.
+    depthMapSize : int
+        Depth map texture size. Do not modify after scene has started.
+        Defaults to 1024.
 
     """
 
@@ -382,6 +397,7 @@ class Camera(SingleComponent):
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
     shadows = ShowInInspector(bool, True)
+    canvas = ShowInInspector(Canvas)
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -629,11 +645,11 @@ class Camera(SingleComponent):
         self.SetupShader(lights)
         self.Draw(renderers)
 
-    def Render(self, renderers, lights, canvases):
+    def Render(self, renderers, lights):
         self.RenderDepth(renderers, lights)
         self.RenderScene(renderers, lights)
         self.DrawSkybox()
-        self.Draw2D(canvases)
+        self.Draw2D()
 
     def DrawSkybox(self):
         if self.skyboxEnabled:
@@ -646,17 +662,17 @@ class Camera(SingleComponent):
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 
-    def Draw2D(self, canvases):
+    def Draw2D(self):
         """
-        Draw all Image2D and Text components in specified canvases.
+        Draw all Image2D and Text components in the Camera's
+        target canvas.
 
-        Parameters
-        ==========
-        canvases : List[Canvas]
-            Canvases to process. All processed GameObjects are cached
-            to prevent duplicate rendering.
+        If the Camera has no Canvas, this function does nothing.
 
         """
+        if self.canvas is None:
+            return
+
         from .gui import RectTransform, GuiRenderComponent
         self.setupBuffers()
         self.guiShader.use()
@@ -665,20 +681,15 @@ class Camera(SingleComponent):
         gl.glBindVertexArray(self.guiVAO)
         gl.glDepthMask(gl.GL_FALSE)
 
-        gameObjects = []
         renderers = []
-        for canvas in canvases:
-            for gameObject in canvas.transform.GetDescendants():
-                if gameObject in gameObjects:
-                    continue
-                gameObjects.append(gameObject)
-                rectTransform = gameObject.GetComponent(RectTransform)
-                if rectTransform is None:
-                    continue
+        for gameObject in self.canvas.transform.GetDescendants():
+            rectTransform = gameObject.GetComponent(RectTransform)
+            if rectTransform is None:
+                continue
 
-                components = gameObject.GetComponents(GuiRenderComponent)
-                transforms = [rectTransform] * len(components)
-                renderers.extend(zip(components, transforms))
+            components = gameObject.GetComponents(GuiRenderComponent)
+            transforms = [rectTransform] * len(components)
+            renderers.extend(zip(components, transforms))
 
         for renderer, rectTransform in renderers:
             renderer.PreRender()

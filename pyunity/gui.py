@@ -365,8 +365,7 @@ class RenderTarget(GuiRenderComponent):
         self.source.DrawSkybox()
 
         if self.canvas:
-            canvases = self.scene.FindComponentsByType(Canvas)
-            self.source.Draw2D(canvases)
+            self.source.Draw2D()
 
         gl.glUseProgram(previousShader)
         gl.glBindVertexArray(previousVAO)

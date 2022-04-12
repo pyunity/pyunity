@@ -46,7 +46,7 @@ class Rotator(Behaviour):
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
-    canvas.AddComponent(Canvas)
+    scene.mainCamera.canvas = canvas.AddComponent(Canvas)
     scene.Add(canvas)
 
     imgObject = GameObject("Image", canvas)

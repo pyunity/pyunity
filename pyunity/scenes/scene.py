@@ -484,16 +484,14 @@ class Scene:
         of the Main Camera.
 
         """
-        from ..gui import Canvas
         gl.glClearColor(0, 0, 0, 1)
         if self.mainCamera is None:
             return
 
         renderers = self.FindComponentsByType(MeshRenderer)
         lights = self.FindComponentsByType(render.Light)
-        canvases = self.FindComponentsByType(Canvas)
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(renderers, lights, canvases)
+        self.mainCamera.Render(renderers, lights)
 
     def cleanUp(self):
         """
