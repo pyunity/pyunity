@@ -30,7 +30,8 @@ if "cython" not in os.environ:
 def checkLicense():
     others = [
         "prepare.py", "setup.py", "tests.py", # Root files
-        os.path.join("stubs", "setup.py") # Stubs
+        os.path.join("stubs", "setup.py"), # Stub setup
+        *glob.glob("stubs/**/*.pyi", recursive=True)
     ]
 
     with open("LICENSE") as f:
@@ -49,20 +50,19 @@ def checkLicense():
                 f.write(contents)
 
 def checkWhitespace():
-    if len(sys.argv) > 1:
-        for file in glob.glob("**/*.py", recursive=True) + \
-                glob.glob("**/*.pyi", recursive=True):
-            with open(file) as f:
-                contents = f.read().rstrip()
+    for file in glob.glob("**/*.py", recursive=True) + \
+            glob.glob("**/*.pyi", recursive=True):
+        with open(file) as f:
+            contents = f.read().rstrip()
 
-            lines = contents.split("\n")
-            for i in range(len(lines)):
-                if lines[i].isspace():
-                    lines[i] = ""
-            lines.append("")
+        lines = contents.split("\n")
+        for i in range(len(lines)):
+            if lines[i].isspace():
+                lines[i] = ""
+        lines.append("")
 
-            with open(file, "w") as f:
-                f.write("\n".join(lines))
+        with open(file, "w") as f:
+            f.write("\n".join(lines))
 
 def parseCode():
     if pkgutil.find_loader("autopep8") is None:
@@ -93,9 +93,8 @@ def getPackages(module):
                   "Remove", list(original - new))
 
 def checkMissing():
-    if len(sys.argv) > 1:
-        import pyunity
-        getPackages(pyunity)
+    import pyunity
+    getPackages(pyunity)
 
 # items = []
 
@@ -213,11 +212,16 @@ def cythonize(error=False):
             op(srcPath, destPath)
 
 def main():
-    checkLicense()
-    checkWhitespace()
-    parseCode()
-    checkMissing()
-    cythonize()
+    if len(sys.argv) == 1:
+        checkLicense()
+        checkWhitespace()
+        checkMissing()
+        parseCode()
+        cythonize()
+    else:
+        for item in sys.argv[1:]:
+            if item in globals():
+                globals()[item]()
 
 if __name__ == "__main__":
     main()
