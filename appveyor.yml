@@ -40,7 +40,6 @@ for:
       - python -m pip install --pre cython wheel pyglm pillow autopep8
 
 build: off
-skip_branch_with_pr: true
 
 artifacts:
   - path: dist/pyunity-0.8.3*
