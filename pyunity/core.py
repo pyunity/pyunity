@@ -328,8 +328,6 @@ class HideInInspector:
             self.type = getattr(pyunity, type_)
         else:
             self.type = type_
-        if not isinstance(self.type, type):
-            raise PyUnityException(f"{self.type!r} is not a type")
         self.default = default
         self.name = None
 
@@ -496,7 +494,7 @@ class Transform(SingleComponent):
     localPosition = ShowInInspector(Vector3, None, "position")
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
-    parent = HideInInspector("Transform")
+    parent = HideInInspector()
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)

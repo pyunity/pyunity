@@ -397,7 +397,7 @@ class Camera(SingleComponent):
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
     shadows = ShowInInspector(bool, True)
-    canvas = ShowInInspector("Canvas")
+    canvas = ShowInInspector()
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -594,8 +594,6 @@ class Camera(SingleComponent):
         ==========
         renderers : List[MeshRenderer]
             Which meshes to render
-        lights : List[Light]
-            Lights to load into shader
 
         """
         self.shader.use()

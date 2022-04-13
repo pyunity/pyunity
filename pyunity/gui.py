@@ -363,12 +363,6 @@ class RenderTarget(GuiRenderComponent):
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
-        renderers = self.scene.FindComponentsByType(MeshRenderer)
-        lights = self.scene.FindComponentsByType(Light)
-        self.source.renderPass = True
-        self.source.RenderScene(renderers, lights)
-        self.source.RenderSkybox()
-
         if self.canvas and self.source.canvas is not None:
             self.source.Setup2D()
             renderers = []
@@ -379,6 +373,12 @@ class RenderTarget(GuiRenderComponent):
                 renderers.remove(self)
             self.source.Draw2D(renderers)
 
+        renderers = self.scene.FindComponentsByType(MeshRenderer)
+        lights = self.scene.FindComponentsByType(Light)
+        self.source.renderPass = True
+        self.source.RenderScene(renderers, lights)
+        self.source.RenderSkybox()
+
         gl.glUseProgram(previousShader)
         gl.glBindVertexArray(previousVAO)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, previousVBO)
@@ -387,7 +387,7 @@ class RenderTarget(GuiRenderComponent):
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
         gl.glDepthMask(previousDepthMask)
 
-        # self.renderPass = False
+        self.renderPass = False
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
