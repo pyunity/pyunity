@@ -52,6 +52,7 @@ def checkLicense():
 def checkWhitespace():
     for file in glob.glob("**/*.py", recursive=True) + \
             glob.glob("**/*.pyi", recursive=True):
+        print(file)
         with open(file) as f:
             contents = f.read().rstrip()
 
