@@ -648,10 +648,10 @@ class Camera(SingleComponent):
     def Render(self, renderers, lights):
         self.RenderDepth(renderers, lights)
         self.RenderScene(renderers, lights)
-        self.DrawSkybox()
-        self.Draw2D()
+        self.RenderSkybox()
+        self.Render2D()
 
-    def DrawSkybox(self):
+    def RenderSkybox(self):
         if self.skyboxEnabled:
             gl.glDepthFunc(gl.GL_LEQUAL)
             self.skyboxShader.use()
@@ -662,7 +662,7 @@ class Camera(SingleComponent):
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 
-    def Draw2D(self):
+    def Render2D(self):
         """
         Draw all Image2D and Text components in the Camera's
         target canvas.
@@ -673,25 +673,29 @@ class Camera(SingleComponent):
         if self.canvas is None:
             return
 
-        from .gui import RectTransform, GuiRenderComponent
+        from .gui import GuiRenderComponent
+        self.Setup2D()
+        renderers = []
+        for gameObject in self.canvas.transform.GetDescendants():
+            components = gameObject.GetComponents(GuiRenderComponent)
+            renderers.extend(components)
+        self.Draw2D(renderers)
+
+    def Setup2D(self):
         self.setupBuffers()
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, 10, -10))
         gl.glBindVertexArray(self.guiVAO)
-        gl.glDepthMask(gl.GL_FALSE)
 
-        renderers = []
-        for gameObject in self.canvas.transform.GetDescendants():
-            rectTransform = gameObject.GetComponent(RectTransform)
+    def Draw2D(self, renderers):
+        from .gui import RectTransform
+
+        gl.glDepthMask(gl.GL_FALSE)
+        for renderer in renderers:
+            rectTransform = renderer.GetComponent(RectTransform)
             if rectTransform is None:
                 continue
-
-            components = gameObject.GetComponents(GuiRenderComponent)
-            transforms = [rectTransform] * len(components)
-            renderers.extend(zip(components, transforms))
-
-        for renderer, rectTransform in renderers:
             renderer.PreRender()
             if renderer.texture is None:
                 continue

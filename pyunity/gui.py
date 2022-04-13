@@ -348,6 +348,7 @@ class RenderTarget(GuiRenderComponent):
 
         previousShader = gl.glGetIntegerv(gl.GL_CURRENT_PROGRAM)
         previousVAO = gl.glGetIntegerv(gl.GL_VERTEX_ARRAY_BINDING)
+        previousVBO = gl.glGetIntegerv(gl.GL_ARRAY_BUFFER_BINDING)
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
         previousDepthMask = gl.glGetIntegerv(gl.GL_DEPTH_WRITEMASK)
@@ -366,19 +367,27 @@ class RenderTarget(GuiRenderComponent):
         lights = self.scene.FindComponentsByType(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
-        self.source.DrawSkybox()
+        self.source.RenderSkybox()
 
-        if self.canvas:
-            self.source.Draw2D()
+        if self.canvas and self.source.canvas is not None:
+            self.source.Setup2D()
+            renderers = []
+            for gameObject in self.source.canvas.transform.GetDescendants():
+                components = gameObject.GetComponents(GuiRenderComponent)
+                renderers.extend(components)
+            if self in renderers:
+                renderers.remove(self)
+            self.source.Draw2D(renderers)
 
         gl.glUseProgram(previousShader)
         gl.glBindVertexArray(previousVAO)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, previousVBO)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
         gl.glDepthMask(previousDepthMask)
 
-        self.renderPass = False
+        # self.renderPass = False
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)

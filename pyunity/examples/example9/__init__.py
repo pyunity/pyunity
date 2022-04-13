@@ -97,13 +97,14 @@ def main():
     cam.transform.LookAtPoint(Vector3.zero())
     camera = cam.AddComponent(Camera)
     camera.shadows = False
+    camera.canvas = scene.mainCamera.canvas
     scene.Add(cam)
 
     target = GameObject("Target", canvas)
     rect = target.AddComponent(RectTransform)
     rect.anchors.min = Vector2(0.6, 0.6)
     rect.anchors.max = Vector2(1, 1)
-    target.AddComponent(RenderTarget).source = scene.mainCamera
+    target.AddComponent(RenderTarget).source = camera
     scene.Add(target)
 
     label = GameObject("Label", canvas)
