@@ -11,9 +11,8 @@ of Scenes.
 __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene", "LoadSceneByName",
            "CurrentScene", "AddScene", "LoadScene", "RemoveAllScenes", "GetSceneByIndex"]
 
-from ..core import *
 from .. import config, settings
-from ..errors import *
+from ..errors import PyUnityException, PyUnityExit
 from .scene import Scene
 from .. import logger as Logger
 from .. import render

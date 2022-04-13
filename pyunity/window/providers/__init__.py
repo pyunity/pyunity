@@ -2,7 +2,6 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from ...errors import *
 import os
 import sys
 import pkgutil
