@@ -20,6 +20,7 @@ from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
 import OpenGL.GL as gl
+import glm
 import os
 import sys
 import enum
@@ -364,6 +365,7 @@ class RenderTarget(GuiRenderComponent):
         self.source.Resize(*self.size)
 
         if self.canvas and self.source.canvas is not None:
+            previousProjection = self.source.guiShader.uniforms["projection"]
             self.source.Setup2D()
             renderers = []
             for gameObject in self.source.canvas.transform.GetDescendants():
@@ -372,6 +374,7 @@ class RenderTarget(GuiRenderComponent):
             if self in renderers:
                 renderers.remove(self)
             self.source.Draw2D(renderers)
+            self.source.guiShader.setMat4(b"projection", previousProjection)
 
         renderers = self.scene.FindComponentsByType(MeshRenderer)
         lights = self.scene.FindComponentsByType(Light)

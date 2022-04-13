@@ -102,6 +102,7 @@ class Shader:
         self.frag = frag
         self.compiled = False
         self.name = name
+        self.uniforms = {}
         shaders[name] = self
 
     def __deepcopy__(self, memo):
@@ -221,6 +222,7 @@ class Shader:
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
 
@@ -236,6 +238,7 @@ class Shader:
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
 
@@ -251,6 +254,7 @@ class Shader:
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1i(location, val)
 
@@ -266,6 +270,7 @@ class Shader:
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1f(location, val)
 
