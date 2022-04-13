@@ -52,7 +52,7 @@ def checkLicense():
 def checkWhitespace():
     for file in glob.glob("**/*.py", recursive=True) + \
             glob.glob("**/*.pyi", recursive=True):
-        with open(file) as f:
+        with open(file, encoding="utf8") as f:
             contents = f.read().rstrip()
 
         lines = contents.split("\n")
@@ -61,7 +61,7 @@ def checkWhitespace():
                 lines[i] = ""
         lines.append("")
 
-        with open(file, "w") as f:
+        with open(file, "w", encoding="utf8") as f:
             f.write("\n".join(lines))
 
 def parseCode():
