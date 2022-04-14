@@ -59,7 +59,7 @@ def main():
     rectTransform.offset = RectOffset.Rectangle(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
-    stack = ExitContext()
+    stack = ExitStack()
     ref = files("pyunity.examples.example8") / "logo.png"
     path = stack.enter_context(as_file(ref))
 
