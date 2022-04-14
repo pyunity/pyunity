@@ -24,6 +24,7 @@ from .render import Camera, Light
 from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
+from pathlib import Path
 from uuid import uuid4
 import inspect
 import json
@@ -76,12 +77,12 @@ def LoadObj(filename):
 
 def SaveObj(mesh, name, filePath=None):
     if filePath:
-        directory = os.path.dirname(os.path.abspath(filePath))
+        directory = Path(filePath).resolve().parent
     else:
-        directory = os.getcwd()
+        directory = Path.cwd()
     os.makedirs(directory, exist_ok=True)
 
-    with open(os.path.join(directory, name + ".obj"), "w+") as f:
+    with open(directory / (name + ".obj"), "w+") as f:
         for vertex in mesh.verts:
             f.write(f"v {' '.join(map(str, round(vertex, 8)))}\n")
         for normal in mesh.normals:
@@ -151,12 +152,12 @@ def SaveMesh(mesh, name, filePath=None):
 
     """
     if filePath:
-        directory = os.path.dirname(os.path.abspath(filePath))
+        directory = Path(filePath).resolve().parent
     else:
-        directory = os.getcwd()
+        directory = Path.cwd()
     os.makedirs(directory, exist_ok=True)
 
-    with open(os.path.join(directory, name + ".mesh"), "w+") as f:
+    with open(directory / (name + ".mesh"), "w+") as f:
         i = 0
         for vertex in mesh.verts:
             i += 1
@@ -204,13 +205,13 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    _path = os.path.dirname(os.path.abspath(__file__))
-    cube = LoadMesh(os.path.join(_path, "primitives/cube.mesh"))
-    quad = LoadMesh(os.path.join(_path, "primitives/quad.mesh"))
-    doubleQuad = LoadMesh(os.path.join(_path, "primitives/doubleQuad.mesh"))
-    sphere = LoadMesh(os.path.join(_path, "primitives/sphere.mesh"))
-    capsule = LoadMesh(os.path.join(_path, "primitives/capsule.mesh"))
-    cylinder = LoadMesh(os.path.join(_path, "primitives/cylinder.mesh"))
+    _path = Path(__file__).resolve().parent
+    cube = LoadMesh(_path / "primitives/cube.mesh")
+    quad = LoadMesh(_path / "primitives/quad.mesh")
+    doubleQuad = LoadMesh(_path / "primitives/doubleQuad.mesh")
+    sphere = LoadMesh(_path / "primitives/sphere.mesh")
+    capsule = LoadMesh(_path / "primitives/capsule.mesh")
+    cylinder = LoadMesh(_path / "primitives/cylinder.mesh")
 
 def GetImports(file):
     with open(file) as f:
@@ -279,7 +280,7 @@ class ObjectInfo:
         return s
 
 def SaveMat(material, project, filename):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    os.makedirs(Path(filename).parent, exist_ok=True)
 
     if material.texture is None:
         texID = "None"
@@ -289,8 +290,8 @@ def SaveMat(material, project, filename):
             project._ids[material.texture] = texID
             project._idMap[texID] = material.texture
 
-            name = os.path.splitext(os.path.basename(filename))[0]
-            path = os.path.join(project.path, "Textures", name + ".png")
+            name = Path(filename).name.rsplit(".")[0]
+            path = project.path / "Textures" / (name + ".png")
             file = File(path, texID)
             project.ImportFile(file, write=False)
             material.texture.img.save(path)
@@ -303,7 +304,7 @@ def SaveMat(material, project, filename):
         f.write(f"Material\n    texture: {texID}\n    color: {colStr}")
 
 def LoadMat(path, project):
-    if not os.path.isfile(path):
+    if not Path(path).is_file():
         raise PyUnityException(f"The specified file does not exist: {path}")
 
     with open(path) as f:
@@ -343,7 +344,7 @@ def SaveScene(scene, project, path):
         project._idMap[uuid] = obj
         return project._ids[obj]
 
-    location = os.path.join(project.path, path, scene.name + ".scene")
+    location = project.path / path / (scene.name + ".scene")
     data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
 
     for gameObject in scene.gameObjects:
@@ -361,21 +362,21 @@ def SaveScene(scene, project, path):
                 if isinstance(v, (GameObject, Component, Scene)) or v in project._ids:
                     v = getUuid(v)
                 elif isinstance(v, Mesh):
-                    filename = os.path.join("Meshes", gameObject.name + ".mesh")
-                    SaveMesh(v, gameObject.name, os.path.join(project.path, filename))
+                    filename = Path("Meshes") / (gameObject.name + ".mesh")
+                    SaveMesh(v, gameObject.name, project.path / filename)
                     v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
                 elif isinstance(v, Material):
-                    filename = os.path.join("Materials", gameObject.name + ".mat")
-                    SaveMat(v, project, os.path.join(project.path, filename))
+                    filename = Path("Materials") / (gameObject.name + ".mat")
+                    SaveMat(v, project, project.path / filename)
                     v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
                 elif isinstance(v, Texture2D):
-                    filename = os.path.join("Textures", gameObject.name + ".png")
-                    os.makedirs(os.path.join(project.path, "Textures"), exist_ok=True)
-                    v.img.save(os.path.join(project.path, filename))
+                    filename = Path("Textures") / (gameObject.name + ".png")
+                    os.makedirs(project.path / "Textures", exist_ok=True)
+                    v.img.save(project.path / filename)
                     v = getUuid(v)
                     file = File(filename, v)
                     project.ImportFile(file, write=False)
@@ -385,9 +386,9 @@ def SaveScene(scene, project, path):
             if isinstance(component, Behaviour):
                 behaviour = component.__class__
                 if behaviour not in project._ids:
-                    filename = os.path.join("Scripts", behaviour.__name__ + ".py")
-                    os.makedirs(os.path.join(project.path, "Scripts"), exist_ok=True)
-                    with open(os.path.join(project.path, filename), "w+") as f:
+                    filename = Path("Scripts") / (behaviour.__name__ + ".py")
+                    os.makedirs(project.path / "Scripts", exist_ok=True)
+                    with open(project.path / filename, "w+") as f:
                         f.write(GetImports(inspect.getsourcefile(behaviour)) +
                                 inspect.getsource(behaviour))
 
@@ -401,17 +402,17 @@ def SaveScene(scene, project, path):
                 name = component.__class__.__name__ + "(Component)"
             data.append(ObjectInfo(name, getUuid(component), attrs))
 
-    os.makedirs(os.path.dirname(location), exist_ok=True)
+    os.makedirs(location.parent, exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
-    project.ImportFile(File(os.path.join(path, scene.name + ".scene"), getUuid(scene)))
+    project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
 
 def ResaveScene(scene, project):
     if scene not in project._ids:
         raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
 
     path = project.fileIDs[project._ids[scene]].path
-    SaveScene(scene, project, os.path.dirname(path))
+    SaveScene(scene, project, Path(path).parent)
 
 def GenerateProject(name):
     project = Project(name)
@@ -428,12 +429,12 @@ def LoadProject(folder):
     # Scripts
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
-            Scripts.LoadScript(os.path.join(project.path, os.path.normpath(file)))
+            Scripts.LoadScript(project.path / os.path.normpath(file))
 
     # Meshes
     for file in project.filePaths:
         if file.endswith(".mesh"):
-            mesh = LoadMesh(os.path.join(project.path, os.path.normpath(file)))
+            mesh = LoadMesh(project.path / os.path.normpath(file))
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = mesh
             project._ids[mesh] = uuid
@@ -441,7 +442,7 @@ def LoadProject(folder):
     # Textures
     for file in project.filePaths:
         if file.endswith(".png") or file.endswith(".jpg"):
-            texture = Texture2D(os.path.join(project.path, os.path.normpath(file)))
+            texture = Texture2D(project.path / os.path.normpath(file))
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = texture
             project._ids[texture] = uuid
@@ -449,7 +450,7 @@ def LoadProject(folder):
     # Materials
     for file in project.filePaths:
         if file.endswith(".mat"):
-            material = LoadMat(os.path.join(project.path, os.path.normpath(file)), project)
+            material = LoadMat(project.path / os.path.normpath(file)), project
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = material
             project._ids[material] = uuid
@@ -457,7 +458,7 @@ def LoadProject(folder):
     # Scenes
     for file in project.filePaths:
         if file.endswith(".scene"):
-            LoadScene(os.path.join(project.path, os.path.normpath(file)), project)
+            LoadScene(project.path / os.path.normpath(file)), project
 
     return project
 
@@ -473,7 +474,7 @@ def LoadScene(sceneFile, project):
         project._ids[obj] = uuid
         project._idMap[uuid] = obj
 
-    if not os.path.isfile(sceneFile):
+    if not Path(sceneFile).is_file():
         raise PyUnityException(f"The specified file does not exist: {sceneFile}")
 
     with open(sceneFile) as f:
@@ -522,7 +523,7 @@ def LoadScene(sceneFile, project):
             component = gameObject.AddComponent(componentMap[part.name[:-11]])
         else:
             file = project.fileIDs[part.attrs.pop("_script")]
-            fullpath = os.path.join(os.path.abspath(project.path), file.path)
+            fullpath = project.path.resolve() / file.path
             behaviourType = PyUnityScripts._lookup[fullpath]
             addUuid(behaviourType, file.uuid)
             component = gameObject.AddComponent(behaviourType)

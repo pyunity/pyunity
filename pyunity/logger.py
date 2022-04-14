@@ -18,6 +18,7 @@ import platform
 import traceback
 import re
 import atexit
+from pathlib import Path
 from time import strftime, time
 
 def getTmp():
@@ -29,22 +30,22 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = os.path.join(result, "files", "pyunity", "logs")
+        folder = Path(result) / "files" / "pyunity" / "logs"
     elif platform.platform().startswith("Windows"):
-        folder = os.path.join(os.environ["appdata"], "PyUnity", "Logs")
+        folder = Path(os.environ["appdata"]) / "PyUnity" / "Logs"
     else:
-        folder = os.path.join("/tmp", "pyunity", "logs")
+        folder = Path("/tmp") / "pyunity" / "logs"
     return folder
 
 folder = getTmp()
-if not os.path.isdir(folder):
+if not folder.is_dir():
     os.makedirs(folder, exist_ok=True)
 
 stream = sys.stdout
 timestamp = strftime("%Y-%m-%d %H-%M-%S")
 start = time()
 
-with open(os.path.join(folder, "latest.log"), "w+") as f:
+with open(folder / "latest.log", "w+") as f:
     f.write("Timestamp |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
     f.write(strftime("%Y-%m-%d %H:%M:%S") + " |I| Started logger\n")
 
@@ -140,7 +141,7 @@ def LogLine(level, *message, silent=False):
                 sys.stderr.write(msg + "\n")
             else:
                 stream.write(msg + "\n")
-    with open(os.path.join(folder, "latest.log"), "a") as f:
+    with open(folder / "latest.log", "a") as f:
         f.write(f"{time} |{level.abbr}| {msg}\n")
     return time, msg
 
@@ -209,11 +210,10 @@ def Save():
     of initializing PyUnity for the first time.
 
     """
-    LogLine(INFO, "Saving new log at",
-            os.path.join(folder, timestamp + ".log"))
+    LogLine(INFO, "Saving new log at", folder / (timestamp + ".log"))
 
-    with open(os.path.join(folder, "latest.log")) as f:
-        with open(os.path.join(folder, timestamp + ".log"), "w+") as f2:
+    with open(folder / "latest.log") as f:
+        with open(folder / (timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
 
     # Upload to ftp

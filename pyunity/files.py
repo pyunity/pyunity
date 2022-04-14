@@ -18,6 +18,7 @@ from OpenGL import GL as gl
 from PIL import Image
 from types import ModuleType
 import os
+from pathlib import Path
 import sys
 import ctypes
 
@@ -177,7 +178,8 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
-        if not os.path.isfile(path):
+        pathobj = Path(path)
+        if not pathobj.is_file():
             raise PyUnityException(f"The specified file does not exist: {path}")
 
         if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
@@ -195,7 +197,7 @@ class Scripts:
         with open(path) as f:
             text = f.read().rstrip().splitlines()
 
-        name = os.path.basename(path)[:-3]
+        name = pathobj.name[:-3]
         if Scripts.CheckScript(text):
             c = compile("\n".join(text), name + ".py", "exec")
             exec(c, Scripts.var)
@@ -212,8 +214,8 @@ class Texture2D:
     """
 
     def __init__(self, pathOrImg):
-        if isinstance(pathOrImg, str):
-            self.path = pathOrImg
+        if isinstance(pathOrImg, (str, Path)):
+            self.path = str(pathOrImg)
             self.img = Image.open(self.path).convert("RGBA")
             self.imgData = self.img.tobytes()
         else:
@@ -298,7 +300,7 @@ class Skybox:
         gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
         for i, name in enumerate(Skybox.names):
-            imgPath = os.path.join(self.path, name)
+            imgPath = Path(self.path) / name
             img = Image.open(imgPath).convert("RGBA")
             imgData = img.tobytes()
             width, height = img.size
@@ -350,7 +352,7 @@ class File:
 class Project:
     def __init__(self, name="Project"):
         self.name = name
-        self.path = os.path.join(os.path.abspath(os.getcwd()), self.name)
+        self.path = Path.cwd().resolve() / self.name
         self._ids = {}
         self._idMap = {}
         self.fileIDs = {}
@@ -360,15 +362,15 @@ class Project:
         self.Write()
 
     def Write(self):
-        with open(os.path.join(self.name, self.name + ".pyunity"), "w+") as f:
+        with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
             f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
             for id_ in self.fileIDs:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
                 f.write(f"\n    {id_}: {normalized}")
 
     def ImportFile(self, file, write=True):
-        fullPath = os.path.join(self.path, file.path)
-        if not os.path.isfile(fullPath):
+        fullPath = self.path / file.path
+        if not fullPath.is_file():
             raise PyUnityException(f"The specified file does not exist: {fullPath}")
         self.fileIDs[file.uuid] = file
         self.filePaths[file.path] = file
@@ -377,13 +379,13 @@ class Project:
 
     @staticmethod
     def FromFolder(folder):
-        folder = os.path.abspath(folder)
-        if not os.path.isdir(folder):
+        folder = Path(folder).resolve()
+        if not folder.is_dir():
             raise PyUnityException(f"The specified folder does not exist: {folder}")
 
-        name = os.path.basename(os.path.abspath(folder))
-        filename = os.path.join(folder, name + ".pyunity")
-        if not os.path.isfile(filename):
+        name = folder.name
+        filename = folder / (name + ".pyunity")
+        if not filename.is_file():
             raise PyUnityException(f"The specified folder is not a PyUnity project: {folder}")
 
         with open(filename) as f:

@@ -16,6 +16,7 @@ from .files import Skybox, convert
 from . import config, Logger
 from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
+from pathlib import Path
 import OpenGL.GL as gl
 import enum
 import hashlib
@@ -118,13 +119,13 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        folder = os.path.join(os.path.dirname(Logger.folder), "ShaderCache")
+        folder = Logger.folder / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
         digest = sha256.hexdigest()
 
-        if os.path.isfile(os.path.join(folder, digest + ".bin")):
-            with open(os.path.join(folder, digest + ".bin"), "rb") as f:
+        if (folder / (digest + ".bin")).is_file():
+            with open(folder / (digest + ".bin"), "rb") as f:
                 binary = f.read()
 
             binaryFormat = int(binary[0])
@@ -180,7 +181,7 @@ class Shader:
         out = gl.glGetProgramBinary(self.program, length)
 
         os.makedirs(folder, exist_ok=True)
-        with open(os.path.join(folder, digest + ".bin"), "wb+") as f:
+        with open(folder / (digest + ".bin"), "wb+") as f:
             f.write(bytes([out[1]]))
             f.write(bytes(out[0]))
 
@@ -200,12 +201,13 @@ class Shader:
             Name to register this shader to. Used with `Camera.SetShader`.
 
         """
-        if not os.path.isdir(path):
+        p = Path(path)
+        if not p.is_dir():
             raise PyUnityException(f"Folder does not exist: {path!r}")
-        with open(os.path.join(path, "vertex.glsl")) as f:
+        with open(p / "vertex.glsl") as f:
             vertex = f.read()
 
-        with open(os.path.join(path, "fragment.glsl")) as f:
+        with open(p / "fragment.glsl") as f:
             fragment = f.read()
 
         return Shader(vertex, fragment, name)
@@ -281,15 +283,14 @@ class Shader:
                 self.compile()
             gl.glUseProgram(self.program)
 
-__dir = os.path.abspath(os.path.dirname(__file__))
+__dir = Path(__file__).resolve().parent
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
-skyboxes["Water"] = Skybox(os.path.join(
-    __dir, "shaders", "skybox", "textures"))
-Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
-Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
-Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
-Shader.fromFolder(os.path.join(__dir, "shaders", "depth"), "Depth")
+skyboxes["Water"] = Skybox(__dir / "shaders" / "skybox" / "textures")
+Shader.fromFolder(__dir / "shaders" / "standard", "Standard")
+Shader.fromFolder(__dir / "shaders" / "skybox", "Skybox")
+Shader.fromFolder(__dir / "shaders" / "gui", "GUI")
+Shader.fromFolder(__dir / "shaders" / "depth", "Depth")
 
 def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":

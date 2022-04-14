@@ -82,8 +82,8 @@ class Database(LiveDict):
         with open(self.path, "w+") as f:
             f.write(json.dumps(self.todict()))
 
-file = os.path.join(os.path.dirname(getTmp()), "settings.json")
-if not os.path.isfile(file):
+file = getTmp().parent / "settings.json"
+if not file.is_file():
     with open(file, "w+") as f:
         f.write("{}")
 
