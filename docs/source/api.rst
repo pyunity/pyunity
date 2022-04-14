@@ -10,6 +10,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   api/pyunity
    api/pyunity.physics
    api/pyunity.scenes
    api/pyunity.values
