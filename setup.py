@@ -85,6 +85,7 @@ setup(
         "pysdl2",
         "pysdl2-dll",
         "pyglm",
+        "importlib-resources; python_version < '3.9'",
     ],
     extras_require={
         "providers": [ # Other window providers as needed
@@ -92,6 +93,5 @@ setup(
         ]
     },
     python_requires=">=3.6",
-    zip_safe=False,
     **config,
 )

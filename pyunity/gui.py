@@ -19,12 +19,18 @@ from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
-from pathlib import Path
+from contextlib import ExitStack
 import OpenGL.GL as gl
+import atexit
 import os
 import sys
 import enum
 import ctypes
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:
@@ -460,12 +466,16 @@ class Button(GuiComponent):
         if Input.GetMouseState(self.mouseButton, self.state):
             self.callback()
 
-textureDir = Path(__file__).resolve().parent / "shaders" / "gui" / "textures"
-buttonDefault = Texture2D(textureDir / "button.png")
+stack = ExitStack()
+atexit.register(stack.close)
+ref = files("pyunity") / "shaders/gui/textures"
+
+buttonDefault = Texture2D(stack.enter_context(as_file(ref / "button.png")))
 checkboxDefaults = [
-    Texture2D(textureDir / "checkboxOff.png"),
-    Texture2D(textureDir / "checkboxOn.png")
+    Texture2D(stack.enter_context(as_file(ref / "checkboxOff.png"))),
+    Texture2D(stack.enter_context(as_file(ref / "checkboxOn.png")))
 ]
+stack.close()
 
 class _FontLoader:
     """

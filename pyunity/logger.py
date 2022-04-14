@@ -32,11 +32,11 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = Path(result) / "files" / "pyunity" / "logs"
+        folder = Path(result) / "files/pyunity/logs"
     elif platform.platform().startswith("Windows"):
-        folder = Path(os.environ["appdata"]) / "PyUnity" / "Logs"
+        folder = Path(os.environ["appdata"]) / "PyUnity/Logs"
     else:
-        folder = Path("/tmp") / "pyunity" / "logs"
+        folder = Path("/tmp") / "pyunity/logs"
     return folder
 
 folder = getTmp()

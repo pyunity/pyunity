@@ -14,15 +14,23 @@ from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
+from contextlib import ExitStack
 from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
 from pathlib import Path
 import OpenGL.GL as gl
+import atexit
 import enum
 import hashlib
 import glm
 import itertools
+import sys
 import os
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 floatSize = gl.sizeof(c_float)
 
@@ -283,14 +291,17 @@ class Shader:
                 self.compile()
             gl.glUseProgram(self.program)
 
-__dir = Path(__file__).resolve().parent
+stack = ExitStack()
+atexit.register(stack.close)
+ref = files("pyunity") / "shaders"
+
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
-skyboxes["Water"] = Skybox(__dir / "shaders" / "skybox" / "textures")
-Shader.fromFolder(__dir / "shaders" / "standard", "Standard")
-Shader.fromFolder(__dir / "shaders" / "skybox", "Skybox")
-Shader.fromFolder(__dir / "shaders" / "gui", "GUI")
-Shader.fromFolder(__dir / "shaders" / "depth", "Depth")
+skyboxes["Water"] = Skybox(stack.enter_context(as_file(ref / "skybox/textures")))
+Shader.fromFolder(stack.enter_context(as_file(ref / "standard")), "Standard")
+Shader.fromFolder(stack.enter_context(as_file(ref / "skybox")), "Skybox")
+Shader.fromFolder(stack.enter_context(as_file(ref / "gui")), "GUI")
+Shader.fromFolder(stack.enter_context(as_file(ref / "depth")), "Depth")
 
 def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":

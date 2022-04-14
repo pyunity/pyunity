@@ -5,15 +5,12 @@
 from ..scenes import SceneManager
 from ..errors import PyUnityException
 from .. import Logger
-from pathlib import Path
+import pkgutil
 import sys
-import os
-import glob
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
 broken = [3]
-directory = Path(__file__).resolve().parent
 
 def load_example(i):
     try:
@@ -34,7 +31,7 @@ def show(num=None):
         else:
             num = sys.argv[1]
     if num == "0":
-        for i in range(1, len(list(directory.glob("example*"))) + 1):
+        for i in range(1, len(list(pkgutil.iter_modules(__path__))) + 1):
             if i in broken:
                 continue
             load_example(i)
