@@ -333,7 +333,7 @@ class RenderTarget(GuiRenderComponent):
 
     def PreRender(self):
         if self.renderPass:
-            return
+            return 1
         self.renderPass = True
 
         if self.source is self.scene.mainCamera:
@@ -369,14 +369,7 @@ class RenderTarget(GuiRenderComponent):
 
         if self.canvas and self.source.canvas is not None:
             previousProjection = self.source.guiShader.uniforms["projection"]
-            self.source.Setup2D()
-            renderers = []
-            for gameObject in self.source.canvas.transform.GetDescendants():
-                components = gameObject.GetComponents(GuiRenderComponent)
-                renderers.extend(components)
-            if self in renderers:
-                renderers.remove(self)
-            self.source.Draw2D(renderers)
+            self.source.Render2D()
             self.source.guiShader.setMat4(b"projection", previousProjection)
 
         gl.glUseProgram(previousShader)

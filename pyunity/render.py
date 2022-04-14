@@ -699,7 +699,8 @@ class Camera(SingleComponent):
             rectTransform = renderer.GetComponent(RectTransform)
             if rectTransform is None:
                 continue
-            renderer.PreRender()
+            if renderer.PreRender() is not None:
+                continue
             if renderer.texture is None:
                 continue
             renderer.texture.use()
