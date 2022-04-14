@@ -3,13 +3,13 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import config, SceneManager, AudioClip, AudioSource
-import os
+from importlib.resources import files
 
 def main():
     scene = SceneManager.AddScene("Scene")
     if config.audio:
-        path = os.path.abspath(os.path.dirname(__file__))
-        clip = AudioClip(os.path.join(path, "explode.ogg"))
+        path = files(__package__) / "explode.ogg"
+        clip = AudioClip(path)
         source = scene.mainCamera.AddComponent(AudioSource)
         source.SetClip(clip)
         source.playOnStart = True

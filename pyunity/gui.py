@@ -17,6 +17,7 @@ from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
+from importlib.resources import files
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
 from pathlib import Path
@@ -460,7 +461,7 @@ class Button(GuiComponent):
         if Input.GetMouseState(self.mouseButton, self.state):
             self.callback()
 
-textureDir = Path(__file__).resolve().parent / "shaders" / "gui" / "textures"
+textureDir = files("pyunity") / "shaders/gui/textures"
 buttonDefault = Texture2D(textureDir / "button.png")
 checkboxDefaults = [
     Texture2D(textureDir / "checkboxOff.png"),

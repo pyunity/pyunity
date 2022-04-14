@@ -76,7 +76,7 @@ class AudioClip:
     """
 
     def __init__(self, path):
-        self.path = path
+        self.path = str(path)
         self.music = None
 
 class AudioSource(Component):

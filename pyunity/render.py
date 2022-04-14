@@ -14,6 +14,7 @@ from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
+from importlib.resources import files
 from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
 from pathlib import Path
@@ -283,14 +284,14 @@ class Shader:
                 self.compile()
             gl.glUseProgram(self.program)
 
-__dir = Path(__file__).resolve().parent
+__dir = files("pyunity") / "shaders"
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
-skyboxes["Water"] = Skybox(__dir / "shaders" / "skybox" / "textures")
-Shader.fromFolder(__dir / "shaders" / "standard", "Standard")
-Shader.fromFolder(__dir / "shaders" / "skybox", "Skybox")
-Shader.fromFolder(__dir / "shaders" / "gui", "GUI")
-Shader.fromFolder(__dir / "shaders" / "depth", "Depth")
+skyboxes["Water"] = Skybox(__dir / "skybox/textures")
+Shader.fromFolder(__dir / "standard", "Standard")
+Shader.fromFolder(__dir / "skybox", "Skybox")
+Shader.fromFolder(__dir / "gui", "GUI")
+Shader.fromFolder(__dir / "depth", "Depth")
 
 def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":

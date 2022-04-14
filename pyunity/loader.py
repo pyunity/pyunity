@@ -24,6 +24,7 @@ from .render import Camera, Light
 from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
+from importlib.resources import files
 from pathlib import Path
 from uuid import uuid4
 import inspect
@@ -205,13 +206,13 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    _path = Path(__file__).resolve().parent
-    cube = LoadMesh(_path / "primitives/cube.mesh")
-    quad = LoadMesh(_path / "primitives/quad.mesh")
-    doubleQuad = LoadMesh(_path / "primitives/doubleQuad.mesh")
-    sphere = LoadMesh(_path / "primitives/sphere.mesh")
-    capsule = LoadMesh(_path / "primitives/capsule.mesh")
-    cylinder = LoadMesh(_path / "primitives/cylinder.mesh")
+    _path = files("pyunity") / "primitives"
+    cube = LoadMesh(_path / "cube.mesh")
+    quad = LoadMesh(_path / "quad.mesh")
+    doubleQuad = LoadMesh(_path / "doubleQuad.mesh")
+    sphere = LoadMesh(_path / "sphere.mesh")
+    capsule = LoadMesh(_path / "capsule.mesh")
+    cylinder = LoadMesh(_path / "cylinder.mesh")
 
 def GetImports(file):
     with open(file) as f:
