@@ -143,6 +143,33 @@ providers for an example. If you would like
 to contribute a new window provider, then
 please `create a pull request <https://github.com/pyunity/pyunity/compare>`.
 
+Environment variables
+---------------------
+Here are a list of environment variables used
+by PyUnity:
+- **PYUNITY_TESTING** (default: unset)
+  When set, the following features are either
+  disabled or ignored:
+
+  - Window provder selection
+  - Audio
+  - Font loading
+  - Module checking (if window providing is forced)
+
+- **PYUNITY_DEBUG_MODE** (default: 1)
+  Disables debug output if set to "0".
+  Debug output has the code \|D\| in the log file.
+- **PYUNITY_AUDIO** (default: 1)
+  If set to "0", sdlmixer won't be loaded and
+  ``config.audio`` is set to ``False``.
+- **PYUNITY_GL_CONTEXT** (default: unset)
+  Set when the OpenGL context is enabled. Usually
+  not used except by wrapper scripts as Behaviours
+  only update while a valid context exists.
+- **PYUNITY_CHECK_WINDOW** (default: unset)
+  When set, forces window provider selection regardless
+  if ``windowProvider`` is set in ``settings.json``.
+
 Examples
 --------
 To run an example, import it like so:
