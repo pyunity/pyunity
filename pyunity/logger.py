@@ -20,6 +20,8 @@ import re
 import atexit
 from time import strftime, time
 
+TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 def getTmp():
     if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
         pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
@@ -41,12 +43,12 @@ if not os.path.isdir(folder):
     os.makedirs(folder, exist_ok=True)
 
 stream = sys.stdout
-timestamp = strftime("%Y-%m-%d %H-%M-%S")
+timestamp = strftime("%Y-%m-%d %H-%M-%S") # No : allowed in path
 start = time()
 
 with open(os.path.join(folder, "latest.log"), "w+") as f:
     f.write("Timestamp |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
-    f.write(strftime("%Y-%m-%d %H:%M:%S") + " |I| Started logger\n")
+    f.write(strftime(TIME_FORMAT) + " |I| Started logger\n")
 
 class Level:
     """
@@ -119,7 +121,7 @@ def LogLine(level, *message, silent=False):
         Level or severity of log.
 
     """
-    time = strftime("%Y-%m-%d %H:%M:%S")
+    time = strftime(TIME_FORMAT)
     msg = " ".join(map(lambda a: str(a).rstrip(), message))
     if level == WARN:
         msg = "Warning: " + msg
