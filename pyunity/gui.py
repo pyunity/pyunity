@@ -39,19 +39,12 @@ class Canvas(Component):
 
     """
 
-    def Update(self, updated):
+    def Update(self):
         """
-        Check if any components have been clicked on.
+        Check if any components have been hovered over.
 
-        Parameters
-        ----------
-        updated : list
-            List of already updated GameObjects.
         """
         for descendant in self.transform.GetDescendants():
-            if descendant in updated:
-                continue
-            updated.append(descendant)
             comp = descendant.GetComponent(GuiComponent)
             if comp is not None:
                 rectTransform = descendant.GetComponent(RectTransform)
