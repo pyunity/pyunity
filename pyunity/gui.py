@@ -19,8 +19,8 @@ from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
+from pathlib import Path
 import OpenGL.GL as gl
-import glm
 import os
 import sys
 import enum
@@ -460,12 +460,11 @@ class Button(GuiComponent):
         if Input.GetMouseState(self.mouseButton, self.state):
             self.callback()
 
-textureDir = os.path.join(os.path.abspath(
-    os.path.dirname(__file__)), "shaders", "gui", "textures")
-buttonDefault = Texture2D(os.path.join(textureDir, "button.png"))
+textureDir = Path(__file__).resolve().parent / "shaders" / "gui" / "textures"
+buttonDefault = Texture2D(textureDir / "button.png")
 checkboxDefaults = [
-    Texture2D(os.path.join(textureDir, "checkboxOff.png")),
-    Texture2D(os.path.join(textureDir, "checkboxOn.png"))
+    Texture2D(textureDir / "checkboxOff.png"),
+    Texture2D(textureDir / "checkboxOn.png")
 ]
 
 class _FontLoader:
