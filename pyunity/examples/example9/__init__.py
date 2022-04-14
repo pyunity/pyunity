@@ -43,6 +43,10 @@ class Rotator(Behaviour):
     def Update(self, dt):
         self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
+class CallbackReceiver(Behaviour):
+    def Callback(self):
+        Logger.Log("Clicked")
+
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
@@ -64,7 +68,8 @@ def main():
         "Button", scene, "-> Click me", FontLoader.LoadFont("Consolas", 20))
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
-    button.callback = lambda: Logger.Log("Clicked")
+    receiver = button.AddComponent(CallbackReceiver)
+    button.callback = receiver.Callback
 
     rect, checkbox = Gui.MakeCheckBox("Checkbox", scene)
     rect.transform.ReparentTo(canvas.transform)
