@@ -46,7 +46,7 @@ class Rotator(Behaviour):
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
-    canvas.AddComponent(Canvas)
+    scene.mainCamera.canvas = canvas.AddComponent(Canvas)
     scene.Add(canvas)
 
     imgObject = GameObject("Image", canvas)
@@ -97,6 +97,7 @@ def main():
     cam.transform.LookAtPoint(Vector3.zero())
     camera = cam.AddComponent(Camera)
     camera.shadows = False
+    camera.canvas = scene.mainCamera.canvas
     scene.Add(cam)
 
     target = GameObject("Target", canvas)

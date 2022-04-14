@@ -542,7 +542,7 @@ def LoadScene(sceneFile, project):
                 if not success:
                     continue
             if value is not None:
-                type_ = type(component).saved[k].type
+                type_ = component.saved[k].type
                 if type_ is float:
                     type_ = (float, int)
                 elif issubclass(type_, enum.Enum):

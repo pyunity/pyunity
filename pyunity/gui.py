@@ -20,6 +20,7 @@ from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
 import OpenGL.GL as gl
+import glm
 import os
 import sys
 import enum
@@ -38,19 +39,12 @@ class Canvas(Component):
 
     """
 
-    def Update(self, updated):
+    def Update(self):
         """
-        Check if any components have been clicked on.
+        Check if any components have been hovered over.
 
-        Parameters
-        ----------
-        updated : list
-            List of already updated GameObjects.
         """
         for descendant in self.transform.GetDescendants():
-            if descendant in updated:
-                continue
-            updated.append(descendant)
             comp = descendant.GetComponent(GuiComponent)
             if comp is not None:
                 rectTransform = descendant.GetComponent(RectTransform)
@@ -328,22 +322,31 @@ class Image2D(GuiRenderComponent):
 class RenderTarget(GuiRenderComponent):
     source = ShowInInspector(Camera)
     depth = ShowInInspector(float, 0.0)
-    canvas = ShowInInspector(bool, False, "Render Canvas")
+    canvas = ShowInInspector(bool, True, "Render Canvas")
 
     def __init__(self, transform):
         super(RenderTarget, self).__init__(transform)
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
-        # self.renderPass = False
+        self.renderPass = False
 
     def PreRender(self):
+        if self.renderPass:
+            return 1
+        self.renderPass = True
+
+        if self.source is self.scene.mainCamera:
+            raise PyUnityException(
+                "Cannot render main camera with main camera")
+
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
 
         previousShader = gl.glGetIntegerv(gl.GL_CURRENT_PROGRAM)
         previousVAO = gl.glGetIntegerv(gl.GL_VERTEX_ARRAY_BINDING)
+        previousVBO = gl.glGetIntegerv(gl.GL_ARRAY_BUFFER_BINDING)
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
         previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
         previousDepthMask = gl.glGetIntegerv(gl.GL_DEPTH_WRITEMASK)
@@ -362,18 +365,22 @@ class RenderTarget(GuiRenderComponent):
         lights = self.scene.FindComponentsByType(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
-        self.source.DrawSkybox()
+        self.source.RenderSkybox()
 
-        if self.canvas:
-            canvases = self.scene.FindComponentsByType(Canvas)
-            self.source.Draw2D(canvases)
+        if self.canvas and self.source.canvas is not None:
+            previousProjection = self.source.guiShader.uniforms["projection"]
+            self.source.Render2D()
+            self.source.guiShader.setMat4(b"projection", previousProjection)
 
         gl.glUseProgram(previousShader)
         gl.glBindVertexArray(previousVAO)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, previousVBO)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
         gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
         gl.glDepthMask(previousDepthMask)
+
+        self.renderPass = False
 
     def saveImg(self, path):
         previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)

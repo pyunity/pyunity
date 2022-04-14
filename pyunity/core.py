@@ -328,8 +328,6 @@ class HideInInspector:
             self.type = getattr(pyunity, type_)
         else:
             self.type = type_
-        if not isinstance(self.type, type):
-            raise PyUnityException(f"{self.type!r} is not a type")
         self.default = default
         self.name = None
 
@@ -456,12 +454,8 @@ class Component:
 
     @property
     def scene(self):
-        """Get either the scene of the GameObject or the current running scene."""
-        from .scenes import SceneManager
-        if self.gameObject.scene is None:
-            return SceneManager.CurrentScene()
-        else:
-            return self.gameObject.scene
+        """Get the scene of the GameObject."""
+        return self.gameObject.scene
 
 class SingleComponent(Component):
     """

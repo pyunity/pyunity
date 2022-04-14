@@ -23,7 +23,7 @@ from ..errors import PyUnityException, PyUnityExit, ComponentException, GameObje
 from ..values import Clock
 from .. import render
 from inspect import signature
-from time import time
+from time import sleep, time
 import os
 import sys
 import math
@@ -421,12 +421,12 @@ class Scene:
     def updateScripts(self):
         """Updates all scripts in the scene."""
         from ..input import Input
-        from ..gui import Canvas
         dt = max(time() - self.lastFrame, sys.float_info.epsilon)
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
+            if self.mainCamera is not None and self.mainCamera.canvas is not None:
+                self.mainCamera.canvas.Update()
 
-        canvasUpdated = []
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
@@ -439,8 +439,6 @@ class Scene:
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
                             component.Play()
-                elif isinstance(component, Canvas):
-                    component.Update(canvasUpdated)
 
         if self.physics:
             for i in range(self.collManager.steps):
@@ -484,16 +482,15 @@ class Scene:
         of the Main Camera.
 
         """
-        from ..gui import Canvas
-        gl.glClearColor(0, 0, 0, 1)
         if self.mainCamera is None:
+            gl.glClearColor(0, 0, 0, 1)
+            gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return
 
         renderers = self.FindComponentsByType(MeshRenderer)
         lights = self.FindComponentsByType(render.Light)
-        canvases = self.FindComponentsByType(Canvas)
         self.mainCamera.renderPass = True
-        self.mainCamera.Render(renderers, lights, canvases)
+        self.mainCamera.Render(renderers, lights)
 
     def cleanUp(self):
         """
