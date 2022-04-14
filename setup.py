@@ -86,11 +86,11 @@ setup(
         "pysdl2-dll",
         "pyglm",
     ],
-    extras_require = {
+    extras_require={
         "providers": [ # Other window providers as needed
             "glfw",
         ]
-    }
+    },
     python_requires=">=3.6",
     zip_safe=False,
     **config,
