@@ -39,7 +39,7 @@ def getTmp():
 
 folder = getTmp()
 if not folder.is_dir():
-    os.makedirs(folder, exist_ok=True)
+    folder.mkdir(parents=True, exist_ok=True)
 
 stream = sys.stdout
 timestamp = strftime("%Y-%m-%d %H-%M-%S")

@@ -80,7 +80,7 @@ def SaveObj(mesh, name, filePath=None):
         directory = Path(filePath).resolve().parent
     else:
         directory = Path.cwd()
-    os.makedirs(directory, exist_ok=True)
+    directory.mkdir(parents=True, exist_ok=True)
 
     with open(directory / (name + ".obj"), "w+") as f:
         for vertex in mesh.verts:
@@ -155,7 +155,7 @@ def SaveMesh(mesh, name, filePath=None):
         directory = Path(filePath).resolve().parent
     else:
         directory = Path.cwd()
-    os.makedirs(directory, exist_ok=True)
+    directory.mkdir(parents=True, exist_ok=True)
 
     with open(directory / (name + ".mesh"), "w+") as f:
         i = 0
@@ -280,7 +280,7 @@ class ObjectInfo:
         return s
 
 def SaveMat(material, project, filename):
-    os.makedirs(Path(filename).parent, exist_ok=True)
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
 
     if material.texture is None:
         texID = "None"
@@ -402,7 +402,7 @@ def SaveScene(scene, project, path):
                 name = component.__class__.__name__ + "(Component)"
             data.append(ObjectInfo(name, getUuid(component), attrs))
 
-    os.makedirs(location.parent, exist_ok=True)
+    location.parent.mkdir(parents=True, exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
     project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))

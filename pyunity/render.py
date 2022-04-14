@@ -180,7 +180,7 @@ class Shader:
         length = gl.glGetProgramiv(self.program, gl.GL_PROGRAM_BINARY_LENGTH)
         out = gl.glGetProgramBinary(self.program, length)
 
-        os.makedirs(folder, exist_ok=True)
+        folder.mkdir(parents=True, exist_ok=True)
         with open(folder / (digest + ".bin"), "wb+") as f:
             f.write(bytes([out[1]]))
             f.write(bytes(out[0]))
