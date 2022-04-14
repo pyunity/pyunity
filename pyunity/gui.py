@@ -364,6 +364,12 @@ class RenderTarget(GuiRenderComponent):
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
+        renderers = self.scene.FindComponentsByType(MeshRenderer)
+        lights = self.scene.FindComponentsByType(Light)
+        self.source.renderPass = True
+        self.source.RenderScene(renderers, lights)
+        self.source.RenderSkybox()
+
         if self.canvas and self.source.canvas is not None:
             previousProjection = self.source.guiShader.uniforms["projection"]
             self.source.Setup2D()
@@ -375,12 +381,6 @@ class RenderTarget(GuiRenderComponent):
                 renderers.remove(self)
             self.source.Draw2D(renderers)
             self.source.guiShader.setMat4(b"projection", previousProjection)
-
-        renderers = self.scene.FindComponentsByType(MeshRenderer)
-        lights = self.scene.FindComponentsByType(Light)
-        self.source.renderPass = True
-        self.source.RenderScene(renderers, lights)
-        self.source.RenderSkybox()
 
         gl.glUseProgram(previousShader)
         gl.glBindVertexArray(previousVAO)
