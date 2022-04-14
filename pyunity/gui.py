@@ -19,7 +19,6 @@ from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
-from importlib_resources import files, as_file
 from contextlib import ExitStack
 import OpenGL.GL as gl
 import atexit
@@ -27,6 +26,11 @@ import os
 import sys
 import enum
 import ctypes
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:

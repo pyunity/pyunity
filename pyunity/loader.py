@@ -24,7 +24,6 @@ from .render import Camera, Light
 from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
-from importlib_resources import files, as_file
 from contextlib import ExitStack
 from pathlib import Path
 from uuid import uuid4
@@ -32,7 +31,13 @@ import atexit
 import inspect
 import json
 import enum
+import sys
 import os
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 def LoadObj(filename):
     """

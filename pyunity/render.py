@@ -14,7 +14,6 @@ from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent
 from .files import Skybox, convert
 from . import config, Logger
-from importlib_resources import files, as_file
 from contextlib import ExitStack
 from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
@@ -25,7 +24,13 @@ import enum
 import hashlib
 import glm
 import itertools
+import sys
 import os
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 floatSize = gl.sizeof(c_float)
 

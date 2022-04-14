@@ -85,8 +85,8 @@ setup(
         "pysdl2",
         "pysdl2-dll",
         "pyglm",
+        "importlib_resources; python_version < '3.9'",
     ],
     python_requires=">=3.6",
-    zip_safe=False,
     **config,
 )
