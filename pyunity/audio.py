@@ -31,6 +31,9 @@ channels = 0
 if not config.audio:
     Logger.LogLine(
         Logger.WARN, "Failed to import PySDL2, your system may not support it.")
+elif os.environ["PYUNITY_AUDIO"] == "0":
+    config.audio = False
+    Logger.LogLine(Logger.WARN, "Audio disabled via env var")
 elif "PYUNITY_TESTING" in os.environ:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
