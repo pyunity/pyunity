@@ -8,6 +8,7 @@ import shutil
 import pkgutil
 import sys
 import importlib
+import importlib.metadata
 import inspect
 from setuptools._vendor.packaging import version # avoid pip install
 # from types import ModuleType
@@ -180,8 +181,7 @@ def cythonize(error=False):
     if os.environ["cython"] == "1":
         if pkgutil.find_loader("cython") is None:
             raise Exception("Cython is needed to create CPython extensions.")
-        import Cython
-        cythonVer = version.parse(Cython.__version__)
+        cythonVer = version.parse(importlib.metadata.version("cython"))
         if cythonVer < version.parse("3.0.0a8"):
             raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install cython==3.0.0a8")
         if os.path.exists("src"):
