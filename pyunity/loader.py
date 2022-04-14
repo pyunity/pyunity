@@ -24,9 +24,11 @@ from .render import Camera, Light
 from .audio import AudioSource, AudioListener
 from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
-from importlib.resources import files
+from importlib_resources import files, as_file
+from contextlib import ExitStack
 from pathlib import Path
 from uuid import uuid4
+import atexit
 import inspect
 import json
 import enum
@@ -199,6 +201,10 @@ def SaveMesh(mesh, name, filePath=None):
                 f.write("/")
         f.write("\n")
 
+stack = ExitStack()
+atexit.register(stack.close)
+ref = files("pyunity") / "primitives"
+
 class Primitives(metaclass=ImmutableStruct):
     """
     Primitive preloaded meshes.
@@ -206,13 +212,12 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    _path = files("pyunity") / "primitives"
-    cube = LoadMesh(_path / "cube.mesh")
-    quad = LoadMesh(_path / "quad.mesh")
-    doubleQuad = LoadMesh(_path / "doubleQuad.mesh")
-    sphere = LoadMesh(_path / "sphere.mesh")
-    capsule = LoadMesh(_path / "capsule.mesh")
-    cylinder = LoadMesh(_path / "cylinder.mesh")
+    cube = LoadMesh(stack.enter_context(as_file(ref / "cube.mesh")))
+    quad = LoadMesh(stack.enter_context(as_file(ref / "quad.mesh")))
+    doubleQuad = LoadMesh(stack.enter_context(as_file(ref / "doubleQuad.mesh")))
+    sphere = LoadMesh(stack.enter_context(as_file(ref / "sphere.mesh")))
+    capsule = LoadMesh(stack.enter_context(as_file(ref / "capsule.mesh")))
+    cylinder = LoadMesh(stack.enter_context(as_file(ref / "cylinder.mesh")))
 
 def GetImports(file):
     with open(file) as f:
