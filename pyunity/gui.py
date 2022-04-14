@@ -343,6 +343,10 @@ class RenderTarget(GuiRenderComponent):
             return
         self.renderPass = True
 
+        if self.source is self.scene.mainCamera:
+            raise PyUnityException(
+                "Cannot render main camera with main camera")
+
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
             return
