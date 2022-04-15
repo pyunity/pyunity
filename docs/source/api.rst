@@ -10,7 +10,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   api/pyunity
    api/pyunity.physics
    api/pyunity.scenes
    api/pyunity.values
@@ -33,3 +32,8 @@ Submodules
    api/pyunity.meshes
    api/pyunity.render
    api/pyunity.settings
+
+Module contents
+---------------
+
+.. automodule:: pyunity

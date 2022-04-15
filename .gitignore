@@ -19,8 +19,11 @@ pyproject.toml
 poetry.lock
 main.sh
 
+# Mypy
+.mypy_cache/
+out/
+
 # Misc
 venv/
 .vscode/
-.mypy_cache/
 docs/en/

@@ -36,13 +36,13 @@ Alternatively, you can clone the repository
 `here <https://github.com/pyunity/pyunity>`_
 to build the package from source. Then use
 ``setup.py`` to build. Note that it will install
-Cython to compile.
+Cython to compile. ::
 
     > python setup.py install
 
 The latest builds are on the ``develop`` branch
 which is the default branch. These builds are
-sometimes broken, so use at your own risk.
+sometimes broken, so use at your own risk. ::
 
     > git clone https://github.com/pyunity/pyunity
     > python setup.py install
@@ -141,12 +141,13 @@ class that has the following methods:
 Check the source code of any of the window
 providers for an example. If you would like
 to contribute a new window provider, then
-please `create a pull request <https://github.com/pyunity/pyunity/compare>`.
+please `create a pull request <https://github.com/pyunity/pyunity/compare>`_.
 
 Environment variables
 ---------------------
 Here are a list of environment variables used
 by PyUnity:
+
 - **PYUNITY_TESTING** (default: unset)
   When set, the following features are either
   disabled or ignored:
@@ -191,7 +192,7 @@ The ``1`` just means to load example 1, and there
 are 9 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
-`create a pull request <https://github.com/pyunity/pyunity/compare>`.
+`create a pull request <https://github.com/pyunity/pyunity/compare>`_.
 
 """
 

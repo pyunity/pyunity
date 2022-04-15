@@ -28,6 +28,11 @@ for i in range(len(lines)):
         lines[i] = "   api/" + lines[i][3:]
 
 lines.append("")
+lines.append("Module contents")
+lines.append("---------------")
+lines.append("")
+lines.append(".. automodule:: pyunity")
+lines.append("")
 
 with open("docs/source/api.rst", "w") as f:
     f.write("\n".join(lines))
