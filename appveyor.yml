@@ -21,11 +21,11 @@ for:
     install:
       - "C:\\Python%version:.=%-x64\\python -m virtualenv venv"
       - venv\Scripts\activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - python -m pip install -r .github/build_requirements.txt
 
       - "C:\\Python%version:.=%\\python -m virtualenv venv2"
       - venv2\Scripts\activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - python -m pip install -r .github/build_requirements.txt
 
       - python prepare.py cythonize
       - python -m unittest tests.py # early tests
@@ -37,7 +37,7 @@ for:
         - image: macos
     install:
       - source $HOME/venv$version/bin/activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - python -m pip install -r .github/build_requirements.txt
 
 build: off
 skip_branch_with_pr: true
