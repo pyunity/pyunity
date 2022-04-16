@@ -19,11 +19,11 @@ from ..core import GameObject, Tag, MeshRenderer, Component
 from ..files import Behaviour
 from ..values import Vector3
 from .. import config, physics, logger as Logger
-from ..errors import PyUnityException, PyUnityExit, ComponentException, GameObjectException
+from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from .. import render
 from inspect import signature
-from time import sleep, time
+from time import time
 import os
 import sys
 import math

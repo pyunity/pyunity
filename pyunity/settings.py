@@ -5,7 +5,6 @@
 __all__ = ["LiveDict", "Database"]
 
 from .logger import getTmp
-import os
 import json
 
 class LiveDict:
