@@ -2,7 +2,7 @@
 Releases
 ========
 
-v0.8.3
+v0.9.0
 ======
 Bugfix regarding Quaternion.eulerAngles.
 
@@ -10,7 +10,7 @@ To set the rotation of the camera using Euler angles,
 use `scene.mainCamera.localRotation.SetBackward(Vector3(...))`.
 
 Download source code at
-https://github.com/pyunity/pyunity/releases/tag/0.8.3
+https://github.com/pyunity/pyunity/releases/tag/0.9.0
 
 v0.8.2
 ======
@@ -67,7 +67,7 @@ Changes:
 - Rewrote most of the README to clear confusion about what PyUnity really is
 - RGB and HSV
 - Better GameObject deleting
-- ShowInInspector and HideInInspector 
+- ShowInInspector and HideInInspector
 - Dynamic lighting
 
 Download source code at

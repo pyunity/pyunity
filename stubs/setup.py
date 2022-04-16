@@ -9,7 +9,7 @@ with open("README.md") as f:
 
 setup(
     name="pyunity-stubs",
-    version="0.8.3.post2",
+    version="0.9.0.post2",
     author="Ray Chen",
     author_email="tankimarshal2@gmail.com",
     description="Stub files for the PyUnity package",
@@ -32,7 +32,7 @@ setup(
     ],
     python_requires='>=3.6',
     packages=["pyunity"],
-    install_requires=["pyunity==0.8.3"],
+    install_requires=["pyunity==0.9.0"],
     package_data={"pyunity": ["*.pyi", "*/*.pyi"]},
     zip_safe=False,
 )

@@ -3,7 +3,7 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
-Version 0.8.3 (in development)
+Version 0.9.0 (in development)
 ==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
@@ -70,7 +70,7 @@ This is the output with debugging::
     Trying GLFW as a window provider
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.3
+    Loaded PyUnity version 0.9.0
 
 If debugging is off, there is no output:
 
@@ -181,7 +181,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.3
+    Loaded PyUnity version 0.9.0
     >>> main()
 
 Or from the command line::
