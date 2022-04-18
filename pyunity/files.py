@@ -178,7 +178,7 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
-        pathobj = Path(path)
+        pathobj = Path(path).absolute()
         if not pathobj.is_file():
             raise PyUnityException(f"The specified file does not exist: {path}")
 
@@ -201,9 +201,15 @@ class Scripts:
         if Scripts.CheckScript(text):
             c = compile("\n".join(text), name + ".py", "exec")
             exec(c, Scripts.var)
+            if name not in Scripts.var:
+                raise PyUnityException(
+                    f"Cannot find class {name!r} in {str(pathobj)!r}")
             setattr(module, name, Scripts.var[name])
             module.__all__.append(name)
-            module._lookup[path] = Scripts.var[name]
+            module._lookup[str(path)] = Scripts.var[name]
+        else:
+            Logger.LogLine(Logger.WARN,
+                f"{str(pathobj)!r} is not a valid PyUnity script")
 
         return module
 
