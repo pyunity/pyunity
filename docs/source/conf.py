@@ -111,20 +111,20 @@ latex_documents = [
 
 hoverxref_auto_ref = True
 
-import inspect
-import enum
+# import inspect
+# import enum
 
-def skip_non_undoc(app, what, name, obj, skip, options):
-    if "undoc-members" not in options or skip:
-        return skip
-    if name == "__init__":
-        return True
-    if (inspect.isfunction(obj) or inspect.ismethod(obj) or \
-            isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
-        return None
-    if what == "class":
-        return True
-    return skip
+# def skip_non_undoc(app, what, name, obj, skip, options):
+#     if "undoc-members" not in options or skip:
+#         return skip
+#     if name == "__init__":
+#         return True
+#     if (inspect.isfunction(obj) or inspect.ismethod(obj) or \
+#             isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
+#         return None
+#     if what == "class":
+#         return True
+#     return skip
 
-def setup(app):
-    app.connect("autodoc-skip-member", skip_non_undoc)
+# def setup(app):
+#     app.connect("autodoc-skip-member", skip_non_undoc)
