@@ -50,7 +50,8 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "sphinx.ext.intersphinx"
+    "sphinx.ext.intersphinx",
+    "hoverxref.extension",
 ]
 
 master_doc = "index"
@@ -107,6 +108,8 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
+
+hoverxref_auto_ref = True
 
 import inspect
 import enum

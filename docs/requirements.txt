@@ -1,4 +1,4 @@
-docutils
 pyopengl
 pysdl2
 pillow
+sphinx-hoverxref
