@@ -42,7 +42,7 @@ build as follows::
 
 The latest builds are on the ``develop`` branch
 which is the default branch. These builds are
-sometimes broken, so use at your own risk.
+sometimes broken, so use at your own risk. ::
 
     > git clone https://github.com/pyunity/pyunity
     > python setup.py install
