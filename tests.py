@@ -5,10 +5,17 @@
 import unittest
 from unittest.mock import Mock
 import sys
-import math
-math.atan = math.atan2
 import os
 if "full" not in os.environ:
+    import math
+    def atan(*args):
+        if len(args) == 2:
+            return math.atan2(*args)
+        else:
+            return math._atan(*args)
+    math._atan = math.atan
+    math.atan = atan
+
     sys.modules["sdl2"] = Mock()
     sys.modules["sdl2.sdlmixer"] = Mock()
     sys.modules["sdl2.ext"] = Mock()
@@ -26,16 +33,16 @@ else:
 from pyunity import *
 
 class TestGameObject(unittest.TestCase):
-    def testGameobjectName(self):
+    def testGameObjectName(self):
         gameObject = GameObject()
         self.assertEqual(gameObject.name, "GameObject")
 
-    def testGameobjectTag(self):
+    def testGameObjectTag(self):
         gameObject = GameObject()
         self.assertEqual(gameObject.tag.tag, 0)
         self.assertEqual(gameObject.tag.tagName, "Default")
 
-    def testGameobjectTransform(self):
+    def testGameObjectTransform(self):
         gameObject = GameObject()
         gameObject2 = GameObject("GameObject2", gameObject)
         self.assertIsInstance(gameObject.transform, Transform)
@@ -47,7 +54,7 @@ class TestGameObject(unittest.TestCase):
         self.assertEqual(len(gameObject.transform.children), 1)
         self.assertEqual(len(gameObject2.transform.children), 0)
 
-    def testGameobjectComponent(self):
+    def testGameObjectComponent(self):
         gameObject = GameObject()
         self.assertIsInstance(gameObject.transform, Transform)
         self.assertEqual(len(gameObject.components), 1)
@@ -60,7 +67,8 @@ class TestGameObject(unittest.TestCase):
         self.assertEqual(str(exc.exception),
                          "Cannot add Transform to the GameObject; it already has one")
 
-    def testGameobjectPosition(self):
+class TestTransform(unittest.TestCase):
+    def testTransformPosition(self):
         gameObject = GameObject()
         gameObject2 = GameObject("GameObject2", gameObject)
         self.assertIs(gameObject2.transform.parent.gameObject, gameObject)
@@ -75,7 +83,7 @@ class TestGameObject(unittest.TestCase):
         self.assertEqual(transform.localPosition, Vector3(0, -1, 0))
         self.assertEqual(transform.position, Vector3(0, -1, 1))
 
-    def testGameobjectScale(self):
+    def testTransformScale(self):
         gameObject = GameObject()
         gameObject2 = GameObject("GameObject2", gameObject)
         transform = gameObject2.transform
@@ -202,6 +210,118 @@ class TestVector3(unittest.TestCase):
         self.assertEqual(v, v.copy())
         self.assertEqual(v.getLengthSqrd(), 29)
         self.assertEqual(v.length, math.sqrt(29))
+        self.assertAlmostEqual(v.normalized().length, 1)
+class TestVector2(unittest.TestCase):
+    def testInit(self):
+        v = Vector2()
+        self.assertEqual(v.x, 0)
+        self.assertEqual(v.y, 0)
+        self.assertEqual(v, Vector2.zero())
+        v = Vector2.one()
+        self.assertEqual(v.x, 1)
+        self.assertEqual(v.y, 1)
+
+    def testAdd(self):
+        v1 = Vector2(0, 1)
+        v2 = Vector2(2, 3)
+        self.assertEqual(v1 + v2, Vector2(2, 4))
+        self.assertEqual(v2 + v1, Vector2(2, 4))
+        v1 += v2
+        self.assertEqual(v1, Vector2(2, 4))
+        v2 += 2
+        self.assertEqual(v2, Vector2(4, 5))
+
+    def testSub(self):
+        v1 = Vector2(0, 1)
+        v2 = Vector2(2, 3)
+        self.assertEqual(v1 - v2, Vector2(-2, -2))
+        self.assertEqual(v2 - v1, Vector2(2, 2))
+        v1 -= v2
+        self.assertEqual(v1, Vector2(-2, -2))
+        v2 -= 2
+        self.assertEqual(v2, Vector2(0, 1))
+
+    def testMul(self):
+        v1 = Vector2(2, 3)
+        v2 = Vector2(5, 4)
+        self.assertEqual(v1 * v2, Vector2(10, 12))
+        self.assertEqual(v2 * v1, Vector2(10, 12))
+        v1 *= v2
+        self.assertEqual(v1, Vector2(10, 12))
+        v2 *= 2
+        self.assertEqual(v2, Vector2(10, 8))
+
+    def testDivOps(self):
+        v1 = Vector2(2, 3)
+        v2 = Vector2(5, 4)
+        self.assertEqual(v1 / v2, Vector2(0.4, 0.75))
+        self.assertEqual(v2 / v1, Vector2(2.5, 4/3))
+        v1 /= v2
+        self.assertEqual(v1, Vector2(0.4, 0.75))
+        v2 /= 2
+        self.assertEqual(v2, Vector2(2.5, 2))
+
+        v1 = Vector2(2, 3)
+        v2 = Vector2(4, 12)
+        self.assertEqual(v1 // v2, Vector2(0, 0))
+        self.assertEqual(v2 // v1, Vector2(2, 4))
+        v1 //= v2
+        self.assertEqual(v1, Vector2(0, 0))
+        v2 //= 2
+        self.assertEqual(v2, Vector2(2, 6))
+
+        with self.assertRaises(ZeroDivisionError):
+            v2 / 0
+
+        v1 = Vector2(2, 3)
+        v2 = Vector2(4, 12)
+        self.assertEqual(v1 % v2, Vector2(2, 3))
+        self.assertEqual(v2 % v1, Vector2(0, 0))
+        v1 %= v2
+        self.assertEqual(v1, Vector2(2, 3))
+        v2 %= 2
+        self.assertEqual(v2, Vector2(0, 0))
+
+    def testShifts(self):
+        v1 = Vector2(2, 3)
+        v2 = Vector2(0, 1)
+        self.assertEqual(v1 >> v2, Vector2(2, 1))
+        self.assertEqual(v2 >> v1, Vector2(0, 0))
+        v1 >>= v2
+        self.assertEqual(v1, Vector2(2, 1))
+        v2 >>= 2
+        self.assertEqual(v2, Vector2(0, 0))
+
+        v1 = Vector2(2, 3)
+        v2 = Vector2(0, 1)
+        self.assertEqual(v1 << v2, Vector2(2, 6))
+        self.assertEqual(v2 << v1, Vector2(0, 8))
+        v1 <<= v2
+        self.assertEqual(v1, Vector2(2, 6))
+        v2 <<= 2
+        self.assertEqual(v2, Vector2(0, 4))
+
+    def testBitwise(self):
+        v1 = Vector2(3, 4)
+        v2 = Vector2(1, 2)
+        self.assertEqual(v1 & v2, Vector2(1, 0))
+        self.assertEqual(v2 & v1, Vector2(1, 0))
+        self.assertEqual(v1 | v2, Vector2(3, 6))
+        self.assertEqual(v2 | v1, Vector2(3, 6))
+        self.assertEqual(v1 ^ v2, Vector2(2, 6))
+        self.assertEqual(v2 ^ v1, Vector2(2, 6))
+
+    def testUnary(self):
+        v = Vector2(-3, 4)
+        self.assertEqual(-v, Vector2(3, -4))
+        self.assertEqual(+v, Vector2(-3, 4))
+        self.assertEqual(~v, Vector2(2, -5))
+
+    def testUtilFuncs(self):
+        v = Vector2(2, -3)
+        self.assertEqual(v, v.copy())
+        self.assertEqual(v.getLengthSqrd(), 13)
+        self.assertEqual(v.length, math.sqrt(13))
         self.assertAlmostEqual(v.normalized().length, 1)
 
 class TestQuaternion(unittest.TestCase):
