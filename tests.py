@@ -10,9 +10,9 @@ import textwrap
 import sys
 import os
 import io
+import math
 
 if "full" not in os.environ:
-    import math
     def atan(*args):
         if len(args) == 2:
             return math.atan2(*args)
@@ -382,6 +382,7 @@ class TestScripts(unittest.TestCase):
             self.assertIs(__import__("PyUnityScripts"), module)
             self.assertIn(str(Path(file).absolute()), module._lookup)
             self.assertIn("TestBehaviour1", Scripts.var)
+            self.assertIn("TestBehaviour1", module.__all__)
             self.assertTrue(hasattr(module, "TestBehaviour1"))
             self.assertTrue(hasattr(module, "TestBehaviour1"))
 
@@ -406,6 +407,48 @@ class TestScripts(unittest.TestCase):
             Logger.stream = sys.stdout
             self.assertEqual(f.getvalue(),
                 f"Warning: {file!r} is not a valid PyUnity script\n")
+
+class TestScene(unittest.TestCase):
+    def setUp(self):
+        if "full" not in os.environ:
+            self.skipTest(reason="GLM not loaded; scene creation will fail")
+
+    def tearDown(self):
+        SceneManager.RemoveAllScenes()
+
+    def testInit(self):
+        scene = SceneManager.AddScene("Scene")
+        self.assertEqual(scene.name, "Scene")
+        self.assertEqual(len(scene.gameObjects), 2)
+
+        for gameObject in scene.gameObjects:
+            self.assertIs(gameObject.scene, scene)
+            for component in gameObject.components:
+                self.assertIs(component.gameObject, gameObject)
+                self.assertIs(component.transform, gameObject.transform)
+                self.assertIsInstance(component, Component)
+
+        self.assertEqual(scene.gameObjects[0].name, "Main Camera")
+        self.assertEqual(scene.gameObjects[1].name, "Light")
+        self.assertIs(scene.mainCamera, scene.gameObjects[0].components[1])
+        self.assertEqual(
+            len(scene.gameObjects[0].components), 3)
+        self.assertEqual(
+            len(scene.gameObjects[1].components), 2)
+        self.assertIsNotNone(
+            scene.gameObjects[0].GetComponent(Camera))
+        self.assertIsNotNone(
+            scene.gameObjects[0].GetComponent(AudioListener))
+        self.assertIsNotNone(
+            scene.gameObjects[1].GetComponent(Light))
+
+    def testFind(self):
+        scene = SceneManager.AddScene("Scene")
+        a = GameObject("A")
+        b = GameObject("B", a)
+        c = GameObject("C", a)
+        d = GameObject("D", c)
+        scene.AddMultiple(a, b, c, d)
 
 if __name__ == "__main__":
     unittest.main()

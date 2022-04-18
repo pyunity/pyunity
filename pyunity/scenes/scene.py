@@ -110,6 +110,19 @@ class Scene:
         gameObject.scene = self
         self.gameObjects.append(gameObject)
 
+    def AddMultiple(self, *args):
+        """
+        Add GameObjects to the scene.
+
+        Parameters
+        ----------
+        *args : list
+            A list of GameObjects to add.
+
+        """
+        for gameObject in args:
+            self.Add(gameObject)
+
     def Remove(self, gameObject):
         """
         Remove a GameObject from the scene.
