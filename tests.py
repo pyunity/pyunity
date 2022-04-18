@@ -2,10 +2,15 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
+from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import Mock
+import textwrap
 import sys
 import os
+import io
+
 if "full" not in os.environ:
     import math
     def atan(*args):
@@ -347,6 +352,60 @@ class TestQuaternion(unittest.TestCase):
         # self.assertAlmostEqual(q, Quaternion(0, 0, 1, 0))
         q = Quaternion.FromDir(Vector3(0, 0, 0))
         self.assertEqual(q, Quaternion.identity())
+
+class TestScripts(unittest.TestCase):
+    file1 = textwrap.dedent("""
+    from pyunity import Behaviour
+
+    class TestBehaviour1(Behaviour):
+        def Start(self):
+            print(self.gameObject.name)
+
+    """)
+
+    file2 = textwrap.dedent("""
+    print("Hello World!")
+    """)
+
+    def testCheckScript(self):
+        self.assertTrue(Scripts.CheckScript(self.file1.split("\n")))
+        self.assertFalse(Scripts.CheckScript(self.file2.split("\n")))
+
+    def testLoadScript(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            file = os.path.join(tmpdir, "TestBehaviour1.py")
+            with open(file, "w+") as f:
+                f.write(self.file1)
+
+            module = Scripts.LoadScript(file)
+            self.assertTrue(module.__pyunity__)
+            self.assertIs(__import__("PyUnityScripts"), module)
+            self.assertIn(str(Path(file).absolute()), module._lookup)
+            self.assertIn("TestBehaviour1", Scripts.var)
+            self.assertTrue(hasattr(module, "TestBehaviour1"))
+            self.assertTrue(hasattr(module, "TestBehaviour1"))
+
+    def testLoadScriptFails(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            file = os.path.join(tmpdir, "file1.py")
+            with open(file, "w+") as f:
+                f.write(self.file1)
+
+            with self.assertRaises(PyUnityException) as exc:
+                Scripts.LoadScript(file)
+            self.assertEqual(str(exc.exception),
+                f"Cannot find class 'file1' in {file!r}")
+
+            file = os.path.join(tmpdir, "file2.py")
+            with open(file, "w+") as f:
+                f.write(self.file2)
+
+            f = io.StringIO()
+            Logger.stream = f
+            Scripts.LoadScript(file)
+            Logger.stream = sys.stdout
+            self.assertEqual(f.getvalue(),
+                f"Warning: {file!r} is not a valid PyUnity script\n")
 
 if __name__ == "__main__":
     unittest.main()
