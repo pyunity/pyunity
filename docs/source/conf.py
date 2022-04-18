@@ -51,7 +51,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    "hoverxref.extension",
+    # "hoverxref.extension",
 ]
 
 master_doc = "index"
