@@ -24,7 +24,7 @@ class Window(ABCWindow):
 
         eglInitialize(eglDpy)
 
-        configAttribs = (EGLint * 13)(
+        configAttribs = EGLList(
             EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
             EGL_BLUE_SIZE, 8,
             EGL_GREEN_SIZE, 8,
@@ -34,14 +34,14 @@ class Window(ABCWindow):
             EGL_NONE
         )
         self.eglCfg = eglChooseConfig(eglDpy, configAttribs, 1)[0]
-        pbufferAttribs = (EGLint * 5)(
-            0x3057, 800,
-            0x3056, 500,
-            0x3038
+        pbufferAttribs = EGLList(
+            EGL_WIDTH, 800,
+            EGL_HEIGHT, 500,
+            EGL_NONE
         )
         self.eglSurf = eglCreatePbufferSurface(eglDpy, self.eglCfg, pbufferAttribs)
-        eglBindAPI(0x30A2)
-        contextAttribs = (EGLint * 3)(
+        eglBindAPI(EGL_OPENGL_API)
+        contextAttribs = EGLList(
             EGL_CONTEXT_CLIENT_VERSION, 330,
             EGL_NONE
         )

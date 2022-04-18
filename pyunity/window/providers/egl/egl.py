@@ -106,6 +106,9 @@ class EGLBoolean(ctypes.c_uint):
 class EGLint(ctypes.c_int):
     pass
 
+def EGLList(*l):
+    return (EGLint * len(l))(*l)
+
 _egl.eglInitialize.restype = EGLBoolean
 _egl.eglInitialize.argtypes = [
     EGLDisplay,

@@ -13,10 +13,9 @@ SceneManager.KeyboardInterruptKill = True
 broken = [3]
 
 def load_example(i):
-    try:
-        module = importlib.import_module(f".example{i}", __name__)
-    except ImportError:
+    if pkgutil.find_loader(__name__ + f".example{i}") is None:
         raise PyUnityException(f"Invalid example: {i!r}")
+    module = importlib.import_module(f".example{i}", __name__)
     Logger.Log("\nExample", i)
     module.main()
     SceneManager.RemoveAllScenes()
