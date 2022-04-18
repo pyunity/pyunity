@@ -218,15 +218,6 @@ def Save():
         with open(folder / (timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
 
-    # Upload to ftp
-    try:
-        import urllib.request
-        url = "https://ftp.pyunity.repl.co/upload?confirm=1"
-        with urllib.request.urlopen(url):
-            pass
-    except Exception as e:
-        LogException(e, silent=True)
-
 def SetStream(s):
     global stream
     stream = s
@@ -238,3 +229,12 @@ def ResetStream():
     stream = sys.stdout
     stream.write("Changed stream back to stdout\n")
     LogLine(INFO, "Changed stream back to stdout")
+
+# Upload to ftp
+try:
+    import urllib.request
+    url = "https://ftp.pyunity.repl.co/upload?confirm=1"
+    with urllib.request.urlopen(url):
+        pass
+except Exception as e:
+    LogException(e, silent=True)
