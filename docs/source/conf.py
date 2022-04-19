@@ -115,7 +115,7 @@ import inspect
 import enum
 
 def skip_non_undoc(app, what, name, obj, skip, options):
-    return None
+    return False
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_non_undoc)
