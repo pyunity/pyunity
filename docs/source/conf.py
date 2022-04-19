@@ -110,12 +110,12 @@ latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
 
-hoverxref_auto_ref = True
+# hoverxref_auto_ref = True
 
 def skip_member(app, what, name, obj, skip, options):
     print(name)
     if name.startswith("__"):
-        return False
+        return True
     if isinstance(obj, pyunity.HideInInspector):
         return True
 
