@@ -376,21 +376,22 @@ class Component:
 
     @classmethod
     def __init_subclass__(cls):
-        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(
-            filter(lambda a: not (a[0].startswith("__")), members))
-        shown = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], ShowInInspector)}
-        saved = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], HideInInspector)}
-        cls.shown = shown
-        cls.saved = saved
-        for name, val in saved.items():
-            if val.type is None:
-                val.type = cls
-            if val.name is None:
-                val.name = name
-            setattr(cls, name, val.default)
+        if "PYUNITY_SPHINX_CHECK" not in os.environ:
+            members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
+            variables = list(
+                filter(lambda a: not (a[0].startswith("__")), members))
+            shown = {a[0]: a[1]
+                    for a in variables if isinstance(a[1], ShowInInspector)}
+            saved = {a[0]: a[1]
+                    for a in variables if isinstance(a[1], HideInInspector)}
+            cls.shown = shown
+            cls.saved = saved
+            for name, val in saved.items():
+                if val.type is None:
+                    val.type = cls
+                if val.name is None:
+                    val.name = name
+                setattr(cls, name, val.default)
 
     def AddComponent(self, component):
         """

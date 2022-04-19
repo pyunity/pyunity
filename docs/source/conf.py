@@ -27,6 +27,7 @@ math.atan = atan
 sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
+os.environ["PYUNITY_SPHINX_CHECK"] = "1"
 import pyunity
 pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 
@@ -111,11 +112,12 @@ latex_documents = [
 
 hoverxref_auto_ref = True
 
-import inspect
-import enum
-
-def skip_non_undoc(app, what, name, obj, skip, options):
-    return False
+def skip_member(app, what, name, obj, skip, options):
+    print(name)
+    if name.startswith("__"):
+        return False
+    if isinstance(obj, pyunity.HideInInspector):
+        return True
 
 def setup(app):
-    app.connect("autodoc-skip-member", skip_non_undoc)
+    app.connect("autodoc-skip-member", skip_member)
