@@ -309,8 +309,8 @@ class Vector2(Vector):
     def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `getDistance` and
-        square it.
+        It is more efficient to call this than to call
+        :meth:`Vector2.getDistance` and square it.
 
         Returns
         -------
@@ -575,8 +575,8 @@ class Vector3(Vector):
     def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `getDistance` and
-        square it.
+        It is more efficient to call this than to call
+        :meth:`Vector3.getDistance` and square it.
 
         Returns
         -------

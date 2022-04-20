@@ -784,7 +784,7 @@ class CheckBox(GuiComponent):
 
     def HoverUpdate(self):
         """
-        Inverts ``checked`` and updates the texture of
+        Inverts :attr:`checked` and updates the texture of
         the Image2D, if there is one.
 
         """
@@ -838,9 +838,9 @@ class Gui:
 
         The generated GameObject can be accessed from the
         ``gameObject`` property of the returned components.
-        The ``Button`` GameObject will have two components,
+        The :class:`Button` GameObject will have two components,
         :class:`Button` and :class:`RectTransform`. The
-        ``Button`` GameObject will have two components,
+        :class:`Button` GameObject will have two components,
         :class:`Image2D` and :class:`RectTransform`.
 
         """

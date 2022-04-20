@@ -211,7 +211,7 @@ class GameObject:
         """
         Gets a component from the GameObject.
         Will return first match.
-        For all matches, use ``GetComponents``.
+        For all matches, use :meth:`GameObject.GetComponents`.
 
         Parameters
         ----------
@@ -233,6 +233,8 @@ class GameObject:
     def RemoveComponent(self, componentClass):
         """
         Removes the first matching component from a GameObject.
+        To remove all matching components, use
+        :meth:`GameObject.RemoveComponents`.
 
         Parameters
         ----------
@@ -396,7 +398,7 @@ class Component:
 
     def AddComponent(self, component):
         """
-        Calls ``AddComponent`` on the component's GameObject.
+        Calls :meth:`GameObject.AddComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -408,7 +410,7 @@ class Component:
 
     def GetComponent(self, component):
         """
-        Calls ``GetComponent`` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -420,7 +422,7 @@ class Component:
 
     def RemoveComponent(self, component):
         """
-        Calls ``RemoveComponent`` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -432,7 +434,7 @@ class Component:
 
     def GetComponents(self, component):
         """
-        Calls ``GetComponents`` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponents` on the component's GameObject.
 
         Parameters
         ----------
@@ -444,7 +446,7 @@ class Component:
 
     def RemoveComponents(self, component):
         """
-        Calls ``RemoveComponents`` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponents` on the component's GameObject.
 
         Parameters
         ----------

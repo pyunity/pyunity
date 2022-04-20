@@ -46,7 +46,7 @@ def AddScene(sceneName):
     Raises
     ------
     PyUnityException
-        If there already exists a scene called `sceneName`
+        If there already exists a scene called ``sceneName``
 
     """
     if sceneName in scenesByName:
@@ -75,7 +75,7 @@ def AddBareScene(sceneName):
     Raises
     ------
     PyUnityException
-        If there already exists a scene called `sceneName`
+        If there already exists a scene called ``sceneName``
 
     """
     if sceneName in scenesByName:
@@ -98,7 +98,7 @@ def GetSceneByIndex(index):
     Returns
     -------
     Scene
-        Specified scene at index `index`
+        Specified scene at index ``index``
 
     Raises
     ------
@@ -122,12 +122,12 @@ def GetSceneByName(name):
     Returns
     -------
     Scene
-        Specified scene with name of `name`
+        Specified scene with name of ``name``
 
     Raises
     ------
     KeyError
-        If there is no scene called `name`
+        If there is no scene called ``name``
 
     """
     if name not in scenesByName:
@@ -227,7 +227,7 @@ def LoadScene(scene):
     Raises
     ------
     TypeError
-        When the scene is not of type `Scene`
+        When the scene is not of type :class:`Scene`
     PyUnityException
         When the scene is not part of the SceneManager.
         This is checked because the SceneManager

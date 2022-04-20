@@ -7,7 +7,7 @@ v0.8.3
 Bugfix regarding Quaternion.eulerAngles.
 
 To set the rotation of the camera using Euler angles,
-use `scene.mainCamera.localRotation.SetBackward(Vector3(...))`.
+use ``scene.mainCamera.localRotation.SetBackward(Vector3(...))``.
 
 Download source code at
 https://github.com/pyunity/pyunity/releases/tag/0.9.0

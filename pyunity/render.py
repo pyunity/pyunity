@@ -206,7 +206,7 @@ class Shader:
         path : str
             Path of folder to load
         name : str
-            Name to register this shader to. Used with `Camera.SetShader`.
+            Name to register this shader to. Used with :meth:`Camera.SetShader`.
 
         """
         p = Path(path)

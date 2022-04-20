@@ -55,9 +55,9 @@ class Level:
     """
     Represents a level or severity to log. You
     should never instantiate this directly, instead
-    use one of `Logging.OUTPUT`, `Logging.INFO`,
-    `Logging.DEBUG`, `Logging.ERROR` or
-    `Logging.WARN`.
+    use one of ``Logging.OUTPUT``, ``Logging.INFO``,
+    ``Logging.DEBUG``, ``Logging.ERROR`` or
+    ``Logging.WARN``.
 
     """
 
@@ -82,7 +82,8 @@ class Special:
     """
     Class to represent a special line to log.
     You should never instantiate this class,
-    instead use one of `Logger.RUNNING_TIME`.
+    instead use one of ``Logger.RUNNING_TIME``
+    or ``Logger.ELAPSED_TIME``.
 
     """
 
@@ -112,7 +113,7 @@ def Log(*message):
 
 def LogLine(level, *message, silent=False):
     """
-    Logs a line in `latest.log` found in these two locations:
+    Logs a line in ``latest.log`` found in these two locations:
     Windows: ``%appdata%\\PyUnity\\Logs\\latest.log``
     Other: ``/tmp/pyunity/logs/latest.log``
 
@@ -191,7 +192,7 @@ sys.excepthook = LogTraceback
 
 def LogSpecial(level, type):
     """
-    Log a line of level `level` with a
+    Log a line of level ``level`` with a
     special line that is generated at
     runtime.
 
