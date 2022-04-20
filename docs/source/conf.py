@@ -113,11 +113,31 @@ latex_documents = [
 # hoverxref_auto_ref = True
 
 def skip_member(app, what, name, obj, skip, options):
-    print(name)
     if name.startswith("__"):
         return True
     if isinstance(obj, pyunity.HideInInspector):
         return True
+    if name in ["saved", "shown"] and isinstance(obj, dict):
+        for val in obj.values():
+            if not isinstance(val, pyunity.HideInInspector):
+                break
+        else:
+            return True
+
+def process_docstring(app, what, name, obj, options, lines):
+    if what == "class" and issubclass(obj, pyunity.Component):
+        indexes = []
+        for i, line in enumerate(lines):
+            if line.startswith(".. attribute:: "):
+                indexes.append(i)
+
+        for index in reversed(indexes):
+            name = lines[index][15:]
+            if name in obj.saved:
+                val = str(obj.saved[name].default)
+                lines.insert(index + 1, "   :annotation: = " + val)
+        print(lines)
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_member)
+    app.connect("autodoc-process-docstring", process_docstring)

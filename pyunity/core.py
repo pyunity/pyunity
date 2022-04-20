@@ -211,7 +211,7 @@ class GameObject:
         """
         Gets a component from the GameObject.
         Will return first match.
-        For all matches, use `GetComponents`.
+        For all matches, use ``GetComponents``.
 
         Parameters
         ----------
@@ -221,7 +221,7 @@ class GameObject:
         Returns
         -------
         Component or None
-            The specified component, or `None` if the component is not found
+            The specified component, or ``None`` if the component is not found
 
         """
         for component in self.components:
@@ -376,16 +376,17 @@ class Component:
 
     @classmethod
     def __init_subclass__(cls):
+        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
+        variables = list(
+            filter(lambda a: not (a[0].startswith("__")), members))
+        shown = {a[0]: a[1]
+                for a in variables if isinstance(a[1], ShowInInspector)}
+        saved = {a[0]: a[1]
+                for a in variables if isinstance(a[1], HideInInspector)}
+        cls.shown = shown
+        cls.saved = saved
+
         if "PYUNITY_SPHINX_CHECK" not in os.environ:
-            members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-            variables = list(
-                filter(lambda a: not (a[0].startswith("__")), members))
-            shown = {a[0]: a[1]
-                    for a in variables if isinstance(a[1], ShowInInspector)}
-            saved = {a[0]: a[1]
-                    for a in variables if isinstance(a[1], HideInInspector)}
-            cls.shown = shown
-            cls.saved = saved
             for name, val in saved.items():
                 if val.type is None:
                     val.type = cls
@@ -395,7 +396,7 @@ class Component:
 
     def AddComponent(self, component):
         """
-        Calls `AddComponent` on the component's GameObject.
+        Calls ``AddComponent`` on the component's GameObject.
 
         Parameters
         ----------
@@ -407,7 +408,7 @@ class Component:
 
     def GetComponent(self, component):
         """
-        Calls `GetComponent` on the component's GameObject.
+        Calls ``GetComponent`` on the component's GameObject.
 
         Parameters
         ----------
@@ -419,7 +420,7 @@ class Component:
 
     def RemoveComponent(self, component):
         """
-        Calls `RemoveComponent` on the component's GameObject.
+        Calls ``RemoveComponent`` on the component's GameObject.
 
         Parameters
         ----------
@@ -431,7 +432,7 @@ class Component:
 
     def GetComponents(self, component):
         """
-        Calls `GetComponents` on the component's GameObject.
+        Calls ``GetComponents`` on the component's GameObject.
 
         Parameters
         ----------
@@ -443,7 +444,7 @@ class Component:
 
     def RemoveComponents(self, component):
         """
-        Calls `RemoveComponents` on the component's GameObject.
+        Calls ``RemoveComponents`` on the component's GameObject.
 
         Parameters
         ----------
@@ -657,7 +658,8 @@ class Transform(SingleComponent):
 
     def LookAtGameObject(self, gameObject):
         """
-        Face towards another GameObject's position. See `Transform.LookAtTransform` for details.
+        Face towards another GameObject's position. See
+        :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
@@ -670,7 +672,8 @@ class Transform(SingleComponent):
 
     def LookAtPoint(self, vec):
         """
-        Face towards a point. See `Transform.LookAtTransform` for details.
+        Face towards a point. See
+        :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
@@ -683,7 +686,8 @@ class Transform(SingleComponent):
 
     def LookInDirection(self, vec):
         """
-        Face in a vector direction (from origin to point). See `Transform.LookAtTransform` for details.
+        Face in a vector direction (from origin to point).
+        See :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
