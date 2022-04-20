@@ -110,7 +110,10 @@ latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
 
-# hoverxref_auto_ref = True
+hoverxref_auto_ref = True
+hoverxref_domains = [
+    "py"
+]
 
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
