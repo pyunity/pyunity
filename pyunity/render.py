@@ -106,6 +106,7 @@ def fillScreen(scale=1):
     gl.glEnd()
 
 class Shader:
+    VERSION = "1.00" # Must be 4 long
     def __init__(self, vertex, frag, name):
         self.vertex = vertex
         self.frag = frag
@@ -136,20 +137,35 @@ class Shader:
             with open(folder / (digest + ".bin"), "rb") as f:
                 binary = f.read()
 
-            binaryFormat = int(binary[0])
-            self.program = gl.glCreateProgram()
-            gl.glProgramBinary(
-                self.program, binaryFormat, binary[1:], len(binary))
+            # Format:
+            # version (4 long)
+            # formatLength (1 long)
+            # format (formatLength long)
+            # content (rest of file)
 
-            success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-            if success:
-                self.compiled = True
-                Logger.LogLine(Logger.INFO, "Loaded shader",
-                               repr(self.name), "hash", digest)
-                return
+            ver = binary[:4].decode()
+            binary = binary[4:]
+            if ver == Shader.VERSION:
+                formatLength = int(binary[0])
+                hexstr = binary[1: formatLength + 1]
+                binary = binary[formatLength + 1:]
+                binaryFormat = int(hexstr.decode(), base=16)
+                self.program = gl.glCreateProgram()
+                gl.glProgramBinary(
+                    self.program, binaryFormat, binary, len(binary))
+
+                success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+                if success:
+                    self.compiled = True
+                    Logger.LogLine(Logger.INFO, "Loaded shader",
+                                   repr(self.name), "hash", digest)
+                    return
+                else:
+                    log = gl.glGetProgramInfoLog(self.program)
+                    Logger.LogLine(Logger.WARN, log.decode())
             else:
-                log = gl.glGetProgramInfoLog(self.program)
-                Logger.LogLine(Logger.WARN, log.decode())
+                Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
+                    "is not up-to-date; recompiling")
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -190,7 +206,15 @@ class Shader:
 
         folder.mkdir(parents=True, exist_ok=True)
         with open(folder / (digest + ".bin"), "wb+") as f:
-            f.write(bytes([out[1]]))
+            # Format:
+            # version (4 long)
+            # formatLength (1 long)
+            # format (formatLength long)
+            # content (rest of file)
+            f.write(Shader.VERSION.encode())
+            hexstr = hex(out[1])[2:]
+            f.write(bytes([len(hexstr)]))
+            f.write(hexstr.encode())
             f.write(bytes(out[0]))
 
         Logger.LogLine(
