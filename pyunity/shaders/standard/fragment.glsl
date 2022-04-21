@@ -112,7 +112,7 @@ void main() {
             strength += getSpecular(lights[i], norm);
             strength *= getAttenuation(lights[i]);
         }
-        float shadow = (useShadowMap == 1) ? getShadow(i, shadowMaps[i]) : 0.0;
+        float shadow = shadows[i];
         // if (shadow == 0.0) discard;
         total += (1.0 - shadow) * strength * lights[i].color;
     }
