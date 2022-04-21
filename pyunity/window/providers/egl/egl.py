@@ -64,10 +64,11 @@ def returnArray(wrapArgs, lenArgs, includeOutput=False):
             newArgs = list(args)
             for argnum in sorted(wrapArgs + lenArgs):
                 if argnum in wrapArgs:
-                    item = orig.argtypes[argnum]._type_()
+                    item = (orig.argtypes[argnum]._type_ * 16)()
                 else:
                     item = EGLint()
                 newArgs.insert(argnum, item)
+            print(newArgs)
             res = orig(*newArgs)
             out = []
             if includeOutput:
@@ -75,14 +76,14 @@ def returnArray(wrapArgs, lenArgs, includeOutput=False):
             lengths = []
             for argnum in sorted(wrapArgs + lenArgs):
                 if argnum in wrapArgs:
-                    arr = ctypes.cast(newArgs[argnum], orig.argtypes[argnum])
-                    out.append(arr)
+                    # arr = ctypes.cast(newArgs[argnum], orig.argtypes[argnum])
+                    out.append(newArgs[argnum])
                 else:
                     lengths.append(newArgs[argnum].value)
-            for i in range(len(wrapArgs)):
-                arr = out[i]
-                if ctypes.sizeof(arr) // ctypes.sizeof(arr[0]) != lengths[i]:
-                    raise Exception("Sizeof array does not match return")
+            # for i in range(len(wrapArgs)):
+            #     arr = out[i]
+            #     if ctypes.sizeof(arr) // ctypes.sizeof(arr[0]) != lengths[i]:
+            #         raise Exception("Sizeof array does not match return")
             if len(out) == 1:
                 return out[0]
             return tuple(out)
