@@ -56,7 +56,7 @@ def returnPointer(wrapArgs, includeOutput=False):
         return inner
     return decorator
 
-def returnArray(wrapArgs, lenArgs, includeOutput=False):
+def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
     def decorator(func):
         @functools.wraps(func)
         def inner(*args):
@@ -64,7 +64,8 @@ def returnArray(wrapArgs, lenArgs, includeOutput=False):
             newArgs = list(args)
             for argnum in sorted(wrapArgs + lenArgs):
                 if argnum in wrapArgs:
-                    item = (orig.argtypes[argnum]._type_ * 16)()
+                    i = wrapArgs.index(argnum)
+                    item = (orig.argtypes[argnum]._type_ * args[inArgs[i]])()
                 else:
                     item = EGLint()
                 newArgs.insert(argnum, item)
@@ -134,7 +135,7 @@ _egl.eglChooseConfig.argtypes = [
     EGLint,
     ctypes.POINTER(EGLint)
 ]
-@returnArray([2], [4])
+@returnArray([2], [4], [2])
 def eglChooseConfig(display, attribList, configSize): pass
 
 _egl.eglCreatePbufferSurface.restype = EGLSurface
