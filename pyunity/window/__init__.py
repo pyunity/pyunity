@@ -105,14 +105,18 @@ def GetWindowProvider():
                                "to resolve any missing dependencies.")
             if i == len(providers) - 1:
                 Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
+                break
             else:
-                newModule = importlib.import_module(f".providers.{name}", __name__)
+                newModule = importlib.import_module(f".providers.{providers[i+1]}", __name__)
                 Logger.LogLine(Logger.DEBUG,
                                module.name, "doesn't work, trying", newModule.name)
                 module = newModule
 
         if windowProvider:
             break
+
+    if not windowProvider:
+        raise PyUnityException(f"No window provider found")
 
     settings.db["windowProvider"] = windowProvider
     settings.db["windowCache"] = True
