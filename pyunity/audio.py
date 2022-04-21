@@ -18,25 +18,26 @@ import os
 from . import config, Logger
 from .core import Component, ShowInInspector
 
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore")
-    try:
-        from sdl2 import sdlmixer as mixer
-        from sdl2 import SDL_GetError
-    except ImportError:
-        config.audio = False
+if "PYUNITY_TESTING" not in os.environ:
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore")
+        try:
+            from sdl2 import sdlmixer as mixer
+            from sdl2 import SDL_GetError
+        except ImportError:
+            config.audio = False
 
 channels = 0
 
-if not config.audio:
+if "PYUNITY_TESTING" in os.environ:
+    config.audio = False
+    Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
+elif not config.audio:
     Logger.LogLine(
         Logger.WARN, "Failed to import PySDL2, your system may not support it.")
 elif os.environ["PYUNITY_AUDIO"] == "0":
     config.audio = False
     Logger.LogLine(Logger.WARN, "Audio disabled via env var")
-elif "PYUNITY_TESTING" in os.environ:
-    config.audio = False
-    Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
 elif os.environ["PYUNITY_INTERACTIVE"] == "0":
     config.audio = False
     Logger.LogLine(Logger.WARN, "Non-interactive mode, audio is disabled")
