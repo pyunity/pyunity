@@ -44,7 +44,7 @@ if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
 stream = sys.stdout
-timestamp = strftime("%Y-%m-%d %H-%M-%S") # No : allowed in path
+timestamp = strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
 start = time()
 
 with open(folder / "latest.log", "w+") as f:
