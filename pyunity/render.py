@@ -128,7 +128,7 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        folder = Logger.folder / "ShaderCache"
+        folder = Logger.folder.parent / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
         digest = sha256.hexdigest()
