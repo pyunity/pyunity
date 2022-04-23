@@ -447,8 +447,41 @@ class TestScene(unittest.TestCase):
         a = GameObject("A")
         b = GameObject("B", a)
         c = GameObject("C", a)
-        d = GameObject("D", c)
+        d = GameObject("B", c)
         scene.AddMultiple(a, b, c, d)
+        self.assertEqual(len(scene.FindGameObjectsByName("B")), 2)
+
+class TestGui(unittest.TestCase):
+    def setUp(self):
+        if "full" not in os.environ:
+            self.skipTest(reason="GLM not loaded; scene creation will fail")
+
+    def tearDown(self):
+        SceneManager.RemoveAllScenes()
+
+    def testMakeButton(self):
+        scene = SceneManager.AddScene("Scene")
+        rectTransform, button, text = Gui.MakeButton(
+            "Button", scene, "Button text",
+            FontLoader.LoadFont("Consolas", 20), RGB(255, 0, 0))
+        self.assertEqual(len(scene.gameObjects), 5)
+
+        buttonObj = scene.gameObjects[2]
+        self.assertEqual(len(buttonObj.components), 3)
+        self.assertIs(buttonObj, button.gameObject)
+        self.assertIs(buttonObj.GetComponent(RectTransform), rectTransform)
+        self.assertIs(buttonObj.GetComponent(Button), button)
+
+        textObj = scene.gameObjects[3]
+        self.assertEqual(len(buttonObj.components), 3)
+        self.assertIs(textObj, text.gameObject)
+        self.assertIsNotNone(textObj.GetComponent(RectTransform))
+        self.assertIs(textObj.GetComponent(Text), text)
+
+        textureObj = scene.gameObjects[4]
+        self.assertEqual(len(buttonObj.components), 3)
+        self.assertIsNotNone(textureObj.GetComponent(Image2D))
+        self.assertIsNotNone(textureObj.GetComponent(RectTransform))
 
 if __name__ == "__main__":
     unittest.main()

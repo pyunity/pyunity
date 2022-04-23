@@ -4,8 +4,8 @@ from pyunity.errors import *
 from pyunity.window.providers import checkModule
 # Modify the below variables and function
 
-name = "egl"
-prio = 1
+name = "EGL"
+prio = 0
 
 def check():
     """Checks to see if EGL works"""

@@ -56,7 +56,7 @@ def returnPointer(wrapArgs, includeOutput=False):
         return inner
     return decorator
 
-def returnArray(wrapArgs, lenArgs, includeOutput=False):
+def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
     def decorator(func):
         @functools.wraps(func)
         def inner(*args):
@@ -64,25 +64,29 @@ def returnArray(wrapArgs, lenArgs, includeOutput=False):
             newArgs = list(args)
             for argnum in sorted(wrapArgs + lenArgs):
                 if argnum in wrapArgs:
-                    item = orig.argtypes[argnum]._type_()
+                    i = wrapArgs.index(argnum)
+                    item = (orig.argtypes[argnum]._type_ * args[inArgs[i]])()
                 else:
                     item = EGLint()
                 newArgs.insert(argnum, item)
+            print(newArgs)
             res = orig(*newArgs)
+            if orig.restype is EGLBoolean and res.value == 0:
+                raise PyUnityException(f"{func.__name__} failed")
             out = []
             if includeOutput:
                 out.append(res)
             lengths = []
             for argnum in sorted(wrapArgs + lenArgs):
                 if argnum in wrapArgs:
-                    arr = ctypes.cast(newArgs[argnum], orig.argtypes[argnum])
-                    out.append(arr)
+                    # arr = ctypes.cast(newArgs[argnum], orig.argtypes[argnum])
+                    out.append(newArgs[argnum])
                 else:
                     lengths.append(newArgs[argnum].value)
-            for i in range(len(wrapArgs)):
-                arr = out[i]
-                if ctypes.sizeof(arr) // ctypes.sizeof(arr[0]) != lengths[i]:
-                    raise Exception("Sizeof array does not match return")
+            # for i in range(len(wrapArgs)):
+            #     arr = out[i]
+            #     if ctypes.sizeof(arr) // ctypes.sizeof(arr[0]) != lengths[i]:
+            #         raise Exception("Sizeof array does not match return")
             if len(out) == 1:
                 return out[0]
             return tuple(out)
@@ -131,7 +135,7 @@ _egl.eglChooseConfig.argtypes = [
     EGLint,
     ctypes.POINTER(EGLint)
 ]
-@returnArray([2], [4])
+@returnArray([2], [4], [2])
 def eglChooseConfig(display, attribList, configSize): pass
 
 _egl.eglCreatePbufferSurface.restype = EGLSurface

@@ -873,6 +873,7 @@ class Gui:
         textComp.centeredX = TextAlign.Center
 
         scene.Add(button)
+        scene.Add(textObj)
         scene.Add(textureObj)
         return transform, buttonComponent, textComp
 

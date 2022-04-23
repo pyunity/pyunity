@@ -32,11 +32,11 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = Path(result) / "files/pyunity/logs"
+        folder = Path(result) / "files/pyunity/Logs"
     elif platform.platform().startswith("Windows"):
         folder = Path(os.environ["appdata"]) / "PyUnity/Logs"
     else:
-        folder = Path("/tmp") / "pyunity/logs"
+        folder = Path("/tmp/pyunity/Logs")
     return folder
 
 folder = getTmp()
@@ -44,7 +44,7 @@ if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
 stream = sys.stdout
-timestamp = strftime("%Y-%m-%d %H-%M-%S") # No : allowed in path
+timestamp = strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
 start = time()
 
 with open(folder / "latest.log", "w+") as f:

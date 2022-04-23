@@ -19,7 +19,7 @@ jobs:
           PYUNITY_INTERACTIVE: 0
         run: |
           coverage run -m unittest tests.py
-          coverage xml
+          coverage xml --omit TestBehaviour1.py,file1.py
       - name: Upload report
         uses: codecov/codecov-action@v2
         with:

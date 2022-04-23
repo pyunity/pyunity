@@ -18,35 +18,35 @@ import os
 from . import config, Logger
 from .core import Component, ShowInInspector
 
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore")
-    try:
-        from sdl2 import sdlmixer as mixer
-        from sdl2 import SDL_GetError
-    except ImportError:
-        config.audio = False
-
 channels = 0
 
-if not config.audio:
-    Logger.LogLine(
-        Logger.WARN, "Failed to import PySDL2, your system may not support it.")
+if "PYUNITY_TESTING" in os.environ:
+    config.audio = False
+    Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
 elif os.environ["PYUNITY_AUDIO"] == "0":
     config.audio = False
     Logger.LogLine(Logger.WARN, "Audio disabled via env var")
-elif "PYUNITY_TESTING" in os.environ:
-    config.audio = False
-    Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
 elif os.environ["PYUNITY_INTERACTIVE"] == "0":
     config.audio = False
     Logger.LogLine(Logger.WARN, "Non-interactive mode, audio is disabled")
-elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
-    config.audio = False
-    Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
-elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-    config.audio = False
-    Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
-                   SDL_GetError().decode())
+else:
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore")
+        try:
+            from sdl2 import sdlmixer as mixer
+            from sdl2 import SDL_GetError
+        except ImportError:
+            config.audio = False
+            Logger.LogLine(Logger.WARN,
+                "Failed to import PySDL2, your system may not support it.")
+
+    if mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
+        config.audio = False
+        Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
+    elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+        config.audio = False
+        Logger.LogLine(Logger.WARN,
+            "SDL2_mixer could not be initialized: " + SDL_GetError().decode())
 
 class _CustomMock:
     def __getattr__(self, item):

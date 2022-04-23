@@ -85,6 +85,23 @@ void main() {
     vec3 ambient = ambientStrength * vec3(1.0, 1.0, 1.0);
     vec3 norm = normalize(normal);
 
+    float shadows[NR_LIGHTS];
+
+    #if __VERSION__ > 400
+    for (int i = 0; i < NR_LIGHTS; i++) {
+        shadows[i] = (useShadowMap == 1) ? getShadow(i, shadowMaps[i]) : 0.0;
+    }
+    #else
+    shadows[0] = (useShadowMap == 1) ? getShadow(0, shadowMaps[0]) : 0.0;
+    shadows[1] = (useShadowMap == 1) ? getShadow(1, shadowMaps[1]) : 0.0;
+    shadows[2] = (useShadowMap == 1) ? getShadow(2, shadowMaps[2]) : 0.0;
+    shadows[3] = (useShadowMap == 1) ? getShadow(3, shadowMaps[3]) : 0.0;
+    shadows[4] = (useShadowMap == 1) ? getShadow(4, shadowMaps[4]) : 0.0;
+    shadows[5] = (useShadowMap == 1) ? getShadow(5, shadowMaps[5]) : 0.0;
+    shadows[6] = (useShadowMap == 1) ? getShadow(6, shadowMaps[6]) : 0.0;
+    shadows[7] = (useShadowMap == 1) ? getShadow(7, shadowMaps[7]) : 0.0;
+    #endif
+
     vec3 total;
     for (int i = 0; i < NR_LIGHTS; i++) {
         if (i == numLights) {
@@ -95,7 +112,7 @@ void main() {
             strength += getSpecular(lights[i], norm);
             strength *= getAttenuation(lights[i]);
         }
-        float shadow = (useShadowMap == 1) ? getShadow(i, shadowMaps[i]) : 0.0;
+        float shadow = shadows[i];
         // if (shadow == 0.0) discard;
         total += (1.0 - shadow) * strength * lights[i].color;
     }
