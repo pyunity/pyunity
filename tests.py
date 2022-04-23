@@ -451,6 +451,13 @@ class TestScene(unittest.TestCase):
         scene.AddMultiple(a, b, c, d)
         self.assertEqual(len(scene.FindGameObjectsByName("B")), 2)
 
+    def testBare(self):
+        from pyunity.scenes import Scene
+        scene = Scene.Bare("Scene")
+        self.assertEqual(scene.name, "Scene")
+        self.assertEqual(len(scene.gameObjects), 0)
+        self.assertIs(scene.mainCamera, None)
+
 class TestGui(unittest.TestCase):
     def setUp(self):
         if "full" not in os.environ:
