@@ -536,6 +536,19 @@ class TestScene(unittest.TestCase):
         self.assertTrue(scene.Has(gameObject))
         self.assertFalse(scene.Has(gameObject2))
 
+    # def testInsideFrustrum(self):
+    #     scene = SceneManager.AddScene("Scene")
+    #     gameObject = GameObject("Cube")
+    #     gameObject.transform.position = Vector3(0, 0, 5)
+    #     renderer = gameObject.AddComponent(MeshRenderer)
+    #     self.assertFalse(scene.insideFrustrum(renderer))
+
+    #     renderer.mesh = Mesh.cube(2)
+    #     self.assertTrue(scene.insideFrustrum(renderer))
+
+    #     gameObject.transform.position = Vector3(0, 0, -1)
+    #     self.assertFalse(scene.insideFrustrum(renderer))
+
 class TestGui(unittest.TestCase):
     def setUp(self):
         if "full" not in os.environ:
@@ -552,6 +565,7 @@ class TestGui(unittest.TestCase):
         self.assertEqual(len(scene.gameObjects), 5)
 
         buttonObj = scene.gameObjects[2]
+        self.assertEqual(buttonObj.name, "Button")
         self.assertEqual(len(buttonObj.components), 3)
         self.assertIs(buttonObj, button.gameObject)
         self.assertIs(buttonObj.GetComponent(RectTransform), rectTransform)
@@ -567,6 +581,22 @@ class TestGui(unittest.TestCase):
         self.assertEqual(len(buttonObj.components), 3)
         self.assertIsNotNone(textureObj.GetComponent(Image2D))
         self.assertIsNotNone(textureObj.GetComponent(RectTransform))
+
+    def testMakeCheckBox(self):
+        from pyunity import gui
+        scene = SceneManager.AddScene("Scene")
+        rectTransform, checkbox = Gui.MakeCheckBox("Checkbox", scene)
+        img = checkbox.GetComponent(Image2D)
+        self.assertEqual(len(scene.gameObjects), 3)
+
+        checkboxObj = scene.gameObjects[2]
+        self.assertEqual(checkboxObj.name, "Checkbox")
+        self.assertEqual(len(checkboxObj.components), 4)
+        self.assertIs(checkboxObj, checkbox.gameObject)
+        self.assertIs(checkboxObj.GetComponent(RectTransform), rectTransform)
+        self.assertIs(checkboxObj.GetComponent(CheckBox), checkbox)
+        self.assertIsNotNone(img)
+        self.assertIs(img.texture, gui.checkboxDefaults[0])
 
 if __name__ == "__main__":
     unittest.main()
