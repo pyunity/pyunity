@@ -9,7 +9,6 @@ from unittest.mock import Mock
 import textwrap
 import sys
 import os
-import io
 import math
 
 if "full" not in os.environ:
@@ -401,11 +400,9 @@ class TestScripts(unittest.TestCase):
             with open(file, "w+") as f:
                 f.write(self.file2)
 
-            f = io.StringIO()
-            Logger.stream = f
-            Scripts.LoadScript(file)
-            Logger.stream = sys.stdout
-            self.assertEqual(f.getvalue(),
+            with Logger.TempRedirect(silent=True) as r:
+                Scripts.LoadScript(file)
+            self.assertEqual(r.get(),
                 f"Warning: {file!r} is not a valid PyUnity script\n")
 
 class TestScene(unittest.TestCase):
@@ -451,12 +448,93 @@ class TestScene(unittest.TestCase):
         scene.AddMultiple(a, b, c, d)
         self.assertEqual(len(scene.FindGameObjectsByName("B")), 2)
 
+    def testRootGameObjects(self):
+        scene = SceneManager.AddScene("Scene")
+        a = GameObject("A")
+        b = GameObject("B", a)
+        c = GameObject("C", a)
+        d = GameObject("B", c)
+        scene.AddMultiple(a, b, c, d)
+        self.assertEqual(len(scene.rootGameObjects), 3)
+        self.assertIs(scene.rootGameObjects[2], a)
+
+    def testAddError(self):
+        scene = SceneManager.AddScene("Scene")
+        gameObject = GameObject("GameObject")
+        scene.Add(gameObject)
+
+        with self.assertRaises(PyUnityException) as exc:
+            scene.Add(gameObject)
+        self.assertEqual(str(exc.exception),
+            "GameObject \"GameObject\" is already in Scene \"Scene\"")
+
     def testBare(self):
         from pyunity.scenes import Scene
         scene = Scene.Bare("Scene")
         self.assertEqual(scene.name, "Scene")
         self.assertEqual(len(scene.gameObjects), 0)
         self.assertIs(scene.mainCamera, None)
+
+    def testRemove(self):
+        class Test(Behaviour):
+            other = ShowInInspector(GameObject)
+
+        scene = SceneManager.AddScene("Scene")
+
+        # Exception
+        fake = GameObject("Not in scene")
+        with self.assertRaises(PyUnityException) as exc:
+            scene.Remove(fake)
+        self.assertEqual(str(exc.exception),
+            "The provided GameObject is not part of the Scene")
+
+        # Correct
+        a = GameObject("A")
+        b = GameObject("B", a)
+        c = GameObject("C", a)
+        scene.AddMultiple(a, b, c)
+        self.assertIs(c.scene, scene)
+        self.assertIn(c, scene.gameObjects)
+
+        scene.Remove(c)
+        self.assertIs(c.scene, None)
+        self.assertNotIn(c, scene.gameObjects)
+
+        # Multiple
+        scene.Remove(a)
+        self.assertIs(b.scene, None)
+        self.assertNotIn(b, scene.gameObjects)
+        self.assertIs(c.scene, None)
+        self.assertNotIn(c, scene.gameObjects)
+
+        # Components
+        cam = GameObject("Camera")
+        camera = cam.AddComponent(Camera)
+        test = GameObject("Test")
+        test.AddComponent(Test).other = cam
+        target = GameObject("Target")
+        target.AddComponent(RenderTarget).source = camera
+        scene.AddMultiple(cam, test, target)
+
+        scene.Remove(cam)
+        self.assertIs(b.scene, None)
+        self.assertNotIn(cam, scene.gameObjects)
+        self.assertIs(test.GetComponent(Test).other, None)
+        self.assertIs(target.GetComponent(RenderTarget).source, None)
+
+        # Main Camera
+        with Logger.TempRedirect(silent=True) as r:
+            scene.Remove(scene.mainCamera.gameObject)
+        self.assertEqual(r.get(),
+            "Warning: Removing Main Camera from scene 'Scene'\n")
+
+    def testHas(self):
+        scene = SceneManager.AddScene("Scene")
+        gameObject = GameObject("GameObject")
+        gameObject2 = GameObject("GameObject 2")
+        scene.Add(gameObject)
+        self.assertTrue(scene.Has(gameObject))
+        self.assertFalse(scene.Has(gameObject2))
 
 class TestGui(unittest.TestCase):
     def setUp(self):
