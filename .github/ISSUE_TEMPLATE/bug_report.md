@@ -16,6 +16,12 @@ assignees: rayzchen
 **Expected behavior**
 <!-- A clear and concise description of what you expected to happen. -->
 
+**Code**
+```python3
+Paste any code used.
+Keep the three backticks (\```) and the python3 on the first line.
+```
+
 **System info**
 ```
 Paste the result of `python -m pyunity --version` here.
@@ -26,12 +32,6 @@ Keep the three backticks (\```).
 ```
 Paste the traceback here if needed.
 Keep the three backticks (\```).
-```
-
-**Code**
-```python3
-Paste any code used.
-Keep the three backticks (\```) and the python3 on the first line.
 ```
 
 **Additional context**
