@@ -228,7 +228,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : Vector3
             Value of uniform variable
 
         """
@@ -244,7 +244,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : glm.mat4
             Value of uniform variable
 
         """
@@ -260,7 +260,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : int
             Value of uniform variable
 
         """
@@ -276,7 +276,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : float
             Value of uniform variable
 
         """

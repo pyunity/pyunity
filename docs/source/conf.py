@@ -48,11 +48,12 @@ release = pyunity.__version__
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
+    "sphinx_toolbox.more_autodoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    # "hoverxref.extension",
+    "hoverxref.extension",
 ]
 
 master_doc = "index"
@@ -92,6 +93,10 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["static"]
 
+github_username = "pyunity"
+github_repository = "pyunity"
+autodoc_show_sourcelink = True
+
 autodoc_mock_imports = ["glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.sdlmixer", "sdl2.ext", "sdl2.video"]
 
 viewcode_enable_epub = True
@@ -110,10 +115,18 @@ latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
 
+hoverxref_default_type = "tooltip"
 hoverxref_auto_ref = True
 hoverxref_domains = [
     "py"
 ]
+hoverxref_role_types = {
+    "class": "tooltip",
+    "exc": "tooltip",
+    "meth": "tooltip",
+    "func": "tooltip",
+    "attr": "tooltip",
+}
 
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
