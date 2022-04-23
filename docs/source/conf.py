@@ -27,6 +27,7 @@ math.atan = atan
 sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
+os.environ["PYUNITY_SPHINX_CHECK"] = "1"
 import pyunity
 pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 
@@ -47,6 +48,7 @@ release = pyunity.__version__
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
+    "sphinx_toolbox.more_autodoc",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
@@ -91,6 +93,10 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["static"]
 
+github_username = "pyunity"
+github_repository = "pyunity"
+autodoc_show_sourcelink = True
+
 autodoc_mock_imports = ["glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.sdlmixer", "sdl2.ext", "sdl2.video"]
 
 viewcode_enable_epub = True
@@ -109,22 +115,45 @@ latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
 
+hoverxref_default_type = "tooltip"
 hoverxref_auto_ref = True
+hoverxref_domains = [
+    "py"
+]
+hoverxref_role_types = {
+    "class": "tooltip",
+    "exc": "tooltip",
+    "meth": "tooltip",
+    "func": "tooltip",
+    "attr": "tooltip",
+}
 
-import inspect
-import enum
+def skip_member(app, what, name, obj, skip, options):
+    if name.startswith("__"):
+        return True
+    if isinstance(obj, pyunity.HideInInspector):
+        return True
+    if name in ["saved", "shown"] and isinstance(obj, dict):
+        for val in obj.values():
+            if not isinstance(val, pyunity.HideInInspector):
+                break
+        else:
+            return True
 
-def skip_non_undoc(app, what, name, obj, skip, options):
-    if "undoc-members" not in options or skip:
-        return skip
-    if name == "__init__":
-        return True
-    if (inspect.isfunction(obj) or inspect.ismethod(obj) or \
-            isinstance(obj, (staticmethod, classmethod, property, enum.Enum))):
-        return None
-    if what == "class":
-        return True
-    return skip
+def process_docstring(app, what, name, obj, options, lines):
+    if what == "class" and issubclass(obj, pyunity.Component):
+        indexes = []
+        for i, line in enumerate(lines):
+            if line.startswith(".. attribute:: "):
+                indexes.append(i)
+
+        for index in reversed(indexes):
+            name = lines[index][15:]
+            if name in obj.saved:
+                val = str(obj.saved[name].default)
+                lines.insert(index + 1, "   :annotation: = " + val)
+        print(lines)
 
 def setup(app):
-    app.connect("autodoc-skip-member", skip_non_undoc)
+    app.connect("autodoc-skip-member", skip_member)
+    app.connect("autodoc-process-docstring", process_docstring)

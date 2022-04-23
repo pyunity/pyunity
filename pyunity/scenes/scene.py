@@ -220,7 +220,7 @@ class Scene:
         Raises
         ------
         GameObjectException
-            When there is no tag named `name`
+            When there is no tag named ``name``
 
         """
         if name in Tag.tags:
@@ -231,7 +231,7 @@ class Scene:
 
     def FindGameObjectsByTagNumber(self, num):
         """
-        Gets all GameObjects with a tag of tag `num`.
+        Gets all GameObjects with a tag of tag ``num``.
 
         Parameters
         ----------

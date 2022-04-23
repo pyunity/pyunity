@@ -74,7 +74,7 @@ class AudioClip:
         Sound chunk that can be played with
         an SDL2 Mixer Channel.
         Only set when the AudioClip is played
-        in an :class:`AudioSource`.
+        in an :py:class:`AudioSource`.
 
     """
 

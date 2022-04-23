@@ -230,7 +230,7 @@ class Shader:
         path : str
             Path of folder to load
         name : str
-            Name to register this shader to. Used with `Camera.SetShader`.
+            Name to register this shader to. Used with :meth:`Camera.SetShader`.
 
         """
         p = Path(path)
@@ -252,7 +252,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : Vector3
             Value of uniform variable
 
         """
@@ -268,7 +268,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : glm.mat4
             Value of uniform variable
 
         """
@@ -284,7 +284,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : int
             Value of uniform variable
 
         """
@@ -300,7 +300,7 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : float
             Value of uniform variable
 
         """

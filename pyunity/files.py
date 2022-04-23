@@ -25,7 +25,7 @@ import ctypes
 def convert(type, list):
     """
     Converts a Python array to a C type from
-    ``ctypes``.
+    :mod:`ctypes`.
 
     Parameters
     ----------
