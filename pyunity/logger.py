@@ -18,6 +18,7 @@ import platform
 import traceback
 import re
 import atexit
+import threading
 from pathlib import Path
 from time import strftime, time
 
@@ -231,11 +232,16 @@ def ResetStream():
     stream.write("Changed stream back to stdout\n")
     LogLine(INFO, "Changed stream back to stdout")
 
-# Upload to ftp
-try:
-    import urllib.request
-    url = "https://ftp.pyunity.repl.co/upload?confirm=1"
-    with urllib.request.urlopen(url):
-        pass
-except Exception as e:
-    LogException(e, silent=True)
+def _upload():
+    # Upload to ftp
+    try:
+        import urllib.request
+        url = "https://ftp.pyunity.repl.co/upload?confirm=1"
+        with urllib.request.urlopen(url):
+            pass
+    except Exception as e:
+        LogException(e, silent=True)
+
+t = threading.Thread(target=_upload)
+t.daemon = True
+t.start()
