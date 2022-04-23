@@ -197,8 +197,8 @@ contribute an example, then please
 """
 
 # Logger must start first, config straight after
-from . import logger as Logger # lgtm[py/import-own-module]
-from . import config # lgtm[py/import-own-module]
+from . import logger as Logger
+from . import config
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
            "SceneManager", "Mesh"]
 
@@ -231,8 +231,8 @@ from .audio import *
 from .files import *
 from .render import *
 from .scenes import sceneManager as SceneManager
-from . import window as Window # lgtm[py/import-own-module]
-from . import loader as Loader # lgtm[py/import-own-module]
+from . import window as Window
+from . import loader as Loader
 from .loader import Primitives
 from .input import *
 from .gui import *
