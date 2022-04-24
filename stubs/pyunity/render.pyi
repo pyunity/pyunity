@@ -7,6 +7,8 @@ Classes to aid in rendering in a Scene.
 
 """
 
+__all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
+
 import glm
 import enum
 from typing import Any, Dict, List, Tuple
