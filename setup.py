@@ -10,9 +10,6 @@ import glob
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-with open("README.md", "r") as fh:
-    longDesc = fh.read()
-
 if os.environ["cython"] == "1":
     if not os.path.isdir("src"):
         if not os.path.isfile("prepare.py"):
@@ -52,47 +49,6 @@ else:
     raise RuntimeError(f"Unable to find version string in {versionfile}")
 
 setup(
-    name="pyunity",
     version=version,
-    author="Ray Chen",
-    author_email="tankimarshal2@gmail.com",
-    description="A Python implementation of the Unity Engine",
-    long_description=longDesc,
-    long_description_content_type="text/markdown",
-    license="MIT",
-    project_urls={
-        "Documentation": "https://docs.pyunity.x10.bz/",
-        "Source": "https://github.com/pyunity/pyunity",
-        "Tracker": "https://github.com/pyunity/pyunity/issues"
-    },
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Natural Language :: English",
-        "License :: OSI Approved :: MIT License",
-        "Intended Audience :: Developers",
-        "Natural Language :: English",
-        "Operating System :: MacOS",
-        "Operating System :: Microsoft :: Windows",
-        "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-    ],
-    install_requires=[
-        "pyopengl",
-        "pillow",
-        "pysdl2",
-        "pysdl2-dll",
-        "pyglm",
-        "importlib-resources; python_version < '3.9'",
-    ],
-    extras_require={
-        "providers": [ # Other window providers as needed
-            "glfw",
-        ]
-    },
-    python_requires=">=3.6",
     **config,
 )
