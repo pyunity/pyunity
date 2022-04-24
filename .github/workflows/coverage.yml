@@ -12,14 +12,14 @@ jobs:
           python-version: 3.9
           architecture: x64
       - name: Install dependencies
-        run: pip install coverage -r requirements.txt
+        run: pip install pytest pytest-cov -r requirements.txt
       - name: Run tests
         env:
           full: 1
           PYUNITY_INTERACTIVE: 0
         run: |
-          coverage run -m unittest tests.py
-          coverage xml --omit TestBehaviour1.py,file1.py
+          pytest
+          coverage xml
       - name: Upload report
         uses: codecov/codecov-action@v2
         with:

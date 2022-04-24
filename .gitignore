@@ -12,6 +12,7 @@ src/**/*.c
 # Coverage
 .coverage
 coverage.xml
+htmlcov/
 
 # Replit
 .replit
