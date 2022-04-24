@@ -30,7 +30,7 @@ if "cython" not in os.environ:
 
 def checkLicense():
     others = [
-        "prepare.py", "setup.py", "tests.py", # Root files
+        "prepare.py", "setup.py", # Root files
         os.path.join("stubs", "setup.py"), # Stub setup
         *glob.glob("stubs/**/*.pyi", recursive=True)
     ]
