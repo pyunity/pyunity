@@ -196,6 +196,13 @@ contribute an example, then please
 
 """
 
+__copyright__ = "Copyright 2020-2022 The PyUnity Team"
+__email__ = "tankimarshal2@gmail.com"
+__license__ = "MIT License"
+__summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
+__title__ = "pyunity"
+__uri__ = "https://docs.pyunity.x10.bz/en/latest/"
+
 # Logger must start first, config straight after
 from . import logger as Logger
 from . import config
@@ -237,13 +244,6 @@ from .loader import Primitives
 from .input import *
 from .gui import *
 from ._version import __version__
-
-__copyright__ = "Copyright 2020-2021 Ray Chen"
-__email__ = "tankimarshal2@gmail.com"
-__license__ = "MIT License"
-__summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
-__title__ = "pyunity"
-__uri__ = "https://pyunity.readthedocs.io/en/latest/"
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
