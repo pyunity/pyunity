@@ -405,7 +405,7 @@ class TestScripts(unittest.TestCase):
             self.assertEqual(r.get(),
                 f"Warning: {file!r} is not a valid PyUnity script\n")
 
-class TestScene(unittest.TestCase):
+class SceneTestCase(unittest.TestCase):
     def setUp(self):
         if "full" not in os.environ:
             self.skipTest(reason="GLM not loaded; scene creation will fail")
@@ -413,6 +413,7 @@ class TestScene(unittest.TestCase):
     def tearDown(self):
         SceneManager.RemoveAllScenes()
 
+class TestScene(SceneTestCase):
     def testInit(self):
         scene = SceneManager.AddScene("Scene")
         self.assertEqual(scene.name, "Scene")
@@ -460,6 +461,16 @@ class TestScene(unittest.TestCase):
         self.assertEqual(scene.FindComponentsByType(Transform), [
             scene.mainCamera.transform, scene.gameObjects[1].transform,
             a.transform, b.transform, c.transform, d.transform])
+
+        with self.assertRaises(GameObjectException) as exc:
+            scene.FindGameObjectsByTagName("Invalid")
+        self.assertEqual(str(exc.exception),
+            "No tag named Invalid; create a new tag with Tag.AddTag")
+
+        with self.assertRaises(GameObjectException) as exc:
+            scene.FindGameObjectsByTagNumber(-1)
+        self.assertEqual(str(exc.exception),
+            "No tag at index -1; create a new tag with Tag.AddTag")
 
         with self.assertRaises(ComponentException) as exc:
             scene.FindComponentByType(Canvas)
@@ -579,14 +590,7 @@ class TestScene(unittest.TestCase):
         gameObject.transform.position = Vector3(0, 0, -5)
         # self.assertFalse(scene.insideFrustrum(renderer))
 
-class TestGui(unittest.TestCase):
-    def setUp(self):
-        if "full" not in os.environ:
-            self.skipTest(reason="GLM not loaded; scene creation will fail")
-
-    def tearDown(self):
-        SceneManager.RemoveAllScenes()
-
+class TestGui(SceneTestCase):
     def testMakeButton(self):
         scene = SceneManager.AddScene("Scene")
         rectTransform, button, text = Gui.MakeButton(
