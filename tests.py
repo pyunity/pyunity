@@ -446,7 +446,25 @@ class TestScene(unittest.TestCase):
         c = GameObject("C", a)
         d = GameObject("B", c)
         scene.AddMultiple(a, b, c, d)
+
+        tagnum = Tag.AddTag("Custom Tag")
+        a.tag = Tag(tagnum)
+        c.tag = Tag(tagnum)
+
         self.assertEqual(len(scene.FindGameObjectsByName("B")), 2)
+        self.assertEqual(scene.FindGameObjectsByName("B"), [b, d])
+        self.assertEqual(scene.FindGameObjectsByTagName("Custom Tag"), [a, c])
+        self.assertEqual(scene.FindGameObjectsByTagNumber(tagnum), [a, c])
+
+        self.assertIsInstance(scene.FindComponentByType(Transform), Transform)
+        self.assertEqual(scene.FindComponentsByType(Transform), [
+            scene.mainCamera.transform, scene.gameObjects[1].transform,
+            a.transform, b.transform, c.transform, d.transform])
+
+        with self.assertRaises(ComponentException) as exc:
+            scene.FindComponentByType(Canvas)
+        self.assertEqual(str(exc.exception),
+            "Cannot find component Canvas in scene")
 
     def testRootGameObjects(self):
         scene = SceneManager.AddScene("Scene")
@@ -536,18 +554,30 @@ class TestScene(unittest.TestCase):
         self.assertTrue(scene.Has(gameObject))
         self.assertFalse(scene.Has(gameObject2))
 
-    # def testInsideFrustrum(self):
-    #     scene = SceneManager.AddScene("Scene")
-    #     gameObject = GameObject("Cube")
-    #     gameObject.transform.position = Vector3(0, 0, 5)
-    #     renderer = gameObject.AddComponent(MeshRenderer)
-    #     self.assertFalse(scene.insideFrustrum(renderer))
+    def testList(self):
+        scene = SceneManager.AddScene("Scene")
+        a = GameObject("A")
+        b = GameObject("B", a)
+        c = GameObject("C", a)
+        d = GameObject("B", c)
+        scene.AddMultiple(b, d, c, a)
+        with Logger.TempRedirect(silent=True) as r:
+            scene.List()
+        self.assertEqual(r.get(), "\n".join([
+            "/A", "/A/B", "/A/C", "/A/C/B", "/Light", "/Main Camera\n"]))
 
-    #     renderer.mesh = Mesh.cube(2)
-    #     self.assertTrue(scene.insideFrustrum(renderer))
+    def testInsideFrustrum(self):
+        scene = SceneManager.AddScene("Scene")
+        gameObject = GameObject("Cube")
+        gameObject.transform.position = Vector3(0, 0, 5)
+        renderer = gameObject.AddComponent(MeshRenderer)
+        # self.assertFalse(scene.insideFrustrum(renderer))
 
-    #     gameObject.transform.position = Vector3(0, 0, -1)
-    #     self.assertFalse(scene.insideFrustrum(renderer))
+        renderer.mesh = Mesh.cube(2)
+        # self.assertTrue(scene.insideFrustrum(renderer))
+
+        gameObject.transform.position = Vector3(0, 0, -5)
+        # self.assertFalse(scene.insideFrustrum(renderer))
 
 class TestGui(unittest.TestCase):
     def setUp(self):
