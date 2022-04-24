@@ -18,8 +18,9 @@ if "--version" in sys.argv or "-v" in sys.argv:
     vstr = "v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}"
     print("PyUnity version: v" + __version__)
     print("Python version:", vstr.format(sys.version_info))
-    print("Operating system:", platform.system(), platform.machine())
-    print("Architecture:", platform.architecture()[0])
+    print("Operating system:", platform.system(), platform.release())
+    print("Machine:", platform.machine())
+    print("Python architecture:", platform.architecture()[0])
 
     if sys.version_info >= (3, 8):
         from importlib.metadata import requires, version, PackageNotFoundError
