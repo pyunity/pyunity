@@ -1,4 +1,6 @@
-from pyunity import *
+from pyunity import (
+    SceneManager, Gui, FontLoader, RGB, RectTransform,
+    Button, Text, Image2D, CheckBox)
 from . import SceneTestCase
 
 class TestGui(SceneTestCase):

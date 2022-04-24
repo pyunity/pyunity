@@ -1,4 +1,9 @@
-from pyunity import *
+from pyunity import (
+    SceneManager, Component, Camera, AudioListener, Light,
+    GameObject, Tag, Transform, GameObjectException,
+    ComponentException, Canvas, PyUnityException,
+    Behaviour, ShowInInspector, RenderTarget, Logger,
+    Vector3, MeshRenderer, Mesh)
 from . import SceneTestCase
 
 class TestScene(SceneTestCase):
