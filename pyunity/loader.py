@@ -461,7 +461,7 @@ def LoadProject(folder):
     # Materials
     for file in project.filePaths:
         if file.endswith(".mat"):
-            material = LoadMat(project.path / os.path.normpath(file)), project
+            material = LoadMat(project.path / os.path.normpath(file), project)
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = material
             project._ids[material] = uuid
@@ -469,7 +469,7 @@ def LoadProject(folder):
     # Scenes
     for file in project.filePaths:
         if file.endswith(".scene"):
-            LoadScene(project.path / os.path.normpath(file)), project
+            LoadScene(project.path / os.path.normpath(file), project)
 
     return project
 
@@ -535,7 +535,7 @@ def LoadScene(sceneFile, project):
         else:
             file = project.fileIDs[part.attrs.pop("_script")]
             fullpath = project.path.resolve() / file.path
-            behaviourType = PyUnityScripts._lookup[fullpath]
+            behaviourType = PyUnityScripts._lookup[str(fullpath)]
             addUuid(behaviourType, file.uuid)
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
