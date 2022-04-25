@@ -50,8 +50,8 @@ def AddScene(sceneName):
 
     """
     if sceneName in scenesByName:
-        raise PyUnityException("SceneManager already contains scene \"" +
-                               sceneName + "\"")
+        raise PyUnityException(
+            f"SceneManager already contains scene {sceneName!r}")
     scene = Scene(sceneName)
     scenesByIndex.append(scene)
     scenesByName[sceneName] = scene
@@ -79,8 +79,8 @@ def AddBareScene(sceneName):
 
     """
     if sceneName in scenesByName:
-        raise PyUnityException("SceneManager already contains scene \"" +
-                               sceneName + "\"")
+        raise PyUnityException(
+            f"SceneManager already contains scene {sceneName!r}")
     scene = Scene.Bare(sceneName)
     scenesByIndex.append(scene)
     scenesByName[sceneName] = scene
@@ -106,7 +106,7 @@ def GetSceneByIndex(index):
         If there is no scene at the specified index
 
     """
-    if len(scenesByIndex) <= index:
+    if len(scenesByIndex) <= index or len(scenesByIndex) < 0:
         raise IndexError(f"There is no scene at index {index}")
     return scenesByIndex[index]
 
@@ -126,12 +126,12 @@ def GetSceneByName(name):
 
     Raises
     ------
-    KeyError
+    PyUnityException
         If there is no scene called ``name``
 
     """
     if name not in scenesByName:
-        raise KeyError(f"There is no scene called {name}")
+        raise PyUnityException(f"There is no scene called {name!r}")
     return scenesByName[name]
 
 def RemoveScene(scene):
@@ -152,10 +152,10 @@ def RemoveScene(scene):
 
     """
     if not isinstance(scene, Scene):
-        raise TypeError("The provided scene is not of type Scene")
+        raise TypeError(f"Expected Scene, got {type(scene).__name__}")
     if scene not in scenesByIndex:
         raise PyUnityException(
-            "Scene \"%s\" is not part of the SceneManager" % scene.name)
+            f"Scene {scene.name!r} is not part of the SceneManager")
     scenesByIndex.remove(scene)
     scenesByName.pop(scene.name)
 
@@ -186,9 +186,9 @@ def LoadSceneByName(name):
 
     """
     if not isinstance(name, str):
-        raise TypeError("\"%r\" is not a string" % name)
+        raise TypeError(f"Expected str, got {type(name).__name__}")
     if name not in scenesByName:
-        raise PyUnityException("There is no scene named \"%s\"" % name)
+        raise PyUnityException(f"There is no scene named {name!r}")
     __loadScene(copy.deepcopy(scenesByName[name]))
 
 def LoadSceneByIndex(index):
@@ -210,9 +210,9 @@ def LoadSceneByIndex(index):
 
     """
     if not isinstance(index, int):
-        raise TypeError("\"%r\" is not an integer" % index)
+        raise TypeError(f"Expected int, got {type(index).__name__}")
     if index >= len(scenesByIndex):
-        raise PyUnityException("There is no scene at index \"%d\"" % index)
+        raise PyUnityException(f"There is no scene at index {index}")
     __loadScene(copy.deepcopy(scenesByIndex[index]))
 
 def LoadScene(scene):
@@ -236,8 +236,7 @@ def LoadScene(scene):
 
     """
     if not isinstance(scene, Scene):
-        raise TypeError(
-            "The provided Scene \"%s\" is not of type \"Scene\"" % scene.name)
+        raise TypeError(f"Expected Scene, got {type(scene).__name__}")
     if scene not in scenesByIndex:
         raise PyUnityException(
             "The provided scene is not part of the SceneManager")

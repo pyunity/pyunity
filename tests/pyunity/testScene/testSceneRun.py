@@ -85,7 +85,7 @@ class TestSceneRun:
 
                 start = time.time()
                 scene.startScripts()
-                assert start < scene.lastFrame
+                assert start <= scene.lastFrame
 
                 assert hasattr(scene, "physics")
                 assert scene.physics
@@ -102,4 +102,4 @@ class TestSceneRun:
             scene = SceneManager.AddScene("Scene")
             with Logger.TempRedirect(silent=True) as r:
                 scene.Start()
-            assert r.get() == "Physics is on"
+            assert r.get() == "Physics is on\nScene 'Scene' has started\n"

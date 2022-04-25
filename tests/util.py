@@ -16,8 +16,10 @@ class TestCase:
     def wrap(cls, func):
         def inner(self):
             self.setUp()
-            func(self)
-            self.tearDown()
+            try:
+                func(self)
+            finally:
+                self.tearDown()
         return inner
 
     def setUp(self):
