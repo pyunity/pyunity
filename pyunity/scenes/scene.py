@@ -86,7 +86,6 @@ class Scene:
         cls.gameObjects = []
         cls.mainCamera = None
         cls.ids = {}
-        cls.lights = []
         return cls
 
     @property
