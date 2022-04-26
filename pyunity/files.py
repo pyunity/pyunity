@@ -143,7 +143,8 @@ class Scripts:
             elif line.isspace() or line == "":
                 continue
             elif "#" in line:
-                if line.split("#")[0].isspace():
+                before = line.split("#")[0]
+                if before.isspace() or before == "":
                     continue
             elif line.startswith("class "):
                 continue
