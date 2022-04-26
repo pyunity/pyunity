@@ -8,7 +8,6 @@ import shutil
 import pkgutil
 import sys
 import importlib
-import importlib.metadata
 import inspect
 from setuptools._vendor.packaging import version # avoid pip install
 # from types import ModuleType
@@ -178,10 +177,18 @@ def checkMissing():
 #         f.write(line + "\n")
 
 def cythonize(error=False):
+    if sys.version_info >= (3, 8):
+        from importlib.metadata import version as metadataVersion
+    elif pkgutil.find_loader("importlib_metadata") is not None:
+        from importlib_metadata import version as metadataVersion
+    else:
+        def metadataVersion(name):
+            return __import__(name).__version__
+
     if os.environ["cython"] == "1":
         if pkgutil.find_loader("cython") is None:
             raise Exception("Cython is needed to create CPython extensions.")
-        cythonVer = version.parse(importlib.metadata.version("cython"))
+        cythonVer = version.parse(metadataVersion("cython"))
         if cythonVer < version.parse("3.0.0a8"):
             raise Exception(" - ".join([
                 "Cython version must be at least 3.0.0a8",
