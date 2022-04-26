@@ -1,0 +1,51 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG] <title>"
+labels: [bug]
+body:
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the bug you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+- type: textarea
+  attributes:
+    label: System info
+    description: Paste the result of `python -m pyunity --version` here.
+    render: plain text
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Describe the bug
+    description: A concise description of what you're experiencing.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: To reproduce
+    description: Steps to reproduce the behavior
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Code
+    description: Relevant code that caused the bug
+    render: python3
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Traceback
+    description: Paste the traceback here if needed.
+    render: plain text
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Additional context
+    description: Add any other context about the problem here.
+  validations:
+    required: false
