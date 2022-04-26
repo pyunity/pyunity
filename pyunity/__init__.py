@@ -259,5 +259,5 @@ if "PYUNITY_SPHINX_CHECK" not in os.environ:
         except AttributeError: # __module__ is read-only
             pass
 
-Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
+Logger.LogLine(Logger.DEBUG, f"Loaded PyUnity version {__version__}")
 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
