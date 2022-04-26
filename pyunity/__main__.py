@@ -33,7 +33,6 @@ if "--version" in sys.argv or "-v" in sys.argv:
             "Python version less than 3.8 but no importlib_metadata found")
 
     if requires is not None:
-        Logger.Log("Dependencies:")
         try:
             requirements = requires("pyunity")
         except PackageNotFoundError:
@@ -48,7 +47,8 @@ if "--version" in sys.argv or "-v" in sys.argv:
                 Logger.LogLine(Logger.WARN,
                     "No requirements.txt file found")
 
-        for item in requires("pyunity"):
+        Logger.Log("Dependencies:")
+        for item in requirements:
             name = re.split(" |;", item)[0]
             try:
                 Logger.Log("-", name, "version:", version(name))
