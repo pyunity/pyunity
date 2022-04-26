@@ -1,6 +1,3 @@
 cython>=3.0.0a8
 wheel
-pyglm
-pillow
 autopep8
-importlib-resources; python_version < "3.9"
