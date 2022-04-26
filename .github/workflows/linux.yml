@@ -33,12 +33,13 @@ jobs:
         with:
           name: Cython
       - name: Install dependencies
-        run: |
-          python -m pip install "cython>=3.0.0a8" cibuildwheel
+        run: python -m pip install cibuildwheel
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.4.0
+        env:
+          CIBW_BEFORE_BUILD: pip install -r .github/build_requirements.txt
         with:
-          path: dist
+          output-dir: dist
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
