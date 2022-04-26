@@ -15,6 +15,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.4.0
         env:
           CIBW_BEFORE_BUILD: pip install -r .github/build_requirements.txt
+          CIBW_ENVIRONMENT: PIP_GLOBAL_OPTION=--parallel
         with:
           output-dir: dist
       - name: Upload artifact
