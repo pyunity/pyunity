@@ -38,7 +38,7 @@ class TestScene(SceneTestCase):
 
         tagnum = Tag.AddTag("Custom Tag")
         a.tag = Tag(tagnum)
-        c.tag = Tag(tagnum)
+        c.tag = Tag("Custom Tag")
 
         assert len(scene.FindGameObjectsByName("B")) == 2
         assert scene.FindGameObjectsByName("B") == [b, d]
