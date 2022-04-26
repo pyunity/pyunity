@@ -29,10 +29,12 @@ if "cython" not in os.environ:
 # import pyunity
 
 def checkLicense():
-    others = [
+    files = [
         "prepare.py", "setup.py", # Root files
         os.path.join("stubs", "setup.py"), # Stub setup
-        *glob.glob("stubs/**/*.pyi", recursive=True)
+        *glob.glob("stubs/**/*.pyi", recursive=True),
+        *glob.glob("tests/**/*.py", recursive=True),
+        *glob.glob("pyunity/**/*.py", recursive=True),
     ]
 
     with open("LICENSE") as f:
@@ -40,7 +42,7 @@ def checkLicense():
     header = "# " + content.split("\n")[2] + "\n"
     header += "# This file is licensed under the MIT License.\n"
     header += "# See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
-    for file in glob.glob("pyunity/**/*.py", recursive=True) + others:
+    for file in files:
         with open(file) as f:
             contents = f.read()
         if contents.startswith("#"):
