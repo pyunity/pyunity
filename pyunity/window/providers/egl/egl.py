@@ -69,7 +69,6 @@ def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
                 else:
                     item = EGLint()
                 newArgs.insert(argnum, item)
-            print(newArgs)
             res = orig(*newArgs)
             if orig.restype is EGLBoolean and res.value == 0:
                 raise PyUnityException(f"{func.__name__} failed")
