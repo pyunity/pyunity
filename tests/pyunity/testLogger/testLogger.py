@@ -5,6 +5,14 @@
 from pyunity import Logger
 from . import SceneTestCase
 
+class TestLevel(SceneTestCase):
+    def testInit(self):
+        l = Logger.Level("A")
+        assert l.abbr == "A"
+        assert l == Logger.Level("A")
+        assert l != Logger.Level("B")
+        assert l != "A"
+
 class TestLogger(SceneTestCase):
     def testLog(self):
         with Logger.TempRedirect(silent=True) as r:
@@ -18,3 +26,8 @@ class TestLogger(SceneTestCase):
         with Logger.TempRedirect() as r:
             Logger.Log("Test")
         assert r.get() == f"Changed stream to {r.stream}\nTest\n"
+
+    def testMultiline(self):
+        with Logger.TempRedirect(silent=True) as r:
+            Logger.Log("Test\n\nTest2")
+        assert r.get() == "Test\n\nTest2\n"
