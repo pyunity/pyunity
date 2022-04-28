@@ -421,6 +421,7 @@ def SaveProject(project):
 def LoadProject(folder):
     project = Project.FromFolder(folder)
 
+    Scripts.GenerateModule()
     # Scripts
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
@@ -554,7 +555,8 @@ def LoadScene(sceneFile, project):
                     else:
                         raise ProjectParseException(f"{value} not in enum {type_}")
                 if not isinstance(value, type_):
-                    raise ProjectParseException(f"Value does not match type: {(value, type_)!r}")
+                    raise ProjectParseException(
+                        f"Value {value!r} does not match type {type_}: attribute {k!r} of {component}")
             setattr(component, k, value)
 
     # Transform check

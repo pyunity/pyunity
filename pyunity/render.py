@@ -449,8 +449,11 @@ class Camera(SingleComponent):
         self.depthShader = shaders["Depth"]
         self.clearColor = RGB(0, 0, 0)
 
+        from .gui import Canvas
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
+        self.shown["canvas"] = ShowInInspector(Canvas)
+        self.saved["canvas"] = self.shown["canvas"]
         self.fov = 90
         self.orthoSize = 5
 
