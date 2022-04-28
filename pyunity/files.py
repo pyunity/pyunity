@@ -156,8 +156,8 @@ class Scripts:
     @staticmethod
     def GenerateModule():
         if "PyUnityScripts" in sys.modules:
-            if hasattr("__pyunity__", sys.modules["PyUnityScripts"]):
-                return
+            if hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+                return sys.modules["PyUnityScripts"]
             Logger.LogLine(
                 Logger.WARN, "PyUnityScripts is already a package")
         module = ModuleType("PyUnityScripts", None)
@@ -195,7 +195,8 @@ class Scripts:
         """
         pathobj = Path(path).absolute()
         if not pathobj.is_file():
-            raise PyUnityException(f"The specified file does not exist: {path}")
+            raise PyUnityException(
+                f"The specified file does not exist: {str(path)!r}")
 
         if hasattr(sys.modules.get("PyUnityScripts", None), "__pyunity__"):
             module = sys.modules["PyUnityScripts"]

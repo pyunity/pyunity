@@ -5,6 +5,7 @@
 from pyunity import Scripts, PyUnityException, Logger
 from pathlib import Path
 from . import TestCase
+import sys
 
 currentdir = Path(__file__).absolute().parent
 
@@ -17,6 +18,14 @@ class TestScripts(TestCase):
             assert not Scripts.CheckScript(f.read().split("\n"))
 
     def testLoadScript(self):
+        sys.modules["PyUnityScripts"] = 0
+        with Logger.TempRedirect(silent=True) as r:
+            Scripts.GenerateModule()
+        assert r.get() == "Warning: PyUnityScripts is already a package\n"
+        sys.modules.pop("PyUnityScripts")
+        module = Scripts.GenerateModule()
+        assert module is Scripts.GenerateModule()
+
         file = currentdir / "TestBehaviour1.py"
         module = Scripts.LoadScript(file)
         assert hasattr(module, "__pyunity__")
@@ -29,6 +38,10 @@ class TestScripts(TestCase):
         assert hasattr(module, "TestBehaviour1")
 
     def testLoadScriptFails(self):
+        with self.assertRaises(PyUnityException) as exc:
+            Scripts.LoadScript("DoesNotExist.py")
+        assert exc.value == "The specified file does not exist: 'DoesNotExist.py'"
+
         file = currentdir / "file1.py"
         with self.assertRaises(PyUnityException) as exc:
             Scripts.LoadScript(file)
