@@ -16,13 +16,10 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 from . import Logger
 from .meshes import Mesh
 from .errors import PyUnityException, ProjectParseException
-from .core import Transform, MeshRenderer, GameObject, Component, Tag
+from .core import GameObject, Component, Tag
 from .values import Vector3, ImmutableStruct, Quaternion, Material, Color
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
-from .render import Camera, Light
-from .audio import AudioSource, AudioListener
-from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
 from contextlib import ExitStack
 from pathlib import Path
@@ -233,19 +230,6 @@ def GetImports(file):
         if line.startswith("import") or (line.startswith("from") and " import " in line):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
-
-componentMap = {
-    "Transform": Transform,
-    "Camera": Camera,
-    "Light": Light,
-    "MeshRenderer": MeshRenderer,
-    "BoxCollider": BoxCollider,
-    "SphereCollider": SphereCollider,
-    "Rigidbody": Rigidbody,
-    "AudioSource": AudioSource,
-    "AudioListener": AudioListener
-}
-"""List of all components by name"""
 
 def parseString(string):
     if string.startswith("Vector3("):
@@ -461,7 +445,7 @@ def LoadProject(folder):
     # Materials
     for file in project.filePaths:
         if file.endswith(".mat"):
-            material = LoadMat(project.path / os.path.normpath(file)), project
+            material = LoadMat(project.path / os.path.normpath(file), project)
             uuid = project.filePaths[file].uuid
             project._idMap[uuid] = material
             project._ids[material] = uuid
@@ -469,7 +453,7 @@ def LoadProject(folder):
     # Scenes
     for file in project.filePaths:
         if file.endswith(".scene"):
-            LoadScene(project.path / os.path.normpath(file)), project
+            LoadScene(project.path / os.path.normpath(file), project)
 
     return project
 
@@ -525,6 +509,13 @@ def LoadScene(sceneFile, project):
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
+    import pyunity
+    componentMap = {}
+    for item in pyunity.__all__:
+        obj = getattr(pyunity, item)
+        if isinstance(obj, type) and issubclass(obj, Component):
+            componentMap[item] = obj
+
     # first pass, adding components
     for part in componentInfo + behaviourInfo:
         gameObjectID = part.attrs.pop("gameObject")
@@ -535,7 +526,7 @@ def LoadScene(sceneFile, project):
         else:
             file = project.fileIDs[part.attrs.pop("_script")]
             fullpath = project.path.resolve() / file.path
-            behaviourType = PyUnityScripts._lookup[fullpath]
+            behaviourType = PyUnityScripts._lookup[str(fullpath)]
             addUuid(behaviourType, file.uuid)
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
