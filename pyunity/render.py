@@ -452,7 +452,7 @@ class Camera(SingleComponent):
         from .gui import Canvas
         self.shown["fov"] = ShowInInspector(int, 90, "fov")
         self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
-        self.shown["canvas"] = ShowInInspector(Canvas)
+        self.shown["canvas"] = ShowInInspector(Canvas, None, "canvas")
         self.saved["canvas"] = self.shown["canvas"]
         self.fov = 90
         self.orthoSize = 5
