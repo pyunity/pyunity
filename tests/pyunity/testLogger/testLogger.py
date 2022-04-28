@@ -33,7 +33,7 @@ class TestLogger(SceneTestCase):
         stream = io.StringIO()
         with contextlib.redirect_stderr(stream):
             Logger.LogLine(Logger.ERROR, "Error")
-        assert stream.getvalue() == "Error"
+        assert stream.getvalue() == "Error\n"
 
         stream = io.StringIO()
         try:
