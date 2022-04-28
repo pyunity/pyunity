@@ -33,7 +33,7 @@ class TestLogger(SceneTestCase):
         stream = io.StringIO()
         with contextlib.redirect_stderr(stream):
             Logger.LogLine(Logger.ERROR, "Error")
-        assert stream.get() == "Error"
+        assert stream.getvalue() == "Error"
 
         stream = io.StringIO()
         try:
@@ -41,7 +41,7 @@ class TestLogger(SceneTestCase):
         except Exception as e:
             with contextlib.redirect_stderr(stream):
                 Logger.LogException(e)
-        text = stream.get()
+        text = stream.getvalue()
         assert text.endswith("Exception\n")
         assert text.startswith("Traceback (most recent call last):\n  ")
 
