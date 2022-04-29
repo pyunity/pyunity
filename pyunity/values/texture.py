@@ -71,9 +71,9 @@ class RGB(Color):
         yield self.b
 
     def __repr__(self):
-        return f"RGB({', '.join(tuple(self))})"
+        return f"RGB({', '.join(map(str, tuple(self)))})"
     def __str__(self):
-        return f"RGB({', '.join(tuple(self))})"
+        return f"RGB({', '.join(map(str, tuple(self)))})"
 
     def toRGB(self):
         return self
@@ -114,9 +114,9 @@ class HSV(Color):
         yield self.v
 
     def __repr__(self):
-        return f"HSV({', '.join(tuple(self))})"
+        return f"HSV({', '.join(map(str, tuple(self)))})"
     def __str__(self):
-        return f"HSV({', '.join(tuple(self))})"
+        return f"HSV({', '.join(map(str, tuple(self)))})"
 
     def toRGB(self):
         return RGB.fromHSV(self.h, self.s, self.v)

@@ -5,7 +5,7 @@
 import os
 import time
 from pyunity import (
-    Behaviour, SceneManager, AudioListener, Logger, GameObject,
+    config, Behaviour, SceneManager, AudioListener, Logger, GameObject,
     Rigidbody, Collider)
 from . import SceneTestCase
 
@@ -19,6 +19,7 @@ class TestSceneRun:
             def setUp(self):
                 super().setUp()
                 os.environ["PYUNITY_INTERACTIVE"] = "0"
+                config.audio = True
 
             def testCase1(self):
                 scene = SceneManager.AddScene("Scene")
