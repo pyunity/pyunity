@@ -8,7 +8,7 @@ class CustomWindow(Window.ABCWindow):
     def getMouse(self, mousecode, keystate):
         return False
 
-    def getKey(self, mousecode, keystate):
+    def getKey(self, keycode, keystate):
         return False
 
     def getMousePos(self):
