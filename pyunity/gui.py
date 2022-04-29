@@ -82,7 +82,7 @@ class RectData:
                 self.max = minOrBoth.max.copy()
             else:
                 self.min = minOrBoth.copy()
-                self.min = minOrBoth.copy()
+                self.max = minOrBoth.copy()
         else:
             self.min = minOrBoth.copy()
             self.max = max.copy()
@@ -90,9 +90,30 @@ class RectData:
     def size(self):
         return self.max - self.min
 
+    def SetPoint(self, pos):
+        """
+        Changes both the minimum and maximum points.
+
+        Parameters
+        ----------
+        pos : Vector2
+            Point
+
+        """
+        self.min = pos.copy()
+        self.max = pos.copy()
+
     def __repr__(self):
         """String representation of the RectData"""
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
+
+    def __eq__(self, other):
+        if isinstance(other, RectData):
+            return self.max == other.max and self.min == other.min
+        return False
+
+    def __hash__(self):
+        return hash((self.min, self.max))
 
     def __add__(self, other):
         if isinstance(other, RectData):
@@ -118,19 +139,6 @@ class RectAnchors(RectData):
     the anchor points of a RectTransform.
 
     """
-
-    def SetPoint(self, p):
-        """
-        Changes both the minimum and maximum anchor points.
-
-        Parameters
-        ----------
-        p : Vector2
-            Point
-
-        """
-        self.min = p.copy()
-        self.max = p.copy()
 
     def RelativeTo(self, other):
         """
@@ -204,10 +212,6 @@ class RectOffset(RectData):
         size = self.max - self.min
         self.min = pos - size / 2
         self.max = pos + size / 2
-
-    def SetPoint(self, pos):
-        self.min = pos.copy()
-        self.max = pos.copy()
 
 class RectTransform(SingleComponent):
     """
