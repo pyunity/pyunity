@@ -35,6 +35,6 @@ class TestWindow(TestCase):
 
         with Logger.TempRedirect(silent=True) as r:
             Window.CustomWindowProvider(CustomWindow)
-        assert r.get() == "Using window provider CustomWindow"
+        assert r.get() == "Using window provider CustomWindow\n"
 
         assert config.windowProvider is CustomWindow
