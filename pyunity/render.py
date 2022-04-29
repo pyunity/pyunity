@@ -11,7 +11,7 @@ __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
-from .core import ShowInInspector, SingleComponent
+from .core import ShowInInspector, SingleComponent, addFields
 from .files import Skybox, convert
 from . import config, Logger
 from contextlib import ExitStack
@@ -400,6 +400,10 @@ class Light(SingleComponent):
         gl.glReadBuffer(gl.GL_NONE)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
+@addFields(
+    fov=ShowInInspector(int, 90),
+    orthoSize=ShowInInspector(float, 5, "Ortho Size"),
+    canvas=ShowInInspector(addFields.selfref))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
@@ -438,7 +442,6 @@ class Camera(SingleComponent):
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
     shadows = ShowInInspector(bool, True)
-    canvas = ShowInInspector()
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -450,10 +453,8 @@ class Camera(SingleComponent):
         self.clearColor = RGB(0, 0, 0)
 
         from .gui import Canvas
-        self.shown["fov"] = ShowInInspector(int, 90, "fov")
-        self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
         self.shown["canvas"] = ShowInInspector(Canvas, None, "canvas")
-        self.saved["canvas"] = self.shown["canvas"]
+        self.saved["canvas"] = self.shown["canvas
         self.fov = 90
         self.orthoSize = 5
 

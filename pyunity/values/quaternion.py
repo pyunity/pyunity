@@ -32,7 +32,7 @@ class Quaternion:
         self.z = z
 
     def __repr__(self):
-        return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
+        return f"Quaternion({', '.join(map(conv, self))})"
     def __str__(self):
         return f"Quaternion({', '.join(map(conv, self))})"
 

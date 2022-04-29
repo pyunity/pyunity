@@ -185,7 +185,9 @@ def cythonize(error=False):
             raise Exception("Cython is needed to create CPython extensions.")
         cythonVer = version.parse(importlib.metadata.version("cython"))
         if cythonVer < version.parse("3.0.0a8"):
-            raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install cython==3.0.0a8")
+            raise Exception(" - ".join([
+                "Cython version must be at least 3.0.0a8",
+                "install using pip install \"cython>=3.0.0a8\""]))
         if os.path.exists("src"):
             shutil.rmtree("src")
         for path in glob.glob("pyunity/**/*.*", recursive=True):

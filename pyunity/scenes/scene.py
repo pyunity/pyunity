@@ -21,7 +21,7 @@ from ..values import Vector3
 from .. import config, physics, logger as Logger
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
-from .. import render
+from ..render import Camera, Light, Screen, genBuffers, genArray
 from inspect import signature
 from time import time
 import os
@@ -53,13 +53,13 @@ class Scene:
 
     def __init__(self, name):
         self.name = name
-        self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
+        self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         self.mainCamera.AddComponent(AudioListener)
         self.mainCamera.gameObject.scene = self
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
         light.transform.LookAtPoint(Vector3.zero())
-        light.AddComponent(render.Light)
+        light.AddComponent(Light)
         light.scene = self
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.ids = {}
@@ -86,7 +86,6 @@ class Scene:
         cls.gameObjects = []
         cls.mainCamera = None
         cls.ids = {}
-        cls.lights = []
         return cls
 
     @property
@@ -351,35 +350,36 @@ class Scene:
         maxY = rpmax.dot(directionY)
         hmin = minZ * 2 * \
             math.tan(math.radians(self.mainCamera.fov /
-                                  config.size[0] * config.size[1] / 2))
+                                  Screen.size.x * Screen.size.y / 2))
         hmax = maxZ * 2 * \
             math.tan(math.radians(self.mainCamera.fov /
-                                  config.size[0] * config.size[1] / 2))
+                                  Screen.size.x * Screen.size.y / 2))
         if minY > -hmin / 2 or maxY < hmax / 2:
             return True
 
         minX = rpmin.dot(directionX)
         maxX = rpmax.dot(directionX)
         wmin, wmax = hmin * \
-            config.size[0] / config.size[1], hmax * \
-            config.size[0] / config.size[1]
+            Screen.size.x / Screen.size.y, hmax * \
+            Screen.size.x / Screen.size.y
         return minX > -wmin / 2 or maxX < wmax / 2
 
     def startScripts(self):
         """Start the scripts in the Scene."""
 
-        audioListeners = self.FindComponentsByType(AudioListener)
-        if len(audioListeners) == 0:
-            Logger.LogLine(
-                Logger.WARN, "No AudioListeners found, audio is disabled")
-            self.audioListener = None
-        elif len(audioListeners) > 1:
-            Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
-                           str(len(audioListeners)) + " found")
-            self.audioListener = None
-        else:
-            self.audioListener = audioListeners[0]
-            self.audioListener.Init()
+        if config.audio:
+            audioListeners = self.FindComponentsByType(AudioListener)
+            if len(audioListeners) == 0:
+                Logger.LogLine(
+                    Logger.WARN, "No AudioListeners found, audio is disabled")
+                self.audioListener = None
+            elif len(audioListeners) > 1:
+                Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
+                            str(len(audioListeners)) + " found")
+                self.audioListener = None
+            else:
+                self.audioListener = audioListeners[0]
+                self.audioListener.Init()
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
@@ -391,8 +391,8 @@ class Scene:
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     if os.environ["PYUNITY_INTERACTIVE"] == "1":
                         mesh = component.mesh
-                        mesh.vbo, mesh.ibo = render.genBuffers(mesh)
-                        mesh.vao = render.genArray()
+                        mesh.vbo, mesh.ibo = genBuffers(mesh)
+                        mesh.vao = genArray()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.setupBuffers()
@@ -503,7 +503,7 @@ class Scene:
             return
 
         renderers = self.FindComponentsByType(MeshRenderer)
-        lights = self.FindComponentsByType(render.Light)
+        lights = self.FindComponentsByType(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
 
