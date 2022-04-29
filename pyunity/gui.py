@@ -59,7 +59,7 @@ class Canvas(Component):
                 if rect.min < pos < rect.max:
                     comp.HoverUpdate()
 
-decorator = addFields(name="canvas", value=ShowInInspector(Canvas))
+decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
 
 class RectData:
