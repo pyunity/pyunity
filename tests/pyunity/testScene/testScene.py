@@ -169,7 +169,7 @@ class TestScene(SceneTestCase):
         gameObject.transform.position = Vector3(0, 0, 5)
         renderer = gameObject.AddComponent(MeshRenderer)
         scene.Add(gameObject)
-        # assert not scene.insideFrustrum(renderer)
+        assert not scene.insideFrustrum(renderer)
 
         renderer.mesh = Mesh.cube(2)
         # assert scene.insideFrustrum(renderer))

@@ -322,6 +322,8 @@ class Scene:
 
         """
         mesh = renderer.mesh
+        if mesh is None:
+            return False
         pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
         directionX = self.mainCamera.transform.rotation.RotateVector(
             Vector3.right()) * Vector3(1, 1, -1)
