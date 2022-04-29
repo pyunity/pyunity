@@ -12,7 +12,7 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
 from . import Logger
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
-from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer
+from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer, addFields
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
@@ -58,6 +58,9 @@ class Canvas(Component):
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
                     comp.HoverUpdate()
+
+decorator = addFields(name="canvas", value=ShowInInspector(Canvas))
+decorator(Camera)
 
 class RectData:
     """
