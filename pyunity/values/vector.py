@@ -646,9 +646,14 @@ class Vector3(Vector):
             Cross product of the two vectors
 
         """
-        x = self.y * other[2] - self.z * other[1]
-        y = self.z * other[0] - self.x * other[2]
-        z = self.x * other[1] - self.y * other[0]
+        if isinstance(other, Vector3):
+            x = self.y * other.z - self.z * other.y
+            y = self.z * other.x - self.x * other.z
+            z = self.x * other.y - self.y * other.x
+        else:
+            x = self.y * other[2] - self.z * other[1]
+            y = self.z * other[0] - self.x * other[2]
+            z = self.x * other[1] - self.y * other[0]
         return Vector3(x, y, z)
 
     @staticmethod
