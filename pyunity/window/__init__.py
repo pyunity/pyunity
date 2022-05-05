@@ -60,15 +60,24 @@ def GetWindowProvider():
             providerName = settings.db["windowProvider"]
             if providerName in getProviders():
                 module = importlib.import_module(f".providers.{providerName}", __name__)
+                name = module.name
                 Logger.LogLine(
-                    Logger.DEBUG, "Using window provider", module.name)
-                module = importlib.import_module(f".providers.{providerName}.window", __name__)
-                return module.Window
+                    Logger.DEBUG, "Using window provider", name)
+                try:
+                    module = importlib.import_module(f".providers.{providerName}.window", __name__)
+                    return module.Window
+                except Exception as e:
+                    Logger.LogLine(
+                        Logger.WARN, "Window provider loading failed")
+                    Logger.LogLine(
+                        Logger.WARN, type(e).__name__ + ":", str(e))
+                    Logger.LogLine(
+                        Logger.WARN, "Selecting new window provider")
             else:
                 Logger.LogLine(Logger.WARN,
-                               f"settings.json entry {providerName!r} is "
-                               f"not a valid window provider, removing")
-                settings.db.pop("windowProvider")
+                                f"settings.json entry {providerName!r} is "
+                                f"not a valid window provider, removing")
+            settings.db.pop("windowProvider")
 
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
