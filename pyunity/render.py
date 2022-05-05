@@ -19,6 +19,7 @@ from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
 from pathlib import Path
 import OpenGL.GL as gl
+import collections.abc
 import atexit
 import enum
 import hashlib
@@ -129,7 +130,7 @@ class Shader:
 
         """
         formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
-        if isinstance(formats, int):
+        if not isinstance(formats, collections.abc.Sequence):
             formats = [formats]
 
         folder = Logger.folder.parent / "ShaderCache"
