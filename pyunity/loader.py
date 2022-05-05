@@ -16,13 +16,10 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 from . import Logger
 from .meshes import Mesh
 from .errors import PyUnityException, ProjectParseException
-from .core import Transform, MeshRenderer, GameObject, Component, Tag
-from .values import Vector3, ImmutableStruct, Quaternion, Material, Color
+from .core import GameObject, Component, Tag
+from .values import Vector3, Vector2, ImmutableStruct, Quaternion, Material, Color
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
-from .render import Camera, Light
-from .audio import AudioSource, AudioListener
-from .physics import BoxCollider, SphereCollider, Rigidbody # , PhysicMaterial
 from .scenes import Scene
 from contextlib import ExitStack
 from pathlib import Path
@@ -234,20 +231,9 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-componentMap = {
-    "Transform": Transform,
-    "Camera": Camera,
-    "Light": Light,
-    "MeshRenderer": MeshRenderer,
-    "BoxCollider": BoxCollider,
-    "SphereCollider": SphereCollider,
-    "Rigidbody": Rigidbody,
-    "AudioSource": AudioSource,
-    "AudioListener": AudioListener
-}
-"""List of all components by name"""
-
 def parseString(string):
+    if string.startswith("Vector2("):
+        return True, Vector2(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Vector3("):
         return True, Vector3(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Quaternion("):
@@ -265,17 +251,27 @@ def parseString(string):
     except (ValueError, OverflowError):
         pass
     try:
-        return True, json.loads(string)
+        # Only want strings here
+        outStr = json.loads(string)
+        if not isinstance(outStr, str):
+            raise json.decoder.JSONDecodeError
+        return True, outStr
     except json.decoder.JSONDecodeError:
         pass
-    if string.startswith("(") and string.endswith(")"):
-        check, items = zip(*list(map(parseString, string.split(", "))))
+    if ((string.startswith("(") and string.endswith(")")) or
+            (string.startswith("[") and string.endswith("]"))):
+        check = []
+        items = []
+        for section in string[1:-1].split(", "):
+            if section.isspace() or section == "":
+                continue
+            valid, obj = parseString(section.rstrip().lstrip())
+            check.append(valid)
+            items.append(obj)
         if all(check):
-            return True, tuple(items)
-    if string.startswith("[") and string.endswith("]"):
-        check, items = zip(*list(map(parseString, string[1:-1].split(", "))))
-        if all(check):
-            return True, list(items)
+            if string.startswith("("):
+                return True, tuple(items)
+            return True, items
     return False, None
 
 class ObjectInfo:
@@ -437,6 +433,7 @@ def SaveProject(project):
 def LoadProject(folder):
     project = Project.FromFolder(folder)
 
+    Scripts.GenerateModule()
     # Scripts
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
@@ -525,6 +522,13 @@ def LoadScene(sceneFile, project):
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
+    import pyunity
+    componentMap = {}
+    for item in pyunity.__all__:
+        obj = getattr(pyunity, item)
+        if isinstance(obj, type) and issubclass(obj, Component):
+            componentMap[item] = obj
+
     # first pass, adding components
     for part in componentInfo + behaviourInfo:
         gameObjectID = part.attrs.pop("gameObject")
@@ -563,7 +567,8 @@ def LoadScene(sceneFile, project):
                     else:
                         raise ProjectParseException(f"{value} not in enum {type_}")
                 if not isinstance(value, type_):
-                    raise ProjectParseException(f"Value does not match type: {(value, type_)!r}")
+                    raise ProjectParseException(
+                        f"Value {value!r} does not match type {type_}: attribute {k!r} of {component}")
             setattr(component, k, value)
 
     # Transform check

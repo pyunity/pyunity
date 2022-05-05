@@ -186,14 +186,22 @@ class GameObject:
             Component to add. Must inherit from :class:`Component`
 
         """
+        if not isinstance(componentClass, type):
+            raise ComponentException(
+                f"Cannot add {componentClass!r} to the GameObject; "
+                f"it is not a component"
+            )
         if not issubclass(componentClass, Component):
             raise ComponentException(
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it is not a component"
             )
-        if not (
-                issubclass(componentClass, SingleComponent) and
-                any(isinstance(component, componentClass) for component in self.components)):
+        if (issubclass(componentClass, SingleComponent) and
+                self.GetComponents(componentClass)):
+            raise ComponentException(
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it already has one")
+        else:
             component = componentClass(self.transform)
             self.components.append(component)
             if componentClass is Transform:
@@ -202,10 +210,6 @@ class GameObject:
             component.gameObject = self
             component.transform = self.transform
             return component
-        else:
-            raise ComponentException(
-                f"Cannot add {componentClass.__name__} to the GameObject; "
-                f"it already has one")
 
     def GetComponent(self, componentClass):
         """

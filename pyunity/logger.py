@@ -10,8 +10,10 @@ This will be imported as ``pyunity.Logger``.
 """
 
 __all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
-           "SetStream", "Log", "LogLine", "Save", "Level", "Special"]
+           "SetStream", "Log", "LogLine", "Save", "Level", "Special",
+           "TempRedirect"]
 
+import io
 import os
 import sys
 import platform
@@ -219,6 +221,32 @@ def Save():
     with open(folder / "latest.log") as f:
         with open(folder / (timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
+
+class TempRedirect:
+    def __init__(self, *, silent=False):
+        self.silent = silent
+        self.stream = None
+
+    def get(self):
+        if self.stream is None:
+            raise Exception("Context manager not used")
+        return self.stream.getvalue()
+
+    def __enter__(self):
+        global stream
+        self.stream = io.StringIO()
+        if self.silent:
+            stream = self.stream
+        else:
+            SetStream(self.stream)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global stream
+        if self.silent:
+            stream = sys.stdout
+        else:
+            ResetStream()
 
 def SetStream(s):
     global stream

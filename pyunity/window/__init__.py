@@ -162,7 +162,7 @@ def CustomWindowProvider(cls):
         raise PyUnityException("Provided window provider is not a class")
     if not issubclass(cls, ABCWindow):
         raise PyUnityException(
-            "Provided window provider does not subclass ABCWindow")
+            "Provided window provider does not subclass Window.ABCWindow")
     Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
     config.windowProvider = cls
     return cls

@@ -248,7 +248,7 @@ class Scene:
             If there is no tag with specified index.
 
         """
-        if len(Tag.tags) > num:
+        if len(Tag.tags) > num >= 0:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException(
