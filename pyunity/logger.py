@@ -28,6 +28,7 @@ TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def getTmp():
     if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
+        # Android (p4a, termux etc)
         pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
         for path in sys.path:
             if pattern.match(path):
@@ -35,11 +36,13 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = Path(result) / "files/pyunity/Logs"
+        folder = Path(result) / "files/usr/local/pyunity/logs"
     elif platform.platform().startswith("Windows"):
+        # Windows
         folder = Path(os.environ["appdata"]) / "PyUnity/Logs"
     else:
-        folder = Path("/tmp/pyunity/Logs")
+        # Linux or MacOS
+        folder = Path("/opt/pyunity/Logs")
     return folder
 
 folder = getTmp()
