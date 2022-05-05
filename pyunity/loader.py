@@ -17,7 +17,7 @@ from . import Logger
 from .meshes import Mesh
 from .errors import PyUnityException, ProjectParseException
 from .core import GameObject, Component, Tag
-from .values import Vector3, ImmutableStruct, Quaternion, Material, Color
+from .values import Vector3, Vector2, ImmutableStruct, Quaternion, Material, Color
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
 from .scenes import Scene
@@ -232,6 +232,8 @@ def GetImports(file):
     return "\n".join(imports) + "\n\n"
 
 def parseString(string):
+    if string.startswith("Vector2("):
+        return True, Vector2(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Vector3("):
         return True, Vector3(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Quaternion("):
@@ -249,17 +251,27 @@ def parseString(string):
     except (ValueError, OverflowError):
         pass
     try:
-        return True, json.loads(string)
+        # Only want strings here
+        outStr = json.loads(string)
+        if not isinstance(outStr, str):
+            raise json.decoder.JSONDecodeError
+        return True, outStr
     except json.decoder.JSONDecodeError:
         pass
-    if string.startswith("(") and string.endswith(")"):
-        check, items = zip(*list(map(parseString, string.split(", "))))
+    if ((string.startswith("(") and string.endswith(")")) or
+            (string.startswith("[") and string.endswith("]"))):
+        check = []
+        items = []
+        for section in string[1:-1].split(", "):
+            if section.isspace() or section == "":
+                continue
+            valid, obj = parseString(section.rstrip().lstrip())
+            check.append(valid)
+            items.append(obj)
         if all(check):
-            return True, tuple(items)
-    if string.startswith("[") and string.endswith("]"):
-        check, items = zip(*list(map(parseString, string[1:-1].split(", "))))
-        if all(check):
-            return True, list(items)
+            if string.startswith("("):
+                return True, tuple(items)
+            return True, items
     return False, None
 
 class ObjectInfo:

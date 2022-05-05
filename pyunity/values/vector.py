@@ -126,8 +126,6 @@ class Vector(metaclass=ABCMeta):
     @abstractmethod
     def __eq__(self, other):
         pass
-    def __ne__(self, other):
-        return any(self._o2(other, operator.ne))
     def __gt__(self, other):
         return all(self._o2(other, operator.gt))
     def __lt__(self, other):
@@ -230,6 +228,8 @@ class Vector2(Vector):
         return self
 
     def __eq__(self, other):
+        if not isinstance(other, Vector2):
+            return False
         return self.x == other.x and self.y == other.y
 
     def copy(self):
@@ -486,6 +486,8 @@ class Vector3(Vector):
         return self
 
     def __eq__(self, other):
+        if not isinstance(other, Vector3):
+            return False
         return self.x == other.x and self.y == other.y and self.z == other.z
 
     def copy(self):

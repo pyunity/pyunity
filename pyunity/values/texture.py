@@ -49,18 +49,18 @@ class RGB(Color):
 
     """
 
-    def __truediv__(self, other):
-        a, b, c = tuple(self)
-        return a / other, b / other, c / other
-
-    def __mul__(self, other):
-        a, b, c = tuple(self)
-        return a * other, b * other, c * other
-
     def __init__(self, r, g, b):
         self.r = r
         self.g = g
         self.b = b
+
+    def __eq__(self, other):
+        if not isinstance(other, RGB):
+            return False
+        return self.r == other.r and self.g == other.g and self.b == other.b
+
+    def __hash__(self):
+        return hash(tuple(self))
 
     def __list__(self):
         return [self.r, self.g, self.b]
@@ -74,6 +74,14 @@ class RGB(Color):
         return f"RGB({', '.join(map(str, tuple(self)))})"
     def __str__(self):
         return f"RGB({', '.join(map(str, tuple(self)))})"
+
+    def __truediv__(self, other):
+        a, b, c = tuple(self)
+        return a / other, b / other, c / other
+
+    def __mul__(self, other):
+        a, b, c = tuple(self)
+        return a * other, b * other, c * other
 
     def toRGB(self):
         return self
@@ -104,6 +112,14 @@ class HSV(Color):
         self.h = h
         self.s = s
         self.v = v
+
+    def __eq__(self, other):
+        if not isinstance(other, HSV):
+            return False
+        return self.h == other.h and self.s == other.s and self.v == other.v
+
+    def __hash__(self):
+        return hash(tuple(self))
 
     def __list__(self):
         return [self.h, self.s, self.v]
