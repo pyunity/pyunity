@@ -106,7 +106,7 @@ def fillScreen(scale=1):
     gl.glEnd()
 
 class Shader:
-    VERSION = "1.00" # Must be 4 long
+    VERSION = "1.10" # Must be 4 long
     def __init__(self, vertex, frag, name):
         self.vertex = vertex
         self.frag = frag
@@ -128,9 +128,14 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if isinstance(formats, int):
+            formats = [formats]
+
         folder = Logger.folder.parent / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
+        sha256.update(hex(formats[0])[2:].encode())
         digest = sha256.hexdigest()
 
         if (folder / (digest + ".bin")).is_file():
@@ -151,18 +156,23 @@ class Shader:
                 binary = binary[formatLength + 1:]
                 binaryFormat = int(hexstr.decode(), base=16)
                 self.program = gl.glCreateProgram()
-                gl.glProgramBinary(
-                    self.program, binaryFormat, binary, len(binary))
 
-                success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-                if success:
-                    self.compiled = True
-                    Logger.LogLine(Logger.INFO, "Loaded shader",
-                                   repr(self.name), "hash", digest)
-                    return
+                if binaryFormat in formats:
+                    gl.glProgramBinary(
+                        self.program, binaryFormat, binary, len(binary))
+
+                    success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+                    if success:
+                        self.compiled = True
+                        Logger.LogLine(Logger.INFO, "Loaded shader",
+                                    repr(self.name), "hash", digest)
+                        return
+                    else:
+                        log = gl.glGetProgramInfoLog(self.program)
+                        Logger.LogLine(Logger.WARN, log.decode())
                 else:
-                    log = gl.glGetProgramInfoLog(self.program)
-                    Logger.LogLine(Logger.WARN, log.decode())
+                    Logger.LogLine(Logger.WARN,
+                        "Shader binaryFormat not supported; recompiling")
             else:
                 Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
                     "is not up-to-date; recompiling")
