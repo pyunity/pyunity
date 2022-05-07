@@ -249,7 +249,8 @@ if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
     Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
-if "PYUNITY_SPHINX_CHECK" not in os.environ:
+if ("PYUNITY_SPHINX_CHECK" not in os.environ and
+        "PYUNITY_CHANGE_MODULE" not in os.environ):
     # Mask module attribute
     for _obj in tuple(locals().values()): # pragma: no cover
         if not getattr(_obj, "__module__", "").startswith("pyunity."):
