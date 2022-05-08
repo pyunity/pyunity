@@ -120,6 +120,63 @@ class Shader:
         memo[id(self)] = self
         return self
 
+    def loadCache(self, file):
+        if not file.is_file():
+            return
+
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if not isinstance(formats, collections.abc.Sequence):
+            formats = [formats]
+
+        with open(file, "rb") as f:
+            binary = f.read()
+
+        # Format:
+        # version (4 long)
+        # formatLength (1 long)
+        # format (formatLength long)
+        # content (rest of file)
+
+        ver = binary[:4].decode()
+        binary = binary[4:]
+        if ver != Shader.VERSION:
+            Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
+                "is not up-to-date; recompiling")
+            return
+
+        formatLength = int(binary[0])
+        hexstr = binary[1: formatLength + 1]
+        binary = binary[formatLength + 1:]
+        binaryFormat = int(hexstr.decode(), base=16)
+        self.program = gl.glCreateProgram()
+
+        if binaryFormat not in formats:
+            Logger.LogLine(Logger.WARN,
+                "Shader binaryFormat not supported; recompiling")
+            return
+
+        stop = False
+        try:
+            gl.glProgramBinary(
+                self.program, binaryFormat, binary, len(binary))
+        except Exception:
+            stop = True
+        if stop:
+            Logger.LogLine(Logger.WARN,
+                "glProgramBinary failed; recompiling")
+            return
+
+        success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+        if not success:
+            log = gl.glGetProgramInfoLog(self.program)
+            Logger.LogLine(Logger.WARN, log.decode())
+            Logger.LogLine(Logger.WARN, "Recompiling shader")
+            return
+
+        self.compiled = True
+        Logger.LogLine(Logger.INFO, "Loaded shader", repr(self.name),
+                       "hash", file.name.rsplit(".", 1)[0])
+
     def compile(self):
         """
         Compiles shader and generates program. Checks for errors.
@@ -138,54 +195,7 @@ class Shader:
         sha256.update(self.frag.encode("utf-8"))
         sha256.update(hex(formats[0])[2:].encode())
         digest = sha256.hexdigest()
-
-        if (folder / (digest + ".bin")).is_file():
-            with open(folder / (digest + ".bin"), "rb") as f:
-                binary = f.read()
-
-            # Format:
-            # version (4 long)
-            # formatLength (1 long)
-            # format (formatLength long)
-            # content (rest of file)
-
-            ver = binary[:4].decode()
-            binary = binary[4:]
-            if ver == Shader.VERSION:
-                formatLength = int(binary[0])
-                hexstr = binary[1: formatLength + 1]
-                binary = binary[formatLength + 1:]
-                binaryFormat = int(hexstr.decode(), base=16)
-                self.program = gl.glCreateProgram()
-
-                if binaryFormat in formats:
-                    stop = False
-                    try:
-                        gl.glProgramBinary(
-                            self.program, binaryFormat, binary, len(binary))
-                    except Exception:
-                        stop = True
-
-                    if not stop:
-                        success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-                        if success:
-                            self.compiled = True
-                            Logger.LogLine(Logger.INFO, "Loaded shader",
-                                        repr(self.name), "hash", digest)
-                            return
-                        else:
-                            log = gl.glGetProgramInfoLog(self.program)
-                            Logger.LogLine(Logger.WARN, log.decode())
-                            Logger.LogLine(Logger.WARN, "Recompiling shader")
-                    else:
-                        Logger.LogLine(Logger.WARN,
-                            "glProgramBinary failed; recompiling")
-                else:
-                    Logger.LogLine(Logger.WARN,
-                        "Shader binaryFormat not supported; recompiling")
-            else:
-                Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
-                    "is not up-to-date; recompiling")
+        file = folder / (digest + ".bin")
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -225,7 +235,7 @@ class Shader:
         out = gl.glGetProgramBinary(self.program, length)
 
         folder.mkdir(parents=True, exist_ok=True)
-        with open(folder / (digest + ".bin"), "wb+") as f:
+        with open(file, "wb+") as f:
             # Format:
             # version (4 long)
             # formatLength (1 long)
@@ -238,7 +248,8 @@ class Shader:
             f.write(bytes(out[0]))
 
         Logger.LogLine(
-            Logger.INFO, "Saved shader", repr(self.name), "hash", digest)
+            Logger.INFO, "Saved shader", repr(self.name),
+            "hash", digest)
 
     @staticmethod
     def fromFolder(path, name):
