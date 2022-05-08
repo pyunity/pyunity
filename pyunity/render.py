@@ -159,18 +159,27 @@ class Shader:
                 self.program = gl.glCreateProgram()
 
                 if binaryFormat in formats:
-                    gl.glProgramBinary(
-                        self.program, binaryFormat, binary, len(binary))
+                    stop = False
+                    try:
+                        gl.glProgramBinary(
+                            self.program, binaryFormat, binary, len(binary))
+                    except Exception:
+                        stop = True
 
-                    success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-                    if success:
-                        self.compiled = True
-                        Logger.LogLine(Logger.INFO, "Loaded shader",
-                                    repr(self.name), "hash", digest)
-                        return
+                    if not stop:
+                        success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+                        if success:
+                            self.compiled = True
+                            Logger.LogLine(Logger.INFO, "Loaded shader",
+                                        repr(self.name), "hash", digest)
+                            return
+                        else:
+                            log = gl.glGetProgramInfoLog(self.program)
+                            Logger.LogLine(Logger.WARN, log.decode())
+                            Logger.LogLine(Logger.WARN, "Recompiling shader")
                     else:
-                        log = gl.glGetProgramInfoLog(self.program)
-                        Logger.LogLine(Logger.WARN, log.decode())
+                        Logger.LogLine(Logger.WARN,
+                            "glProgramBinary failed; recompiling")
                 else:
                     Logger.LogLine(Logger.WARN,
                         "Shader binaryFormat not supported; recompiling")
