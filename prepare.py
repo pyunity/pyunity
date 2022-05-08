@@ -182,30 +182,36 @@ def checkMissing():
 #         f.write(line + "\n")
 
 def cythonizeSingleFile(path):
-    try:
-        if path.endswith(".pyc") or path.endswith(".pyo"):
-            return
-        dirpath, file = os.path.split(path)
-        print(file)
-        if (file.endswith(".py") and not file.startswith("__") and
-                file != "_version.py" and
-                not path.startswith(os.path.join(
-                    "pyunity", "window", "providers"))):
-            code = os.system("cythonize -3 -q " + path)
-            srcPath = path[:-2] + "c"
-            if code != 0:
-                os.remove(srcPath)
-                raise Exception(f"Cythonization of `{path}` failed.")
-            op = shutil.move
-        else:
-            # _version.py should go here
-            srcPath = os.path.join(dirpath, file)
-            op = shutil.copy
-        destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-        os.makedirs(destPath, exist_ok=True)
-        op(srcPath, destPath)
-    except KeyboardInterrupt:
-        raise Exception
+    from Cython.Build import cythonize
+    directives = {"language_level": "3"}
+
+    if path.endswith(".pyc") or path.endswith(".pyo"):
+        return
+
+    current = multiprocessing.current_process()
+    print(f"Worker-{current.pid}: cythonizing", path)
+    dirpath, file = os.path.split(path)
+    if (file.endswith(".py") and not file.startswith("__") and
+            file != "_version.py" and
+            not path.startswith(os.path.join(
+                "pyunity", "window", "providers"))):
+        srcPath = path[:-2] + "c"
+        try:
+            cythonize(path, quiet=True, compiler_directives=directives)
+        except:
+            os.remove(srcPath)
+            raise Exception(f"Cythonization of `{path}` failed.") from None
+        op = shutil.move
+    else:
+        # _version.py should go here
+        srcPath = os.path.join(dirpath, file)
+        op = shutil.copy
+    destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+    os.makedirs(destPath, exist_ok=True)
+    op(srcPath, destPath)
+
+def initWorker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 def cythonize(nthreads=None):
     if os.environ["cython"] != "1":
@@ -222,12 +228,12 @@ def cythonize(nthreads=None):
 
     if nthreads is None:
         nthreads = os.cpu_count()
-    pool = multiprocessing.Pool()
+    pool = multiprocessing.Pool(nthreads, initWorker)
     paths = glob.glob("pyunity/**/*.*", recursive=True)
 
+    result = pool.map_async(cythonizeSingleFile, paths)
     try:
-        pool.map(cythonizeSingleFile, paths)
-        pool.close()
+        result.get(0xFFF)
     except Exception:
         pool.terminate()
         pool.join()
