@@ -7,6 +7,8 @@ import glob
 import shutil
 import pkgutil
 import sys
+import signal
+import multiprocessing
 import importlib
 import importlib.metadata
 import inspect
@@ -179,41 +181,57 @@ def checkMissing():
 #     for line in descNew:
 #         f.write(line + "\n")
 
-def cythonize(error=False):
-    if os.environ["cython"] == "1":
-        if pkgutil.find_loader("cython") is None:
-            raise Exception("Cython is needed to create CPython extensions.")
-        cythonVer = version.parse(importlib.metadata.version("cython"))
-        if cythonVer < version.parse("3.0.0a8"):
-            raise Exception(" - ".join([
-                "Cython version must be at least 3.0.0a8",
-                "install using pip install \"cython>=3.0.0a8\""]))
-        if os.path.exists("src"):
-            shutil.rmtree("src")
-        for path in glob.glob("pyunity/**/*.*", recursive=True):
-            if path.endswith(".pyc") or path.endswith(".pyo"):
-                continue
-            dirpath, file = os.path.split(path)
-            print(file)
-            if (file.endswith(".py") and not file.startswith("__") and
-                    file != "_version.py" and
-                    not path.startswith(os.path.join(
-                        "pyunity", "window", "providers"))):
-                code = os.system("cythonize -3 -q " + path)
-                srcPath = path[:-2] + "c"
-                if code != 0:
-                    os.remove(srcPath)
-                    if error:
-                        raise Exception(f"Cythonization of `{path}` failed.")
-                    break
-                op = shutil.move
-            else:
-                # _version.py should go here
-                srcPath = os.path.join(dirpath, file)
-                op = shutil.copy
-            destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-            os.makedirs(destPath, exist_ok=True)
-            op(srcPath, destPath)
+def cythonizeSingleFile(path):
+    try:
+        if path.endswith(".pyc") or path.endswith(".pyo"):
+            return
+        dirpath, file = os.path.split(path)
+        print(file)
+        if (file.endswith(".py") and not file.startswith("__") and
+                file != "_version.py" and
+                not path.startswith(os.path.join(
+                    "pyunity", "window", "providers"))):
+            code = os.system("cythonize -3 -q " + path)
+            srcPath = path[:-2] + "c"
+            if code != 0:
+                os.remove(srcPath)
+                raise Exception(f"Cythonization of `{path}` failed.")
+            op = shutil.move
+        else:
+            # _version.py should go here
+            srcPath = os.path.join(dirpath, file)
+            op = shutil.copy
+        destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+        os.makedirs(destPath, exist_ok=True)
+        op(srcPath, destPath)
+    except KeyboardInterrupt:
+        raise Exception
+
+def cythonize(nthreads=None):
+    if os.environ["cython"] != "1":
+        return
+    if pkgutil.find_loader("cython") is None:
+        raise Exception("Cython is needed to create CPython extensions.")
+    cythonVer = version.parse(importlib.metadata.version("cython"))
+    if cythonVer < version.parse("3.0.0a8"):
+        raise Exception(" - ".join([
+            "Cython version must be at least 3.0.0a8",
+            "install using pip install \"cython>=3.0.0a8\""]))
+    if os.path.exists("src"):
+        shutil.rmtree("src")
+
+    if nthreads is None:
+        nthreads = os.cpu_count()
+    pool = multiprocessing.Pool()
+    paths = glob.glob("pyunity/**/*.*", recursive=True)
+
+    try:
+        pool.map(cythonizeSingleFile, paths)
+        pool.close()
+    except Exception:
+        pool.terminate()
+        pool.join()
+        raise
 
 def main():
     if len(sys.argv) == 1:
