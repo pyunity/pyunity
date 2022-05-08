@@ -22,10 +22,10 @@ jobs:
           PYUNITY_INTERACTIVE: 0
         run: pytest
       - name: Generate report
-        if: ${{ matrix.python-version == "3.10" }}
+        if: ${{ matrix.python-version == '3.10' }}
         run: coverage xml
       - name: Upload report
-        if: ${{ matrix.python-version == "3.10" }}
+        if: ${{ matrix.python-version == '3.10' }}
         uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
