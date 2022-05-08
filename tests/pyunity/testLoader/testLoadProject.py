@@ -5,7 +5,7 @@
 from pyunity import (
     SceneManager, GameObject, MeshRenderer, Mesh, Material, RGB,
     Canvas, RectTransform, RenderTarget, Loader, Vector2)
-from . import TestCase
+from . import SceneTestCase
 import tempfile
 import os
 
@@ -22,7 +22,7 @@ class ChangeDirectory:
     def __exit__(self, exctype, excvalue, exctb):
         os.chdir(self.original)
 
-class TestLoadProject(TestCase):
+class TestLoadProject(SceneTestCase):
     def testResave(self):
         scene = SceneManager.AddScene("Scene")
 
