@@ -68,7 +68,9 @@ For more information check out
 [the API documentation](https://pyunity.readthedocs.io/en/latest/).
 There we offer some tutorials on the basics of
 PyUnity, as well as all modules and utility functions
-that come with it.
+that come with it. Examples are located at subfolders in
+`pyunity/examples` so do be sure to check them out as a
+starting point.
 
 If you would like to contribute, please
 first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),
