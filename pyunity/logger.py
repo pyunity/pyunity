@@ -26,7 +26,7 @@ from time import strftime, time
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-def getTmp():
+def getDataFolder():
     if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
         # Android (p4a, termux etc)
         pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
@@ -36,16 +36,16 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = Path(result) / "files/usr/local/pyunity/logs"
+        folder = Path(result) / "files/usr/local/pyunity"
     elif platform.platform().startswith("Windows"):
         # Windows
-        folder = Path(os.environ["appdata"]) / "PyUnity/Logs"
+        folder = Path(os.environ["appdata"]) / "PyUnity"
     else:
         # Linux or MacOS
-        folder = Path("/opt/pyunity/Logs")
+        folder = Path("/opt/pyunity")
     return folder
 
-folder = getTmp()
+folder = getDataFolder() / "Logs"
 if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
