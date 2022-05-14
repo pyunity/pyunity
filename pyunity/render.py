@@ -190,7 +190,7 @@ class Shader:
         if not isinstance(formats, collections.abc.Sequence):
             formats = [formats]
 
-        folder = Logger.folder.parent / "ShaderCache"
+        folder = Logger.getDataFolder() / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
         sha256.update(hex(formats[0])[2:].encode())
