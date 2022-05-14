@@ -9,10 +9,11 @@ build/
 src/**/*.c
 **/.doctrees
 
-# Coverage
+# Pytest and coverage
 .coverage
 coverage.xml
 htmlcov/
+.pytest_cache/
 
 # Replit
 .replit
