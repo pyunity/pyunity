@@ -568,7 +568,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             self.localRotation = value
         else:
-            self.localRotation = self.parent.rotation.conjugate * value
+            self.localRotation = value * self.parent.rotation.conjugate
 
     @property
     def localEulerAngles(self):

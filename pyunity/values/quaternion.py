@@ -10,6 +10,8 @@ from .vector import Vector3, conv
 from .other import LockedLiteral
 import glm
 
+PI = glm.pi()
+
 class Quaternion(LockedLiteral):
     """
     Class to represent a unit quaternion, also known as a versor.
@@ -83,9 +85,10 @@ class Quaternion(LockedLiteral):
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
-        else:
-            angle, x, y, z = self.angleAxisPair
-            return Quaternion.FromAxis((angle * other) % 360, Vector3(x, y, z))
+        # elif isinstance(other, (int, float)):
+        #     angle, axis = self.angleAxisPair
+        #     return Quaternion.FromAxis((angle * other) % 360, axis)
+        return NotImplemented
 
     def __imul__(self, other):
         return other * self
@@ -134,8 +137,8 @@ class Quaternion(LockedLiteral):
 
     def RotateVector(self, vector):
         """Rotate a vector by the quaternion"""
-        t = (2 * Vector3(self)).cross(vector)
-        return vector + self.w * t + Vector3(self).cross(t)
+        other = Quaternion(0, *vector)
+        return Vector3(self * other * self.conjugate)
 
     @staticmethod
     def FromAxis(angle, a):
@@ -178,7 +181,7 @@ class Quaternion(LockedLiteral):
     @property
     def angleAxisPair(self):
         """
-        Gets or sets the angle and axis pair. Tuple of form (angle, axis).
+        Gets the angle and axis pair. Tuple of form (angle, axis).
 
         """
         angle = 2 * glm.degrees(glm.acos(self.w))
@@ -210,20 +213,30 @@ class Quaternion(LockedLiteral):
 
     @property
     def eulerAngles(self):
-        """Gets or sets the Euler Angles of the quaternion"""
-        sx = 2 * (self.w * self.x + self.y * self.z)
-        x = glm.degrees(glm.asin(sx))
-        if abs(x - 90) > 0.001:
-            sz = 2 * (self.w * self.z - self.y * self.x)
-            cz = 1 - 2 * (self.x ** 2 + self.z ** 2)
-            z = glm.degrees(glm.atan(sz, cz))
-            sy = 2 * (self.w * self.y - self.x * self.z)
-            cy = 1 - 2 * (self.y ** 2 + self.x ** 2)
-            y = glm.degrees(glm.atan(sy, cy))
+        """Gets the Euler angles of the quaternion"""
+        s = self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2
+        r23 = 2 * (self.w * self.x - self.y * self.z) / s
+        x = glm.asin(r23)
+        if abs(r23) != 1:
+            cx = glm.cos(x)
+            r13 = 2 * (self.x * self.z + self.y * self.w) / s
+            r33 = 1 - 2 * (self.x ** 2 + self.y ** 2) / s
+            r21 = 2 * (self.x * self.y + self.w * self.z) / s
+            r22 = 1 - 2 * (self.x ** 2 + self.z ** 2) / s
+            y = glm.atan(r13 / cx, r33 / cx)
+            z = glm.atan(r21 / cx, r22 / cx)
         else:
             y = 0
-            z = glm.degrees(glm.atan(self.y, self.w))
-        return Vector3(x, y, z)
+            r11 = 1 - 2 * (self.y ** 2 + self.z ** 2) / s
+            r12 = 2 * (self.x * self.y - self.w * self.z) / s
+            if r23 == -1:
+                x = PI / 2
+                z = glm.atan(r12, r11)
+            else:
+                x = -PI / 2
+                z = glm.atan(-r12, -r11)
+
+        return Vector3(glm.degrees(x), glm.degrees(y), glm.degrees(z))
 
     @staticmethod
     def identity():
