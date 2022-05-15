@@ -6,10 +6,11 @@
 
 __all__ = ["Quaternion", "QuaternionDiff"]
 
-import glm
 from .vector import Vector3, conv
+from .other import LockedLiteral
+import glm
 
-class Quaternion:
+class Quaternion(LockedLiteral):
     """
     Class to represent a unit quaternion, also known as a versor.
 
@@ -30,6 +31,7 @@ class Quaternion:
         self.x = x
         self.y = y
         self.z = z
+        self._lock()
 
     def __repr__(self):
         return f"Quaternion({', '.join(map(conv, self))})"
@@ -130,11 +132,6 @@ class Quaternion:
         """The conjugate of a unit quaternion"""
         return Quaternion(self.w, -self.x, -self.y, -self.z)
 
-    @conjugate.setter
-    def conjugate(self, value):
-        self.w = value[0]
-        self.x, self.y, self.z = -value[1], -value[2], -value[3]
-
     def RotateVector(self, vector):
         """Rotate a vector by the quaternion"""
         t = (2 * Vector3(self)).cross(vector)
@@ -190,14 +187,6 @@ class Quaternion:
         magnitude = glm.sin(2 * glm.acos(self.w / 2))
         return (angle, Vector3(self) / magnitude)
 
-    @angleAxisPair.setter
-    def angleAxisPair(self, value):
-        angle, axis = value
-        cos = glm.cos(glm.radians(angle / 2))
-        sin = glm.sin(glm.radians(angle / 2))
-        self.w, self.x, self.y, self.z = cos, axis[0] * \
-            sin, axis[1] * sin, axis[2] * sin
-
     @staticmethod
     def Euler(vector):
         """
@@ -217,7 +206,7 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return c * a * b
+        return b * a * c
 
     @property
     def eulerAngles(self):
@@ -235,16 +224,6 @@ class Quaternion:
             y = 0
             z = glm.degrees(glm.atan(self.y, self.w))
         return Vector3(x, y, z)
-
-    @eulerAngles.setter
-    def eulerAngles(self, value):
-        self.w, self.x, self.y, self.z = Quaternion.Euler(value)
-
-    def SetBackward(self, value):
-        a = Quaternion.FromAxis(value.x, Vector3.right())
-        b = Quaternion.FromAxis(value.y, Vector3.up())
-        c = Quaternion.FromAxis(value.z, Vector3.forward())
-        self.w, self.x, self.y, self.z = b * a * c
 
     @staticmethod
     def identity():

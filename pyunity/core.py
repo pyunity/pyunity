@@ -581,7 +581,7 @@ class Transform(SingleComponent):
 
     @localEulerAngles.setter
     def localEulerAngles(self, value):
-        self.localRotation.eulerAngles = value
+        self.localRotation = Quaternion.Euler(value)
 
     @property
     def eulerAngles(self):

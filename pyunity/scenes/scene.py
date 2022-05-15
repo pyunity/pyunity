@@ -422,6 +422,8 @@ class Scene:
             gl.glEnable(gl.GL_DEPTH_TEST)
             if config.faceCulling:
                 gl.glEnable(gl.GL_CULL_FACE)
+            else:
+                gl.glDisable(gl.GL_CULL_FACE)
             gl.glEnable(gl.GL_BLEND)
             gl.glBlendFunc(gl.GL_SRC_ALPHA,
                            gl.GL_ONE_MINUS_SRC_ALPHA)

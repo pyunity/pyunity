@@ -2,7 +2,7 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Clock", "ImmutableStruct"]
+__all__ = ["Clock", "ImmutableStruct", "LockedLiteral"]
 
 import time
 import sys
@@ -40,6 +40,24 @@ class Clock:
         time.sleep(sleep)
         self._start = time.time()
         return sleep
+
+class LockedLiteral:
+    def _lock(self):
+        super(LockedLiteral, self).__setattr__("_locked", True)
+
+    def __setattr__(self, name, value):
+        if getattr(self, "_locked", False):
+            raise AttributeError(
+                f"Cannot change attribute of immutable "
+                f"{type(self).__name__!r} object")
+        super(LockedLiteral, self).__setattr__(name, value)
+
+    def __delattr__(self, name):
+        if getattr(self, "_locked", False):
+            raise AttributeError(
+                f"Cannot change attribute of immutable "
+                f"{type(self).__name__!r} object")
+        super(LockedLiteral, self).__delattr__(name)
 
 class ImmutableStruct(type):
     _names = []

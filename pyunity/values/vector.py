@@ -5,6 +5,7 @@
 __all__ = ["Vector", "Vector2", "Vector3", "clamp", "conv"]
 
 from .abc import ABCMeta, abstractmethod, abstractproperty
+from .other import LockedLiteral
 import glm
 import operator
 
@@ -18,26 +19,11 @@ def conv(num):
         return str(int(num))
     return str(num)
 
-class Vector(metaclass=ABCMeta):
-    def __init__(self):
-        super(Vector, self).__setattr__("_locked", False)
-
+class Vector(LockedLiteral, metaclass=ABCMeta):
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join(map(conv, self))})"
     def __str__(self):
         return f"{self.__class__.__name__}({', '.join(map(conv, self))})"
-
-    def __setattr__(self, name, value):
-        if self._locked:
-            raise AttributeError(
-                f"Cannot change attribute of {type(self).__name__!r} object")
-        super(Vector, self).__setattr__(name, value)
-
-    def __delattr__(self, name):
-        if self._locked:
-            raise AttributeError(
-                f"Cannot change attribute of {type(self).__name__!r} object")
-        super(Vector, self).__delattr__(name)
 
     def __getitem__(self, i):
         return list(self)[i]
@@ -192,7 +178,7 @@ class Vector2(Vector):
         else:
             self.x = 0
             self.y = 0
-        self._locked = True
+        self._lock()
 
     def __iter__(self):
         yield self.x
@@ -230,7 +216,7 @@ class Vector2(Vector):
     def replace(self, num, value):
         l = list(self)
         l[num] = value
-        return Vector2(value)
+        return Vector2(l)
 
     def copy(self):
         """Makes a copy of the Vector2"""
@@ -432,7 +418,7 @@ class Vector3(Vector):
             self.x = 0
             self.y = 0
             self.z = 0
-        self._locked = True
+        self._lock()
 
     def __iter__(self):
         yield self.x
@@ -473,7 +459,7 @@ class Vector3(Vector):
     def replace(self, num, value):
         l = list(self)
         l[num] = value
-        return Vector2(value)
+        return Vector3(l)
 
     def copy(self):
         """

@@ -100,7 +100,7 @@ def SaveObj(mesh, name, filePath=None):
 def LoadStl(filename):
     def vectorFromBytes(b):
         x, y, z = b[:4], b[4:8], b[8:]
-        l = [struct.unpack("<f", a) for a in [x, y, z]]
+        l = [struct.unpack("<f", a)[0] for a in [x, y, z]]
         return Vector3(l)
 
     faces = []
@@ -146,10 +146,10 @@ def LoadStl(filename):
 
         for i in range(length):
             section = binary[84 + i * 50: 134 + i * 50]
-            normal = vectorFromBytes(section[:3])
-            a = vectorFromBytes(section[3:6])
-            b = vectorFromBytes(section[6:9])
-            c = vectorFromBytes(section[9:12])
+            normal = vectorFromBytes(section[:12])
+            a = vectorFromBytes(section[12:24])
+            b = vectorFromBytes(section[24:36])
+            c = vectorFromBytes(section[36:48])
             faces.append([i * 3, i * 3 + 1, i * 3 + 2])
             vertices.extend([a, b, c])
             normals.extend([normal.copy(), normal.copy(), normal.copy()])
