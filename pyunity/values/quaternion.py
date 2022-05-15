@@ -85,13 +85,10 @@ class Quaternion(LockedLiteral):
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
-        # elif isinstance(other, (int, float)):
-        #     angle, axis = self.angleAxisPair
-        #     return Quaternion.FromAxis((angle * other) % 360, axis)
+        elif isinstance(other, (int, float)):
+            angle, axis = self.angleAxisPair
+            return Quaternion.FromAxis((angle * other) % 360, axis)
         return NotImplemented
-
-    def __imul__(self, other):
-        return other * self
 
     def __sub__(self, other):
         if isinstance(other, Quaternion):
@@ -156,7 +153,7 @@ class Quaternion(LockedLiteral):
         axis = a.normalized()
         cos = glm.cos(glm.radians(angle / 2))
         sin = glm.sin(glm.radians(angle / 2))
-        return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
+        return Quaternion(cos, axis.x * sin, axis.y * sin, axis.z * sin)
 
     @staticmethod
     def Between(v1, v2):
