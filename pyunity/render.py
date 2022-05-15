@@ -455,6 +455,9 @@ class Camera(SingleComponent):
         Selected skybox to render.
     ortho : bool
         Orthographic or perspective proection. Defaults to False.
+    customProjMat: glm.mat4 or None
+        If not None, will be used over any other type of projection matrix.
+        Unavailable from the Editor and also not saved.
     shadows : bool
         Whether to render depthmaps and use them. Defaults to True.
     canvas : Canvas
@@ -482,6 +485,7 @@ class Camera(SingleComponent):
         self.skyboxShader = shaders["Skybox"]
         self.depthShader = shaders["Depth"]
         self.clearColor = RGB(0, 0, 0)
+        self.customProjMat = None
 
         self.fov = 90
         self.orthoSize = 5
@@ -617,7 +621,9 @@ class Camera(SingleComponent):
 
     def SetupShader(self, lights):
         self.shader.use()
-        if self.ortho:
+        if self.customProjMat is not None:
+            self.shader.setMat4(b"projection", self.customProjMat)
+        elif self.ortho:
             self.shader.setMat4(b"projection", self.orthoMat)
         else:
             self.shader.setMat4(b"projection", self.projMat)
