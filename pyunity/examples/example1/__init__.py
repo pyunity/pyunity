@@ -6,7 +6,8 @@ from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, 
 
 class Rotator(Behaviour):
     def Update(self, dt):
-        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
+        self.transform.eulerAngles += Vector3(45, 90, 135) * dt
+        print(self.transform.eulerAngles)
 
 def main():
     scene = SceneManager.AddScene("Scene")

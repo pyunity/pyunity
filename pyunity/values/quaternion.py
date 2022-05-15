@@ -11,6 +11,7 @@ from .other import LockedLiteral
 import glm
 
 PI = glm.pi()
+RAD_TO_DEG = 180 / PI
 
 class Quaternion(LockedLiteral):
     """
@@ -190,8 +191,7 @@ class Quaternion(LockedLiteral):
         angle = 2 * glm.degrees(glm.acos(self.w))
         if angle == 0:
             return (0, Vector3.up())
-        magnitude = glm.sin(2 * glm.acos(self.w / 2))
-        return (angle, Vector3(self) / magnitude)
+        return (angle, Vector3(self).normalized())
 
     @staticmethod
     def Euler(vector):
@@ -218,28 +218,30 @@ class Quaternion(LockedLiteral):
     def eulerAngles(self):
         """Gets the Euler angles of the quaternion"""
         s = self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2
-        r23 = 2 * (self.w * self.x - self.y * self.z) / s
-        x = glm.asin(r23)
-        if abs(r23) != 1:
-            cx = glm.cos(x)
-            r13 = 2 * (self.x * self.z + self.y * self.w) / s
-            r33 = 1 - 2 * (self.x ** 2 + self.y ** 2) / s
-            r21 = 2 * (self.x * self.y + self.w * self.z) / s
-            r22 = 1 - 2 * (self.x ** 2 + self.z ** 2) / s
-            y = glm.atan(r13 / cx, r33 / cx)
-            z = glm.atan(r21 / cx, r22 / cx)
+        r23 = 2 * (self.w * self.x - self.y * self.z)
+        if r23 > 0.999999 * s:
+            x = PI / 2
+            y = 2 * glm.atan(self.y, self.x)
+            z = 0
+        elif r23 < -0.999999 * s:
+            x = -PI / 2
+            y = -2 * glm.atan(self.y, self.x)
+            z = 0
         else:
-            y = 0
-            r11 = 1 - 2 * (self.y ** 2 + self.z ** 2) / s
-            r12 = 2 * (self.x * self.y - self.w * self.z) / s
-            if r23 == -1:
-                x = PI / 2
-                z = glm.atan(r12, r11)
-            else:
-                x = -PI / 2
-                z = glm.atan(-r12, -r11)
+            x = glm.asin(r23)
+            r13 = 2 * (self.w * self.y + self.z * self.x) / s
+            r33 = 1 - 2 * (self.x ** 2 + self.y ** 2) / s
+            r21 = 2 * (self.w * self.z + self.x * self.y) / s
+            r22 = 1 - 2 * (self.x ** 2 + self.z ** 2) / s
+            y = glm.atan(r13, r33)
+            z = glm.atan(r21, r22)
 
-        return Vector3(glm.degrees(x), glm.degrees(y), glm.degrees(z))
+        euler = [x, y, z]
+        for i in range(3):
+            euler[i] = euler[i] * RAD_TO_DEG % 360
+            if euler[i] > 180:
+                euler[i] -= 360
+        return Vector3(euler)
 
     @staticmethod
     def identity():
