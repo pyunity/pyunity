@@ -256,23 +256,6 @@ class Vector2(Vector):
             return 1 / length * self
         return self.copy()
 
-    def normalize(self):
-        """
-        Normalize the vector in placeand return its length
-        before the normalization.
-
-        Returns
-        -------
-        float
-            The length before the normalization
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-        return length
-
     def getDistance(self, other):
         """
         The distance between this vector and the other vector
@@ -506,24 +489,6 @@ class Vector3(Vector):
         if length != 0:
             return 1 / length * self
         return self.copy()
-
-    def normalize(self):
-        """
-        Normalize the vector in placeand return its length
-        before the normalization.
-
-        Returns
-        -------
-        float
-            The length before the normalization
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-        return length
 
     def getDistance(self, other):
         """

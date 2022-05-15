@@ -570,10 +570,10 @@ class Camera(SingleComponent):
         angle = glm.radians(angle)
         axis = axis.normalized()
 
-        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
-        position = glm.translate(rotated, list(
+        position = glm.translate(glm.mat4(), list(
             transform.position * Vector3(1, 1, -1)))
-        scaled = glm.scale(position, list(transform.scale))
+        rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        scaled = glm.scale(rotated, list(transform.scale))
         return scaled
 
     def get2DMatrix(self, rectTransform):
