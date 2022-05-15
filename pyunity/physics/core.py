@@ -65,6 +65,8 @@ class Manifold:
         The first collider
     b : Collider
         The second collider
+    point : Vector3
+        The collision point
     normal : Vector3
         The collision normal
     penetration : float
@@ -75,8 +77,8 @@ class Manifold:
     def __init__(self, a, b, point, normal, penetration):
         self.a = a
         self.b = b
-        self.normal = normal
         self.point = point
+        self.normal = normal
         self.penetration = penetration
 
 class Collider(Component, metaclass=ABCMeta):
@@ -364,6 +366,15 @@ class SupportPoint:
         self.point = point
         self.original = original
 
+class Triangle:
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+        ab = b.point - a.point
+        ac = c.point - a.point
+        self.normal = (ab).cross(ac).normalized()
+
 class CollManager:
     """
     Manages the collisions between all colliders.
@@ -392,7 +403,7 @@ class CollManager:
         supportA = a.supportPoint(direction)
         supportB = b.supportPoint(-direction)
         support = supportA - supportB
-        return SupportPoint(support, [supportA, supportB])
+        return SupportPoint(support, (supportA, supportB))
 
     @staticmethod
     def nextSimplex(args):
@@ -492,22 +503,13 @@ class CollManager:
         # https://blog.winter.dev/2020/epa-algorithm/
         points = CollManager.gjk(a, b)
         if points is None:
-            return None
+            return []
         p0, p1, p2, p3 = points
         triangles = []
         edges = []
         threshold = 1e-8
         limit = 50
         cur = 0
-
-        class Triangle:
-            def __init__(self, a, b, c):
-                self.a = a
-                self.b = b
-                self.c = c
-                ab = b.point - a.point
-                ac = c.point - a.point
-                self.normal = (ab).cross(ac).normalized()
 
         triangles.append(Triangle(p0, p1, p2))
         triangles.append(Triangle(p0, p2, p3))
@@ -516,19 +518,20 @@ class CollManager:
 
         while True:
             if cur >= limit:
-                return None
+                return []
             cur += 1
 
-            curTriangle = triangles[0]
-            minDst = math.inf
-            for triangle in triangles:
-                dst = abs(triangle.normal.dot(triangle.a.point))
-                if dst < minDst:
-                    minDst = dst
-                    curTriangle = triangle
+            results = [(t, abs(t.normal.dot(t.a.point))) for t in triangles]
+            results.sort(key=lambda x: x[1])
+            results = [r for r in results if abs(r[1] - results[0][1]) < 0.001]
 
-            minSupport = CollManager.supportPoint(a, b, curTriangle.normal)
-            if curTriangle.normal.dot(minSupport.point) - minDst < threshold:
+            curTriangles = []
+            for result, dst in results:
+                minSupport = CollManager.supportPoint(a, b, result.normal)
+                if result.normal.dot(minSupport.point) - dst < threshold:
+                    curTriangles.append(result)
+
+            if len(curTriangles):
                 break
 
             i = 0
@@ -547,24 +550,27 @@ class CollManager:
 
             edges.clear()
 
-        penetration = curTriangle.normal.dot(curTriangle.a.point)
-        u, v, w = CollManager.barycentric(
-            curTriangle.normal * penetration,
-            curTriangle.a.point,
-            curTriangle.b.point,
-            curTriangle.c.point)
+        manifolds = []
+        for curTriangle in curTriangles:
+            penetration = curTriangle.normal.dot(curTriangle.a.point)
+            u, v, w = CollManager.barycentric(
+                curTriangle.normal * penetration,
+                curTriangle.a.point,
+                curTriangle.b.point,
+                curTriangle.c.point)
 
-        if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
-            return None
-        elif math.isnan(u + v + w):
-            return None
+            if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
+                continue
+            elif math.isnan(u + v + w):
+                continue
 
-        point = Vector3(
-            u * curTriangle.a.original[0] +
-            v * curTriangle.b.original[0] +
-            w * curTriangle.c.original[0])
-        normal = -curTriangle.normal
-        return Manifold(a, b, point, normal, penetration)
+            point = Vector3(
+                u * curTriangle.a.original[0] +
+                v * curTriangle.b.original[0] +
+                w * curTriangle.c.original[0])
+            normal = -curTriangle.normal
+            manifolds.append(Manifold(a, b, point, normal, penetration))
+        return manifolds
 
     @staticmethod
     def AddEdge(edges, a, b):
@@ -664,15 +670,24 @@ class CollManager:
         resolves them.
 
         """
+        manifolds = {}
         for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
             for rbB in list(self.rigidbodies.keys())[x + 1:]:
+                m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = CollManager.epa(colliderA, colliderB)
-                        if m:
-                            e = self.GetRestitution(rbA, rbB)
-                            normal = m.normal.copy()
-                            self.ResolveCollisions(rbA, rbB, m.point, e, normal, m.penetration)
+                        m.extend(CollManager.epa(colliderA, colliderB))
+                if len(m):
+                    manifolds[rbA, rbB] = m
+
+        for rbA, rbB in manifolds:
+            manifold = manifolds[rbA, rbB]
+            point = sum(m.point for m in manifold) / len(manifold)
+            e = self.GetRestitution(rbA, rbB)
+            normal = manifold[0].normal.copy()
+            self.ResolveCollisions(
+                rbA, rbB,
+                point, e, normal, manifold[0].penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
         rv = b.velocity - a.velocity
