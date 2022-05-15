@@ -20,13 +20,13 @@ class TestQuaternion(TestCase):
     def testEulerAngles(self):
         q = Quaternion.Euler(Vector3(0, 90, 0))
         assert almostEqual(q, Quaternion(sqrt2, 0, sqrt2, 0))
-        q.eulerAngles = Vector3(180, 0, 0)
+        q = Quaternion.Euler(Vector3(180, 0, 0))
         assert almostEqual(q, Quaternion(0, 1, 0, 0))
 
     def testFromDir(self):
         q = Quaternion.FromDir(Vector3(0, 0, 1))
         assert q == Quaternion.identity()
-        # q = Quaternion.FromDir(Vector3(0, 0, -1))
-        # assert almostEqual(q, Quaternion(0, 0, 1, 0))
+        q = Quaternion.FromDir(Vector3(0, 0, -1))
+        assert almostEqual(q, Quaternion(0, 0, 1, 0))
         q = Quaternion.FromDir(Vector3(0, 0, 0))
         assert q == Quaternion.identity()
