@@ -90,6 +90,12 @@ class Quaternion(LockedLiteral):
             return Quaternion.FromAxis((angle * other) % 360, axis)
         return NotImplemented
 
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            angle, axis = self.angleAxisPair
+            return Quaternion.FromAxis((angle / other) % 360, axis)
+        return NotImplemented
+
     def __sub__(self, other):
         if isinstance(other, Quaternion):
             return QuaternionDiff(*(self * other.conjugate))
