@@ -30,3 +30,17 @@ class TestQuaternion(TestCase):
         assert almostEqual(q, Quaternion(0, 0, 1, 0))
         q = Quaternion.FromDir(Vector3(0, 0, 0))
         assert q == Quaternion.identity()
+
+    def testRotateVector(self):
+        q = Quaternion.Euler(Vector3(0, 90, 0))
+        assert almostEqual(
+            q.RotateVector(Vector3(0, 0, 1)),
+            Vector3(1, 0, 0))
+        q = Quaternion.Euler(Vector3(90, 0, 0))
+        assert almostEqual(
+            q.RotateVector(Vector3(0, 0, 1)),
+            Vector3(0, -1, 0))
+        q = Quaternion.Euler(Vector3(0, 0, 45))
+        assert almostEqual(
+            q.RotateVector(Vector3(0, 1, 0)),
+            Vector3(-sqrt2, sqrt2, 0))
