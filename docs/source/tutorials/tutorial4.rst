@@ -124,8 +124,8 @@ is an example:
 .. code-block:: python
 
    def callback():
-      print("Clicked")
-   
+       Logger.Log("Clicked")
+
    # Same canvas and image code as above
    ...
    button = gameObject.AddComponent(Button)
@@ -146,7 +146,7 @@ with the mouse, here is a method:
 
    class HoverUpdater(Behaviour, GuiComponent):
        def HoverUpdate(self):
-           print("Hovering over component")
+           Logger.Log("Hovering over component")
 
    # Same canvas and image code as above
    ...
