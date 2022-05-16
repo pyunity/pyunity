@@ -22,8 +22,13 @@ def atan(*args):
     else:
         return math._atan(*args)
 
+def pi():
+    return math._pi
+
 math._atan = math.atan
 math.atan = atan
+math._pi = math.pi
+math.pi = pi
 sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"

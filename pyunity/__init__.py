@@ -159,7 +159,7 @@ by PyUnity:
 
 - **PYUNITY_DEBUG_MODE** (default: 1)
   Disables debug output if set to "0".
-  Debug output has the code |D| in the log file.
+  Debug output has the code \\|D\\| in the log file.
 - **PYUNITY_AUDIO** (default: 1)
   If set to "0", sdlmixer won't be loaded and
   ``config.audio`` is set to ``False``.

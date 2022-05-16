@@ -16,8 +16,14 @@ if "full" not in os.environ:
             return math.atan2(*args)
         else:
             return math._atan(*args)
+
+    def pi():
+        return math._pi
+
     math._atan = math.atan
     math.atan = atan
+    math._pi = math.pi
+    math.pi = pi
 
     sys.modules["sdl2"] = Mock()
     sys.modules["sdl2.sdlmixer"] = Mock()

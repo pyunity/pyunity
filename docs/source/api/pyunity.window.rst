@@ -9,6 +9,14 @@ Subpackages
 
    pyunity.window.providers
 
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pyunity.window.abc
+
 Module contents
 ---------------
 

@@ -219,32 +219,35 @@ class Rigidbody(Component):
         to 100
     velocity : Vector3
         Velocity of the Rigidbody
+    rotVel : Vector3
+        Rotational velocity of the Rigidbody
+    force : Vector3
+        Force acting on the Rigidbody. Reset every
+        frame.
+    torque : Vector3
+        Rotational force acting on the Rigidbody.
+        Reset every frame.
     physicMaterial : PhysicMaterial
         Physics material of the Rigidbody
-    position : Vector3
-        Position of the Rigidbody. It is
-        assigned to its GameObject's
-        position when the CollHandler is
-        created
 
     """
 
-    position = ShowInInspector(Vector3)
+    mass = ShowInInspector(float, 100)
     velocity = ShowInInspector(Vector3)
+    rotVel = ShowInInspector(Vector3, None, "Rotational Velocity")
+    force = ShowInInspector(Vector3)
+    torque = ShowInInspector(Vector3)
+    gravity = ShowInInspector(bool, True)
     physicMaterial = ShowInInspector(
         PhysicMaterial, PhysicMaterial(immutable=True))
-    force = ShowInInspector(Vector3)
-    gravity = ShowInInspector(bool, True)
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
-        self.mass = 100
         self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
         self.force = Vector3.zero()
         self.torque = Vector3.zero()
-        self.gravity = True
 
     @property
     def mass(self):

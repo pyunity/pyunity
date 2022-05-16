@@ -26,7 +26,7 @@ from inspect import signature
 from time import time
 import os
 import sys
-import math
+import glm
 import uuid
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -349,10 +349,10 @@ class Scene:
         minY = rpmin.dot(directionY)
         maxY = rpmax.dot(directionY)
         hmin = minZ * 2 * \
-            math.tan(math.radians(self.mainCamera.fov /
+            glm.tan(glm.radians(self.mainCamera.fov /
                                   Screen.size.x * Screen.size.y / 2))
         hmax = maxZ * 2 * \
-            math.tan(math.radians(self.mainCamera.fov /
+            glm.tan(glm.radians(self.mainCamera.fov /
                                   Screen.size.x * Screen.size.y / 2))
         if minY > -hmin / 2 or maxY < hmax / 2:
             return True
