@@ -2,7 +2,7 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Vector3, Quaternion, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType, clamp
+from pyunity import SceneManager, GameObject, Vector3, Quaternion, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType, Mathf
 
 class OrthoMover(Behaviour):
     cam = ShowInInspector(Camera)
@@ -11,7 +11,7 @@ class OrthoMover(Behaviour):
             self.cam.orthoSize -= dt * 3
         if Input.GetKey(KeyCode.Q):
             self.cam.orthoSize += dt * 3
-        self.cam.orthoSize = clamp(self.cam.orthoSize, 2, 16)
+        self.cam.orthoSize = Mathf.Clamp(self.cam.orthoSize, 2, 16)
 
         x = Vector3(1, 0, -1) * dt * 8
         y = Vector3(1, 0, 1) * dt * 8

@@ -13,7 +13,7 @@ __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
 
 from ..errors import PyUnityException
 from ..values import Vector3, Quaternion, ABCMeta, abstractmethod
-from ..core import Component, ShowInInspector
+from ..core import Component, ShowInInspector, addFields
 from . import config
 import math
 
@@ -207,6 +207,9 @@ class BoxCollider(Collider):
         res = self.transform.rotation.RotateVector(point)
         return res + self.transform.position
 
+@addFields(
+    mass=ShowInInspector(float, 100),
+    inertia=ShowInInspector(float, 200/3))
 class Rigidbody(Component):
     """
     Class to let a GameObject follow physics
@@ -232,7 +235,6 @@ class Rigidbody(Component):
 
     """
 
-    mass = ShowInInspector(float, 100)
     velocity = ShowInInspector(Vector3)
     rotVel = ShowInInspector(Vector3, None, "Rotational Velocity")
     force = ShowInInspector(Vector3)
@@ -243,6 +245,7 @@ class Rigidbody(Component):
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
+        self.mass = 100
         self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()

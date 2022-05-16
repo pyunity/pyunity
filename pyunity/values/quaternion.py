@@ -6,12 +6,9 @@
 
 __all__ = ["Quaternion", "QuaternionDiff"]
 
+from . import Mathf
 from .vector import Vector3, conv
 from .other import LockedLiteral
-import glm
-
-PI = glm.pi()
-RAD_TO_DEG = 180 / PI
 
 class Quaternion(LockedLiteral):
     """
@@ -127,8 +124,8 @@ class Quaternion(LockedLiteral):
         Quaternion
             A unit quaternion
         """
-        length = glm.sqrt(self.w ** 2 + self.x ** 2 +
-                          self.y ** 2 + self.z ** 2)
+        length = Mathf.Sqrt(self.w ** 2 + self.x ** 2 +
+                            self.y ** 2 + self.z ** 2)
         if length:
             return Quaternion(self.w / length, self.x / length, self.y / length, self.z / length)
         else:
@@ -158,8 +155,8 @@ class Quaternion(LockedLiteral):
 
         """
         axis = a.normalized()
-        cos = glm.cos(glm.radians(angle / 2))
-        sin = glm.sin(glm.radians(angle / 2))
+        cos = Mathf.Cos(angle / 2 * Mathf.DEG_TO_RAD)
+        sin = Mathf.Sin(angle / 2 * Mathf.DEG_TO_RAD)
         return Quaternion(cos, axis.x * sin, axis.y * sin, axis.z * sin)
 
     @staticmethod
@@ -170,15 +167,17 @@ class Quaternion(LockedLiteral):
                 return Quaternion.identity()
             else:
                 return Quaternion.FromAxis(180, Vector3.up())
-        angle = glm.acos(v1.dot(v2) / (glm.sqrt(v1.length * v2.length)))
-        q = Quaternion.FromAxis(glm.degrees(angle), a)
+        angle = Mathf.Acos(v1.dot(v2) / (Mathf.Sqrt(v1.length * v2.length)))
+        q = Quaternion.FromAxis(angle * Mathf.DEG_TO_RAD, a)
         return q.normalized()
 
     @staticmethod
     def FromDir(v):
-        a = Quaternion.FromAxis(glm.degrees(glm.atan(v.x, v.z)), Vector3.up())
+        a = Quaternion.FromAxis(
+            Mathf.Atan2(v.x, v.z) * Mathf.RAD_TO_DEG,
+            Vector3.up())
         b = Quaternion.FromAxis(
-            glm.degrees(glm.atan(-v.y, glm.sqrt(v.z ** 2 + v.x ** 2))),
+            Mathf.Atan2(-v.y, Mathf.Sqrt(v.z ** 2 + v.x ** 2)) * Mathf.RAD_TO_DEG,
             Vector3.right())
         return a * b
 
@@ -188,7 +187,7 @@ class Quaternion(LockedLiteral):
         Gets the angle and axis pair. Tuple of form (angle, axis).
 
         """
-        angle = 2 * glm.degrees(glm.acos(self.w))
+        angle = 2 * Mathf.Acos(self.w) * Mathf.RAD_TO_DEG
         if angle == 0:
             return (0, Vector3.up())
         return (angle, Vector3(self).normalized())
@@ -220,25 +219,25 @@ class Quaternion(LockedLiteral):
         s = self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2
         r23 = 2 * (self.w * self.x - self.y * self.z)
         if r23 > 0.999999 * s:
-            x = PI / 2
-            y = 2 * glm.atan(self.y, self.x)
+            x = Mathf.PI / 2
+            y = 2 * Mathf.Atan2(self.y, self.x)
             z = 0
         elif r23 < -0.999999 * s:
-            x = -PI / 2
-            y = -2 * glm.atan(self.y, self.x)
+            x = -Mathf.PI / 2
+            y = -2 * Mathf.Atan2(self.y, self.x)
             z = 0
         else:
-            x = glm.asin(r23)
+            x = Mathf.Asin(r23)
             r13 = 2 * (self.w * self.y + self.z * self.x) / s
             r33 = 1 - 2 * (self.x ** 2 + self.y ** 2) / s
             r21 = 2 * (self.w * self.z + self.x * self.y) / s
             r22 = 1 - 2 * (self.x ** 2 + self.z ** 2) / s
-            y = glm.atan(r13, r33)
-            z = glm.atan(r21, r22)
+            y = Mathf.Atan2(r13, r33)
+            z = Mathf.Atan2(r21, r22)
 
         euler = [x, y, z]
         for i in range(3):
-            euler[i] = euler[i] * RAD_TO_DEG % 360
+            euler[i] = euler[i] * Mathf.RAD_TO_DEG % 360
             if euler[i] > 180:
                 euler[i] -= 360
         return Vector3(euler)
@@ -256,4 +255,4 @@ class QuaternionDiff:
         self.z = z
 
     def __abs__(self):
-        return abs(2 * glm.degrees(glm.acos(self.w)))
+        return abs(2 * Mathf.Acos(self.w) * Mathf.DEG_TO_RAD)

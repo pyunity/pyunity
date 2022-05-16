@@ -17,7 +17,7 @@ __all__ = ["Scene"]
 from ..audio import AudioListener, AudioSource
 from ..core import GameObject, Tag, MeshRenderer, Component
 from ..files import Behaviour
-from ..values import Vector3
+from ..values import Vector3, Mathf
 from .. import config, physics, logger as Logger
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
@@ -349,11 +349,11 @@ class Scene:
         minY = rpmin.dot(directionY)
         maxY = rpmax.dot(directionY)
         hmin = minZ * 2 * \
-            glm.tan(glm.radians(self.mainCamera.fov /
-                                  Screen.size.x * Screen.size.y / 2))
+            Mathf.Tan(self.mainCamera.fov / Screen.size.x *
+                Screen.size.y / 2 * Mathf.DEG_TO_RAD)
         hmax = maxZ * 2 * \
-            glm.tan(glm.radians(self.mainCamera.fov /
-                                  Screen.size.x * Screen.size.y / 2))
+            Mathf.Tan(self.mainCamera.fov / Screen.size.x *
+                Screen.size.y / 2 * Mathf.DEG_TO_RAD)
         if minY > -hmin / 2 or maxY < hmax / 2:
             return True
 

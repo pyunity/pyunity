@@ -2,11 +2,11 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Vector", "Vector2", "Vector3", "clamp", "conv"]
+__all__ = ["Vector", "Vector2", "Vector3"]
 
+from . import Mathf
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
-import glm
 import operator
 
 def clamp(x, _min, _max):
@@ -238,7 +238,7 @@ class Vector2(Vector):
     @property
     def length(self):
         """Gets the magnitude of the vector"""
-        return glm.sqrt(self.x ** 2 + self.y ** 2)
+        return Mathf.Sqrt(self.x ** 2 + self.y ** 2)
 
     def normalized(self):
         """
@@ -266,7 +266,7 @@ class Vector2(Vector):
             The distance
 
         """
-        return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2)
+        return Mathf.Sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2)
 
     def getDistSqrd(self, other):
         """
@@ -302,8 +302,8 @@ class Vector2(Vector):
             bounding box specified by min and max.
 
         """
-        x = clamp(self.x, min.x, max.x)
-        y = clamp(self.y, min.y, max.y)
+        x = Mathf.Clamp(self.x, min.x, max.x)
+        y = Mathf.Clamp(self.y, min.y, max.y)
         return Vector2(x, y)
 
     def dot(self, other):
@@ -472,7 +472,7 @@ class Vector3(Vector):
     @property
     def length(self):
         """Gets the magnitude of the vector"""
-        return glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+        return Mathf.Sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def normalized(self):
         """
@@ -500,7 +500,7 @@ class Vector3(Vector):
             The distance
 
         """
-        return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
+        return Mathf.Sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
 
     def getDistSqrd(self, other):
         """
@@ -536,9 +536,9 @@ class Vector3(Vector):
             bounding box specified by min and max.
 
         """
-        x = clamp(self.x, min.x, max.x)
-        y = clamp(self.y, min.y, max.y)
-        z = clamp(self.z, min.z, max.z)
+        x = Mathf.Clamp(self.x, min.x, max.x)
+        y = Mathf.Clamp(self.y, min.y, max.y)
+        z = Mathf.Clamp(self.z, min.z, max.z)
         return Vector3(x, y, z)
 
     def dot(self, other):

@@ -6,7 +6,7 @@ __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
 import os
 from enum import IntEnum, auto
-from .values import clamp, ImmutableStruct
+from .values import Mathf, ImmutableStruct
 from .errors import PyUnityException
 from .scenes import SceneManager
 from .values import Vector3
@@ -108,8 +108,8 @@ class KeyboardAxis:
                     return 0
             else:
                 return 0
-        self.value += clamp(change, -1, 1) * dt * self.speed
-        self.value = clamp(self.value, -1, 1)
+        self.value += Mathf.Clamp(change, -1, 1) * dt * self.speed
+        self.value = Mathf.Clamp(self.value, -1, 1)
         return self.value
 
 class Input(metaclass=ImmutableStruct):
