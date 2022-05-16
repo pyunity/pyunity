@@ -33,6 +33,7 @@ __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
 from .providers import getProviders
+from .abc import ABCWindow
 from ..errors import PyUnityException
 from .. import Logger
 from .. import config
@@ -176,31 +177,3 @@ def CustomWindowProvider(cls):
     config.windowProvider = cls
     return cls
 
-class ABCWindow(metaclass=ABCMeta):
-    @abstractmethod
-    def __init__(self, name, resize):
-        pass
-
-    @abstractmethod
-    def getMouse(self, mousecode, keystate):
-        pass
-
-    @abstractmethod
-    def getKey(self, keycode, keystate):
-        pass
-
-    @abstractmethod
-    def getMousePos(self):
-        pass
-
-    @abstractmethod
-    def refresh(self):
-        pass
-
-    @abstractmethod
-    def quit(self):
-        pass
-
-    @abstractmethod
-    def start(self, updateFunc):
-        pass
