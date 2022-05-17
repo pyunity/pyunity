@@ -1,33 +1,30 @@
-from pyunity import *
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
 
-class Switch(Behaviour):
-    a = 3
-    def Update(self, dt):
-        self.a -= dt
-        if self.a < 0:
-            SceneManager.LoadSceneByName("Scene 2")
+from pyunity import config, SceneManager, AudioClip, AudioSource
+from contextlib import ExitStack
+import sys
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 def main():
+    stack = ExitStack()
+
     scene = SceneManager.AddScene("Scene")
-    scene2 = SceneManager.AddScene("Scene 2")
-    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
-    scene2.mainCamera.transform.localPosition = Vector3(0, 0, -10)
-
-    cube = GameObject("Cube")
-    renderer = cube.AddComponent(MeshRenderer)
-    renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(255, 0, 0))
-    cube.AddComponent(Switch).scene2 = scene2
-    scene.Add(cube)
-
-    cube2 = GameObject("Cube 2")
-    renderer = cube2.AddComponent(MeshRenderer)
-    renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(0, 0, 255))
-    scene2.Add(cube2)
+    if config.audio:
+        ref = files(__package__) / "explode.ogg"
+        path = stack.enter_context(as_file(ref))
+        clip = AudioClip(path)
+        source = scene.mainCamera.AddComponent(AudioSource)
+        source.SetClip(clip)
+        source.playOnStart = True
 
     SceneManager.LoadScene(scene)
-
+    stack.close()
 
 if __name__ == "__main__":
     main()

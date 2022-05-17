@@ -1,20 +1,45 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Module to load files and scripts.
 Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab", "File", "Project"]
+__all__ = ["Behaviour", "Texture2D", "Prefab",
+           "File", "Project", "Skybox", "Scripts"]
 
+from .errors import PyUnityException, ProjectParseException
+from .core import Component, ShowInInspector
+from . import Logger
 from OpenGL import GL as gl
 from PIL import Image
-from .core import Component, Material, Color
-from . import Logger
 from types import ModuleType
-from uuid import uuid4
-import glob
 import os
+from pathlib import Path
 import sys
+import ctypes
+
+def convert(type, list):
+    """
+    Converts a Python array to a C type from
+    :mod:`ctypes`.
+
+    Parameters
+    ----------
+    type : _ctypes.PyCSimpleType
+        Type to cast to.
+    list : list
+        List to cast
+
+    Returns
+    -------
+    object
+        A C array
+    """
+    return (type * len(list))(*list)
 
 class Behaviour(Component):
     """
@@ -29,7 +54,7 @@ class Behaviour(Component):
 
     """
 
-    attrs = []
+    _script = ShowInInspector(type)
 
     def Start(self):
         """
@@ -45,13 +70,42 @@ class Behaviour(Component):
         Parameters
         ----------
         dt : float
-            Time since last frame, sent by the scene 
+            Time since last frame, sent by the scene
+            that the Behaviour is in.
+
+        """
+        pass
+
+    def FixedUpdate(self, dt):
+        """
+        Called every frame, in each physics step.
+
+        Parameters
+        ----------
+        dt : float
+            Length of this physics step
+
+        """
+        pass
+
+    def LateUpdate(self, dt):
+        """
+        Called every frame, after physics processing.
+
+        Parameters
+        ----------
+        dt : float
+            Time since last frame, sent by the scene
             that the Behaviour is in.
 
         """
         pass
 
 class Scripts:
+    """Utility class for loading scripts in a folder."""
+
+    var = {}
+
     @staticmethod
     def CheckScript(text):
         """
@@ -89,7 +143,8 @@ class Scripts:
             elif line.isspace() or line == "":
                 continue
             elif "#" in line:
-                if line.split("#")[0].isspace():
+                before = line.split("#")[0]
+                if before.isspace() or before == "":
                     continue
             elif line.startswith("class "):
                 continue
@@ -99,19 +154,33 @@ class Scripts:
         return True
 
     @staticmethod
-    def LoadScripts(path):
+    def GenerateModule():
+        if "PyUnityScripts" in sys.modules:
+            if hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+                return sys.modules["PyUnityScripts"]
+            Logger.LogLine(
+                Logger.WARN, "PyUnityScripts is already a package")
+        module = ModuleType("PyUnityScripts", None)
+        module.__pyunity__ = True
+        module.__all__ = []
+        module._lookup = {}
+        sys.modules["PyUnityScripts"] = module
+        return module
+
+    @staticmethod
+    def LoadScript(path):
         """
-        Loads all scripts found in ``path``.
+        Loads a PyUnity script by path.
 
         Parameters
         ----------
         path : Pathlike
-            A path to a folder containing all the scripts
+            A path to a PyUnity script
 
         Returns
         -------
         ModuleType
-            A module that contains all the imported scripts
+            The module that contains all the imported scripts
 
         Notes
         -----
@@ -124,28 +193,32 @@ class Scripts:
         then a warning will be issued and it will be replaced.
 
         """
-        files = glob.glob(os.path.join(path, "*.py"))
-        a = {}
+        pathobj = Path(path).absolute()
+        if not pathobj.is_file():
+            raise PyUnityException(
+                f"The specified file does not exist: {str(path)!r}")
 
-        if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+        if hasattr(sys.modules.get("PyUnityScripts", None), "__pyunity__"):
             module = sys.modules["PyUnityScripts"]
         else:
-            if "PyUnityScripts" in sys.modules:
-                Logger.LogLine(Logger.WARN, "PyUnityScripts is already a package!")
-            module = ModuleType("PyUnityScripts", None)
-            module.__pyunity__ = True
-            module.__all__ = []
-            sys.modules["PyUnityScripts"] = module
+            module = Scripts.GenerateModule()
 
-        for file in files:
-            with open(file) as f:
-                text = f.read().rstrip().splitlines()
+        with open(path) as f:
+            text = f.read().rstrip().splitlines()
 
-            name = os.path.basename(file[:-3])
-            if Scripts.CheckScript(text):
-                exec("\n".join(text), a)
-                setattr(module, name, a[name])
-                module.__all__.append(name)
+        name = pathobj.name[:-3]
+        if Scripts.CheckScript(text):
+            c = compile("\n".join(text), name + ".py", "exec")
+            exec(c, Scripts.var)
+            if name not in Scripts.var:
+                raise PyUnityException(
+                    f"Cannot find class {name!r} in {str(pathobj)!r}")
+            setattr(module, name, Scripts.var[name])
+            module.__all__.append(name)
+            module._lookup[str(path)] = Scripts.var[name]
+        else:
+            Logger.LogLine(Logger.WARN,
+                f"{str(pathobj)!r} is not a valid PyUnity script")
 
         return module
 
@@ -155,11 +228,18 @@ class Texture2D:
 
     """
 
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, pathOrImg):
+        if isinstance(pathOrImg, (str, Path)):
+            self.path = str(pathOrImg)
+            self.img = Image.open(self.path).convert("RGBA")
+            self.imgData = self.img.tobytes()
+        else:
+            self.path = None
+            self.img = pathOrImg
+            self.imgData = self.img.tobytes()
         self.loaded = False
-        self.img = Image.open(self.path).convert("RGBA")
-        self.img_data = self.img.tobytes()
+        self.texture = None
+        self.mipmaps = False
 
     def load(self):
         """
@@ -167,19 +247,30 @@ class Texture2D:
         texture name.
 
         """
-        img = Image.open(self.path).convert("RGBA")
-        img_data = img.tobytes()
-        width, height = img.size
-        self.texture = gl.glGenTextures(1)
+        width, height = self.img.size
+        if self.texture is None:
+            self.texture = gl.glGenTextures(1)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
-        gl.glTexParameterf(
-            gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
-        gl.glTexParameterf(
-            gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
+                           gl.GL_LINEAR_MIPMAP_LINEAR if self.mipmaps else gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
+                           gl.GL_LINEAR)
         gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, width, height, 0,
-                        gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, img_data)
+                        gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.imgData)
+        if self.mipmaps:
+            gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
         gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
+
+    def setImg(self, im):
+        self.loaded = False
+        self.img = im
+        self.path = None
+        self.imgData = self.img.tobytes()
 
     def use(self):
         """
@@ -189,125 +280,160 @@ class Texture2D:
         """
         if not self.loaded:
             self.load()
+        gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
+    @classmethod
+    def FromOpenGL(cls, texture):
+        obj = cls.__new__(cls)
+        obj.loaded = True
+        obj.texture = texture
+        return obj
+
+class Skybox:
+    """Skybox model consisting of 6 images"""
+    names = ["right.jpg", "left.jpg", "top.jpg",
+             "bottom.jpg", "front.jpg", "back.jpg"]
+    points = [
+        -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, -1, -1,
+        1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1,
+        -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1,
+        1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1,
+        -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, 1, 1,
+        -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1,
+        1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1
+    ]
+
+    def __init__(self, path):
+        self.path = path
+        self.compiled = False
+
+    def compile(self):
+        self.texture = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
+
+        for i, name in enumerate(Skybox.names):
+            imgPath = Path(self.path) / name
+            img = Image.open(imgPath).convert("RGBA")
+            imgData = img.tobytes()
+            width, height = img.size
+            gl.glTexImage2D(gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.GL_RGBA,
+                            width, height, 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, imgData)
+
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MIN_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_MAG_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_S,
+                           gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_T,
+                           gl.GL_CLAMP_TO_EDGE)
+        gl.glTexParameteri(gl.GL_TEXTURE_CUBE_MAP, gl.GL_TEXTURE_WRAP_R,
+                           gl.GL_CLAMP_TO_EDGE)
+
+        self.vbo = gl.glGenBuffers(1)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
+        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(Skybox.points) * gl.sizeof(ctypes.c_float),
+                        convert(ctypes.c_float, Skybox.points), gl.GL_STATIC_DRAW)
+
+        self.vao = gl.glGenVertexArrays(1)
+        gl.glBindVertexArray(self.vao)
+        gl.glEnableVertexAttribArray(0)
+        gl.glVertexAttribPointer(
+            0, 3, gl.GL_FLOAT, gl.GL_FALSE, 3 * gl.sizeof(ctypes.c_float), None)
+
+        Logger.LogLine(Logger.INFO, "Loaded skybox")
+        self.compiled = True
+
+    def use(self):
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            if not self.compiled:
+                self.compile()
+            gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
+
 class Prefab:
+    """Prefab model"""
     def __init__(self, gameObject, components):
         self.gameObject = gameObject
         self.components = components
 
 class File:
-    def __init__(self, path, type, uuid=None):
-        self.path = path
-        self.type = type
-        if uuid is None:
-            self.uuid = str(uuid4())
-        else:
-            self.uuid = uuid
-        self.obj = None
+    def __init__(self, path, uuid):
+        self.path = os.path.normpath(path)
+        self.uuid = uuid
 
 class Project:
-    def __init__(self, path, name):
-        self.path = path
+    def __init__(self, name="Project"):
         self.name = name
+        self.path = Path.cwd().resolve() / self.name
+        self._ids = {}
+        self._idMap = {}
+        self.fileIDs = {}
+        self.filePaths = {}
         self.firstScene = 0
-        self.files = {}
-        self.file_paths = {}
-    
-    def import_file(self, localPath, type, uuid=None):
-        file = File(localPath, type, uuid)
-        self.files[file.uuid] = (file, localPath)
-        self.file_paths[localPath] = file
-        return file
-    
-    def get_file_obj(self, uuid):
-        return self.files[uuid][0].obj
-    
-    def write_project(self):
-        with open(os.path.join(self.path, self.name + ".pyunity"), "w+") as f:
-            f.write("Project\n")
-            f.write("    name: " + self.name + "\n")
-            f.write("    firstScene: " + str(self.firstScene) + "\n")
-            f.write("Files\n")
-            for uuid, file in self.files.items():
-                f.write("    " + uuid + ": " + file[1] + "\n")
-    
+        os.makedirs(self.name, exist_ok=True)
+        self.Write()
+
+    def Write(self):
+        with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
+            f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
+            for id_ in self.fileIDs:
+                normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
+                f.write(f"\n    {id_}: {normalized}")
+
+    def ImportFile(self, file, write=True):
+        fullPath = self.path / file.path
+        if not fullPath.is_file():
+            raise PyUnityException(f"The specified file does not exist: {fullPath}")
+        self.fileIDs[file.uuid] = file
+        self.filePaths[file.path] = file
+        if write:
+            self.Write()
+
     @staticmethod
-    def from_folder(filePath):
-        if not os.path.isdir(filePath):
-            raise ValueError("The specified folder does not exist")
-        
-        files = glob.glob(os.path.join(filePath, "*.pyunity"))
-        if len(files) == 0:
-            raise ValueError("The specified folder is not a PyUnity project")
-        elif len(files) > 1:
-            raise ValueError("Ambiguity in specified folder: " + str(len(files)) + " project files found")
-        file = files[0]
+    def FromFolder(folder):
+        folder = Path(folder).resolve()
+        if not folder.is_dir():
+            raise PyUnityException(f"The specified folder does not exist: {folder}")
 
-        with open(file) as f:
-            lines = f.read().rstrip().splitlines()
-        
-        data = {}
-        lines.pop(0)
-        for line in lines:
-            if not line.startswith("    "):
-                break
-            name, value = line[4:].split(": ")
-            data[name] = value
-        
-        data["files"] = {}
-        lines = lines[lines.index("Files") + 1:]
-        for line in lines:
-            name, value = line[4:].split(": ")
-            data["files"][name] = value
-        
-        project = Project(filePath, data["name"])
-        for uuid, path in data["files"].items():
-            type_ = os.path.splitext(path)[1][1:].capitalize()
-            if type_ == "Py":
-                type_ = "Behaviour"
-            elif type_ == "Mat":
-                type_ = "Material"
-            project.import_file(path, type_, uuid)
-        
+        name = folder.name
+        filename = folder / (name + ".pyunity")
+        if not filename.is_file():
+            raise PyUnityException(f"The specified folder is not a PyUnity project: {folder}")
+
+        with open(filename) as f:
+            contents = f.read().rstrip().splitlines()
+
+        if contents.pop(0) != "Project":
+            raise ProjectParseException(f"Expected \"Project\" as first section")
+
+        if "Files" not in contents:
+            raise ProjectParseException(f"Expected \"Files\" as second section")
+
+        if contents.count("Files") > 1:
+            raise ProjectParseException(f"Expected \"Files\" only once, found {contents.count('files')}")
+
+        contents1 = contents[:contents.index("Files")]
+        contents2 = contents[contents.index("Files") + 1:]
+        projectData = {x[0]: x[1] for x in map(lambda x: x[4:].split(": "), contents1)}
+        fileData = {x[0]: x[1] for x in map(lambda x: x[4:].split(": "), contents2)}
+
+        if "name" not in projectData:
+            raise ProjectParseException(f"Expected \"name\" value in Project section")
+        project = Project.__new__(Project)
+        project.name = projectData["name"]
+        project.firstScene = int(projectData["firstScene"])
+        project.path = folder
+        project._ids = {}
+        project._idMap = {}
+
+        project.fileIDs = {}
+        project.filePaths = {}
+        for k, v in fileData.items():
+            file = File(v, k)
+            project.fileIDs[k] = file
+            project.filePaths[v] = file
+
         return project
-    
-    def save_mat(self, mat, name):
-        directory = os.path.join(self.path, "Materials")
-        os.makedirs(directory, exist_ok=True)
-
-        if mat.texture is not None:
-            if os.path.join("Textures", name + ".png") in self.file_paths:
-                uuid = self.file_paths[os.path.join("Textures", name + ".png")].uuid
-            else:
-                path = os.path.join(self.path, "Textures", name + ".png")
-                os.makedirs(os.path.dirname(path), exist_ok=True)
-                mat.texture.img.save(path)
-                uuid = self.import_file(path, "Texture2D").uuid
-        else:
-            uuid = "None"
-
-        with open(os.path.join(directory, name + ".mat"), "w+") as f:
-            f.write("Material\n")
-            f.write("    albedoColor: " + mat.color.to_string() + "\n")
-            f.write("    albedoTexture: " + uuid + "\n")
-    
-    def load_mat(self, file):
-        with open(os.path.join(self.path, file.path)) as f:
-            lines = f.read().rstrip().splitlines()
-        
-        lines.pop(0)
-        
-        data = {}
-        for line in lines:
-            name, value = line[4:].split(": ")
-            data[name] = value
-        
-        color = Color.from_string(data["albedoColor"])
-        material = Material(color)
-        if "albedoTexture" in data and data["albedoTexture"] != "None":
-            uuid = data["albedoTexture"]
-            if self.files[uuid].obj != "None":
-                self.files[uuid].obj = Texture2D(os.path.join(self.path, self.files[uuid].path))
-            material.texture = self.files[uuid].obj
-        return material

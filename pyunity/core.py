@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Core classes for the PyUnity library.
 
@@ -14,11 +18,11 @@ and all have MeshRenderers:
     >>> from pyunity import * # Import
     Loaded config
     Trying GLFW as a window provider
-    GLFW doesn't work, trying Pygame
-    Trying Pygame as a window provider
-    Using window provider Pygame
-    Loaded PyUnity version 0.6.0
-    >>> mat = Material(Color(255, 0, 0)) # Create a default material
+    GLFW doesn't work, trying PySDL2
+    Trying PySDL2 as a window provider
+    Using window provider PySDL2
+    Loaded PyUnity version 0.9.0
+    >>> mat = Material(RGB(255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
     >>> child1.transform.localPosition = Vector3(-2, 0, 0) # Move the child
@@ -46,20 +50,16 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "Color", "Clock",
-           "Material", "MeshRenderer", "Tag", "Transform"]
+__all__ = ["Component", "GameObject", "SingleComponent",
+           "MeshRenderer", "Tag", "Transform", "ShowInInspector",
+           "HideInInspector"]
 
+import inspect
 import os
-import glm
-import sys
-import time
-from .vector3 import Vector3
-from .quaternion import Quaternion
-from .errors import *
+from .errors import PyUnityException, ComponentException
+from .meshes import Mesh
+from .values import Vector3, Quaternion, Material, RGB
 from . import Logger
-if os.environ["PYUNITY_INTERACTIVE"] == "1":
-    from OpenGL import GL as gl
-
 
 class Tag:
     """
@@ -118,8 +118,8 @@ class Tag:
             self.tag = tagNumOrName
             self.tagName = Tag.tags[tagNumOrName]
         else:
-            raise TypeError(
-                "Argument 1: expected str or int, got " + type(tagNumOrName).__name__)
+            raise TypeError(f"Argument 1:"
+                            f"expected str or int, got {type(tagNumOrName).__name__}")
 
 class GameObject:
     """
@@ -148,16 +148,30 @@ class GameObject:
     def __init__(self, name="GameObject", parent=None):
         self.name = name
         self.components = []
+        self.transform = None
         self.AddComponent(Transform)
         if parent:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
-    
-    @staticmethod
-    def BareObject(name="GameObject"):
-        obj = GameObject.__new__(GameObject)
+        self.enabled = True
+        self.scene = None
+
+    @classmethod
+    def BareObject(cls, name="GameObject"):
+        """
+        Create a bare GameObject with no components or attributes.
+
+        Parameters
+        ==========
+        name : str
+            Name of the GameObject
+
+        """
+        obj = cls.__new__(cls)
         obj.name = name
         obj.components = []
+        obj.transform = None
+        obj.scene = None
         return obj
 
     def AddComponent(self, componentClass):
@@ -169,18 +183,26 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to add. Must inherit from ``Component``
+            Component to add. Must inherit from :class:`Component`
 
         """
+        if not isinstance(componentClass, type):
+            raise ComponentException(
+                f"Cannot add {componentClass!r} to the GameObject; "
+                f"it is not a component"
+            )
         if not issubclass(componentClass, Component):
             raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) +
-                " to the GameObject; it is not a component"
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it is not a component"
             )
-        if not (
-                issubclass(componentClass, SingleComponent) and
-                any(isinstance(component, componentClass) for component in self.components)):
-            component = componentClass()
+        if (issubclass(componentClass, SingleComponent) and
+                self.GetComponents(componentClass)):
+            raise ComponentException(
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it already has one")
+        else:
+            component = componentClass(self.transform)
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
@@ -188,27 +210,22 @@ class GameObject:
             component.gameObject = self
             component.transform = self.transform
             return component
-        else:
-            raise ComponentException(
-                "Cannot add " + repr(componentClass.__name__) +
-                " to the GameObject; it already has one"
-            )
 
     def GetComponent(self, componentClass):
         """
         Gets a component from the GameObject.
         Will return first match.
-        For all matches, use `GetComponents`.
+        For all matches, use :meth:`GameObject.GetComponents`.
 
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
-        
+            Component to get. Must inherit from :class:`Component`
+
         Returns
         -------
         Component or None
-            The specified component, or `None` if the component is not found
+            The specified component, or ``None`` if the component is not found
 
         """
         for component in self.components:
@@ -216,10 +233,12 @@ class GameObject:
                 return component
 
         return None
-    
+
     def RemoveComponent(self, componentClass):
         """
         Removes the first matching component from a GameObject.
+        To remove all matching components, use
+        :meth:`GameObject.RemoveComponents`.
 
         Parameters
         ----------
@@ -232,13 +251,16 @@ class GameObject:
             If the GameObject doesn't have the specified component
         ComponentException
             If the specified component is a Transform
-        
+
         """
         component = self.GetComponent(componentClass)
         if component is None:
-            raise ComponentException("Cannot remove " + componentClass.__name__ + "from the GameObject, it doesn't have one")
+            raise ComponentException(
+                f"Cannot remove {componentClass.__name__} from the GameObject; "
+                f"it doesn't have one")
         if componentClass is Transform:
-            raise ComponentException("Cannot remove a Transform from a GameObject")
+            raise ComponentException(
+                "Cannot remove a Transform from a GameObject")
         self.components.remove(component)
 
     def GetComponents(self, componentClass):
@@ -248,8 +270,8 @@ class GameObject:
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
-        
+            Component to get. Must inherit from :class:`Component`
+
         Returns
         -------
         list
@@ -258,7 +280,7 @@ class GameObject:
         """
 
         return [component for component in self.components if isinstance(component, componentClass)]
-    
+
     def RemoveComponents(self, componentClass):
         """
         Removes all matching component from a GameObject.
@@ -272,18 +294,89 @@ class GameObject:
         ------
         ComponentException
             If the specified component is a Transform
-        
+
         """
         components = self.GetComponents(componentClass)
         if componentClass is Transform:
-            raise ComponentException("Cannot remove a Transform from a GameObject")
+            raise ComponentException(
+                "Cannot remove a Transform from a GameObject")
         for component in components:
             self.components.remove(component)
 
     def __repr__(self):
-        return "<GameObject name=" + repr(self.name) + " components=" + \
-            str(list(map(lambda x: type(x).__name__, self.components))) + ">"
-    __str__ = __repr__
+        return (f"<GameObject name={self.name!r} components="
+                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+    def __str__(self):
+        return (f"<GameObject name={self.name!r} components="
+                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+
+class HideInInspector:
+    """
+    An attribute that should be saved when saving a project,
+    but not shown in the Inspector of the PyUnityEditor.
+
+    Attributes
+    ==========
+    type : type
+        Type of the variable
+    default : Any
+        Default value (will be set to the Behaviour)
+    name : NoneType
+        Set when ``Component.__init_subclass__`` is excecuted
+
+    """
+
+    def __init__(self, type_=None, default=None):
+        if isinstance(type_, str):
+            import pyunity
+            if type_ not in pyunity.__all__:
+                raise PyUnityException(f"No type named {type_!r}")
+            self.type = getattr(pyunity, type_)
+        else:
+            self.type = type_
+        self.default = default
+        self.name = None
+
+class ShowInInspector(HideInInspector):
+    """
+    An attribute that should be saved when saving a project,
+    and shown in the Inspector of the PyUnityEditor.
+
+    Attributes
+    ==========
+    type : type
+        Type of the variable
+    default : Any
+        Default value (will be set to the Behaviour)
+    name : str
+        Alternate name shown in the Inspector
+
+    """
+    def __init__(self, type=None, default=None, name=None):
+        super(ShowInInspector, self).__init__(type, default)
+        self.name = name
+
+class _AddFields:
+    selfref = HideInInspector()
+
+    def __call__(self, **kwargs):
+        def decorator(cls):
+            for name, value in kwargs.items():
+                if value.name is None:
+                    value.name = name
+                if value.type is self.__class__.selfref:
+                    value.type = cls
+                if isinstance(value, ShowInInspector):
+                    cls.shown[name] = value
+                cls.saved[name] = value
+
+                if "PYUNITY_SPHINX_CHECK" not in os.environ:
+                    if not hasattr(cls, name):
+                        setattr(cls, name, value.default)
+            return cls
+        return decorator
+
+addFields = _AddFields()
 
 class Component:
     """
@@ -298,72 +391,101 @@ class Component:
 
     """
 
-    attrs = []
+    shown = {}
+    saved = {}
 
-    def __init__(self):
-        self.gameObject = None
-        self.transform = None
+    def __init__(self, transform, isDummy=False):
+        if isDummy:
+            self.gameObject = None
+        else:
+            self.gameObject = transform.gameObject
+        self.transform = transform
         self.enabled = True
+
+    @classmethod
+    def __init_subclass__(cls):
+        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
+        variables = list(
+            filter(lambda a: not (a[0].startswith("__")), members))
+        shown = {a[0]: a[1]
+                for a in variables if isinstance(a[1], ShowInInspector)}
+        saved = {a[0]: a[1]
+                for a in variables if isinstance(a[1], HideInInspector)}
+        cls.shown = shown
+        cls.saved = saved
+
+        if "PYUNITY_SPHINX_CHECK" not in os.environ:
+            for name, val in saved.items():
+                if val.type is None:
+                    val.type = cls
+                if val.name is None:
+                    val.name = name
+                setattr(cls, name, val.default)
 
     def AddComponent(self, component):
         """
-        Calls `AddComponent` on the component's GameObject.
+        Calls :meth:`GameObject.AddComponent` on the component's GameObject.
 
         Parameters
         ----------
         component : Component
-            Component to add. Must inherit from ``Component``
+            Component to add. Must inherit from :class:`Component`
 
         """
         return self.gameObject.AddComponent(component)
 
     def GetComponent(self, component):
         """
-        Calls `GetComponent` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponent` on the component's GameObject.
 
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         """
         return self.gameObject.GetComponent(component)
 
     def RemoveComponent(self, component):
         """
-        Calls `RemoveComponent` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponent` on the component's GameObject.
 
         Parameters
         ----------
         component : Component
-            Component to remove. Must inherit from ``Component``
+            Component to remove. Must inherit from :class:`Component`
 
         """
         return self.gameObject.RemoveComponent(component)
 
     def GetComponents(self, component):
         """
-        Calls `GetComponents` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponents` on the component's GameObject.
 
         Parameters
         ----------
         componentClass : Component
-            Component to get. Must inherit from ``Component``
+            Component to get. Must inherit from :class:`Component`
 
         """
         return self.gameObject.GetComponents(component)
 
     def RemoveComponents(self, component):
         """
-        Calls `RemoveComponents` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponents` on the component's GameObject.
 
         Parameters
         ----------
         component : Component
-            Component to remove. Must inherit from ``Component``
+            Component to remove. Must inherit from :class:`Component`
 
         """
         return self.gameObject.RemoveComponents(component)
+
+    @property
+    def scene(self):
+        """Get the scene of the GameObject."""
+        return self.gameObject.scene
 
 class SingleComponent(Component):
     """
@@ -372,6 +494,7 @@ class SingleComponent(Component):
     """
     pass
 
+@addFields(parent=HideInInspector(addFields.selfref))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -387,17 +510,21 @@ class Transform(SingleComponent):
     localScale : Vector3
         Scale of the Transform in local space.
     parent : Transform or None
-        Parent of the Transform. The hierarchical tree is 
+        Parent of the Transform. The hierarchical tree is
         actually formed by the Transform, not the GameObject.
+        Do not modify this attribute.
     children : list
         List of children
 
     """
 
-    attrs = ["localPosition", "localRotation", "localScale", "parent"]
+    localPosition = ShowInInspector(Vector3, None, "position")
+    localRotation = ShowInInspector(Quaternion, None, "rotation")
+    localScale = ShowInInspector(Vector3, None, "scale")
 
-    def __init__(self):
-        super(Transform, self).__init__()
+    def __init__(self, transform=None):
+        super(Transform, self).__init__(self, True)
+        assert transform is None
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
         self.localScale = Vector3.one()
@@ -408,38 +535,40 @@ class Transform(SingleComponent):
     def position(self):
         """Position of the Transform in world space."""
         if self.parent is None:
-            return self.localPosition
+            return self.localPosition.copy()
         else:
-            return self.parent.position + self.localRotation.RotateVector(self.localPosition)
+            return self.parent.position + self.localRotation.RotateVector(self.localPosition) * self.scale
 
     @position.setter
     def position(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set position to object of type \"" + type(value).__name__)
+                f"Cannot set position to object of type {type(value).__name__!r}")
 
         if self.parent is None:
             self.localPosition = value
         else:
-            self.localRotation.conjugate.RotateVector(
-                value - self.parent.position)
+            self.localPosition = self.localRotation.conjugate.RotateVector(
+                value / self.scale - self.parent.position)
 
     @property
     def rotation(self):
         """Rotation of the Transform in world space."""
         if self.parent is None:
-            return self.localRotation
+            return self.localRotation.copy()
         else:
-            return self.localRotation * self.parent.rotation
+            return self.parent.rotation * self.localRotation
 
     @rotation.setter
     def rotation(self, value):
         if not isinstance(value, Quaternion):
             raise PyUnityException(
-                "Cannot set rotation to object of type \"" + type(value).__name__)
+                f"Cannot set rotation to object of type {type(value).__name__!r}")
 
-        self.localRotation = value if self.parent is None else value * \
-            self.parent.rotation.conjugate
+        if self.parent is None:
+            self.localRotation = value
+        else:
+            self.localRotation = value * self.parent.rotation.conjugate
 
     @property
     def localEulerAngles(self):
@@ -452,7 +581,7 @@ class Transform(SingleComponent):
 
     @localEulerAngles.setter
     def localEulerAngles(self, value):
-        self.localRotation.eulerAngles = value
+        self.localRotation = Quaternion.Euler(value)
 
     @property
     def eulerAngles(self):
@@ -465,13 +594,13 @@ class Transform(SingleComponent):
 
     @eulerAngles.setter
     def eulerAngles(self, value):
-        self.rotation.eulerAngles = value
+        self.rotation = Quaternion.Euler(value)
 
     @property
     def scale(self):
         """Scale of the Transform in world space."""
         if self.parent is None:
-            return self.localScale
+            return self.localScale.copy()
         else:
             return self.parent.scale * self.localScale
 
@@ -479,11 +608,11 @@ class Transform(SingleComponent):
     def scale(self, value):
         if not isinstance(value, Vector3):
             raise PyUnityException(
-                "Cannot set scale to object of type \"" + type(value).__name__)
+                f"Cannot set scale to object of type {type(value).__name__!r}")
         if self.parent is None or not bool(self.parent.scale):
             self.localScale = value
         else:
-            value / self.parent.scale
+            self.localScale = value / self.parent.scale
 
     def ReparentTo(self, parent):
         """
@@ -512,6 +641,13 @@ class Transform(SingleComponent):
         for child in sorted(self.children, key=lambda x: x.gameObject.name):
             child.List()
 
+    def GetDescendants(self):
+        """Iterate through all descedants of this Transform."""
+        yield self
+        for child in self.children:
+            for subchild in child.GetDescendants():
+                yield subchild
+
     def FullPath(self):
         """
         Gets the full path of the Transform.
@@ -522,67 +658,79 @@ class Transform(SingleComponent):
             The full path of the Transform.
 
         """
-        path = "/" + self.gameObject.name
+        path = f"/{self.gameObject.name}"
         parent = self.parent
         while parent is not None:
-            path = "/" + parent.gameObject.name + path
+            path = f"/{parent.gameObject.name}{path}"
             parent = parent.parent
         return path
 
     def LookAtTransform(self, transform):
-        v0 = Vector3(0, 0, 1)
-        v1 = transform.position - self.position
-        xyz = v0.cross(v1)
-        w = glm.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
-        self.rotation = Quaternion(w, *xyz).normalized()
+        """
+        Face towards another transform's position.
+
+        Parameters
+        ==========
+        transform : Transform
+            Transform to face towards
+
+        Notes
+        =====
+        The rotation generated may not be upright, and
+        to fix this just use ``transform.rotation.eulerAngles *= Vector3(1, 1, 0)``
+        which will remove the Z component of the Euler angles.
+
+        """
+        v = transform.position - self.position
+        self.rotation = Quaternion.FromDir(v)
 
     def LookAtGameObject(self, gameObject):
-        v0 = Vector3(0, 0, 1)
-        v1 = gameObject.transform.position - self.position
-        xyz = v0.cross(v1)
-        w = glm.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
-        self.rotation = Quaternion(w, *xyz).normalized()
+        """
+        Face towards another GameObject's position. See
+        :meth:`Transform.LookAtTransform` for details.
 
-    def LookAtVector(self, vec):
-        v0 = Vector3(0, 0, 1)
-        v1 = vec - self.position
-        xyz = v0.cross(v1)
-        w = glm.sqrt(v0.get_length_sqrd() * v1.get_length_sqrd()) + v0.dot(v1)
-        self.rotation = Quaternion(w, *xyz).normalized()
+        Parameters
+        ==========
+        gameObject : GameObject
+            GameObject to face towards
+
+        """
+        v = gameObject.transform.position - self.position
+        self.rotation = Quaternion.FromDir(v)
+
+    def LookAtPoint(self, vec):
+        """
+        Face towards a point. See
+        :meth:`Transform.LookAtTransform` for details.
+
+        Parameters
+        ==========
+        vec : Vector3
+            Point to face towards
+
+        """
+        v = vec - self.position
+        self.rotation = Quaternion.FromDir(v)
+
+    def LookInDirection(self, vec):
+        """
+        Face in a vector direction (from origin to point).
+        See :meth:`Transform.LookAtTransform` for details.
+
+        Parameters
+        ==========
+        vec : Vector3
+            Direction to face in
+
+        """
+        self.rotation = Quaternion.FromDir(vec)
 
     def __repr__(self):
-        """
-        Returns a string interpretation of the Transform.
-
-        Returns
-        -------
-        str
-            A string interpretation of the Transform. For example, the Main Camera would have
-            a string interpretation of <Transform position=<Vector3 x=0 y=0 z=0>
-            rotation=<Vector3 x=0 y=0 z=0> scale=<Vector3 x=1 y=1 z=1> path="/Main Camera">
-
-        """
-        return "<Transform position=" + str(self.position) + " rotation=" + str(self.rotation) + \
-            " scale=" + str(self.scale) + " path=\"" + self.FullPath() + "\">"
-
-    __str__ = __repr__
-
-class Light(SingleComponent):
-    """
-    Component to hold data about the light in a scene.
-
-    Attributes
-    ----------
-    intensity : int
-        Intensity of light
-
-    """
-
-    attrs = ["intensity"]
-
-    def __init__(self):
-        super(Light, self).__init__()
-        self.intensity = 100
+        return (f"<Transform position={self.position} rotation={self.rotation}"
+                f" scale={self.scale} path={self.FullPath()!r}>")
+    def __str__(self):
+        return (f"<Transform position={self.position} rotation={self.rotation}"
+                f" scale={self.scale} path={self.FullPath()!r}>")
 
 class MeshRenderer(SingleComponent):
     """
@@ -597,111 +745,16 @@ class MeshRenderer(SingleComponent):
 
     """
 
-    attrs = ["mesh", "mat"]
-
-    def __init__(self):
-        super(MeshRenderer, self).__init__()
-        self.mesh = None
-        self.mat = None
+    DefaultMaterial = Material(RGB(200, 200, 200))
+    DefaultMaterial.default = True
+    mesh = ShowInInspector(Mesh)
+    mat = ShowInInspector(Material, DefaultMaterial, "material")
 
     def Render(self):
         """Render the mesh that the MeshRenderer has."""
         if self.mesh is None:
             return
 
-        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.mesh.vbo)
-        gl.glBindVertexArray(self.mesh.vao)
-        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.mesh.ibo)
-        gl.glBindVertexArray(self.mesh.vao)
-        gl.glDrawElements(gl.GL_TRIANGLES, len(
-            self.mesh.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
-
-class Material:
-    """
-    Class to hold data on a material.
-
-    Attributes
-    ----------
-    color : Color
-        An albedo tint.
-    texture : Texture2D
-        A texture to map onto the mesh provided by a MeshRenderer
-
-    """
-
-    def __init__(self, color, texture=None):
-        self.color = color
-        self.texture = texture
-
-class Color:
-    """
-    A class to represent a color.
-
-    Parameters
-    ----------
-    r : int
-        Red value (0-255)
-    g : int
-        Green value (0-255)
-    b : int
-        Blue value (0-255)
-
-    Atrributes
-    ----------
-    r : int
-        Red value (0-255)
-    g : int
-        Green value (0-255)
-    b : int
-        Blue value (0-255)
-
-    """
-
-    def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
-
-    def __truediv__(self, other):
-        return self.r / other, self.g / other, self.b / other
-    
-    def __repr__(self):
-        return "Color(" + self.to_string + ")"
-    __str__ = __repr__
-    
-    def to_string(self):
-        return "{}, {}, {}".format(self.r, self.g, self.b)
-    
-    @staticmethod
-    def from_string(string):
-        return Color(*list(map(int, string.split(", "))))
-
-class Clock:
-    def __init__(self):
-        self._fps = 60
-        self._frameDuration = 1 / self._fps
-    
-    @property
-    def fps(self):
-        return self._fps
-    
-    @fps.setter
-    def fps(self, value):
-        self._fps = value
-        self._frameDuration = 1 / self._fps
-    
-    def Start(self, fps=None):
-        if fps is not None:
-            self.fps = fps
-        self._start = time.time()
-
-    def Maintain(self):
-        self._end = time.time()
-        elapsedMS = self._end - self._start
-        sleep = self._frameDuration - elapsedMS - 0.001
-        if sleep < 0:
-            self._start = time.time()
-            return sys.float_info.epsilon
-        time.sleep(sleep)
-        self._start = time.time()
-        return sleep
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            self.mesh.compile()
+            self.mesh.draw()

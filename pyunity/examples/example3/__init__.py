@@ -1,4 +1,8 @@
-from pyunity import *
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, BoxCollider, Infinity
 
 def main():
     scene = SceneManager.AddScene("Scene")
@@ -7,26 +11,24 @@ def main():
     scene.mainCamera.transform.eulerAngles = Vector3(15, 0, 0)
 
     cube = GameObject("Cube")
-    cube.transform.localPosition = Vector3(-5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(255, 0, 0))
-    collider = cube.AddComponent(AABBoxCollider)
-    collider.SetSize(Vector3(-6, -1, -1), Vector3(-4, 1, 1))
+    renderer.mat = Material(RGB(255, 0, 0))
+    collider = cube.AddComponent(BoxCollider)
+    collider.pos = Vector3(-5, 0, 0)
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(4, 0, 0)
     rb.gravity = False
-    rb.mass = infinity
+    rb.mass = Infinity
 
     scene.Add(cube)
 
     cube = GameObject("Cube 2")
-    cube.transform.localPosition = Vector3(5, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(0, 0, 255))
-    collider = cube.AddComponent(AABBoxCollider)
-    collider.SetSize(Vector3(4, -1, -1), Vector3(6, 1, 1))
+    renderer.mat = Material(RGB(0, 0, 255))
+    collider = cube.AddComponent(BoxCollider)
+    collider.pos = Vector3(5, 0, 0)
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(-4, 0, 0)
     rb.gravity = False
@@ -34,12 +36,11 @@ def main():
     scene.Add(cube)
 
     cube = GameObject("Cube 3")
-    cube.transform.localPosition = Vector3(0, 0, -6)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(0, 255, 0))
-    collider = cube.AddComponent(AABBoxCollider)
-    collider.SetSize(Vector3(-1, -1, -7), Vector3(1, 1, -5))
+    renderer.mat = Material(RGB(0, 255, 0))
+    collider = cube.AddComponent(BoxCollider)
+    collider.pos = Vector3(0, 0, -6)
     rb = cube.AddComponent(Rigidbody)
     rb.velocity = Vector3(0, 0, 4)
     rb.gravity = False
@@ -47,7 +48,6 @@ def main():
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
-
 
 if __name__ == "__main__":
     main()
