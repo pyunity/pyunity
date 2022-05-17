@@ -6,7 +6,7 @@
 # Builds
 *.egg-info
 build/
-src/**/*.c
+src/
 **/.doctrees
 
 # Pytest and coverage

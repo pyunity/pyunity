@@ -41,6 +41,10 @@ jobs:
           PYUNITY_TESTING: 0
         run: |
           python -m pyunity -v
+      - name: Get artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Cython
       - name: Build wheel
         env:
           PYUNITY_TESTING: 1

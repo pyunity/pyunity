@@ -37,11 +37,14 @@ def getDataFolder():
         else:
             raise OSError("Cannot find path to android app folder")
         folder = Path(result) / "files/usr/local/pyunity"
-    elif platform.platform().startswith("Windows"):
+    elif platform.system().startswith("Windows"):
         # Windows
         folder = Path(os.environ["appdata"]) / "PyUnity"
+    elif platform.system().startswith("Darwin"):
+        # MacOS
+        folder = Path.home() / "Library/Application Support/PyUnity"
     else:
-        # Linux or MacOS
+        # Linux
         folder = Path("/opt/pyunity")
     return folder
 
