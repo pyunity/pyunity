@@ -42,6 +42,7 @@ def getDataFolder():
         folder = Path(os.environ["appdata"]) / "PyUnity"
     elif platform.system().startswith("Darwin"):
         # MacOS
+        print(Path.home())
         folder = Path.home() / "/Library/Application Support/PyUnity"
     else:
         # Linux
