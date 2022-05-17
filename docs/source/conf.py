@@ -12,34 +12,59 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath("../.."))
+
+import math
+
+def atan(*args):
+    if len(args) == 2:
+        return math.atan2(*args)
+    else:
+        return math._atan(*args)
+
+def pi():
+    return math._pi
+
+math._atan = math.atan
+math.atan = atan
+math._pi = math.pi
+math.pi = pi
+sys.modules["glm"] = math
+os.environ["PYUNITY_TESTING"] = "1"
+os.environ["PYUNITY_INTERACTIVE"] = "0"
+os.environ["PYUNITY_SPHINX_CHECK"] = "1"
+import pyunity
+pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyUnity'
-copyright = '2020-2021, Ray Chen'
-author = 'Ray Chen'
+project = "PyUnity"
+copyright = "2020-2021, The PyUnity Team"
+author = "Ray Chen"
 
 # The full version, including alpha/beta/rc tags
-release = "0.7.0"
+release = pyunity.__version__
 
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode'
+    "sphinx_toolbox.more_autodoc",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "hoverxref.extension",
 ]
 
-master_doc = 'index'
+master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -52,12 +77,30 @@ exclude_patterns = ["api/pyunity.rst"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
+
+html_theme_options = {
+    "logo": "banner.png",
+    "touch_icon": "icon.png",
+    "github_user": "pyunity",
+    "github_repo": "pyunity",
+    "badge_branch": "develop",
+    "github_button": "true",
+    "github_type": "star",
+    "github_count": "true",
+    "code_font_family": "'Cascadia Code', 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace",
+    "show_relbars": "true",
+    "analytics_id": os.getenv("ANALYTICS_ID"),
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = ["static"]
+
+github_username = "pyunity"
+github_repository = "pyunity"
+autodoc_show_sourcelink = True
 
 autodoc_mock_imports = ["glfw", "OpenGL", "glm", "PIL.Image", "sdl2", "sdl2.sdlmixer", "sdl2.ext", "sdl2.video"]
 
@@ -67,3 +110,55 @@ pygments_style = "friendly"
 autodoc_default_options = {
     "ignore-module-all": True,
 }
+
+autodoc_class_signature = "separated"
+autodoc_member_order = "bysource"
+
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+
+latex_documents = [
+    ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
+]
+
+hoverxref_intersphinx = ["python"]
+hoverxref_default_type = "tooltip"
+hoverxref_auto_ref = True
+hoverxref_domains = [
+    "py"
+]
+hoverxref_role_types = {
+    "class": "tooltip",
+    "exc": "tooltip",
+    "meth": "tooltip",
+    "func": "tooltip",
+    "attr": "tooltip",
+}
+
+def skip_member(app, what, name, obj, skip, options):
+    if name.startswith("__"):
+        return True
+    if isinstance(obj, pyunity.HideInInspector):
+        return True
+    if name in ["saved", "shown"] and isinstance(obj, dict):
+        for val in obj.values():
+            if not isinstance(val, pyunity.HideInInspector):
+                break
+        else:
+            return True
+
+def process_docstring(app, what, name, obj, options, lines):
+    if what == "class" and issubclass(obj, pyunity.Component):
+        indexes = []
+        for i, line in enumerate(lines):
+            if line.startswith(".. attribute:: "):
+                indexes.append(i)
+
+        for index in reversed(indexes):
+            name = lines[index][15:]
+            if name in obj.saved:
+                val = str(obj.saved[name].default)
+                lines.insert(index + 1, "   :annotation: = " + val)
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip_member)
+    app.connect("autodoc-process-docstring", process_docstring)

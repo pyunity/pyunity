@@ -1,0 +1,5 @@
+pyopengl
+pysdl2
+pillow
+sphinx-toolbox
+sphinx-hoverxref

@@ -1,24 +1,36 @@
-from pyunity import Behaviour, Vector3, Loader, SceneManager, GameObject, MeshRenderer, Material, Color
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
 
-class Rotator(Behaviour):
+from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, MeshRenderer, Material, RGB, Loader, Light, LightType
+
+class LookAt(Behaviour):
+    other = ShowInInspector(GameObject)
     def Update(self, dt):
-        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
+        self.transform.LookAtGameObject(self.other)
+
+class Mover(Behaviour):
+    speed = ShowInInspector(float, 6)
+    def Update(self, dt):
+        self.transform.localPosition += Vector3(self.speed * dt, 0, 0)
 
 def main():
     scene = SceneManager.AddScene("Scene")
-
-    scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
+    scene.gameObjects[1].GetComponent(Light).type = LightType.Point
+    scene.mainCamera.transform.position = Vector3(0, 3, -10)
+    lookAt = scene.mainCamera.AddComponent(LookAt)
 
     cube = GameObject("Cube")
-    cube.AddComponent(Rotator)
     renderer = cube.AddComponent(MeshRenderer)
+    renderer.mat = Material(RGB(0, 255, 0))
     renderer.mesh = Loader.Primitives.cube
-    renderer.mat = Material(Color(0, 255, 0))
+    cube.transform.position = Vector3(-20, 0, 0)
+    cube.AddComponent(Mover).speed = 6
     scene.Add(cube)
 
-    scene.List()
-    SceneManager.LoadScene(scene)
+    lookAt.other = cube
 
+    SceneManager.LoadScene(scene)
 
 if __name__ == "__main__":
     main()

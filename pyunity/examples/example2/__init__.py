@@ -1,4 +1,8 @@
-from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Color, AABBoxCollider, Rigidbody, Material, Behaviour, Input, KeyCode, ShowInInspector
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Mesh, RGB, BoxCollider, Rigidbody, Material, Behaviour, Input, KeyCode, ShowInInspector
 
 class PhysicsController(Behaviour):
     started = False
@@ -26,8 +30,8 @@ def main():
     cube.transform.localPosition = Vector3(2, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(255, 0, 0))
-    collider = cube.AddComponent(AABBoxCollider)
+    renderer.mat = Material(RGB(255, 0, 0))
+    cube.AddComponent(BoxCollider)
     rb1 = cube.AddComponent(Rigidbody)
     rb1.gravity = False
 
@@ -37,8 +41,8 @@ def main():
     cube.transform.localPosition = Vector3(6, 0, 0)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
-    renderer.mat = Material(Color(0, 0, 255))
-    collider = cube.AddComponent(AABBoxCollider)
+    renderer.mat = Material(RGB(0, 0, 255))
+    cube.AddComponent(BoxCollider)
     rb2 = cube.AddComponent(Rigidbody)
     rb2.gravity = False
 

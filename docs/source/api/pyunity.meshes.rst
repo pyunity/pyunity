@@ -3,5 +3,5 @@ pyunity.meshes module
 
 .. automodule:: pyunity.meshes
    :members:
-   :inherited-members:
+   :undoc-members:
    :show-inheritance:

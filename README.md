@@ -6,17 +6,27 @@
 [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
-[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/rayzchen/pyunity)
+[![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/pyunity/pyunity)
+[![Testing](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml/badge.svg)](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml)
+[![Codecov](https://codecov.io/gh/pyunity/pyunity/branch/master/graph/badge.svg?token=K0evJ3dVvJ)](https://codecov.io/gh/pyunity/pyunity)
 [![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)](https://discord.gg/zTn48BEbF9)
 [![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
 
-## Version 0.7.0 (in development)
-PyUnity is a Python implementation of the
-Unity Engine, written in C++. This is just
-a fun project and many features have been
-taken out to make it as easy as possible
-to create a scene and run it.
+## Version 0.9.0 (in development)
+PyUnity is a pure Python 3D Game Engine that
+was inspired by the structure of the Unity
+Game Engine. This does not mean that PyUnity
+are bindings for the UnityEngine. However,
+this project has been made to facilitate
+any programmer, beginner or advanced, novice
+or veteran.
+
+### Disclaimer
+As we have said above, this is not a set of
+bindings for the UnityEngine, but a pure
+Python library to aid in making 3D games in
+Python.
 
 ### Installing
 To install PyUnity for Linux distributions
@@ -30,120 +40,39 @@ use pip:
     > pip install pyunity
 
 Alternatively, you can clone the repository
-to build the package from source. Then use
-``setup.py`` to build. Note that it will install
-Cython to compile.
+to build the package from source. The latest
+version is on the master branch and you can
+build as follows:
 
-    > python setup.py install
+    > git clone https://github.com/pyunity/pyunity
+    > git checkout master
+    > pip install .
+
+The latest builds are on the ``develop`` branch
+which is the default branch. These builds are
+sometimes broken, so use at your own risk.
+
+    > git clone https://github.com/pyunity/pyunity
+    > pip install .
 
 Its only dependencies are PyOpenGL, PySDL2,
-GLFW, Pillow and PyGLM.
+Pillow and PyGLM. Microsoft Visual
+C++ Build Tools are required on Windows
+for building yourself. GLFW can be optionally
+installed if you would like to use the GLFW
+window provider.
 
-### Importing
-To start using pyunity, you must import it.
-A standard way to import is like so:
+### Links
 
-    >>> from pyunity import *
+For more information check out
+[the API documentation](https://pyunity.readthedocs.io/en/latest/).
+There we offer some tutorials on the basics of
+PyUnity, as well as all modules and utility functions
+that come with it. Examples are located at subfolders in
+`pyunity/examples` so do be sure to check them out as a
+starting point.
 
-Debug information is turned on by default. If
-you want to turn it off, set the
-PYUNITY_DEBUG_MODE environment variable to ``"0"``.
-This is the output with debugging:
-
-    Loaded config
-    Trying GLFW as a window provider
-    GLFW doesn't work, trying PySDL2
-    Using window provider PySDL2
-    Loaded PyUnity version 0.7.0
-
-If debugging is off, there is no output:
-
-    >>> import os
-    >>> os.environ["PYUNITY_DEBUG_MODE"] = "0"
-    >>> from pyunity import *
-    >>> # No output
-
-### Scenes
-All PyUnity projects start with a scene. To add
-a scene, do this:
-
-    >>> scene = SceneManager.AddScene("Scene 1")
-
-Then, let's move the camera backwards 10 units.
-
-    >>> scene.mainCamera.transform.position = Vector3(0, 0, -10)
-
-Finally, add a cube at the origin:
-
-    >>> cube = GameObject("Cube")
-    >>> renderer = cube.AddComponent(MeshRenderer)
-    >>> renderer.mesh = Mesh.cube(2)
-    >>> renderer.mat = Material(Color(255, 0, 0))
-    >>> scene.Add(cube)
-
-To see what you have added to the scene, call ``scene.List()``:
-
-    >>> scene.List()
-    /Main Camera
-    /Light
-    /Cube
-
-Finally, to run the scene, call ``scene.Run()``. The window that
-is created is one of FreeGLUT, GLFW or PySDL2. The window is
-selected on module initialization (see Windows subheading).
-
-### Behaviours
-To create your own PyUnity script, create a class that inherits
-from Behaviour. Usually in Unity, you would put the class in its
-own file, but Python can't do something like that, so put all of
-your scripts in one file. Then, to add a script, just use
-``AddComponent()``. Do not put anything in the ``__init__`` function,
-instead put it in ``Start()``. The ``Update()`` function receives one
-parameter, ``dt``, which is the same as ``Time.deltaTime``.
-
-### Windows
-The window is provided by one of three
-providers: GLFW, PySDL2 and FreeGLUT.
-When you first import PyUnity, it checks
-to see if any of the three providers
-work. The testing order is as above, so
-FreeGLUT is tested last.
-
-To create your own provider, create a
-class that has the following methods:
-
-- ``__init__``: initiate your window and
-  check to see if it works.
-- ``start``: start the main loop in your
-  window. The first parameter is
-  ``update_func``, which is called
-  when you want to do the OpenGL calls.
-
-Check the source code of any of the window
-providers for an example. If you have a
-window provider, then please create a new
-pull request.
-
-### Examples
-To run an example, import it like so:
-
-    >>> from pyunity.examples.example1 import main
-    Loaded config
-    Trying FreeGLUT as a window provider
-    FreeGLUT doesn't work, trying GLFW
-    GLFW doesn't work, trying PySDL2
-    Using window provider PySDL2
-    Loaded PyUnity version 0.7.0
-    >>> main()
-
-Or from the command line:
-
-    > python -m pyunity 1
-
-The ``1`` just means to load example 1, and there
-are 9 examples. To load all examples one by
-one, do not specify a number. If you want to
-contribute an example, then please
-[create a new pull request](https://github.com/rayzchen/pyunity/pulls).
-
-
+If you would like to contribute, please
+first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),
+check out the latest [issues](https://github.com/pyunity/pyunity/issues)
+and then make a [pull request](https://github.com/pyunity/pyunity/pulls).

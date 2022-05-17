@@ -1,10 +1,13 @@
 pyunity.window package
 ======================
 
-.. automodule:: pyunity.window
-   :members:
-   :inherited-members:
-   :show-inheritance:
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pyunity.window.providers
 
 Submodules
 ----------
@@ -12,7 +15,12 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   pyunity.window.glfwWindow
-   pyunity.window.glutWindow
-   pyunity.window.sdl2Window
-   pyunity.window.templateWindow
+   pyunity.window.abc
+
+Module contents
+---------------
+
+.. automodule:: pyunity.window
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,11 +1,6 @@
 pyunity.scenes package
 ======================
 
-.. automodule:: pyunity.scenes
-   :members:
-   :inherited-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
@@ -14,3 +9,11 @@ Submodules
 
    pyunity.scenes.scene
    pyunity.scenes.sceneManager
+
+Module contents
+---------------
+
+.. automodule:: pyunity.scenes
+   :members:
+   :undoc-members:
+   :show-inheritance:

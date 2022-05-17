@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Classes to manage the playback of audio.
 It uses the sdl2.sdlmixer library.
@@ -11,26 +15,72 @@ __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
 import warnings
 import os
-
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore")
-    from sdl2 import sdlmixer as mixer
-    from sdl2 import SDL_GetError
-
-from . import config, logger as Logger
-from .core import Component
+from . import config, Logger
+from .core import Component, ShowInInspector, SingleComponent
 
 channels = 0
 
 if "PYUNITY_TESTING" in os.environ:
     config.audio = False
     Logger.LogLine(Logger.WARN, "Testing PyUnity, audio is disabled")
-elif mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
+elif os.environ["PYUNITY_AUDIO"] == "0":
     config.audio = False
-    Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
-elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-    Logger.LogLine(Logger.WARN, "SDL2_mixer could not be initialized: " +
-                   SDL_GetError())
+    Logger.LogLine(Logger.WARN, "Audio disabled via env var")
+elif os.environ["PYUNITY_INTERACTIVE"] == "0":
+    config.audio = False
+    Logger.LogLine(Logger.WARN, "Non-interactive mode, audio is disabled")
+else:
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore")
+        try:
+            from sdl2 import sdlmixer as mixer
+            from sdl2 import SDL_GetError
+        except ImportError:
+            config.audio = False
+            Logger.LogLine(Logger.WARN,
+                "Failed to import PySDL2, your system may not support it.")
+
+    if mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
+        config.audio = False
+        Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
+    elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+        config.audio = False
+        Logger.LogLine(Logger.WARN,
+            "SDL2_mixer could not be initialized: " + SDL_GetError().decode())
+
+class _CustomMock:
+    def __getattr__(self, item):
+        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
+        return _CustomMock()
+
+    def __setattr__(self, item, value):
+        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
+
+    def __call__(self, *args, **kwargs):
+        return _CustomMock()
+
+if not config.audio:
+    mixer = _CustomMock()
+
+class AudioClip:
+    """
+    Class to store information about an audio file.
+
+    Attributes
+    ----------
+    path : str
+        Path to the file
+    music : sdl2.sdlmixer.mixer.Mix_Chunk
+        Sound chunk that can be played with
+        an SDL2 Mixer Channel.
+        Only set when the AudioClip is played
+        in an :py:class:`AudioSource`.
+
+    """
+
+    def __init__(self, path):
+        self.path = str(path)
+        self.music = None
 
 class AudioSource(Component):
     """
@@ -40,16 +90,18 @@ class AudioSource(Component):
     ----------
     clip : AudioClip
         Clip to play. Best way to set the clip
-        is to use the ``SetClip`` function.
-    PlayOnStart : bool
+        is to use the :meth:`SetClip` function.
+    playOnStart : bool
         Whether it plays on start or not.
-    Loop : bool
+    loop : bool
         Whether it loops or not. This is not
         fully supported.
 
     """
 
-    attrs = ["enabled", "PlayOnStart", "Loop"]
+    playOnStart = ShowInInspector(bool, False)
+    loop = ShowInInspector(bool, False)
+    clip = ShowInInspector(AudioClip)
 
     def __init__(self, transform):
         super(AudioSource, self).__init__(transform)
@@ -57,11 +109,7 @@ class AudioSource(Component):
         self.clip = None
         self.channel = channels
         channels += 1
-        print(channels)
         mixer.Mix_AllocateChannels(channels)
-
-        self.PlayOnStart = False
-        self.Loop = False
 
     def SetClip(self, clip):
         """
@@ -86,7 +134,8 @@ class AudioSource(Component):
         if self.clip.music is None:
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
-            print("Unable to play file: %s" % mixer.Mix_GetError())
+            Logger.LogLine(Logger.WARN, "Unable to play file: %s" %
+                           mixer.Mix_GetError().decode())
 
     def Stop(self):
         """
@@ -125,27 +174,7 @@ class AudioSource(Component):
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         return mixer.Mix_Playing(self.channel)
 
-class AudioClip:
-    """
-    Class to store information about an audio file.
-
-    Attributes
-    ----------
-    path : str
-        Path to the file
-    music : sdl2.sdlmixer.mixer.Mix_Chunk
-        Sound chunk that can be played with
-        an SDL2 Mixer Channel.
-        Only set when the AudioClip is played
-        in an ``AudioSource``.
-
-    """
-
-    def __init__(self, path):
-        self.path = path
-        self.music = None
-
-class AudioListener(Component):
+class AudioListener(SingleComponent):
     """
     Class to receive audio events and to base spatial
     sound from. By default the Main Camera has an
@@ -173,7 +202,6 @@ class AudioListener(Component):
         the AudioClips.
 
         """
-        from .scenes import SceneManager
-        for source in SceneManager.CurrentScene().FindComponentsByType(AudioSource):
+        for source in self.scene.FindComponentsByType(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)

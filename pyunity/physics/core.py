@@ -1,15 +1,19 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Core classes of the PyUnity
 physics engine.
 
 """
 
-__all__ = ["PhysicMaterial", "Collider", "SphereCollider",
-           "AABBoxCollider", "Rigidbody", "CollManager", "Infinity"]
+__all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
+           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
 
-from ..vector3 import *
-from ..quaternion import *
-from ..core import *
+from ..errors import PyUnityException
+from ..values import Vector3, Quaternion, ABCMeta, abstractmethod
+from ..core import Component, ShowInInspector, addFields
 from . import config
 import math
 
@@ -40,10 +44,16 @@ class PhysicMaterial:
 
     """
 
-    def __init__(self, restitution=0.75, friction=1):
+    def exception(self, *args, **kwargs):
+        raise PyUnityException(
+            "Cannot modify properties of PhysicMaterial: it is immutable")
+
+    def __init__(self, restitution=0.75, friction=1, immutable=False):
         self.restitution = restitution
         self.friction = friction
         self.combine = -1
+        if immutable:
+            self.__setattr__ = self.exception
 
 class Manifold:
     """
@@ -55,6 +65,8 @@ class Manifold:
         The first collider
     b : Collider
         The second collider
+    point : Vector3
+        The collision point
     normal : Vector3
         The collision normal
     penetration : float
@@ -65,23 +77,25 @@ class Manifold:
     def __init__(self, a, b, point, normal, penetration):
         self.a = a
         self.b = b
-        self.normal = normal
         self.point = point
+        self.normal = normal
         self.penetration = penetration
 
-class Collider(Component):
+class Collider(Component, metaclass=ABCMeta):
     """Collider base class."""
-    
-    attrs = []
+
+    @abstractmethod
+    def supportPoint(self, direction):
+        pass
 
     @property
     def pos(self):
         return self.transform.position
-    
+
     @pos.setter
     def pos(self, value):
         self.transform.position = value
-    
+
     @property
     def rot(self):
         return self.transform.rotation
@@ -97,30 +111,19 @@ class SphereCollider(Collider):
 
     Attributes
     ----------
-    min : Vector3
-        The corner with the lowest coordinates.
-    max : Vector3
-        The corner with the highest coordinates.
-    pos : Vector3
-        The center of the SphereCollider
+    offset : Vector3
+        The offset from the centre of the SphereCollider
     radius : Vector3
         The radius of the SphereCollider
 
     """
 
-    attrs = ["enabled", "radius", "offset"]
+    radius = ShowInInspector(float, 0)
+    offset = ShowInInspector(Vector3)
 
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
         self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
-    
-    @property
-    def min(self):
-        return self.pos - self.radius
-    
-    @property
-    def max(self):
-        return self.pos + self.radius
 
     def SetSize(self, radius, offset):
         """
@@ -137,79 +140,76 @@ class SphereCollider(Collider):
         self.radius = radius
         self.offset = offset
 
+    @property
+    def min(self):
+        return self.pos - self.radius
+
+    @property
+    def max(self):
+        return self.pos + self.radius
+
     def collidingWith(self, other):
         if isinstance(other, SphereCollider):
             radii = (self.radius + other.radius) ** 2
-            distance = self.pos.get_dist_sqrd(other.pos)
+            distance = self.pos.getDistSqrd(other.pos)
             if distance < radii:
                 relative = (other.pos - self.pos).normalized()
                 dist = self.radius + other.radius - math.sqrt(distance)
                 return Manifold(self, other,
-                    (self.pos + other.pos) / 2,
-                    relative, dist)
+                                (self.pos + other.pos) / 2,
+                                relative, dist)
         else:
             return CollManager.epa(self, other)
-    
+
     def supportPoint(self, direction):
         return self.pos + direction.normalized() * self.radius
 
-class AABBoxCollider(Collider):
+class BoxCollider(Collider):
     """
     An axis-aligned box collider that
     cannot be deformed.
 
     Attributes
     ----------
-    min : Vector3
-        The corner with the lowest coordinates.
-    max : Vector3
-        The corner with the highest coordinates.
-    pos : Vector3
-        The center of the AABBoxCollider
+    size : Vector3
+        The distance between two farthest
+        vertices of the collider
+    offset : Vector3
+        The offset from the centre of the
+        collider
 
     """
 
-    attrs = ["enabled", "pos", "size"]
+    size = ShowInInspector(Vector3)
+    offset = ShowInInspector(Vector3)
 
     def __init__(self, transform):
-        super(AABBoxCollider, self).__init__(transform)
-        size = self.transform.scale * 2
-        self.SetSize(size, Vector3.zero())
+        super(BoxCollider, self).__init__(transform)
+        self.size = self.transform.scale * 2
+        self.offset = Vector3.zero()
 
-    def SetSize(self, size, offset):
-        """
-        Sets the size of the collider.
-
-        Parameters
-        ----------
-        min : Vector3
-            The corner with the lowest coordinates.
-        max : Vector3
-            The corner with the highest coordinates.
-
-        """
-        self.size = size
-        self.offset = offset
-    
     @property
     def min(self):
         return self.pos - self.rot.RotateVector(self.size / 2)
-    
+
     @property
     def max(self):
         return self.pos + self.rot.RotateVector(self.size / 2)
 
     def collidingWith(self, other):
         return CollManager.epa(self, other)
-    
+
     def supportPoint(self, direction):
         def sign(a):
-            return abs(a) / a if a != 0 else 1
+            return -1 if a < 0 else 1
         newdir = self.transform.rotation.conjugate.RotateVector(direction)
         point = newdir._o1(sign) * self.size / 2
         res = self.transform.rotation.RotateVector(point)
         return res + self.transform.position
 
+@addFields(
+    mass=ShowInInspector(float, 100),
+    inertia=ShowInInspector(float, 200/3))
 class Rigidbody(Component):
     """
     Class to let a GameObject follow physics
@@ -222,69 +222,76 @@ class Rigidbody(Component):
         to 100
     velocity : Vector3
         Velocity of the Rigidbody
+    rotVel : Vector3
+        Rotational velocity of the Rigidbody
+    force : Vector3
+        Force acting on the Rigidbody. Reset every
+        frame.
+    torque : Vector3
+        Rotational force acting on the Rigidbody.
+        Reset every frame.
     physicMaterial : PhysicMaterial
         Physics material of the Rigidbody
-    position : Vector3
-        Position of the Rigidbody. It is
-        assigned to its GameObject's
-        position when the CollHandler is
-        created
 
     """
 
-    attrs = ["enabled", "mass", "velocity", "rotVel", "torque", "physicMaterial", "gravity", "force"]
+    velocity = ShowInInspector(Vector3)
+    rotVel = ShowInInspector(Vector3, None, "Rotational Velocity")
+    force = ShowInInspector(Vector3)
+    torque = ShowInInspector(Vector3)
+    gravity = ShowInInspector(bool, True)
+    physicMaterial = ShowInInspector(
+        PhysicMaterial, PhysicMaterial(immutable=True))
 
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
-        self.inertia = 2/3 * self.mass # (1/6 ms^2)
+        self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
-        self.physicMaterial = PhysicMaterial()
         self.force = Vector3.zero()
         self.torque = Vector3.zero()
-        self.gravity = True
-    
+
     @property
     def mass(self):
-        if self.inv_mass == 0:
+        if self.invMass == 0:
             return Infinity
-        return 1 / self.inv_mass
-    
+        return 1 / self.invMass
+
     @mass.setter
     def mass(self, val):
         if val == Infinity or val == 0:
-            self.inv_mass = 0
-        self.inv_mass = 1 / val
+            self.invMass = 0
+        self.invMass = 1 / val
 
     @property
     def inertia(self):
-        if self.inv_inertia == 0:
+        if self.invInertia == 0:
             return Infinity
-        return 1 / self.inv_inertia
-    
+        return 1 / self.invInertia
+
     @inertia.setter
     def inertia(self, val):
         if val == Infinity or val == 0:
-            self.inv_inertia = 0
-        self.inv_inertia = 1 / val
+            self.invInertia = 0
+        self.invInertia = 1 / val
 
     @property
     def pos(self):
         return self.transform.position
-    
+
     @pos.setter
     def pos(self, val):
         self.transform.position = val
-    
+
     @property
     def rot(self):
         return self.transform.rotation
-    
+
     @rot.setter
     def rot(self, val):
         self.transform.rotation = val
-    
+
     def Move(self, dt):
         """
         Moves all colliders on the GameObject by
@@ -298,13 +305,15 @@ class Rigidbody(Component):
 
         """
         if self.gravity:
-            self.force += config.gravity / self.inv_mass
-        self.velocity += self.force * self.inv_mass
+            self.force += config.gravity / self.invMass
+        self.velocity += self.force * self.invMass
         self.pos += self.velocity * dt
 
-        self.rotVel += self.torque * self.inv_inertia
+        self.rotVel += self.torque * self.invInertia
         rotation = self.rotVel * dt
-        angle = rotation.normalize_return_length()
+        angle = rotation.length
+        if angle != 0:
+            rotation /= angle
         rotQuat = Quaternion.FromAxis(math.degrees(angle), rotation)
         self.rot *= rotQuat
 
@@ -358,6 +367,20 @@ class Rigidbody(Component):
         """
         self.velocity += impulse
 
+class SupportPoint:
+    def __init__(self, point, original):
+        self.point = point
+        self.original = original
+
+class Triangle:
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+        ab = b.point - a.point
+        ac = c.point - a.point
+        self.normal = (ab).cross(ac).normalized()
+
 class CollManager:
     """
     Manages the collisions between all colliders.
@@ -380,14 +403,13 @@ class CollManager:
         self.dummyRigidbody = Rigidbody(None, True)
         self.dummyRigidbody.mass = Infinity
         self.steps = 1
-    
+
     @staticmethod
     def supportPoint(a, b, direction):
         supportA = a.supportPoint(direction)
         supportB = b.supportPoint(-direction)
         support = supportA - supportB
-        support.original = [supportA, supportB]
-        return support
+        return SupportPoint(support, (supportA, supportB))
 
     @staticmethod
     def nextSimplex(args):
@@ -399,46 +421,46 @@ class CollManager:
         if length == 4:
             return CollManager.tetraSimplex(args)
         return False
-    
+
     @staticmethod
     def lineSimplex(args):
-        a, b = args[0]
+        a, b = [x.point for x in args[0]]
         ab = b - a
         ao = -a
-        if ab.dot(ao) > 0 and a.cross(b) != Vector3.zero():
-            args[1] = ab.cross(ao).cross(ab)
+        if ab.dot(ao) > 0:
+            args[1] = ao - ab / 2
         else:
-            args[0] = [a]
+            args[0] = [args[0][0]]
             args[1] = ao
-    
+
     @staticmethod
     def triSimplex(args):
-        a, b, c = args[0]
+        a, b, c = [x.point for x in args[0]]
         ab = b - a
         ac = c - a
         ao = -a
         abc = ab.cross(ac)
         if abc.cross(ac).dot(ao) > 0:
-            if ac.dot(ao) > 0 and a.cross(c) != Vector3.zero():
-                args[0] = [a, c]
-                args[1] = ac.cross(ao).cross(ac)
+            if ac.dot(ao) > 0:
+                args[0] = [args[0][0], args[0][2]]
+                args[1] = ao - ac / 2
             else:
-                args[0] = [a, b]
+                args[0] = [args[0][0], args[0][1]]
                 return CollManager.lineSimplex(args)
         elif ab.cross(abc).dot(ao) > 0:
-            args[0] = [a, b]
+            args[0] = [args[0][0], args[0][1]]
             return CollManager.lineSimplex(args)
         else:
             if abc.dot(ao) > 0:
                 args[1] = abc
             else:
-                args[0] = [a, c, b]
+                args[0] = [args[0][0], args[0][2], args[0][1]]
                 args[1] = -abc
         return False
-    
+
     @staticmethod
     def tetraSimplex(args):
-        a, b, c, d = args[0]
+        a, b, c, d = [x.point for x in args[0]]
         ab = b - a
         ac = c - a
         ad = d - a
@@ -447,13 +469,13 @@ class CollManager:
         acd = ac.cross(ad)
         adb = ad.cross(ab)
         if abc.dot(ao) > 0:
-            args[0] = [a, b, c]
+            args[0] = [args[0][0], args[0][1], args[0][2]]
             return CollManager.triSimplex(args)
         if acd.dot(ao) > 0:
-            args[0] = [a, c, d]
+            args[0] = [args[0][0], args[0][2], args[0][3]]
             return CollManager.triSimplex(args)
         if adb.dot(ao) > 0:
-            args[0] = [a, d, b]
+            args[0] = [args[0][0], args[0][3], args[0][1]]
             return CollManager.triSimplex(args)
         return True
 
@@ -466,41 +488,34 @@ class CollManager:
 
         support = CollManager.supportPoint(a, b, ab.cross(c))
         points = [support]
-        direction = -support
-        max_iter = 50
+        direction = -support.point
+        maxIter = 50
         i = 0
         while True:
-            if i >= max_iter:
+            if i >= maxIter:
                 return None
             i += 1
             support = CollManager.supportPoint(a, b, direction)
-            if support.dot(direction) <= 0:
+            if support.point.dot(direction) <= 0:
                 return None
             points.insert(0, support)
             args = [points, direction]
             if CollManager.nextSimplex(args):
                 return args[0]
             points, direction = args
-    
+
     @staticmethod
     def epa(a, b):
         # https://blog.winter.dev/2020/epa-algorithm/
         points = CollManager.gjk(a, b)
         if points is None:
-            return None
+            return []
         p0, p1, p2, p3 = points
         triangles = []
         edges = []
-        threshold = 0.00000001
+        threshold = 1e-8
         limit = 50
         cur = 0
-
-        class Triangle:
-            def __init__(self, a, b, c):
-                self.a = a
-                self.b = b
-                self.c = c
-                self.normal = (b - a).cross(c - a).normalized()
 
         triangles.append(Triangle(p0, p1, p2))
         triangles.append(Triangle(p0, p2, p3))
@@ -509,56 +524,60 @@ class CollManager:
 
         while True:
             if cur >= limit:
-                return None
+                return []
             cur += 1
 
-            curTriangle = triangles[0]
-            minDst = math.inf
-            for triangle in triangles:
-                dst = abs(triangle.normal.dot(triangle.a))
-                if dst < minDst:
-                    minDst = dst
-                    curTriangle = triangle
-            
-            minSupport = CollManager.supportPoint(a, b, curTriangle.normal)
-            if curTriangle.normal.dot(minSupport) - minDst < threshold:
+            results = [(t, abs(t.normal.dot(t.a.point))) for t in triangles]
+            results.sort(key=lambda x: x[1])
+            results = [r for r in results if abs(r[1] - results[0][1]) < 0.001]
+
+            curTriangles = []
+            for result, dst in results:
+                minSupport = CollManager.supportPoint(a, b, result.normal)
+                if result.normal.dot(minSupport.point) - dst < threshold:
+                    curTriangles.append(result)
+
+            if len(curTriangles):
                 break
-            
+
             i = 0
             while i < len(triangles):
                 triangle = triangles[i]
-                if triangle.normal.dot(minSupport - triangle.a) > 0:
+                if triangle.normal.dot(minSupport.point - triangle.a.point) > 0:
                     CollManager.AddEdge(edges, triangle.a, triangle.b)
                     CollManager.AddEdge(edges, triangle.b, triangle.c)
                     CollManager.AddEdge(edges, triangle.c, triangle.a)
                     triangles.remove(triangle)
                     continue
                 i += 1
-            
+
             for edge in edges:
                 triangles.append(Triangle(minSupport, edge[0], edge[1]))
-            
+
             edges.clear()
-        
-        penetration = curTriangle.normal.dot(curTriangle.a)
-        u, v, w = CollManager.barycentric(
-            curTriangle.normal * penetration,
-            curTriangle.a,
-            curTriangle.b,
-            curTriangle.c)
-        
-        if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
-            return None
-        elif math.isnan(u + v + w):
-            return None
-        
-        point = Vector3(
-            u * curTriangle.a.original[0] + \
-            v * curTriangle.b.original[0] + \
-            w * curTriangle.c.original[0])
-        normal = -curTriangle.normal
-        return Manifold(a, b, point, normal, penetration)
-    
+
+        manifolds = []
+        for curTriangle in curTriangles:
+            penetration = curTriangle.normal.dot(curTriangle.a.point)
+            u, v, w = CollManager.barycentric(
+                curTriangle.normal * penetration,
+                curTriangle.a.point,
+                curTriangle.b.point,
+                curTriangle.c.point)
+
+            if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
+                continue
+            elif math.isnan(u + v + w):
+                continue
+
+            point = Vector3(
+                u * curTriangle.a.original[0] +
+                v * curTriangle.b.original[0] +
+                w * curTriangle.c.original[0])
+            normal = -curTriangle.normal
+            manifolds.append(Manifold(a, b, point, normal, penetration))
+        return manifolds
+
     @staticmethod
     def AddEdge(edges, a, b):
         if (b, a) in edges:
@@ -577,6 +596,8 @@ class CollManager:
         d20 = v2.dot(v0)
         d21 = v2.dot(v1)
         denom = d00 * d11 - d01 * d01
+        if denom == 0:
+            print(p, a, b, c)
         v = (d11 * d20 - d01 * d21) / denom
         w = (d00 * d21 - d01 * d20) / denom
         u = 1 - v - w
@@ -655,28 +676,41 @@ class CollManager:
         resolves them.
 
         """
+        manifolds = {}
         for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
             for rbB in list(self.rigidbodies.keys())[x + 1:]:
+                m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = CollManager.epa(colliderA, colliderB)
-                        if m:
-                            e = self.GetRestitution(rbA, rbB)
-                            normal = m.normal.copy()
-                            print(m.point, normal)
-                            self.ResolveCollisions(rbA, rbB, (rbA.pos + rbB.pos) / 2, e, normal, m.penetration)
+                        m.extend(CollManager.epa(colliderA, colliderB))
+                if len(m):
+                    manifolds[rbA, rbB] = m
+
+        for rbA, rbB in manifolds:
+            manifold = manifolds[rbA, rbB]
+            point = sum(m.point for m in manifold) / len(manifold)
+            e = self.GetRestitution(rbA, rbB)
+            normal = manifold[0].normal.copy()
+            self.ResolveCollisions(
+                rbA, rbB,
+                point, e, normal, manifold[0].penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
+        rv = b.velocity - a.velocity
+        vn = rv.dot(normal)
+        if vn < 0:
+            return
+
         if b is self.dummyRigidbody:
             ap = point - a.pos
             vab = a.velocity + a.rotVel.cross(ap)
             top = -(1 + restitution) * vab.dot(normal)
             apCrossN = ap.cross(normal)
-            inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
-            bottom = a.inv_mass + inertiaAcoeff
+            inertiaAcoeff = apCrossN.dot(apCrossN) * a.invInertia
+            bottom = a.invMass + inertiaAcoeff
             j = top / bottom
-            a.velocity += j * normal * a.inv_mass
-            a.rotVel += (point.cross(j * normal)) * a.inv_inertia
+            a.velocity += j * normal * a.invMass
+            a.rotVel += (point.cross(j * normal)) * a.invInertia
             return
 
         ap = point - a.pos
@@ -685,27 +719,27 @@ class CollManager:
         vab = a.velocity + a.rotVel.cross(ap) - b.velocity - b.rotVel.cross(bp)
         apCrossN = ap.cross(normal)
         bpCrossN = bp.cross(normal)
-        inertiaAcoeff = apCrossN.dot(apCrossN) * a.inv_inertia
-        inertiaBcoeff = bpCrossN.dot(bpCrossN) * b.inv_inertia
+        inertiaAcoeff = apCrossN.dot(apCrossN) * a.invInertia
+        inertiaBcoeff = bpCrossN.dot(bpCrossN) * b.invInertia
 
         top = -(1 + restitution) * vab.dot(normal)
-        bottom = a.inv_mass + b.inv_mass + inertiaAcoeff + inertiaBcoeff
+        bottom = a.invMass + b.invMass + inertiaAcoeff + inertiaBcoeff
         j = top / bottom
 
-        a.velocity += j * normal * a.inv_mass
-        b.velocity -= j * normal * b.inv_mass
-        a.rotVel += (point.cross(j * normal)) * a.inv_inertia
-        b.rotVel -= (point.cross(j * normal)) * b.inv_inertia
+        a.velocity += j * normal * a.invMass
+        b.velocity -= j * normal * b.invMass
+        a.rotVel += (ap.cross(j * normal)) * a.invInertia
+        b.rotVel -= (bp.cross(j * normal)) * b.invInertia
 
         # Positional correction
 
-        percent = 0.4
+        percent = 0.6
         slop = 0.01
-        correction = max(penetration - slop, 0) / (a.inv_mass + b.inv_mass) * percent * normal
-        a.pos += a.inv_mass * correction
-        b.pos -= b.inv_mass * correction
+        correction = max(penetration - slop, 0) / (a.invMass + b.invMass) * percent * normal
+        a.pos += a.invMass * correction
+        b.pos -= b.invMass * correction
 
-    def correct_inf(self, a, b, correction, target):
+    def correctInf(self, a, b, correction, target):
         if not math.isinf(a + b):
             return 1 / target * correction
         else:
@@ -730,5 +764,5 @@ class CollManager:
         """
         for rb in self.rigidbodies:
             if rb is not self.dummyRigidbody:
-                rb.Move(dt / 1)
+                rb.Move(dt)
         self.CheckCollisions()

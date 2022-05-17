@@ -2,6 +2,93 @@
 Releases
 ========
 
+v0.8.3
+======
+Bugfix regarding Quaternion.eulerAngles.
+
+To set the rotation of the camera using Euler angles,
+use ``scene.mainCamera.localRotation.SetBackward(Vector3(...))``.
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.9.0
+
+v0.8.2
+======
+Bugfix regarding ``Quaternion.FromDir``, ``Quaternion.Euler``,
+``abstractmethod`` and 2D depth buffers.
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.2
+
+v0.8.1
+======
+Bugfix regarding camera position updating and input axes.
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.1
+
+v0.8.0
+======
+New features:
+
+- Rewrote documentation and docstrings
+- Reformatted code
+- F string integration
+- ``ImmutableStruct`` and ``ABCMeta`` metaclasses
+   - The ``ABCMeta`` class has more features than the default Python ``abc`` module.
+- Rewrote examples
+- Combined many functions common to both Vector2 and Vector3 into a single Vector class.
+   - If you want to implement your own Vector classes, subclass from Vector and implement
+     the required abstract methods.
+- Fixed quaternion and rotation maths
+- Input axes and mouse input
+- Multiple lights
+- Different light types
+- Window provider caching and checking
+- Gui components
+   - This includes buttons, checkboxes, images and text boxes
+   - Rect transforms can be very flexible
+   - Platform-specific font loading
+- Stub package
+   - This will work with editors such as VSCode and PyCharm, just install ``pyunity-stubs`` from pip
+
+Stub package: https://pypi.org/project/pyunity-stubs
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.0
+
+v0.7.1
+======
+Extra features used in the PyUnity Editor.
+
+Changes:
+
+- Code of Conduct and Contributing guides
+- Rewrote most of the README to clear confusion about what PyUnity really is
+- RGB and HSV
+- Better GameObject deleting
+- ShowInInspector and HideInInspector
+- Dynamic lighting
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.7.1
+
+v0.7.0
+======
+New features:
+
+- Customizable skybox
+- Editor integration
+- Rewrote scene saving and loading
+- PYUNITY_WINDOW_PROVIDER environment variable
+- Fixed example 8
+
+Editor GitHub:
+https://github.com/pyunity/pyunity-gui
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.7.0
+
 v0.6.0
 ======
 Project structure update.
@@ -18,21 +105,21 @@ New features:
 - Removed redundant code from fixed function pipeline
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.6.0
+https://github.com/pyunity/pyunity/releases/tag/0.6.0
 
 v0.5.2
 ======
 Small minor fix of shader inclusion in binary distributions.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.2
+https://github.com/pyunity/pyunity/releases/tag/0.5.2
 
 v0.5.1
 ======
 Bugfix that fixes the shaders and dependency management.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.1
+https://github.com/pyunity/pyunity/releases/tag/0.5.1
 
 v0.5.0
 ======
@@ -50,7 +137,7 @@ New features:
 - New meshes and mesh loading
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.5.0
+https://github.com/pyunity/pyunity/releases/tag/0.5.0
 
 v0.4.0
 ======
@@ -65,14 +152,14 @@ New features:
 - Clarified README.md
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.4.0
+https://github.com/pyunity/pyunity/releases/tag/0.4.0
 
 v0.3.1
 ======
 Bugfix on basically everything because 0.3.0 was messed up.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.1
+https://github.com/pyunity/pyunity/releases/tag/0.3.1
 
 v0.3.0
 ======
@@ -94,14 +181,14 @@ New features:
 - Cleaned up working directory
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.3.0
+https://github.com/pyunity/pyunity/releases/tag/0.3.0
 
 v0.2.1
 ======
 Small bugfix around the AudioClip loading and inclusion of the OGG file in example 8.
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.2.1
+https://github.com/pyunity/pyunity/releases/tag/0.2.1
 
 v0.2.0
 ======
@@ -122,7 +209,7 @@ Features:
 - 1 more example, bringing the total to 8
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.2.0
+https://github.com/pyunity/pyunity/releases/tag/0.2.0
 
 v0.1.0
 ======
@@ -153,11 +240,11 @@ Notes:
   an empty string, this will disable recreating
   the c files. For example::
 
-        > set a=1
-        > python setup.py install
+      > set a=1
+      > pip install .
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.1.0
+https://github.com/pyunity/pyunity/releases/tag/0.1.0
 
 
 v0.0.5
@@ -177,7 +264,7 @@ Features:
 - Vector division
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.5
+https://github.com/pyunity/pyunity/releases/tag/0.0.5
 
 v0.0.4
 ======
@@ -197,7 +284,7 @@ New features:
 - Auto README.md updater
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.4
+https://github.com/pyunity/pyunity/releases/tag/0.0.4
 
 v0.0.3
 ======
@@ -213,7 +300,7 @@ Features:
 - File loader for .obj files
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.3
+https://github.com/pyunity/pyunity/releases/tag/0.0.3
 
 v0.0.2
 ======
@@ -226,4 +313,4 @@ Features:
 - Meshes
 
 Download source code at
-https://github.com/rayzchen/pyunity/releases/tag/0.0.2
+https://github.com/pyunity/pyunity/releases/tag/0.0.2

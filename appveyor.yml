@@ -1,66 +1,45 @@
 image:
-  - Visual Studio 2019
-  - Ubuntu
+  - Visual Studio 2022
+  - Ubuntu2004
   - macos
 
 environment:
   matrix:
+    - version: "3.10"
     - version: "3.9"
-      venv: "../../venv3.9"
-      windows_location: "C:\\Python39-x64\\python"
-      windows_location2: "C:\\Python39\\python"
     - version: "3.8"
-      venv: "../../venv3.8"
-      windows_location: "C:\\Python38-x64\\python"
-      windows_location2: "C:\\Python38\\python"
-    - version: "3.7"
-      venv: "../../venv3.7"
-      windows_location: "C:\\Python37-x64\\python"
-      windows_location2: "C:\\Python37\\python"
-    - version: "3.6"
-      venv: "../../venv3.6"
-      windows_location: "C:\\Python36-x64\\python"
-      windows_location2: "C:\\Python36\\python"
 
 test_script:
-  - python -m unittest tests.py
-  - python prepare.py -x
+  - python prepare.py cythonize
   - python setup.py bdist_wheel
 
 for:
   - matrix:
       only:
-        - image: Ubuntu
+        - image: Visual Studio 2022
     install:
-      - source $venv/bin/activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8 coverage
-      - coverage run -m unittest tests.py
-      - bash <(curl -s https://codecov.io/bash)
-  - matrix:
-      only:
-        - image: Visual Studio 2019
-    install:
-      - "%windows_location% -m virtualenv venv"
+      - "C:\\Python%version:.=%-x64\\python -m virtualenv venv"
       - venv\Scripts\activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - python -m pip install -r .github/build_requirements.txt
 
-      - "%windows_location2% -m virtualenv venv2"
+      - "C:\\Python%version:.=%\\python -m virtualenv venv2"
       - venv2\Scripts\activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - python -m pip install -r .github/build_requirements.txt
 
-      - python prepare.py -x
+      - python prepare.py cythonize
       - python setup.py bdist_wheel
       - venv\Scripts\activate
   - matrix:
       only:
+        - image: Ubuntu2004
         - image: macos
     install:
-      - source $venv/bin/activate
-      - python -m pip install --pre cython wheel pyglm pillow autopep8
+      - source $HOME/venv$version/bin/activate
+      - python -m pip install -r .github/build_requirements.txt
 
 build: off
 skip_branch_with_pr: true
 
 artifacts:
-  - path: dist/pyunity-0.7.0*
+  - path: dist/pyunity-0.9.0*
     name: Builds

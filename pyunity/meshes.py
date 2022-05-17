@@ -1,10 +1,14 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """Module for meshes created at runtime."""
 
 __all__ = ["Mesh"]
 
-from .vector3 import Vector3
-from . import render
-from .scenes import SceneManager
+from .values import Vector3
+import OpenGL.GL as gl
+import os
 
 class Mesh:
     """
@@ -25,24 +29,26 @@ class Mesh:
     verts : list
         List of Vector3's containing each vertex
     triangles : list
-        List of ints containing triangles joining up the vertices.
-        Each int is the index of a vertex above.
+        List of lists containing triangles joining up the vertices.
+        Each int is the index of a vertex above. The list is
+        two-dimesional, meaning that each item in the list is a list
+        of three ints.
     normals : list
         List of Vector3's containing the normal of each vertex.
-    texcoords : list
+    texcoords : list (optional)
         List of lists containing the texture coordinate of each vertex.
+        The list is two-dimesional, meaning that each item in the list
+        is a list of two floats.
 
     Notes
     -----
-    When a mesh is created, you cannot edit any of
-    the attributes to update the mesh while a scene
-    is running. Instead you will have to instantiate
-    a new mesh:
+    When any of the mesh attributes are updated while
+    a scene is running, you must use ``compile(force=True)``
+    to update the mesh so that it is displayed correctly.
 
         >>> mesh = Mesh.cube(2)
-        >>> mesh2 = Mesh(mesh.verts, mesh.triangles, mesh.normals, mesh.texcoords)
-        >>> # Or this:
-        >>> mesh2 = mesh.copy()
+        >>> mesh.vertices[1] = Vector3(2, 0, 0)
+        >>> mesh.compile(force=True)
 
     """
 
@@ -55,25 +61,35 @@ class Mesh:
         else:
             self.texcoords = [[0, 0] for _ in range(len(self.verts))]
 
-        if SceneManager.CurrentScene() is not None:
-            self.vbo, self.ibo = render.gen_buffers(self)
-            self.ibo = render.gen_array()
+        self.compiled = False
+        if "PYUNITY_GL_CONTEXT" in os.environ and \
+                os.environ["PYUNITY_INTERACTIVE"] == "1":
+            self.compile()
 
-        # self.min, self.max = Vector3.zero(), Vector3.zero()
-        # for vert in verts:
-        #     if vert.x < self.min.x:
-        #         self.min.x = vert.x
-        #     if vert.y < self.min.y:
-        #         self.min.y = vert.y
-        #     if vert.z < self.min.z:
-        #         self.min.z = vert.z
+        self.min = Vector3(
+            min(v.x for v in verts),
+            min(v.y for v in verts),
+            min(v.z for v in verts),
+        )
+        self.max = Vector3(
+            max(v.x for v in verts),
+            max(v.y for v in verts),
+            max(v.z for v in verts),
+        )
 
-        #     if vert.x > self.max.x:
-        #         self.max.x = vert.x
-        #     if vert.y > self.max.y:
-        #         self.max.y = vert.y
-        #     if vert.z > self.max.z:
-        #         self.max.z = vert.z
+    def compile(self, force=False):
+        if not self.compiled or force:
+            from . import render
+            self.vbo, self.ibo = render.genBuffers(self)
+            self.vao = render.genArray()
+            self.compiled = True
+
+    def draw(self):
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
+        gl.glBindVertexArray(self.vao)
+        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ibo)
+        gl.glDrawElements(gl.GL_TRIANGLES, len(
+            self.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
 
     def copy(self):
         """
@@ -99,7 +115,7 @@ class Mesh:
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of ``size`` 
+            A quad centered at Vector3(0, 0) with side length of ``size``
             facing in the direction of the negative z axis.
 
         """
@@ -116,7 +132,7 @@ class Mesh:
         )
 
     @staticmethod
-    def double_quad(size):
+    def doubleQuad(size):
         """
         Creates a two-sided quadrilateral mesh.
 
@@ -168,30 +184,30 @@ class Mesh:
         """
         return Mesh(
             [
-                Vector3(-1, 1, -1),
-                Vector3(1, 1, -1),
-                Vector3(1, -1, -1),
-                Vector3(-1, -1, -1),
-                Vector3(-1, 1, 1),
-                Vector3(1, 1, 1),
-                Vector3(1, -1, 1),
-                Vector3(-1, -1, 1),
-                Vector3(-1, -1, -1),
-                Vector3(1, -1, -1),
-                Vector3(1, -1, 1),
-                Vector3(-1, -1, 1),
-                Vector3(-1, 1, -1),
-                Vector3(1, 1, -1),
-                Vector3(1, 1, 1),
-                Vector3(-1, 1, 1),
-                Vector3(1, 1, -1),
-                Vector3(1, 1, 1),
-                Vector3(1, -1, 1),
-                Vector3(1, -1, -1),
-                Vector3(-1, 1, -1),
-                Vector3(-1, 1, 1),
-                Vector3(-1, -1, 1),
-                Vector3(-1, -1, -1),
+                Vector3(-1, 1, -1) * size / 2,
+                Vector3(1, 1, -1) * size / 2,
+                Vector3(1, -1, -1) * size / 2,
+                Vector3(-1, -1, -1) * size / 2,
+                Vector3(-1, 1, 1) * size / 2,
+                Vector3(1, 1, 1) * size / 2,
+                Vector3(1, -1, 1) * size / 2,
+                Vector3(-1, -1, 1) * size / 2,
+                Vector3(-1, -1, -1) * size / 2,
+                Vector3(1, -1, -1) * size / 2,
+                Vector3(1, -1, 1) * size / 2,
+                Vector3(-1, -1, 1) * size / 2,
+                Vector3(-1, 1, -1) * size / 2,
+                Vector3(1, 1, -1) * size / 2,
+                Vector3(1, 1, 1) * size / 2,
+                Vector3(-1, 1, 1) * size / 2,
+                Vector3(1, 1, -1) * size / 2,
+                Vector3(1, 1, 1) * size / 2,
+                Vector3(1, -1, 1) * size / 2,
+                Vector3(1, -1, -1) * size / 2,
+                Vector3(-1, 1, -1) * size / 2,
+                Vector3(-1, 1, 1) * size / 2,
+                Vector3(-1, -1, 1) * size / 2,
+                Vector3(-1, -1, -1) * size / 2,
             ],
             [
                 [0, 1, 2],
