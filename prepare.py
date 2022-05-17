@@ -185,15 +185,16 @@ def getFiles():
     cythonized = []
     copied = []
 
-    for file in glob.glob("pyunity/**/*.*", recursive=True):
+    for path in glob.glob("pyunity/**/*.*", recursive=True):
+        _, file = os.path.split(path)
         if (file.endswith(".py") and not file.startswith("__") and
                 file != "_version.py" and
-                not file.startswith(os.path.join(
+                not path.startswith(os.path.join(
                     "pyunity", "window", "providers"))):
-            destPath = os.path.join("src", file[8:-2] + "c")
+            destPath = os.path.join("src", path[8:-2] + "c")
             cythonized.append(destPath)
         else:
-            destPath = os.path.join("src", file[8:])
+            destPath = os.path.join("src", path[8:])
             copied.append(destPath)
 
     return cythonized, copied
