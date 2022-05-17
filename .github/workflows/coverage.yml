@@ -16,6 +16,9 @@ jobs:
           architecture: x64
       - name: Install dependencies
         run: pip install pytest pytest-cov -r requirements.txt
+      - name: Print info
+        run: |
+          python -m pyunity -v
       - name: Run tests
         env:
           full: 1
