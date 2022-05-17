@@ -1,4 +1,8 @@
-__all__ = ["Clock", "ImmutableStruct"]
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+__all__ = ["Clock", "ImmutableStruct", "LockedLiteral"]
 
 import time
 import sys
@@ -37,17 +41,37 @@ class Clock:
         self._start = time.time()
         return sleep
 
+class LockedLiteral:
+    def _lock(self):
+        super(LockedLiteral, self).__setattr__("_locked", True)
+
+    def __setattr__(self, name, value):
+        if getattr(self, "_locked", False):
+            raise AttributeError(
+                f"Cannot change attribute of immutable "
+                f"{type(self).__name__!r} object")
+        super(LockedLiteral, self).__setattr__(name, value)
+
+    def __delattr__(self, name):
+        if getattr(self, "_locked", False):
+            raise AttributeError(
+                f"Cannot change attribute of immutable "
+                f"{type(self).__name__!r} object")
+        super(LockedLiteral, self).__delattr__(name)
+
 class ImmutableStruct(type):
     _names = []
     def __setattr__(self, name, value):
         if name in self._names:
-            raise PyUnityException(f"Property {name!r} is read-only")
+            raise PyUnityException(f"Field {name!r} is read-only")
         super().__setattr__(name, value)
 
     def __delattr__(self, name):
         if name in self._names:
-            raise PyUnityException(f"Property {name!r} is read-only")
+            raise PyUnityException(f"Field {name!r} is read-only")
         super().__delattr__(name)
 
     def _set(self, name, value):
+        if name not in self._names:
+            raise PyUnityException(f"No field named {name!r}")
         super().__setattr__(name, value)

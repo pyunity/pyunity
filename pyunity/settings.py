@@ -1,7 +1,10 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 __all__ = ["LiveDict", "Database"]
 
-from .logger import get_tmp
-import os
+from .logger import getDataFolder
 import json
 
 class LiveDict:
@@ -78,8 +81,8 @@ class Database(LiveDict):
         with open(self.path, "w+") as f:
             f.write(json.dumps(self.todict()))
 
-file = os.path.join(os.path.dirname(get_tmp()), "settings.json")
-if not os.path.isfile(file):
+file = getDataFolder() / "settings.json"
+if not file.is_file():
     with open(file, "w+") as f:
         f.write("{}")
 

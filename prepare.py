@@ -1,9 +1,16 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 import os
 import glob
 import shutil
 import pkgutil
 import sys
+import signal
+import multiprocessing
 import importlib
+import importlib.metadata
 import inspect
 from setuptools._vendor.packaging import version # avoid pip install
 # from types import ModuleType
@@ -23,21 +30,46 @@ if "cython" not in os.environ:
 
 # import pyunity
 
-def check_endings():
-    if len(sys.argv) > 1:
-        for file in glob.glob("**/*.py", recursive=True) + \
-                glob.glob("**/*.pyi", recursive=True):
-            with open(file) as f:
-                contents = f.read()
-            
-            print(repr(contents[-1]))
-            if not contents.endswith("\n"):
-                contents += "\n"
-            
+def checkLicense():
+    files = [
+        "prepare.py", "setup.py", # Root files
+        os.path.join("stubs", "setup.py"), # Stub setup
+        *glob.glob("stubs/**/*.pyi", recursive=True),
+        *glob.glob("tests/**/*.py", recursive=True),
+        *glob.glob("pyunity/**/*.py", recursive=True),
+    ]
+
+    with open("LICENSE") as f:
+        content = f.read()
+    header = "# " + content.split("\n")[2] + "\n"
+    header += "# This file is licensed under the MIT License.\n"
+    header += "# See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
+    for file in files:
+        with open(file) as f:
+            contents = f.read()
+        if contents.startswith("#"):
+            continue
+        if not contents.startswith(header):
             with open(file, "w") as f:
+                f.write(header)
                 f.write(contents)
 
-def parse_code():
+def checkWhitespace():
+    for file in glob.glob("**/*.py", recursive=True) + \
+            glob.glob("**/*.pyi", recursive=True):
+        with open(file, encoding="utf8") as f:
+            contents = f.read().rstrip()
+
+        lines = contents.split("\n")
+        for i in range(len(lines)):
+            if lines[i].isspace():
+                lines[i] = ""
+        lines.append("")
+
+        with open(file, "w", encoding="utf8") as f:
+            f.write("\n".join(lines))
+
+def parseCode():
     if pkgutil.find_loader("autopep8") is None:
         raise Exception("autopep8 is needed to parse the source code.\n" +
                         "Install using \"pip install autopep8\".")
@@ -46,29 +78,28 @@ def parse_code():
                 "E26,E301,E302,E305,E401,E402,E501",
                 "pyunity", "setup.py", "cli.py"])
 
-def get_packages(module):
+def getPackages(module):
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
         if "__" in name or "Window" in name or name == "config" or "example" in name:
             continue
         mod = importlib.import_module(module.__name__ + "." + name)
         if ispkg:
-            get_packages(mod)
+            getPackages(mod)
         if hasattr(mod, "__all__"):
             original = set(mod.__all__)
         else:
             original = set()
         new = set([x for x in dir(mod) if ((inspect.isclass(getattr(mod, x)) or
-                                        inspect.isfunction(getattr(mod, x))) and 
-                                       x[0].isupper() and 
+                                        inspect.isfunction(getattr(mod, x))) and
+                                       x[0].isupper() and
                                        getattr(mod, x).__module__ == mod.__name__)])
         if original != new:
             print(mod.__name__, "Add", list(new - original),
                   "Remove", list(original - new))
 
-def check_missing():
-    if len(sys.argv) > 1:
-        import pyunity
-        get_packages(pyunity)
+def checkMissing():
+    import pyunity
+    getPackages(pyunity)
 
 # items = []
 
@@ -99,7 +130,7 @@ def check_missing():
 #     f.write(before + text + after)
 
 # desc = pyunity.__doc__.split("\n")
-# desc_new = [
+# descNew = [
 #     "# PyUnity", "",
 #     "".join([
 #         "[![Documentation Status](https://readthedocs.org/projects/pyunity/badge/?version=latest)]",
@@ -131,10 +162,10 @@ def check_missing():
 #         continue
 #     if i != len(desc) - 1 and len(set(desc[i + 1])) == 1:
 #         if desc[i + 1][0] == "-":
-#             desc_new.append("### " + desc[i])
+#             descNew.append("### " + desc[i])
 #             skip = 1
 #         elif desc[i + 1][0] == "=":
-#             desc_new.append("## " + desc[i])
+#             descNew.append("## " + desc[i])
 #             skip = 1
 #     else:
 #         if "create a new pull request" in desc[i]:
@@ -144,50 +175,99 @@ def check_missing():
 #             )
 #         if desc[i] == "`here <https://github.com/pyunity/pyunity>`_":
 #             continue
-#         desc_new.append(desc[i].replace("::", ":"))
+#         descNew.append(desc[i].replace("::", ":"))
 
 # with open("README.md", "w") as f:
-#     for line in desc_new:
+#     for line in descNew:
 #         f.write(line + "\n")
 
-def cythonize(error=False):
-    if os.environ["cython"] == "1":
-        if pkgutil.find_loader("cython") is None:
-            raise Exception("Cython is needed to create CPython extensions.")
-        import Cython
-        cythonVer = version.parse(Cython.__version__)
-        if cythonVer < version.parse("3.0.0a8"):
-            raise Exception("Cython version must be higher than 3.0.0a8 - install using pip install --pre cython")
-        if os.path.exists("src"):
-            shutil.rmtree("src")
-        for path in glob.glob("pyunity/**/*.*", recursive=True):
-            if path.endswith(".pyc") or path.endswith(".pyo"):
-                continue
-            dirpath, file = os.path.split(path)
-            print(file)
-            if file.endswith(".py") and not file.startswith("__"):
-                if path.startswith(os.path.join("pyunity", "window", "providers")):
-                    continue
-                code = os.system("cythonize -3 -q " + path)
-                srcPath = path[:-2] + "c"
-                if code != 0:
-                    os.remove(srcPath)
-                    if error:
-                        raise Exception(f"Cythonization of `{path}` failed.")
-                    break
-                op = shutil.move
-            else:
-                srcPath = os.path.join(dirpath, file)
-                op = shutil.copy
-            destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
-            os.makedirs(destPath, exist_ok=True)
-            op(srcPath, destPath)
+def getFiles():
+    cythonized = []
+    copied = []
+
+    for path in glob.glob("pyunity/**/*.*", recursive=True):
+        _, file = os.path.split(path)
+        if (file.endswith(".py") and not file.startswith("__") and
+                file != "_version.py" and
+                not path.startswith(os.path.join(
+                    "pyunity", "window", "providers"))):
+            destPath = os.path.join("src", path[8:-2] + "c")
+            cythonized.append(destPath)
+        else:
+            destPath = os.path.join("src", path[8:])
+            copied.append(destPath)
+
+    return cythonized, copied
+
+def cythonizeSingleFile(path):
+    from Cython.Build import cythonize
+    directives = {"language_level": "3"}
+
+    if path.endswith(".pyc") or path.endswith(".pyo"):
+        return
+
+    current = multiprocessing.current_process()
+    print(f"Worker-{current.pid}: cythonizing", path)
+    dirpath, file = os.path.split(path)
+    if (file.endswith(".py") and not file.startswith("__") and
+            file != "_version.py" and
+            not path.startswith(os.path.join(
+                "pyunity", "window", "providers"))):
+        srcPath = path[:-2] + "c"
+        try:
+            cythonize(path, quiet=True, compiler_directives=directives)
+        except:
+            os.remove(srcPath)
+            raise Exception(f"Cythonization of `{path}` failed.") from None
+        op = shutil.move
+    else:
+        # _version.py should go here
+        srcPath = os.path.join(dirpath, file)
+        op = shutil.copy
+    destPath = os.path.join("src", os.path.dirname(srcPath[8:]))
+    os.makedirs(destPath, exist_ok=True)
+    op(srcPath, destPath)
+
+def initWorker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+def cythonize(nthreads=None):
+    if os.environ["cython"] != "1":
+        return
+    if pkgutil.find_loader("cython") is None:
+        raise Exception("Cython is needed to create CPython extensions.")
+    cythonVer = version.parse(importlib.metadata.version("cython"))
+    if cythonVer < version.parse("3.0.0a8"):
+        raise Exception(" - ".join([
+            "Cython version must be at least 3.0.0a8",
+            "install using pip install \"cython>=3.0.0a8\""]))
+    if os.path.exists("src"):
+        shutil.rmtree("src")
+
+    if nthreads is None:
+        nthreads = os.cpu_count()
+    pool = multiprocessing.Pool(nthreads, initWorker)
+    paths = glob.glob("pyunity/**/*.*", recursive=True)
+
+    result = pool.map_async(cythonizeSingleFile, paths)
+    try:
+        result.get(0xFFF)
+    except Exception:
+        pool.terminate()
+        pool.join()
+        raise
 
 def main():
-    check_endings()
-    parse_code()
-    check_missing()
-    cythonize()
+    if len(sys.argv) == 1:
+        checkLicense()
+        checkWhitespace()
+        checkMissing()
+        parseCode()
+        cythonize()
+    else:
+        for item in sys.argv[1:]:
+            if item in globals():
+                globals()[item]()
 
 if __name__ == "__main__":
     main()

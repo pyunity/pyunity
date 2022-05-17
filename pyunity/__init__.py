@@ -1,5 +1,9 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
-Version 0.8.3 (in development)
+Version 0.9.0 (in development)
 ==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
@@ -8,6 +12,13 @@ are bindings for the UnityEngine. However,
 this project has been made to facilitate
 any programmer, beginner or advanced, novice
 or veteran.
+
+Disclaimer
+----------
+As we have said above, this is not a set of
+bindings for the UnityEngine, but a pure
+Python library to aid in making 3D games in
+Python.
 
 Installing
 ----------
@@ -25,16 +36,27 @@ Alternatively, you can clone the repository
 `here <https://github.com/pyunity/pyunity>`_
 to build the package from source. Then use
 ``setup.py`` to build. Note that it will install
-Cython to compile.
+Cython to compile. ::
 
-    > python setup.py install
+    > pip install .
+
+The latest builds are on the ``develop`` branch
+which is the default branch. These builds are
+sometimes broken, so use at your own risk. ::
+
+    > git clone https://github.com/pyunity/pyunity
+    > pip install .
 
 Its only dependencies are PyOpenGL, PySDL2,
-GLFW, Pillow and PyGLM.
+Pillow and PyGLM. Microsoft Visual
+C++ Build Tools are required on Windows
+for building yourself. GLFW can be optionally
+installed if you would like to use the GLFW
+window provider.
 
 Importing
 ---------
-To start using pyunity, you must import it.
+To start using PyUnity, you must import it.
 A standard way to import is like so:
 
     >>> from pyunity import *
@@ -48,7 +70,7 @@ This is the output with debugging::
     Trying GLFW as a window provider
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.3
+    Loaded PyUnity version 0.9.0
 
 If debugging is off, there is no output:
 
@@ -117,9 +139,37 @@ class that has the following methods:
   when you want to do the OpenGL calls.
 
 Check the source code of any of the window
-providers for an example. If you have a
-window provider, then please create a new
-pull request.
+providers for an example. If you would like
+to contribute a new window provider, then
+please `create a pull request <https://github.com/pyunity/pyunity/compare>`_.
+
+Environment variables
+---------------------
+Here are a list of environment variables used
+by PyUnity:
+
+- **PYUNITY_TESTING** (default: unset)
+  When set, the following features are either
+  disabled or ignored:
+
+  - Window provder selection
+  - Audio
+  - Font loading
+  - Module checking (if window providing is forced)
+
+- **PYUNITY_DEBUG_MODE** (default: 1)
+  Disables debug output if set to "0".
+  Debug output has the code \\|D\\| in the log file.
+- **PYUNITY_AUDIO** (default: 1)
+  If set to "0", sdlmixer won't be loaded and
+  ``config.audio`` is set to ``False``.
+- **PYUNITY_GL_CONTEXT** (default: unset)
+  Set when the OpenGL context is enabled. Usually
+  not used except by wrapper scripts as Behaviours
+  only update while a valid context exists.
+- **PYUNITY_CHECK_WINDOW** (default: unset)
+  When set, forces window provider selection regardless
+  if ``windowProvider`` is set in ``settings.json``.
 
 Examples
 --------
@@ -131,7 +181,7 @@ To run an example, import it like so:
     FreeGLUT doesn't work, trying GLFW
     GLFW doesn't work, trying PySDL2
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.3
+    Loaded PyUnity version 0.9.0
     >>> main()
 
 Or from the command line::
@@ -142,22 +192,41 @@ The ``1`` just means to load example 1, and there
 are 9 examples. To load all examples one by
 one, do not specify a number. If you want to
 contribute an example, then please
-create a new pull request.
+`create a pull request <https://github.com/pyunity/pyunity/compare>`_.
 
 """
 
-from . import logger as Logger # lgtm[py/import-own-module]
-from . import config, errors, values, core, files, audio, physics, input, gui
-__all__ = ["Logger", "Loader", "Window", "Camera", "Screen",
-           "Primitives", "Screen", "SceneManager", "Mesh", "Shader"]
-__all__.extend(errors.__all__)
-__all__.extend(values.__all__)
-__all__.extend(core.__all__)
-__all__.extend(files.__all__)
-__all__.extend(audio.__all__)
-__all__.extend(physics.__all__)
-__all__.extend(input.__all__)
-__all__.extend(gui.__all__)
+__copyright__ = "Copyright 2020-2022 The PyUnity Team"
+__email__ = "tankimarshal2@gmail.com"
+__license__ = "MIT License"
+__summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
+__title__ = "pyunity"
+__uri__ = "https://docs.pyunity.x10.bz/en/latest/"
+
+# Logger must start first, config straight after
+from . import logger as Logger
+from . import config
+__all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
+           "SceneManager", "Mesh"]
+
+from .errors import __all__ as _errors_all
+from .values import __all__ as _values_all
+from .core import __all__ as _core_all
+from .files import __all__ as _files_all
+from .render import __all__ as _render_all
+from .audio import __all__ as _audio_all
+from .physics import __all__ as _physics_all
+from .input import __all__ as _input_all
+from .gui import __all__ as _gui_all
+__all__.extend(_errors_all)
+__all__.extend(_values_all)
+__all__.extend(_core_all)
+__all__.extend(_files_all)
+__all__.extend(_render_all)
+__all__.extend(_audio_all)
+__all__.extend(_physics_all)
+__all__.extend(_input_all)
+__all__.extend(_gui_all)
 
 import os
 from .errors import *
@@ -167,33 +236,29 @@ from .core import *
 from .physics import *
 from .audio import *
 from .files import *
-from .render import Camera, Screen, Shader
+from .render import *
 from .scenes import sceneManager as SceneManager
-from . import window as Window # lgtm[py/import-own-module]
-from . import loader as Loader # lgtm[py/import-own-module]
+from . import window as Window
+from . import loader as Loader
 from .loader import Primitives
 from .input import *
 from .gui import *
-
-__version__ = "0.8.3"
-__copyright__ = "Copyright 2020-2021 Ray Chen"
-__email__ = "tankimarshal2@gmail.com"
-__license__ = "MIT License"
-__summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
-__title__ = "pyunity"
-__uri__ = "https://pyunity.readthedocs.io/en/latest/"
+from ._version import __version__
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
     Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
-for _obj in tuple(locals().values()): # pragma: no cover
-    if not getattr(_obj, "__module__", "").startswith("pyunity."):
-        continue
-    try:
-        _obj.__module__ = "pyunity"
-    except AttributeError: # __module__ is read-only
-        pass
+if ("PYUNITY_SPHINX_CHECK" not in os.environ and
+        "PYUNITY_CHANGE_MODULE" not in os.environ):
+    # Mask module attribute
+    for _obj in tuple(locals().values()): # pragma: no cover
+        if not getattr(_obj, "__module__", "").startswith("pyunity."):
+            continue
+        try:
+            _obj.__module__ = "pyunity"
+        except AttributeError: # __module__ is read-only
+            pass
 
-Logger.LogLine(Logger.DEBUG, "Loaded PyUnity version %s" % __version__)
+Logger.LogLine(Logger.DEBUG, f"Loaded PyUnity version {__version__}")
 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)

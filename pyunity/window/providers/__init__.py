@@ -1,4 +1,7 @@
-from ...errors import *
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 import os
 import sys
 import pkgutil
@@ -19,7 +22,7 @@ _loaded = False
 _names = []
 
 def sort(x):
-    module = importlib.import_module(f".{x}", __name__)
+    module = importlib.import_module(f".{x}.checker", __name__)
     if hasattr(module, "prio"):
         return module.prio
     return 0

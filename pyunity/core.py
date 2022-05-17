@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Core classes for the PyUnity library.
 
@@ -17,7 +21,7 @@ and all have MeshRenderers:
     GLFW doesn't work, trying PySDL2
     Trying PySDL2 as a window provider
     Using window provider PySDL2
-    Loaded PyUnity version 0.8.3
+    Loaded PyUnity version 0.9.0
     >>> mat = Material(RGB(255, 0, 0)) # Create a default material
     >>> root = GameObject("Root") # Create a root GameObjects
     >>> child1 = GameObject("Child1", root) # Create a child
@@ -46,16 +50,15 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "Light", "SingleComponent",
+__all__ = ["Component", "GameObject", "SingleComponent",
            "MeshRenderer", "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "LightType"]
+           "HideInInspector"]
 
 import inspect
-import enum
 import os
-from .errors import *
+from .errors import PyUnityException, ComponentException
 from .meshes import Mesh
-from .values import *
+from .values import Vector3, Quaternion, Material, RGB
 from . import Logger
 
 class Tag:
@@ -153,8 +156,8 @@ class GameObject:
         self.enabled = True
         self.scene = None
 
-    @staticmethod
-    def BareObject(name="GameObject"):
+    @classmethod
+    def BareObject(cls, name="GameObject"):
         """
         Create a bare GameObject with no components or attributes.
 
@@ -164,7 +167,7 @@ class GameObject:
             Name of the GameObject
 
         """
-        obj = GameObject.__new__(GameObject)
+        obj = cls.__new__(cls)
         obj.name = name
         obj.components = []
         obj.transform = None
@@ -183,35 +186,36 @@ class GameObject:
             Component to add. Must inherit from :class:`Component`
 
         """
+        if not isinstance(componentClass, type):
+            raise ComponentException(
+                f"Cannot add {componentClass!r} to the GameObject; "
+                f"it is not a component"
+            )
         if not issubclass(componentClass, Component):
             raise ComponentException(
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it is not a component"
             )
-        if not (
-                issubclass(componentClass, SingleComponent) and
-                any(isinstance(component, componentClass) for component in self.components)):
+        if (issubclass(componentClass, SingleComponent) and
+                self.GetComponents(componentClass)):
+            raise ComponentException(
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it already has one")
+        else:
             component = componentClass(self.transform)
             self.components.append(component)
             if componentClass is Transform:
                 self.transform = component
-            elif issubclass(componentClass, Light):
-                if self.scene is not None:
-                    self.scene.RegisterLight(component)
 
             component.gameObject = self
             component.transform = self.transform
             return component
-        else:
-            raise ComponentException(
-                f"Cannot add {componentClass.__name__} to the GameObject; "
-                f"it already has one")
 
     def GetComponent(self, componentClass):
         """
         Gets a component from the GameObject.
         Will return first match.
-        For all matches, use `GetComponents`.
+        For all matches, use :meth:`GameObject.GetComponents`.
 
         Parameters
         ----------
@@ -221,7 +225,7 @@ class GameObject:
         Returns
         -------
         Component or None
-            The specified component, or `None` if the component is not found
+            The specified component, or ``None`` if the component is not found
 
         """
         for component in self.components:
@@ -233,6 +237,8 @@ class GameObject:
     def RemoveComponent(self, componentClass):
         """
         Removes the first matching component from a GameObject.
+        To remove all matching components, use
+        :meth:`GameObject.RemoveComponents`.
 
         Parameters
         ----------
@@ -316,11 +322,18 @@ class HideInInspector:
     default : Any
         Default value (will be set to the Behaviour)
     name : NoneType
-        None
+        Set when ``Component.__init_subclass__`` is excecuted
 
     """
-    def __init__(self, type=None, default=None):
-        self.type = type
+
+    def __init__(self, type_=None, default=None):
+        if isinstance(type_, str):
+            import pyunity
+            if type_ not in pyunity.__all__:
+                raise PyUnityException(f"No type named {type_!r}")
+            self.type = getattr(pyunity, type_)
+        else:
+            self.type = type_
         self.default = default
         self.name = None
 
@@ -343,6 +356,28 @@ class ShowInInspector(HideInInspector):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name
 
+class _AddFields:
+    selfref = HideInInspector()
+
+    def __call__(self, **kwargs):
+        def decorator(cls):
+            for name, value in kwargs.items():
+                if value.name is None:
+                    value.name = name
+                if value.type is self.__class__.selfref:
+                    value.type = cls
+                if isinstance(value, ShowInInspector):
+                    cls.shown[name] = value
+                cls.saved[name] = value
+
+                if "PYUNITY_SPHINX_CHECK" not in os.environ:
+                    if not hasattr(cls, name):
+                        setattr(cls, name, value.default)
+            return cls
+        return decorator
+
+addFields = _AddFields()
+
 class Component:
     """
     Base class for built-in components.
@@ -359,34 +394,37 @@ class Component:
     shown = {}
     saved = {}
 
-    def __init__(self, transform, is_dummy=False):
-        if is_dummy:
+    def __init__(self, transform, isDummy=False):
+        if isDummy:
             self.gameObject = None
         else:
             self.gameObject = transform.gameObject
         self.transform = transform
         self.enabled = True
 
+    @classmethod
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
         variables = list(
             filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], ShowInInspector)}
+                for a in variables if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], HideInInspector)}
+                for a in variables if isinstance(a[1], HideInInspector)}
         cls.shown = shown
         cls.saved = saved
-        for name, val in saved.items():
-            if val.type is None:
-                val.type = cls
-            if val.name is None:
-                val.name = name
-            setattr(cls, name, val.default)
+
+        if "PYUNITY_SPHINX_CHECK" not in os.environ:
+            for name, val in saved.items():
+                if val.type is None:
+                    val.type = cls
+                if val.name is None:
+                    val.name = name
+                setattr(cls, name, val.default)
 
     def AddComponent(self, component):
         """
-        Calls `AddComponent` on the component's GameObject.
+        Calls :meth:`GameObject.AddComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -398,7 +436,7 @@ class Component:
 
     def GetComponent(self, component):
         """
-        Calls `GetComponent` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -410,7 +448,7 @@ class Component:
 
     def RemoveComponent(self, component):
         """
-        Calls `RemoveComponent` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponent` on the component's GameObject.
 
         Parameters
         ----------
@@ -422,7 +460,7 @@ class Component:
 
     def GetComponents(self, component):
         """
-        Calls `GetComponents` on the component's GameObject.
+        Calls :meth:`GameObject.GetComponents` on the component's GameObject.
 
         Parameters
         ----------
@@ -434,7 +472,7 @@ class Component:
 
     def RemoveComponents(self, component):
         """
-        Calls `RemoveComponents` on the component's GameObject.
+        Calls :meth:`GameObject.RemoveComponents` on the component's GameObject.
 
         Parameters
         ----------
@@ -446,12 +484,8 @@ class Component:
 
     @property
     def scene(self):
-        """Get either the scene of the GameObject or the current running scene."""
-        from .scenes import SceneManager
-        if self.gameObject.scene is None:
-            return SceneManager.CurrentScene()
-        else:
-            return self.gameObject.scene
+        """Get the scene of the GameObject."""
+        return self.gameObject.scene
 
 class SingleComponent(Component):
     """
@@ -460,6 +494,7 @@ class SingleComponent(Component):
     """
     pass
 
+@addFields(parent=HideInInspector(addFields.selfref))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -486,7 +521,6 @@ class Transform(SingleComponent):
     localPosition = ShowInInspector(Vector3, None, "position")
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
-    parent = HideInInspector()
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
@@ -534,7 +568,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             self.localRotation = value
         else:
-            self.localRotation = self.parent.rotation.conjugate * value
+            self.localRotation = value * self.parent.rotation.conjugate
 
     @property
     def localEulerAngles(self):
@@ -547,7 +581,7 @@ class Transform(SingleComponent):
 
     @localEulerAngles.setter
     def localEulerAngles(self, value):
-        self.localRotation.eulerAngles = value
+        self.localRotation = Quaternion.Euler(value)
 
     @property
     def eulerAngles(self):
@@ -652,7 +686,8 @@ class Transform(SingleComponent):
 
     def LookAtGameObject(self, gameObject):
         """
-        Face towards another GameObject's position. See `Transform.LookAtTransform` for details.
+        Face towards another GameObject's position. See
+        :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
@@ -665,7 +700,8 @@ class Transform(SingleComponent):
 
     def LookAtPoint(self, vec):
         """
-        Face towards a point. See `Transform.LookAtTransform` for details.
+        Face towards a point. See
+        :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
@@ -678,7 +714,8 @@ class Transform(SingleComponent):
 
     def LookInDirection(self, vec):
         """
-        Face in a vector direction (from origin to point). See `Transform.LookAtTransform` for details.
+        Face in a vector direction (from origin to point).
+        See :meth:`Transform.LookAtTransform` for details.
 
         Parameters
         ==========
@@ -694,31 +731,6 @@ class Transform(SingleComponent):
     def __str__(self):
         return (f"<Transform position={self.position} rotation={self.rotation}"
                 f" scale={self.scale} path={self.FullPath()!r}>")
-
-class LightType(enum.IntEnum):
-    Point = 0
-    Directional = 1
-    Spot = 2
-
-class Light(SingleComponent):
-    """
-    Component to hold data about the light in a scene.
-
-    Attributes
-    ----------
-    intensity : int
-        Intensity of light
-    color : Color
-        Light color (will mix with material color)
-    type : LightType
-        Type of light (currently only Point and
-        Directional are supported)
-
-    """
-
-    intensity = ShowInInspector(int, 20)
-    color = ShowInInspector(Color, RGB(255, 255, 255))
-    type = ShowInInspector(LightType, LightType.Directional)
 
 class MeshRenderer(SingleComponent):
     """

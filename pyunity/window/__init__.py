@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 A module used to load the window providers.
 
@@ -15,7 +19,7 @@ class that has the following methods:
     check to see if it works.
 - ``start``: start the main loop in your
     window. The first parameter is
-    ``update_func``, which is called
+    ``updateFunc``, which is called
     when you want to do the OpenGL calls.
 
 Check the source code of any of the window
@@ -29,7 +33,8 @@ __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
 from .providers import getProviders
-from ..errors import *
+from .abc import ABCWindow
+from ..errors import PyUnityException
 from .. import Logger
 from .. import config
 from .. import settings
@@ -40,35 +45,41 @@ import importlib.util
 def GetWindowProvider():
     """Gets an appropriate window provider to use"""
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
-        Logger.LogLine(Logger.DEBUG, "Interactive mode on")
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
-    if "window_provider" in settings.db:
+    if "windowProvider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
         env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")
-            use = settings.db["window_provider"] in env[0]
+            use = settings.db["windowProvider"] in env[0]
         else:
             use = True
         if use:
-            if "window_cache" in settings.db:
-                del settings.db["window_cache"]
+            if "windowCache" in settings.db:
+                del settings.db["windowCache"]
             Logger.LogLine(Logger.DEBUG, "Detected settings.json entry")
-            providerName = settings.db["window_provider"]
+            providerName = settings.db["windowProvider"]
             if providerName in getProviders():
                 module = importlib.import_module(f".providers.{providerName}", __name__)
+                name = module.name
                 Logger.LogLine(
-                    Logger.DEBUG, "Using window provider", module.name)
-                module = importlib.import_module(f".providers.{providerName}.window", __name__)
-                return module.Window
+                    Logger.DEBUG, "Using window provider", name)
+                try:
+                    module = importlib.import_module(f".providers.{providerName}.window", __name__)
+                    return module.Window
+                except Exception as e:
+                    Logger.LogLine(
+                        Logger.WARN, "Window provider loading failed")
+                    Logger.LogLine(
+                        Logger.WARN, type(e).__name__ + ":", str(e))
+                    Logger.LogLine(
+                        Logger.WARN, "Selecting new window provider")
             else:
                 Logger.LogLine(Logger.WARN,
-                               f"settings.json entry {providerName!r} is "
-                               f"not a valid window provider, removing")
-                settings.db.pop("window_provider")
+                                f"settings.json entry {providerName!r} is "
+                                f"not a valid window provider, removing")
+            settings.db.pop("windowProvider")
 
-    windowProvider = ""
-    i = 0
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
     if env is not None:
@@ -87,42 +98,48 @@ def GetWindowProvider():
     if len(providers) == 0:
         raise PyUnityException("No window providers installed")
 
+    windowProvider = ""
     module = importlib.import_module(f".providers.{providers[0]}", __name__)
     Logger.LogLine(Logger.DEBUG, "Trying", module.name, "as a window provider")
-    for name in providers:
+    for i, name in enumerate(providers):
         try:
-            module = importlib.import_module(f".providers.{name}", __name__)
             module.check()
             windowProvider = name
         except Exception as e:
             if isinstance(e, ImportError):
                 Logger.LogLine(Logger.WARN,
-                               name + ": This window manager requires a package "
-                               "you don't have installed.")
-                Logger.LogLine(Logger.WARN,
-                               name + ": Check the source code and use `pip install` "
+                               name + ": This window manager requires a "
+                               "package that you haven't installed.")
+                Logger.LogLine(Logger.WARN, name +
+                               ": Check the source code and use `pip install` "
                                "to resolve any missing dependencies.")
-            Logger.LogLine(Logger.DEBUG, name, "doesn't work")
-        else:
-            if not windowProvider:
-                raise PyUnityException("No window provider found")
+            if i == len(providers) - 1:
+                Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
+                break
+            else:
+                newModule = importlib.import_module(f".providers.{providers[i+1]}", __name__)
+                Logger.LogLine(Logger.DEBUG,
+                               module.name, "doesn't work, trying", newModule.name)
+                module = newModule
 
         if windowProvider:
             break
-        i += 1
 
-    settings.db["window_provider"] = windowProvider
-    settings.db["window_cache"] = True
+    if not windowProvider:
+        raise PyUnityException(f"No window provider found")
+
+    settings.db["windowProvider"] = windowProvider
+    settings.db["windowCache"] = True
     module = importlib.import_module(f".providers.{windowProvider}", __name__)
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
     try:
         module = importlib.import_module(f".providers.{windowProvider}.window", __name__)
     except Exception:
-        Logger.LogLine(Logger.WARN, "window_cache entry has been set, indicating "
+        Logger.LogLine(Logger.WARN, "windowCache entry has been set, indicating "
                                     "window checking happened on this import")
         Logger.LogLine(
             Logger.WARN, "settings.json entry may be faulty, removing")
-        settings.db.pop("window_provider")
+        settings.db.pop("windowProvider")
         raise
     return module.Window
 
@@ -130,24 +147,23 @@ def SetWindowProvider(name):
     providers = getProviders()
     if name not in providers:
         raise PyUnityException(f"No window provider named {name!r} found")
-    modname = providers[name]
-    module = importlib.import_module(f".providers.{modname}", __name__)
+    module = importlib.import_module(f".providers.{name}", __name__)
     exc = None
     try:
         module.check()
     except Exception as e:
         if isinstance(e, ImportError):
             Logger.LogLine(Logger.WARN,
-                           modname + ": This window manager requires on a package "
+                           name + ": This window manager requires on a package "
                            "you don't have installed.")
             Logger.LogLine(Logger.WARN,
-                           modname + ": Check the source code and use `pip install` "
+                           name + ": Check the source code and use `pip install` "
                            "to resolve any missing dependencies.")
         exc = e
     if exc is not None:
         raise PyUnityException(f"Cannot use window provider {module.name!r}")
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
-    module = importlib.import_module(f".providers.{modname}.window", __name__)
+    module = importlib.import_module(f".providers.{name}.window", __name__)
     config.windowProvider = module.Window
     return module.Window
 
@@ -156,36 +172,8 @@ def CustomWindowProvider(cls):
         raise PyUnityException("Provided window provider is not a class")
     if not issubclass(cls, ABCWindow):
         raise PyUnityException(
-            "Provided window provider does not subclass ABCWindow")
+            "Provided window provider does not subclass Window.ABCWindow")
     Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
     config.windowProvider = cls
     return cls
 
-class ABCWindow(metaclass=ABCMeta):
-    @abstractmethod
-    def __init__(self, name, resize):
-        pass
-
-    @abstractmethod
-    def get_mouse(self, mousecode, keystate):
-        pass
-
-    @abstractmethod
-    def get_key(self, keycode, keystate):
-        pass
-
-    @abstractmethod
-    def get_mouse_pos(self):
-        pass
-
-    @abstractmethod
-    def refresh(self):
-        pass
-
-    @abstractmethod
-    def quit(self):
-        pass
-
-    @abstractmethod
-    def start(self, update_func):
-        pass

@@ -1,5 +1,15 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 from pyunity import Behaviour, Vector3, SceneManager, GameObject, Mesh, Material, RGB, Texture2D, MeshRenderer
-import os
+from contextlib import ExitStack
+import sys
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 class Rotator(Behaviour):
     def Update(self, dt):
@@ -10,18 +20,20 @@ def main():
 
     scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
 
+    stack = ExitStack()
+    ref = files(__package__) / "logo.png"
+    path = stack.enter_context(as_file(ref))
+
     cube = GameObject("Cube")
-    texture = Texture2D(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "logo.png"))
+    texture = Texture2D(path)
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 255, 255), texture)
     cube.AddComponent(Rotator)
-
     scene.Add(cube)
 
-    scene.List()
     SceneManager.LoadScene(scene)
+    stack.close()
 
 if __name__ == "__main__":
     main()

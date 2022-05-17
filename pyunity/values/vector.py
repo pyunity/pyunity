@@ -1,11 +1,17 @@
-__all__ = ["Vector2", "Vector", "Vector3", "clamp"]
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+__all__ = ["Vector", "Vector2", "Vector3", "clamp", "conv"]
 
 from .abc import ABCMeta, abstractmethod, abstractproperty
+from .other import LockedLiteral
 import glm
 import operator
 
-def clamp(x, _min, _max): return min(_max, max(_min, x))
-"""Clamp a value between a minimum and a maximum"""
+def clamp(x, _min, _max):
+    """Clamp a value between a minimum and a maximum"""
+    return min(_max, max(_min, x))
 
 def conv(num):
     """Convert float to string and removing decimal place as necessary."""
@@ -13,7 +19,7 @@ def conv(num):
         return str(int(num))
     return str(num)
 
-class Vector(metaclass=ABCMeta):
+class Vector(LockedLiteral, metaclass=ABCMeta):
     def __repr__(self):
         return f"{self.__class__.__name__}({', '.join(map(conv, self))})"
     def __str__(self):
@@ -49,81 +55,57 @@ class Vector(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def _r_o2(self, other, f):
-        pass
-
-    @abstractmethod
-    def _io(self, other, f):
+    def _o2r(self, other, f):
         pass
 
     def __add__(self, other):
         return self._o2(other, operator.add)
     def __radd__(self, other):
-        return self._r_o2(other, operator.add)
-    def __iadd__(self, other):
-        return self._io(other, operator.add)
+        return self._o2r(other, operator.add)
 
     def __sub__(self, other):
         return self._o2(other, operator.sub)
     def __rsub__(self, other):
-        return self._r_o2(other, operator.sub)
-    def __isub__(self, other):
-        return self._io(other, operator.sub)
+        return self._o2r(other, operator.sub)
 
     def __mul__(self, other):
         return self._o2(other, operator.mul)
     def __rmul__(self, other):
-        return self._r_o2(other, operator.mul)
-    def __imul__(self, other):
-        return self._io(other, operator.mul)
+        return self._o2r(other, operator.mul)
 
     def __div__(self, other):
         return self._o2(other, operator.div)
     def __rdiv__(self, other):
-        return self._r_o2(other, operator.div)
-    def __idiv__(self, other):
-        return self._io(other, operator.div)
+        return self._o2r(other, operator.div)
 
     def __floordiv__(self, other):
         return self._o2(other, operator.floordiv)
     def __rfloordiv__(self, other):
-        return self._r_o2(other, operator.floordiv)
-    def __ifloordiv__(self, other):
-        return self._io(other, operator.floordiv)
+        return self._o2r(other, operator.floordiv)
 
     def __truediv__(self, other):
         return self._o2(other, operator.truediv)
     def __rtruediv__(self, other):
-        return self._r_o2(other, operator.truediv)
-    def __itruediv__(self, other):
-        return self._io(other, operator.truediv)
+        return self._o2r(other, operator.truediv)
 
     def __mod__(self, other):
         return self._o2(other, operator.mod)
     def __rmod__(self, other):
-        return self._r_o2(other, operator.mod)
-    def __imod__(self, other):
-        return self._io(other, operator.mod)
+        return self._o2r(other, operator.mod)
 
     def __lshift__(self, other):
         return self._o2(other, operator.lshift)
     def __rlshift__(self, other):
-        return self._r_o2(other, operator.lshift)
-    def __ilshift__(self, other):
-        return self._io(other, operator.lshift)
+        return self._o2r(other, operator.lshift)
 
     def __rshift__(self, other):
         return self._o2(other, operator.rshift)
     def __rrshift__(self, other):
-        return self._r_o2(other, operator.rshift)
-    def __irshift__(self, other):
-        return self._io(other, operator.rshift)
+        return self._o2r(other, operator.rshift)
 
     @abstractmethod
     def __eq__(self, other):
         pass
-    def __ne__(self, other):
-        return any(self._o2(other, operator.ne))
     def __gt__(self, other):
         return all(self._o2(other, operator.gt))
     def __lt__(self, other):
@@ -136,17 +118,17 @@ class Vector(metaclass=ABCMeta):
     def __and__(self, other):
         return self._o2(other, operator.and_)
     def __rand__(self, other):
-        return self._r_o2(other, operator.and_)
+        return self._o2r(other, operator.and_)
 
     def __or__(self, other):
         return self._o2(other, operator.or_)
     def __ror__(self, other):
-        return self._r_o2(other, operator.or_)
+        return self._o2r(other, operator.or_)
 
     def __xor__(self, other):
         return self._o2(other, operator.xor)
     def __rxor__(self, other):
-        return self._r_o2(other, operator.xor)
+        return self._o2r(other, operator.xor)
 
     def __neg__(self):
         return self._o1(operator.neg)
@@ -160,8 +142,8 @@ class Vector(metaclass=ABCMeta):
     def abs(self):
         return self._o1(abs)
 
-    def __round__(self, other):
-        return self._r_o2(other, round)
+    def __round__(self, other=None):
+        return self._o2(other, round)
 
     def __invert__(self):
         return self._o1(operator.invert)
@@ -170,22 +152,33 @@ class Vector(metaclass=ABCMeta):
     def length(self):
         pass
 
+    @property
+    def intTuple(self):
+        """Return the x, y and z values of this vector as ints"""
+        return tuple(map(int, self))
+
+    @abstractmethod
+    def replace(self, num, value):
+        pass
+
 class Vector2(Vector):
-    def __init__(self, x_or_list=None, y=None):
-        if x_or_list is not None:
+    def __init__(self, xOrList=None, y=None):
+        super(Vector2, self).__init__()
+        if xOrList is not None:
             if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y"):
-                    self.x = x_or_list.x
-                    self.y = x_or_list.y
+                if hasattr(xOrList, "x") and hasattr(xOrList, "y"):
+                    self.x = xOrList.x
+                    self.y = xOrList.y
                 else:
-                    self.x = x_or_list[0]
-                    self.y = x_or_list[1]
+                    self.x = xOrList[0]
+                    self.y = xOrList[1]
             else:
-                self.x = x_or_list
+                self.x = xOrList
                 self.y = y
         else:
             self.x = 0
             self.y = 0
+        self._lock()
 
     def __iter__(self):
         yield self.x
@@ -208,31 +201,28 @@ class Vector2(Vector):
         else:
             return Vector2(f(self.x, other), f(self.y, other))
 
-    def _r_o2(self, other, f):
+    def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector2"""
         if hasattr(other, "__getitem__"):
             return Vector2(f(other[0], self.x), f(other[1], self.y))
         else:
             return Vector2(f(other, self.x), f(other, self.y))
 
-    def _io(self, other, f):
-        """Inplace operator"""
-        if hasattr(other, "__getitem__"):
-            self.x = f(self.x, other[0])
-            self.y = f(self.y, other[1])
-        else:
-            self.x = f(self.x, other)
-            self.y = f(self.y, other)
-        return self
-
     def __eq__(self, other):
+        if not isinstance(other, Vector2):
+            return False
         return self.x == other.x and self.y == other.y
+
+    def replace(self, num, value):
+        l = list(self)
+        l[num] = value
+        return Vector2(l)
 
     def copy(self):
         """Makes a copy of the Vector2"""
         return Vector2(self.x, self.y)
 
-    def get_length_sqrd(self):
+    def getLengthSqrd(self):
         """
         Gets the length of the vector squared. This
         is much faster than finding the length.
@@ -247,15 +237,8 @@ class Vector2(Vector):
 
     @property
     def length(self):
-        """Gets or sets the magnitude of the vector"""
+        """Gets the magnitude of the vector"""
         return glm.sqrt(self.x ** 2 + self.y ** 2)
-
-    @length.setter
-    def length(self, value):
-        length = self.length
-        if length != 0:
-            self.x *= value / length
-            self.y *= value / length
 
     def normalized(self):
         """
@@ -273,33 +256,7 @@ class Vector2(Vector):
             return 1 / length * self
         return self.copy()
 
-    def normalize(self):
-        """
-        Normalize the vector in place.
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-
-    def normalize_return_length(self):
-        """
-        Normalize the vector and return its length before the normalization
-
-        Returns
-        -------
-        float
-            The length before the normalization
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-        return length
-
-    def get_distance(self, other):
+    def getDistance(self, other):
         """
         The distance between this vector and the other vector
 
@@ -311,11 +268,11 @@ class Vector2(Vector):
         """
         return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2)
 
-    def get_dist_sqrd(self, other):
+    def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `get_distance` and
-        square it.
+        It is more efficient to call this than to call
+        :meth:`Vector2.getDistance` and square it.
 
         Returns
         -------
@@ -325,19 +282,9 @@ class Vector2(Vector):
         """
         return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2
 
-    @property
-    def int_tuple(self):
-        """Return the x, y and z values of this vector as ints"""
-        return int(self.x), int(self.y)
-
-    @property
-    def rounded(self):
-        """Return the x, y and z values of this vector rounded to the nearest integer"""
-        return round(self.x), round(self.y)
-
     def clamp(self, min, max):
         """
-        Clamps a vector between two other vectors,
+        Returns a clamped vector between two other vectors,
         resulting in the vector being as close to the
         edge of a bounding box created as possible.
 
@@ -348,9 +295,16 @@ class Vector2(Vector):
         max : Vector2
             Max vector
 
+        Returns
+        -------
+        Vector3
+            A vector inside or on the surface of the
+            bounding box specified by min and max.
+
         """
-        self.x = clamp(self.x, min.x, max.x)
-        self.y = clamp(self.y, min.y, max.y)
+        x = clamp(self.x, min.x, max.x)
+        y = clamp(self.y, min.y, max.y)
+        return Vector2(x, y)
 
     def dot(self, other):
         """
@@ -427,25 +381,27 @@ class Vector2(Vector):
         return Vector2(0, -1)
 
 class Vector3(Vector):
-    def __init__(self, x_or_list=None, y=None, z=None):
-        if x_or_list is not None:
+    def __init__(self, xOrList=None, y=None, z=None):
+        super(Vector3, self).__init__()
+        if xOrList is not None:
             if y is None:
-                if hasattr(x_or_list, "x") and hasattr(x_or_list, "y") and hasattr(x_or_list, "z"):
-                    self.x = x_or_list.x
-                    self.y = x_or_list.y
-                    self.z = x_or_list.z
+                if hasattr(xOrList, "x") and hasattr(xOrList, "y") and hasattr(xOrList, "z"):
+                    self.x = xOrList.x
+                    self.y = xOrList.y
+                    self.z = xOrList.z
                 else:
-                    self.x = x_or_list[0]
-                    self.y = x_or_list[1]
-                    self.z = x_or_list[2]
+                    self.x = xOrList[0]
+                    self.y = xOrList[1]
+                    self.z = xOrList[2]
             else:
-                self.x = x_or_list
+                self.x = xOrList
                 self.y = y
                 self.z = z
         else:
             self.x = 0
             self.y = 0
             self.z = 0
+        self._lock()
 
     def __iter__(self):
         yield self.x
@@ -471,27 +427,22 @@ class Vector3(Vector):
         else:
             return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
 
-    def _r_o2(self, other, f):
+    def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector3"""
         if hasattr(other, "__getitem__"):
             return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
         else:
             return Vector3(f(other, self.x), f(other, self.y), f(other, self.z))
 
-    def _io(self, other, f):
-        """Inplace operator"""
-        if hasattr(other, "__getitem__"):
-            self.x = f(self.x, other[0])
-            self.y = f(self.y, other[1])
-            self.z = f(self.z, other[2])
-        else:
-            self.x = f(self.x, other)
-            self.y = f(self.y, other)
-            self.z = f(self.z, other)
-        return self
-
     def __eq__(self, other):
+        if not isinstance(other, Vector3):
+            return False
         return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def replace(self, num, value):
+        l = list(self)
+        l[num] = value
+        return Vector3(l)
 
     def copy(self):
         """
@@ -505,7 +456,7 @@ class Vector3(Vector):
         """
         return Vector3(self.x, self.y, self.z)
 
-    def get_length_sqrd(self):
+    def getLengthSqrd(self):
         """
         Gets the length of the vector squared. This
         is much faster than finding the length.
@@ -520,16 +471,8 @@ class Vector3(Vector):
 
     @property
     def length(self):
-        """Gets or sets the magnitude of the vector"""
+        """Gets the magnitude of the vector"""
         return glm.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-
-    @length.setter
-    def length(self, value):
-        length = self.length
-        if length != 0:
-            self.x *= value / length
-            self.y *= value / length
-            self.z *= value / length
 
     def normalized(self):
         """
@@ -547,35 +490,7 @@ class Vector3(Vector):
             return 1 / length * self
         return self.copy()
 
-    def normalize(self):
-        """
-        Normalize the vector in place.
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-
-    def normalize_return_length(self):
-        """
-        Normalize the vector and return its length before the normalization
-
-        Returns
-        -------
-        float
-            The length before the normalization
-
-        """
-        length = self.length
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-        return length
-
-    def get_distance(self, other):
+    def getDistance(self, other):
         """
         The distance between this vector and the other vector
 
@@ -587,11 +502,11 @@ class Vector3(Vector):
         """
         return glm.sqrt((self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2)
 
-    def get_dist_sqrd(self, other):
+    def getDistSqrd(self, other):
         """
         The distance between this vector and the other vector, squared.
-        It is more efficient to call this than to call `get_distance` and
-        square it.
+        It is more efficient to call this than to call
+        :meth:`Vector3.getDistance` and square it.
 
         Returns
         -------
@@ -601,19 +516,9 @@ class Vector3(Vector):
         """
         return (self.x - other[0]) ** 2 + (self.y - other[1]) ** 2 + (self.z - other[2]) ** 2
 
-    @property
-    def int_tuple(self):
-        """Return the x, y and z values of this vector as ints"""
-        return int(self.x), int(self.y), int(self.z)
-
-    @property
-    def rounded(self):
-        """Return the x, y and z values of this vector rounded to the nearest integer"""
-        return round(self.x), round(self.y), round(self.z)
-
     def clamp(self, min, max):
         """
-        Clamps a vector between two other vectors,
+        Returns a clamped vector between two other vectors,
         resulting in the vector being as close to the
         edge of a bounding box created as possible.
 
@@ -624,10 +529,17 @@ class Vector3(Vector):
         max : Vector3
             Max vector
 
+        Returns
+        -------
+        Vector3
+            A vector inside or on the surface of the
+            bounding box specified by min and max.
+
         """
-        self.x = clamp(self.x, min.x, max.x)
-        self.y = clamp(self.y, min.y, max.y)
-        self.z = clamp(self.z, min.z, max.z)
+        x = clamp(self.x, min.x, max.x)
+        y = clamp(self.y, min.y, max.y)
+        z = clamp(self.z, min.z, max.z)
+        return Vector3(x, y, z)
 
     def dot(self, other):
         """
@@ -661,9 +573,14 @@ class Vector3(Vector):
             Cross product of the two vectors
 
         """
-        x = self.y * other[2] - self.z * other[1]
-        y = self.z * other[0] - self.x * other[2]
-        z = self.x * other[1] - self.y * other[0]
+        if isinstance(other, Vector3):
+            x = self.y * other.z - self.z * other.y
+            y = self.z * other.x - self.x * other.z
+            z = self.x * other.y - self.y * other.x
+        else:
+            x = self.y * other[2] - self.z * other[1]
+            y = self.z * other[0] - self.x * other[2]
+            z = self.x * other[1] - self.y * other[0]
         return Vector3(x, y, z)
 
     @staticmethod

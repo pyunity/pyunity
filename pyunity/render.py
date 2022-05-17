@@ -1,26 +1,41 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """
 Classes to aid in rendering in a Scene.
 
 """
 
-__all__ = ["Camera", "Screen", "Shader"]
+__all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from typing import Dict
-from OpenGL import GL as gl
-from ctypes import c_float, c_ubyte, c_void_p
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
-from .core import ShowInInspector, SingleComponent
+from .core import ShowInInspector, SingleComponent, addFields
 from .files import Skybox, convert
 from . import config, Logger
+from contextlib import ExitStack
+from typing import Dict
+from ctypes import c_float, c_ubyte, c_void_p
+from pathlib import Path
+import OpenGL.GL as gl
+import collections.abc
+import atexit
+import enum
 import hashlib
 import glm
 import itertools
+import sys
 import os
 
-float_size = gl.sizeof(c_float)
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
-def gen_buffers(mesh):
+floatSize = gl.sizeof(c_float)
+
+def genBuffers(mesh):
     """
     Create buffers for a mesh.
 
@@ -41,7 +56,7 @@ def gen_buffers(mesh):
 
     vbo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, vbo)
-    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size,
+    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
                     convert(c_float, data), gl.GL_STATIC_DRAW)
     ibo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
@@ -49,7 +64,7 @@ def gen_buffers(mesh):
                     convert(c_ubyte, indices), gl.GL_STATIC_DRAW)
     return vbo, ibo
 
-def gen_array():
+def genArray():
     """
     Generate a vertex array object.
 
@@ -67,17 +82,17 @@ def gen_array():
     vao = gl.glGenVertexArrays(1)
     gl.glBindVertexArray(vao)
     gl.glVertexAttribPointer(
-        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, None)
+        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, None)
     gl.glEnableVertexAttribArray(0)
     gl.glVertexAttribPointer(
-        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(3 * float_size))
+        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(3 * floatSize))
     gl.glEnableVertexAttribArray(1)
     gl.glVertexAttribPointer(
-        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * float_size, c_void_p(6 * float_size))
+        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(6 * floatSize))
     gl.glEnableVertexAttribArray(2)
     return vao
 
-def fill_screen(scale=1):
+def fillScreen(scale=1):
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)
     gl.glLoadIdentity()
     gl.glBegin(gl.GL_QUADS)
@@ -92,12 +107,75 @@ def fill_screen(scale=1):
     gl.glEnd()
 
 class Shader:
+    VERSION = "1.10" # Must be 4 long
     def __init__(self, vertex, frag, name):
         self.vertex = vertex
         self.frag = frag
         self.compiled = False
         self.name = name
+        self.uniforms = {}
         shaders[name] = self
+
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+        return self
+
+    def loadCache(self, file):
+        if not file.is_file():
+            return
+
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if not isinstance(formats, collections.abc.Sequence):
+            formats = [formats]
+
+        with open(file, "rb") as f:
+            binary = f.read()
+
+        # Format:
+        # version (4 long)
+        # formatLength (1 long)
+        # format (formatLength long)
+        # content (rest of file)
+
+        ver = binary[:4].decode()
+        binary = binary[4:]
+        if ver != Shader.VERSION:
+            Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
+                "is not up-to-date; recompiling")
+            return
+
+        formatLength = int(binary[0])
+        hexstr = binary[1: formatLength + 1]
+        binary = binary[formatLength + 1:]
+        binaryFormat = int(hexstr.decode(), base=16)
+        self.program = gl.glCreateProgram()
+
+        if binaryFormat not in formats:
+            Logger.LogLine(Logger.WARN,
+                "Shader binaryFormat not supported; recompiling")
+            return
+
+        stop = False
+        try:
+            gl.glProgramBinary(
+                self.program, binaryFormat, binary, len(binary))
+        except Exception:
+            stop = True
+        if stop:
+            Logger.LogLine(Logger.WARN,
+                "glProgramBinary failed; recompiling")
+            return
+
+        success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+        if not success:
+            log = gl.glGetProgramInfoLog(self.program)
+            Logger.LogLine(Logger.WARN, log.decode())
+            Logger.LogLine(Logger.WARN, "Recompiling shader")
+            return
+
+        self.compiled = True
+        Logger.LogLine(Logger.INFO, "Loaded shader", repr(self.name),
+                       "hash", file.name.rsplit(".", 1)[0])
 
     def compile(self):
         """
@@ -108,29 +186,16 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        folder = os.path.join(os.path.dirname(Logger.folder), "ShaderCache")
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if not isinstance(formats, collections.abc.Sequence):
+            formats = [formats]
+
+        folder = Logger.getDataFolder() / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
+        sha256.update(hex(formats[0])[2:].encode())
         digest = sha256.hexdigest()
-
-        if os.path.isfile(os.path.join(folder, digest + ".bin")):
-            with open(os.path.join(folder, digest + ".bin"), "rb") as f:
-                binary = f.read()
-            
-            binaryFormat = int(binary[0])
-            self.program = gl.glCreateProgram()
-            gl.glProgramBinary(
-                self.program, binaryFormat, binary[1:], len(binary))
-            
-            success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-            if success:
-                self.compiled = True
-                Logger.LogLine(Logger.INFO, "Loaded shader",
-                    repr(self.name), "hash", digest)
-                return
-            else:
-                log = gl.glGetProgramInfoLog(self.program)
-                Logger.LogLine(Logger.WARN, log)
+        file = folder / (digest + ".bin")
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -139,7 +204,7 @@ class Shader:
         success = gl.glGetShaderiv(vertexShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(vertexShader)
-            raise PyUnityException(log)
+            raise PyUnityException(log.decode())
 
         fragShader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
         gl.glShaderSource(fragShader, self.frag, 1, None)
@@ -148,7 +213,7 @@ class Shader:
         success = gl.glGetShaderiv(fragShader, gl.GL_COMPILE_STATUS)
         if not success:
             log = gl.glGetShaderInfoLog(fragShader)
-            raise PyUnityException(log)
+            raise PyUnityException(log.decode())
 
         self.program = gl.glCreateProgram()
         gl.glAttachShader(self.program, vertexShader)
@@ -169,13 +234,22 @@ class Shader:
         length = gl.glGetProgramiv(self.program, gl.GL_PROGRAM_BINARY_LENGTH)
         out = gl.glGetProgramBinary(self.program, length)
 
-        os.makedirs(folder, exist_ok=True)
-        with open(os.path.join(folder, digest + ".bin"), "wb+") as f:
-            f.write(bytes([out[1]]))
+        folder.mkdir(parents=True, exist_ok=True)
+        with open(file, "wb+") as f:
+            # Format:
+            # version (4 long)
+            # formatLength (1 long)
+            # format (formatLength long)
+            # content (rest of file)
+            f.write(Shader.VERSION.encode())
+            hexstr = hex(out[1])[2:]
+            f.write(bytes([len(hexstr)]))
+            f.write(hexstr.encode())
             f.write(bytes(out[0]))
-        
+
         Logger.LogLine(
-            Logger.INFO, "Saved shader", repr(self.name), "hash", digest)
+            Logger.INFO, "Saved shader", repr(self.name),
+            "hash", digest)
 
     @staticmethod
     def fromFolder(path, name):
@@ -187,15 +261,16 @@ class Shader:
         path : str
             Path of folder to load
         name : str
-            Name to register this shader to. Used with `Camera.SetShader`.
+            Name to register this shader to. Used with :meth:`Camera.SetShader`.
 
         """
-        if not os.path.isdir(path):
+        p = Path(path)
+        if not p.is_dir():
             raise PyUnityException(f"Folder does not exist: {path!r}")
-        with open(os.path.join(path, "vertex.glsl")) as f:
+        with open(p / "vertex.glsl") as f:
             vertex = f.read()
 
-        with open(os.path.join(path, "fragment.glsl")) as f:
+        with open(p / "fragment.glsl") as f:
             fragment = f.read()
 
         return Shader(vertex, fragment, name)
@@ -208,10 +283,11 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : Vector3
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
 
@@ -223,10 +299,11 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : glm.mat4
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniformMatrix4fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
 
@@ -238,10 +315,11 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : int
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1i(location, val)
 
@@ -253,10 +331,11 @@ class Shader:
         ==========
         var : bytes
             Variable name
-        val : Any
+        val : float
             Value of uniform variable
 
         """
+        self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform1f(location, val)
 
@@ -267,33 +346,95 @@ class Shader:
                 self.compile()
             gl.glUseProgram(self.program)
 
-__dir = os.path.abspath(os.path.dirname(__file__))
+stack = ExitStack()
+atexit.register(stack.close)
+ref = files("pyunity") / "shaders"
+
 shaders: Dict[str, Shader] = dict()
 skyboxes: Dict[str, Skybox] = dict()
-skyboxes["Water"] = Skybox(os.path.join(
-    __dir, "shaders", "skybox", "textures"))
-Shader.fromFolder(os.path.join(__dir, "shaders", "standard"), "Standard")
-Shader.fromFolder(os.path.join(__dir, "shaders", "skybox"), "Skybox")
-Shader.fromFolder(os.path.join(__dir, "shaders", "gui"), "GUI")
+skyboxes["Water"] = Skybox(stack.enter_context(as_file(ref / "skybox/textures")))
+Shader.fromFolder(stack.enter_context(as_file(ref / "standard")), "Standard")
+Shader.fromFolder(stack.enter_context(as_file(ref / "skybox")), "Skybox")
+Shader.fromFolder(stack.enter_context(as_file(ref / "gui")), "GUI")
+Shader.fromFolder(stack.enter_context(as_file(ref / "depth")), "Depth")
 
-def compile_shaders():
+def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
         for shader in shaders.values():
             shader.compile()
 
-def compile_skyboxes():
+def compileSkyboxes():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
         for skybox in skyboxes.values():
             skybox.compile()
 
-def reset_shaders():
+def resetShaders():
     for shader in shaders.values():
         shader.compiled = False
 
-def reset_skyboxes():
+def resetSkyboxes():
     for skybox in skyboxes.values():
         skybox.compiled = False
 
+class LightType(enum.IntEnum):
+    Point = 0
+    Directional = 1
+    Spot = 2
+
+class Light(SingleComponent):
+    """
+    Component to hold data about the light in a scene.
+
+    Attributes
+    ----------
+    intensity : int
+        Intensity of light
+    color : Color
+        Light color (will mix with material color)
+    type : LightType
+        Type of light (currently only Point and
+        Directional are supported)
+
+    """
+
+    intensity = ShowInInspector(int, 20)
+    color = ShowInInspector(Color, RGB(255, 255, 255))
+    type = ShowInInspector(LightType, LightType.Directional)
+
+    def __init__(self, transform):
+        super(Light, self).__init__(transform)
+        self.near = 0.03
+        self.far = 20
+
+    def setupBuffers(self, depthMapSize):
+        self.depthFBO = gl.glGenFramebuffers(1)
+        self.depthMap = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.depthMap)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_DEPTH_COMPONENT,
+                        depthMapSize, depthMapSize, 0, gl.GL_DEPTH_COMPONENT,
+                        gl.GL_FLOAT, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER,
+                           gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S,
+                           gl.GL_REPEAT)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T,
+                           gl.GL_REPEAT)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_COMPARE_MODE,
+                           gl.GL_COMPARE_REF_TO_TEXTURE)
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.depthFBO)
+        gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT,
+                                  gl.GL_TEXTURE_2D, self.depthMap, 0)
+        gl.glDrawBuffer(gl.GL_NONE)
+        gl.glReadBuffer(gl.GL_NONE)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+
+@addFields(
+    fov=ShowInInspector(int, 90),
+    orthoSize=ShowInInspector(float, 5, "Ortho Size"),
+    canvas=ShowInInspector(addFields.selfref))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
@@ -304,8 +445,26 @@ class Camera(SingleComponent):
         Distance of the near plane in the camera frustrum. Defaults to 0.05.
     far : float
         Distance of the far plane in the camera frustrum. Defaults to 100.
-    clearColor : RGB
-        The clear color of the camera. Defaults to (0, 0, 0).
+    clearColor : Color
+        The clear color of the camera. Defaults to black.
+    shader : Shader
+        The shader to use for 3D objects.
+    skyboxEnabled : bool
+        Toggle skybox on or off. Defaults to True.
+    skybox : Skybox
+        Selected skybox to render.
+    ortho : bool
+        Orthographic or perspective proection. Defaults to False.
+    customProjMat: glm.mat4 or None
+        If not None, will be used over any other type of projection matrix.
+        Unavailable from the Editor and also not saved.
+    shadows : bool
+        Whether to render depthmaps and use them. Defaults to True.
+    canvas : Canvas
+        Target canvas to render. Defaults to None.
+    depthMapSize : int
+        Depth map texture size. Do not modify after scene has started.
+        Defaults to 1024.
 
     """
 
@@ -316,16 +475,18 @@ class Camera(SingleComponent):
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
+    shadows = ShowInInspector(bool, True)
+    depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
         super(Camera, self).__init__(transform)
         self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
+        self.depthShader = shaders["Depth"]
         self.clearColor = RGB(0, 0, 0)
+        self.customProjMat = None
 
-        self.shown["fov"] = ShowInInspector(int, 90, "fov")
-        self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
         self.fov = 90
         self.orthoSize = 5
 
@@ -334,8 +495,11 @@ class Camera(SingleComponent):
         self.lastRot = Quaternion.identity()
         self.renderPass = False
 
-    def setup_buffers(self):
+    def setupBuffers(self):
         """Creates 2D quad VBO and VAO for GUI."""
+        if hasattr(self, "guiVBO") and hasattr(self, "guiVAO"):
+            return
+
         data = [
             0.0, 1.0,
             1.0, 1.0,
@@ -347,13 +511,13 @@ class Camera(SingleComponent):
         self.guiVAO = gl.glGenVertexArrays(1)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.guiVBO)
-        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * float_size,
+        gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
                         convert(c_float, data), gl.GL_STATIC_DRAW)
 
         gl.glBindVertexArray(self.guiVAO)
         gl.glEnableVertexAttribArray(0)
         gl.glVertexAttribPointer(
-            0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * float_size, None)
+            0, 2, gl.GL_FLOAT, gl.GL_FALSE, 2 * floatSize, None)
 
     @property
     def fov(self):
@@ -410,15 +574,15 @@ class Camera(SingleComponent):
         angle = glm.radians(angle)
         axis = axis.normalized()
 
-        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
-        position = glm.translate(rotated, list(
+        position = glm.translate(glm.mat4(), list(
             transform.position * Vector3(1, 1, -1)))
-        scaled = glm.scale(position, list(transform.scale))
+        rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        scaled = glm.scale(rotated, list(transform.scale))
         return scaled
 
     def get2DMatrix(self, rectTransform):
         """Generates model matrix from RectTransform."""
-        rect = rectTransform.GetRect() + rectTransform.offset
+        rect = rectTransform.GetRect(self.size) + rectTransform.offset
         rectMin = Vector2.min(rect.min, rect.max)
         size = (rect.max - rect.min).abs()
         pivot = size * rectTransform.pivot
@@ -455,100 +619,169 @@ class Camera(SingleComponent):
         """Sets current shader from name."""
         self.shader = shaders[name]
 
-    def Render(self, renderers, lights):
-        """
-        Render specific renderers, taking into account light positions.
-
-        Parameters
-        ==========
-        renderers : List[MeshRenderer]
-            Which meshes to render
-        lights : List[Light]
-            Lights to load into shader
-
-        """
+    def SetupShader(self, lights):
         self.shader.use()
-        viewMat = self.getViewMat()
-        if self.ortho:
+        if self.customProjMat is not None:
+            self.shader.setMat4(b"projection", self.customProjMat)
+        elif self.ortho:
             self.shader.setMat4(b"projection", self.orthoMat)
         else:
             self.shader.setMat4(b"projection", self.projMat)
-        self.shader.setMat4(b"view", viewMat)
+        self.shader.setInt(b"useShadowMap", int(self.shadows))
+        self.shader.setMat4(b"view", self.getViewMat())
         self.shader.setVec3(b"viewPos", list(
             self.transform.position * Vector3(1, 1, -1)))
 
-        self.shader.setInt(b"light_num", len(lights))
+        self.shader.setInt(b"numLights", len(lights))
         for i, light in enumerate(lights):
             lightName = f"lights[{i}].".encode()
             self.shader.setVec3(lightName + b"pos",
                                 light.transform.position * Vector3(1, 1, -1))
             self.shader.setFloat(lightName + b"strength", light.intensity * 10)
             self.shader.setVec3(lightName + b"color",
-                                light.color.to_rgb() / 255)
+                                light.color.toRGB() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
+            direction = light.transform.rotation.RotateVector(Vector3.forward())
             self.shader.setVec3(lightName + b"dir",
-                                light.transform.rotation.RotateVector(Vector3.forward()))
+                                direction * Vector3(1, 1, -1))
+            if self.shadows:
+                gl.glActiveTexture(gl.GL_TEXTURE1 + i)
+                gl.glBindTexture(gl.GL_TEXTURE_2D, light.depthMap)
+                self.shader.setInt(f"shadowMaps[{i}]".encode(), i + 1)
+                location = f"lightSpaceMatrices[{i}]".encode()
+                self.shader.setMat4(location, light.lightSpaceMatrix)
 
+    def SetupDepthShader(self, light):
+        self.depthShader.use()
+        proj = glm.ortho(-10, 10, -10, 10, light.near, light.far)
+        pos = light.transform.position * Vector3(1, 1, -1)
+        look = pos + light.transform.rotation.RotateVector(
+            Vector3.forward()) * Vector3(1, 1, -1)
+        up = light.transform.rotation.RotateVector(
+            Vector3.up()) * Vector3(1, 1, -1)
+        view = glm.lookAt(list(pos), list(look), list(up))
+        light.lightSpaceMatrix = proj * view
+
+        location = b"lightSpaceMatrix"
+        self.depthShader.setMat4(location, light.lightSpaceMatrix)
+
+    def Draw(self, renderers):
+        """
+        Draw specific renderers, taking into account light positions.
+
+        Parameters
+        ==========
+        renderers : List[MeshRenderer]
+            Which meshes to render
+
+        """
+        self.shader.use()
         for renderer in renderers:
+            model = self.getMatrix(renderer.transform)
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
-            self.shader.setMat4(
-                b"model", self.getMatrix(renderer.transform))
+            self.shader.setMat4(b"model", model)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
             renderer.Render()
 
+    def DrawDepth(self, renderers):
+        self.depthShader.use()
+        for renderer in renderers:
+            model = self.getMatrix(renderer.transform)
+            self.depthShader.setMat4(b"model", model)
+            renderer.Render()
+
+    def RenderDepth(self, renderers, lights):
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
+        if self.shadows:
+            gl.glDisable(gl.GL_CULL_FACE)
+            for light in lights:
+                if not hasattr(light, "depthFBO"):
+                    light.setupBuffers(self.depthMapSize)
+                gl.glViewport(0, 0, self.depthMapSize, self.depthMapSize)
+                gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, light.depthFBO)
+                self.SetupDepthShader(light)
+                gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
+                self.DrawDepth(renderers)
+            gl.glEnable(gl.GL_CULL_FACE)
+
+            # from PIL import Image
+            # data = gl.glReadPixels(0, 0, self.depthMapSize, self.depthMapSize,
+            #     gl.GL_DEPTH_COMPONENT, gl.GL_UNSIGNED_BYTE, outputType=int)
+            # im = Image.fromarray(data, "L")
+            # im.rotate(180).save("test.png")
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
+        gl.glViewport(*previousViewport)
+
+    def RenderScene(self, renderers, lights):
+        gl.glClearColor(*(self.clearColor.toRGB() / 255), 1)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        self.SetupShader(lights)
+        self.Draw(renderers)
+
+    def Render(self, renderers, lights):
+        self.RenderDepth(renderers, lights)
+        self.RenderScene(renderers, lights)
+        self.RenderSkybox()
+        self.Render2D()
+
+    def RenderSkybox(self):
         if self.skyboxEnabled:
             gl.glDepthFunc(gl.GL_LEQUAL)
             self.skyboxShader.use()
-            self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(viewMat)))
+            self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(self.getViewMat())))
             self.skyboxShader.setMat4(b"projection", self.projMat)
             self.skybox.use()
             gl.glBindVertexArray(self.skybox.vao)
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 
-    def Render2D(self, canvases):
+    def Render2D(self):
         """
-        Render all Image2D and Text components in specified canvases.
+        Draw all Image2D and Text components in the Camera's
+        target canvas.
 
-        Parameters
-        ==========
-        canvases : List[Canvas]
-            Canvases to process. All processed GameObjects are cached
-            to prevent duplicate rendering.
+        If the Camera has no Canvas, this function does nothing.
 
         """
-        from .gui import RectTransform, GuiRenderComponent
+        if self.canvas is None:
+            return
+
+        from .gui import GuiRenderComponent
+        self.Setup2D()
+        renderers = []
+        for gameObject in self.canvas.transform.GetDescendants():
+            components = gameObject.GetComponents(GuiRenderComponent)
+            renderers.extend(components)
+        self.Draw2D(renderers)
+
+    def Setup2D(self):
+        self.setupBuffers()
         self.guiShader.use()
         self.guiShader.setMat4(
             b"projection", glm.ortho(0, *self.size, 0, 10, -10))
         gl.glBindVertexArray(self.guiVAO)
+
+    def Draw2D(self, renderers):
+        from .gui import RectTransform
+
         gl.glDepthMask(gl.GL_FALSE)
-
-        gameObjects = []
-        renderers = []
-        for canvas in canvases:
-            for gameObject in canvas.transform.GetDescendants():
-                if gameObject in gameObjects:
-                    continue
-                gameObjects.append(gameObject)
-                rectTransform = gameObject.GetComponent(RectTransform)
-                if rectTransform is None:
-                    continue
-                
-                components = gameObject.GetComponents(GuiRenderComponent)
-                transforms = [rectTransform] * len(components)
-                renderers.extend(zip(components, transforms))
-
-        for renderer, rectTransform in renderers:
-            renderer.PreRender()
+        for renderer in renderers:
+            rectTransform = renderer.GetComponent(RectTransform)
+            if rectTransform is None:
+                continue
+            if renderer.PreRender() is not None:
+                continue
             if renderer.texture is None:
                 continue
             renderer.texture.use()
             self.guiShader.setMat4(
                 b"model", self.get2DMatrix(rectTransform))
             self.guiShader.setFloat(b"depth", renderer.depth)
+            self.guiShader.setInt(b"image", 0)
             gl.glDrawArrays(gl.GL_QUADS, 0, 4)
         gl.glDepthMask(gl.GL_TRUE)
 

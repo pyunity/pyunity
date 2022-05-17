@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 from pyunity import Behaviour, Vector3, Logger, Material, RGB, SceneManager, GameObject, MeshRenderer, Loader
 import math
 
@@ -15,7 +19,7 @@ class Rotator(Behaviour):
         if len(self.fps) == 10:
             self.fps.pop(0)
         self.fps.append(1 / dt)
-        print(round(average(self.fps), 3))
+        Logger.Log(round(average(self.fps), 3))
 
 def main():
     mat = Material(RGB(255, 0, 0))
@@ -77,7 +81,7 @@ def main():
     dquad.transform.localEulerAngles = Vector3(0, -90, 0)
     renderer = dquad.AddComponent(MeshRenderer)
     renderer.mat = mat
-    renderer.mesh = Loader.Primitives.double_quad
+    renderer.mesh = Loader.Primitives.doubleQuad
     scene.Add(dquad)
 
     capsule = GameObject("Capsule", root)

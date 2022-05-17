@@ -158,4 +158,5 @@ Finally, let's check the Main Camera's transform.
    >>> scene.mainCamera.transform
    <Transform position=Vector3(0, 3, -10) rotation=Quaternion(0.9914448613738104, 0.13052619222005157, 0.0, 0.0) scale=Vector3(1, 1, 1) path="/Main Camera">
 
-Next tutorial, we will be covering scripts and ``Behaviour``s.
+Next tutorial, we will be covering scripts and how to make
+a ``Behaviour``.
