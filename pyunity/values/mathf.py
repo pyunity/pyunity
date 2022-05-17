@@ -298,6 +298,29 @@ def Sin(num):
     """
     pass
 
+def SmoothStep(num):
+    """
+    Used in conjunction with :func:`Lerp` to
+    smoothly interpolate between two numbers.
+    This function takes a number between 0 and 1
+    and returns a number between 0 and 1,
+    which has a steeper graph around 0.5
+    and a smoother graph near 0 and 1.
+
+    Parameters
+    ----------
+    num : float
+        Input number (between 0 and 1)
+
+    Notes
+    -----
+    This uses the mathematical equation
+    f(x) = 3x^2 - 2x^3.
+
+    """
+    # 3x^2 - 2x^3
+    return (3 - 2 * num) * num * num
+
 @_wraps("sqrt")
 def Sqrt(num):
     """

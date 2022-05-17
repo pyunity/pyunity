@@ -28,6 +28,11 @@ class TestFunctions(TestCase):
         assert Mathf.Sign(6) == 1
         assert Mathf.Sign(0) == 0
 
+    def testSmoothStep(self):
+        assert almostEqual(Mathf.SmoothStep(0.5), 0.5)
+        assert Mathf.SmoothStep(0) == 0
+        assert Mathf.SmoothStep(1) == 1
+
     def testSmoothDamp(self):
         damper = Mathf.SmoothDamper(0.1)
         damper.SmoothDamp(0, 10, 3, 0.1) # only for coverage
