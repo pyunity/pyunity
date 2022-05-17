@@ -1,5 +1,15 @@
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB
-import os
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material
+from contextlib import ExitStack
+import sys
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
 
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
@@ -17,23 +27,36 @@ class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
     def Start(self):
         self.a = 0
+        self.t = []
 
     def Update(self, dt):
+        self.t.append(dt)
+        if len(self.t) > 200:
+            self.t.pop(0)
+
         self.a += dt
-        if self.a > 0.05:
-            self.text.text = str(1 / dt)
+        if self.a > 0.1:
+            self.text.text = str(1 / (sum(self.t) / len(self.t)))
             self.a = 0
 
 class CheckboxTracker(Behaviour):
     check = ShowInInspector(CheckBox)
     text = ShowInInspector(Text)
-    def Update(self):
+    def Update(self, dt):
         self.text.text = "On" if self.check.checked else "Off"
+
+class Rotator(Behaviour):
+    def Update(self, dt):
+        self.transform.eulerAngles += Vector3(0, 90, 135) * dt
+
+class CallbackReceiver(Behaviour):
+    def Callback(self):
+        Logger.Log("Clicked")
 
 def main():
     scene = SceneManager.AddScene("Scene")
     canvas = GameObject("Canvas")
-    canvas.AddComponent(Canvas)
+    scene.mainCamera.canvas = canvas.AddComponent(Canvas)
     scene.Add(canvas)
 
     imgObject = GameObject("Image", canvas)
@@ -41,17 +64,21 @@ def main():
     rectTransform.offset = RectOffset.Rectangle(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
+    stack = ExitStack()
+    ref = files("pyunity.examples.example8") / "logo.png"
+    path = stack.enter_context(as_file(ref))
+
     img = imgObject.AddComponent(Image2D)
     img.depth = -0.1
-    img.texture = Texture2D(os.path.join(os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))), "example8", "logo.png"))
+    img.texture = Texture2D(path)
     scene.Add(imgObject)
 
     rect, button, text = Gui.MakeButton(
-        "Button", scene, "Click me", FontLoader.LoadFont("Consolas", 20))
+        "Button", scene, "-> Click me", FontLoader.LoadFont("Consolas", 20))
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
-    button.callback = lambda: Logger.Log("Clicked")
+    receiver = button.AddComponent(CallbackReceiver)
+    button.callback = receiver.Callback
 
     rect, checkbox = Gui.MakeCheckBox("Checkbox", scene)
     rect.transform.ReparentTo(canvas.transform)
@@ -79,7 +106,39 @@ def main():
     t.AddComponent(FPSTracker).text = text
     scene.Add(t)
 
+    cam = GameObject("Camera")
+    cam.transform.position = Vector3(-5, 2, -5)
+    cam.transform.LookAtPoint(Vector3.zero())
+    camera = cam.AddComponent(Camera)
+    camera.shadows = False
+    camera.canvas = scene.mainCamera.canvas
+    scene.Add(cam)
+
+    target = GameObject("Target", canvas)
+    rect = target.AddComponent(RectTransform)
+    rect.anchors.min = Vector2(0.6, 0.6)
+    rect.anchors.max = Vector2(1, 1)
+    target.AddComponent(RenderTarget).source = camera
+    scene.Add(target)
+
+    label = GameObject("Label", canvas)
+    rect = label.AddComponent(RectTransform)
+    rect.anchors.min = Vector2(0.6, 0.55)
+    rect.anchors.max = Vector2(1, 0.6)
+    text = label.AddComponent(Text)
+    text.text = "RenderTarget"
+    text.color = RGB(0, 0, 0)
+    scene.Add(label)
+
+    cube = GameObject("Cube")
+    renderer = cube.AddComponent(MeshRenderer)
+    renderer.mesh = Mesh.cube(2)
+    renderer.mat = Material(RGB(255, 0, 0))
+    cube.AddComponent(Rotator)
+    scene.Add(cube)
+
     SceneManager.LoadScene(scene)
+    stack.close()
 
 if __name__ == "__main__":
     main()

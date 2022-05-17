@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
 import os
@@ -92,7 +96,7 @@ class KeyboardAxis:
         self.name = name
         self.speed = speed
 
-    def get_value(self, dt):
+    def getValue(self, dt):
         change = sum([Input.GetKey(key) for key in self.positive]) - \
             sum([Input.GetKey(key) for key in self.negative])
         self.raw = change
@@ -128,7 +132,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_key(keycode, KeyState.PRESS)
+        return SceneManager.windowObject.getKey(keycode, KeyState.PRESS)
 
     @classmethod
     def GetKeyUp(cls, keycode):
@@ -148,7 +152,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_key(keycode, KeyState.UP)
+        return SceneManager.windowObject.getKey(keycode, KeyState.UP)
 
     @classmethod
     def GetKeyDown(cls, keycode):
@@ -168,7 +172,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_key(keycode, KeyState.DOWN)
+        return SceneManager.windowObject.getKey(keycode, KeyState.DOWN)
 
     @classmethod
     def GetKeyState(cls, keycode, keystate):
@@ -190,7 +194,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_key(keycode, keystate)
+        return SceneManager.windowObject.getKey(keycode, keystate)
 
     @classmethod
     def GetMouse(cls, mousecode):
@@ -210,7 +214,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_mouse(mousecode, KeyState.PRESS)
+        return SceneManager.windowObject.getMouse(mousecode, KeyState.PRESS)
 
     @classmethod
     def GetMouseUp(cls, mousecode):
@@ -230,7 +234,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_mouse(mousecode, KeyState.UP)
+        return SceneManager.windowObject.getMouse(mousecode, KeyState.UP)
 
     @classmethod
     def GetMouseDown(cls, mousecode):
@@ -250,7 +254,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_mouse(mousecode, KeyState.DOWN)
+        return SceneManager.windowObject.getMouse(mousecode, KeyState.DOWN)
 
     @classmethod
     def GetMouseState(cls, mousecode, mousestate):
@@ -272,10 +276,10 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.get_mouse(mousecode, mousestate)
+        return SceneManager.windowObject.getMouse(mousecode, mousestate)
 
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
-    _axis_objects = {
+    _axisObjects = {
         "Horizontal": KeyboardAxis(
             "Horizontal", 3,
             [KeyCode.D, KeyCode.Right],
@@ -336,28 +340,28 @@ class Input(metaclass=ImmutableStruct):
         PyUnityException
             If the axis is not a valid axis
         """
-        if axis not in cls._axis_objects:
+        if axis not in cls._axisObjects:
             raise PyUnityException(f"Invalid axis: {axis!r}")
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return 0
-        return cls._axis_objects[axis].raw
+        return cls._axisObjects[axis].raw
 
     mousePosition = None
-    _mouse_last = None
+    _mouseLast = None
 
     @classmethod
     def UpdateAxes(cls, dt):
         cls._set("mousePosition", Vector3(
-            *SceneManager.windowObject.get_mouse_pos(), 0))
+            *SceneManager.windowObject.getMousePos(), 0))
 
         new = cls.mousePosition
-        if cls._mouse_last is None:
+        if cls._mouseLast is None:
             diff = new
         else:
-            diff = new - cls._mouse_last
-        cls._mouse_last = new
+            diff = new - cls._mouseLast
+        cls._mouseLast = new
         cls._axes["MouseX"] = diff.x
         cls._axes["MouseY"] = diff.y
 
-        for axis in cls._axis_objects.values():
-            cls._axes[axis.name] = axis.get_value(dt)
+        for axis in cls._axisObjects.values():
+            cls._axes[axis.name] = axis.getValue(dt)

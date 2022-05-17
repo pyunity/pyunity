@@ -1,8 +1,13 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """Class to create a window using PySDL2."""
 
 from pyunity.window import ABCWindow
 from pyunity.values import Clock
 from pyunity.input import KeyCode, KeyState, MouseCode
+from pyunity.errors import PyUnityExit
 from pyunity import config
 import sdl2
 import sdl2.ext
@@ -25,10 +30,10 @@ class Window(ABCWindow):
 
         sdl2.SDL_GL_SetAttribute(sdl2.SDL_GL_MULTISAMPLEBUFFERS, 1)
         sdl2.SDL_GL_SetAttribute(sdl2.SDL_GL_MULTISAMPLESAMPLES, 8)
-        sdl2.SDL_GL_SetAttribute(
-            sdl2.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
-        sdl2.SDL_GL_SetAttribute(
-            sdl2.SDL_GL_CONTEXT_MINOR_VERSION, 3)
+        # sdl2.SDL_GL_SetAttribute(
+        #     sdl2.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+        # sdl2.SDL_GL_SetAttribute(
+        #     sdl2.SDL_GL_CONTEXT_MINOR_VERSION, 3)
         sdl2.SDL_GL_SetAttribute(
             sdl2.SDL_GL_CONTEXT_PROFILE_MASK, sdl2.SDL_GL_CONTEXT_PROFILE_CORE)
 
@@ -37,18 +42,22 @@ class Window(ABCWindow):
         self.keys = [KeyState.NONE for _ in range(
             sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
         self.mouse = [None, KeyState.NONE, KeyState.NONE, KeyState.NONE]
-        
+
         sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
 
     def refresh(self):
-        sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
         sdl2.SDL_GL_SwapWindow(self.screen)
+        events = sdl2.ext.get_events()
+        for event in events:
+            if event.type == sdl2.SDL_QUIT:
+                self.quit()
+                raise PyUnityExit
 
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)
 
-    def start(self, update_func):
-        self.update_func = update_func
+    def start(self, updateFunc):
+        self.updateFunc = updateFunc
 
         done = False
         clock = Clock()
@@ -59,16 +68,16 @@ class Window(ABCWindow):
                 if event.type == sdl2.SDL_QUIT:
                     done = True
 
-            self.process_keys(events)
-            self.process_mouse(events)
-            self.update_func()
+            self.processKeys(events)
+            self.processMouse(events)
+            self.updateFunc()
             sdl2.SDL_GL_SwapWindow(self.screen)
 
             clock.Maintain()
 
         self.quit()
 
-    def process_keys(self, events):
+    def processKeys(self, events):
         for i in range(len(self.keys)):
             if self.keys[i] == KeyState.UP:
                 self.keys[i] = KeyState.NONE
@@ -83,7 +92,7 @@ class Window(ABCWindow):
             elif event.type == sdl2.SDL_KEYUP:
                 self.keys[event.key.keysym.scancode] = KeyState.UP
 
-    def process_mouse(self, events):
+    def processMouse(self, events):
         for i in range(len(self.mouse)):
             if self.mouse[i] == KeyState.UP:
                 self.mouse[i] = KeyState.NONE
@@ -98,7 +107,7 @@ class Window(ABCWindow):
             elif event.type == sdl2.SDL_MOUSEBUTTONUP:
                 self.mouse[event.button.button] = KeyState.UP
 
-    def get_key(self, keycode, keystate):
+    def getKey(self, keycode, keystate):
         key = keyMap[keycode]
         if keystate == KeyState.PRESS:
             if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
@@ -107,7 +116,7 @@ class Window(ABCWindow):
             return True
         return False
 
-    def get_mouse(self, mousecode, keystate):
+    def getMouse(self, mousecode, keystate):
         mouse = mouseMap[mousecode]
         if keystate == KeyState.PRESS:
             if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
@@ -116,7 +125,7 @@ class Window(ABCWindow):
             return True
         return False
 
-    def get_mouse_pos(self):
+    def getMousePos(self):
         a = ctypes.c_long()
         b = ctypes.c_long()
         sdl2.SDL_GetMouseState(a, b)

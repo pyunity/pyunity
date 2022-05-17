@@ -1,9 +1,11 @@
 # Default imports, do not modify
+# Keep all other imports inside check function
 from pyunity.errors import *
 from pyunity.window.providers import checkModule
-# Modify the below variable and function
+# Modify the below variables and function
 
 name = "PySDL2"
+prio = 1
 
 def check():
     """Checks to see if PySDL2 works"""

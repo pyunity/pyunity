@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """Module for meshes created at runtime."""
 
 __all__ = ["Mesh"]
@@ -62,27 +66,22 @@ class Mesh:
                 os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.compile()
 
-        # self.min, self.max = Vector3.zero(), Vector3.zero()
-        # for vert in verts:
-        #     if vert.x < self.min.x:
-        #         self.min.x = vert.x
-        #     if vert.y < self.min.y:
-        #         self.min.y = vert.y
-        #     if vert.z < self.min.z:
-        #         self.min.z = vert.z
-
-        #     if vert.x > self.max.x:
-        #         self.max.x = vert.x
-        #     if vert.y > self.max.y:
-        #         self.max.y = vert.y
-        #     if vert.z > self.max.z:
-        #         self.max.z = vert.z
+        self.min = Vector3(
+            min(v.x for v in verts),
+            min(v.y for v in verts),
+            min(v.z for v in verts),
+        )
+        self.max = Vector3(
+            max(v.x for v in verts),
+            max(v.y for v in verts),
+            max(v.z for v in verts),
+        )
 
     def compile(self, force=False):
         if not self.compiled or force:
             from . import render
-            self.vbo, self.ibo = render.gen_buffers(self)
-            self.vao = render.gen_array()
+            self.vbo, self.ibo = render.genBuffers(self)
+            self.vao = render.genArray()
             self.compiled = True
 
     def draw(self):
@@ -116,7 +115,7 @@ class Mesh:
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of ``size`` 
+            A quad centered at Vector3(0, 0) with side length of ``size``
             facing in the direction of the negative z axis.
 
         """
@@ -133,7 +132,7 @@ class Mesh:
         )
 
     @staticmethod
-    def double_quad(size):
+    def doubleQuad(size):
         """
         Creates a two-sided quadrilateral mesh.
 

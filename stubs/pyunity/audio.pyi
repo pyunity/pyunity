@@ -1,34 +1,19 @@
-"""
-Classes to manage the playback of audio.
-It uses the sdl2.sdlmixer library.
-A variable in the ``config`` module called
-``audio`` will be set to ``False`` if the
-mixer module cannot be initialized.
-
-"""
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
-from sdl2.sdlmixer import Mix_Chunk
 from .core import Component, Transform
-
-channels: int = ...
-
-class _CustomMock:
-    def __getattr__(self, item: str) -> _CustomMock: ...
-    def __setattr__(self, item: str, value: object) -> None: ...
-    def __call__(self, *args, **kwargs) -> None: ...
 
 class AudioClip:
     path: str
-    music: Mix_Chunk
     def __init__(self, path: str) -> None: ...
 
 class AudioSource(Component):
-    playOnStart: bool = ...
-    loop: bool = ...
-    clip: AudioClip = ...
-
+    playOnStart: bool
+    loop: bool
+    clip: AudioClip
     def __init__(self, transform: Transform) -> None: ...
     def SetClip(self, clip: AudioClip) -> None: ...
     def Play(self) -> None: ...

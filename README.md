@@ -7,11 +7,13 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/pyunity/pyunity.svg?logo=lgtm)](https://lgtm.com/projects/g/pyunity/pyunity/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/pyunity/pyunity.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/pyunity/pyunity/alerts/)
 [![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/pyunity/pyunity)
+[![Testing](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml/badge.svg)](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml)
+[![Codecov](https://codecov.io/gh/pyunity/pyunity/branch/master/graph/badge.svg?token=K0evJ3dVvJ)](https://codecov.io/gh/pyunity/pyunity)
 [![Discord](https://img.shields.io/discord/835911328693616680?logo=discord&label=discord)](https://discord.gg/zTn48BEbF9)
 [![Gitter](https://badges.gitter.im/pyunity/community.svg)](https://gitter.im/pyunity/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub Repo stars](https://img.shields.io/github/stars/pyunity/pyunity?logo=github)](https://github.com/pyunity/pyunity/stargazers)
 
-## Version 0.8.3 (in development)
+## Version 0.9.0 (in development)
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
 Game Engine. This does not mean that PyUnity
@@ -44,19 +46,21 @@ build as follows:
 
     > git clone https://github.com/pyunity/pyunity
     > git checkout master
-    > python setup.py install
+    > pip install .
 
 The latest builds are on the ``develop`` branch
 which is the default branch. These builds are
 sometimes broken, so use at your own risk.
 
     > git clone https://github.com/pyunity/pyunity
-    > python setup.py install
+    > pip install .
 
 Its only dependencies are PyOpenGL, PySDL2,
-GLFW, Pillow and PyGLM. Microsoft Visual
+Pillow and PyGLM. Microsoft Visual
 C++ Build Tools are required on Windows
-for building yourself.
+for building yourself. GLFW can be optionally
+installed if you would like to use the GLFW
+window provider.
 
 ### Links
 
@@ -64,7 +68,9 @@ For more information check out
 [the API documentation](https://pyunity.readthedocs.io/en/latest/).
 There we offer some tutorials on the basics of
 PyUnity, as well as all modules and utility functions
-that come with it.
+that come with it. Examples are located at subfolders in
+`pyunity/examples` so do be sure to check them out as a
+starting point.
 
 If you would like to contribute, please
 first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),

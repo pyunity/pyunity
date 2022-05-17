@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 __all__ = ["Material", "Color", "RGB", "HSV"]
 
 import colorsys
@@ -20,11 +24,11 @@ class Material:
         self.texture = texture
 
 class Color:
-    def to_string(self):
+    def toString(self):
         return str(self)
 
     @staticmethod
-    def from_string(string):
+    def fromString(string):
         if string.startswith("RGB"):
             return RGB(*list(map(int, string[4:-1].split(", "))))
         elif string.startswith("HSV"):
@@ -45,18 +49,18 @@ class RGB(Color):
 
     """
 
-    def __truediv__(self, other):
-        a, b, c = tuple(self)
-        return a / other, b / other, c / other
-
-    def __mul__(self, other):
-        a, b, c = tuple(self)
-        return a * other, b * other, c * other
-
     def __init__(self, r, g, b):
         self.r = r
         self.g = g
         self.b = b
+
+    def __eq__(self, other):
+        if not isinstance(other, RGB):
+            return False
+        return self.r == other.r and self.g == other.g and self.b == other.b
+
+    def __hash__(self):
+        return hash(tuple(self))
 
     def __list__(self):
         return [self.r, self.g, self.b]
@@ -67,18 +71,26 @@ class RGB(Color):
         yield self.b
 
     def __repr__(self):
-        return "RGB(%d, %d, %d)" % tuple(self)
+        return f"RGB({', '.join(map(str, tuple(self)))})"
     def __str__(self):
-        return "RGB(%d, %d, %d)" % tuple(self)
+        return f"RGB({', '.join(map(str, tuple(self)))})"
 
-    def to_rgb(self):
+    def __truediv__(self, other):
+        a, b, c = tuple(self)
+        return a / other, b / other, c / other
+
+    def __mul__(self, other):
+        a, b, c = tuple(self)
+        return a * other, b * other, c * other
+
+    def toRGB(self):
         return self
 
-    def to_hsv(self):
-        return HSV.from_rgb(self.r, self.g, self.b)
+    def toHSV(self):
+        return HSV.fromRGB(self.r, self.g, self.b)
 
     @staticmethod
-    def from_hsv(h, s, v):
+    def fromHSV(h, s, v):
         r, g, b = colorsys.hsv_to_rgb(h / 360, s / 100, v / 100)
         return RGB(int(r * 255), int(g * 255), int(b * 255))
 
@@ -101,6 +113,14 @@ class HSV(Color):
         self.s = s
         self.v = v
 
+    def __eq__(self, other):
+        if not isinstance(other, HSV):
+            return False
+        return self.h == other.h and self.s == other.s and self.v == other.v
+
+    def __hash__(self):
+        return hash(tuple(self))
+
     def __list__(self):
         return [self.h, self.s, self.v]
 
@@ -110,17 +130,17 @@ class HSV(Color):
         yield self.v
 
     def __repr__(self):
-        return "HSV(%d, %d, %d)" % tuple(self)
+        return f"HSV({', '.join(map(str, tuple(self)))})"
     def __str__(self):
-        return "HSV(%d, %d, %d)" % tuple(self)
+        return f"HSV({', '.join(map(str, tuple(self)))})"
 
-    def to_rgb(self):
-        return RGB.from_hsv(self.h, self.s, self.v)
+    def toRGB(self):
+        return RGB.fromHSV(self.h, self.s, self.v)
 
-    def to_hsv(self):
+    def toHSV(self):
         return self
 
     @staticmethod
-    def from_rgb(r, g, b):
+    def fromRGB(r, g, b):
         h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
         return HSV(int(h * 360), int(s * 100), int(v * 100))

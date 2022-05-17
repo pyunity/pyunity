@@ -1,11 +1,19 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 """Class to represent a rotation in 3D space."""
 
 __all__ = ["Quaternion", "QuaternionDiff"]
 
-import glm
 from .vector import Vector3, conv
+from .other import LockedLiteral
+import glm
 
-class Quaternion:
+PI = glm.pi()
+RAD_TO_DEG = 180 / PI
+
+class Quaternion(LockedLiteral):
     """
     Class to represent a unit quaternion, also known as a versor.
 
@@ -26,9 +34,10 @@ class Quaternion:
         self.x = x
         self.y = y
         self.z = z
+        self._lock()
 
     def __repr__(self):
-        return "Quaternion(%r, %r, %r, %r)" % (self.w, self.x, self.y, self.z)
+        return f"Quaternion({', '.join(map(conv, self))})"
     def __str__(self):
         return f"Quaternion({', '.join(map(conv, self))})"
 
@@ -54,7 +63,7 @@ class Quaternion:
 
     def __len__(self):
         return 4
-    
+
     def __hash__(self):
         return hash((self.w, self.x, self.y, self.z))
 
@@ -77,18 +86,22 @@ class Quaternion:
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quaternion(w, x, y, z)
-        else:
-            angle, x, y, z = self.angleAxisPair
-            return Quaternion.FromAxis((angle * other) % 360, Vector3(x, y, z))
-    
-    def __imul__(self, other):
-        return other * self
+        elif isinstance(other, (int, float)):
+            angle, axis = self.angleAxisPair
+            return Quaternion.FromAxis((angle * other) % 360, axis)
+        return NotImplemented
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            angle, axis = self.angleAxisPair
+            return Quaternion.FromAxis((angle / other) % 360, axis)
+        return NotImplemented
 
     def __sub__(self, other):
         if isinstance(other, Quaternion):
             return QuaternionDiff(*(self * other.conjugate))
 
-    def abs_diff(self, other):
+    def absDiff(self, other):
         return abs(other - self)
 
     def copy(self):
@@ -126,15 +139,10 @@ class Quaternion:
         """The conjugate of a unit quaternion"""
         return Quaternion(self.w, -self.x, -self.y, -self.z)
 
-    @conjugate.setter
-    def conjugate(self, value):
-        self.w = value[0]
-        self.x, self.y, self.z = -value[1], -value[2], -value[3]
-
     def RotateVector(self, vector):
         """Rotate a vector by the quaternion"""
-        t = (2 * Vector3(self)).cross(vector)
-        return vector + self.w * t + Vector3(self).cross(t)
+        other = Quaternion(0, *vector)
+        return Vector3(self * other * self.conjugate)
 
     @staticmethod
     def FromAxis(angle, a):
@@ -152,7 +160,7 @@ class Quaternion:
         axis = a.normalized()
         cos = glm.cos(glm.radians(angle / 2))
         sin = glm.sin(glm.radians(angle / 2))
-        return Quaternion(cos, axis[0] * sin, axis[1] * sin, axis[2] * sin)
+        return Quaternion(cos, axis.x * sin, axis.y * sin, axis.z * sin)
 
     @staticmethod
     def Between(v1, v2):
@@ -177,22 +185,13 @@ class Quaternion:
     @property
     def angleAxisPair(self):
         """
-        Gets or sets the angle and axis pair. Tuple of form (angle, axis).
+        Gets the angle and axis pair. Tuple of form (angle, axis).
 
         """
         angle = 2 * glm.degrees(glm.acos(self.w))
         if angle == 0:
             return (0, Vector3.up())
-        magnitude = glm.sin(2 * glm.acos(self.w / 2))
-        return (angle, Vector3(self) / magnitude)
-
-    @angleAxisPair.setter
-    def angleAxisPair(self, value):
-        angle, axis = value
-        cos = glm.cos(glm.radians(angle / 2))
-        sin = glm.sin(glm.radians(angle / 2))
-        self.w, self.x, self.y, self.z = cos, axis[0] * \
-            sin, axis[1] * sin, axis[2] * sin
+        return (angle, Vector3(self).normalized())
 
     @staticmethod
     def Euler(vector):
@@ -213,34 +212,36 @@ class Quaternion:
         a = Quaternion.FromAxis(vector.x, Vector3.right())
         b = Quaternion.FromAxis(vector.y, Vector3.up())
         c = Quaternion.FromAxis(vector.z, Vector3.forward())
-        return c * a * b
+        return b * a * c
 
     @property
     def eulerAngles(self):
-        """Gets or sets the Euler Angles of the quaternion"""
-        sx = 2 * (self.w * self.x + self.y * self.z)
-        x = glm.degrees(glm.asin(sx))
-        if abs(x - 90) > 0.001:
-            sz = 2 * (self.w * self.z - self.y * self.x)
-            cz = 1 - 2 * (self.x ** 2 + self.z ** 2)
-            z = glm.degrees(glm.atan(sz, cz))
-            sy = 2 * (self.w * self.y - self.x * self.z)
-            cy = 1 - 2 * (self.y ** 2 + self.x ** 2)
-            y = glm.degrees(glm.atan(sy, cy))
+        """Gets the Euler angles of the quaternion"""
+        s = self.w ** 2 + self.x ** 2 + self.y ** 2 + self.z ** 2
+        r23 = 2 * (self.w * self.x - self.y * self.z)
+        if r23 > 0.999999 * s:
+            x = PI / 2
+            y = 2 * glm.atan(self.y, self.x)
+            z = 0
+        elif r23 < -0.999999 * s:
+            x = -PI / 2
+            y = -2 * glm.atan(self.y, self.x)
+            z = 0
         else:
-            y = 0
-            z = glm.degrees(glm.atan(self.y, self.w))
-        return Vector3(x, y, z)
+            x = glm.asin(r23)
+            r13 = 2 * (self.w * self.y + self.z * self.x) / s
+            r33 = 1 - 2 * (self.x ** 2 + self.y ** 2) / s
+            r21 = 2 * (self.w * self.z + self.x * self.y) / s
+            r22 = 1 - 2 * (self.x ** 2 + self.z ** 2) / s
+            y = glm.atan(r13, r33)
+            z = glm.atan(r21, r22)
 
-    @eulerAngles.setter
-    def eulerAngles(self, value):
-        self.w, self.x, self.y, self.z = Quaternion.Euler(value)
-
-    def SetBackward(self, value):
-        a = Quaternion.FromAxis(value.x, Vector3.right())
-        b = Quaternion.FromAxis(value.y, Vector3.up())
-        c = Quaternion.FromAxis(value.z, Vector3.forward())
-        self.w, self.x, self.y, self.z = b * a * c
+        euler = [x, y, z]
+        for i in range(3):
+            euler[i] = euler[i] * RAD_TO_DEG % 360
+            if euler[i] > 180:
+                euler[i] -= 360
+        return Vector3(euler)
 
     @staticmethod
     def identity():

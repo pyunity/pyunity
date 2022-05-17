@@ -28,10 +28,9 @@ it do something, use the Update function:
 
 What this does is it rotates the GameObject that
 the Behaviour is on by 90 degrees each second
-around the y-axis. The ``Update`` function can take
+around the y-axis. The ``Update`` function takes
 1 argument, ``dt``, which is how many seconds have
-passed since the last frame. If this argument is
-omitted, PyUnity won't complain.
+passed since the last frame.
 
 Behaviours vs Components
 ========================
@@ -44,10 +43,10 @@ Look at this watered-down version of the
        def __init__(self):
            self.gameObject = None
            self.transform = None
-    
+
        def GetComponent(self, component):
            return self.gameObject.GetComponent(component)
-    
+
        def AddComponent(self, component):
            return self.gameObject.AddComponent(component)
 
@@ -66,7 +65,7 @@ of the scene, when ``scene.Run()`` is called.
    ...     def Start(self):
    ...         self.a = 0
    ...     def Update(self, dt):
-   ...         print(self.a)
+   ...         Logger.Log(self.a)
    ...         self.a += dt
 
 The example above will print in seconds how long
@@ -112,9 +111,9 @@ frames:
        def Update(self):
            self.a += 1
            if self.a == 10:
-               print(self.transform.position - self.lastPos)
-               print(self.transform.rotation.conjugate * self.lastRot)
-               print(self.transform.scale / self.lastScl)
+               Logger.Log(self.transform.position - self.lastPos)
+               Logger.Log(self.transform.rotation.conjugate * self.lastRot)
+               Logger.Log(self.transform.scale / self.lastScl)
                self.a = 0
 
 Note that the printed output for non-moving things

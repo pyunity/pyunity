@@ -1,21 +1,40 @@
-__all__ = ["Canvas", "RectData", "RectAnchors",
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
+__all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader", "GuiComponent",
            "NoResponseGuiComponent", "CheckBox",
-           "TextAlign", "Font", "Button"]
+           "GuiRenderComponent", "TextAlign", "Font",
+           "Button", "RenderTarget"]
 
+from . import Logger
 from .errors import PyUnityException
 from .values import Vector2, Color, RGB
-from .core import Component, SingleComponent, GameObject, ShowInInspector
-from .files import Texture2D
+from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer, addFields
+from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .values import ABCMeta, abstractmethod
-from .render import Screen
-from PIL import Image, ImageDraw, ImageFont
-from types import FunctionType
+from .render import Screen, Camera, Light
+from PIL import Image, ImageDraw, ImageFont, features
+from collections.abc import Callable
+from contextlib import ExitStack
+import OpenGL.GL as gl
+import atexit
 import os
 import sys
 import enum
+import ctypes
+
+if sys.version_info < (3, 9):
+    from importlib_resources import files, as_file
+else:
+    from importlib.resources import files, as_file
+
+RAQM_SUPPORT = features.check("raqm")
+if not RAQM_SUPPORT:
+    Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
 
 class Canvas(Component):
     """
@@ -26,19 +45,12 @@ class Canvas(Component):
 
     """
 
-    def Update(self, updated):
+    def Update(self):
         """
-        Check if any components have been clicked on.
+        Check if any components have been hovered over.
 
-        Parameters
-        ----------
-        updated : list
-            List of already updated GameObjects.
         """
         for descendant in self.transform.GetDescendants():
-            if descendant in updated:
-                continue
-            updated.append(descendant)
             comp = descendant.GetComponent(GuiComponent)
             if comp is not None:
                 rectTransform = descendant.GetComponent(RectTransform)
@@ -47,37 +59,64 @@ class Canvas(Component):
                 if rect.min < pos < rect.max:
                     comp.HoverUpdate()
 
+decorator = addFields(canvas=ShowInInspector(Canvas))
+decorator(Camera)
+
 class RectData:
     """
     Class to represent a 2D rect.
 
     Parameters
     ----------
-    min_or_both : Vector2 or RectData
+    minOrBoth : Vector2 or RectData
         Minimum value, or another RectData object
     max : Vector2 or None
         Maximum value. Default is None
 
     """
 
-    def __init__(self, min_or_both=None, max=None):
-        if min_or_both is None:
+    def __init__(self, minOrBoth=None, max=None):
+        if minOrBoth is None:
             self.min = Vector2.zero()
             self.max = Vector2.zero()
         elif max is None:
-            if isinstance(min_or_both, RectData):
-                self.min = min_or_both.min.copy()
-                self.max = min_or_both.max.copy()
+            if isinstance(minOrBoth, RectData):
+                self.min = minOrBoth.min.copy()
+                self.max = minOrBoth.max.copy()
             else:
-                self.min = min_or_both.copy()
-                self.min = min_or_both.copy()
+                self.min = minOrBoth.copy()
+                self.max = minOrBoth.copy()
         else:
-            self.min = min_or_both.copy()
+            self.min = minOrBoth.copy()
             self.max = max.copy()
+
+    def size(self):
+        return self.max - self.min
+
+    def SetPoint(self, pos):
+        """
+        Changes both the minimum and maximum points.
+
+        Parameters
+        ----------
+        pos : Vector2
+            Point
+
+        """
+        self.min = pos.copy()
+        self.max = pos.copy()
 
     def __repr__(self):
         """String representation of the RectData"""
         return "<{} min={} max={}>".format(self.__class__.__name__, self.min, self.max)
+
+    def __eq__(self, other):
+        if isinstance(other, RectData):
+            return self.max == other.max and self.min == other.min
+        return False
+
+    def __hash__(self):
+        return hash((self.min, self.max))
 
     def __add__(self, other):
         if isinstance(other, RectData):
@@ -103,19 +142,6 @@ class RectAnchors(RectData):
     the anchor points of a RectTransform.
 
     """
-
-    def SetPoint(self, p):
-        """
-        Changes both the minimum and maximum anchor points.
-
-        Parameters
-        ----------
-        p : Vector2
-            Point
-        
-        """
-        self.min = p.copy()
-        self.max = p.copy()
 
     def RelativeTo(self, other):
         """
@@ -160,7 +186,7 @@ class RectOffset(RectData):
         -------
         RectOffset
             The generated RectOffset
-        
+
         """
         return RectOffset(center - size / 2, center + size / 2)
 
@@ -171,7 +197,7 @@ class RectOffset(RectData):
         Parameters
         ----------
         pos : Vector2
-        
+
         """
         self.min += pos
         self.max += pos
@@ -184,15 +210,11 @@ class RectOffset(RectData):
         ----------
         pos : Vector2
             Center point of the RectOffset
-        
+
         """
         size = self.max - self.min
         self.min = pos - size / 2
         self.max = pos + size / 2
-    
-    def SetPoint(self, pos):
-        self.min = pos.copy()
-        self.max = pos.copy()
 
 class RectTransform(SingleComponent):
     """
@@ -231,18 +253,27 @@ class RectTransform(SingleComponent):
         if self.transform.parent is not None:
             return self.transform.parent.GetComponent(RectTransform)
 
-    def GetRect(self):
+    def GetRect(self, bb=None):
         """
-        Gets screen coordinates of the bounding box.
+        Gets screen coordinates of the bounding box
+        not including offset.
+
+        Parameters
+        ----------
+        bb : Vector2, optional
+            Bounding box to base anchors off of
 
         Returns
         -------
         RectData
             Screen coordinates
-        
+
         """
         if self.parent is None:
-            return self.anchors * Screen.size
+            if bb is None:
+                return self.anchors * Screen.size
+            else:
+                return self.anchors * bb
         else:
             parentRect = self.parent.GetRect() + self.parent.offset
             rect = self.anchors.RelativeTo(parentRect)
@@ -273,7 +304,16 @@ class NoResponseGuiComponent(GuiComponent):
         """
         pass
 
-class Image2D(NoResponseGuiComponent):
+class GuiRenderComponent(NoResponseGuiComponent):
+    """
+    A Component that renders something in its RectTransform.
+
+    """
+
+    def PreRender(self):
+        pass
+
+class Image2D(GuiRenderComponent):
     """
     A 2D image component, which is uninteractive.
 
@@ -292,13 +332,124 @@ class Image2D(NoResponseGuiComponent):
         super(Image2D, self).__init__(transform)
         self.rectTransform = self.GetComponent(RectTransform)
 
+class RenderTarget(GuiRenderComponent):
+    source = ShowInInspector(Camera)
+    depth = ShowInInspector(float, 0.0)
+    canvas = ShowInInspector(bool, True, "Render Canvas")
+
+    def __init__(self, transform):
+        super(RenderTarget, self).__init__(transform)
+        self.setup = False
+        self.size = Vector2.zero()
+        self.texture = None
+        self.renderPass = False
+
+    def PreRender(self):
+        if self.renderPass:
+            return 1
+        self.renderPass = True
+
+        if self.source is self.scene.mainCamera:
+            raise PyUnityException(
+                "Cannot render main camera with main camera")
+
+        rectTransform = self.GetComponent(RectTransform)
+        if rectTransform is None:
+            return
+
+        previousShader = gl.glGetIntegerv(gl.GL_CURRENT_PROGRAM)
+        previousVAO = gl.glGetIntegerv(gl.GL_VERTEX_ARRAY_BINDING)
+        previousVBO = gl.glGetIntegerv(gl.GL_ARRAY_BUFFER_BINDING)
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        previousViewport = gl.glGetIntegerv(gl.GL_VIEWPORT)
+        previousDepthMask = gl.glGetIntegerv(gl.GL_DEPTH_WRITEMASK)
+
+        self.genBuffers()
+        size = (rectTransform.GetRect() + rectTransform.offset).size()
+        if size != self.size:
+            self.setSize(size)
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        gl.glClipControl(gl.GL_UPPER_LEFT, gl.GL_ZERO_TO_ONE)
+        gl.glDepthMask(gl.GL_TRUE)
+        self.source.Resize(*self.size)
+
+        renderers = self.scene.FindComponentsByType(MeshRenderer)
+        lights = self.scene.FindComponentsByType(Light)
+        self.source.renderPass = True
+        self.source.RenderScene(renderers, lights)
+        self.source.RenderSkybox()
+
+        if self.canvas and self.source.canvas is not None:
+            previousProjection = self.source.guiShader.uniforms["projection"]
+            self.source.Render2D()
+            self.source.guiShader.setMat4(b"projection", previousProjection)
+
+        gl.glUseProgram(previousShader)
+        gl.glBindVertexArray(previousVAO)
+        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, previousVBO)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
+        gl.glViewport(*previousViewport)
+        gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
+        gl.glDepthMask(previousDepthMask)
+
+        self.renderPass = False
+
+    def saveImg(self, path):
+        previousFBO = gl.glGetIntegerv(gl.GL_DRAW_FRAMEBUFFER_BINDING)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        data = gl.glReadPixels(0, 0, *self.size,
+                               gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
+        im = Image.frombytes("RGB", tuple(self.size), data)
+        im.save(path)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
+
+    def genBuffers(self, force=False):
+        if self.setup and not force:
+            return
+
+        self.framebuffer = gl.glGenFramebuffers(1)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
+        self.texID = gl.glGenTextures(1)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *Screen.size,
+                        0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+        gl.glEnable(gl.GL_TEXTURE_2D)
+
+        self.texture = Texture2D.FromOpenGL(self.texID)
+
+        self.renderbuffer = gl.glGenRenderbuffers(1)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT, *Screen.size)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, self.texID, 0)
+        gl.glDrawBuffers(1, convert(ctypes.c_int, [gl.GL_COLOR_ATTACHMENT0]))
+
+        if (gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) !=
+                gl.GL_FRAMEBUFFER_COMPLETE):
+            raise PyUnityException("Framebuffer setup failed")
+
+        self.setup = True
+
+    def setSize(self, size):
+        self.size = round(size)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texID)
+        gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGB, *self.size,
+                        0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
+
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.renderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER,
+                                 gl.GL_DEPTH_COMPONENT, *self.size)
+
 class Button(GuiComponent):
     """
     A Component that calls a function when clicked.
 
     Attributes
     ----------
-    callback : FunctionType
+    callback : Callable
         Callback function
     state : KeyState
         Which state triggers the callback
@@ -309,7 +460,7 @@ class Button(GuiComponent):
 
     """
 
-    callback = ShowInInspector(FunctionType)
+    callback = ShowInInspector(Callable)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
@@ -322,18 +473,21 @@ class Button(GuiComponent):
         if Input.GetMouseState(self.mouseButton, self.state):
             self.callback()
 
-textureDir = os.path.join(os.path.abspath(
-    os.path.dirname(__file__)), "shaders", "gui", "textures")
-buttonDefault = Texture2D(os.path.join(textureDir, "button.png"))
+stack = ExitStack()
+atexit.register(stack.close)
+ref = files("pyunity") / "shaders/gui/textures"
+
+buttonDefault = Texture2D(stack.enter_context(as_file(ref / "button.png")))
 checkboxDefaults = [
-    Texture2D(os.path.join(textureDir, "checkboxOff.png")),
-    Texture2D(os.path.join(textureDir, "checkboxOn.png"))
+    Texture2D(stack.enter_context(as_file(ref / "checkboxOff.png"))),
+    Texture2D(stack.enter_context(as_file(ref / "checkboxOn.png")))
 ]
+stack.close()
 
 class _FontLoader:
     """
     Base font loader. Uses ImageFont.
-    
+
     """
 
     fonts = {}
@@ -360,7 +514,7 @@ class _FontLoader:
         Font
             Generated Font object, or None if
             ``PYUNITY_TESTING`` is set.
-        
+
         """
         if os.getenv("PYUNITY_TESTING") is not None:
             return None
@@ -376,12 +530,44 @@ class _FontLoader:
         return fontobj
 
     @classmethod
+    def FromFile(cls, name, file, size):
+        """
+        Loads a font file into PyUnity.
+
+        Parameters
+        ----------
+        name : str
+            Font name
+        file : str
+            Path to the font file
+        size : int
+            Size in points of the font
+
+        Returns
+        -------
+        Font
+            The loaded font, or a preloaded one
+
+        """
+        if os.getenv("PYUNITY_TESTING") is not None:
+            return None
+        if name in cls.fonts:
+            if size in cls.fonts[name]:
+                return cls.fonts[name][size]
+        else:
+            cls.fonts[name] = {}
+        font = ImageFont.truetype(file, size)
+        fontobj = Font(name, size, font)
+        cls.fonts[name][size] = fontobj
+        return fontobj
+
+    @classmethod
     def LoadFile(cls, name):
         """
         Default file loader. Overriden to return
         the font file name. Raises PyUnityException by default.
         Do NOT call ``super().LoadFile()``.
-        
+
         """
         raise PyUnityException("No font loading function found")
 
@@ -405,7 +591,7 @@ class WinFontLoader(_FontLoader):
         ------
         PyUnityException
             If the font is not found
-        
+
         """
         import winreg
         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
@@ -438,7 +624,7 @@ class UnixFontLoader(_FontLoader):
         ------
         PyUnityException
             If the font is not found
-        
+
         """
         import subprocess
         process = subprocess.Popen(["fc-match", name], stdout=subprocess.PIPE)
@@ -450,10 +636,12 @@ class UnixFontLoader(_FontLoader):
         return out.split(": ")[0]
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
-    class FontLoader(UnixFontLoader): pass
+    class FontLoader(UnixFontLoader):
+        pass
     """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 else:
-    class FontLoader(WinFontLoader): pass
+    class FontLoader(WinFontLoader):
+        pass
     """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 
 class Font:
@@ -468,7 +656,7 @@ class Font:
         Font name
     size : int
         Font size, in points
-    
+
     """
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
@@ -487,7 +675,10 @@ class TextAlign(enum.IntEnum):
     Center = enum.auto()
     Right = enum.auto()
 
-class Text(NoResponseGuiComponent):
+    Top = Left
+    Bottom = Right
+
+class Text(GuiRenderComponent):
     """
     Component to render text.
 
@@ -509,15 +700,15 @@ class Text(NoResponseGuiComponent):
         RectTransform of the GameObject. Can be None
     texture : Texture2D
         Texture of the text, to save computation time.
-    
+
     Notes
     -----
     Modifying :attr:`font`, :attr:`text`, or :attr:`color` will call
     :meth:`GenTexture`.
-    
+
     """
 
-    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
+    font = ShowInInspector(Font)
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
     depth = ShowInInspector(float, 0.1)
@@ -525,9 +716,14 @@ class Text(NoResponseGuiComponent):
     centeredY = ShowInInspector(TextAlign, TextAlign.Center)
     def __init__(self, transform):
         super(Text, self).__init__(transform)
+        self.font = FontLoader.LoadFont("Arial", 24)
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)
+
+    def PreRender(self):
+        if self.texture is None:
+            self.GenTexture()
 
     def GenTexture(self):
         """
@@ -539,12 +735,21 @@ class Text(NoResponseGuiComponent):
             if self.rect is None:
                 return
 
+        if self.font is None:
+            return
+
         rect = self.rect.GetRect() + self.rect.offset
         size = (rect.max - rect.min).abs()
-        im = Image.new("RGBA", tuple(size), (255, 255, 255, 0))
+        im = Image.new("RGBA", tuple(round(size)), (255, 255, 255, 0))
+
+        if RAQM_SUPPORT:
+            ft = "-liga"
+        else:
+            ft = None
 
         draw = ImageDraw.Draw(im)
-        width, height = draw.textsize(self.text, font=self.font._font)
+        width, height = draw.textsize(self.text, font=self.font._font,
+                                      features=ft)
         if self.centeredX == TextAlign.Left:
             offX = 0
         elif self.centeredX == TextAlign.Center:
@@ -559,7 +764,7 @@ class Text(NoResponseGuiComponent):
             offY = size.y - height
 
         draw.text((offX, offY), self.text, font=self.font._font,
-                  fill=tuple(self.color))
+                  fill=tuple(self.color), features=ft)
         if self.texture is not None:
             self.texture.setImg(im)
         else:
@@ -586,7 +791,7 @@ class CheckBox(GuiComponent):
 
     def HoverUpdate(self):
         """
-        Inverts ``checked`` and updates the texture of
+        Inverts :attr:`checked` and updates the texture of
         the Image2D, if there is one.
 
         """
@@ -629,7 +834,7 @@ class Gui:
             A tuple containing the :class:`RectTransform` of
             button, the :class:`Button` component and
             the :class:`Text` component.
-        
+
         Notes
         -----
         This will create 3 GameObjects in this hierarchy::
@@ -637,14 +842,14 @@ class Gui:
             <specified button name>
             |- Button
             |- Text
-        
+
         The generated GameObject can be accessed from the
         ``gameObject`` property of the returned components.
-        The ``Button`` GameObject will have two components,
+        The :class:`Button` GameObject will have two components,
         :class:`Button` and :class:`RectTransform`. The
-        ``Button`` GameObject will have two components,
+        :class:`Button` GameObject will have two components,
         :class:`Image2D` and :class:`RectTransform`.
-        
+
         """
         if texture is None:
             texture = buttonDefault
@@ -675,6 +880,7 @@ class Gui:
         textComp.centeredX = TextAlign.Center
 
         scene.Add(button)
+        scene.Add(textObj)
         scene.Add(textureObj)
         return transform, buttonComponent, textComp
 
@@ -696,7 +902,7 @@ class Gui:
         tuple
             A tuple of the :class:`RectTransform` as well as the
             :class:`CheckBox` component.
-        
+
         Notes
         -----
         The generated GameObject can be accessed from the
