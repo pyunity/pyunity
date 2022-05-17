@@ -324,3 +324,32 @@ def Tan(num):
 
     """
     pass
+
+class SmoothDamper:
+    def __init__(self, maxSpeed=INFINITY):
+        self.velocity = 0.0
+        self.maxSpeed = maxSpeed
+
+    def SmoothDamp(self, current, target, smoothTime, dt):
+        smoothTime = max(0.0001, smoothTime)
+        omega = 2 / smoothTime
+
+        x = omega * dt
+        exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x)
+        change = current - target
+        originalTo = target
+
+        maxChange = self.maxSpeed * smoothTime
+        change = Clamp(change, -maxChange, maxChange)
+        target = current - change
+
+        temp = (self.velocity + omega * change) * dt
+        self.velocity = (self.velocity - omega * temp) * exp
+        output = target + (change + temp) * exp
+        if (originalTo - current > 0.0) == (output > originalTo):
+            output = originalTo
+            self.velocity = (output - originalTo) / dt
+        return output
+
+    def reset(self):
+        self.velocity = 0.0
