@@ -6,6 +6,10 @@ import os
 GLM_SUPPORT = True
 try:
     import glm
+    if glm is math:
+        # Wrapper scripts may replace glm with math in sys.modules
+        sys.modules.pop("math", "")
+        import glm
 except ImportError:
     GLM_SUPPORT = False
 
