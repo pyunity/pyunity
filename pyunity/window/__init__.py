@@ -33,6 +33,7 @@ __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
 from .providers import getProviders
+from .abc import ABCWindow
 from ..errors import PyUnityException
 from .. import Logger
 from .. import config
@@ -60,15 +61,24 @@ def GetWindowProvider():
             providerName = settings.db["windowProvider"]
             if providerName in getProviders():
                 module = importlib.import_module(f".providers.{providerName}", __name__)
+                name = module.name
                 Logger.LogLine(
-                    Logger.DEBUG, "Using window provider", module.name)
-                module = importlib.import_module(f".providers.{providerName}.window", __name__)
-                return module.Window
+                    Logger.DEBUG, "Using window provider", name)
+                try:
+                    module = importlib.import_module(f".providers.{providerName}.window", __name__)
+                    return module.Window
+                except Exception as e:
+                    Logger.LogLine(
+                        Logger.WARN, "Window provider loading failed")
+                    Logger.LogLine(
+                        Logger.WARN, type(e).__name__ + ":", str(e))
+                    Logger.LogLine(
+                        Logger.WARN, "Selecting new window provider")
             else:
                 Logger.LogLine(Logger.WARN,
-                               f"settings.json entry {providerName!r} is "
-                               f"not a valid window provider, removing")
-                settings.db.pop("windowProvider")
+                                f"settings.json entry {providerName!r} is "
+                                f"not a valid window provider, removing")
+            settings.db.pop("windowProvider")
 
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
@@ -162,36 +172,8 @@ def CustomWindowProvider(cls):
         raise PyUnityException("Provided window provider is not a class")
     if not issubclass(cls, ABCWindow):
         raise PyUnityException(
-            "Provided window provider does not subclass ABCWindow")
+            "Provided window provider does not subclass Window.ABCWindow")
     Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
     config.windowProvider = cls
     return cls
 
-class ABCWindow(metaclass=ABCMeta):
-    @abstractmethod
-    def __init__(self, name, resize):
-        pass
-
-    @abstractmethod
-    def getMouse(self, mousecode, keystate):
-        pass
-
-    @abstractmethod
-    def getKey(self, keycode, keystate):
-        pass
-
-    @abstractmethod
-    def getMousePos(self):
-        pass
-
-    @abstractmethod
-    def refresh(self):
-        pass
-
-    @abstractmethod
-    def quit(self):
-        pass
-
-    @abstractmethod
-    def start(self, updateFunc):
-        pass

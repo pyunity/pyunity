@@ -24,10 +24,33 @@ uniform sampler2DShadow shadowMaps[NR_LIGHTS];
 uniform int textured = 0;
 uniform int useShadowMap = 1;
 
+float when_eq(float x, float y) {
+    return 1.0 - abs(sign(x - y));
+}
+
+float when_neq(float x, float y) {
+    return abs(sign(x - y));
+}
+
+float when_eq_val(float x, float y, float a, float b) {
+    return when_eq(x, y) * a + when_neq(x, y) * b;
+}
+
+vec4 when_eq_val(float x, float y, vec4 a, vec4 b) {
+    return when_eq(x, y) * a + when_neq(x, y) * b;
+}
+
+float when_gt(float x, float y) {
+    return max(sign(x - y), 0.0);
+}
+
+float when_le(float x, float y) {
+    return 1.0 - when_gt(x, y);
+}
+
 float getDiffuse(Light light, vec3 norm) {
-    if (light.type == 0) {
-        light.dir = normalize(FragPos - light.pos);
-    }
+    light.dir = when_neq(light.type, 0) * light.dir;
+    light.dir += when_eq(light.type, 0) * normalize(FragPos - light.pos);
     float diffuse = max(-dot(norm, light.dir), 0.0);
     return diffuse;
 }
@@ -35,7 +58,7 @@ float getDiffuse(Light light, vec3 norm) {
 float getSpecular(Light light, vec3 norm) {
     float specularStrength = 0.5;
     vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 halfwayDir = normalize(light.dir + viewDir);
+    vec3 halfwayDir = normalize(normalize(light.dir) + viewDir);
     float spec = pow(max(dot(norm, halfwayDir), 0.0), 16.0);
     float specular = specularStrength * spec;
     return specular;
@@ -55,10 +78,6 @@ float getShadow(int num, sampler2DShadow tex) {
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
 
-    if (projCoords.z > 1.0) {
-        return 0.0;
-    }
-
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
@@ -77,7 +96,7 @@ float getShadow(int num, sampler2DShadow tex) {
     }
     shadow /= ((halfkernelWidth*2+1)*(halfkernelWidth*2+1));
 
-    return shadow;
+    return shadow * when_le(projCoords.z, 1.0);
 }
 
 void main() {
@@ -108,10 +127,8 @@ void main() {
             break;
         }
         float strength = getDiffuse(lights[i], norm);
-        if (lights[i].type == 0) {
-            strength += getSpecular(lights[i], norm);
-            strength *= getAttenuation(lights[i]);
-        }
+        strength += when_eq(lights[i].type, 0) * getSpecular(lights[i], norm);
+        strength *= when_eq_val(lights[i].type, 0, getAttenuation(lights[i]), 1.0);
         float shadow = shadows[i];
         // if (shadow == 0.0) discard;
         total += (1.0 - shadow) * strength * lights[i].color;
@@ -119,9 +136,7 @@ void main() {
 
     total += ambient;
     vec3 result = total * objectColor;
-    if (textured != 0) {
-        FragColor = texture(aTexture, TexCoord) * vec4(result, 1.0);
-    } else {
-        FragColor = vec4(result, 1.0);
-    }
+
+    FragColor = vec4(result, 1.0);
+    FragColor *= when_eq_val(textured, 1, texture(aTexture, TexCoord), vec4(1, 1, 1, 1));
 }

@@ -241,7 +241,7 @@ Notes:
   the c files. For example::
 
       > set a=1
-      > python setup.py install
+      > pip install .
 
 Download source code at
 https://github.com/pyunity/pyunity/releases/tag/0.1.0

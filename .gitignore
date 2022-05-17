@@ -6,12 +6,14 @@
 # Builds
 *.egg-info
 build/
-src/**/*.c
+src/
 **/.doctrees
 
-# Coverage
+# Pytest and coverage
 .coverage
 coverage.xml
+htmlcov/
+.pytest_cache/
 
 # Replit
 .replit

@@ -11,7 +11,7 @@ __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
 from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
-from .core import ShowInInspector, SingleComponent
+from .core import ShowInInspector, SingleComponent, addFields
 from .files import Skybox, convert
 from . import config, Logger
 from contextlib import ExitStack
@@ -19,6 +19,7 @@ from typing import Dict
 from ctypes import c_float, c_ubyte, c_void_p
 from pathlib import Path
 import OpenGL.GL as gl
+import collections.abc
 import atexit
 import enum
 import hashlib
@@ -106,7 +107,7 @@ def fillScreen(scale=1):
     gl.glEnd()
 
 class Shader:
-    VERSION = "1.00" # Must be 4 long
+    VERSION = "1.10" # Must be 4 long
     def __init__(self, vertex, frag, name):
         self.vertex = vertex
         self.frag = frag
@@ -119,6 +120,63 @@ class Shader:
         memo[id(self)] = self
         return self
 
+    def loadCache(self, file):
+        if not file.is_file():
+            return
+
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if not isinstance(formats, collections.abc.Sequence):
+            formats = [formats]
+
+        with open(file, "rb") as f:
+            binary = f.read()
+
+        # Format:
+        # version (4 long)
+        # formatLength (1 long)
+        # format (formatLength long)
+        # content (rest of file)
+
+        ver = binary[:4].decode()
+        binary = binary[4:]
+        if ver != Shader.VERSION:
+            Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
+                "is not up-to-date; recompiling")
+            return
+
+        formatLength = int(binary[0])
+        hexstr = binary[1: formatLength + 1]
+        binary = binary[formatLength + 1:]
+        binaryFormat = int(hexstr.decode(), base=16)
+        self.program = gl.glCreateProgram()
+
+        if binaryFormat not in formats:
+            Logger.LogLine(Logger.WARN,
+                "Shader binaryFormat not supported; recompiling")
+            return
+
+        stop = False
+        try:
+            gl.glProgramBinary(
+                self.program, binaryFormat, binary, len(binary))
+        except Exception:
+            stop = True
+        if stop:
+            Logger.LogLine(Logger.WARN,
+                "glProgramBinary failed; recompiling")
+            return
+
+        success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
+        if not success:
+            log = gl.glGetProgramInfoLog(self.program)
+            Logger.LogLine(Logger.WARN, log.decode())
+            Logger.LogLine(Logger.WARN, "Recompiling shader")
+            return
+
+        self.compiled = True
+        Logger.LogLine(Logger.INFO, "Loaded shader", repr(self.name),
+                       "hash", file.name.rsplit(".", 1)[0])
+
     def compile(self):
         """
         Compiles shader and generates program. Checks for errors.
@@ -128,44 +186,16 @@ class Shader:
         This function will not work if there is no active framebuffer.
 
         """
-        folder = Logger.folder.parent / "ShaderCache"
+        formats = gl.glGetIntegerv(gl.GL_PROGRAM_BINARY_FORMATS)
+        if not isinstance(formats, collections.abc.Sequence):
+            formats = [formats]
+
+        folder = Logger.getDataFolder() / "ShaderCache"
         sha256 = hashlib.sha256(self.vertex.encode("utf-8"))
         sha256.update(self.frag.encode("utf-8"))
+        sha256.update(hex(formats[0])[2:].encode())
         digest = sha256.hexdigest()
-
-        if (folder / (digest + ".bin")).is_file():
-            with open(folder / (digest + ".bin"), "rb") as f:
-                binary = f.read()
-
-            # Format:
-            # version (4 long)
-            # formatLength (1 long)
-            # format (formatLength long)
-            # content (rest of file)
-
-            ver = binary[:4].decode()
-            binary = binary[4:]
-            if ver == Shader.VERSION:
-                formatLength = int(binary[0])
-                hexstr = binary[1: formatLength + 1]
-                binary = binary[formatLength + 1:]
-                binaryFormat = int(hexstr.decode(), base=16)
-                self.program = gl.glCreateProgram()
-                gl.glProgramBinary(
-                    self.program, binaryFormat, binary, len(binary))
-
-                success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
-                if success:
-                    self.compiled = True
-                    Logger.LogLine(Logger.INFO, "Loaded shader",
-                                   repr(self.name), "hash", digest)
-                    return
-                else:
-                    log = gl.glGetProgramInfoLog(self.program)
-                    Logger.LogLine(Logger.WARN, log.decode())
-            else:
-                Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
-                    "is not up-to-date; recompiling")
+        file = folder / (digest + ".bin")
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -205,7 +235,7 @@ class Shader:
         out = gl.glGetProgramBinary(self.program, length)
 
         folder.mkdir(parents=True, exist_ok=True)
-        with open(folder / (digest + ".bin"), "wb+") as f:
+        with open(file, "wb+") as f:
             # Format:
             # version (4 long)
             # formatLength (1 long)
@@ -218,7 +248,8 @@ class Shader:
             f.write(bytes(out[0]))
 
         Logger.LogLine(
-            Logger.INFO, "Saved shader", repr(self.name), "hash", digest)
+            Logger.INFO, "Saved shader", repr(self.name),
+            "hash", digest)
 
     @staticmethod
     def fromFolder(path, name):
@@ -400,6 +431,10 @@ class Light(SingleComponent):
         gl.glReadBuffer(gl.GL_NONE)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
+@addFields(
+    fov=ShowInInspector(int, 90),
+    orthoSize=ShowInInspector(float, 5, "Ortho Size"),
+    canvas=ShowInInspector(addFields.selfref))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
@@ -420,6 +455,9 @@ class Camera(SingleComponent):
         Selected skybox to render.
     ortho : bool
         Orthographic or perspective proection. Defaults to False.
+    customProjMat: glm.mat4 or None
+        If not None, will be used over any other type of projection matrix.
+        Unavailable from the Editor and also not saved.
     shadows : bool
         Whether to render depthmaps and use them. Defaults to True.
     canvas : Canvas
@@ -438,7 +476,6 @@ class Camera(SingleComponent):
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
     shadows = ShowInInspector(bool, True)
-    canvas = ShowInInspector()
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -448,9 +485,8 @@ class Camera(SingleComponent):
         self.skyboxShader = shaders["Skybox"]
         self.depthShader = shaders["Depth"]
         self.clearColor = RGB(0, 0, 0)
+        self.customProjMat = None
 
-        self.shown["fov"] = ShowInInspector(int, 90, "fov")
-        self.shown["orthoSize"] = ShowInInspector(float, 5, "Ortho Size")
         self.fov = 90
         self.orthoSize = 5
 
@@ -538,10 +574,10 @@ class Camera(SingleComponent):
         angle = glm.radians(angle)
         axis = axis.normalized()
 
-        rotated = glm.mat4_cast(glm.angleAxis(angle, list(axis)))
-        position = glm.translate(rotated, list(
+        position = glm.translate(glm.mat4(), list(
             transform.position * Vector3(1, 1, -1)))
-        scaled = glm.scale(position, list(transform.scale))
+        rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
+        scaled = glm.scale(rotated, list(transform.scale))
         return scaled
 
     def get2DMatrix(self, rectTransform):
@@ -585,7 +621,9 @@ class Camera(SingleComponent):
 
     def SetupShader(self, lights):
         self.shader.use()
-        if self.ortho:
+        if self.customProjMat is not None:
+            self.shader.setMat4(b"projection", self.customProjMat)
+        elif self.ortho:
             self.shader.setMat4(b"projection", self.orthoMat)
         else:
             self.shader.setMat4(b"projection", self.projMat)

@@ -2,7 +2,7 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType, clamp
+from pyunity import SceneManager, GameObject, Vector3, Quaternion, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType, clamp
 
 class OrthoMover(Behaviour):
     cam = ShowInInspector(Camera)
@@ -24,7 +24,7 @@ def main():
     scene.gameObjects[1].transform.position = Vector3(10, 10, 10)
 
     scene.mainCamera.transform.position = Vector3(-5, 10, -5)
-    scene.mainCamera.transform.localRotation.SetBackward(Vector3(30, 45, 0))
+    scene.mainCamera.transform.localRotation = Quaternion.Euler(Vector3(30, 45, 0))
     scene.mainCamera.skyboxEnabled = False
     scene.mainCamera.ortho = True
     scene.mainCamera.orthoSize = 8

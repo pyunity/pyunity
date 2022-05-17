@@ -4,7 +4,7 @@
 
 __all__ = ["LiveDict", "Database"]
 
-from .logger import getTmp
+from .logger import getDataFolder
 import json
 
 class LiveDict:
@@ -81,7 +81,7 @@ class Database(LiveDict):
         with open(self.path, "w+") as f:
             f.write(json.dumps(self.todict()))
 
-file = getTmp().parent / "settings.json"
+file = getDataFolder() / "settings.json"
 if not file.is_file():
     with open(file, "w+") as f:
         f.write("{}")

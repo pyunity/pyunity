@@ -22,8 +22,13 @@ def atan(*args):
     else:
         return math._atan(*args)
 
+def pi():
+    return math._pi
+
 math._atan = math.atan
 math.atan = atan
+math._pi = math.pi
+math.pi = pi
 sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
@@ -115,6 +120,7 @@ latex_documents = [
     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
 ]
 
+hoverxref_intersphinx = ["python"]
 hoverxref_default_type = "tooltip"
 hoverxref_auto_ref = True
 hoverxref_domains = [
@@ -152,7 +158,6 @@ def process_docstring(app, what, name, obj, options, lines):
             if name in obj.saved:
                 val = str(obj.saved[name].default)
                 lines.insert(index + 1, "   :annotation: = " + val)
-        print(lines)
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_member)

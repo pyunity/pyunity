@@ -54,7 +54,7 @@ def checkFolder(folder, ext):
                     classes.append(currentClass)
                 currentClass = {"name": module + re.search(classFind, line).group(),
                                 "methods": []}
-            elif re.search(methodFind, line):
+            elif re.search(methodFind, line) and currentClass != {}:
                 currentClass["methods"].append(currentClass["name"] + \
                     "." + re.search(methodFind, line).group())
             elif re.search(funcFind, line):

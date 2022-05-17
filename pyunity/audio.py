@@ -16,7 +16,7 @@ __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 import warnings
 import os
 from . import config, Logger
-from .core import Component, ShowInInspector
+from .core import Component, ShowInInspector, SingleComponent
 
 channels = 0
 
@@ -174,7 +174,7 @@ class AudioSource(Component):
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         return mixer.Mix_Playing(self.channel)
 
-class AudioListener(Component):
+class AudioListener(SingleComponent):
     """
     Class to receive audio events and to base spatial
     sound from. By default the Main Camera has an

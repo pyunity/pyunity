@@ -1,12 +1,30 @@
 name: Linux Wheel Builds
 on: [push, workflow_dispatch]
 jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+        architecture: x64
+    - name: Install dependencies
+      run: python -m pip install "cython>=3.0.0a8" autopep8
+    - name: Cythonize
+      run: python prepare.py parseCode cythonize
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Cython
+        path: src
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
-    name: Python ${{ matrix.python-version }}
+    needs: compile
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -14,14 +32,22 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - name: Build wheel
-        env:
-          PYUNITY_TESTING: 1
+      - name: Install dependencies
         run: |
-          python -m pip install -r .github/build_requirements.txt
-          python prepare.py parseCode cythonize
-          python -m unittest tests.py # early tests
-          python setup.py bdist_wheel
+          python -m pip install -r requirements.txt
+      - name: Print info
+        env:
+          PYUNITY_TESTING: 0
+        run: |
+          python -m pyunity -v
+      - name: Get artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Cython
+      - name: Build wheel
+        run: |
+          python -m pip install "cython>=3.0.0a8" wheel
+          python setup.py build_ext -j 4 bdist_wheel
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

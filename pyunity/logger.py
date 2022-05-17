@@ -10,21 +10,25 @@ This will be imported as ``pyunity.Logger``.
 """
 
 __all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
-           "SetStream", "Log", "LogLine", "Save", "Level", "Special"]
+           "SetStream", "Log", "LogLine", "Save", "Level", "Special",
+           "TempRedirect"]
 
+import io
 import os
 import sys
 import platform
 import traceback
 import re
 import atexit
+import threading
 from pathlib import Path
 from time import strftime, time
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-def getTmp():
+def getDataFolder():
     if os.getenv("ANDROID_DATA") == "/data" and os.getenv("ANDROID_ROOT") == "/system":
+        # Android (p4a, termux etc)
         pattern = re.compile(r"/data/(data|user/\d+)/(.+)/files")
         for path in sys.path:
             if pattern.match(path):
@@ -32,14 +36,19 @@ def getTmp():
                 break
         else:
             raise OSError("Cannot find path to android app folder")
-        folder = Path(result) / "files/pyunity/Logs"
-    elif platform.platform().startswith("Windows"):
-        folder = Path(os.environ["appdata"]) / "PyUnity/Logs"
+        folder = Path(result) / "files/usr/local/pyunity"
+    elif platform.system().startswith("Windows"):
+        # Windows
+        folder = Path(os.environ["appdata"]) / "PyUnity"
+    elif platform.system().startswith("Darwin"):
+        # MacOS
+        folder = Path.home() / "Library/Application Support/PyUnity"
     else:
-        folder = Path("/tmp/pyunity/Logs")
+        # Linux
+        folder = Path("/opt/pyunity")
     return folder
 
-folder = getTmp()
+folder = getDataFolder() / "Logs"
 if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
@@ -219,6 +228,32 @@ def Save():
         with open(folder / (timestamp + ".log"), "w+") as f2:
             f2.write(f.read())
 
+class TempRedirect:
+    def __init__(self, *, silent=False):
+        self.silent = silent
+        self.stream = None
+
+    def get(self):
+        if self.stream is None:
+            raise Exception("Context manager not used")
+        return self.stream.getvalue()
+
+    def __enter__(self):
+        global stream
+        self.stream = io.StringIO()
+        if self.silent:
+            stream = self.stream
+        else:
+            SetStream(self.stream)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global stream
+        if self.silent:
+            stream = sys.stdout
+        else:
+            ResetStream()
+
 def SetStream(s):
     global stream
     stream = s
@@ -231,11 +266,16 @@ def ResetStream():
     stream.write("Changed stream back to stdout\n")
     LogLine(INFO, "Changed stream back to stdout")
 
-# Upload to ftp
-try:
-    import urllib.request
-    url = "https://ftp.pyunity.repl.co/upload?confirm=1"
-    with urllib.request.urlopen(url):
-        pass
-except Exception as e:
-    LogException(e, silent=True)
+def _upload():
+    # Upload to ftp
+    try:
+        import urllib.request
+        url = "https://ftp.pyunity.repl.co/upload?confirm=1"
+        with urllib.request.urlopen(url):
+            pass
+    except Exception as e:
+        LogException(e, silent=True)
+
+t = threading.Thread(target=_upload)
+t.daemon = True
+t.start()

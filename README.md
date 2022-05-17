@@ -46,14 +46,14 @@ build as follows:
 
     > git clone https://github.com/pyunity/pyunity
     > git checkout master
-    > python setup.py install
+    > pip install .
 
 The latest builds are on the ``develop`` branch
 which is the default branch. These builds are
 sometimes broken, so use at your own risk.
 
     > git clone https://github.com/pyunity/pyunity
-    > python setup.py install
+    > pip install .
 
 Its only dependencies are PyOpenGL, PySDL2,
 Pillow and PyGLM. Microsoft Visual
@@ -68,7 +68,9 @@ For more information check out
 [the API documentation](https://pyunity.readthedocs.io/en/latest/).
 There we offer some tutorials on the basics of
 PyUnity, as well as all modules and utility functions
-that come with it.
+that come with it. Examples are located at subfolders in
+`pyunity/examples` so do be sure to check them out as a
+starting point.
 
 If you would like to contribute, please
 first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),

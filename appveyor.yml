@@ -10,7 +10,6 @@ environment:
     - version: "3.8"
 
 test_script:
-  - python -m unittest tests.py
   - python prepare.py cythonize
   - python setup.py bdist_wheel
 
@@ -28,7 +27,6 @@ for:
       - python -m pip install -r .github/build_requirements.txt
 
       - python prepare.py cythonize
-      - python -m unittest tests.py # early tests
       - python setup.py bdist_wheel
       - venv\Scripts\activate
   - matrix:

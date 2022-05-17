@@ -10,9 +10,9 @@ import sys
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
-broken = [3]
+broken = []
 
-def load_example(i):
+def loadExample(i):
     if pkgutil.find_loader(__name__ + f".example{i}") is None:
         raise PyUnityException(f"Invalid example: {i!r}")
     module = importlib.import_module(f".example{i}", __name__)
@@ -33,6 +33,6 @@ def show(num=None):
         for i in range(1, len(list(pkgutil.iter_modules(__path__))) + 1):
             if i in broken:
                 continue
-            load_example(i)
+            loadExample(i)
     else:
-        load_example(num)
+        loadExample(num)

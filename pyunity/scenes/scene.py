@@ -21,12 +21,12 @@ from ..values import Vector3
 from .. import config, physics, logger as Logger
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
-from .. import render
+from ..render import Camera, Light, Screen, genBuffers, genArray
 from inspect import signature
 from time import time
 import os
 import sys
-import math
+import glm
 import uuid
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -53,13 +53,13 @@ class Scene:
 
     def __init__(self, name):
         self.name = name
-        self.mainCamera = GameObject("Main Camera").AddComponent(render.Camera)
+        self.mainCamera = GameObject("Main Camera").AddComponent(Camera)
         self.mainCamera.AddComponent(AudioListener)
         self.mainCamera.gameObject.scene = self
         light = GameObject("Light")
         light.transform.localPosition = Vector3(10, 10, -10)
         light.transform.LookAtPoint(Vector3.zero())
-        light.AddComponent(render.Light)
+        light.AddComponent(Light)
         light.scene = self
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.ids = {}
@@ -86,7 +86,6 @@ class Scene:
         cls.gameObjects = []
         cls.mainCamera = None
         cls.ids = {}
-        cls.lights = []
         return cls
 
     @property
@@ -249,7 +248,7 @@ class Scene:
             If there is no tag with specified index.
 
         """
-        if len(Tag.tags) > num:
+        if len(Tag.tags) > num >= 0:
             return [gameObject for gameObject in self.gameObjects if gameObject.tag.tag == num]
         else:
             raise GameObjectException(
@@ -322,6 +321,8 @@ class Scene:
 
         """
         mesh = renderer.mesh
+        if mesh is None:
+            return False
         pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
         directionX = self.mainCamera.transform.rotation.RotateVector(
             Vector3.right()) * Vector3(1, 1, -1)
@@ -348,36 +349,37 @@ class Scene:
         minY = rpmin.dot(directionY)
         maxY = rpmax.dot(directionY)
         hmin = minZ * 2 * \
-            math.tan(math.radians(self.mainCamera.fov /
-                                  config.size[0] * config.size[1] / 2))
+            glm.tan(glm.radians(self.mainCamera.fov /
+                                  Screen.size.x * Screen.size.y / 2))
         hmax = maxZ * 2 * \
-            math.tan(math.radians(self.mainCamera.fov /
-                                  config.size[0] * config.size[1] / 2))
+            glm.tan(glm.radians(self.mainCamera.fov /
+                                  Screen.size.x * Screen.size.y / 2))
         if minY > -hmin / 2 or maxY < hmax / 2:
             return True
 
         minX = rpmin.dot(directionX)
         maxX = rpmax.dot(directionX)
         wmin, wmax = hmin * \
-            config.size[0] / config.size[1], hmax * \
-            config.size[0] / config.size[1]
+            Screen.size.x / Screen.size.y, hmax * \
+            Screen.size.x / Screen.size.y
         return minX > -wmin / 2 or maxX < wmax / 2
 
     def startScripts(self):
         """Start the scripts in the Scene."""
 
-        audioListeners = self.FindComponentsByType(AudioListener)
-        if len(audioListeners) == 0:
-            Logger.LogLine(
-                Logger.WARN, "No AudioListeners found, audio is disabled")
-            self.audioListener = None
-        elif len(audioListeners) > 1:
-            Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
-                           str(len(audioListeners)) + " found")
-            self.audioListener = None
-        else:
-            self.audioListener = audioListeners[0]
-            self.audioListener.Init()
+        if config.audio:
+            audioListeners = self.FindComponentsByType(AudioListener)
+            if len(audioListeners) == 0:
+                Logger.LogLine(
+                    Logger.WARN, "No AudioListeners found, audio is disabled")
+                self.audioListener = None
+            elif len(audioListeners) > 1:
+                Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
+                            str(len(audioListeners)) + " found")
+                self.audioListener = None
+            else:
+                self.audioListener = audioListeners[0]
+                self.audioListener.Init()
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
@@ -389,8 +391,8 @@ class Scene:
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     if os.environ["PYUNITY_INTERACTIVE"] == "1":
                         mesh = component.mesh
-                        mesh.vbo, mesh.ibo = render.genBuffers(mesh)
-                        mesh.vao = render.genArray()
+                        mesh.vbo, mesh.ibo = genBuffers(mesh)
+                        mesh.vao = genArray()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.setupBuffers()
@@ -420,6 +422,8 @@ class Scene:
             gl.glEnable(gl.GL_DEPTH_TEST)
             if config.faceCulling:
                 gl.glEnable(gl.GL_CULL_FACE)
+            else:
+                gl.glDisable(gl.GL_CULL_FACE)
             gl.glEnable(gl.GL_BLEND)
             gl.glBlendFunc(gl.GL_SRC_ALPHA,
                            gl.GL_ONE_MINUS_SRC_ALPHA)
@@ -501,7 +505,7 @@ class Scene:
             return
 
         renderers = self.FindComponentsByType(MeshRenderer)
-        lights = self.FindComponentsByType(render.Light)
+        lights = self.FindComponentsByType(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
 

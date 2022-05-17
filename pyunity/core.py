@@ -186,14 +186,22 @@ class GameObject:
             Component to add. Must inherit from :class:`Component`
 
         """
+        if not isinstance(componentClass, type):
+            raise ComponentException(
+                f"Cannot add {componentClass!r} to the GameObject; "
+                f"it is not a component"
+            )
         if not issubclass(componentClass, Component):
             raise ComponentException(
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it is not a component"
             )
-        if not (
-                issubclass(componentClass, SingleComponent) and
-                any(isinstance(component, componentClass) for component in self.components)):
+        if (issubclass(componentClass, SingleComponent) and
+                self.GetComponents(componentClass)):
+            raise ComponentException(
+                f"Cannot add {componentClass.__name__} to the GameObject; "
+                f"it already has one")
+        else:
             component = componentClass(self.transform)
             self.components.append(component)
             if componentClass is Transform:
@@ -202,10 +210,6 @@ class GameObject:
             component.gameObject = self
             component.transform = self.transform
             return component
-        else:
-            raise ComponentException(
-                f"Cannot add {componentClass.__name__} to the GameObject; "
-                f"it already has one")
 
     def GetComponent(self, componentClass):
         """
@@ -352,6 +356,28 @@ class ShowInInspector(HideInInspector):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name
 
+class _AddFields:
+    selfref = HideInInspector()
+
+    def __call__(self, **kwargs):
+        def decorator(cls):
+            for name, value in kwargs.items():
+                if value.name is None:
+                    value.name = name
+                if value.type is self.__class__.selfref:
+                    value.type = cls
+                if isinstance(value, ShowInInspector):
+                    cls.shown[name] = value
+                cls.saved[name] = value
+
+                if "PYUNITY_SPHINX_CHECK" not in os.environ:
+                    if not hasattr(cls, name):
+                        setattr(cls, name, value.default)
+            return cls
+        return decorator
+
+addFields = _AddFields()
+
 class Component:
     """
     Base class for built-in components.
@@ -468,6 +494,7 @@ class SingleComponent(Component):
     """
     pass
 
+@addFields(parent=HideInInspector(addFields.selfref))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -494,7 +521,6 @@ class Transform(SingleComponent):
     localPosition = ShowInInspector(Vector3, None, "position")
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
-    parent = HideInInspector()
 
     def __init__(self, transform=None):
         super(Transform, self).__init__(self, True)
@@ -542,7 +568,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             self.localRotation = value
         else:
-            self.localRotation = self.parent.rotation.conjugate * value
+            self.localRotation = value * self.parent.rotation.conjugate
 
     @property
     def localEulerAngles(self):
@@ -555,7 +581,7 @@ class Transform(SingleComponent):
 
     @localEulerAngles.setter
     def localEulerAngles(self, value):
-        self.localRotation.eulerAngles = value
+        self.localRotation = Quaternion.Euler(value)
 
     @property
     def eulerAngles(self):

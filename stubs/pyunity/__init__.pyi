@@ -38,14 +38,14 @@ to build the package from source. Then use
 ``setup.py`` to build. Note that it will install
 Cython to compile. ::
 
-    > python setup.py install
+    > pip install .
 
 The latest builds are on the ``develop`` branch
 which is the default branch. These builds are
 sometimes broken, so use at your own risk. ::
 
     > git clone https://github.com/pyunity/pyunity
-    > python setup.py install
+    > pip install .
 
 Its only dependencies are PyOpenGL, PySDL2,
 Pillow and PyGLM. Microsoft Visual

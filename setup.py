@@ -3,15 +3,40 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from setuptools import setup, find_packages, Extension
+from distutils.command.build_ext import build_ext
+import distutils.log
 import os
 import re
+import sys
 import glob
+import subprocess
 
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-with open("README.md", "r") as fh:
-    longDesc = fh.read()
+class Cythonize(build_ext):
+    description = " ".join([
+        "Run default build_ext command but cythonize",
+        "files beforehand if needed."])
+
+    def run(self):
+        if os.environ["cython"] == "1":
+            self.announce("Cython enabled", level=distutils.log.INFO)
+            if not os.path.isdir("src"):
+                self.announce(
+                    "src/ directory not found", level=distutils.log.INFO)
+                cmd = [sys.executable, "prepare.py", "cythonize"]
+                self.announce(
+                    f"Running command: {cmd}",
+                    level=distutils.log.INFO)
+                subprocess.check_call(cmd)
+            else:
+                self.announce(
+                    "src/ directory found", level=distutils.log.INFO)
+        else:
+            self.announce(
+                "Cython disabled", level=distutils.log.INFO)
+        super(Cythonize, self).run()
 
 if os.environ["cython"] == "1":
     if not os.path.isdir("src"):
@@ -21,19 +46,29 @@ if os.environ["cython"] == "1":
                 "If this is not a local clone of the repository, please report",
                 "this as a bug at https://github.com/pyunity/pyunity/issues."
             ]))
+        if not os.path.isdir("pyunity"):
+            raise Exception("\n".join([
+                "Source directory `src` not found but `pyunity` does not exist.",
+                "If this is not a local clone of the repository, please report",
+                "this as a bug at https://github.com/pyunity/pyunity/issues."
+            ]))
         import prepare
-        prepare.cythonize()
-    cFiles = glob.glob("src/**/*.c", recursive=True)
-    dataFiles = list(filter(lambda a: ".c" not in a,
-                            glob.glob("src/**/*.*", recursive=True)))
+        cFiles, dataFiles = prepare.getFiles()
+        versionfile = "pyunity/_version.py"
+    else:
+        cFiles = glob.glob("src/**/*.c", recursive=True)
+        dataFiles = list(filter(lambda a: ".c" not in a,
+                                glob.glob("src/**/*.*", recursive=True)))
+        versionfile = "src/_version.py"
+
     config = {
+        "cmdclass": {"build_ext": Cythonize},
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
     }
-    versionfile = "src/_version.py"
 else:
     dataFiles = list(filter(lambda a: ".py" not in a,
                             glob.glob("pyunity/**/*.*", recursive=True)))
@@ -52,47 +87,6 @@ else:
     raise RuntimeError(f"Unable to find version string in {versionfile}")
 
 setup(
-    name="pyunity",
     version=version,
-    author="Ray Chen",
-    author_email="tankimarshal2@gmail.com",
-    description="A Python implementation of the Unity Engine",
-    long_description=longDesc,
-    long_description_content_type="text/markdown",
-    license="MIT",
-    project_urls={
-        "Documentation": "https://docs.pyunity.x10.bz/",
-        "Source": "https://github.com/pyunity/pyunity",
-        "Tracker": "https://github.com/pyunity/pyunity/issues"
-    },
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Natural Language :: English",
-        "License :: OSI Approved :: MIT License",
-        "Intended Audience :: Developers",
-        "Natural Language :: English",
-        "Operating System :: MacOS",
-        "Operating System :: Microsoft :: Windows",
-        "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-    ],
-    install_requires=[
-        "pyopengl",
-        "pillow",
-        "pysdl2",
-        "pysdl2-dll",
-        "pyglm",
-        "importlib-resources; python_version < '3.9'",
-    ],
-    extras_require={
-        "providers": [ # Other window providers as needed
-            "glfw",
-        ]
-    },
-    python_requires=">=3.6",
     **config,
 )

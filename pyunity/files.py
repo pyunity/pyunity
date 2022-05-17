@@ -143,7 +143,8 @@ class Scripts:
             elif line.isspace() or line == "":
                 continue
             elif "#" in line:
-                if line.split("#")[0].isspace():
+                before = line.split("#")[0]
+                if before.isspace() or before == "":
                     continue
             elif line.startswith("class "):
                 continue
@@ -151,6 +152,20 @@ class Scripts:
                 continue
             return False
         return True
+
+    @staticmethod
+    def GenerateModule():
+        if "PyUnityScripts" in sys.modules:
+            if hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+                return sys.modules["PyUnityScripts"]
+            Logger.LogLine(
+                Logger.WARN, "PyUnityScripts is already a package")
+        module = ModuleType("PyUnityScripts", None)
+        module.__pyunity__ = True
+        module.__all__ = []
+        module._lookup = {}
+        sys.modules["PyUnityScripts"] = module
+        return module
 
     @staticmethod
     def LoadScript(path):
@@ -180,19 +195,13 @@ class Scripts:
         """
         pathobj = Path(path).absolute()
         if not pathobj.is_file():
-            raise PyUnityException(f"The specified file does not exist: {path}")
+            raise PyUnityException(
+                f"The specified file does not exist: {str(path)!r}")
 
-        if "PyUnityScripts" in sys.modules and hasattr(sys.modules["PyUnityScripts"], "__pyunity__"):
+        if hasattr(sys.modules.get("PyUnityScripts", None), "__pyunity__"):
             module = sys.modules["PyUnityScripts"]
         else:
-            if "PyUnityScripts" in sys.modules:
-                Logger.LogLine(
-                    Logger.WARN, "PyUnityScripts is already a package")
-            module = ModuleType("PyUnityScripts", None)
-            module.__pyunity__ = True
-            module.__all__ = []
-            module._lookup = {}
-            sys.modules["PyUnityScripts"] = module
+            module = Scripts.GenerateModule()
 
         with open(path) as f:
             text = f.read().rstrip().splitlines()
