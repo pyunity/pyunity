@@ -155,8 +155,8 @@ def process_docstring(app, what, name, obj, options, lines):
 
         for index in reversed(indexes):
             name = lines[index][15:]
-            if name in obj.saved:
-                val = str(obj.saved[name].default)
+            if name in obj._saved:
+                val = str(obj._saved[name].default)
                 lines.insert(index + 1, "   :annotation: = " + val)
 
 def setup(app):

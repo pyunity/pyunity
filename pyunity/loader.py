@@ -14,13 +14,12 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj"]
 
 from . import Logger
-from .meshes import Mesh
+from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
-from .core import GameObject, Component, Tag
-from .values import Vector3, Vector2, ImmutableStruct, Quaternion, Material, Color
+from .core import GameObject, Component, Tag, SavesProjectID
+from .values import Vector3, Vector2, ImmutableStruct, Quaternion
 from .scenes import SceneManager
 from .files import Behaviour, Scripts, Project, File, Texture2D
-from .scenes import Scene
 from contextlib import ExitStack
 from pathlib import Path
 from uuid import uuid4
@@ -426,29 +425,26 @@ def SaveScene(scene, project, path):
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
             attrs = {"gameObject": gameObjectID}
-            for k in component.saved.keys():
+            for k in component._saved.keys():
                 v = getattr(component, k)
-                if isinstance(v, (GameObject, Component, Scene)) or v in project._ids:
+                if isinstance(v, SavesProjectID):
                     v = getUuid(v)
-                elif isinstance(v, Mesh):
-                    filename = Path("Meshes") / (gameObject.name + ".mesh")
-                    SaveMesh(v, gameObject.name, project.path / filename)
-                    v = getUuid(v)
-                    file = File(filename, v)
-                    project.ImportFile(file, write=False)
-                elif isinstance(v, Material):
-                    filename = Path("Materials") / (gameObject.name + ".mat")
-                    SaveMat(v, project, project.path / filename)
-                    v = getUuid(v)
-                    file = File(filename, v)
-                    project.ImportFile(file, write=False)
-                elif isinstance(v, Texture2D):
-                    filename = Path("Textures") / (gameObject.name + ".png")
-                    os.makedirs(project.path / "Textures", exist_ok=True)
-                    v.img.save(project.path / filename)
-                    v = getUuid(v)
-                    file = File(filename, v)
-                    project.ImportFile(file, write=False)
+
+                    filename = None
+                    if isinstance(v, Mesh):
+                        filename = Path("Meshes") / (gameObject.name + ".mesh")
+                        SaveMesh(v, gameObject.name, project.path / filename)
+                    elif isinstance(v, Material):
+                        filename = Path("Materials") / (gameObject.name + ".mat")
+                        SaveMat(v, project, project.path / filename)
+                    elif isinstance(v, Texture2D):
+                        filename = Path("Textures") / (gameObject.name + ".png")
+                        os.makedirs(project.path / "Textures", exist_ok=True)
+                        v.img.save(project.path / filename)
+
+                    if filename is not None:
+                        file = File(filename, v)
+                        project.ImportFile(file, write=False)
                 if v is not None and not isinstance(v, savable):
                     continue
                 attrs[k] = v
@@ -505,25 +501,19 @@ def LoadProject(folder):
     for file in project.filePaths:
         if file.endswith(".mesh"):
             mesh = LoadMesh(project.path / os.path.normpath(file))
-            uuid = project.filePaths[file].uuid
-            project._idMap[uuid] = mesh
-            project._ids[mesh] = uuid
+            project.SetAsset(file, mesh)
 
     # Textures
     for file in project.filePaths:
         if file.endswith(".png") or file.endswith(".jpg"):
             texture = Texture2D(project.path / os.path.normpath(file))
-            uuid = project.filePaths[file].uuid
-            project._idMap[uuid] = texture
-            project._ids[texture] = uuid
+            project.SetAsset(file, texture)
 
     # Materials
     for file in project.filePaths:
         if file.endswith(".mat"):
             material = LoadMat(project.path / os.path.normpath(file), project)
-            uuid = project.filePaths[file].uuid
-            project._idMap[uuid] = material
-            project._ids[material] = uuid
+            project.SetAsset(file, material)
 
     # Scenes
     for file in project.filePaths:
@@ -620,7 +610,7 @@ def LoadScene(sceneFile, project):
                 if not success:
                     continue
             if value is not None:
-                type_ = component.saved[k].type
+                type_ = component._saved[k].type
                 if type_ is float:
                     type_ = (float, int)
                 elif issubclass(type_, enum.Enum):

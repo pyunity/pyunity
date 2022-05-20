@@ -15,7 +15,7 @@ the :class:`SceneManager` class.
 __all__ = ["Scene"]
 
 from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, MeshRenderer, Component
+from ..core import GameObject, Tag, MeshRenderer, Component, SavesProjectID
 from ..files import Behaviour
 from ..values import Vector3
 from .. import config, physics, logger as Logger
@@ -34,7 +34,7 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
 
 disallowedChars = set(":*/\"\\?<>|")
 
-class Scene:
+class Scene(SavesProjectID):
     """
     Class to hold all of the GameObjects, and to run the whole
     scene.
@@ -154,7 +154,7 @@ class Scene:
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
-                for saved in component.saved:
+                for saved in component._saved:
                     attr = getattr(component, saved)
                     if isinstance(attr, GameObject):
                         if attr in pending:

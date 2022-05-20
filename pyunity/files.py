@@ -12,7 +12,7 @@ __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project", "Skybox", "Scripts"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, ShowInInspector
+from .core import Component, ShowInInspector, SavesProjectID
 from . import Logger
 from OpenGL import GL as gl
 from PIL import Image
@@ -222,7 +222,7 @@ class Scripts:
 
         return module
 
-class Texture2D:
+class Texture2D(SavesProjectID):
     """
     Class to represent a texture.
 
@@ -290,7 +290,7 @@ class Texture2D:
         obj.texture = texture
         return obj
 
-class Skybox:
+class Skybox(SavesProjectID):
     """Skybox model consisting of 6 images"""
     names = ["right.jpg", "left.jpg", "top.jpg",
              "bottom.jpg", "front.jpg", "back.jpg"]
@@ -353,7 +353,7 @@ class Skybox:
                 self.compile()
             gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
-class Prefab:
+class Prefab(SavesProjectID):
     """Prefab model"""
     def __init__(self, gameObject, components):
         self.gameObject = gameObject
@@ -391,6 +391,14 @@ class Project:
         self.filePaths[file.path] = file
         if write:
             self.Write()
+
+    def SetAsset(self, file, obj):
+        if file not in self.filePaths:
+            raise PyUnityException(f"File is not part of project: {file!r}")
+
+        uuid = self.filePaths[file].uuid
+        self._idMap[uuid] = obj
+        self._ids[obj] = uuid
 
     @staticmethod
     def FromFolder(folder):

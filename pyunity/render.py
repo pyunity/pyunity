@@ -9,7 +9,8 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
+from .meshes import Color, RGB
+from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
 from .files import Skybox, convert

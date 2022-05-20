@@ -11,11 +11,11 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
 
 from . import Logger
 from .errors import PyUnityException
-from .values import Vector2, Color, RGB
+from .meshes import Color, RGB
+from .values import Vector2, ABCMeta, abstractmethod
 from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer, addFields
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
-from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
 from collections.abc import Callable
