@@ -432,6 +432,7 @@ class CollManager:
         else:
             args[0] = [args[0][0]]
             args[1] = ao
+        return False
 
     @staticmethod
     def triSimplex(args):

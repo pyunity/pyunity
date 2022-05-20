@@ -42,7 +42,7 @@ class abstractproperty(abstractmethod):
         return self.func(instance)
 
     def __set__(self, instance, value):
-        raise NotImplemented
+        raise NotImplementedError
 
     def __eq__(self, other):
         if isinstance(other, property):
