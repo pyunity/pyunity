@@ -16,9 +16,9 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 from . import Logger
 from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
-from .core import GameObject, Component, Tag, SavesProjectID
+from .core import GameObject, Component, Tag, SavesProjectID, Asset
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion
-from .scenes import SceneManager
+from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D
 from contextlib import ExitStack
 from pathlib import Path
@@ -80,14 +80,11 @@ def LoadObj(filename):
 
     return Mesh(vertices, faces, normals)
 
-def SaveObj(mesh, name, filePath=None):
-    if filePath:
-        directory = Path(filePath).resolve().parent
-    else:
-        directory = Path.cwd()
+def SaveObj(mesh, path):
+    directory = Path(path).resolve().parent
     directory.mkdir(parents=True, exist_ok=True)
 
-    with open(directory / (name + ".obj"), "w+") as f:
+    with open(path, "w+") as f:
         for vertex in mesh.verts:
             f.write(f"v {' '.join(map(str, round(vertex, 8)))}\n")
         for normal in mesh.normals:
@@ -195,7 +192,7 @@ def LoadMesh(filename):
         texcoords = None
     return Mesh(vertices, faces, normals, texcoords)
 
-def SaveMesh(mesh, name, filePath=None):
+def SaveMesh(mesh, path):
     """
     Saves a mesh to a .mesh file
     for faster loading.
@@ -204,26 +201,14 @@ def SaveMesh(mesh, name, filePath=None):
     ----------
     mesh : Mesh
         Mesh to save
-    name : str
-        Name of the mesh
-    filePath : str, optional
-        Pass in ``__file__`` to save in
-        directory of script, otherwise
-        pass in the path of where you
-        want to save the file. For example, if you
-        want to save in C:\\Downloads, then give
-        "C:\\Downloads\\mesh.mesh". If not
-        specified, then the mesh is saved
-        in the cwd.
+    path : str or Path
+        Path to save file
 
     """
-    if filePath:
-        directory = Path(filePath).resolve().parent
-    else:
-        directory = Path.cwd()
+    directory = Path(path).resolve().parent
     directory.mkdir(parents=True, exist_ok=True)
 
-    with open(directory / (name + ".mesh"), "w+") as f:
+    with open(path, "w+") as f:
         i = 0
         for vertex in mesh.verts:
             i += 1
@@ -401,6 +386,29 @@ def LoadMat(path, project):
 savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
 """All savable types that will not be saved as UUIDs"""
 
+class ProjectSavingContext:
+    def __init__(self, asset, gameObject, project):
+        if not isinstance(asset, Asset):
+            raise ProjectParseException(
+                f"{type(asset).__name__} does not subclass Asset")
+        if not isinstance(gameObject, GameObject):
+            raise ProjectParseException(
+                f"{gameObject!r} is not a GameObject")
+        if not isinstance(project, Project):
+            raise ProjectParseException(
+                f"{project!r} is not a GameObject")
+
+        self.asset = asset
+        self.gameObject = gameObject
+        self.project = project
+        self.filename = ""
+
+        self.savers = {
+            Mesh: SaveMesh,
+            Material: SaveMat,
+            Scene: SaveScene
+        }
+
 def SaveScene(scene, project, path):
     def getUuid(obj):
         if obj is None:
@@ -428,23 +436,24 @@ def SaveScene(scene, project, path):
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
-                    v = getUuid(v)
+                    if v in project._ids:
+                        attrs[k] = project._ids[v]
+                        continue
 
-                    filename = None
-                    if isinstance(v, Mesh):
-                        filename = Path("Meshes") / (gameObject.name + ".mesh")
-                        SaveMesh(v, gameObject.name, project.path / filename)
-                    elif isinstance(v, Material):
-                        filename = Path("Materials") / (gameObject.name + ".mat")
-                        SaveMat(v, project, project.path / filename)
-                    elif isinstance(v, Texture2D):
-                        filename = Path("Textures") / (gameObject.name + ".png")
-                        os.makedirs(project.path / "Textures", exist_ok=True)
-                        v.img.save(project.path / filename)
+                    uuid = getUuid(v)
+                    if isinstance(v, Asset):
+                        context = ProjectSavingContext(
+                            asset=v,
+                            gameObject=gameObject,
+                            project=project)
+                        v.SaveAsset(context)
+                        if context.filename == "":
+                            raise ProjectParseException(
+                                f"Asset does not set filename: {type(v).__name__}")
 
-                    if filename is not None:
-                        file = File(filename, v)
+                        file = File(context.filename, uuid)
                         project.ImportFile(file, write=False)
+                    v = uuid
                 if v is not None and not isinstance(v, savable):
                     continue
                 attrs[k] = v

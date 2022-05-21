@@ -52,12 +52,12 @@ and all have MeshRenderers:
 
 __all__ = ["Component", "GameObject", "SingleComponent",
            "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "addFields"]
+           "HideInInspector", "addFields", "Asset", "SavesProjectID"]
 
 import inspect
 import os
 from .errors import PyUnityException, ComponentException
-from .values import Vector3, Quaternion
+from .values import Vector3, Quaternion, ABCMeta, abstractmethod
 from . import Logger
 
 class Tag:
@@ -122,6 +122,11 @@ class Tag:
 
 class SavesProjectID:
     pass
+
+class Asset(SavesProjectID, metaclass=ABCMeta):
+    @abstractmethod
+    def SaveAsset(self, ctx):
+        pass
 
 class GameObject(SavesProjectID):
     """

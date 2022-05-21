@@ -16,14 +16,16 @@ __all__ = ["Scene"]
 
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, Component, SavesProjectID
+from ..core import GameObject, Tag, Component, Asset
 from ..files import Behaviour
 from ..values import Vector3
-from .. import config, physics, logger as Logger
+from .. import Logger, config
+from ..physics import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from ..render import Camera, Light, Screen, genBuffers, genArray
 from inspect import signature
+from pathlib import Path
 from time import time
 import os
 import sys
@@ -35,7 +37,7 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
 
 disallowedChars = set(":*/\"\\?<>|")
 
-class Scene(SavesProjectID):
+class Scene(Asset):
     """
     Class to hold all of the GameObjects, and to run the whole
     scene.
@@ -65,6 +67,11 @@ class Scene(SavesProjectID):
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.ids = {}
         self.id = str(uuid.uuid4())
+
+    def SaveAsset(self, ctx):
+        ctx.filename = Path("Scenes") / (ctx.gameObject.name + ".scene")
+        path = ctx.project.path / ctx.filename
+        ctx.savers[Scene](self, ctx.project, path)
 
     @staticmethod
     def Bare(name):
@@ -400,12 +407,12 @@ class Scene(SavesProjectID):
 
         # self.physics = any(
         #     isinstance(
-        #         component, physics.Rigidbody
+        #         component, Rigidbody
         #     ) for gameObject in self.gameObjects for component in gameObject.components
         # )
         self.physics = True # Check is too expensive
         if self.physics:
-            self.collManager = physics.CollManager()
+            self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
 
         self.lastFrame = time()

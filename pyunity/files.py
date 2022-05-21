@@ -12,15 +12,15 @@ __all__ = ["Behaviour", "Texture2D", "Prefab",
            "File", "Project", "Skybox", "Scripts"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, ShowInInspector, SavesProjectID
+from .core import Component, ShowInInspector, Asset
 from . import Logger
-from OpenGL import GL as gl
-from PIL import Image
 from types import ModuleType
-import os
 from pathlib import Path
-import sys
+from PIL import Image
+import OpenGL.GL as gl
 import ctypes
+import sys
+import os
 
 def convert(type, list):
     """
@@ -222,7 +222,7 @@ class Scripts:
 
         return module
 
-class Texture2D(SavesProjectID):
+class Texture2D(Asset):
     """
     Class to represent a texture.
 
@@ -283,6 +283,11 @@ class Texture2D(SavesProjectID):
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
+    def SaveAsset(self, ctx):
+        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
+        path = ctx.project.path / ctx.filename
+        self.img.save(path)
+
     @classmethod
     def FromOpenGL(cls, texture):
         obj = cls.__new__(cls)
@@ -290,7 +295,7 @@ class Texture2D(SavesProjectID):
         obj.texture = texture
         return obj
 
-class Skybox(SavesProjectID):
+class Skybox:
     """Skybox model consisting of 6 images"""
     names = ["right.jpg", "left.jpg", "top.jpg",
              "bottom.jpg", "front.jpg", "back.jpg"]
@@ -353,11 +358,14 @@ class Skybox(SavesProjectID):
                 self.compile()
             gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
-class Prefab(SavesProjectID):
+class Prefab(Asset):
     """Prefab model"""
     def __init__(self, gameObject, components):
         self.gameObject = gameObject
         self.components = components
+
+    def SaveAsset(self, ctx):
+        pass
 
 class File:
     def __init__(self, path, uuid):

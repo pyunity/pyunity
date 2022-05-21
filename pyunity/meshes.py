@@ -6,13 +6,14 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from .core import SavesProjectID, SingleComponent, ShowInInspector
+from .core import Asset, SingleComponent, ShowInInspector
 from .values import Vector3
+from pathlib import Path
 import OpenGL.GL as gl
 import colorsys
 import os
 
-class Mesh(SavesProjectID):
+class Mesh(Asset):
     """
     Class to create a mesh for rendering with a MeshRenderer
 
@@ -103,6 +104,11 @@ class Mesh(SavesProjectID):
             Copy of the mesh
         """
         return Mesh(self.verts, self.triangles, self.normals, self.texcoords)
+
+    def SaveAsset(self, ctx):
+        ctx.filename = Path("Meshes") / (ctx.gameObject.name + ".mesh")
+        path = ctx.project.path / ctx.filename
+        ctx.savers[Mesh](self, path)
 
     @staticmethod
     def quad(size):
@@ -234,7 +240,7 @@ class Mesh(SavesProjectID):
             [[0, 0], [0, 1], [1, 1], [1, 0]] * 6
         )
 
-class Material(SavesProjectID):
+class Material(Asset):
     """
     Class to hold data on a material.
 
@@ -250,6 +256,11 @@ class Material(SavesProjectID):
     def __init__(self, color, texture=None):
         self.color = color
         self.texture = texture
+
+    def SaveAsset(self, ctx):
+        ctx.filename = Path("Materials") / (ctx.gameObject.name + ".mat")
+        path = ctx.project.path / ctx.filename
+        ctx.savers[Material](self, ctx.project, path)
 
 class Color:
     def toString(self):
