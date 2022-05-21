@@ -1,7 +1,7 @@
 name: Bug report
 description: Create a report to help us improve
 title: "[BUG] <title>"
-labels: [bug]
+labels: ["Type: Bug"]
 assignees: [rayzchen]
 body:
 - type: checkboxes
@@ -23,13 +23,13 @@ body:
     label: Describe the bug
     description: A concise description of what you're experiencing.
   validations:
-    required: false
+    required: true
 - type: textarea
   attributes:
     label: To reproduce
     description: Steps to reproduce the behavior
   validations:
-    required: false
+    required: true
 - type: textarea
   attributes:
     label: Code
