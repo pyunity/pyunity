@@ -44,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Cython
+          path: src/
       - name: Build wheel
         env:
           PYUNITY_TESTING: 1

@@ -111,7 +111,6 @@ def main():
     cam.transform.LookAtPoint(Vector3.zero())
     camera = cam.AddComponent(Camera)
     camera.shadows = False
-    camera.canvas = scene.mainCamera.canvas
     scene.Add(cam)
 
     target = GameObject("Target", canvas)

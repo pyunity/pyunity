@@ -6,7 +6,7 @@
 
 from pyunity.window import ABCWindow
 from pyunity.values import Clock
-from pyunity import config
+from pyunity import config, Logger
 from .egl import *
 
 eglDpy = eglGetDisplay(0)
@@ -25,25 +25,25 @@ class Window(ABCWindow):
         eglInitialize(eglDpy)
 
         configAttribs = EGLList(
-            EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-            EGL_BLUE_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_RED_SIZE, 8,
-            EGL_DEPTH_SIZE, 8,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-            EGL_NONE
+            EGL.SURFACE_TYPE, EGL.PBUFFER_BIT,
+            EGL.BLUE_SIZE, 8,
+            EGL.GREEN_SIZE, 8,
+            EGL.RED_SIZE, 8,
+            EGL.DEPTH_SIZE, 8,
+            EGL.RENDERABLE_TYPE, EGL.OPENGL_BIT,
+            EGL.NONE
         )
         self.eglCfg = eglChooseConfig(eglDpy, configAttribs, 1)[0]
         pbufferAttribs = EGLList(
-            EGL_WIDTH, 800,
-            EGL_HEIGHT, 500,
-            EGL_NONE
+            EGL.WIDTH, 800,
+            EGL.HEIGHT, 500,
+            EGL.NONE
         )
         self.eglSurf = eglCreatePbufferSurface(eglDpy, self.eglCfg, pbufferAttribs)
-        eglBindAPI(EGL_OPENGL_API)
+        eglBindAPI(EGL.OPENGL_API)
         contextAttribs = EGLList(
-            EGL_CONTEXT_CLIENT_VERSION, 330,
-            EGL_NONE
+            EGL.CONTEXT_CLIENT_VERSION, 330,
+            EGL.NONE
         )
         self.eglCtx = eglCreateContext(eglDpy, self.eglCfg, None, contextAttribs)
         eglMakeCurrent(eglDpy, self.eglSurf, self.eglSurf, self.eglCtx)
