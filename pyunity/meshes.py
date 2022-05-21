@@ -4,7 +4,7 @@
 
 """Module for meshes created at runtime and their various attributes."""
 
-__all__ = ["Mesh", "MeshRenderer"]
+__all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
 from .core import SavesProjectID, SingleComponent, ShowInInspector
 from .values import Vector3

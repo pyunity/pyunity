@@ -14,8 +14,9 @@ the :class:`SceneManager` class.
 
 __all__ = ["Scene"]
 
+from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, MeshRenderer, Component, SavesProjectID
+from ..core import GameObject, Tag, Component, SavesProjectID
 from ..files import Behaviour
 from ..values import Vector3
 from .. import config, physics, logger as Logger
