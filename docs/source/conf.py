@@ -14,22 +14,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
-import math
-
-def atan(*args):
-    if len(args) == 2:
-        return math.atan2(*args)
-    else:
-        return math._atan(*args)
-
-def pi():
-    return math._pi
-
-math._atan = math.atan
-math.atan = atan
-math._pi = math.pi
-math.pi = pi
-sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
 os.environ["PYUNITY_SPHINX_CHECK"] = "1"
