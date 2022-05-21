@@ -10,7 +10,6 @@ Submodules
    pyunity.values.abc
    pyunity.values.other
    pyunity.values.quaternion
-   pyunity.values.texture
    pyunity.values.vector
 
 Module contents

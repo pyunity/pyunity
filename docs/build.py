@@ -1,6 +1,10 @@
 import subprocess
 import sys
 import os
+import shutil
+
+if os.path.isdir("docs/source/api"):
+    shutil.rmtree("docs/source/api")
 
 providers = []
 for folder in os.listdir("pyunity/window/providers"):
