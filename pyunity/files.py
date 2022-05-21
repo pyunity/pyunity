@@ -12,7 +12,7 @@ __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "File", "Project", "Skybox", "Scripts"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, ShowInInspector, SavesProjectID
+from .core import Component, GameObject, SavesProjectID, Transform
 from .values import ABCMeta, abstractmethod
 from . import Logger
 from types import ModuleType
@@ -46,16 +46,7 @@ class Behaviour(Component):
     """
     Base class for behaviours that can be scripted.
 
-    Attributes
-    ----------
-    gameObject : GameObject
-        GameObject that the component belongs to.
-    transform : Transform
-        Transform that the component belongs to.
-
     """
-
-    _script = ShowInInspector(type)
 
     def Start(self):
         """
@@ -366,9 +357,53 @@ class Skybox:
 
 class Prefab(Asset):
     """Prefab model"""
-    def __init__(self, gameObject, components):
-        self.gameObject = gameObject
-        self.components = components
+    def __init__(self, gameObject):
+        self.gameObjects = []
+        self.assets = []
+        components = []
+        mapping = {}
+
+        for obj in gameObject.transform.GetDescendants():
+            mapping[obj] = g
+            g = GameObject(obj.name)
+            g.tag = obj.tag
+            g.enabled = obj.enabled
+            self.gameObjects.append(g)
+
+            parentTransform = obj.transform.parent
+            if parentTransform is None:
+                newParent = None
+            else:
+                newParent = mapping[parentTransform.gameObject].transform
+            g.transform.ReparentTo(newParent)
+
+            for component in obj.components:
+                if isinstance(component, Transform):
+                    continue
+                new = g.AddComponent(type(component))
+                mapping[component] = new
+                components.append(new)
+
+        # 2nd pass setting attributes
+        for obj in gameObject.transform.GetDescendants():
+            for component in obj.components:
+                if isinstance(component, Transform):
+                    continue
+                for k in component.saved:
+                    v = getattr(component, k)
+                    if isinstance(v, GameObject):
+                        if v not in mapping:
+                            continue
+                        v = mapping[v]
+                    elif isinstance(v, Component):
+                        if v.gameObject not in mapping:
+                            continue
+                        v = mapping[v]
+                    if isinstance(v, Asset):
+                        self.assets.append(v)
+                    setattr(mapping[component], k, v)
+
+        self.gameObject = self.gameObjects[0]
 
     def SaveAsset(self, ctx):
         pass
