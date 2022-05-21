@@ -217,9 +217,6 @@ class Rigidbody(Component):
 
     Attributes
     ----------
-    mass : int or float
-        Mass of the Rigidbody. Defaults
-        to 100
     velocity : Vector3
         Velocity of the Rigidbody
     rotVel : Vector3
@@ -254,6 +251,7 @@ class Rigidbody(Component):
 
     @property
     def mass(self):
+        """Mass of the Rigidbody. Defaults to 100"""
         if self.invMass == 0:
             return Infinity
         return 1 / self.invMass

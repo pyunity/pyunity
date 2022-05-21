@@ -138,10 +138,10 @@ def process_docstring(app, what, name, obj, options, lines):
                 indexes.append(i)
 
         for index in reversed(indexes):
-            name = lines[index][15:]
+            name = lines[index].split("::", 1)[1][1:]
             if name in obj.saved:
                 val = str(obj.saved[name].default)
-                lines.insert(index + 1, "   :annotation: = " + val)
+                lines.insert(index + 1, "   :value: " + val)
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_member)
