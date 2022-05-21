@@ -8,11 +8,12 @@ Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab",
+__all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "File", "Project", "Skybox", "Scripts"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, ShowInInspector, Asset
+from .core import Component, ShowInInspector, SavesProjectID
+from .values import ABCMeta, abstractmethod
 from . import Logger
 from types import ModuleType
 from pathlib import Path
@@ -221,6 +222,11 @@ class Scripts:
                 f"{str(pathobj)!r} is not a valid PyUnity script")
 
         return module
+
+class Asset(SavesProjectID, metaclass=ABCMeta):
+    @abstractmethod
+    def SaveAsset(self, ctx):
+        pass
 
 class Texture2D(Asset):
     """

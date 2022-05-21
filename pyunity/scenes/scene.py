@@ -16,8 +16,8 @@ __all__ = ["Scene"]
 
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, Component, Asset
-from ..files import Behaviour
+from ..core import GameObject, Tag, Component
+from ..files import Behaviour, Asset
 from ..values import Vector3
 from .. import Logger, config
 from ..physics import CollManager

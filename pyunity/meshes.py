@@ -6,7 +6,8 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from .core import Asset, SingleComponent, ShowInInspector
+from .core import SingleComponent, ShowInInspector
+from .files import Asset
 from .values import Vector3
 from pathlib import Path
 import OpenGL.GL as gl

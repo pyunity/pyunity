@@ -16,10 +16,10 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 from . import Logger
 from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
-from .core import GameObject, Component, Tag, SavesProjectID, Asset
+from .core import GameObject, Component, Tag, SavesProjectID
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion
 from .scenes import SceneManager, Scene
-from .files import Behaviour, Scripts, Project, File, Texture2D
+from .files import Behaviour, Scripts, Project, File, Texture2D, Asset
 from contextlib import ExitStack
 from pathlib import Path
 from uuid import uuid4
