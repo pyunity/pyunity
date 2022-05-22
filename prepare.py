@@ -71,7 +71,7 @@ def checkWhitespace():
 
 def parseSingleFile(path):
     current = multiprocessing.current_process()
-    print(f"Worker-{current.pid}: cythonizing", path)
+    print(f"Worker-{current.pid}: correcting", path)
 
     import autopep8
     autopep8.main(["autopep8", "-i", "--ignore",
@@ -281,7 +281,6 @@ def main():
     if len(sys.argv) == 1:
         checkLicense()
         checkWhitespace()
-        checkMissing()
         parseCode()
         cythonize()
     else:
