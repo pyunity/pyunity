@@ -350,10 +350,10 @@ class Scene:
         maxY = rpmax.dot(directionY)
         hmin = minZ * 2 * \
             Mathf.Tan(self.mainCamera.fov / Screen.size.x *
-                Screen.size.y / 2 * Mathf.DEG_TO_RAD)
+                      Screen.size.y / 2 * Mathf.DEG_TO_RAD)
         hmax = maxZ * 2 * \
             Mathf.Tan(self.mainCamera.fov / Screen.size.x *
-                Screen.size.y / 2 * Mathf.DEG_TO_RAD)
+                      Screen.size.y / 2 * Mathf.DEG_TO_RAD)
         if minY > -hmin / 2 or maxY < hmax / 2:
             return True
 
@@ -375,7 +375,7 @@ class Scene:
                 self.audioListener = None
             elif len(audioListeners) > 1:
                 Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
-                            str(len(audioListeners)) + " found")
+                               str(len(audioListeners)) + " found")
                 self.audioListener = None
             else:
                 self.audioListener = audioListeners[0]

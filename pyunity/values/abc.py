@@ -64,12 +64,12 @@ class ABCMeta(type):
             for method in methods:
                 if cls._trigger and method not in attrs:
                     raise ABCException("Method has not been defined: " +
-                                        repr(methods[method].func))
+                                       repr(methods[method].func))
 
                 if cls._trigger and methods[method] != attrs[method]:
                     raise ABCException("Function signature is not the same: " +
-                                        repr(methods[method].func) + " and " +
-                                        repr(attrs[method]))
+                                       repr(methods[method].func) + " and " +
+                                       repr(attrs[method]))
 
     @classmethod
     def __prepare__(cls, name, bases, message=None):

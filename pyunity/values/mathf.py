@@ -29,6 +29,7 @@ EPSILON = sys.float_info.epsilon
 def _wraps(orig, glmfunc=None):
     if glmfunc is None:
         glmfunc = orig
+
     def decorator(func):
         if "PYUNITY_SPHINX_CHECK" in os.environ:
             return func

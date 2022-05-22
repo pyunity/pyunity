@@ -218,7 +218,7 @@ class Scripts:
             module._lookup[str(path)] = Scripts.var[name]
         else:
             Logger.LogLine(Logger.WARN,
-                f"{str(pathobj)!r} is not a valid PyUnity script")
+                           f"{str(pathobj)!r} is not a valid PyUnity script")
 
         return module
 

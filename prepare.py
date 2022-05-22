@@ -69,14 +69,34 @@ def checkWhitespace():
         with open(file, "w", encoding="utf8") as f:
             f.write("\n".join(lines))
 
-def parseCode():
+def parseSingleFile(path):
+    current = multiprocessing.current_process()
+    print(f"Worker-{current.pid}: cythonizing", path)
+
+    import autopep8
+    autopep8.main(["autopep8", "-i", "--ignore",
+                "E26,E301,E302,E305,E401,E402,E501",
+                path])
+
+def parseCode(nthreads=None):
     if pkgutil.find_loader("autopep8") is None:
         raise Exception("autopep8 is needed to parse the source code.\n" +
                         "Install using \"pip install autopep8\".")
-    import autopep8
-    autopep8.main(["autopep8", "-i", "-r", "--ignore",
-                "E26,E301,E302,E305,E401,E402,E501",
-                "pyunity", "setup.py", "cli.py"])
+
+    if nthreads is None:
+        nthreads = os.cpu_count()
+    pool = multiprocessing.Pool(nthreads, initWorker)
+    paths = glob.glob("pyunity/**/*.py", recursive=True)
+    paths.append("setup.py")
+    paths.append("cli.py")
+
+    result = pool.map_async(parseSingleFile, paths)
+    try:
+        result.get(0xFFF)
+    except Exception:
+        pool.terminate()
+        pool.join()
+        raise
 
 def getPackages(module):
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):

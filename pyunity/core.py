@@ -408,9 +408,9 @@ class Component:
         variables = list(
             filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
-                for a in variables if isinstance(a[1], ShowInInspector)}
+                 for a in variables if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]
-                for a in variables if isinstance(a[1], HideInInspector)}
+                 for a in variables if isinstance(a[1], HideInInspector)}
         cls.shown = shown
         cls.saved = saved
 

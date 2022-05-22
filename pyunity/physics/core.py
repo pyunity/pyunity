@@ -209,7 +209,7 @@ class BoxCollider(Collider):
 
 @addFields(
     mass=ShowInInspector(float, 100),
-    inertia=ShowInInspector(float, 200/3))
+    inertia=ShowInInspector(float, 200 / 3))
 class Rigidbody(Component):
     """
     Class to let a GameObject follow physics
