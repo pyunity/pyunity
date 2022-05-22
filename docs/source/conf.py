@@ -42,8 +42,10 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    "hoverxref.extension",
 ]
+
+if os.getenv("READTHEDOCS_PROJECT") == "pyunity":
+    extensions.append("hoverxref.extension")
 
 master_doc = "index"
 
