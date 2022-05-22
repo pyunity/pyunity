@@ -11,7 +11,8 @@ This will be imported as ``pyunity.Loader``.
 """
 
 __all__ = ["Primitives", "GetImports", "SaveScene",
-           "LoadMesh", "SaveMesh", "LoadObj", "SaveObj"]
+           "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
+           "LoadStl", "SavePrefab", "LoadPrefab"]
 
 from . import Logger
 from .meshes import Mesh, Material, Color
@@ -19,7 +20,7 @@ from .errors import PyUnityException, ProjectParseException
 from .core import GameObject, Component, Tag, SavesProjectID
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion
 from .scenes import SceneManager, Scene
-from .files import Behaviour, Scripts, Project, File, Texture2D, Asset
+from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
 from contextlib import ExitStack
 from pathlib import Path
 from uuid import uuid4
@@ -383,6 +384,26 @@ def LoadMat(path, project):
 
     return Material(color, texture)
 
+def SavePrefab(prefab, path, project):
+    filename = Path(path)
+    filename.parent.mkdir(parents=True, exist_ok=True)
+
+    data = []
+    SaveGameObjects(prefab.gameObjects, data, project)
+
+    with open(filename, "w+") as f:
+        f.write("\n".join(map(str, data)))
+
+def LoadPrefab(path, project):
+    data = LoadObjectInfos(path)
+    gameObjects = LoadGameObjects(data, project)
+    g = gameObjects[0]
+    while g.transform.parent is not None:
+        g = g.transform.parent.gameObject
+
+    prefab = Prefab(g, prune=False)
+    return prefab
+
 savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
 """All savable types that will not be saved as UUIDs"""
 
@@ -406,10 +427,11 @@ class ProjectSavingContext:
         self.savers = {
             Mesh: SaveMesh,
             Material: SaveMat,
-            Scene: SaveScene
+            Scene: SaveScene,
+            Prefab: SavePrefab,
         }
 
-def SaveScene(scene, project, path):
+def SaveGameObjects(gameObjects, data, project):
     def getUuid(obj):
         if obj is None:
             return None
@@ -420,16 +442,13 @@ def SaveScene(scene, project, path):
         project._idMap[uuid] = obj
         return project._ids[obj]
 
-    location = project.path / path / (scene.name + ".scene")
-    data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
-
-    for gameObject in scene.gameObjects:
+    for gameObject in gameObjects:
         attrs = {"name": json.dumps(gameObject.name),
                  "tag": gameObject.tag.tag,
                  "transform": getUuid(gameObject.transform)}
         data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
 
-    for gameObject in scene.gameObjects:
+    for gameObject in gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
             attrs = {"gameObject": gameObjectID}
@@ -476,77 +495,8 @@ def SaveScene(scene, project, path):
                 name = component.__class__.__name__ + "(Component)"
             data.append(ObjectInfo(name, getUuid(component), attrs))
 
-    location.parent.mkdir(parents=True, exist_ok=True)
-    with open(location, "w+") as f:
-        f.write("\n".join(map(str, data)))
-    project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
-
-def ResaveScene(scene, project):
-    if scene not in project._ids:
-        raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
-
-    path = project.fileIDs[project._ids[scene]].path
-    SaveScene(scene, project, Path(path).parent)
-
-def GenerateProject(name):
-    project = Project(name)
-    SaveProject(project)
-    return project
-
-def SaveProject(project):
-    for scene in SceneManager.scenesByIndex:
-        SaveScene(scene, project, "Scenes")
-
-def LoadProject(folder):
-    project = Project.FromFolder(folder)
-
-    Scripts.GenerateModule()
-    # Scripts
-    for file in project.filePaths:
-        if file.endswith(".py") and not file.startswith("__"):
-            Scripts.LoadScript(project.path / os.path.normpath(file))
-
-    # Meshes
-    for file in project.filePaths:
-        if file.endswith(".mesh"):
-            mesh = LoadMesh(project.path / os.path.normpath(file))
-            project.SetAsset(file, mesh)
-
-    # Textures
-    for file in project.filePaths:
-        if file.endswith(".png") or file.endswith(".jpg"):
-            texture = Texture2D(project.path / os.path.normpath(file))
-            project.SetAsset(file, texture)
-
-    # Materials
-    for file in project.filePaths:
-        if file.endswith(".mat"):
-            material = LoadMat(project.path / os.path.normpath(file), project)
-            project.SetAsset(file, material)
-
-    # Scenes
-    for file in project.filePaths:
-        if file.endswith(".scene"):
-            LoadScene(project.path / os.path.normpath(file), project)
-
-    return project
-
-def LoadScene(sceneFile, project):
-    try:
-        import PyUnityScripts
-    except ImportError:
-        raise PyUnityException("Please run Scripts.LoadScript before this function")
-
-    def addUuid(obj, uuid):
-        if obj in project._ids:
-            return
-        project._ids[obj] = uuid
-        project._idMap[uuid] = obj
-
-    if not Path(sceneFile).is_file():
-        raise PyUnityException(f"The specified file does not exist: {sceneFile}")
-
-    with open(sceneFile) as f:
+def LoadObjectInfos(file):
+    with open(file) as f:
         contents = f.read().rstrip().splitlines()
 
     data = []
@@ -565,18 +515,26 @@ def LoadScene(sceneFile, project):
 
     # Final objectinfo
     data.append(ObjectInfo(name, uuid, attrs))
+    return data
 
-    sceneInfo = data.pop(0)
-    if sceneInfo.name != "Scene":
-        raise ProjectParseException(f"Expected \"Scene\" as first section")
+def LoadGameObjects(data, project):
+    def addUuid(obj, uuid):
+
+        if obj in project._ids:
+            return
+        project._ids[obj] = uuid
+        project._idMap[uuid] = obj
+
+    try:
+        import PyUnityScripts
+    except ImportError:
+        raise PyUnityException("Please run Scripts.LoadScript before this function")
 
     gameObjectInfo = [x for x in data if x.name == "GameObject"]
     componentInfo = [x for x in data if x.name.endswith("(Component)")]
     behaviourInfo = [x for x in data if x.name.endswith("(Behaviour)")]
 
     gameObjects = []
-    scene = SceneManager.AddBareScene(json.loads(sceneInfo.attrs["name"]))
-    addUuid(scene, sceneInfo.uuid)
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
@@ -639,6 +597,104 @@ def LoadScene(sceneFile, project):
         if transform is not gameObject.transform:
             Logger.LogLine(Logger.WARN, f"GameObject transform does not match transform UUID: {gameObject.name!r}")
 
+    return gameObjects
+
+def SaveScene(scene, project, path):
+    def getUuid(obj):
+        if obj is None:
+            return None
+        if obj in project._ids:
+            return project._ids[obj]
+        uuid = str(uuid4())
+        project._ids[obj] = uuid
+        project._idMap[uuid] = obj
+        return project._ids[obj]
+
+    location = project.path / path / (scene.name + ".scene")
+    data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
+
+    SaveGameObjects(scene.gameObjects, data, project)
+
+    location.parent.mkdir(parents=True, exist_ok=True)
+    with open(location, "w+") as f:
+        f.write("\n".join(map(str, data)))
+    project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
+
+def ResaveScene(scene, project):
+    if scene not in project._ids:
+        raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
+
+    path = project.fileIDs[project._ids[scene]].path
+    SaveScene(scene, project, Path(path).parent)
+
+def GenerateProject(name):
+    project = Project(name)
+    SaveProject(project)
+    return project
+
+def SaveProject(project):
+    for scene in SceneManager.scenesByIndex:
+        SaveScene(scene, project, "Scenes")
+
+def LoadProject(folder):
+    project = Project.FromFolder(folder)
+
+    Scripts.GenerateModule()
+    # Scripts
+    for file in project.filePaths:
+        if file.endswith(".py") and not file.startswith("__"):
+            Scripts.LoadScript(project.path / os.path.normpath(file))
+
+    # Meshes
+    for file in project.filePaths:
+        if file.endswith(".mesh"):
+            mesh = LoadMesh(project.path / os.path.normpath(file))
+            project.SetAsset(file, mesh)
+
+    # Textures
+    for file in project.filePaths:
+        if file.endswith(".png") or file.endswith(".jpg"):
+            texture = Texture2D(project.path / os.path.normpath(file))
+            project.SetAsset(file, texture)
+
+    # Materials
+    for file in project.filePaths:
+        if file.endswith(".mat"):
+            material = LoadMat(project.path / os.path.normpath(file), project)
+            project.SetAsset(file, material)
+
+    # Prefabs
+    for file in project.filePaths:
+        if file.endswith(".prefab"):
+            prefab = LoadPrefab(project.path / os.path.normpath(file), project)
+            project.SetAsset(file, prefab)
+
+    # Scenes
+    for file in project.filePaths:
+        if file.endswith(".scene"):
+            LoadScene(project.path / os.path.normpath(file), project)
+
+    return project
+
+def LoadScene(sceneFile, project):
+    def addUuid(obj, uuid):
+        if obj in project._ids:
+            return
+        project._ids[obj] = uuid
+        project._idMap[uuid] = obj
+
+    if not Path(sceneFile).is_file():
+        raise PyUnityException(f"The specified file does not exist: {sceneFile}")
+
+    data = LoadObjectInfos(sceneFile)
+    gameObjects = LoadGameObjects(data[1:], project)
+
+    sceneInfo = data[0]
+    if sceneInfo.name != "Scene":
+        raise ProjectParseException(f"Expected \"Scene\" as first section")
+
+    scene = SceneManager.AddBareScene(json.loads(sceneInfo.attrs["name"]))
+    addUuid(scene, sceneInfo.uuid)
     scene.mainCamera = project._idMap[sceneInfo.attrs["mainCamera"]]
     for gameObject in gameObjects:
         scene.Add(gameObject)

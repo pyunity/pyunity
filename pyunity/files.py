@@ -357,56 +357,121 @@ class Skybox:
 
 class Prefab(Asset):
     """Prefab model"""
-    def __init__(self, gameObject):
-        self.gameObjects = []
-        self.assets = []
-        components = []
+    def __init__(self, gameObject, prune=True):
+        if prune:
+            self.gameObjects = []
+            self.assets = []
+            components = []
+            mapping = {}
+
+            for transform in gameObject.transform.GetDescendants():
+                obj = transform.gameObject
+                mapping[obj] = g
+                g = GameObject(obj.name)
+                g.tag = obj.tag
+                g.enabled = obj.enabled
+                self.gameObjects.append(g)
+
+                parentTransform = obj.transform.parent
+                if parentTransform is None:
+                    newParent = None
+                else:
+                    newParent = mapping[parentTransform.gameObject].transform
+                g.transform.ReparentTo(newParent)
+
+                for component in obj.components:
+                    if isinstance(component, Transform):
+                        continue
+                    new = g.AddComponent(type(component))
+                    mapping[component] = new
+                    components.append(new)
+
+            # 2nd pass setting attributes
+            for transform in gameObject.transform.GetDescendants():
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component.saved:
+                        v = getattr(component, k)
+                        if isinstance(v, GameObject):
+                            if v not in mapping:
+                                continue
+                            v = mapping[v]
+                        elif isinstance(v, Component):
+                            if v.gameObject not in mapping:
+                                continue
+                            v = mapping[v]
+                        if isinstance(v, Asset):
+                            self.assets.append(v)
+                        setattr(mapping[component], k, v)
+
+            self.gameObject = self.gameObjects[0]
+        else:
+            self.gameObjects = []
+            self.assets = []
+
+            for transform in gameObject.transform.GetDescendants():
+                if transform.gameObject.scene is not None:
+                    raise PyUnityException(
+                        "Cannot create prefab with GameObjects that are part of a scene")
+                self.gameObjects.append(transform.gameObject)
+
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component.saved:
+                        v = getattr(component, k)
+                        if isinstance(v, Asset):
+                            self.assets.append(v)
+
+            self.gameObject = gameObject
+
+    def Contains(self, obj):
+        if not isinstance(obj, (GameObject, Component)):
+            raise PyUnityException(
+                f"Cannot check if {type(obj).__name__} is part of a Prefab")
+
+        if isinstance(obj, GameObject):
+            return obj in self.gameObjects
+        else:
+            return obj.gameObject in self.gameObjects
+
+    def Instantiate(self, scene, position=None, rotation=None, scale=None, worldSpace=False):
         mapping = {}
+        for gameObject in self.gameObjects:
+            copy = GameObject(gameObject.name)
+            copy.tag = gameObject.tag
+            copy.enabled = gameObject.enabled
+            mapping[gameObject] = copy
+            scene.Add(copy)
 
-        for obj in gameObject.transform.GetDescendants():
-            mapping[obj] = g
-            g = GameObject(obj.name)
-            g.tag = obj.tag
-            g.enabled = obj.enabled
-            self.gameObjects.append(g)
-
-            parentTransform = obj.transform.parent
+            parentTransform = gameObject.transform.parent
             if parentTransform is None:
                 newParent = None
             else:
                 newParent = mapping[parentTransform.gameObject].transform
-            g.transform.ReparentTo(newParent)
+            copy.transform.ReparentTo(newParent)
 
-            for component in obj.components:
+            for component in gameObject.components:
                 if isinstance(component, Transform):
                     continue
                 new = g.AddComponent(type(component))
                 mapping[component] = new
-                components.append(new)
 
-        # 2nd pass setting attributes
-        for obj in gameObject.transform.GetDescendants():
-            for component in obj.components:
-                if isinstance(component, Transform):
-                    continue
-                for k in component.saved:
-                    v = getattr(component, k)
-                    if isinstance(v, GameObject):
-                        if v not in mapping:
-                            continue
-                        v = mapping[v]
-                    elif isinstance(v, Component):
-                        if v.gameObject not in mapping:
-                            continue
-                        v = mapping[v]
-                    if isinstance(v, Asset):
-                        self.assets.append(v)
-                    setattr(mapping[component], k, v)
+            for transform in gameObject.transform.GetDescendants():
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component.saved:
+                        v = getattr(component, k)
+                        setattr(mapping[component], k, v)
 
-        self.gameObject = self.gameObjects[0]
+        return mapping[self.gameObject]
 
     def SaveAsset(self, ctx):
-        pass
+        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
+        path = ctx.project.path / ctx.filename
+        ctx.savers[Prefab](self, path, ctx.project)
 
 class File:
     def __init__(self, path, uuid):
@@ -488,9 +553,9 @@ class Project:
 
         project.fileIDs = {}
         project.filePaths = {}
-        for k, v in fileData.items():
-            file = File(v, k)
-            project.fileIDs[k] = file
-            project.filePaths[v] = file
+        for uuid, path in fileData.items():
+            file = File(path, uuid)
+            project.fileIDs[uuid] = file
+            project.filePaths[path] = file
 
         return project
