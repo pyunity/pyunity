@@ -783,6 +783,8 @@ class Camera(SingleComponent):
                 b"model", self.get2DMatrix(rectTransform))
             self.guiShader.setFloat(b"depth", renderer.depth)
             self.guiShader.setInt(b"image", 0)
+            self.guiShader.setInt(b"flipX", renderer.flipX)
+            self.guiShader.setInt(b"flipY", renderer.flipY)
             gl.glDrawArrays(gl.GL_QUADS, 0, 4)
         gl.glDepthMask(gl.GL_TRUE)
 

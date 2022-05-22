@@ -10,11 +10,9 @@ class TestCase:
     @classmethod
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, inspect.isroutine)
-        variables = [a for a in members if not a[0].startswith("__")]
+        variables = [a for a in members if a[0].startswith("test")]
         for name, val in variables:
-            if not name.startswith("__"):
-                if name not in ["wrap", "setUp", "tearDown", "assertRaises"]:
-                    setattr(cls, name, cls.wrap(val))
+            setattr(cls, name, cls.wrap(val))
 
     @classmethod
     def wrap(cls, func):

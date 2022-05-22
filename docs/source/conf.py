@@ -14,22 +14,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
-import math
-
-def atan(*args):
-    if len(args) == 2:
-        return math.atan2(*args)
-    else:
-        return math._atan(*args)
-
-def pi():
-    return math._pi
-
-math._atan = math.atan
-math.atan = atan
-math._pi = math.pi
-math.pi = pi
-sys.modules["glm"] = math
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
 os.environ["PYUNITY_SPHINX_CHECK"] = "1"
@@ -154,10 +138,10 @@ def process_docstring(app, what, name, obj, options, lines):
                 indexes.append(i)
 
         for index in reversed(indexes):
-            name = lines[index][15:]
-            if name in obj._saved:
-                val = str(obj._saved[name].default)
-                lines.insert(index + 1, "   :annotation: = " + val)
+            name = lines[index].split("::", 1)[1][1:]
+            if name in obj.saved:
+                val = str(obj.saved[name].default)
+                lines.insert(index + 1, "   :value: " + val)
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_member)

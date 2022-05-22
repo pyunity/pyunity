@@ -310,6 +310,9 @@ class GuiRenderComponent(NoResponseGuiComponent):
 
     """
 
+    flipX = 0
+    flipY = 0
+
     def PreRender(self):
         pass
 
@@ -336,6 +339,7 @@ class RenderTarget(GuiRenderComponent):
     source = ShowInInspector(Camera)
     depth = ShowInInspector(float, 0.0)
     canvas = ShowInInspector(bool, True, "Render Canvas")
+    flipY = 1
 
     def __init__(self, transform):
         super(RenderTarget, self).__init__(transform)
@@ -370,7 +374,6 @@ class RenderTarget(GuiRenderComponent):
             self.setSize(size)
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebuffer)
-        gl.glClipControl(gl.GL_UPPER_LEFT, gl.GL_ZERO_TO_ONE)
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
@@ -390,7 +393,6 @@ class RenderTarget(GuiRenderComponent):
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, previousVBO)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
         gl.glViewport(*previousViewport)
-        gl.glClipControl(gl.GL_LOWER_LEFT, gl.GL_NEGATIVE_ONE_TO_ONE)
         gl.glDepthMask(previousDepthMask)
 
         self.renderPass = False
