@@ -409,12 +409,12 @@ class Component(SavesProjectID):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
         variables = list(
             filter(lambda a: not (a[0].startswith("__")), members))
-        saved = {a[0]: a[1]
-                for a in variables if isinstance(a[1], HideInInspector)}
         shown = {a[0]: a[1]
-                for a in variables if isinstance(a[1], ShowInInspector)}
-        cls._saved = saved
+                 for a in variables if isinstance(a[1], ShowInInspector)}
+        saved = {a[0]: a[1]
+                 for a in variables if isinstance(a[1], HideInInspector)}
         cls._shown = shown
+        cls._saved = saved
 
         if "PYUNITY_SPHINX_CHECK" not in os.environ:
             for name, val in saved.items():

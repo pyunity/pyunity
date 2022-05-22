@@ -96,7 +96,8 @@ class Quaternion(LockedLiteral):
 
     def __sub__(self, other):
         if isinstance(other, Quaternion):
-            return QuaternionDiff(*(self * other.conjugate))
+            diff = (self * other.conjugate).normalized()
+            return QuaternionDiff(*diff)
 
     def absDiff(self, other):
         return abs(other - self)

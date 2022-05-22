@@ -30,14 +30,14 @@ if "--version" in sys.argv or "-v" in sys.argv:
         from importlib_metadata import requires, version, PackageNotFoundError
     else:
         Logger.LogLine(Logger.WARN,
-            "Python version less than 3.8 but no importlib_metadata found")
+                       "Python version less than 3.8 but no importlib_metadata found")
 
     if requires is not None:
         try:
             requirements = requires("pyunity")
         except PackageNotFoundError:
             Logger.LogLine(Logger.WARN,
-                "PyUnity not ran as an installed package")
+                           "PyUnity not ran as an installed package")
             requirements = []
         if not len(requirements):
             if os.path.isfile("requirements.txt"):
@@ -45,7 +45,7 @@ if "--version" in sys.argv or "-v" in sys.argv:
                     requirements = f.read().rstrip().split("\n")
             else:
                 Logger.LogLine(Logger.WARN,
-                    "No requirements.txt file found")
+                               "No requirements.txt file found")
 
         Logger.Log("Dependencies:")
         for item in requirements:

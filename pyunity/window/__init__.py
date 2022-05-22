@@ -76,8 +76,8 @@ def GetWindowProvider():
                         Logger.WARN, "Selecting new window provider")
             else:
                 Logger.LogLine(Logger.WARN,
-                                f"settings.json entry {providerName!r} is "
-                                f"not a valid window provider, removing")
+                               f"settings.json entry {providerName!r} is "
+                               f"not a valid window provider, removing")
             settings.db.pop("windowProvider")
 
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
@@ -176,4 +176,3 @@ def CustomWindowProvider(cls):
     Logger.LogLine(Logger.DEBUG, "Using window provider", cls.__name__)
     config.windowProvider = cls
     return cls
-

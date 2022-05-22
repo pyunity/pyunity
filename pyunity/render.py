@@ -142,7 +142,7 @@ class Shader:
         binary = binary[4:]
         if ver != Shader.VERSION:
             Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
-                "is not up-to-date; recompiling")
+                           "is not up-to-date; recompiling")
             return
 
         formatLength = int(binary[0])
@@ -153,7 +153,7 @@ class Shader:
 
         if binaryFormat not in formats:
             Logger.LogLine(Logger.WARN,
-                "Shader binaryFormat not supported; recompiling")
+                           "Shader binaryFormat not supported; recompiling")
             return
 
         stop = False
@@ -164,7 +164,7 @@ class Shader:
             stop = True
         if stop:
             Logger.LogLine(Logger.WARN,
-                "glProgramBinary failed; recompiling")
+                           "glProgramBinary failed; recompiling")
             return
 
         success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
@@ -600,17 +600,21 @@ class Camera(SingleComponent):
         """Generates view matrix from Transform of camera."""
         if self.renderPass and (self.lastPos != self.transform.position or
                                 self.lastRot != self.transform.rotation):
-            pos = self.transform.position * Vector3(1, 1, -1)
-            look = pos + \
-                self.transform.rotation.RotateVector(
-                    Vector3.forward()) * Vector3(1, 1, -1)
-            up = self.transform.rotation.RotateVector(
-                Vector3.up()) * Vector3(1, 1, -1)
-            self.viewMat = glm.lookAt(list(pos), list(look), list(up))
+            # pos = self.transform.position * Vector3(1, 1, -1)
+            # look = pos + \
+            #     self.transform.rotation.RotateVector(
+            #         Vector3.forward()) * Vector3(1, 1, -1)
+            # up = self.transform.rotation.RotateVector(
+            #     Vector3.up()) * Vector3(1, 1, -1)
+            # self.viewMat = glm.lookAt(list(pos), list(look), list(up))
 
-            # self.viewMat = glm.translate(
-            #     glm.mat4_cast(glm.quat(*self.transform.rotation)),
-            #     list(self.transform.position * Vector3(-1, -1, 1)))
+            angle, axis = self.transform.rotation.angleAxisPair
+            angle = glm.radians(angle)
+            axis = axis.normalized() * Vector3(-1, -1, 1)
+            rot = glm.angleAxis(-glm.radians(angle), axis)
+            self.viewMat = glm.translate(
+                glm.mat4_cast(rot),
+                list(self.transform.position * Vector3(-1, -1, 1)))
             self.lastPos = self.transform.position
             self.lastRot = self.transform.rotation
             self.renderPass = False
