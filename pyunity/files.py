@@ -18,6 +18,7 @@ from . import Logger
 from types import ModuleType
 from pathlib import Path
 from PIL import Image
+from uuid import uuid4
 import OpenGL.GL as gl
 import ctypes
 import sys
@@ -281,7 +282,7 @@ class Texture2D(Asset):
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
+        ctx.filename = Path("Textures") / (self.gameObject.name + ".png")
         path = ctx.project.path / ctx.filename
         self.img.save(path)
 
@@ -366,10 +367,10 @@ class Prefab(Asset):
 
             for transform in gameObject.transform.GetDescendants():
                 obj = transform.gameObject
-                mapping[obj] = g
                 g = GameObject(obj.name)
                 g.tag = obj.tag
                 g.enabled = obj.enabled
+                mapping[obj] = g
                 self.gameObjects.append(g)
 
                 parentTransform = obj.transform.parent
@@ -391,7 +392,7 @@ class Prefab(Asset):
                 for component in transform.gameObject.components:
                     if isinstance(component, Transform):
                         continue
-                    for k in component.saved:
+                    for k in component._saved:
                         v = getattr(component, k)
                         if isinstance(v, GameObject):
                             if v not in mapping:
@@ -419,7 +420,7 @@ class Prefab(Asset):
                 for component in transform.gameObject.components:
                     if isinstance(component, Transform):
                         continue
-                    for k in component.saved:
+                    for k in component._saved:
                         v = getattr(component, k)
                         if isinstance(v, Asset):
                             self.assets.append(v)
@@ -455,23 +456,46 @@ class Prefab(Asset):
             for component in gameObject.components:
                 if isinstance(component, Transform):
                     continue
-                new = g.AddComponent(type(component))
+                new = copy.AddComponent(type(component))
                 mapping[component] = new
 
             for transform in gameObject.transform.GetDescendants():
                 for component in transform.gameObject.components:
                     if isinstance(component, Transform):
                         continue
-                    for k in component.saved:
+                    for k in component._saved:
                         v = getattr(component, k)
                         setattr(mapping[component], k, v)
 
         return mapping[self.gameObject]
 
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
+        for asset in self.assets:
+            asset.SaveAsset(ctx)
+
+        ctx.filename = Path("Prefabs") / (ctx.gameObject.name + ".png")
         path = ctx.project.path / ctx.filename
         ctx.savers[Prefab](self, path, ctx.project)
+
+class ProjectSavingContext:
+    def __init__(self, asset, gameObject, project):
+        if not isinstance(asset, Asset):
+            raise ProjectParseException(
+                f"{type(asset).__name__} does not subclass Asset")
+        if not isinstance(gameObject, GameObject):
+            raise ProjectParseException(
+                f"{gameObject!r} is not a GameObject")
+        if not isinstance(project, Project):
+            raise ProjectParseException(
+                f"{project!r} is not a GameObject")
+
+        self.asset = asset
+        self.gameObject = gameObject
+        self.project = project
+        self.filename = ""
+
+        from . import Loader
+        self.savers = Loader.savers
 
 class File:
     def __init__(self, path, uuid):
@@ -505,6 +529,24 @@ class Project:
         self.filePaths[file.path] = file
         if write:
             self.Write()
+
+    def ImportAsset(self, asset, gameObject):
+        context = ProjectSavingContext(
+            asset=asset,
+            gameObject=gameObject,
+            project=self)
+        asset.SaveAsset(context)
+        if context.filename == "":
+            raise ProjectParseException(
+                f"Asset does not set filename: {type(asset).__name__}")
+
+        if asset not in self._ids:
+            uuid = str(uuid4())
+            self._ids[asset] = uuid
+            self._idMap[uuid] = asset
+
+        file = File(context.filename, self._ids[asset])
+        self.ImportFile(file, write=False)
 
     def SetAsset(self, file, obj):
         if file not in self.filePaths:

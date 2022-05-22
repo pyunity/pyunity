@@ -407,30 +407,6 @@ def LoadPrefab(path, project):
 savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
 """All savable types that will not be saved as UUIDs"""
 
-class ProjectSavingContext:
-    def __init__(self, asset, gameObject, project):
-        if not isinstance(asset, Asset):
-            raise ProjectParseException(
-                f"{type(asset).__name__} does not subclass Asset")
-        if not isinstance(gameObject, GameObject):
-            raise ProjectParseException(
-                f"{gameObject!r} is not a GameObject")
-        if not isinstance(project, Project):
-            raise ProjectParseException(
-                f"{project!r} is not a GameObject")
-
-        self.asset = asset
-        self.gameObject = gameObject
-        self.project = project
-        self.filename = ""
-
-        self.savers = {
-            Mesh: SaveMesh,
-            Material: SaveMat,
-            Scene: SaveScene,
-            Prefab: SavePrefab,
-        }
-
 def SaveGameObjects(gameObjects, data, project):
     def getUuid(obj):
         if obj is None:
@@ -461,17 +437,7 @@ def SaveGameObjects(gameObjects, data, project):
 
                     uuid = getUuid(v)
                     if isinstance(v, Asset):
-                        context = ProjectSavingContext(
-                            asset=v,
-                            gameObject=gameObject,
-                            project=project)
-                        v.SaveAsset(context)
-                        if context.filename == "":
-                            raise ProjectParseException(
-                                f"Asset does not set filename: {type(v).__name__}")
-
-                        file = File(context.filename, uuid)
-                        project.ImportFile(file, write=False)
+                        project.ImportAsset(v, gameObject)
                     v = uuid
                 if v is not None and not isinstance(v, savable):
                     continue
@@ -619,6 +585,13 @@ def SaveScene(scene, project, path):
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
     project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
+
+savers = {
+    Mesh: SaveMesh,
+    Material: SaveMat,
+    Scene: SaveScene,
+    Prefab: SavePrefab,
+}
 
 def ResaveScene(scene, project):
     if scene not in project._ids:
