@@ -437,7 +437,13 @@ class Prefab(Asset):
         else:
             return obj.gameObject in self.gameObjects
 
-    def Instantiate(self, scene, position=None, rotation=None, scale=None, worldSpace=False):
+    def Instantiate(self, scene=None, position=None, rotation=None, scale=None, worldSpace=False):
+        if scene is None:
+            from .scenes import SceneManager
+            scene = SceneManager.CurrentScene()
+            if scene is None:
+                raise PyUnityException("No scene running")
+
         mapping = {}
         for gameObject in self.gameObjects:
             copy = GameObject(gameObject.name)
@@ -472,8 +478,9 @@ class Prefab(Asset):
     def SaveAsset(self, ctx):
         for asset in self.assets:
             asset.SaveAsset(ctx)
+            ctx.project.ImportAsset(asset, ctx.gameObject)
 
-        ctx.filename = Path("Prefabs") / (ctx.gameObject.name + ".png")
+        ctx.filename = Path("Prefabs") / (ctx.gameObject.name + ".prefab")
         path = ctx.project.path / ctx.filename
         ctx.savers[Prefab](self, path, ctx.project)
 

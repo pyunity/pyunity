@@ -421,6 +421,7 @@ def SaveGameObjects(gameObjects, data, project):
     for gameObject in gameObjects:
         attrs = {"name": json.dumps(gameObject.name),
                  "tag": gameObject.tag.tag,
+                 "enabled": gameObject.enabled,
                  "transform": getUuid(gameObject.transform)}
         data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
 
@@ -504,6 +505,7 @@ def LoadGameObjects(data, project):
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
+        gameObject.enabled = parseString(part.attrs.get("enabled", "True"))
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 

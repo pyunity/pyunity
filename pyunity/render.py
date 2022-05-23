@@ -611,7 +611,7 @@ class Camera(SingleComponent):
             angle, axis = self.transform.rotation.angleAxisPair
             angle = glm.radians(angle)
             axis = axis.normalized() * Vector3(-1, -1, 1)
-            rot = glm.angleAxis(-glm.radians(angle), axis)
+            rot = glm.angleAxis(-glm.radians(angle), list(axis))
             self.viewMat = glm.translate(
                 glm.mat4_cast(rot),
                 list(self.transform.position * Vector3(-1, -1, 1)))
