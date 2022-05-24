@@ -31,6 +31,10 @@ class BaseCommand:
     def run(self, ctx, args):
         pass
 
+class HelpCommand(BaseCommand):
+    name = "help"
+    description = "Gets help with a command."
+
 class ExitCommand(BaseCommand):
     name = "exit"
     description = "Exits the current menu."

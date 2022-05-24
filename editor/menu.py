@@ -30,6 +30,15 @@ class CommandMenu:
                 continue
 
             command = self.commands[cmdname]
+            args, unknown = command.parser.parse_known_args(args)
+            if args.help:
+                command.parser.print_help()
+                continue
+            if len(unknown):
+                command.parser.print_usage()
+                print(f"{command.name}: error: unrecognized arguments: {', '.join(unknown)}")
+                continue
+
             try:
                 command.run(ctx, args)
             except CommandStop as e:

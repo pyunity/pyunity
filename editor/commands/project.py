@@ -15,11 +15,6 @@ class OpenCommand(BaseCommand):
     ]
 
     def run(self, ctx, args):
-        args = self.parser.parse_args(args)
-        if args.help:
-            self.parser.print_help()
-            raise CommandStop
-
         idx = False
         if args.num:
             idx = True
