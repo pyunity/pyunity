@@ -1,5 +1,5 @@
 from .menu import Runner
-from .commands import BaseMenu
+from .commands.project import ProjectMenu
 
 runner = Runner()
-runner.run(BaseMenu)
+runner.run(ProjectMenu)

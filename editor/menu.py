@@ -18,7 +18,6 @@ class CommandMenu:
         self.commands = {}
         for name, item in type(self).cmds.items():
             self.commands[name] = item(self)
-        self.ctx = None
 
     def run(self, ctx):
         while True:
@@ -38,20 +37,24 @@ class CommandMenu:
                     print("Error:", *e.args)
                 continue
             except ExitMenu as e:
-                if len(e.args):
-                    return e.args[0]
-                return None
+                self.quit(ctx)
+                raise
+
+    def quit(self, ctx):
+        pass
 
 class Runner:
     def __init__(self):
         pass
 
-    def run(self, initialcontext):
+    def run(self, initialmenu):
         self.ctx = CommandContext()
-        stack = [initialcontext()]
+        stack = [initialmenu()]
         while len(stack):
-            nextcontext = stack[-1].run(self.ctx)
-            if nextcontext is not None:
-                stack.append(nextcontext())
-            else:
-                stack.pop()
+            current = stack.pop()
+            try:
+                current.run(self.ctx)
+            except ExitMenu as e:
+                if len(e.args):
+                    stack.append(current)
+                    stack.append(e.args[0]())
