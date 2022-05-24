@@ -1,0 +1,2 @@
+# Don't commit egl and gles libraries
+lib/
