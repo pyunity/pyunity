@@ -31,9 +31,13 @@ class Clock:
         self._start = time.time()
 
     def Maintain(self):
+        from .. import config
         self._end = time.time()
         elapsedMS = self._end - self._start
-        sleep = self._frameDuration - elapsedMS
+        if config.vsync:
+            sleep = 0
+        else:
+            sleep = self._frameDuration - elapsedMS
         if sleep <= 0:
             self._start = time.time()
             return sys.float_info.epsilon

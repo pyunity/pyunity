@@ -18,5 +18,6 @@ fps = 0
 faceCulling = True
 audio = True
 windowProvider = None
+vsync = False
 
 Logger.LogLine(Logger.DEBUG, "Loaded config")
