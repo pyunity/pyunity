@@ -282,8 +282,9 @@ class Texture2D(Asset):
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Textures") / (self.gameObject.name + ".png")
+        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
         path = ctx.project.path / ctx.filename
+        path.parent.mkdir(parents=True, exist_ok=True)
         self.img.save(path)
 
     @classmethod
