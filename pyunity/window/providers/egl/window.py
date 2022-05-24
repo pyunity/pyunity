@@ -9,7 +9,8 @@ from pyunity.values import Clock
 from pyunity import config, Logger
 from .egl import *
 
-eglDpy = eglGetDisplay(0)
+eglDpy = eglGetDisplay(EGL.DEFAULT_DISPLAY)
+print(eglGetError())
 
 class Window(ABCWindow):
     """

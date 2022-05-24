@@ -6,8 +6,8 @@ __all__ = [
     "EGLBoolean", "EGLConfig", "EGLContext", "EGLDisplay", "EGLList",
     "EGLSurface", "EGLint", "eglBindAPI", "eglChooseConfig",
     "eglCreateContext", "eglCreatePbufferSurface", "eglDestroyContext",
-    "eglDestroySurface", "eglGetDisplay", "eglInitialize", "eglMakeCurrent",
-    "eglTerminate", "EGL"
+    "eglDestroySurface", "eglGetDisplay", "eglGetError", "eglInitialize",
+    "eglMakeCurrent", "eglTerminate", "EGL"
 ]
 
 import os
@@ -15,6 +15,10 @@ import ctypes
 import ctypes.util
 import functools
 from pyunity import Logger, PyUnityException
+
+directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
+if os.path.isdir(directory):
+    os.add_dll_directory(directory)
 
 search = True
 if "PYUNITY_EGL_PATH" in os.environ:
@@ -28,13 +32,25 @@ if "PYUNITY_EGL_PATH" in os.environ:
 if search:
     _libname = ctypes.util.find_library("libegl")
     if _libname is None:
+        if os.name == "nt":
+            _libname = "libegl.dll"
+        else:
+            _libname = "libegl.so"
+
+    try:
+        _egl = ctypes.CDLL(_libname)
+    except FileNotFoundError:
+        _egl = None
+    if _egl is None:
         raise PyUnityException("Cannot find libegl library")
-    _egl = ctypes.CDLL(_libname)
 
 def wrap(func):
+    orig = getattr(_egl, func.__name__)
     @functools.wraps(func)
     def inner(*args):
-        return getattr(_egl, func.__name__)(*args)
+        res = orig(*args)
+        if orig.restype is EGLBoolean and res.value == 0:
+            raise PyUnityException(f"{func.__name__} failed")
     return inner
 
 def returnPointer(wrapArgs, includeOutput=False):
@@ -47,6 +63,8 @@ def returnPointer(wrapArgs, includeOutput=False):
                 item = orig.argtypes[argnum]._type_()
                 newArgs.insert(argnum, item)
             res = orig(*newArgs)
+            if orig.restype is EGLBoolean and res.value == 0:
+                raise PyUnityException(f"{func.__name__} failed")
             out = []
             if includeOutput:
                 out.append(res)
@@ -113,6 +131,10 @@ class EGLint(ctypes.c_int):
 
 def EGLList(*l):
     return (EGLint * len(l))(*l)
+
+_egl.eglGetError.restype = EGLint
+@wrap
+def eglGetError(): pass
 
 _egl.eglInitialize.restype = EGLBoolean
 _egl.eglInitialize.argtypes = [
