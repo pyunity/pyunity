@@ -217,6 +217,10 @@ class Scripts:
 
 class Asset(SavesProjectID, metaclass=ABCMeta):
     @abstractmethod
+    def GetAssetFile(self, gameObject):
+        pass
+
+    @abstractmethod
     def SaveAsset(self, ctx):
         pass
 
@@ -281,8 +285,10 @@ class Texture2D(Asset):
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
 
+    def GetAssetFile(self, gameObject):
+        return Path("Textures") / (gameObject.name + ".png")
+
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Textures") / (ctx.gameObject.name + ".png")
         path = ctx.project.path / ctx.filename
         path.parent.mkdir(parents=True, exist_ok=True)
         self.img.save(path)
@@ -476,17 +482,19 @@ class Prefab(Asset):
 
         return mapping[self.gameObject]
 
+    def GetAssetFile(self, gameObject):
+        return Path("Prefabs") / (gameObject.name + ".prefab")
+
     def SaveAsset(self, ctx):
         for asset in self.assets:
             asset.SaveAsset(ctx)
             ctx.project.ImportAsset(asset, ctx.gameObject)
 
-        ctx.filename = Path("Prefabs") / (ctx.gameObject.name + ".prefab")
         path = ctx.project.path / ctx.filename
         ctx.savers[Prefab](self, path, ctx.project)
 
 class ProjectSavingContext:
-    def __init__(self, asset, gameObject, project):
+    def __init__(self, asset, gameObject, project, filename=""):
         if not isinstance(asset, Asset):
             raise ProjectParseException(
                 f"{type(asset).__name__} does not subclass Asset")
@@ -500,7 +508,7 @@ class ProjectSavingContext:
         self.asset = asset
         self.gameObject = gameObject
         self.project = project
-        self.filename = ""
+        self.filename = filename
 
         from . import Loader
         self.savers = Loader.savers
@@ -522,6 +530,14 @@ class Project:
         os.makedirs(self.name, exist_ok=True)
         self.Write()
 
+    @property
+    def assets(self):
+        assets = []
+        for uuid in self.fileIDs:
+            if uuid in self._ids:
+                assets.append(self._ids[uuid])
+        return assets
+
     def Write(self):
         with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
             f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
@@ -538,20 +554,23 @@ class Project:
         if write:
             self.Write()
 
-    def ImportAsset(self, asset, gameObject):
-        context = ProjectSavingContext(
-            asset=asset,
-            gameObject=gameObject,
-            project=self)
-        asset.SaveAsset(context)
-        if context.filename == "":
-            raise ProjectParseException(
-                f"Asset does not set filename: {type(asset).__name__}")
-
+    def ImportAsset(self, asset, gameObject, filename=None):
         if asset not in self._ids:
             uuid = str(uuid4())
             self._ids[asset] = uuid
             self._idMap[uuid] = asset
+            if filename is None:
+                filename = asset.GetAssetFile(gameObject)
+
+            context = ProjectSavingContext(
+                asset=asset,
+                gameObject=gameObject,
+                project=self,
+                filename=filename)
+            asset.SaveAsset(context)
+        else:
+            uuid = self._ids[asset]
+            filename = self.fileIDs[uuid].path
 
         file = File(context.filename, self._ids[asset])
         self.ImportFile(file, write=False)

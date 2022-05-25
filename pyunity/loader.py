@@ -436,9 +436,9 @@ def SaveGameObjects(gameObjects, data, project):
                         attrs[k] = project._ids[v]
                         continue
 
-                    uuid = getUuid(v)
                     if isinstance(v, Asset):
                         project.ImportAsset(v, gameObject)
+                    uuid = getUuid(v)
                     v = uuid
                 if v is not None and not isinstance(v, savable):
                     continue
