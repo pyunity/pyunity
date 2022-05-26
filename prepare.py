@@ -100,7 +100,7 @@ def parseCode(nthreads=None):
         raise
 
 def getPackages(module="pyunity"):
-    os.environ["PYUNITY_CHANGE_MODULE"] = "1"
+    os.environ["PYUNITY_CHANGE_MODULE"] = "0"
     if isinstance(module, str):
         module = importlib.import_module(module)
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
