@@ -2,6 +2,7 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
+import json
 import os
 import glob
 import shutil
@@ -98,9 +99,14 @@ def parseCode(nthreads=None):
         pool.join()
         raise
 
-def getPackages(module):
+def getPackages(module="pyunity"):
+    os.environ["PYUNITY_CHANGE_MODULE"] = "1"
+    if isinstance(module, str):
+        module = importlib.import_module(module)
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
-        if "__" in name or "Window" in name or name == "config" or "example" in name:
+        if ispkg:
+            continue
+        if "__" in name or name == "providers" or name == "config" or "example" in name:
             continue
         mod = importlib.import_module(module.__name__ + "." + name)
         if ispkg:
@@ -109,13 +115,18 @@ def getPackages(module):
             original = set(mod.__all__)
         else:
             original = set()
-        new = set([x for x in dir(mod) if ((inspect.isclass(getattr(mod, x)) or
-                                        inspect.isfunction(getattr(mod, x))) and
-                                       x[0].isupper() and
-                                       getattr(mod, x).__module__ == mod.__name__)])
+        new = set()
+        for x in dir(mod):
+            val = getattr(mod, x)
+            if inspect.isclass(val) or inspect.isfunction(val):
+                if x[0].isupper() and val.__module__ == mod.__name__:
+                    new.add(x)
+            elif isinstance(val, (int, str, bool, list, dict)) and x[0].isupper():
+                new.add(x)
         if original != new:
-            print(mod.__name__, "Add", list(new - original),
-                  "Remove", list(original - new))
+            added = json.dumps(list(new - original))
+            removed = json.dumps(list(original - new))
+            print(mod.__name__, "Add", added, "Remove", removed)
 
 def checkMissing():
     import pyunity
