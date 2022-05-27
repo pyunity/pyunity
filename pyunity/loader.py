@@ -321,6 +321,12 @@ def parseString(string):
             return True, items
     return False, None
 
+def parseStringFallback(string, fallback):
+    success, value = parseString(string)
+    if not success:
+        return fallback
+    return value
+
 class ObjectInfo:
     def __init__(self, name, uuid, attrs):
         self.name = name
@@ -505,7 +511,8 @@ def LoadGameObjects(data, project):
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
-        gameObject.enabled = parseString(part.attrs.get("enabled", "True"))
+        gameObject.enabled = parseStringFallback(
+            part.attrs.get("enabled", "True"), True)
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
@@ -564,6 +571,8 @@ def LoadGameObjects(data, project):
         transform = project._idMap[part.attrs["transform"]]
         if transform is not gameObject.transform:
             Logger.LogLine(Logger.WARN, f"GameObject transform does not match transform UUID: {gameObject.name!r}")
+        if transform.parent is not None:
+            transform.parent.children.append(transform)
 
     return gameObjects
 

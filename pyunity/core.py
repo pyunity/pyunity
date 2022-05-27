@@ -336,7 +336,11 @@ class HideInInspector:
             self.type = getattr(pyunity, type_)
         else:
             self.type = type_
-        self.default = default
+        if (isinstance(self.type, type) and issubclass(self.type, float)
+                and isinstance(default, int)):
+            self.default = float(default)
+        else:
+            self.default = default
         self.name = None
 
 class ShowInInspector(HideInInspector):
