@@ -69,11 +69,10 @@ class Scene(Asset):
         self.id = str(uuid.uuid4())
 
     def GetAssetFile(self, gameObject):
-        return Path("Scenes") / (gameObject.name + ".scene")
+        return Path("Scenes") / (self.name + ".scene")
 
     def SaveAsset(self, ctx):
-        path = ctx.project.path / ctx.filename
-        ctx.savers[Scene](self, ctx.project, path)
+        ctx.savers[Scene](self, ctx.project, ctx.filename)
 
     @staticmethod
     def Bare(name):

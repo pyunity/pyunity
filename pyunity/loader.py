@@ -578,7 +578,7 @@ def SaveScene(scene, project, path):
         project._idMap[uuid] = obj
         return project._ids[obj]
 
-    location = project.path / path / (scene.name + ".scene")
+    location = project.path / path
     data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
 
     SaveGameObjects(scene.gameObjects, data, project)
@@ -586,7 +586,7 @@ def SaveScene(scene, project, path):
     location.parent.mkdir(parents=True, exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
-    project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
+    project.ImportFile(File(Path(path), getUuid(scene)))
 
 savers = {
     Mesh: SaveMesh,
@@ -609,9 +609,12 @@ def GenerateProject(name):
 
 def SaveProject(project):
     for scene in SceneManager.scenesByIndex:
-        SaveScene(scene, project, "Scenes")
+        project.ImportAsset(scene, None)
 
-def LoadProject(folder):
+def LoadProject(folder, remove=True):
+    if remove:
+        SceneManager.RemoveAllScenes()
+
     project = Project.FromFolder(folder)
 
     Scripts.GenerateModule()

@@ -498,9 +498,10 @@ class ProjectSavingContext:
         if not isinstance(asset, Asset):
             raise ProjectParseException(
                 f"{type(asset).__name__} does not subclass Asset")
-        if not isinstance(gameObject, GameObject):
-            raise ProjectParseException(
-                f"{gameObject!r} is not a GameObject")
+        ## Not needed since scenes do not belong to GameObjects
+        # if not isinstance(gameObject, GameObject):
+        #     raise ProjectParseException(
+        #         f"{gameObject!r} is not a GameObject")
         if not isinstance(project, Project):
             raise ProjectParseException(
                 f"{project!r} is not a GameObject")
@@ -554,7 +555,7 @@ class Project:
         if write:
             self.Write()
 
-    def ImportAsset(self, asset, gameObject, filename=None):
+    def ImportAsset(self, asset, gameObject=None, filename=None):
         if asset not in self._ids:
             uuid = str(uuid4())
             self._ids[asset] = uuid
@@ -562,18 +563,18 @@ class Project:
             if filename is None:
                 filename = asset.GetAssetFile(gameObject)
 
-            context = ProjectSavingContext(
-                asset=asset,
-                gameObject=gameObject,
-                project=self,
-                filename=filename)
-            asset.SaveAsset(context)
+            file = File(filename, self._ids[asset])
+            self.ImportFile(file, write=False)
         else:
             uuid = self._ids[asset]
             filename = self.fileIDs[uuid].path
 
-        file = File(context.filename, self._ids[asset])
-        self.ImportFile(file, write=False)
+        context = ProjectSavingContext(
+            asset=asset,
+            gameObject=gameObject,
+            project=self,
+            filename=filename)
+        asset.SaveAsset(context)
 
     def SetAsset(self, file, obj):
         if file not in self.filePaths:
