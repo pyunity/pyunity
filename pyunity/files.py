@@ -11,6 +11,7 @@ Also manages project structure.
 __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "File", "Project", "Skybox", "Scripts"]
 
+import functools
 from .errors import PyUnityException, ProjectParseException
 from .core import Component, GameObject, SavesProjectID, Transform
 from .values import ABCMeta, abstractmethod
@@ -519,6 +520,16 @@ class File:
         self.path = os.path.normpath(path)
         self.uuid = uuid
 
+def checkScene(func):
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        from . import SceneManager
+        if SceneManager.CurrentScene() is not None:
+            raise PyUnityException("Cannot modify project while scene is running")
+        return func(*args, **kwargs)
+    # TODO: disable this check according to a condition?
+    return inner
+
 class Project:
     def __init__(self, name="Project"):
         self.name = name
@@ -539,6 +550,7 @@ class Project:
                 assets.append(self._ids[uuid])
         return assets
 
+    @checkScene
     def Write(self):
         with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
             f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
@@ -546,6 +558,7 @@ class Project:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
                 f.write(f"\n    {id_}: {normalized}")
 
+    @checkScene
     def ImportFile(self, file, write=True):
         fullPath = self.path / file.path
         if not fullPath.is_file():
@@ -555,6 +568,7 @@ class Project:
         if write:
             self.Write()
 
+    @checkScene
     def ImportAsset(self, asset, gameObject=None, filename=None):
         if asset not in self._ids:
             uuid = str(uuid4())
@@ -576,6 +590,7 @@ class Project:
             filename=filename)
         asset.SaveAsset(context)
 
+    @checkScene
     def SetAsset(self, file, obj):
         if file not in self.filePaths:
             raise PyUnityException(f"File is not part of project: {file!r}")
