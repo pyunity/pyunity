@@ -278,8 +278,8 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-def parseString(string, project):
-    if string in project._idMap:
+def parseString(string, project=None):
+    if project is not None and string in project._idMap:
         return True, project._idMap[string]
     if string.startswith("Vector2("):
         return True, Vector2(*list(map(float, string[8:-1].split(", "))))
