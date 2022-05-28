@@ -571,12 +571,14 @@ class Project:
     @checkScene
     def ImportAsset(self, asset, gameObject=None, filename=None):
         if asset not in self._ids:
+            exists = False
             uuid = str(uuid4())
             self._ids[asset] = uuid
             self._idMap[uuid] = asset
             if filename is None:
                 filename = asset.GetAssetFile(gameObject)
         else:
+            exists = True
             uuid = self._ids[asset]
             filename = self.fileIDs[uuid].path
 
@@ -587,7 +589,7 @@ class Project:
             filename=filename)
         asset.SaveAsset(context)
 
-        if asset not in self._ids:
+        if not exists:
             file = File(filename, self._ids[asset])
             self.ImportFile(file, write=False)
 
