@@ -11,12 +11,12 @@ Also manages project structure.
 __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "File", "Project", "Skybox", "Scripts"]
 
-import functools
 from .errors import PyUnityException, ProjectParseException
 from .core import Component, GameObject, SavesProjectID, Transform
 from .values import ABCMeta, abstractmethod
 from . import Logger
 from types import ModuleType
+from functools import wraps
 from pathlib import Path
 from PIL import Image
 from uuid import uuid4
@@ -521,7 +521,7 @@ class File:
         self.uuid = uuid
 
 def checkScene(func):
-    @functools.wraps(func)
+    @wraps(func)
     def inner(*args, **kwargs):
         from . import SceneManager
         if SceneManager.CurrentScene() is not None:

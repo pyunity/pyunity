@@ -13,7 +13,7 @@ __all__ = [
 import os
 import ctypes
 import ctypes.util
-import functools
+from functools import wraps
 from pyunity import Logger, PyUnityException
 
 directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
@@ -46,7 +46,7 @@ if search:
 
 def wrap(func):
     orig = getattr(_egl, func.__name__)
-    @functools.wraps(func)
+    @wraps(func)
     def inner(*args):
         res = orig(*args)
         if orig.restype is EGLBoolean and res.value == 0:
@@ -55,7 +55,7 @@ def wrap(func):
 
 def returnPointer(wrapArgs, includeOutput=False):
     def decorator(func):
-        @functools.wraps(func)
+        @wraps(func)
         def inner(*args):
             orig = getattr(_egl, func.__name__)
             newArgs = list(args)
@@ -78,7 +78,7 @@ def returnPointer(wrapArgs, includeOutput=False):
 
 def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
     def decorator(func):
-        @functools.wraps(func)
+        @wraps(func)
         def inner(*args):
             orig = getattr(_egl, func.__name__)
             newArgs = list(args)

@@ -278,7 +278,9 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-def parseString(string):
+def parseString(string, project):
+    if string in project._idMap:
+        return True, project._idMap[string]
     if string.startswith("Vector2("):
         return True, Vector2(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Vector3("):
@@ -292,7 +294,7 @@ def parseString(string):
         check = True
         for line in string.split("\n"):
             key, value = line.split(": ")
-            valid, value = parseString(value)
+            valid, value = parseString(value, project)
             if not valid:
                 check = False
                 break
@@ -313,9 +315,9 @@ def parseString(string):
         # Only want strings here
         outStr = json.loads(string)
         if not isinstance(outStr, str):
-            raise json.decoder.JSONDecodeError
+            raise ValueError
         return True, outStr
-    except json.decoder.JSONDecodeError:
+    except ValueError:
         pass
     if ((string.startswith("(") and string.endswith(")")) or
             (string.startswith("[") and string.endswith("]"))):
@@ -324,7 +326,7 @@ def parseString(string):
         for section in string[1:-1].split(", "):
             if section.isspace() or section == "":
                 continue
-            valid, obj = parseString(section.rstrip().lstrip())
+            valid, obj = parseString(section.rstrip().lstrip(), project)
             check.append(valid)
             items.append(obj)
         if all(check):
@@ -333,8 +335,8 @@ def parseString(string):
             return True, items
     return False, None
 
-def parseStringFallback(string, fallback):
-    success, value = parseString(string)
+def parseStringFallback(string, project, fallback):
+    success, value = parseString(string, project)
     if not success:
         return fallback
     return value
@@ -349,6 +351,15 @@ class ObjectInfo:
         self.uuid = uuid
         self.attrs = attrs
 
+    @staticmethod
+    def convString(v):
+        if isinstance(v, str):
+            return json.dumps(v)
+        elif isinstance(v, enum.Enum):
+            return str(v.value)
+        else:
+            return str(v)
+
     def __str__(self):
         s = f"{self.name} : {self.uuid}"
         for k, v in self.attrs.items():
@@ -359,12 +370,7 @@ class ObjectInfo:
                 else:
                     s += f"\n    {k}: {string}"
             else:
-                if isinstance(v, str):
-                    string = json.dumps(v)
-                elif isinstance(v, enum.Enum):
-                    string = str(v.value)
-                else:
-                    string = str(v)
+                string = ObjectInfo.convString(v)
                 s += f"\n    {k}: {string}"
         return s
 
@@ -482,7 +488,13 @@ def SaveGameObjects(gameObjects, data, project):
                         struct = {}
                         for key in wrapper.attrs:
                             if hasattr(v, key):
-                                struct[key] = str(getattr(v, key))
+                                item = getattr(v, key)
+                                if isinstance(item, SavesProjectID):
+                                    if item not in project._ids and isinstance(item, Asset):
+                                        project.ImportAsset(item, gameObject)
+                                    struct[key] = getUuid(item)
+                                else:
+                                    struct[key] = ObjectInfo.convString(item)
                         sep = "\n        "
                         v = ObjectInfo.SkipConv(
                             sep + sep.join(": ".join(x) for x in struct.items()))
@@ -609,16 +621,14 @@ def LoadGameObjects(data, project):
     for part in componentInfo + behaviourInfo:
         component = project._idMap[part.uuid]
         for k, v in part.attrs.items():
-            if v in project._idMap:
-                value = project._idMap[v]
-            else:
-                success, value = parseString(v)
-                if not success:
-                    continue
+            success, value = parseString(v, project)
+            if not success:
+                continue
             if value is not None:
                 type_, value = instanceCheck(component._saved[k].type, value)
                 if hasattr(type_, "_wrapper"):
                     if isinstance(getattr(type_, "_wrapper"), SavableStruct):
+                        print(value)
                         value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(

@@ -223,6 +223,7 @@ from .gui import __all__ as _gui_all
 __all__.extend(_errors_all)
 __all__.extend(_values_all)
 __all__.extend(_core_all)
+__all__.extend(_events_all)
 __all__.extend(_meshes_all)
 __all__.extend(_files_all)
 __all__.extend(_render_all)

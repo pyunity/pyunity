@@ -6,6 +6,7 @@ __all__ = ["Clock", "ImmutableStruct", "SavableStruct", "StructEntry", "LockedLi
 
 import time
 import sys
+from functools import partial
 from ..errors import PyUnityException
 
 class Clock:
@@ -63,7 +64,7 @@ class SavableStruct:
     def __init__(self, **kwargs):
         self.attrs = kwargs
 
-    def fromDict(self, cls, attrs, instanceCheck=None):
+    def fromDict(self, factory, attrs, instanceCheck=None):
         for key, value in attrs.items():
             if key not in self.attrs:
                 raise PyUnityException(
@@ -91,7 +92,7 @@ class SavableStruct:
                 newAttrs[key] = self.attrs[key].default
             elif self.attrs[key].required:
                 raise PyUnityException(f"Missing required field: {key!r}")
-        return cls(*attrs.values())
+        return factory(*attrs.values())
 
     def __call__(self, cls):
         def __init__(*args, **kwargs):
@@ -116,6 +117,9 @@ class SavableStruct:
 
             for k, v in argmap.items():
                 setattr(self, k, v)
+
+        if hasattr(cls, "_fromDict"):
+            self.fromDict = partial(cls._fromDict, self)
 
         if cls.__init__ is object.__init__:
             cls.__init__ = __init__
