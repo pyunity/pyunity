@@ -530,6 +530,18 @@ def LoadObjectInfos(file):
     struct = {}
     name, uuid = contents.pop(0).split(" : ")
     for line in contents:
+        if "#" in line:
+            quotes = 0
+            for i, char in enumerate(line):
+                if char == "\"" and line[char - 1] != "\\":
+                    quotes += 1
+                if char == "#":
+                    if quotes % 2 == 0:
+                        break
+            line = line[:i]
+        line = line.rstrip()
+        if line == "":
+            continue
         if line.startswith("        "):
             key, value = line[8:].split(": ")
             struct[key] = value
