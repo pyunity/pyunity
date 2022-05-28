@@ -14,11 +14,11 @@ from .errors import PyUnityException
 from .meshes import Color, RGB, MeshRenderer
 from .values import Vector2, ABCMeta, abstractmethod, SavableStruct, StructEntry
 from .core import Component, SingleComponent, GameObject, ShowInInspector, addFields
+from .events import Event
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
-from collections.abc import Callable
 from contextlib import ExitStack
 import OpenGL.GL as gl
 import atexit
@@ -465,7 +465,7 @@ class Button(GuiComponent):
 
     """
 
-    callback = ShowInInspector(Callable)
+    callback = ShowInInspector(Event)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)

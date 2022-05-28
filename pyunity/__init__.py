@@ -212,6 +212,7 @@ __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
 from .errors import __all__ as _errors_all
 from .values import __all__ as _values_all
 from .core import __all__ as _core_all
+from .events import __all__ as _events_all
 from .meshes import __all__ as _meshes_all
 from .files import __all__ as _files_all
 from .render import __all__ as _render_all
@@ -234,6 +235,7 @@ import os
 from .errors import *
 from .values import *
 from .core import *
+from .events import *
 from .meshes import *
 from .physics import *
 from .audio import *
