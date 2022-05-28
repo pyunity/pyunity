@@ -11,7 +11,7 @@ out vec2 TexCoord;
 out vec3 FragPos;
 
 void main() {
-    gl_Position = projection * model * vec4(aPos, 0.0, depth);
+    gl_Position = projection * model * vec4(aPos, depth, 0.0);
     TexCoord = aPos;
     TexCoord *= 1 - vec2(flipX, flipY) * 2;
 }
