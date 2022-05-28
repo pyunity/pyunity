@@ -323,12 +323,13 @@ def parseString(string, project):
             (string.startswith("[") and string.endswith("]"))):
         check = []
         items = []
-        for section in string[1:-1].split(", "):
-            if section.isspace() or section == "":
-                continue
-            valid, obj = parseString(section.rstrip().lstrip(), project)
-            check.append(valid)
-            items.append(obj)
+        if len(string) > 2:
+            for section in string[1:-1].split(", "):
+                if section.isspace() or section == "":
+                    continue
+                valid, obj = parseString(section.rstrip().lstrip(), project)
+                check.append(valid)
+                items.append(obj)
         if all(check):
             if string.startswith("("):
                 return True, tuple(items)

@@ -34,7 +34,7 @@ class Event:
         self.func(*self.args, **self.kwargs)
 
     def _fromDict(self, factory, attrs, instanceCheck=None):
-        def wrapper(component, method, args, kwargs):
+        def wrapper(component, method, args=(), kwargs={}):
             func = getattr(component, method)
             return factory(func, args, kwargs)
         return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
