@@ -439,7 +439,11 @@ def LoadPrefab(path, project):
     prefab = Prefab(g, prune=False)
     return prefab
 
-savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
+savable = (
+    Color, Vector3, Quaternion, # PyUnity types
+    bool, int, str, float, list, tuple, # Python types
+    SavesProjectID, ObjectInfo.SkipConv # Special procedures
+)
 """All savable types that will not be saved as UUIDs"""
 
 def SaveGameObjects(gameObjects, data, project):
@@ -455,7 +459,7 @@ def SaveGameObjects(gameObjects, data, project):
 
     for gameObject in gameObjects:
         attrs = {
-            "name": json.dumps(gameObject.name),
+            "name": gameObject.name,
             "tag": gameObject.tag.tag,
             "enabled": gameObject.enabled,
             "transform": ObjectInfo.SkipConv(getUuid(gameObject.transform))
@@ -482,7 +486,7 @@ def SaveGameObjects(gameObjects, data, project):
                         sep = "\n        "
                         v = ObjectInfo.SkipConv(
                             sep + sep.join(": ".join(x) for x in struct.items()))
-                if v is not None and not isinstance(v, (*savable, SavesProjectID)):
+                if v is not None and not isinstance(v, savable):
                     continue
                 attrs[k] = v
             if isinstance(component, Behaviour):
@@ -649,7 +653,7 @@ def SaveScene(scene, project, path):
         "Scene",
         getUuid(scene),
         {
-            "name": json.dumps(scene.name),
+            "name": scene.name,
             "mainCamera": ObjectInfo.SkipConv(getUuid(scene.mainCamera))
         }
     )]
