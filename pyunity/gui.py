@@ -12,7 +12,7 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
 from . import Logger
 from .errors import PyUnityException
 from .meshes import Color, RGB, MeshRenderer
-from .values import Vector2, ABCMeta, abstractmethod
+from .values import Vector2, ABCMeta, abstractmethod, SavableStruct, StructEntry
 from .core import Component, SingleComponent, GameObject, ShowInInspector, addFields
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
@@ -62,6 +62,9 @@ class Canvas(Component):
 decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
 
+@SavableStruct(
+    min=StructEntry(Vector2, required=True),
+    max=StructEntry(Vector2, required=True))
 class RectData:
     """
     Class to represent a 2D rect.

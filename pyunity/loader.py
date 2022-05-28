@@ -18,7 +18,7 @@ from . import Logger
 from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
 from .core import GameObject, Component, Tag, SavesProjectID
-from .values import Vector3, Vector2, ImmutableStruct, Quaternion
+from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
 from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
 from contextlib import ExitStack
@@ -287,6 +287,18 @@ def parseString(string):
         return True, Quaternion(*list(map(float, string[11:-1].split(", "))))
     if string.startswith("RGB(") or string.startswith("HSV("):
         return True, Color.fromString(string)
+    if "\n" in string:
+        struct = {}
+        check = True
+        for line in string.split("\n"):
+            key, value = line.split(": ")
+            valid, value = parseString(value)
+            if not valid:
+                check = False
+                break
+            struct[key] = value
+        if check:
+            return True, struct
     if string in ["True", "False"]:
         return True, string == "True"
     if string == "None":
@@ -336,7 +348,10 @@ class ObjectInfo:
     def __str__(self):
         s = f"{self.name} : {self.uuid}"
         for k, v in self.attrs.items():
-            s += f"\n    {k}: {v}"
+            if str(v).startswith("\n"):
+                s += f"\n    {k}:{v}"
+            else:
+                s += f"\n    {k}: {v}"
         return s
 
 def SaveMat(material, project, filename):
@@ -438,15 +453,20 @@ def SaveGameObjects(gameObjects, data, project):
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
-                    if v in project._ids:
-                        attrs[k] = project._ids[v]
-                        continue
-
-                    if isinstance(v, Asset):
+                    if v not in project._ids and isinstance(v, Asset):
                         project.ImportAsset(v, gameObject)
                     uuid = getUuid(v)
                     v = uuid
-                if v is not None and not isinstance(v, savable):
+                elif hasattr(v, "_wrapper"):
+                    if isinstance(getattr(v, "_wrapper"), SavableStruct):
+                        wrapper = getattr(v, "_wrapper")
+                        struct = {}
+                        for key in wrapper.attrs:
+                            if hasattr(v, key):
+                                struct[key] = str(getattr(v, key))
+                        s = "\n        "
+                        v = s + s.join(": ".join(x) for x in struct.items())
+                if v is not None and not isinstance(v, (*savable, SavesProjectID)):
                     continue
                 attrs[k] = v
             if isinstance(component, Behaviour):
@@ -474,25 +494,50 @@ def LoadObjectInfos(file):
 
     data = []
     attrs = {}
+    struct = {}
     name, uuid = contents.pop(0).split(" : ")
     for line in contents:
-        if line.startswith("    "):
-            key, value = line[4:].split(": ")
-            attrs[key] = value
-        elif name == "" or uuid == "":
-            raise ProjectParseException(f"Section header before data")
+        if line.startswith("        "):
+            key, value = line[8:].split(": ")
+            struct[key] = value
+        elif line.startswith("    "):
+            if line.endswith(":"):
+                key = line[4:-1]
+                struct = {}
+                attrs[key] = struct
+            else:
+                key, value = line[4:].split(": ")
+                attrs[key] = value
         else:
+            # New section
+            for key in attrs:
+                if isinstance(attrs[key], dict):
+                    text = "\n".join(": ".join(x) for x in attrs[key].items())
+                    attrs[key] = text
             data.append(ObjectInfo(name, uuid, attrs))
             name, uuid = line.split(" : ")
             attrs = {}
 
     # Final objectinfo
+    for key in attrs:
+        if isinstance(attrs[key], dict):
+            text = "\n".join(": ".join(x) for x in attrs[key].items())
+            attrs[key] = text
     data.append(ObjectInfo(name, uuid, attrs))
     return data
 
+def instanceCheck(type_, value):
+    if type_ is float:
+        type_ = (float, int)
+    elif issubclass(type_, enum.Enum):
+        if value in list(type_.__members__.values()):
+            value = type_(value)
+        else:
+            raise ProjectParseException(f"{value} not in enum {type_}")
+    return type_, value
+
 def LoadGameObjects(data, project):
     def addUuid(obj, uuid):
-
         if obj in project._ids:
             return
         project._ids[obj] = uuid
@@ -511,8 +556,7 @@ def LoadGameObjects(data, project):
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
-        gameObject.enabled = parseStringFallback(
-            part.attrs.get("enabled", "True"), True)
+        gameObject.enabled = part.attrs.get("enabled", "True") == "True"
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
@@ -552,17 +596,14 @@ def LoadGameObjects(data, project):
                 if not success:
                     continue
             if value is not None:
-                type_ = component._saved[k].type
-                if type_ is float:
-                    type_ = (float, int)
-                elif issubclass(type_, enum.Enum):
-                    if value in list(type_.__members__.values()):
-                        value = type_(value)
-                    else:
-                        raise ProjectParseException(f"{value} not in enum {type_}")
+                type_, value = instanceCheck(component._saved[k].type, value)
+                if hasattr(type_, "_wrapper"):
+                    if isinstance(getattr(type_, "_wrapper"), SavableStruct):
+                        value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(
-                        f"Value {value!r} does not match type {type_}: attribute {k!r} of {component}")
+                        f"Value {value!r} does not match type {type_}: "
+                        f"attribute {k!r} of {component}")
             setattr(component, k, value)
 
     # Transform check
@@ -618,7 +659,7 @@ def GenerateProject(name):
 
 def SaveProject(project):
     for scene in SceneManager.scenesByIndex:
-        project.ImportAsset(scene, None)
+        project.ImportAsset(scene)
 
 def LoadProject(folder, remove=True):
     if remove:

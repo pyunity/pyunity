@@ -576,9 +576,6 @@ class Project:
             self._idMap[uuid] = asset
             if filename is None:
                 filename = asset.GetAssetFile(gameObject)
-
-            file = File(filename, self._ids[asset])
-            self.ImportFile(file, write=False)
         else:
             uuid = self._ids[asset]
             filename = self.fileIDs[uuid].path
@@ -589,6 +586,10 @@ class Project:
             project=self,
             filename=filename)
         asset.SaveAsset(context)
+
+        if asset not in self._ids:
+            file = File(filename, self._ids[asset])
+            self.ImportFile(file, write=False)
 
     @checkScene
     def SetAsset(self, file, obj):
