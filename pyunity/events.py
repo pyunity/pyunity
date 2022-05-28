@@ -12,6 +12,9 @@ class Event:
         if not issubclass(func.__self__, Component):
             raise PyUnityException(
                 "Cannot create event from callback that is not attached to a Component")
+        if not isinstance(func.__self__.gameObject):
+            raise PyUnityException(
+                "Provided callback component does not belong to a GameObject")
 
         update_wrapper(self, func)
 

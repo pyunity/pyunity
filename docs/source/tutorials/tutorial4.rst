@@ -123,13 +123,22 @@ is an example:
 
 .. code-block:: python
 
-   def callback():
-       Logger.Log("Clicked")
+   class CallbackReceiver(Component):
+       def callback():
+           Logger.Log("Clicked")
 
    # Same canvas and image code as above
    ...
    button = gameObject.AddComponent(Button)
-   button.callback = callback
+   receiver = gameObject.AddComponent(CallbackReceiver)
+   button.callback = Event(receiver.callback)
+
+``Button.callback`` must be an ``Event`` object that
+contains a method of a component added to a GameObject.
+This is because when saving a PyUnity project, the
+Python code itself is not saved. It is also easier to
+reference a component and a method name in the saved
+scene file.
 
 If you check the docs for the ``Button`` class,
 you can see two more attributes: ``state`` and

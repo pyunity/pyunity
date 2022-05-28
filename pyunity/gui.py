@@ -454,8 +454,9 @@ class Button(GuiComponent):
 
     Attributes
     ----------
-    callback : Callable
-        Callback function
+    callback : Event
+        Callback function. Must be a method of a
+        Component.
     state : KeyState
         Which state triggers the callback
     mouseButton : MouseCode
@@ -472,11 +473,11 @@ class Button(GuiComponent):
 
     def __init__(self, transform):
         super(Button, self).__init__(transform)
-        self.callback = lambda: None
 
     def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
-            self.callback()
+            if self.callback is not None:
+                self.callback()
 
 stack = ExitStack()
 atexit.register(stack.close)
