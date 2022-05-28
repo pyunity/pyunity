@@ -340,6 +340,10 @@ def parseStringFallback(string, fallback):
     return value
 
 class ObjectInfo:
+    class SkipConv:
+        def __init__(self, value):
+            self.value = value
+
     def __init__(self, name, uuid, attrs):
         self.name = name
         self.uuid = uuid
@@ -348,10 +352,20 @@ class ObjectInfo:
     def __str__(self):
         s = f"{self.name} : {self.uuid}"
         for k, v in self.attrs.items():
-            if str(v).startswith("\n"):
-                s += f"\n    {k}:{v}"
+            if isinstance(v, ObjectInfo.SkipConv):
+                string = v.value
+                if string.startswith("\n"):
+                    s += f"\n    {k}:{string}"
+                else:
+                    s += f"\n    {k}: {string}"
             else:
-                s += f"\n    {k}: {v}"
+                if isinstance(v, str):
+                    string = json.dumps(v)
+                elif isinstance(v, enum.Enum):
+                    string = str(v.value)
+                else:
+                    string = str(v)
+                s += f"\n    {k}: {string}"
         return s
 
 def SaveMat(material, project, filename):
@@ -440,23 +454,24 @@ def SaveGameObjects(gameObjects, data, project):
         return project._ids[obj]
 
     for gameObject in gameObjects:
-        attrs = {"name": json.dumps(gameObject.name),
-                 "tag": gameObject.tag.tag,
-                 "enabled": gameObject.enabled,
-                 "transform": getUuid(gameObject.transform)}
+        attrs = {
+            "name": json.dumps(gameObject.name),
+            "tag": gameObject.tag.tag,
+            "enabled": gameObject.enabled,
+            "transform": ObjectInfo.SkipConv(getUuid(gameObject.transform))
+        }
         data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
 
     for gameObject in gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
-            attrs = {"gameObject": gameObjectID}
+            attrs = {"gameObject": ObjectInfo.SkipConv(gameObjectID)}
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
                     if v not in project._ids and isinstance(v, Asset):
                         project.ImportAsset(v, gameObject)
-                    uuid = getUuid(v)
-                    v = uuid
+                    v = ObjectInfo.SkipConv(getUuid(v))
                 elif hasattr(v, "_wrapper"):
                     if isinstance(getattr(v, "_wrapper"), SavableStruct):
                         wrapper = getattr(v, "_wrapper")
@@ -464,8 +479,9 @@ def SaveGameObjects(gameObjects, data, project):
                         for key in wrapper.attrs:
                             if hasattr(v, key):
                                 struct[key] = str(getattr(v, key))
-                        s = "\n        "
-                        v = s + s.join(": ".join(x) for x in struct.items())
+                        sep = "\n        "
+                        v = ObjectInfo.SkipConv(
+                            sep + sep.join(": ".join(x) for x in struct.items()))
                 if v is not None and not isinstance(v, (*savable, SavesProjectID)):
                     continue
                 attrs[k] = v
@@ -482,7 +498,7 @@ def SaveGameObjects(gameObjects, data, project):
                     file = File(filename, uuid)
                     project.ImportFile(file, write=False)
 
-                attrs["_script"] = project._ids[behaviour]
+                attrs["_script"] = ObjectInfo.SkipConv(project._ids[behaviour])
                 name = behaviour.__name__ + "(Behaviour)"
             else:
                 name = component.__class__.__name__ + "(Component)"
@@ -629,7 +645,14 @@ def SaveScene(scene, project, path):
         return project._ids[obj]
 
     location = project.path / path
-    data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
+    data = [ObjectInfo(
+        "Scene",
+        getUuid(scene),
+        {
+            "name": json.dumps(scene.name),
+            "mainCamera": ObjectInfo.SkipConv(getUuid(scene.mainCamera))
+        }
+    )]
 
     SaveGameObjects(scene.gameObjects, data, project)
 
