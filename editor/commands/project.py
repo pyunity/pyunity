@@ -36,11 +36,20 @@ class OpenCommand(BaseCommand):
         print(f"Loaded scene {scene.name!r}")
         raise ExitMenu(SceneMenu)
 
+class ListCommand(BaseCommand):
+    name = "list"
+    description = "List all scenes."
+
+    def run(self, ctx, args):
+        for i, scene in SceneManager.scenesByIndex:
+            print(f"{i + 1}\t{scene.name!r}")
+
 class ProjectMenu(CommandMenu):
     cmds = {
         "help": HelpCommand,
         "exit": ExitCommand,
-        "open": OpenCommand
+        "open": OpenCommand,
+        "list": ListCommand,
     }
 
 class NewProjectMenu(ProjectMenu):
