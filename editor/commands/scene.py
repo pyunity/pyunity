@@ -1,9 +1,10 @@
-from .base import ExitCommand
+from .base import ExitCommand, HelpCommand
 from ..menu import CommandMenu
 
 class SceneMenu(CommandMenu):
     cmds = {
-        "exit": ExitCommand
+        "help": HelpCommand,
+        "exit": ExitCommand,
     }
 
     def run(self, ctx):

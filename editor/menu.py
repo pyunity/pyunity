@@ -20,8 +20,17 @@ class CommandMenu:
             self.commands[name] = item(self)
 
     def run(self, ctx):
+        ctx.menu = self
         while True:
-            cmd = input(self.prompt)
+            try:
+                cmd = input(self.prompt)
+            except KeyboardInterrupt:
+                print()
+                continue
+            except EOFError:
+                print("exit")
+                self.quit(ctx)
+                raise ExitMenu
             args = shlex.split(cmd)
             cmdname = args[0]
             args = args[1:]

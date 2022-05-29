@@ -7,8 +7,8 @@ parser = argparse.ArgumentParser(
     prog="editor",
     description="Open a PyUnity project in the command-line editor")
 
-parser.add_argument("-n", "--new", action="store_true", help="Create a new project")
-parser.add_argument("PATH", help="Path to project")
+parser.add_argument("-n", "--new", action="store_true", help="create a new project")
+parser.add_argument("path", help="path to project")
 
 def main():
     args = parser.parse_args()
@@ -19,7 +19,7 @@ def main():
     else:
         initial = OpenProjectMenu
 
-    os.environ["PROJECT_PATH"] = str(Path(args.PATH).absolute())
+    os.environ["PROJECT_PATH"] = str(Path(args.path).absolute())
     runner = Runner()
     runner.run(initial)
 

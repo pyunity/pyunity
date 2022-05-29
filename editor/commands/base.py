@@ -35,6 +35,23 @@ class HelpCommand(BaseCommand):
     name = "help"
     description = "Gets help with a command."
 
+    positionals = [
+        ("cmd", "")
+    ]
+
+    def run(self, ctx, args):
+        if hasattr(args, "cmd"):
+            cmds = [args.cmd]
+        else:
+            cmds = list(ctx.menu.commands)
+
+        for cmd in cmds:
+            cmdobj = ctx.menu.commands[cmd]
+            print(f"Help on command {cmd}:")
+            cmdobj.parser.print_usage()
+            print(cmdobj.parser.description)
+            print()
+
 class ExitCommand(BaseCommand):
     name = "exit"
     description = "Exits the current menu."

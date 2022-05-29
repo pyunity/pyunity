@@ -1,6 +1,6 @@
 from ..menu import CommandStop, ExitMenu, CommandMenu
 from .scene import SceneMenu
-from .base import BaseCommand, ExitCommand
+from .base import BaseCommand, ExitCommand, HelpCommand
 from pyunity import SceneManager, Loader
 import os
 
@@ -38,6 +38,7 @@ class OpenCommand(BaseCommand):
 
 class ProjectMenu(CommandMenu):
     cmds = {
+        "help": HelpCommand,
         "exit": ExitCommand,
         "open": OpenCommand
     }
