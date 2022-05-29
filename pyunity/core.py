@@ -336,7 +336,11 @@ class HideInInspector:
             self.type = getattr(pyunity, type_)
         else:
             self.type = type_
-        self.default = default
+        if (isinstance(self.type, type) and issubclass(self.type, float)
+                and isinstance(default, int)):
+            self.default = float(default)
+        else:
+            self.default = default
         self.name = None
 
 class ShowInInspector(HideInInspector):
@@ -407,12 +411,10 @@ class Component(SavesProjectID):
     @classmethod
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(
-            filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], ShowInInspector)}
+                 for a in members if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], HideInInspector)}
+                 for a in members if isinstance(a[1], HideInInspector)}
         cls._shown = shown
         cls._saved = saved
 

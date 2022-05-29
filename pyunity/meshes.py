@@ -106,8 +106,10 @@ class Mesh(Asset):
         """
         return Mesh(self.verts, self.triangles, self.normals, self.texcoords)
 
+    def GetAssetFile(self, gameObject):
+        return Path("Meshes") / (gameObject.name + ".mesh")
+
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Meshes") / (ctx.gameObject.name + ".mesh")
         path = ctx.project.path / ctx.filename
         ctx.savers[Mesh](self, path)
 
@@ -258,8 +260,10 @@ class Material(Asset):
         self.color = color
         self.texture = texture
 
+    def GetAssetFile(self, gameObject):
+        return Path("Materials") / (gameObject.name + ".mat")
+
     def SaveAsset(self, ctx):
-        ctx.filename = Path("Materials") / (ctx.gameObject.name + ".mat")
         path = ctx.project.path / ctx.filename
         ctx.savers[Material](self, ctx.project, path)
 

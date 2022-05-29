@@ -40,6 +40,9 @@ class Window(ABCWindow):
 
         glfw.make_context_current(self.window)
 
+        if config.vsync:
+            glfw.swap_interval(1)
+
         self.resize = resize
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)

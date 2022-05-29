@@ -1,0 +1,8 @@
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - init: |
+      sudo apt-get update && sudo apt-get install -y \
+        xvfb \
+        libglfw3 \
+        python3-opengl
+      pip install glfw -r requirements.txt

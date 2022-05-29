@@ -13,7 +13,7 @@ __all__ = [
 import os
 import ctypes
 import ctypes.util
-import functools
+from functools import wraps
 from pyunity import Logger, PyUnityException
 
 directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
@@ -25,28 +25,30 @@ if "PYUNITY_EGL_PATH" in os.environ:
     try:
         _egl = ctypes.CDLL(os.environ["PYUNITY_EGL_PATH"])
         search = False
-    except FileNotFoundError:
+    except OSError:
         Logger.LogLine(Logger.DEBUG,
                        "PYUNITY_EGL_PATH environment variable specified but "
                        "path not found")
 if search:
-    _libname = ctypes.util.find_library("libegl")
-    if _libname is None:
-        if os.name == "nt":
-            _libname = "libegl.dll"
-        else:
-            _libname = "libegl.so"
+    _names = ["libegl", "libEGL"]
+    for name in _names:
+        _libname = ctypes.util.find_library(name)
+        if _libname is None:
+            if os.name == "nt":
+                _libname = name + ".dll"
+            else:
+                _libname = name + ".so"
 
-    try:
-        _egl = ctypes.CDLL(_libname)
-    except FileNotFoundError:
-        _egl = None
+        try:
+            _egl = ctypes.CDLL(_libname)
+        except OSError:
+            _egl = None
     if _egl is None:
         raise PyUnityException("Cannot find libegl library")
 
 def wrap(func):
     orig = getattr(_egl, func.__name__)
-    @functools.wraps(func)
+    @wraps(func)
     def inner(*args):
         res = orig(*args)
         if orig.restype is EGLBoolean and res.value == 0:
@@ -55,7 +57,7 @@ def wrap(func):
 
 def returnPointer(wrapArgs, includeOutput=False):
     def decorator(func):
-        @functools.wraps(func)
+        @wraps(func)
         def inner(*args):
             orig = getattr(_egl, func.__name__)
             newArgs = list(args)
@@ -78,7 +80,7 @@ def returnPointer(wrapArgs, includeOutput=False):
 
 def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
     def decorator(func):
-        @functools.wraps(func)
+        @wraps(func)
         def inner(*args):
             orig = getattr(_egl, func.__name__)
             newArgs = list(args)

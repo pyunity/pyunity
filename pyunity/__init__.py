@@ -145,7 +145,7 @@ please `create a pull request <https://github.com/pyunity/pyunity/compare>`_.
 
 Environment variables
 ---------------------
-Here are a list of environment variables used
+Here is a list of environment variables used
 by PyUnity:
 
 - **PYUNITY_TESTING** (default: unset)
@@ -155,7 +155,6 @@ by PyUnity:
   - Window provder selection
   - Audio
   - Font loading
-  - Module checking (if window providing is forced)
 
 - **PYUNITY_DEBUG_MODE** (default: 1)
   Disables debug output if set to "0".
@@ -167,9 +166,20 @@ by PyUnity:
   Set when the OpenGL context is enabled. Usually
   not used except by wrapper scripts as Behaviours
   only update while a valid context exists.
-- **PYUNITY_CHECK_WINDOW** (default: unset)
-  When set, forces window provider selection regardless
-  if ``windowProvider`` is set in ``settings.json``.
+- **PYUNITY_CHECK_WINDOW** (default: 0)
+  If set to "1", forces window provider selection regardless
+  if ``windowProvider`` is set in ``settings.json``. If set
+  to "0", window provider selection is triggered only if
+  ``windowProvider`` doesn't already exist in ``settings.json``.
+- **PYUNITY_INTERACTIVE** (default: 1)
+  If set to "0", window providing is disabled and scenes
+  are run without any OpenGL rendering.
+- **PYUNITY_SPHINX_CHECK** (default: unset)
+  Used by sphinx to fix some bugs that occur during documentation
+  generation.
+- **PYUNITY_CHANGE_MODULE** (default: 1)
+  Change the ``__module__`` attribute of all imported objects
+  to ``pyunity``. If set to "0", this is disabled.
 
 Examples
 --------
@@ -212,6 +222,7 @@ __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
 from .errors import __all__ as _errors_all
 from .values import __all__ as _values_all
 from .core import __all__ as _core_all
+from .events import __all__ as _events_all
 from .meshes import __all__ as _meshes_all
 from .files import __all__ as _files_all
 from .render import __all__ as _render_all
@@ -222,6 +233,7 @@ from .gui import __all__ as _gui_all
 __all__.extend(_errors_all)
 __all__.extend(_values_all)
 __all__.extend(_core_all)
+__all__.extend(_events_all)
 __all__.extend(_meshes_all)
 __all__.extend(_files_all)
 __all__.extend(_render_all)
@@ -234,6 +246,7 @@ import os
 from .errors import *
 from .values import *
 from .core import *
+from .events import *
 from .meshes import *
 from .physics import *
 from .audio import *
@@ -252,7 +265,7 @@ if "PYUNITY_TESTING" not in os.environ:
     Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
 if ("PYUNITY_SPHINX_CHECK" not in os.environ and
-        "PYUNITY_CHANGE_MODULE" not in os.environ):
+        os.environ["PYUNITY_CHANGE_MODULE"] == "1"):
     # Mask module attribute
     for _obj in tuple(locals().values()): # pragma: no cover
         if not getattr(_obj, "__module__", "").startswith("pyunity."):

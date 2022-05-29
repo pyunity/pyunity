@@ -12,13 +12,17 @@ This will be imported as ``pyunity.Loader``.
 
 __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
-           "LoadStl", "SavePrefab", "LoadPrefab"]
+           "LoadMat", "SaveMat", "LoadProject", "ObjectInfo",
+           "SaveProject", "ResaveScene", "GenerateProject",
+           "LoadScene", "LoadStl", "LoadPrefab",
+           "LoadObjectInfos", "LoadGameObjects",
+           "SaveGameObjects", "SavePrefab"]
 
 from . import Logger
 from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
 from .core import GameObject, Component, Tag, SavesProjectID
-from .values import Vector3, Vector2, ImmutableStruct, Quaternion
+from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
 from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
 from contextlib import ExitStack
@@ -278,7 +282,9 @@ def GetImports(file):
             imports.append(line)
     return "\n".join(imports) + "\n\n"
 
-def parseString(string):
+def parseString(string, project=None):
+    if project is not None and string in project._idMap:
+        return True, project._idMap[string]
     if string.startswith("Vector2("):
         return True, Vector2(*list(map(float, string[8:-1].split(", "))))
     if string.startswith("Vector3("):
@@ -287,6 +293,18 @@ def parseString(string):
         return True, Quaternion(*list(map(float, string[11:-1].split(", "))))
     if string.startswith("RGB(") or string.startswith("HSV("):
         return True, Color.fromString(string)
+    if "\n" in string:
+        struct = {}
+        check = True
+        for line in string.split("\n"):
+            key, value = line.split(": ")
+            valid, value = parseString(value, project)
+            if not valid:
+                check = False
+                break
+            struct[key] = value
+        if check:
+            return True, struct
     if string in ["True", "False"]:
         return True, string == "True"
     if string == "None":
@@ -301,36 +319,64 @@ def parseString(string):
         # Only want strings here
         outStr = json.loads(string)
         if not isinstance(outStr, str):
-            raise json.decoder.JSONDecodeError
+            raise ValueError
         return True, outStr
-    except json.decoder.JSONDecodeError:
+    except ValueError:
         pass
     if ((string.startswith("(") and string.endswith(")")) or
             (string.startswith("[") and string.endswith("]"))):
         check = []
         items = []
-        for section in string[1:-1].split(", "):
-            if section.isspace() or section == "":
-                continue
-            valid, obj = parseString(section.rstrip().lstrip())
-            check.append(valid)
-            items.append(obj)
+        if len(string) > 2:
+            for section in string[1:-1].split(", "):
+                if section.isspace() or section == "":
+                    continue
+                valid, obj = parseString(section.rstrip().lstrip(), project)
+                check.append(valid)
+                items.append(obj)
         if all(check):
             if string.startswith("("):
                 return True, tuple(items)
             return True, items
     return False, None
 
+def parseStringFallback(string, project, fallback):
+    success, value = parseString(string, project)
+    if not success:
+        return fallback
+    return value
+
 class ObjectInfo:
+    class SkipConv:
+        def __init__(self, value):
+            self.value = value
+
     def __init__(self, name, uuid, attrs):
         self.name = name
         self.uuid = uuid
         self.attrs = attrs
 
+    @staticmethod
+    def convString(v):
+        if isinstance(v, str):
+            return json.dumps(v)
+        elif isinstance(v, enum.Enum):
+            return str(v.value)
+        else:
+            return str(v)
+
     def __str__(self):
         s = f"{self.name} : {self.uuid}"
         for k, v in self.attrs.items():
-            s += f"\n    {k}: {v}"
+            if isinstance(v, ObjectInfo.SkipConv):
+                string = v.value
+                if string.startswith("\n"):
+                    s += f"\n    {k}:{string}"
+                else:
+                    s += f"\n    {k}: {string}"
+            else:
+                string = ObjectInfo.convString(v)
+                s += f"\n    {k}: {string}"
         return s
 
 def SaveMat(material, project, filename):
@@ -404,7 +450,11 @@ def LoadPrefab(path, project):
     prefab = Prefab(g, prune=False)
     return prefab
 
-savable = (Color, Vector3, Quaternion, bool, int, str, float, list, tuple)
+savable = (
+    Color, Vector3, Quaternion, # PyUnity types
+    bool, int, str, float, list, tuple, # Python types
+    SavesProjectID, ObjectInfo.SkipConv # Special procedures
+)
 """All savable types that will not be saved as UUIDs"""
 
 def SaveGameObjects(gameObjects, data, project):
@@ -419,27 +469,40 @@ def SaveGameObjects(gameObjects, data, project):
         return project._ids[obj]
 
     for gameObject in gameObjects:
-        attrs = {"name": json.dumps(gameObject.name),
-                 "tag": gameObject.tag.tag,
-                 "enabled": gameObject.enabled,
-                 "transform": getUuid(gameObject.transform)}
+        attrs = {
+            "name": gameObject.name,
+            "tag": gameObject.tag.tag,
+            "enabled": gameObject.enabled,
+            "transform": ObjectInfo.SkipConv(getUuid(gameObject.transform))
+        }
         data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
 
     for gameObject in gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
-            attrs = {"gameObject": gameObjectID}
+            attrs = {"gameObject": ObjectInfo.SkipConv(gameObjectID)}
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
-                    if v in project._ids:
-                        attrs[k] = project._ids[v]
-                        continue
-
-                    uuid = getUuid(v)
-                    if isinstance(v, Asset):
+                    if v not in project._ids and isinstance(v, Asset):
                         project.ImportAsset(v, gameObject)
-                    v = uuid
+                    v = ObjectInfo.SkipConv(getUuid(v))
+                elif hasattr(v, "_wrapper"):
+                    if isinstance(getattr(v, "_wrapper"), SavableStruct):
+                        wrapper = getattr(v, "_wrapper")
+                        struct = {}
+                        for key in wrapper.attrs:
+                            if hasattr(v, key):
+                                item = getattr(v, key)
+                                if isinstance(item, SavesProjectID):
+                                    if item not in project._ids and isinstance(item, Asset):
+                                        project.ImportAsset(item, gameObject)
+                                    struct[key] = getUuid(item)
+                                else:
+                                    struct[key] = ObjectInfo.convString(item)
+                        sep = "\n        "
+                        v = ObjectInfo.SkipConv(
+                            sep + sep.join(": ".join(x) for x in struct.items()))
                 if v is not None and not isinstance(v, savable):
                     continue
                 attrs[k] = v
@@ -456,7 +519,7 @@ def SaveGameObjects(gameObjects, data, project):
                     file = File(filename, uuid)
                     project.ImportFile(file, write=False)
 
-                attrs["_script"] = project._ids[behaviour]
+                attrs["_script"] = ObjectInfo.SkipConv(project._ids[behaviour])
                 name = behaviour.__name__ + "(Behaviour)"
             else:
                 name = component.__class__.__name__ + "(Component)"
@@ -468,25 +531,62 @@ def LoadObjectInfos(file):
 
     data = []
     attrs = {}
+    struct = {}
     name, uuid = contents.pop(0).split(" : ")
     for line in contents:
-        if line.startswith("    "):
-            key, value = line[4:].split(": ")
-            attrs[key] = value
-        elif name == "" or uuid == "":
-            raise ProjectParseException(f"Section header before data")
+        if "#" in line:
+            quotes = 0
+            for i, char in enumerate(line):
+                if char == "\"" and line[char - 1] != "\\":
+                    quotes += 1
+                if char == "#":
+                    if quotes % 2 == 0:
+                        break
+            line = line[:i]
+        line = line.rstrip()
+        if line == "":
+            continue
+        if line.startswith("        "):
+            key, value = line[8:].split(": ")
+            struct[key] = value
+        elif line.startswith("    "):
+            if line.endswith(":"):
+                key = line[4:-1]
+                struct = {}
+                attrs[key] = struct
+            else:
+                key, value = line[4:].split(": ")
+                attrs[key] = value
         else:
+            # New section
+            for key in attrs:
+                if isinstance(attrs[key], dict):
+                    text = "\n".join(": ".join(x) for x in attrs[key].items())
+                    attrs[key] = text
             data.append(ObjectInfo(name, uuid, attrs))
             name, uuid = line.split(" : ")
             attrs = {}
 
     # Final objectinfo
+    for key in attrs:
+        if isinstance(attrs[key], dict):
+            text = "\n".join(": ".join(x) for x in attrs[key].items())
+            attrs[key] = text
     data.append(ObjectInfo(name, uuid, attrs))
     return data
 
+def instanceCheck(type_, value):
+    if type_ is float:
+        type_ = (float, int)
+    elif issubclass(type_, enum.Enum):
+        if value in list(type_.__members__.values()):
+            value = type_(value)
+        else:
+            raise ProjectParseException(f"{value} not in enum {type_}")
+    return type_, value
+
 def LoadGameObjects(data, project):
     def addUuid(obj, uuid):
-
         if obj in project._ids:
             return
         project._ids[obj] = uuid
@@ -505,7 +605,7 @@ def LoadGameObjects(data, project):
     for part in gameObjectInfo:
         gameObject = GameObject.BareObject(json.loads(part.attrs["name"]))
         gameObject.tag = Tag(int(part.attrs["tag"]))
-        gameObject.enabled = parseString(part.attrs.get("enabled", "True"))
+        gameObject.enabled = part.attrs.get("enabled", "True") == "True"
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
@@ -538,24 +638,19 @@ def LoadGameObjects(data, project):
     for part in componentInfo + behaviourInfo:
         component = project._idMap[part.uuid]
         for k, v in part.attrs.items():
-            if v in project._idMap:
-                value = project._idMap[v]
-            else:
-                success, value = parseString(v)
-                if not success:
-                    continue
+            success, value = parseString(v, project)
+            if not success:
+                continue
             if value is not None:
-                type_ = component._saved[k].type
-                if type_ is float:
-                    type_ = (float, int)
-                elif issubclass(type_, enum.Enum):
-                    if value in list(type_.__members__.values()):
-                        value = type_(value)
-                    else:
-                        raise ProjectParseException(f"{value} not in enum {type_}")
+                type_, value = instanceCheck(component._saved[k].type, value)
+                if hasattr(type_, "_wrapper"):
+                    if isinstance(getattr(type_, "_wrapper"), SavableStruct):
+                        print(value)
+                        value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(
-                        f"Value {value!r} does not match type {type_}: attribute {k!r} of {component}")
+                        f"Value {value!r} does not match type {type_}: "
+                        f"attribute {k!r} of {component}")
             setattr(component, k, value)
 
     # Transform check
@@ -564,6 +659,8 @@ def LoadGameObjects(data, project):
         transform = project._idMap[part.attrs["transform"]]
         if transform is not gameObject.transform:
             Logger.LogLine(Logger.WARN, f"GameObject transform does not match transform UUID: {gameObject.name!r}")
+        if transform.parent is not None:
+            transform.parent.children.append(transform)
 
     return gameObjects
 
@@ -578,15 +675,22 @@ def SaveScene(scene, project, path):
         project._idMap[uuid] = obj
         return project._ids[obj]
 
-    location = project.path / path / (scene.name + ".scene")
-    data = [ObjectInfo("Scene", getUuid(scene), {"name": json.dumps(scene.name), "mainCamera": getUuid(scene.mainCamera)})]
+    location = project.path / path
+    data = [ObjectInfo(
+        "Scene",
+        getUuid(scene),
+        {
+            "name": scene.name,
+            "mainCamera": ObjectInfo.SkipConv(getUuid(scene.mainCamera))
+        }
+    )]
 
     SaveGameObjects(scene.gameObjects, data, project)
 
     location.parent.mkdir(parents=True, exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
-    project.ImportFile(File(Path(path) / (scene.name + ".scene"), getUuid(scene)))
+    project.ImportFile(File(Path(path), getUuid(scene)))
 
 savers = {
     Mesh: SaveMesh,
@@ -609,9 +713,12 @@ def GenerateProject(name):
 
 def SaveProject(project):
     for scene in SceneManager.scenesByIndex:
-        SaveScene(scene, project, "Scenes")
+        project.ImportAsset(scene)
 
-def LoadProject(folder):
+def LoadProject(folder, remove=True):
+    if remove:
+        SceneManager.RemoveAllScenes()
+
     project = Project.FromFolder(folder)
 
     Scripts.GenerateModule()

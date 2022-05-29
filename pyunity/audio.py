@@ -40,13 +40,14 @@ else:
             Logger.LogLine(Logger.WARN,
                            "Failed to import PySDL2, your system may not support it.")
 
-    if mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
-        config.audio = False
-        Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
-    elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
-        config.audio = False
-        Logger.LogLine(Logger.WARN,
-                       "SDL2_mixer could not be initialized: " + SDL_GetError().decode())
+    if config.audio:
+        if mixer.Mix_Init(mixer.MIX_INIT_MP3 | mixer.MIX_INIT_OGG) == 0:
+            config.audio = False
+            Logger.LogLine(Logger.WARN, "Cannot load sdlmixer, audio is disabled")
+        elif mixer.Mix_OpenAudio(22050, mixer.MIX_DEFAULT_FORMAT, 2, 4096) == -1:
+            config.audio = False
+            Logger.LogLine(Logger.WARN,
+                           "SDL2_mixer could not be initialized: " + SDL_GetError().decode())
 
 class _CustomMock:
     def __getattr__(self, item):

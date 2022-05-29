@@ -7,7 +7,7 @@ import os
 import sys
 import ast
 import glob
-os.environ["PYUNITY_CHANGE_MODULE"] = "1"
+os.environ["PYUNITY_CHANGE_MODULE"] = "0"
 
 ignored = ["pyunity.examples.", "pyunity.window.providers."]
 origdir = os.getcwd()
