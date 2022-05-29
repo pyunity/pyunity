@@ -7,7 +7,7 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
            "Text", "FontLoader", "GuiComponent",
            "NoResponseGuiComponent", "CheckBox",
            "GuiRenderComponent", "TextAlign", "Font",
-           "Button", "RenderTarget"]
+           "Button", "RenderTarget", "UnixFontLoader", "WinFontLoader"]
 
 from . import Logger
 from .errors import PyUnityException

@@ -25,22 +25,24 @@ if "PYUNITY_EGL_PATH" in os.environ:
     try:
         _egl = ctypes.CDLL(os.environ["PYUNITY_EGL_PATH"])
         search = False
-    except FileNotFoundError:
+    except OSError:
         Logger.LogLine(Logger.DEBUG,
                        "PYUNITY_EGL_PATH environment variable specified but "
                        "path not found")
 if search:
-    _libname = ctypes.util.find_library("libegl")
-    if _libname is None:
-        if os.name == "nt":
-            _libname = "libegl.dll"
-        else:
-            _libname = "libegl.so"
+    _names = ["libegl", "libEGL"]
+    for name in _names:
+        _libname = ctypes.util.find_library(name)
+        if _libname is None:
+            if os.name == "nt":
+                _libname = name + ".dll"
+            else:
+                _libname = name + ".so"
 
-    try:
-        _egl = ctypes.CDLL(_libname)
-    except FileNotFoundError:
-        _egl = None
+        try:
+            _egl = ctypes.CDLL(_libname)
+        except OSError:
+            _egl = None
     if _egl is None:
         raise PyUnityException("Cannot find libegl library")
 

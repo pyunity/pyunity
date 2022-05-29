@@ -39,6 +39,11 @@ class Window(ABCWindow):
 
         self.context = sdl2.SDL_GL_CreateContext(self.screen)
 
+        if config.vsync:
+            err = sdl2.SDL_GL_SetSwapInterval(-1)
+            if err == -1:
+                sdl2.SDL_GL_SetSwapInterval(1)
+
         self.keys = [KeyState.NONE for _ in range(
             sdl2.SDL_SCANCODE_AUDIOFASTFORWARD)]
         self.mouse = [None, KeyState.NONE, KeyState.NONE, KeyState.NONE]

@@ -12,7 +12,9 @@ This will be imported as ``pyunity.Loader``.
 
 __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
-           "LoadStl", "SavePrefab", "LoadPrefab"]
+           "LoadMat", "SaveMat", "LoadProject", "ObjectInfo",
+           "SaveProject", "ResaveScene", "GenerateProject",
+           "LoadScene", "LoadStl"]
 
 from . import Logger
 from .meshes import Mesh, Material, Color
