@@ -52,7 +52,8 @@ and all have MeshRenderers:
 
 __all__ = ["Component", "GameObject", "SingleComponent",
            "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "addFields", "SavesProjectID"]
+           "HideInInspector", "addFields", "SavesProjectID",
+           "ComponentType"]
 
 import os
 from .errors import PyUnityException, ComponentException
@@ -367,7 +368,6 @@ class ShowInInspector(HideInInspector):
     def __set_name__(self, owner, name):
         super(ShowInInspector, self).__set_name__(owner, name)
         owner._shown[name] = self
-        print(owner)
 
 class _AddFields(IncludeInstanceMixin):
     def __init__(self):
