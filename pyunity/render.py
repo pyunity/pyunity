@@ -773,7 +773,6 @@ class Camera(SingleComponent):
     def Draw2D(self, renderers):
         from .gui import RectTransform
 
-        gl.glDepthMask(gl.GL_FALSE)
         for renderer in renderers:
             rectTransform = renderer.GetComponent(RectTransform)
             if rectTransform is None:
@@ -790,7 +789,6 @@ class Camera(SingleComponent):
             self.guiShader.setInt(b"flipX", renderer.flipX)
             self.guiShader.setInt(b"flipY", renderer.flipY)
             gl.glDrawArrays(gl.GL_QUADS, 0, 4)
-        gl.glDepthMask(gl.GL_TRUE)
 
 class Screen(metaclass=ImmutableStruct):
     _names = ["width", "height", "size", "aspect"]
