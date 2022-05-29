@@ -9,7 +9,8 @@ Also manages project structure.
 """
 
 __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
-           "File", "Project", "Skybox", "Scripts"]
+           "File", "Project", "Skybox", "Scripts",
+           "ProjectSavingContext"]
 
 from .errors import PyUnityException, ProjectParseException
 from .core import Component, GameObject, SavesProjectID, Transform

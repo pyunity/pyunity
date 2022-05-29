@@ -14,7 +14,9 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
            "LoadMat", "SaveMat", "LoadProject", "ObjectInfo",
            "SaveProject", "ResaveScene", "GenerateProject",
-           "LoadScene", "LoadStl"]
+           "LoadScene", "LoadStl", "LoadPrefab",
+           "LoadObjectInfos", "LoadGameObjects",
+           "SaveGameObjects", "SavePrefab"]
 
 from . import Logger
 from .meshes import Mesh, Material, Color
