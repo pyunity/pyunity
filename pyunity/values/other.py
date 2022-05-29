@@ -2,12 +2,26 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Clock", "ImmutableStruct", "SavableStruct", "StructEntry", "LockedLiteral"]
+__all__ = ["IgnoredMixin", "IncludeMixin", "IncludeInstanceMixin",
+           "Clock", "ImmutableStruct", "SavableStruct", "StructEntry",
+           "LockedLiteral"]
 
 import time
 import sys
 from functools import partial
 from ..errors import PyUnityException
+
+class IgnoredMixin:
+    # Used by various helper scripts.
+    pass
+
+class IncludeMixin:
+    # Used by various helper scripts.
+    pass
+
+class IncludeInstanceMixin:
+    # Used by various helper scripts.
+    pass
 
 class Clock:
     def __init__(self):

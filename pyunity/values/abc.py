@@ -6,6 +6,7 @@ __all__ = ["ABCMessage", "ABCException", "ABCMeta",
            "abstractmethod", "abstractproperty"]
 
 import inspect
+from .other import IncludeMixin
 
 class ABCException(Exception):
     pass
@@ -13,7 +14,7 @@ class ABCException(Exception):
 class ABCMessage(ABCException):
     pass
 
-class abstractmethod:
+class abstractmethod(IncludeMixin):
     def __init__(self, func):
         if not callable(func):
             raise ABCException(f"Function is not callable: {func}")

@@ -100,12 +100,11 @@ def parseCode(nthreads=None):
         raise
 
 def getPackages(module="pyunity"):
-    os.environ["PYUNITY_CHANGE_MODULE"] = "0"
+    os.environ["PYUNITY_SPHINX_CHECK"] = "1"
+    from pyunity.values import IgnoredMixin, IncludeInstanceMixin, IncludeMixin
     if isinstance(module, str):
         module = importlib.import_module(module)
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
-        if ispkg:
-            continue
         if "__" in name or name == "providers" or name == "config" or "example" in name:
             continue
         mod = importlib.import_module(module.__name__ + "." + name)
@@ -119,13 +118,26 @@ def getPackages(module="pyunity"):
         for x in dir(mod):
             val = getattr(mod, x)
             if inspect.isclass(val) or inspect.isfunction(val):
-                if x[0].isupper() and val.__module__ == mod.__name__:
+                if val.__module__ == mod.__name__ or (
+                        ispkg and val.__module__.startswith(mod.__name__)):
+                    if not (isinstance(val, type) and issubclass(val, IgnoredMixin)):
+                        if x[0].isupper():
+                            new.add(x)
+                        elif isinstance(val, type) and issubclass(val, IncludeMixin):
+                            new.add(x)
+                    elif val is IgnoredMixin:
+                        new.add(x)
+            elif inspect.ismodule(val):
+                if ispkg and x[0].isupper() and val.__package__ == mod.__name__:
                     new.add(x)
-            elif isinstance(val, (int, str, bool, list, dict)) and x[0].isupper():
+            elif isinstance(val, (int, float, str, bool, list, dict)) and x[0].isupper():
                 new.add(x)
+            elif isinstance(val, IncludeInstanceMixin):
+                if getattr(val, "__module__", "") == mod.__name__:
+                    new.add(x)
         if original != new:
-            added = json.dumps(list(new - original))
-            removed = json.dumps(list(original - new))
+            added = json.dumps(sorted(list(new - original)))
+            removed = json.dumps(sorted(list(original - new)))
             print(mod.__name__, "Add", added, "Remove", removed)
 
 def checkMissing():

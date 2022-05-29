@@ -9,10 +9,10 @@ physics engine.
 """
 
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
-           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
+           "BoxCollider", "Rigidbody", "Infinity"]
 
 from ..errors import PyUnityException
-from ..values import Vector3, Quaternion, ABCMeta, abstractmethod
+from ..values import Vector3, Quaternion, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, ShowInInspector, addFields
 from . import config
 import math
@@ -365,12 +365,12 @@ class Rigidbody(Component):
         """
         self.velocity += impulse
 
-class SupportPoint:
+class SupportPoint(IgnoredMixin):
     def __init__(self, point, original):
         self.point = point
         self.original = original
 
-class Triangle:
+class Triangle(IgnoredMixin):
     def __init__(self, a, b, c):
         self.a = a
         self.b = b
@@ -379,7 +379,7 @@ class Triangle:
         ac = c.point - a.point
         self.normal = (ab).cross(ac).normalized()
 
-class CollManager:
+class CollManager(IgnoredMixin):
     """
     Manages the collisions between all colliders.
 
