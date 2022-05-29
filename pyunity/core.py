@@ -57,7 +57,7 @@ __all__ = ["Component", "GameObject", "SingleComponent",
 import inspect
 import os
 from .errors import PyUnityException, ComponentException
-from .values import Vector3, Quaternion
+from .values import Vector3, Quaternion, IncludeInstanceMixin
 from . import Logger
 
 class Tag:
@@ -362,7 +362,7 @@ class ShowInInspector(HideInInspector):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name
 
-class _AddFields:
+class _AddFields(IncludeInstanceMixin):
     selfref = HideInInspector()
 
     def __call__(self, **kwargs):
@@ -383,6 +383,8 @@ class _AddFields:
         return decorator
 
 addFields = _AddFields()
+del _AddFields
+setattr(addFields, "__module__", __name__)
 
 class Component(SavesProjectID):
     """

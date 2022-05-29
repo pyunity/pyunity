@@ -8,8 +8,9 @@ of Scenes.
 
 """
 
-__all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene", "LoadSceneByName",
-           "CurrentScene", "AddScene", "LoadScene", "RemoveAllScenes", "GetSceneByIndex"]
+__all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
+           "LoadSceneByName", "CurrentScene", "AddScene", "LoadScene",
+           "RemoveAllScenes", "GetSceneByIndex", "FirstScene", "KeyboardInterruptKill"]
 
 from .. import config, settings
 from ..errors import PyUnityException, PyUnityExit

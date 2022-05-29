@@ -20,7 +20,7 @@ from ..core import GameObject, Tag, Component
 from ..files import Behaviour, Asset
 from ..values import Vector3, Mathf
 from .. import Logger, config
-from ..physics import CollManager
+from ..physics.core import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from ..render import Camera, Light, Screen, genBuffers, genArray
