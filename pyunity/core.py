@@ -54,10 +54,9 @@ __all__ = ["Component", "GameObject", "SingleComponent",
            "Tag", "Transform", "ShowInInspector",
            "HideInInspector", "addFields", "SavesProjectID"]
 
-import inspect
 import os
 from .errors import PyUnityException, ComponentException
-from .values import Vector3, Quaternion, IncludeInstanceMixin
+from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from . import Logger
 
 class Tag:
@@ -328,7 +327,7 @@ class HideInInspector:
 
     """
 
-    def __init__(self, type_=None, default=None):
+    def __init__(self, type_, default=None):
         if isinstance(type_, str):
             import pyunity
             if type_ not in pyunity.__all__:
@@ -342,6 +341,9 @@ class HideInInspector:
         else:
             self.default = default
         self.name = None
+
+    def __set_name__(self, owner, name):
+        owner._saved[name] = self
 
 class ShowInInspector(HideInInspector):
     """
@@ -358,35 +360,54 @@ class ShowInInspector(HideInInspector):
         Alternate name shown in the Inspector
 
     """
-    def __init__(self, type=None, default=None, name=None):
+    def __init__(self, type, default=None, name=None):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name
 
+    def __set_name__(self, owner, name):
+        super(ShowInInspector, self).__set_name__(owner, name)
+        owner._shown[name] = self
+        print(owner)
+
 class _AddFields(IncludeInstanceMixin):
-    selfref = HideInInspector()
+    def __init__(self):
+        self.selfref = HideInInspector(type)
 
     def __call__(self, **kwargs):
-        def decorator(cls):
-            for name, value in kwargs.items():
-                if value.name is None:
-                    value.name = name
-                if value.type is self.__class__.selfref:
-                    value.type = cls
-                cls._saved[name] = value
-                if isinstance(value, ShowInInspector):
-                    cls._shown[name] = value
+        selfref = self.selfref
+        class _decorator:
+            def apply(self, cls):
+                return self(cls)
 
-                if "PYUNITY_SPHINX_CHECK" not in os.environ:
-                    if not hasattr(cls, name):
-                        setattr(cls, name, value.default)
-            return cls
-        return decorator
+            def __call__(self, cls):
+                for name, value in kwargs.items():
+                    if value.name is None:
+                        value.name = name
+                    if value.type is selfref:
+                        value.type = cls
+                    cls._saved[name] = value
+                    if isinstance(value, ShowInInspector):
+                        cls._shown[name] = value
+
+                    if "PYUNITY_SPHINX_CHECK" not in os.environ:
+                        if not hasattr(cls, name):
+                            setattr(cls, name, value.default)
+                return cls
+        return _decorator()
 
 addFields = _AddFields()
 del _AddFields
 setattr(addFields, "__module__", __name__)
 
-class Component(SavesProjectID):
+class ComponentType(ABCMeta):
+    @classmethod
+    def __prepare__(cls, name, bases, **kwds):
+        namespace = super(ComponentType, cls).__prepare__(name, bases, **kwds)
+        namespace["_saved"] = {}
+        namespace["_shown"] = {}
+        return namespace
+
+class Component(SavesProjectID, metaclass=ComponentType):
     """
     Base class for built-in components.
 
@@ -399,9 +420,6 @@ class Component(SavesProjectID):
 
     """
 
-    _saved = {}
-    _shown = {}
-
     def __init__(self, transform, isDummy=False):
         if isDummy:
             self.gameObject = None
@@ -412,18 +430,8 @@ class Component(SavesProjectID):
 
     @classmethod
     def __init_subclass__(cls):
-        members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        shown = {a[0]: a[1]
-                 for a in members if isinstance(a[1], ShowInInspector)}
-        saved = {a[0]: a[1]
-                 for a in members if isinstance(a[1], HideInInspector)}
-        cls._shown = shown
-        cls._saved = saved
-
         if "PYUNITY_SPHINX_CHECK" not in os.environ:
-            for name, val in saved.items():
-                if val.type is None:
-                    val.type = cls
+            for name, val in cls._saved.items():
                 if val.name is None:
                     val.name = name
                 setattr(cls, name, val.default)
