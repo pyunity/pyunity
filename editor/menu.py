@@ -43,7 +43,8 @@ class CommandMenu:
                 command.run(ctx, args)
             except CommandStop as e:
                 if len(e.args):
-                    print("Error:", *e.args)
+                    command.parser.print_usage()
+                    print(f"{command.name}: error:", *e.args)
                 continue
             except ExitMenu as e:
                 self.quit(ctx)

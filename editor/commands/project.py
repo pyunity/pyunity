@@ -2,7 +2,7 @@ from ..menu import CommandStop, ExitMenu, CommandMenu
 from .scene import SceneMenu
 from .base import BaseCommand, ExitCommand
 from pyunity import SceneManager, Loader
-import sys
+import os
 
 class OpenCommand(BaseCommand):
     name = "open"
@@ -42,6 +42,14 @@ class ProjectMenu(CommandMenu):
         "open": OpenCommand
     }
 
+class NewProjectMenu(ProjectMenu):
     def run(self, ctx):
-        ctx.project = Loader.LoadProject(sys.argv[1])
+        SceneManager.RemoveAllScenes()
+        SceneManager.AddScene("Scene")
+        ctx.project = Loader.GenerateProject(os.environ["PROJECT_PATH"])
+        super().run(ctx)
+
+class OpenProjectMenu(ProjectMenu):
+    def run(self, ctx):
+        ctx.project = Loader.LoadProject(os.environ["PROJECT_PATH"])
         super().run(ctx)
