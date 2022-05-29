@@ -9,7 +9,8 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from .values import Color, RGB, Vector3, Vector2, Quaternion, ImmutableStruct
+from .meshes import Color, RGB
+from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
 from .files import Skybox, convert
@@ -772,7 +773,6 @@ class Camera(SingleComponent):
     def Draw2D(self, renderers):
         from .gui import RectTransform
 
-        gl.glDepthMask(gl.GL_FALSE)
         for renderer in renderers:
             rectTransform = renderer.GetComponent(RectTransform)
             if rectTransform is None:
@@ -789,7 +789,6 @@ class Camera(SingleComponent):
             self.guiShader.setInt(b"flipX", renderer.flipX)
             self.guiShader.setInt(b"flipY", renderer.flipY)
             gl.glDrawArrays(gl.GL_QUADS, 0, 4)
-        gl.glDepthMask(gl.GL_TRUE)
 
 class Screen(metaclass=ImmutableStruct):
     _names = ["width", "height", "size", "aspect"]

@@ -11,7 +11,6 @@ Submodules
    pyunity.values.mathf
    pyunity.values.other
    pyunity.values.quaternion
-   pyunity.values.texture
    pyunity.values.vector
 
 Module contents

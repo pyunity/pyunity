@@ -8,19 +8,23 @@ Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab",
-           "File", "Project", "Skybox", "Scripts"]
+__all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
+           "File", "Project", "Skybox", "Scripts",
+           "ProjectSavingContext"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, ShowInInspector
+from .core import Component, GameObject, SavesProjectID, Transform
+from .values import ABCMeta, abstractmethod
 from . import Logger
-from OpenGL import GL as gl
-from PIL import Image
 from types import ModuleType
-import os
+from functools import wraps
 from pathlib import Path
-import sys
+from PIL import Image
+from uuid import uuid4
+import OpenGL.GL as gl
 import ctypes
+import sys
+import os
 
 def convert(type, list):
     """
@@ -45,16 +49,7 @@ class Behaviour(Component):
     """
     Base class for behaviours that can be scripted.
 
-    Attributes
-    ----------
-    gameObject : GameObject
-        GameObject that the component belongs to.
-    transform : Transform
-        Transform that the component belongs to.
-
     """
-
-    _script = ShowInInspector(type)
 
     def Start(self):
         """
@@ -222,7 +217,16 @@ class Scripts:
 
         return module
 
-class Texture2D:
+class Asset(SavesProjectID, metaclass=ABCMeta):
+    @abstractmethod
+    def GetAssetFile(self, gameObject):
+        pass
+
+    @abstractmethod
+    def SaveAsset(self, ctx):
+        pass
+
+class Texture2D(Asset):
     """
     Class to represent a texture.
 
@@ -282,6 +286,14 @@ class Texture2D:
             self.load()
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
+
+    def GetAssetFile(self, gameObject):
+        return Path("Textures") / (gameObject.name + ".png")
+
+    def SaveAsset(self, ctx):
+        path = ctx.project.path / ctx.filename
+        path.parent.mkdir(parents=True, exist_ok=True)
+        self.img.save(path)
 
     @classmethod
     def FromOpenGL(cls, texture):
@@ -353,16 +365,171 @@ class Skybox:
                 self.compile()
             gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
 
-class Prefab:
+class Prefab(Asset):
     """Prefab model"""
-    def __init__(self, gameObject, components):
+    def __init__(self, gameObject, prune=True):
+        if prune:
+            self.gameObjects = []
+            self.assets = []
+            components = []
+            mapping = {}
+
+            for transform in gameObject.transform.GetDescendants():
+                obj = transform.gameObject
+                g = GameObject(obj.name)
+                g.tag = obj.tag
+                g.enabled = obj.enabled
+                mapping[obj] = g
+                self.gameObjects.append(g)
+
+                parentTransform = obj.transform.parent
+                if parentTransform is None:
+                    newParent = None
+                else:
+                    newParent = mapping[parentTransform.gameObject].transform
+                g.transform.ReparentTo(newParent)
+
+                for component in obj.components:
+                    if isinstance(component, Transform):
+                        continue
+                    new = g.AddComponent(type(component))
+                    mapping[component] = new
+                    components.append(new)
+
+            # 2nd pass setting attributes
+            for transform in gameObject.transform.GetDescendants():
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component._saved:
+                        v = getattr(component, k)
+                        if isinstance(v, GameObject):
+                            if v not in mapping:
+                                continue
+                            v = mapping[v]
+                        elif isinstance(v, Component):
+                            if v.gameObject not in mapping:
+                                continue
+                            v = mapping[v]
+                        if isinstance(v, Asset):
+                            self.assets.append(v)
+                        setattr(mapping[component], k, v)
+
+            self.gameObject = self.gameObjects[0]
+        else:
+            self.gameObjects = []
+            self.assets = []
+
+            for transform in gameObject.transform.GetDescendants():
+                if transform.gameObject.scene is not None:
+                    raise PyUnityException(
+                        "Cannot create prefab with GameObjects that are part of a scene")
+                self.gameObjects.append(transform.gameObject)
+
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component._saved:
+                        v = getattr(component, k)
+                        if isinstance(v, Asset):
+                            self.assets.append(v)
+
+            self.gameObject = gameObject
+
+    def Contains(self, obj):
+        if not isinstance(obj, (GameObject, Component)):
+            raise PyUnityException(
+                f"Cannot check if {type(obj).__name__} is part of a Prefab")
+
+        if isinstance(obj, GameObject):
+            return obj in self.gameObjects
+        else:
+            return obj.gameObject in self.gameObjects
+
+    def Instantiate(self, scene=None, position=None, rotation=None, scale=None, worldSpace=False):
+        if scene is None:
+            from .scenes import SceneManager
+            scene = SceneManager.CurrentScene()
+            if scene is None:
+                raise PyUnityException("No scene running")
+
+        mapping = {}
+        for gameObject in self.gameObjects:
+            copy = GameObject(gameObject.name)
+            copy.tag = gameObject.tag
+            copy.enabled = gameObject.enabled
+            mapping[gameObject] = copy
+            scene.Add(copy)
+
+            parentTransform = gameObject.transform.parent
+            if parentTransform is None:
+                newParent = None
+            else:
+                newParent = mapping[parentTransform.gameObject].transform
+            copy.transform.ReparentTo(newParent)
+
+            for component in gameObject.components:
+                if isinstance(component, Transform):
+                    continue
+                new = copy.AddComponent(type(component))
+                mapping[component] = new
+
+            for transform in gameObject.transform.GetDescendants():
+                for component in transform.gameObject.components:
+                    if isinstance(component, Transform):
+                        continue
+                    for k in component._saved:
+                        v = getattr(component, k)
+                        setattr(mapping[component], k, v)
+
+        return mapping[self.gameObject]
+
+    def GetAssetFile(self, gameObject):
+        return Path("Prefabs") / (gameObject.name + ".prefab")
+
+    def SaveAsset(self, ctx):
+        for asset in self.assets:
+            asset.SaveAsset(ctx)
+            ctx.project.ImportAsset(asset, ctx.gameObject)
+
+        path = ctx.project.path / ctx.filename
+        ctx.savers[Prefab](self, path, ctx.project)
+
+class ProjectSavingContext:
+    def __init__(self, asset, gameObject, project, filename=""):
+        if not isinstance(asset, Asset):
+            raise ProjectParseException(
+                f"{type(asset).__name__} does not subclass Asset")
+        ## Not needed since scenes do not belong to GameObjects
+        # if not isinstance(gameObject, GameObject):
+        #     raise ProjectParseException(
+        #         f"{gameObject!r} is not a GameObject")
+        if not isinstance(project, Project):
+            raise ProjectParseException(
+                f"{project!r} is not a GameObject")
+
+        self.asset = asset
         self.gameObject = gameObject
-        self.components = components
+        self.project = project
+        self.filename = filename
+
+        from . import Loader
+        self.savers = Loader.savers
 
 class File:
     def __init__(self, path, uuid):
         self.path = os.path.normpath(path)
         self.uuid = uuid
+
+def checkScene(func):
+    @wraps(func)
+    def inner(*args, **kwargs):
+        from . import SceneManager
+        if SceneManager.CurrentScene() is not None:
+            raise PyUnityException("Cannot modify project while scene is running")
+        return func(*args, **kwargs)
+    # TODO: disable this check according to a condition?
+    return inner
 
 class Project:
     def __init__(self, name="Project"):
@@ -376,6 +543,15 @@ class Project:
         os.makedirs(self.name, exist_ok=True)
         self.Write()
 
+    @property
+    def assets(self):
+        assets = []
+        for uuid in self.fileIDs:
+            if uuid in self._ids:
+                assets.append(self._ids[uuid])
+        return assets
+
+    @checkScene
     def Write(self):
         with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
             f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
@@ -383,6 +559,7 @@ class Project:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
                 f.write(f"\n    {id_}: {normalized}")
 
+    @checkScene
     def ImportFile(self, file, write=True):
         fullPath = self.path / file.path
         if not fullPath.is_file():
@@ -391,6 +568,40 @@ class Project:
         self.filePaths[file.path] = file
         if write:
             self.Write()
+
+    @checkScene
+    def ImportAsset(self, asset, gameObject=None, filename=None):
+        if asset not in self._ids:
+            exists = False
+            uuid = str(uuid4())
+            self._ids[asset] = uuid
+            self._idMap[uuid] = asset
+            if filename is None:
+                filename = asset.GetAssetFile(gameObject)
+        else:
+            exists = True
+            uuid = self._ids[asset]
+            filename = self.fileIDs[uuid].path
+
+        context = ProjectSavingContext(
+            asset=asset,
+            gameObject=gameObject,
+            project=self,
+            filename=filename)
+        asset.SaveAsset(context)
+
+        if not exists:
+            file = File(filename, self._ids[asset])
+            self.ImportFile(file, write=False)
+
+    @checkScene
+    def SetAsset(self, file, obj):
+        if file not in self.filePaths:
+            raise PyUnityException(f"File is not part of project: {file!r}")
+
+        uuid = self.filePaths[file].uuid
+        self._idMap[uuid] = obj
+        self._ids[obj] = uuid
 
     @staticmethod
     def FromFolder(folder):
@@ -431,9 +642,9 @@ class Project:
 
         project.fileIDs = {}
         project.filePaths = {}
-        for k, v in fileData.items():
-            file = File(v, k)
-            project.fileIDs[k] = file
-            project.filePaths[v] = file
+        for uuid, path in fileData.items():
+            file = File(path, uuid)
+            project.fileIDs[uuid] = file
+            project.filePaths[path] = file
 
         return project

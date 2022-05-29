@@ -51,14 +51,13 @@ and all have MeshRenderers:
 """
 
 __all__ = ["Component", "GameObject", "SingleComponent",
-           "MeshRenderer", "Tag", "Transform", "ShowInInspector",
-           "HideInInspector"]
+           "Tag", "Transform", "ShowInInspector",
+           "HideInInspector", "addFields", "SavesProjectID"]
 
 import inspect
 import os
 from .errors import PyUnityException, ComponentException
-from .meshes import Mesh
-from .values import Vector3, Quaternion, Material, RGB
+from .values import Vector3, Quaternion
 from . import Logger
 
 class Tag:
@@ -121,7 +120,10 @@ class Tag:
             raise TypeError(f"Argument 1:"
                             f"expected str or int, got {type(tagNumOrName).__name__}")
 
-class GameObject:
+class SavesProjectID:
+    pass
+
+class GameObject(SavesProjectID):
     """
     Class to create a GameObject, which is an object with components.
 
@@ -334,7 +336,11 @@ class HideInInspector:
             self.type = getattr(pyunity, type_)
         else:
             self.type = type_
-        self.default = default
+        if (isinstance(self.type, type) and issubclass(self.type, float)
+                and isinstance(default, int)):
+            self.default = float(default)
+        else:
+            self.default = default
         self.name = None
 
 class ShowInInspector(HideInInspector):
@@ -366,9 +372,9 @@ class _AddFields:
                     value.name = name
                 if value.type is self.__class__.selfref:
                     value.type = cls
+                cls._saved[name] = value
                 if isinstance(value, ShowInInspector):
-                    cls.shown[name] = value
-                cls.saved[name] = value
+                    cls._shown[name] = value
 
                 if "PYUNITY_SPHINX_CHECK" not in os.environ:
                     if not hasattr(cls, name):
@@ -378,7 +384,7 @@ class _AddFields:
 
 addFields = _AddFields()
 
-class Component:
+class Component(SavesProjectID):
     """
     Base class for built-in components.
 
@@ -391,8 +397,8 @@ class Component:
 
     """
 
-    shown = {}
-    saved = {}
+    _saved = {}
+    _shown = {}
 
     def __init__(self, transform, isDummy=False):
         if isDummy:
@@ -405,14 +411,12 @@ class Component:
     @classmethod
     def __init_subclass__(cls):
         members = inspect.getmembers(cls, lambda a: not inspect.isroutine(a))
-        variables = list(
-            filter(lambda a: not (a[0].startswith("__")), members))
         shown = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], ShowInInspector)}
+                 for a in members if isinstance(a[1], ShowInInspector)}
         saved = {a[0]: a[1]
-                 for a in variables if isinstance(a[1], HideInInspector)}
-        cls.shown = shown
-        cls.saved = saved
+                 for a in members if isinstance(a[1], HideInInspector)}
+        cls._shown = shown
+        cls._saved = saved
 
         if "PYUNITY_SPHINX_CHECK" not in os.environ:
             for name, val in saved.items():
@@ -731,30 +735,3 @@ class Transform(SingleComponent):
     def __str__(self):
         return (f"<Transform position={self.position} rotation={self.rotation}"
                 f" scale={self.scale} path={self.FullPath()!r}>")
-
-class MeshRenderer(SingleComponent):
-    """
-    Component to render a mesh at the position of a transform.
-
-    Attributes
-    ----------
-    mesh : Mesh
-        Mesh that the MeshRenderer will render.
-    mat : Material
-        Material to use for the mesh
-
-    """
-
-    DefaultMaterial = Material(RGB(200, 200, 200))
-    DefaultMaterial.default = True
-    mesh = ShowInInspector(Mesh)
-    mat = ShowInInspector(Material, DefaultMaterial, "material")
-
-    def Render(self):
-        """Render the mesh that the MeshRenderer has."""
-        if self.mesh is None:
-            return
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mesh.compile()
-            self.mesh.draw()

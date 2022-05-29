@@ -11,14 +11,14 @@ __all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
 
 from . import Logger
 from .errors import PyUnityException
-from .values import Vector2, Color, RGB
-from .core import Component, SingleComponent, GameObject, ShowInInspector, MeshRenderer, addFields
+from .meshes import Color, RGB, MeshRenderer
+from .values import Vector2, ABCMeta, abstractmethod, SavableStruct, StructEntry
+from .core import Component, SingleComponent, GameObject, ShowInInspector, addFields
+from .events import Event
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
-from .values import ABCMeta, abstractmethod
 from .render import Screen, Camera, Light
 from PIL import Image, ImageDraw, ImageFont, features
-from collections.abc import Callable
 from contextlib import ExitStack
 import OpenGL.GL as gl
 import atexit
@@ -62,6 +62,9 @@ class Canvas(Component):
 decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
 
+@SavableStruct(
+    min=StructEntry(Vector2, required=True),
+    max=StructEntry(Vector2, required=True))
 class RectData:
     """
     Class to represent a 2D rect.
@@ -451,8 +454,9 @@ class Button(GuiComponent):
 
     Attributes
     ----------
-    callback : Callable
-        Callback function
+    callback : Event
+        Callback function. Must be a method of a
+        Component.
     state : KeyState
         Which state triggers the callback
     mouseButton : MouseCode
@@ -462,18 +466,18 @@ class Button(GuiComponent):
 
     """
 
-    callback = ShowInInspector(Callable)
+    callback = ShowInInspector(Event)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
 
     def __init__(self, transform):
         super(Button, self).__init__(transform)
-        self.callback = lambda: None
 
     def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
-            self.callback()
+            if self.callback is not None:
+                self.callback()
 
 stack = ExitStack()
 atexit.register(stack.close)

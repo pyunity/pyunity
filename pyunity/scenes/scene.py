@@ -14,15 +14,18 @@ the :class:`SceneManager` class.
 
 __all__ = ["Scene"]
 
+from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, MeshRenderer, Component
-from ..files import Behaviour
+from ..core import GameObject, Tag, Component
+from ..files import Behaviour, Asset
 from ..values import Vector3, Mathf
-from .. import config, physics, logger as Logger
+from .. import Logger, config
+from ..physics import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from ..render import Camera, Light, Screen, genBuffers, genArray
 from inspect import signature
+from pathlib import Path
 from time import time
 import os
 import sys
@@ -34,7 +37,7 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
 
 disallowedChars = set(":*/\"\\?<>|")
 
-class Scene:
+class Scene(Asset):
     """
     Class to hold all of the GameObjects, and to run the whole
     scene.
@@ -64,6 +67,12 @@ class Scene:
         self.gameObjects = [self.mainCamera.gameObject, light]
         self.ids = {}
         self.id = str(uuid.uuid4())
+
+    def GetAssetFile(self, gameObject):
+        return Path("Scenes") / (self.name + ".scene")
+
+    def SaveAsset(self, ctx):
+        ctx.savers[Scene](self, ctx.project, ctx.filename)
 
     @staticmethod
     def Bare(name):
@@ -154,7 +163,7 @@ class Scene:
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
-                for saved in component.saved:
+                for saved in component._saved:
                     attr = getattr(component, saved)
                     if isinstance(attr, GameObject):
                         if attr in pending:
@@ -399,12 +408,12 @@ class Scene:
 
         # self.physics = any(
         #     isinstance(
-        #         component, physics.Rigidbody
+        #         component, Rigidbody
         #     ) for gameObject in self.gameObjects for component in gameObject.components
         # )
         self.physics = True # Check is too expensive
         if self.physics:
-            self.collManager = physics.CollManager()
+            self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
 
         self.lastFrame = time()

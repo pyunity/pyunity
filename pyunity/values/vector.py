@@ -394,6 +394,8 @@ class Vector3(Vector):
                     self.y = xOrList[1]
                     self.z = xOrList[2]
             else:
+                if z is None:
+                    raise ValueError("Expected 3 arguments, got 2")
                 self.x = xOrList
                 self.y = y
                 self.z = z
