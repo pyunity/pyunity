@@ -1,5 +1,7 @@
 from .context import CommandContext
+from colorama import init as colorama_init, Fore, Style
 import shlex
+colorama_init()
 
 class MenuFlow(Exception):
     pass
@@ -11,7 +13,7 @@ class ExitMenu(MenuFlow):
     pass
 
 class CommandMenu:
-    prompt = "%> "
+    name = "Base"
     cmds = {}
 
     def __init__(self):
@@ -19,11 +21,18 @@ class CommandMenu:
         for name, item in type(self).cmds.items():
             self.commands[name] = item(self)
 
+    def prompt(self, ctx):
+        return " ".join([
+            f"{Style.BRIGHT}{Fore.BLUE}{self.name}{Style.RESET_ALL}",
+            f"{Fore.BLUE}({Fore.GREEN}{ctx.project.name}{Fore.BLUE})",
+            f"{Style.RESET_ALL}%> "
+        ])
+
     def run(self, ctx):
         ctx.menu = self
         while True:
             try:
-                cmd = input(self.prompt)
+                cmd = input(self.prompt(ctx))
             except KeyboardInterrupt:
                 print()
                 continue
@@ -32,6 +41,8 @@ class CommandMenu:
                 self.quit(ctx)
                 raise ExitMenu
             args = shlex.split(cmd)
+            if len(args) == 0:
+                continue
             cmdname = args[0]
             args = args[1:]
             if cmdname not in self.commands:

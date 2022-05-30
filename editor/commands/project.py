@@ -41,10 +41,11 @@ class ListCommand(BaseCommand):
     description = "List all scenes."
 
     def run(self, ctx, args):
-        for i, scene in SceneManager.scenesByIndex:
-            print(f"{i + 1}\t{scene.name!r}")
+        for i, scene in enumerate(SceneManager.scenesByIndex):
+            print(f"{i}\t{scene.name!r}")
 
 class ProjectMenu(CommandMenu):
+    name = "Project"
     cmds = {
         "help": HelpCommand,
         "exit": ExitCommand,

@@ -24,7 +24,11 @@ class BaseCommand:
                                  action="store_true")
 
         for flag in self.flags:
-            self.parser.add_argument(*flag[0], help=flag[1], action="store_true")
+            if len(flag) > 2:
+                action = "store"
+            else:
+                action = "store_true"
+            self.parser.add_argument(*flag[0], help=flag[1], action=action)
         for arg in self.positionals:
             self.parser.add_argument(arg[0], help=arg[1], nargs="?", default=SUPPRESS)
 
@@ -41,7 +45,12 @@ class HelpCommand(BaseCommand):
 
     def run(self, ctx, args):
         if hasattr(args, "cmd"):
-            cmds = [args.cmd]
+            if args.cmd not in ctx.menu.commands:
+                print(f"{args.cmd}: command not found")
+                return
+            ctx.menu.commands[args.cmd].parser.print_help()
+            print()
+            return
         else:
             cmds = list(ctx.menu.commands)
 
