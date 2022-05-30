@@ -1,6 +1,7 @@
 from .base import BaseCommand, ExitCommand, HelpCommand
 from ..menu import CommandMenu, CommandStop
 from colorama import Fore, Style
+from pyunity import SceneManager
 
 class SaveCommand(BaseCommand):
     name = "save"
@@ -8,6 +9,13 @@ class SaveCommand(BaseCommand):
 
     def run(self, ctx, args):
         ctx.project.ImportAsset(ctx.scene)
+
+class RunCommand(BaseCommand):
+    name = "run"
+    description = "Run the opened Scene."
+
+    def run(self, ctx, args):
+        SceneManager.LoadScene(ctx.scene)
 
 class ListCommand(BaseCommand):
     name = "list"
@@ -57,6 +65,8 @@ class SceneMenu(CommandMenu):
     cmds = {
         "help": HelpCommand,
         "exit": ExitCommand,
+        "save": SaveCommand,
+        "run": RunCommand,
         "list": ListCommand,
     }
 
