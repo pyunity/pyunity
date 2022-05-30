@@ -23,13 +23,12 @@ from .. import Logger, config
 from ..physics.core import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
-from ..render import Camera, Light, Screen, genBuffers, genArray
+from ..render import Camera, Light, Screen
 from inspect import signature
 from pathlib import Path
 from time import time
 import os
 import sys
-import glm
 import uuid
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
@@ -399,9 +398,7 @@ class Scene(Asset):
                         component.Play()
                 elif isinstance(component, MeshRenderer) and component.mesh is not None:
                     if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                        mesh = component.mesh
-                        mesh.vbo, mesh.ibo = genBuffers(mesh)
-                        mesh.vao = genArray()
+                        component.mesh.compile()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             self.mainCamera.setupBuffers()

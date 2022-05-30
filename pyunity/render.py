@@ -9,7 +9,7 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from .meshes import Color, RGB
+from .meshes import Color, RGB, floatSize
 from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
@@ -17,7 +17,7 @@ from .files import Skybox, convert
 from . import config, Logger
 from contextlib import ExitStack
 from typing import Dict
-from ctypes import c_float, c_uint, c_void_p
+from ctypes import c_float
 from pathlib import Path
 import OpenGL.GL as gl
 import collections.abc
@@ -25,7 +25,6 @@ import atexit
 import enum
 import hashlib
 import glm
-import itertools
 import sys
 import os
 
@@ -33,65 +32,6 @@ if sys.version_info < (3, 9):
     from importlib_resources import files, as_file
 else:
     from importlib.resources import files, as_file
-
-floatSize = gl.sizeof(c_float)
-
-def genBuffers(mesh):
-    """
-    Create buffers for a mesh.
-
-    Parameters
-    ----------
-    mesh : Mesh
-        Mesh to create buffers for
-
-    Returns
-    -------
-    tuple
-        Tuple containing a vertex buffer object and
-        an index buffer object.
-    """
-    data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
-                for item in zip(mesh.verts, mesh.normals, mesh.texcoords)]))
-    indices = list(itertools.chain(*mesh.triangles))
-
-    vbo = gl.glGenBuffers(1)
-    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, vbo)
-    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
-                    convert(c_float, data), gl.GL_STATIC_DRAW)
-    ibo = gl.glGenBuffers(1)
-    gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
-    gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices) * gl.sizeof(c_uint),
-                    convert(c_uint, indices), gl.GL_STATIC_DRAW)
-    return vbo, ibo
-
-def genArray():
-    """
-    Generate a vertex array object.
-
-    Returns
-    -------
-    Any
-        A vertex buffer object of floats.
-        Has 3 elements::
-
-            # vertex    # normal    # texcoord
-            x, y, z,    a, b, c,    u, v
-
-
-    """
-    vao = gl.glGenVertexArrays(1)
-    gl.glBindVertexArray(vao)
-    gl.glVertexAttribPointer(
-        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, None)
-    gl.glEnableVertexAttribArray(0)
-    gl.glVertexAttribPointer(
-        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(3 * floatSize))
-    gl.glEnableVertexAttribArray(1)
-    gl.glVertexAttribPointer(
-        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(6 * floatSize))
-    gl.glEnableVertexAttribArray(2)
-    return vao
 
 def fillScreen(scale=1):
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)
