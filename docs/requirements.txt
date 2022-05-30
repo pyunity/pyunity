@@ -1,5 +1,6 @@
 pyopengl
 pysdl2
 pillow
+pyglm
 sphinx-toolbox
 sphinx-hoverxref
