@@ -93,7 +93,7 @@ class Mesh(Asset):
         gl.glBindVertexArray(self.vao)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ibo)
         gl.glDrawElements(gl.GL_TRIANGLES, len(
-            self.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
+            self.triangles) * 3, gl.GL_UNSIGNED_INT, None)
 
     def copy(self):
         """

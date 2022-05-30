@@ -17,7 +17,7 @@ from .files import Skybox, convert
 from . import config, Logger
 from contextlib import ExitStack
 from typing import Dict
-from ctypes import c_float, c_ubyte, c_void_p
+from ctypes import c_float, c_uint, c_void_p
 from pathlib import Path
 import OpenGL.GL as gl
 import collections.abc
@@ -61,8 +61,8 @@ def genBuffers(mesh):
                     convert(c_float, data), gl.GL_STATIC_DRAW)
     ibo = gl.glGenBuffers(1)
     gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
-    gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices),
-                    convert(c_ubyte, indices), gl.GL_STATIC_DRAW)
+    gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices) * gl.sizeof(c_uint),
+                    convert(c_uint, indices), gl.GL_STATIC_DRAW)
     return vbo, ibo
 
 def genArray():

@@ -102,7 +102,15 @@ def LoadStl(filename):
     def vectorFromBytes(b):
         x, y, z = b[:4], b[4:8], b[8:]
         l = [struct.unpack("<f", a)[0] for a in [x, y, z]]
-        return Vector3(l)
+        # Flip Z and Y axes
+        # Reverse Z axis
+        return Vector3(l[0], l[2], -l[1])
+
+    def vectorFromStr(s):
+        l = list(map(float, s.split(" ")[-3:]))
+        # Flip Z and Y axes
+        # Reverse Z axis
+        return Vector3(l[0], l[2], -l[1])
 
     faces = []
     vertices = []
@@ -127,10 +135,10 @@ def LoadStl(filename):
         i = 0
         for section in sections:
             lines = section.split("\n")
-            normal = Vector3(map(float, lines[0].split(" ")[-3:]))
-            a = Vector3(map(float, lines[2].split(" ")[-3:]))
-            b = Vector3(map(float, lines[3].split(" ")[-3:]))
-            c = Vector3(map(float, lines[4].split(" ")[-3:]))
+            normal = vectorFromStr(lines[0].split(" ")[-3:])
+            a = vectorFromStr(lines[2].split(" ")[-3:])
+            b = vectorFromStr(lines[3].split(" ")[-3:])
+            c = vectorFromStr(lines[4].split(" ")[-3:])
             faces.append([i, i + 1, i + 2])
             vertices.extend([a, b, c])
             normals.extend([normal.copy(), normal.copy(), normal.copy()])
