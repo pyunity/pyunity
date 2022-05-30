@@ -1,5 +1,6 @@
 from .context import CommandContext
 from colorama import init as colorama_init, Fore, Style
+import traceback
 import shlex
 colorama_init()
 
@@ -69,6 +70,8 @@ class CommandMenu:
             except ExitMenu as e:
                 self.quit(ctx)
                 raise
+            except Exception as e:
+                traceback.format_exception(e)
 
     def quit(self, ctx):
         pass

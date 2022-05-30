@@ -2,6 +2,13 @@ from .base import BaseCommand, ExitCommand, HelpCommand
 from ..menu import CommandMenu, CommandStop
 from colorama import Fore, Style
 
+class SaveCommand(BaseCommand):
+    name = "save"
+    description = "Save the opened Scene."
+
+    def run(self, ctx, args):
+        ctx.project.ImportAsset(ctx.scene)
+
 class ListCommand(BaseCommand):
     name = "list"
     description = "List GameObjects according to certain filters."
@@ -63,7 +70,11 @@ class SceneMenu(CommandMenu):
 
     def run(self, ctx):
         assert ctx.scene is not None
+        ctx.modified = False
         super().run(ctx)
 
     def quit(self, ctx):
+        if ctx.modified:
+            if input("Do you want to save your changes? (Y/n) ").lower() != "n":
+                ctx.project.ImportAsset(ctx.scene)
         ctx.scene = None
