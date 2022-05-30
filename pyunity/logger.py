@@ -45,7 +45,7 @@ def getDataFolder():
         folder = Path.home() / "Library/Application Support/PyUnity"
     else:
         # Linux
-        folder = Path("/opt/pyunity")
+        folder = Path("/tmp/pyunity")
     return folder
 
 folder = getDataFolder() / "Logs"
