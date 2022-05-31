@@ -26,12 +26,25 @@ class ListCommand(BaseCommand):
         (("-l", "--long"), "Display extra information"),
         (("-r", "--recursive"), "Display all GameObjects, not just root GameObjects")
     ]
+    positionals = [
+        ("parent", "ID of GameObject to list children")
+    ]
 
     def run(self, ctx, args):
-        if args.recursive:
-            objects = ctx.scene.gameObjects
+        if hasattr(args, "parent"):
+            objects = []
+            if args.recursive:
+                transforms = ctx.project._idMap[args.parent].transform.GetDescendants()
+            else:
+                transforms = ctx.project._idMap[args.parent].transform.children
+
+            for transform in transforms:
+                objects.append(transform.gameObject)
         else:
-            objects = ctx.scene.rootGameObjects
+            if args.recursive:
+                objects = ctx.scene.gameObjects
+            else:
+                objects = ctx.scene.rootGameObjects
 
         if not len(objects):
             print("Scene is empty")
@@ -52,7 +65,7 @@ class ListCommand(BaseCommand):
 
         for object in objects:
             if not args.long:
-                print(object.transform.FullPath())
+                print(ctx.project._ids[object] + "\t" + object.transform.FullPath())
             else:
                 print("Path:", object.transform.FullPath())
                 print("ID:", ctx.project._ids[object])
@@ -71,10 +84,15 @@ class SceneMenu(CommandMenu):
     }
 
     def prompt(self, ctx):
+        if ctx.modified:
+            modify = f" {Fore.YELLOW}*"
+        else:
+            modify = ""
+
         return " ".join([
             f"{Style.BRIGHT}{Fore.BLUE}{self.name}{Style.RESET_ALL}",
             f"{Fore.BLUE}({Fore.GREEN}{ctx.project.name}{Fore.BLUE})",
-            f"({Fore.RED}Scene {ctx.scene.name!r}{Fore.BLUE})",
+            f"({Fore.RED}Scene {ctx.scene.name!r}{modify}{Fore.BLUE})",
             f"{Style.RESET_ALL}%> "
         ])
 
