@@ -38,7 +38,6 @@ from ..errors import PyUnityException
 from .. import Logger
 from .. import config
 from .. import settings
-from ..values import ABCMeta, abstractmethod
 import os
 import importlib.util
 
@@ -47,7 +46,7 @@ def GetWindowProvider():
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
-    if "windowProvider" in settings.db and "PYUNITY_CHECK_WINDOW" not in os.environ:
+    if "windowProvider" in settings.db and os.environ["PYUNITY_CHECK_WINDOW"] == "1":
         env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")

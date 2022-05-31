@@ -24,6 +24,7 @@ Submodules
    api/pyunity.audio
    api/pyunity.core
    api/pyunity.errors
+   api/pyunity.events
    api/pyunity.files
    api/pyunity.gui
    api/pyunity.input

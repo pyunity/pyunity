@@ -130,6 +130,8 @@ if pyunity.__version__ == "0.9.0":
        release.
     """)
 
+print(pyunity.__version__)
+
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
         return True
