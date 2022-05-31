@@ -1,0 +1,15 @@
+{
+    "name": "English (United Kingdom)",
+    "error": "error",
+    "noargs": "unrecognized arguments",
+    "cli": {
+        "description": "Open a PyUnity project in the command-line editor",
+        "new": "create a new project",
+        "path": "path to project"
+    },
+    "menu": {
+        "base": {
+            "name": "Base"
+        }
+    }
+}

@@ -1,4 +1,5 @@
 from .context import CommandContext
+from .locale import locale
 from colorama import init as colorama_init, Fore, Style
 import readline
 import traceback
@@ -22,7 +23,7 @@ class ExitMenu(MenuFlow):
     pass
 
 class CommandMenu:
-    name = "Base"
+    name = locale.menu.base.name
     cmds = {}
 
     def __init__(self):
@@ -64,7 +65,7 @@ class CommandMenu:
                 args, unknown = command.parser.parse_known_args(args)
             except argparse.ArgumentError as e:
                 command.parser.print_usage()
-                error(f"{command.name}: error:", str(e))
+                error(f"{command.name}: {locale.error}:", str(e))
                 continue
 
             if args.help:
@@ -72,7 +73,7 @@ class CommandMenu:
                 continue
             if len(unknown):
                 command.parser.print_usage()
-                error(f"{command.name}: error: unrecognized arguments: {', '.join(unknown)}")
+                error(f"{command.name}: {locale.error}: {locale.noargs}: {', '.join(unknown)}")
                 continue
 
             try:
@@ -80,7 +81,7 @@ class CommandMenu:
             except CommandStop as e:
                 if len(e.args):
                     command.parser.print_usage()
-                    error(f"{command.name}: error:", *e.args)
+                    error(f"{command.name}: {locale.error}:", *e.args)
                 continue
             except ExitMenu as e:
                 self.quit(ctx)

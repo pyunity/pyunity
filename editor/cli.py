@@ -1,14 +1,15 @@
 from pathlib import Path
+from .locale import locale
 from .menu import Runner
 import argparse
 import os
 
 parser = argparse.ArgumentParser(
     prog="editor",
-    description="Open a PyUnity project in the command-line editor")
+    description=locale.cli.description)
 
-parser.add_argument("-n", "--new", action="store_true", help="create a new project")
-parser.add_argument("path", help="path to project")
+parser.add_argument("-n", "--new", action="store_true", help=locale.cli.new)
+parser.add_argument("path", help=locale.cli.path)
 
 def main():
     args = parser.parse_args()
