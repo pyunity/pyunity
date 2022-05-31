@@ -121,7 +121,10 @@ hoverxref_role_types = {
     "attr": "tooltip",
 }
 
-if pyunity.__version__ == "0.9.0":
+slug = os.getenv("READTHEDOCS_VERSION_NAME")
+stable = slug == "latest" or slug[0].isdecimal()
+
+if pyunity.__version__ == "0.9.0" or not stable:
     rst_prolog = textwrap.dedent("""
     .. attention::
        You are viewing PyUnity docs under the ``develop`` branch.
