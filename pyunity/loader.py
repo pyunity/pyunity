@@ -653,7 +653,6 @@ def LoadGameObjects(data, project):
                 type_, value = instanceCheck(component._saved[k].type, value)
                 if hasattr(type_, "_wrapper"):
                     if isinstance(getattr(type_, "_wrapper"), SavableStruct):
-                        print(value)
                         value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(
