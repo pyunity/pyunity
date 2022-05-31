@@ -133,7 +133,7 @@ if pyunity.__version__ == "0.9.0" or not stable:
        release.
     """)
 
-print(pyunity.__version__)
+print(rst_prolog)
 
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
