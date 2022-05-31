@@ -1,8 +1,10 @@
 from .context import CommandContext
 from colorama import init as colorama_init, Fore, Style
+import readline
 import traceback
 import shlex
 colorama_init()
+readline.set_auto_history(True)
 
 class MenuFlow(Exception):
     pass
