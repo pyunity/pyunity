@@ -3,8 +3,14 @@ from colorama import init as colorama_init, Fore, Style
 import readline
 import traceback
 import shlex
+import sys
+import argparse
+
 colorama_init()
 readline.set_auto_history(True)
+
+def error(*msg, sep=" ", end="\n", flush=False):
+    print(*msg, sep=sep, end=end, flush=flush, file=sys.stderr)
 
 class MenuFlow(Exception):
     pass
@@ -37,7 +43,7 @@ class CommandMenu:
             try:
                 cmd = input(self.prompt(ctx))
             except KeyboardInterrupt:
-                print()
+                print("^C")
                 continue
             except EOFError:
                 print("exit")
@@ -49,17 +55,24 @@ class CommandMenu:
             cmdname = args[0]
             args = args[1:]
             if cmdname not in self.commands:
-                print(f"{cmdname}: command not found")
+                error(f"{cmdname}: command not found")
                 continue
 
             command = self.commands[cmdname]
-            args, unknown = command.parser.parse_known_args(args)
+
+            try:
+                args, unknown = command.parser.parse_known_args(args)
+            except argparse.ArgumentError as e:
+                command.parser.print_usage()
+                error(f"{command.name}: error:", str(e))
+                continue
+
             if args.help:
                 command.parser.print_help()
                 continue
             if len(unknown):
                 command.parser.print_usage()
-                print(f"{command.name}: error: unrecognized arguments: {', '.join(unknown)}")
+                error(f"{command.name}: error: unrecognized arguments: {', '.join(unknown)}")
                 continue
 
             try:
@@ -67,13 +80,13 @@ class CommandMenu:
             except CommandStop as e:
                 if len(e.args):
                     command.parser.print_usage()
-                    print(f"{command.name}: error:", *e.args)
+                    error(f"{command.name}: error:", *e.args)
                 continue
             except ExitMenu as e:
                 self.quit(ctx)
                 raise
             except Exception as e:
-                traceback.format_exception(e)
+                error("\n".join(traceback.format_exception(e)))
 
     def quit(self, ctx):
         pass

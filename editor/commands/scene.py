@@ -1,7 +1,7 @@
 from .base import BaseCommand, ExitCommand, HelpCommand
 from ..menu import CommandMenu, CommandStop
 from colorama import Fore, Style
-from pyunity import SceneManager
+from pyunity import SceneManager, Behaviour
 
 class SaveCommand(BaseCommand):
     name = "save"
@@ -32,6 +32,9 @@ class ListCommand(BaseCommand):
 
     def run(self, ctx, args):
         if hasattr(args, "parent"):
+            if args.parent not in ctx.project._idMap:
+                raise CommandStop(f"{args.parent}: ID not in scene")
+
             objects = []
             if args.recursive:
                 transforms = ctx.project._idMap[args.parent].transform.GetDescendants()
@@ -73,6 +76,87 @@ class ListCommand(BaseCommand):
                 print("Children:", [x.gameObject.name for x in object.transform.children])
                 print()
 
+class SelectCommand(BaseCommand):
+    name = "select"
+    description = "Selects a GameObject for further operations, or get the current selected."
+    positionals = [
+        ("id", "ID of the GameObject to select (optional)")
+    ]
+
+    def run(self, ctx, args):
+        if hasattr(args, "id"):
+            if args.id not in ctx.project._idMap:
+                raise CommandStop(f"{args.id}: ID not in scene")
+
+            if ctx.gameObject is not None:
+                lastId = ctx.project._ids[ctx.gameObject]
+                lastPath = ctx.gameObject.transform.FullPath()
+                print(f"Previously selected GameObject: {lastId} ({lastPath})")
+
+            ctx.gameObject = ctx.project._idMap[args.id]
+            path = ctx.gameObject.transform.FullPath()
+            print(f"Selected GameObject {args.id} ({path})")
+        else:
+            if ctx.gameObject is not None:
+                lastId = ctx.project._ids[ctx.gameObject]
+                lastPath = ctx.gameObject.transform.FullPath()
+                print(f"Selected GameObject: {lastId} ({lastPath})")
+            else:
+                print("No selected GameObject")
+
+class ComponentCommand(BaseCommand):
+    name = "cpnt"
+    description = "Get information about or modify the selected GameObject's components"
+
+    flags = [
+        (("-l", "--list"), "List components on the selected GameObject"),
+        (("-i", "--info"), "List attributes on a specific Component by index", 1),
+    ]
+
+    def run(self, ctx, args):
+        if ctx.gameObject is None:
+            raise CommandStop("No GameObject selected")
+
+        names = ["list", "info"]
+        cmd = None
+        for name in names:
+            if getattr(args, name, False):
+                if cmd is not None:
+                    raise CommandStop("Expected one of --list, --info")
+                cmd = name
+
+        if cmd is None:
+            raise CommandStop("Expected one of --list, --info")
+
+        if cmd == "list":
+            indexLength = len(str(len(ctx.gameObject.components)))
+            for i, component in enumerate(ctx.gameObject.components):
+                cpntId = ctx.project._ids[component]
+                name = type(component).__name__
+                if isinstance(component, Behaviour):
+                    name += "(Behaviour)"
+                else:
+                    name += "(Component)"
+                print(f"{str(i).ljust(indexLength)} {cpntId}\t{name}")
+        elif cmd == "info":
+            try:
+                num = int(args.info)
+            except ValueError:
+                raise CommandStop(f"invalid integer: {args.info!r}")
+
+            if num < 0 or num > len(ctx.gameObject.components) - 1:
+                raise CommandStop(f"invalid index: {num}")
+
+            cpnt = ctx.gameObject.components[num]
+            typename = type(cpnt).__name__
+            if isinstance(cpnt, Behaviour):
+                typename += "(Behaviour)"
+            else:
+                typename += "(Component)"
+
+            print("ID:", ctx.project._ids[cpnt])
+            print("Type:", typename)
+
 class SceneMenu(CommandMenu):
     name = "Scene"
     cmds = {
@@ -81,6 +165,8 @@ class SceneMenu(CommandMenu):
         "save": SaveCommand,
         "run": RunCommand,
         "list": ListCommand,
+        "select": SelectCommand,
+        "cpnt": ComponentCommand,
     }
 
     def prompt(self, ctx):
@@ -106,3 +192,4 @@ class SceneMenu(CommandMenu):
             if input("Do you want to save your changes? (Y/n) ").lower() != "n":
                 ctx.project.ImportAsset(ctx.scene)
         ctx.scene = None
+        ctx.gameObject = None
