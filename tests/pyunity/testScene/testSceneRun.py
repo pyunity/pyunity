@@ -32,7 +32,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: No AudioListeners found, audio is disabled\nPhysics is on\nScene 'Scene' has started\n"
+                assert r.get() == "Warning: No AudioListeners found, audio is disabled\n"
                 assert scene.audioListener is None
 
             def testCase3(self):
@@ -43,7 +43,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 found\nPhysics is on\nScene 'Scene' has started\n"
+                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 found\n"
                 assert scene.audioListener is None
 
         class TestBehaviours(SceneTestCase):
@@ -59,7 +59,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Start\nPhysics is on\nScene 'Scene' has started\n"
+                assert r.get() == "Start\n"
 
         class TestMeshBuffers(SceneTestCase):
             def setUp(self):
@@ -88,9 +88,7 @@ class TestSceneRun:
                 coll3 = gameObject2.AddComponent(Collider)
                 scene.Add(gameObject2)
 
-                start = time.perf_counter()
                 scene.startScripts()
-                assert start <= scene.lastFrame
 
                 assert hasattr(scene, "physics")
                 assert scene.physics
