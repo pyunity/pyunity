@@ -125,31 +125,16 @@ class Window(ABCWindow):
     def quit(self):
         glfw.destroy_window(self.window)
 
-    def start(self, updateFunc):
-        """
-        Start the main loop of the window.
+    def updateFunc(self):
+        if glfw.window_should_close(self.window):
+            raise PyUnityExit
 
-        Parameters
-        ----------
-        updateFunc : function
-            The function that calls the OpenGL calls.
+        self.checkQuit()
+        self.checkKeys()
+        self.checkMouse()
 
-        """
-        self.updateFunc = updateFunc
-        clock = Clock()
-        clock.Start(config.fps)
-        glfw.make_context_current(self.window)
-        while not glfw.window_should_close(self.window):
-            self.checkQuit()
-            self.checkKeys()
-            self.checkMouse()
-
-            glfw.poll_events()
-            self.updateFunc()
-            glfw.swap_buffers(self.window)
-            clock.Maintain()
-
-        self.quit()
+        glfw.poll_events()
+        glfw.swap_buffers(self.window)
 
 keyMap = {
     KeyCode.A: glfw.KEY_A,

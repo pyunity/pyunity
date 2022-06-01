@@ -26,7 +26,7 @@ from ..values import Clock
 from ..render import Camera, Light, Screen
 from inspect import signature
 from pathlib import Path
-from time import time
+from time import perf_counter
 import os
 import sys
 import uuid
@@ -372,9 +372,26 @@ class Scene(Asset):
             Screen.size.x / Screen.size.y
         return minX > -wmin / 2 or maxX < wmax / 2
 
-    def startScripts(self):
-        """Start the scripts in the Scene."""
+    def startOpenGL(self):
+        self.mainCamera.Resize(*config.size)
 
+        gl.glEnable(gl.GL_DEPTH_TEST)
+        if config.faceCulling:
+            gl.glEnable(gl.GL_CULL_FACE)
+        else:
+            gl.glDisable(gl.GL_CULL_FACE)
+        gl.glEnable(gl.GL_BLEND)
+        gl.glBlendFunc(gl.GL_SRC_ALPHA,
+                        gl.GL_ONE_MINUS_SRC_ALPHA)
+
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                if isinstance(component, MeshRenderer) and component.mesh is not None:
+                    component.mesh.compile()
+
+        self.mainCamera.setupBuffers()
+
+    def startScripts(self):
         if config.audio:
             audioListeners = self.FindComponentsByType(AudioListener)
             if len(audioListeners) == 0:
@@ -396,12 +413,6 @@ class Scene(Asset):
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
                         component.Play()
-                elif isinstance(component, MeshRenderer) and component.mesh is not None:
-                    if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                        component.mesh.compile()
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mainCamera.setupBuffers()
 
         # self.physics = any(
         #     isinstance(
@@ -413,38 +424,27 @@ class Scene(Asset):
             self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
 
-        self.lastFrame = time()
-
-    def Start(self):
-        """
-        Start the internal parts of the
-        Scene.
-
-        """
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mainCamera.Resize(*config.size)
-
-            gl.glEnable(gl.GL_DEPTH_TEST)
-            if config.faceCulling:
-                gl.glEnable(gl.GL_CULL_FACE)
-            else:
-                gl.glDisable(gl.GL_CULL_FACE)
-            gl.glEnable(gl.GL_BLEND)
-            gl.glBlendFunc(gl.GL_SRC_ALPHA,
-                           gl.GL_ONE_MINUS_SRC_ALPHA)
-
-        self.startScripts()
-
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene " +
                        repr(self.name) + " has started")
 
+        self.lastFrame = perf_counter()
+
+    def Start(self):
+        """
+        Start the internal parts of the
+        Scene. Deprecated in 0.9.0.
+
+        """
+        self.startScripts()
+        self.startOpenGL()
+
     def updateScripts(self):
         """Updates all scripts in the scene."""
         from ..input import Input
-        dt = max(time() - self.lastFrame, sys.float_info.epsilon)
+        dt = max(perf_counter() - self.lastFrame, sys.float_info.epsilon)
+        self.lastFrame = perf_counter()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
             if self.mainCamera is not None and self.mainCamera.canvas is not None:
@@ -473,8 +473,6 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
                 component.LateUpdate(dt)
-
-        self.lastFrame = time()
 
     def noInteractive(self):
         """

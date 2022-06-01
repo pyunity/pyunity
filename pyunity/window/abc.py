@@ -152,18 +152,18 @@ class ABCWindow(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
-    def start(self, updateFunc):
-        """
-        Runs the main loop of the window, ensuring
-        that it is closed at the end of the function.
+    # @abstractmethod
+    # def start(self, updateFunc):
+    #     """
+    #     Runs the main loop of the window, ensuring
+    #     that it is closed at the end of the function.
 
-        Parameters
-        ----------
-        updateFunc : function
-            Function taking zero parameters. This must be
-            set to `self.updateFunc` to ensure scene changes
-            work as intended.
+    #     Parameters
+    #     ----------
+    #     updateFunc : function
+    #         Function taking zero parameters. This must be
+    #         set to `self.updateFunc` to ensure scene changes
+    #         work as intended.
 
-        """
-        pass
+    #     """
+    #     pass

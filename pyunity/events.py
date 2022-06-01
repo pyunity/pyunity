@@ -2,8 +2,10 @@ __all__ = ["Event"]
 
 from .errors import PyUnityException
 from .core import Component, GameObject
-from .values import SavableStruct, StructEntry
-from functools import update_wrapper
+from .values import SavableStruct, StructEntry, Clock
+from . import config
+from functools import wraps, update_wrapper
+import threading
 
 @SavableStruct(
     component=StructEntry(Component, required=True),
@@ -38,3 +40,31 @@ class Event:
             func = getattr(component, method)
             return factory(func, args, kwargs)
         return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
+
+class EventLoop:
+    def __init__(self):
+        self.funcs = []
+        self.threads = []
+        self.running = False
+        self.clock = Clock()
+
+    def schedule(self, func, repeat=False):
+        @wraps(func)
+        def inner():
+            while self.running:
+                func()
+                self.clock.Maintain()
+
+        self.funcs.append(func)
+        t = threading.Thread(target=inner, daemon=True)
+        self.threads.append(t)
+
+    def start(self, *updates):
+        self.clock.Start(config.fps)
+        self.running = True
+        for thread in self.threads:
+            thread.start()
+
+        while True:
+            for updateFunc in updates:
+                updateFunc()

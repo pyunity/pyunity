@@ -14,17 +14,19 @@ __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
 
 from .. import config, settings
 from ..errors import PyUnityException, PyUnityExit
+from ..events import EventLoop
 from .scene import Scene
 from .. import logger as Logger
 from .. import render
 import os
 import copy
-# import threading
+import threading
 
 scenesByIndex = []
 scenesByName = {}
 windowObject = None
-__runningScenes = []
+eventLoop = None
+__runningScene = None
 
 FirstScene = True
 KeyboardInterruptKill = False
@@ -243,13 +245,30 @@ def LoadScene(scene):
             "The provided scene is not part of the SceneManager")
     __loadScene(copy.deepcopy(scene))
 
+def stopWindow():
+    Logger.LogLine(Logger.INFO, "Stopping main loop")
+    if os.environ["PYUNITY_INTERACTIVE"] == "1":
+        windowObject.quit()
+
 def __loadScene(scene):
-    global windowObject, FirstScene
-    __runningScenes.append(scene)
+    global __runningScene, eventLoop, windowObject, FirstScene
+    __runningScene = scene
+    eventLoop = EventLoop()
     if not FirstScene:
         Logger.Save()
+    else:
         FirstScene = False
-    if not windowObject:
+
+    if windowObject is not None:
+        scene.startScripts()
+        scene.startOpenGL()
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            windowObject.updateFunc = scene.update
+    else:
+        Logger.LogLine(Logger.DEBUG, "Starting scene")
+        scriptThread = threading.Thread(target=scene.startScripts, daemon=True)
+        scriptThread.start()
+
         hasClosed = False
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
@@ -263,14 +282,6 @@ def __loadScene(scene):
                 render.fillScreen()
                 windowObject.refresh()
                 render.fillScreen() # double buffering
-
-                # done = False
-                # def loop():
-                #     while not done:
-                #         windowObject.refresh()
-                # t = threading.Thread(target=loop)
-                # t.daemon = True
-                # t.start()
 
                 Logger.LogLine(Logger.DEBUG, "Compiling objects")
 
@@ -296,49 +307,36 @@ def __loadScene(scene):
                         Logger.WARN, "settings.json entry may be faulty, removing")
                     settings.db.pop("windowProvider")
                 raise
+        scene.startOpenGL()
+        scriptThread.join()
 
-        if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
-            config.fps = 60
-            Logger.LogLine(Logger.WARN, "FPS cannot be 0 in non-interactive mode")
-        Logger.LogLine(Logger.DEBUG, "Starting scene")
-        scene.Start()
         try:
             if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.start(scene.update)
+                eventLoop.schedule(scene.updateScripts, True)
+                eventLoop.start(windowObject.updateFunc, scene.Render)
             else:
                 scene.noInteractive()
-        except (KeyboardInterrupt, PyUnityExit):
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.quit()
-            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            if KeyboardInterruptKill:
+        except (SystemExit, KeyboardInterrupt, PyUnityExit) as e:
+            stopWindow()
+            if isinstance(e, KeyboardInterrupt) and KeyboardInterruptKill:
                 exit()
         except Exception:
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.quit()
-            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+            stopWindow()
             raise
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
+        eventLoop.running = False
         del os.environ["PYUNITY_GL_CONTEXT"]
         render.resetShaders()
         Logger.LogLine(Logger.INFO, "Reset shaders")
         render.resetSkyboxes()
         Logger.LogLine(Logger.INFO, "Reset skyboxes")
         windowObject = None
-    else:
-        scene.Start()
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            windowObject.updateFunc = scene.update
+        eventLoop = None
     scene.cleanUp()
-    __runningScenes.pop()
 
 def CurrentScene():
     """Gets the current scene being run"""
-    if len(__runningScenes) == 0:
-        return None
-    return __runningScenes[-1]
+    return __runningScene
