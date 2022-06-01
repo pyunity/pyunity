@@ -32,7 +32,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: No AudioListeners found, audio is disabled\n"
+                assert r.get() == "Warning: No AudioListeners found, audio is disabled\nPhysics is on\nScene 'Scene' has started\n"
                 assert scene.audioListener is None
 
             def testCase3(self):
@@ -43,7 +43,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 found\n"
+                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 found\nPhysics is on\nScene 'Scene' has started\n"
                 assert scene.audioListener is None
 
         class TestBehaviours(SceneTestCase):
@@ -59,7 +59,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Start\n"
+                assert r.get() == "Start\nPhysics is on\nScene 'Scene' has started\n"
 
         class TestMeshBuffers(SceneTestCase):
             def setUp(self):
@@ -88,7 +88,7 @@ class TestSceneRun:
                 coll3 = gameObject2.AddComponent(Collider)
                 scene.Add(gameObject2)
 
-                start = time.time()
+                start = time.perf_counter()
                 scene.startScripts()
                 assert start <= scene.lastFrame
 
@@ -97,14 +97,3 @@ class TestSceneRun:
                 assert hasattr(scene, "collManager")
                 assert scene.collManager.rigidbodies[rb] == [coll1, coll2]
                 assert scene.collManager.rigidbodies[scene.collManager.dummyRigidbody] == [coll3]
-
-    class TestStart(SceneTestCase):
-        def setUp(self):
-            super().setUp()
-            os.environ["PYUNITY_INTERACTIVE"] = "0"
-
-        def testOutput(self):
-            scene = SceneManager.AddScene("Scene")
-            with Logger.TempRedirect(silent=True) as r:
-                scene.Start()
-            assert r.get() == "Physics is on\nScene 'Scene' has started\n"
