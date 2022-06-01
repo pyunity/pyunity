@@ -32,8 +32,13 @@ class Event:
         self.args = args
         self.kwargs = kwargs
 
-    def __call__(self):
+    def trigger(self):
         self.func(*self.args, **self.kwargs)
+
+    def callSoon(self):
+        if EventLoop.current is None:
+            raise PyUnityException("No EventLoop running")
+        EventLoop.current.pending.append(self)
 
     def _fromDict(self, factory, attrs, instanceCheck=None):
         def wrapper(component, method, args=(), kwargs={}):
@@ -42,29 +47,49 @@ class Event:
         return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
 
 class EventLoop:
+    current = None
+
     def __init__(self):
-        self.funcs = []
         self.threads = []
+        self.pending = []
+        self.updates = []
         self.running = False
         self.clock = Clock()
 
-    def schedule(self, func, repeat=False):
-        @wraps(func)
-        def inner():
-            while self.running:
-                func()
-                self.clock.Maintain()
+    def schedule(self, func, main=False):
+        if main:
+            self.updates.append(func)
+        else:
+            @wraps(func)
+            def inner():
+                while self.running:
+                    func()
+                    self.clock.Maintain()
 
-        self.funcs.append(func)
-        t = threading.Thread(target=inner, daemon=True)
-        self.threads.append(t)
+            t = threading.Thread(target=inner, daemon=True)
+            self.threads.append(t)
 
-    def start(self, *updates):
+    def start(self):
+        if EventLoop.current is not None:
+            raise PyUnityException("Only one EventLoop can be running")
+        EventLoop.current = self
+
         self.clock.Start(config.fps)
         self.running = True
         for thread in self.threads:
             thread.start()
 
         while True:
-            for updateFunc in updates:
-                updateFunc()
+            for func in self.updates:
+                func()
+
+            for event in self.pending:
+                event.trigger()
+            self.pending.clear()
+
+    def quit(self):
+        self.running = False
+        for thread in self.threads:
+            thread.join() # Will wait until this iteration has finished
+        self.threads.clear()
+        EventLoop.current = None

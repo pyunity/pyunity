@@ -308,14 +308,17 @@ def __loadScene(scene):
                     settings.db.pop("windowProvider")
                 raise
         scene.startOpenGL()
+        scene.startLoop()
         scriptThread.join()
 
         try:
             if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                eventLoop.schedule(scene.updateScripts, True)
-                eventLoop.start(windowObject.updateFunc, scene.Render)
+                eventLoop.schedule(scene.updateScripts)
+                eventLoop.schedule(windowObject.updateFunc, True)
+                eventLoop.schedule(scene.Render, True)
+                eventLoop.start()
             else:
                 scene.noInteractive()
         except (SystemExit, KeyboardInterrupt, PyUnityExit) as e:

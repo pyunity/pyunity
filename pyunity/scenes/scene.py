@@ -424,6 +424,7 @@ class Scene(Asset):
             self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
 
+    def startLoop(self):
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene " +

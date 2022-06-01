@@ -477,7 +477,7 @@ class Button(GuiComponent):
     def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
             if self.callback is not None:
-                self.callback()
+                self.callback.trigger()
 
 stack = ExitStack()
 atexit.register(stack.close)
