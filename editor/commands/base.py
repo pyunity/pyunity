@@ -1,5 +1,6 @@
 from argparse import SUPPRESS, ArgumentParser
 from ..menu import ExitMenu
+from ..locale import locale
 
 def index(l, items):
     for item in items:
@@ -8,8 +9,8 @@ def index(l, items):
     return -1
 
 class BaseCommand:
-    name = "BaseCommand"
-    description = "Base command to inherit from."
+    name = locale.commands.base.name
+    description = locale.commands.base.description
     flags = []
     positionals = []
 
@@ -20,7 +21,7 @@ class BaseCommand:
             description=self.description,
             exit_on_error=False,
             add_help=False)
-        self.parser.add_argument("-h", "--help", help="show this help message and exit",
+        self.parser.add_argument("-h", "--help", help=locale.commands.base.help,
                                  action="store_true")
 
         for flag in self.flags:
@@ -36,17 +37,17 @@ class BaseCommand:
         pass
 
 class HelpCommand(BaseCommand):
-    name = "help"
-    description = "Gets help with a command."
+    name = locale.commands.help.name
+    description = locale.commands.help.description
 
     positionals = [
-        ("cmd", "")
+        ("cmd", locale.commands.help.cmd)
     ]
 
     def run(self, ctx, args):
         if hasattr(args, "cmd"):
             if args.cmd not in ctx.menu.commands:
-                print(f"{args.cmd}: command not found")
+                print(f"{args.cmd}: {locale.notfound}")
                 return
             ctx.menu.commands[args.cmd].parser.print_help()
             print()
@@ -56,14 +57,14 @@ class HelpCommand(BaseCommand):
 
         for cmd in cmds:
             cmdobj = ctx.menu.commands[cmd]
-            print(f"Help on command {cmd}:")
+            print(locale.commands.help.title.format(cmd=cmd))
             cmdobj.parser.print_usage()
             print(cmdobj.parser.description)
             print()
 
 class ExitCommand(BaseCommand):
-    name = "exit"
-    description = "Exits the current menu."
+    name = locale.commands.exit.name
+    description = locale.commands.exit.description
 
     def run(self, ctx, args):
         raise ExitMenu

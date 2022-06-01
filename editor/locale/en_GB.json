@@ -1,7 +1,9 @@
 {
     "name": "English (United Kingdom)",
     "error": "error",
-    "noargs": "unrecognized arguments",
+    "unrecognized": "unrecognized arguments",
+    "notfound": "command not found",
+    "defaultscene": "Scene",
     "cli": {
         "description": "Open a PyUnity project in the command-line editor",
         "new": "create a new project",
@@ -10,6 +12,73 @@
     "menu": {
         "base": {
             "name": "Base"
+        }
+    },
+    "commands": {
+        "base": {
+            "name": "base",
+            "description": "Base command to inherit from.",
+            "help": "show this help message and exit"
+        },
+        "help": {
+            "name": "help",
+            "description": "Gets help with a command.",
+            "cmd": "command to show help for",
+
+            "title": "Help on command {cmd}:"
+        },
+        "exit": {
+            "name": "exit",
+            "description": "Exits the current menu."
+        },
+        "project": {
+            "open": {
+                "name": "open",
+                "description": "Opens a scene.",
+                "num": "specify scene by index not name",
+                "scene": "either scene name or scene index (see --num)",
+
+                "noindex": "please provide a scene index.",
+                "noname": "please provide a scene name.",
+                "noint": "invalid integer",
+                "loaded": "Loaded scene {name}"
+            },
+            "list": {
+                "name": "list",
+                "description": "List all scenes."
+            }
+        },
+        "scene": {
+            "save": {
+                "name": "save",
+                "description": "Save the opened Scene."
+            },
+            "run": {
+                "name": "run",
+                "description": "Run the opened Scene."
+            },
+            "list": {
+                "name": "list",
+                "description": "List GameObjects according to certain filters.",
+                "namearg": "list GameObjects according to their name",
+                "tag": "list GameObjects according to their tag number",
+                "long": "display extra information",
+                "recursive": "display all GameObjects, not just root GameObjects",
+                "parent": "ID of GameObject to list children",
+
+                "noid": "ID not in scene",
+                "empty": "Scene is empty",
+                "noint": "invalid integer",
+                "noobj":"No matching GameObjects",
+                "path": "Path",
+                "id": "ID",
+                "components": "Components",
+                "children": "Children"
+            },
+            "select": {
+                "name": "select",
+                "description": "Selects a GameObject for further operations, or get the current selected."
+            }
         }
     }
 }

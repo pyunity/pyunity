@@ -1,39 +1,40 @@
-from .base import BaseCommand, ExitCommand, HelpCommand
 from ..menu import CommandMenu, CommandStop
+from ..locale import locale
+from .base import BaseCommand, ExitCommand, HelpCommand
 from colorama import Fore, Style
 from pyunity import SceneManager, Behaviour
 
 class SaveCommand(BaseCommand):
-    name = "save"
-    description = "Save the opened Scene."
+    name = locale.commands.scene.save.name
+    description = locale.commands.scene.save.description
 
     def run(self, ctx, args):
         ctx.project.ImportAsset(ctx.scene)
 
 class RunCommand(BaseCommand):
-    name = "run"
-    description = "Run the opened Scene."
+    name = locale.commands.scene.run.name
+    description = locale.commands.scene.run.description
 
     def run(self, ctx, args):
         SceneManager.LoadScene(ctx.scene)
 
 class ListCommand(BaseCommand):
-    name = "list"
-    description = "List GameObjects according to certain filters."
+    name = locale.commands.scene.list.name
+    description = locale.commands.scene.list.description
     flags = [
-        (("-n", "--name"), "List GameObjects according to their name", 1),
-        (("-t", "--tag"), "List GameObjects according to their tag number", 1),
-        (("-l", "--long"), "Display extra information"),
-        (("-r", "--recursive"), "Display all GameObjects, not just root GameObjects")
+        (("-n", "--name"), locale.commands.scene.list.namearg, 1),
+        (("-t", "--tag"), locale.commands.scene.list.tag, 1),
+        (("-l", "--long"), locale.commands.scene.list.long),
+        (("-r", "--recursive"), locale.commands.scene.list.recursive)
     ]
     positionals = [
-        ("parent", "ID of GameObject to list children")
+        ("parent", locale.commands.scene.list.parent)
     ]
 
     def run(self, ctx, args):
         if hasattr(args, "parent"):
             if args.parent not in ctx.project._idMap:
-                raise CommandStop(f"{args.parent}: ID not in scene")
+                raise CommandStop(f"{args.parent}: {locale.commands.scene.list.noid}")
 
             objects = []
             if args.recursive:
@@ -50,7 +51,7 @@ class ListCommand(BaseCommand):
                 objects = ctx.scene.rootGameObjects
 
         if not len(objects):
-            print("Scene is empty")
+            print(locale.commands.scene.list.empty)
             return
 
         if args.name is not None:
@@ -59,26 +60,28 @@ class ListCommand(BaseCommand):
             try:
                 num = int(args.tag)
             except ValueError:
-                raise CommandStop(f"Invalid integer: {args.scene!r}")
+                raise CommandStop(f"{locale.commands.scene.list.noint}: {args.scene!r}")
             objects = [o for o in objects if o.tag.tag == num]
 
         if not len(objects):
-            print("No matching GameObjects")
+            print(locale.commands.scene.list.noobj)
             return
 
         for object in objects:
             if not args.long:
                 print(ctx.project._ids[object] + "\t" + object.transform.FullPath())
             else:
-                print("Path:", object.transform.FullPath())
-                print("ID:", ctx.project._ids[object])
-                print("Components:", [type(x).__name__ for x in object.components])
-                print("Children:", [x.gameObject.name for x in object.transform.children])
+                components = [type(x).__name__ for x in object.components]
+                children = [x.gameObject.name for x in object.transform.children]
+                print(f"{locale.commands.scene.list.path}:", object.transform.FullPath())
+                print(f"{locale.commands.scene.list.id}:", ctx.project._ids[object])
+                print(f"{locale.commands.scene.list.components}:", components)
+                print(f"{locale.commands.scene.list.children}:", children)
                 print()
 
 class SelectCommand(BaseCommand):
-    name = "select"
-    description = "Selects a GameObject for further operations, or get the current selected."
+    name = locale.commands.scene.select.name
+    description = locale.commands.scene.select.description
     positionals = [
         ("id", "ID of the GameObject to select (optional)")
     ]

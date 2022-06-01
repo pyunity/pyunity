@@ -56,7 +56,7 @@ class CommandMenu:
             cmdname = args[0]
             args = args[1:]
             if cmdname not in self.commands:
-                error(f"{cmdname}: command not found")
+                error(f"{cmdname}: {locale.notfound}")
                 continue
 
             command = self.commands[cmdname]
@@ -73,7 +73,7 @@ class CommandMenu:
                 continue
             if len(unknown):
                 command.parser.print_usage()
-                error(f"{command.name}: {locale.error}: {locale.noargs}: {', '.join(unknown)}")
+                error(f"{command.name}: {locale.error}: {locale.unrecognized}: {', '.join(unknown)}")
                 continue
 
             try:

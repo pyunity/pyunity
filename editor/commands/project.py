@@ -1,17 +1,18 @@
 from ..menu import CommandStop, ExitMenu, CommandMenu
+from ..locale import locale
 from .scene import SceneMenu
 from .base import BaseCommand, ExitCommand, HelpCommand
 from pyunity import SceneManager, Loader
 import os
 
 class OpenCommand(BaseCommand):
-    name = "open"
-    description = "Opens a scene."
+    name = locale.commands.project.open.name
+    description = locale.commands.project.open.description
     flags = [
-        (("-n", "--num"), "specify scene by index not name")
+        (("-n", "--num"), locale.commands.project.open.num)
     ]
     positionals = [
-        ("scene", "either scene name or scene index (see --num)")
+        ("scene", locale.commands.project.open.scene)
     ]
 
     def run(self, ctx, args):
@@ -20,25 +21,25 @@ class OpenCommand(BaseCommand):
             idx = True
 
             if not hasattr(args, "scene"):
-                raise CommandStop("Please provide a scene index.")
+                raise CommandStop(locale.commands.project.open.noindex)
         elif not hasattr(args, "scene"):
-            raise CommandStop("Please provide a scene name.")
+            raise CommandStop(locale.commands.project.open.noname)
 
         if idx:
             try:
                 item = int(args.scene)
             except ValueError:
-                raise CommandStop(f"Invalid integer: {args.scene!r}")
+                raise CommandStop(f"{locale.commands.project.open.noint}: {args.scene!r}")
             scene = SceneManager.GetSceneByIndex(item)
         else:
             scene = SceneManager.GetSceneByName(args.scene)
         ctx.scene = scene
-        print(f"Loaded scene {scene.name!r}")
+        print(locale.commands.project.open.loaded.format(name=repr(scene.name)))
         raise ExitMenu(SceneMenu)
 
 class ListCommand(BaseCommand):
-    name = "list"
-    description = "List all scenes."
+    name = locale.commands.project.list.name
+    description = locale.commands.project.list.description
 
     def run(self, ctx, args):
         for i, scene in enumerate(SceneManager.scenesByIndex):
@@ -56,7 +57,7 @@ class ProjectMenu(CommandMenu):
 class NewProjectMenu(ProjectMenu):
     def run(self, ctx):
         SceneManager.RemoveAllScenes()
-        SceneManager.AddScene("Scene")
+        SceneManager.AddScene(locale.defaultscene)
         ctx.project = Loader.GenerateProject(os.environ["PROJECT_PATH"])
         super().run(ctx)
 
