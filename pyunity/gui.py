@@ -677,9 +677,9 @@ class Font:
         return (FontLoader.LoadFont, (self.name, self.size))
 
 class TextAlign(enum.IntEnum):
-    Left = enum.auto()
-    Center = enum.auto()
-    Right = enum.auto()
+    Left = 1
+    Center = 2
+    Right = 3
 
     Top = Left
     Bottom = Right
@@ -762,7 +762,7 @@ class Text(GuiRenderComponent):
             offX = (size.x - width) // 2
         else:
             offX = size.x - width
-        if self.centeredY == TextAlign.Left:
+        if self.centeredY == TextAlign.Top:
             offY = 0
         elif self.centeredY == TextAlign.Center:
             offY = (size.y - height) // 2

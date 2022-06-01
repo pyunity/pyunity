@@ -304,7 +304,7 @@ class Rigidbody(Component):
         """
         if self.gravity:
             self.force += config.gravity / self.invMass
-        self.velocity += self.force * self.invMass
+        self.velocity += self.force * self.invMass * dt
         self.pos += self.velocity * dt
 
         self.rotVel += self.torque * self.invInertia
@@ -331,7 +331,7 @@ class Rigidbody(Component):
         """
         self.pos += offset
 
-    def AddForce(self, force):
+    def AddForce(self, force, point=Vector3.zero()):
         """
         Apply a force to the center of the Rigidbody.
 
@@ -339,6 +339,9 @@ class Rigidbody(Component):
         ----------
         force : Vector3
             Force to apply
+        point : Vector3, optional
+            Point relative to center of mass in local space
+            to apply force at
 
         Notes
         -----
@@ -347,6 +350,7 @@ class Rigidbody(Component):
 
         """
         self.force += force
+        self.torque += point.cross(force)
 
     def AddImpulse(self, impulse):
         """
@@ -631,14 +635,11 @@ class CollManager(IgnoredMixin):
         dummies = []
         for gameObject in scene.gameObjects:
             colliders = gameObject.GetComponents(Collider)
-            if colliders != []:
-                rb = gameObject.GetComponent(Rigidbody)
-                if rb is None:
-                    dummies += colliders
-                    continue
-                else:
-                    rb.position = rb.transform.position
-                self.rigidbodies[rb] = colliders
+            rb = gameObject.GetComponent(Rigidbody)
+            if rb is None:
+                dummies.extend(colliders)
+                continue
+            self.rigidbodies[rb] = colliders
 
         self.rigidbodies[self.dummyRigidbody] = dummies
 
