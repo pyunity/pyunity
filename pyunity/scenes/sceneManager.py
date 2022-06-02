@@ -14,7 +14,7 @@ __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
 
 from .. import config, settings
 from ..errors import PyUnityException, PyUnityExit
-from ..events import EventLoop
+from ..events import EventLoopManager, WaitForUpdate, WaitForFixedUpdate
 from .scene import Scene
 from .. import logger as Logger
 from .. import render
@@ -25,7 +25,7 @@ import threading
 scenesByIndex = []
 scenesByName = {}
 windowObject = None
-eventLoop = None
+eventLoopManager = None
 __runningScene = None
 
 FirstScene = True
@@ -251,9 +251,9 @@ def stopWindow():
         windowObject.quit()
 
 def __loadScene(scene):
-    global __runningScene, eventLoop, windowObject, FirstScene
+    global __runningScene, eventLoopManager, windowObject, FirstScene
     __runningScene = scene
-    eventLoop = EventLoop()
+    eventLoopManager = EventLoopManager()
     if not FirstScene:
         Logger.Save()
     else:
@@ -303,21 +303,24 @@ def __loadScene(scene):
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
                 scene.startOpenGL()
 
-        scriptLoop = scene.startScripts()
-        scriptThread = threading.Thread(target=scriptLoop.run_forever, daemon=True)
-        scriptThread.start()
-        scene.startLoop() # Sets up lastFrame and lastFixedFrame
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            updates = [scene.updateScripts, windowObject.updateFunc]
+        else:
+            updates = [scene.updateScripts]
+        eventLoopManager.schedule(*updates, ups=config.fps, waitFor=WaitForUpdate)
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            eventLoopManager.schedule(scene.Render, windowObject.draw, main=True)
+        eventLoopManager.schedule(scene.updateFixed, ups=50, waitFor=WaitForFixedUpdate)
+        eventLoopManager.set()
 
         try:
             if hasClosed:
                 raise PyUnityExit
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                eventLoop.schedule(scene.updateScripts, windowObject.updateFunc, ups=config.fps)
-                eventLoop.schedule(scene.updateFixed, ups=100)
-                eventLoop.schedule(scene.Render, windowObject.draw, main=True)
-                eventLoop.start()
-            else:
-                scene.noInteractive()
+            scriptLoop = scene.startScripts()
+            scriptThread = threading.Thread(target=scriptLoop.run_forever, daemon=True)
+            scriptThread.start()
+            scene.startLoop() # Sets up lastFrame and lastFixedFrame
+            eventLoopManager.start()
         except (SystemExit, KeyboardInterrupt, PyUnityExit) as e:
             stopWindow()
             if isinstance(e, KeyboardInterrupt) and KeyboardInterruptKill:
@@ -325,12 +328,9 @@ def __loadScene(scene):
         except Exception:
             stopWindow()
             raise
-        else:
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
 
-        eventLoop.quit()
         scriptLoop.call_soon_threadsafe(scriptLoop.stop)
-        scriptThread.join()
+        eventLoopManager.quit()
 
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             del os.environ["PYUNITY_GL_CONTEXT"]
@@ -339,7 +339,7 @@ def __loadScene(scene):
         render.resetSkyboxes()
         Logger.LogLine(Logger.INFO, "Reset skyboxes")
         windowObject = None
-        eventLoop = None
+        eventLoopManager = None
     scene.cleanUp()
 
 def CurrentScene():

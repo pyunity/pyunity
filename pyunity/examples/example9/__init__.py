@@ -6,6 +6,8 @@ from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, 
 from contextlib import ExitStack
 import sys
 
+from pyunity.events import WaitForUpdate
+
 if sys.version_info < (3, 9):
     from importlib_resources import files, as_file
 else:
@@ -14,10 +16,10 @@ else:
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
     speed = ShowInInspector(float, 300)
-    def Start(self):
+    async def Start(self):
         self.rectTransform.offset.Move(Screen.size / 2)
 
-    def Update(self, dt):
+    async def Update(self, dt):
         movement = Vector2(Input.GetAxis("Horizontal"), -
                            Input.GetAxis("Vertical"))
         self.rectTransform.offset.Move(movement * dt * self.speed)
@@ -25,19 +27,18 @@ class Mover2D(Behaviour):
 
 class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
-    def Start(self):
-        self.a = 0
-        self.t = []
-
-    def Update(self, dt):
-        self.t.append(dt)
-        if len(self.t) > 200:
-            self.t.pop(0)
-
-        self.a += dt
-        if self.a > 0.1:
-            self.text.text = str(1 / (sum(self.t) / len(self.t)))
-            self.a = 0
+    async def Start(self):
+        frames = []
+        time = 0
+        while True:
+            dt = await WaitForUpdate()
+            time += dt
+            frames.append(dt)
+            if len(frames) > 200:
+                frames.pop(0)
+            if time > 0.1:
+                self.text.text = str(1 / (sum(frames) / len(frames)))
+                time = 0
 
 class CheckboxTracker(Behaviour):
     check = ShowInInspector(CheckBox)

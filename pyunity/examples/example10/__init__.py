@@ -6,7 +6,7 @@ from pyunity import SceneManager, GameObject, Vector3, Quaternion, MeshRenderer,
 
 class OrthoMover(Behaviour):
     cam = ShowInInspector(Camera)
-    def Update(self, dt):
+    async def Update(self, dt):
         if Input.GetKey(KeyCode.E):
             self.cam.orthoSize -= dt * 3
         if Input.GetKey(KeyCode.Q):

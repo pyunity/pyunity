@@ -11,12 +11,12 @@ def average(l):
     return sum(l) / len(l)
 
 class Rotator(Behaviour):
-    def Start(self):
+    async def Start(self):
         self.fps = []
 
-    def Update(self, dt):
+    async def Update(self, dt):
         self.transform.localEulerAngles += Vector3(0, 45 * dt, 0)
-        if len(self.fps) == 10:
+        if len(self.fps) == 100:
             self.fps.pop(0)
         self.fps.append(1 / dt)
         Logger.Log(round(average(self.fps), 3))

@@ -6,12 +6,12 @@ from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManage
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)
-    def Update(self, dt):
+    async def Update(self, dt):
         self.transform.LookAtGameObject(self.other)
 
 class Mover(Behaviour):
     speed = ShowInInspector(float, 6)
-    def Update(self, dt):
+    async def Update(self, dt):
         self.transform.localPosition += Vector3(self.speed * dt, 0, 0)
 
 def main():

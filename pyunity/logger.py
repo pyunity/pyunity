@@ -21,8 +21,8 @@ import traceback
 import re
 import atexit
 import threading
+import time
 from pathlib import Path
-from time import strftime, time
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -53,12 +53,12 @@ if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
 stream = sys.stdout
-timestamp = strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
-start = time()
+timestamp = time.strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
+start = time.time()
 
 with open(folder / "latest.log", "w+") as f:
     f.write("Timestamp |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
-    f.write(strftime(TIME_FORMAT) + " |I| Started logger\n")
+    f.write(time.strftime(TIME_FORMAT) + " |I| Started logger\n")
 
 class Level:
     """
@@ -102,15 +102,15 @@ class Special:
 
 class Elapsed:
     def __init__(self):
-        self.time = time()
+        self.time = time.time()
 
     def tick(self):
         old = self.time
-        self.time = time()
+        self.time = time.time()
         return self.time - old
 
 elapsed = Elapsed()
-RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time() - start))
+RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time.time() - start))
 ELAPSED_TIME = Special("ELAPSED_TIME", lambda: str(elapsed.tick()))
 
 def Log(*message):
@@ -132,7 +132,7 @@ def LogLine(level, *message, silent=False):
         Level or severity of log.
 
     """
-    time = strftime(TIME_FORMAT)
+    stamp = time.strftime(TIME_FORMAT)
     msg = " ".join(map(lambda a: str(a).rstrip(), message))
     if level == WARN:
         msg = "Warning: " + msg
@@ -140,7 +140,7 @@ def LogLine(level, *message, silent=False):
         for line in msg.split("\n"):
             if not line.isspace():
                 LogLine(level, line, silent=silent)
-        return time, msg
+        return stamp, msg
     if not silent:
         output = False
         if level == DEBUG:
@@ -154,8 +154,8 @@ def LogLine(level, *message, silent=False):
             else:
                 stream.write(msg + "\n")
     with open(folder / "latest.log", "a") as f:
-        f.write(f"{time} |{level.abbr}| {msg}\n")
-    return time, msg
+        f.write(f"{stamp} |{level.abbr}| {msg}\n")
+    return stamp, msg
 
 def LogException(e, silent=False):
     """

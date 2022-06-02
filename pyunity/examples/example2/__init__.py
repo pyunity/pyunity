@@ -2,19 +2,21 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Mesh, RGB, BoxCollider, Rigidbody, Material, Behaviour, Input, KeyCode, ShowInInspector
+from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Mesh, RGB, BoxCollider, Rigidbody, Material, Behaviour, Input, KeyCode, ShowInInspector, WaitForFixedUpdate
 
 class PhysicsController(Behaviour):
     started = False
     rb1 = ShowInInspector(Rigidbody)
     rb2 = ShowInInspector(Rigidbody)
 
-    def Update(self, dt):
+    async def Update(self, dt):
         if not self.started and Input.GetKeyDown(KeyCode.Space):
+            await WaitForFixedUpdate()
             self.rb1.velocity = Vector3(-2, 0, 0)
             self.rb2.velocity = Vector3(-4, 0, 0)
             self.started = True
-        if self.started and Input.GetKeyDown(KeyCode.R):
+        elif self.started and Input.GetKeyDown(KeyCode.R):
+            await WaitForFixedUpdate()
             self.started = False
             self.rb1.transform.position = Vector3(2, 0, 0)
             self.rb2.transform.position = Vector3(6, 0, 0)

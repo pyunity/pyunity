@@ -17,6 +17,7 @@ __all__ = ["Scene"]
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
 from ..core import GameObject, Tag, Component
+from ..events import EventLoop
 from ..files import Behaviour, Asset
 from ..values import Vector3, Mathf
 from .. import Logger, config
@@ -25,22 +26,22 @@ from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from ..render import Camera, Light, Screen
 from pathlib import Path
-from time import perf_counter
 import os
 import sys
 import uuid
+import time
 import inspect
-import asyncio
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
 
 disallowedChars = set(":*/\"\\?<>|")
 
-def createTask(loop, coro):
-    if inspect.iscoroutine(coro):
-        loop.create_task(coro)
-    return coro
+def createTask(loop, coro, *args):
+    if inspect.iscoroutinefunction(coro):
+        loop.create_task(coro(*args))
+    else:
+        loop.call_soon(coro, *args)
 
 class Scene(Asset):
     """
@@ -398,7 +399,7 @@ class Scene(Asset):
         self.mainCamera.setupBuffers()
 
     def startScripts(self):
-        loop = asyncio.new_event_loop()
+        loop = EventLoop()
         if config.audio:
             audioListeners = self.FindComponentsByType(AudioListener)
             if len(audioListeners) == 0:
@@ -416,7 +417,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    createTask(loop, component.Start())
+                    createTask(loop, component.Start)
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
                         component.Play()
@@ -439,8 +440,8 @@ class Scene(Asset):
         Logger.LogLine(Logger.DEBUG, "Scene " +
                        repr(self.name) + " has started")
 
-        self.lastFrame = perf_counter()
-        self.lastFixedFrame = perf_counter()
+        self.lastFrame = time.perf_counter()
+        self.lastFixedFrame = time.perf_counter()
 
     def Start(self):
         """
@@ -454,8 +455,8 @@ class Scene(Asset):
     def updateScripts(self, loop):
         """Updates all scripts in the scene."""
         from ..input import Input
-        dt = max(perf_counter() - self.lastFrame, sys.float_info.epsilon)
-        self.lastFrame = perf_counter()
+        dt = max(time.perf_counter() - self.lastFrame, sys.float_info.epsilon)
+        self.lastFrame = time.perf_counter()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
             if self.mainCamera is not None and self.mainCamera.canvas is not None:
@@ -464,7 +465,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    createTask(loop, component.Update(dt))
+                    createTask(loop, component.Update, dt)
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
@@ -472,16 +473,16 @@ class Scene(Asset):
 
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
-                createTask(loop, component.LateUpdate(dt))
+                createTask(loop, component.LateUpdate, dt)
 
     def updateFixed(self, loop):
-        dt = max(perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
-        self.lastFixedFrame = perf_counter()
+        dt = max(time.perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
+        self.lastFixedFrame = time.perf_counter()
         if self.physics:
             self.collManager.Step(dt)
             for gameObject in self.gameObjects:
                 for component in gameObject.GetComponents(Behaviour):
-                    createTask(loop, component.FixedUpdate(dt))
+                    createTask(loop, component.FixedUpdate, dt)
 
     def noInteractive(self):
         """
