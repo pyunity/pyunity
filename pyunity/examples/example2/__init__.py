@@ -8,7 +8,8 @@ class PhysicsController(Behaviour):
     started = False
     rb1 = ShowInInspector(Rigidbody)
     rb2 = ShowInInspector(Rigidbody)
-    def FixedUpdate(self, dt):
+
+    def Update(self, dt):
         if not self.started and Input.GetKeyDown(KeyCode.Space):
             self.rb1.velocity = Vector3(-2, 0, 0)
             self.rb2.velocity = Vector3(-4, 0, 0)

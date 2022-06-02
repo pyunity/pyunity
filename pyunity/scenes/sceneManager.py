@@ -259,12 +259,11 @@ def __loadScene(scene):
     else:
         FirstScene = False
 
-    if windowObject is None:
+    if windowObject is not None:
+        if os.environ["PYUNITY_INTERACTIVE"] == "1":
+            scene.startOpenGL()
+    else:
         Logger.LogLine(Logger.DEBUG, "Starting scene")
-        scriptLoop = scene.startScripts()
-        scriptThread = threading.Thread(target=scriptLoop.run_forever, daemon=True)
-        scriptThread.start()
-
         hasClosed = False
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             try:
@@ -273,25 +272,12 @@ def __loadScene(scene):
                 windowObject = config.windowProvider(
                     scene.name, scene.mainCamera.Resize)
 
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                # front buffer
                 windowObject.refresh()
                 render.fillScreen()
+                # back buffer
                 windowObject.refresh()
-                render.fillScreen() # double buffering
-
-                Logger.LogLine(Logger.DEBUG, "Compiling objects")
-
-                Logger.LogLine(Logger.INFO, "Compiling shaders")
-                render.compileShaders()
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-
-                Logger.LogLine(Logger.INFO, "Loading skyboxes")
-                render.compileSkyboxes()
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-                scene.startOpenGL()
-
-                # done = True
-                # t.join()
+                render.fillScreen()
             except PyUnityExit:
                 hasClosed = True
             except Exception:
@@ -304,14 +290,30 @@ def __loadScene(scene):
                         Logger.WARN, "settings.json entry may be faulty, removing")
                     settings.db.pop("windowProvider")
                 raise
-        scene.startLoop()
+            else:
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                Logger.LogLine(Logger.DEBUG, "Compiling objects")
+
+                Logger.LogLine(Logger.INFO, "Compiling shaders")
+                render.compileShaders()
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+
+                Logger.LogLine(Logger.INFO, "Loading skyboxes")
+                render.compileSkyboxes()
+                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                scene.startOpenGL()
+
+        scriptLoop = scene.startScripts()
+        scriptThread = threading.Thread(target=scriptLoop.run_forever, daemon=True)
+        scriptThread.start()
+        scene.startLoop() # Sets up lastFrame and lastFixedFrame
 
         try:
             if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                eventLoop.schedule(scene.updateScripts, windowObject.updateFunc, ups=60)
-                #eventLoop.schedule(scene.updateFixed, ups=100)
+                eventLoop.schedule(scene.updateScripts, windowObject.updateFunc, ups=config.fps)
+                eventLoop.schedule(scene.updateFixed, ups=100)
                 eventLoop.schedule(scene.Render, windowObject.draw, main=True)
                 eventLoop.start()
             else:
@@ -326,7 +328,7 @@ def __loadScene(scene):
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
 
-        eventLoop.running = False
+        eventLoop.quit()
         scriptLoop.call_soon_threadsafe(scriptLoop.stop)
         scriptThread.join()
 

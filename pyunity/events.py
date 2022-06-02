@@ -64,6 +64,7 @@ class EventLoop:
 
     def __init__(self):
         self.threads = []
+        self.loops = []
         self.pending = []
         self.updates = []
         self.running = False
@@ -74,8 +75,10 @@ class EventLoop:
         else:
             if ups is None:
                 raise PyUnityException("ups argument is required if main is False")
+
+            loop = asyncio.new_event_loop()
+            self.loops.append(loop)
             def inner():
-                loop = asyncio.new_event_loop()
                 clock = Clock()
                 clock.Start(ups)
                 while self.running:
