@@ -60,7 +60,7 @@ class EventLoop:
             self.updates.append(func)
         else:
             if ups is None:
-                raise PyUnityException("ups argument is required if main is True")
+                raise PyUnityException("ups argument is required if main is False")
             @wraps(func)
             def inner():
                 clock = Clock()

@@ -315,8 +315,8 @@ def __loadScene(scene):
             if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                eventLoop.schedule(scene.updateScripts)
-                eventLoop.schedule(scene.updateFixed)
+                eventLoop.schedule(scene.updateScripts, ups=60)
+                eventLoop.schedule(scene.updateFixed, ups=100)
                 eventLoop.schedule(windowObject.updateFunc, True)
                 eventLoop.schedule(scene.Render, True)
                 eventLoop.start()
