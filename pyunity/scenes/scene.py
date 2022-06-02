@@ -14,7 +14,6 @@ the :class:`SceneManager` class.
 
 __all__ = ["Scene"]
 
-import inspect
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
 from ..core import GameObject, Tag, Component
@@ -30,6 +29,7 @@ from time import perf_counter
 import os
 import sys
 import uuid
+import inspect
 import asyncio
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":

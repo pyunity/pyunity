@@ -22,6 +22,7 @@ from PIL import Image, ImageDraw, ImageFont, features
 from contextlib import ExitStack
 import OpenGL.GL as gl
 import atexit
+import inspect
 import os
 import sys
 import enum
@@ -35,6 +36,11 @@ else:
 RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:
     Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
+
+def createTask(loop, coro):
+    if inspect.iscoroutine(coro):
+        loop.create_task(coro)
+    return coro
 
 class Canvas(Component):
     """
@@ -57,7 +63,7 @@ class Canvas(Component):
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    loop.create_task(comp.HoverUpdate())
+                    createTask(loop, comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
