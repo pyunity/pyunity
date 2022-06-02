@@ -79,7 +79,7 @@ html_theme_options = {
     "show_relbars": "true",
     "analytics_id": os.getenv("ANALYTICS_ID"),
     "fixed_sidebar": "true",
-    "page_width": "85%"
+    "page_width": "90%"
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
