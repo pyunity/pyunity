@@ -69,12 +69,14 @@ class EventLoop:
                 raise PyUnityException("ups argument is required if main is False")
             @wraps(func)
             def inner():
-                async def _run():
-                    if self.running:
-                        loop.call_later(1 / ups, _run)
-                        func(loop)
                 loop = asyncio.new_event_loop()
-                loop.run_until_complete(_run())
+                clock = Clock()
+                clock.Start(ups)
+                while True:
+                    func(loop)
+                    loop.call_soon(loop.stop)
+                    loop.run_forever()
+                    clock.Maintain()
 
             t = threading.Thread(target=inner, daemon=True)
             self.threads.append(t)
