@@ -78,6 +78,8 @@ html_theme_options = {
     "code_font_family": "'Cascadia Code', 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace",
     "show_relbars": "true",
     "analytics_id": os.getenv("ANALYTICS_ID"),
+    "fixed_sidebar": "true",
+    "page_width": "85%"
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -121,10 +123,7 @@ hoverxref_role_types = {
     "attr": "tooltip",
 }
 
-slug = os.getenv("READTHEDOCS_VERSION_NAME")
-stable = slug == "latest" or slug[0].isdecimal()
-
-if pyunity.__version__ == "0.9.0" or not stable:
+if pyunity.__version__ == "0.9.0":
     rst_prolog = textwrap.dedent("""
     .. attention::
        You are viewing PyUnity docs under the ``develop`` branch.
