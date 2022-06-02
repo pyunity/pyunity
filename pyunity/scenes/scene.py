@@ -29,6 +29,7 @@ from time import perf_counter
 import os
 import sys
 import uuid
+import asyncio
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
@@ -391,6 +392,7 @@ class Scene(Asset):
         self.mainCamera.setupBuffers()
 
     def startScripts(self):
+        loop = asyncio.new_event_loop()
         if config.audio:
             audioListeners = self.FindComponentsByType(AudioListener)
             if len(audioListeners) == 0:
@@ -408,7 +410,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    component.Start()
+                    loop.create_task(component.Start())
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
                         component.Play()
@@ -422,6 +424,8 @@ class Scene(Asset):
         if self.physics:
             self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
+
+        return loop
 
     def startLoop(self):
         Logger.LogLine(Logger.DEBUG, "Physics is",
@@ -454,7 +458,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    loop.call_soon(component.Update(dt))
+                    loop.create_task(component.Update(dt))
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
@@ -462,7 +466,7 @@ class Scene(Asset):
 
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
-                loop.call_soon(component.LateUpdate(dt))
+                loop.create_task(component.LateUpdate(dt))
 
     def updateFixed(self, loop):
         dt = max(perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
@@ -471,7 +475,7 @@ class Scene(Asset):
             self.collManager.Step(dt)
             for gameObject in self.gameObjects:
                 for component in gameObject.GetComponents(Behaviour):
-                    loop.call_soon(component.FixedUpdate(dt))
+                    loop.create_task(component.FixedUpdate(dt))
 
     def noInteractive(self):
         """

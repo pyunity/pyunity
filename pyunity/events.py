@@ -39,7 +39,7 @@ class Event:
 
     def callSoon(self):
         if self.isAsync:
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             loop.call_soon(self.trigger)
         else:
             if EventLoop.current is None:
@@ -69,12 +69,12 @@ class EventLoop:
                 raise PyUnityException("ups argument is required if main is False")
             @wraps(func)
             def inner():
+                async def _run():
+                    if self.running:
+                        loop.call_later(1 / ups, _run)
+                        func(loop)
                 loop = asyncio.new_event_loop()
-                clock = Clock()
-                clock.Start(ups)
-                while self.running:
-                    func(loop)
-                    clock.Maintain()
+                loop.run_until_complete(_run())
 
             t = threading.Thread(target=inner, daemon=True)
             self.threads.append(t)

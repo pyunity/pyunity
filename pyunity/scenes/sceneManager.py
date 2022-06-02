@@ -259,14 +259,10 @@ def __loadScene(scene):
     else:
         FirstScene = False
 
-    if windowObject is not None:
-        scene.startScripts()
-        scene.startOpenGL()
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            windowObject.updateFunc = scene.update
-    else:
+    if windowObject is None:
         Logger.LogLine(Logger.DEBUG, "Starting scene")
-        scriptThread = threading.Thread(target=scene.startScripts, daemon=True)
+        scriptLoop = scene.startScripts()
+        scriptThread = threading.Thread(target=scriptLoop.run_forever, daemon=True)
         scriptThread.start()
 
         hasClosed = False
@@ -309,7 +305,6 @@ def __loadScene(scene):
                     settings.db.pop("windowProvider")
                 raise
         scene.startLoop()
-        scriptThread.join()
 
         try:
             if hasClosed:
@@ -331,6 +326,8 @@ def __loadScene(scene):
             raise
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
+        scriptLoop.stop()
+        scriptThread.join()
         eventLoop.running = False
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             del os.environ["PYUNITY_GL_CONTEXT"]

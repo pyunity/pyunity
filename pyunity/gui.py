@@ -57,7 +57,7 @@ class Canvas(Component):
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    loop.call_soon(comp.HoverUpdate())
+                    loop.create_task(comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
