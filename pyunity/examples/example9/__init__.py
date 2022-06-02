@@ -2,7 +2,7 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event
 from contextlib import ExitStack
 import sys
 
@@ -78,7 +78,7 @@ def main():
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     receiver = button.AddComponent(CallbackReceiver)
-    button.callback = receiver.Callback
+    button.callback = Event(receiver.Callback)
 
     rect, checkbox = Gui.MakeCheckBox("Checkbox", scene)
     rect.transform.ReparentTo(canvas.transform)

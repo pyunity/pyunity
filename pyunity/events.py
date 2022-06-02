@@ -1,9 +1,13 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 __all__ = ["Event"]
 
 from .errors import PyUnityException
 from .core import Component, GameObject
 from .values import SavableStruct, StructEntry, Clock
-from functools import wraps, update_wrapper
+from functools import update_wrapper
 import threading
 import asyncio
 import inspect
@@ -34,8 +38,11 @@ class Event:
         self.kwargs = kwargs
         self.isAsync = inspect.iscoroutinefunction(func)
 
-    async def trigger(self):
+    async def asyncTrigger(self):
         await self.func(*self.args, **self.kwargs)
+
+    def trigger(self):
+        self.func(*self.args, **self.kwargs)
 
     def callSoon(self):
         if self.isAsync:
@@ -61,21 +68,21 @@ class EventLoop:
         self.updates = []
         self.running = False
 
-    def schedule(self, func, main=False, ups=None):
+    def schedule(self, *funcs, main=False, ups=None):
         if main:
-            self.updates.append(func)
+            self.updates.extend(funcs)
         else:
             if ups is None:
                 raise PyUnityException("ups argument is required if main is False")
-            @wraps(func)
             def inner():
                 loop = asyncio.new_event_loop()
                 clock = Clock()
                 clock.Start(ups)
-                while True:
-                    func(loop)
-                    loop.call_soon(loop.stop)
-                    loop.run_forever()
+                while self.running:
+                    for func in funcs:
+                        func(loop)
+                        loop.call_soon(loop.stop)
+                        loop.run_forever()
                     clock.Maintain()
 
             t = threading.Thread(target=inner, daemon=True)

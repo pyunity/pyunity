@@ -74,10 +74,7 @@ class Window(ABCWindow):
 
     def mouse_button_callback(self, window, button, action, mods):
         if action == glfw.PRESS:
-            if self.mouse[button] == KeyState.NONE:
-                self.mouse[button] = KeyState.DOWN
-            else:
-                self.mouse[button] = KeyState.PRESS
+            self.mouse[button] = KeyState.DOWN
         elif action == glfw.RELEASE:
             self.mouse[button] = KeyState.UP
 
@@ -125,16 +122,16 @@ class Window(ABCWindow):
     def quit(self):
         glfw.destroy_window(self.window)
 
-    def updateFunc(self):
+    def draw(self):
         if glfw.window_should_close(self.window):
             raise PyUnityExit
+        glfw.poll_events()
+        glfw.swap_buffers(self.window)
 
+    def updateFunc(self, loop):
         self.checkQuit()
         self.checkKeys()
         self.checkMouse()
-
-        glfw.poll_events()
-        glfw.swap_buffers(self.window)
 
 keyMap = {
     KeyCode.A: glfw.KEY_A,

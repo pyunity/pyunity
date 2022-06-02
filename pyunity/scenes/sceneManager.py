@@ -310,10 +310,9 @@ def __loadScene(scene):
             if hasClosed:
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                eventLoop.schedule(scene.updateScripts, ups=60)
-                eventLoop.schedule(scene.updateFixed, ups=100)
-                eventLoop.schedule(windowObject.updateFunc, True)
-                eventLoop.schedule(scene.Render, True)
+                eventLoop.schedule(scene.updateScripts, windowObject.updateFunc, ups=60)
+                #eventLoop.schedule(scene.updateFixed, ups=100)
+                eventLoop.schedule(scene.Render, windowObject.draw, main=True)
                 eventLoop.start()
             else:
                 scene.noInteractive()
@@ -326,9 +325,11 @@ def __loadScene(scene):
             raise
         else:
             Logger.LogLine(Logger.INFO, "Stopping main loop")
-        scriptLoop.stop()
-        scriptThread.join()
+
         eventLoop.running = False
+        scriptLoop.call_soon_threadsafe(scriptLoop.stop)
+        scriptThread.join()
+
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             del os.environ["PYUNITY_GL_CONTEXT"]
         render.resetShaders()
