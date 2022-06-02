@@ -14,6 +14,7 @@ the :class:`SceneManager` class.
 
 __all__ = ["Scene"]
 
+import inspect
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
 from ..core import GameObject, Tag, Component
@@ -35,6 +36,11 @@ if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
 
 disallowedChars = set(":*/\"\\?<>|")
+
+def createTask(loop, coro):
+    if inspect.iscoroutine(coro):
+        loop.create_task(coro)
+    return coro
 
 class Scene(Asset):
     """
@@ -410,7 +416,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    loop.create_task(component.Start())
+                    createTask(loop, component.Start())
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
                         component.Play()
@@ -453,12 +459,12 @@ class Scene(Asset):
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
             if self.mainCamera is not None and self.mainCamera.canvas is not None:
-                self.mainCamera.canvas.Update()
+                self.mainCamera.canvas.Update(loop)
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    loop.create_task(component.Update(dt))
+                    createTask(loop, component.Update(dt))
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
@@ -466,7 +472,7 @@ class Scene(Asset):
 
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
-                loop.create_task(component.LateUpdate(dt))
+                createTask(loop, component.LateUpdate(dt))
 
     def updateFixed(self, loop):
         dt = max(perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
@@ -475,7 +481,7 @@ class Scene(Asset):
             self.collManager.Step(dt)
             for gameObject in self.gameObjects:
                 for component in gameObject.GetComponents(Behaviour):
-                    loop.create_task(component.FixedUpdate(dt))
+                    createTask(loop, component.FixedUpdate(dt))
 
     def noInteractive(self):
         """
