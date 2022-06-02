@@ -5,7 +5,7 @@
 from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, RGB, Quaternion
 
 class Rotator(Behaviour):
-    def Update(self, dt):
+    async def Update(self, dt):
         self.transform.eulerAngles += Vector3(45, 90, 135) * dt
 
 def main():

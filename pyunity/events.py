@@ -3,9 +3,10 @@ __all__ = ["Event"]
 from .errors import PyUnityException
 from .core import Component, GameObject
 from .values import SavableStruct, StructEntry, Clock
-from . import config
 from functools import wraps, update_wrapper
 import threading
+import asyncio
+import inspect
 
 @SavableStruct(
     component=StructEntry(Component, required=True),
@@ -31,14 +32,19 @@ class Event:
         self.func = func
         self.args = args
         self.kwargs = kwargs
+        self.isAsync = inspect.iscoroutinefunction(func)
 
-    def trigger(self):
-        self.func(*self.args, **self.kwargs)
+    async def trigger(self):
+        await self.func(*self.args, **self.kwargs)
 
     def callSoon(self):
-        if EventLoop.current is None:
-            raise PyUnityException("No EventLoop running")
-        EventLoop.current.pending.append(self)
+        if self.isAsync:
+            loop = asyncio.get_event_loop()
+            loop.call_soon(self.trigger)
+        else:
+            if EventLoop.current is None:
+                raise PyUnityException("No EventLoop running")
+            EventLoop.current.pending.append(self)
 
     def _fromDict(self, factory, attrs, instanceCheck=None):
         def wrapper(component, method, args=(), kwargs={}):
@@ -63,10 +69,11 @@ class EventLoop:
                 raise PyUnityException("ups argument is required if main is False")
             @wraps(func)
             def inner():
+                loop = asyncio.new_event_loop()
                 clock = Clock()
                 clock.Start(ups)
                 while self.running:
-                    func()
+                    func(loop)
                     clock.Maintain()
 
             t = threading.Thread(target=inner, daemon=True)

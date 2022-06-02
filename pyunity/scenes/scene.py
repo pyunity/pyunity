@@ -24,7 +24,6 @@ from ..physics.core import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..values import Clock
 from ..render import Camera, Light, Screen
-from inspect import signature
 from pathlib import Path
 from time import perf_counter
 import os
@@ -442,7 +441,7 @@ class Scene(Asset):
         self.startScripts()
         self.startOpenGL()
 
-    def updateScripts(self):
+    def updateScripts(self, loop):
         """Updates all scripts in the scene."""
         from ..input import Input
         dt = max(perf_counter() - self.lastFrame, sys.float_info.epsilon)
@@ -455,11 +454,7 @@ class Scene(Asset):
         for gameObject in self.gameObjects:
             for component in gameObject.components:
                 if isinstance(component, Behaviour):
-                    sig = signature(component.Update)
-                    if "dt" in sig.parameters:
-                        component.Update(dt)
-                    else:
-                        component.Update()
+                    loop.call_soon(component.Update(dt))
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
@@ -467,16 +462,16 @@ class Scene(Asset):
 
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
-                component.LateUpdate(dt)
+                loop.call_soon(component.LateUpdate(dt))
 
-    def updateFixed(self):
-        dt = max(perf_counter() - self.lastFrame, sys.float_info.epsilon)
+    def updateFixed(self, loop):
+        dt = max(perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
         self.lastFixedFrame = perf_counter()
         if self.physics:
             self.collManager.Step(dt)
             for gameObject in self.gameObjects:
                 for component in gameObject.GetComponents(Behaviour):
-                    component.FixedUpdate(dt)
+                    loop.call_soon(component.FixedUpdate(dt))
 
     def noInteractive(self):
         """
