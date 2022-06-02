@@ -54,17 +54,20 @@ class EventLoop:
         self.pending = []
         self.updates = []
         self.running = False
-        self.clock = Clock()
 
-    def schedule(self, func, main=False):
+    def schedule(self, func, main=False, ups=None):
         if main:
             self.updates.append(func)
         else:
+            if ups is None:
+                raise PyUnityException("ups argument is required if main is True")
             @wraps(func)
             def inner():
+                clock = Clock()
+                clock.Start(ups)
                 while self.running:
                     func()
-                    self.clock.Maintain()
+                    clock.Maintain()
 
             t = threading.Thread(target=inner, daemon=True)
             self.threads.append(t)
@@ -74,7 +77,6 @@ class EventLoop:
             raise PyUnityException("Only one EventLoop can be running")
         EventLoop.current = self
 
-        self.clock.Start(config.fps)
         self.running = True
         for thread in self.threads:
             thread.start()

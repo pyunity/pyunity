@@ -292,6 +292,7 @@ def __loadScene(scene):
                 Logger.LogLine(Logger.INFO, "Loading skyboxes")
                 render.compileSkyboxes()
                 Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
+                scene.startOpenGL()
 
                 # done = True
                 # t.join()
@@ -307,7 +308,6 @@ def __loadScene(scene):
                         Logger.WARN, "settings.json entry may be faulty, removing")
                     settings.db.pop("windowProvider")
                 raise
-        scene.startOpenGL()
         scene.startLoop()
         scriptThread.join()
 
@@ -316,6 +316,7 @@ def __loadScene(scene):
                 raise PyUnityExit
             if os.environ["PYUNITY_INTERACTIVE"] == "1":
                 eventLoop.schedule(scene.updateScripts)
+                eventLoop.schedule(scene.updateFixed)
                 eventLoop.schedule(windowObject.updateFunc, True)
                 eventLoop.schedule(scene.Render, True)
                 eventLoop.start()

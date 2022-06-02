@@ -431,6 +431,7 @@ class Scene(Asset):
                        repr(self.name) + " has started")
 
         self.lastFrame = perf_counter()
+        self.lastFixedFrame = perf_counter()
 
     def Start(self):
         """
@@ -464,16 +465,18 @@ class Scene(Asset):
                         if component.channel and not component.channel.get_busy():
                             component.Play()
 
-        if self.physics:
-            for i in range(self.collManager.steps):
-                self.collManager.Step(dt / self.collManager.steps)
-                for gameObject in self.gameObjects:
-                    for component in gameObject.GetComponents(Behaviour):
-                        component.FixedUpdate(dt / self.collManager.steps)
-
         for gameObject in self.gameObjects:
             for component in gameObject.GetComponents(Behaviour):
                 component.LateUpdate(dt)
+
+    def updateFixed(self):
+        dt = max(perf_counter() - self.lastFrame, sys.float_info.epsilon)
+        self.lastFixedFrame = perf_counter()
+        if self.physics:
+            self.collManager.Step(dt)
+            for gameObject in self.gameObjects:
+                for component in gameObject.GetComponents(Behaviour):
+                    component.FixedUpdate(dt)
 
     def noInteractive(self):
         """
