@@ -163,7 +163,7 @@ class EventLoopManager:
                     EventLoopManager.exceptions.clear()
 
             for func in self.updates:
-                func()
+                func(loop)
 
             for event in self.pending:
                 event.trigger()
