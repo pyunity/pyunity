@@ -66,7 +66,7 @@ class Canvas(Component):
                     createTask(loop, comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
-decorator(Camera)
+decorator.apply(Camera)
 
 @SavableStruct(
     min=StructEntry(Vector2, required=True),

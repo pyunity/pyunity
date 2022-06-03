@@ -377,7 +377,7 @@ class _AddFields(IncludeInstanceMixin):
         selfref = self.selfref
         class _decorator:
             def apply(self, cls):
-                return self(cls)
+                return self.__call__(cls)
 
             def __call__(self, cls):
                 for name, value in kwargs.items():
