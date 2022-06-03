@@ -8,7 +8,6 @@ import glfw
 import sys
 from pyunity.window import ABCWindow
 from pyunity.errors import PyUnityException, PyUnityExit
-from pyunity.values import Clock
 from pyunity.input import KeyCode, KeyState, MouseCode
 from pyunity import config
 
@@ -23,8 +22,7 @@ class Window(ABCWindow):
 
     """
 
-    def __init__(self, name, resize):
-        self.resize = resize
+    def __init__(self, name):
         glfw.init()
         if sys.platform == "darwin":
             glfw.window_hint(glfw.GLFW_CONTEXT_VERSION_MAJOR, 3)
@@ -43,7 +41,6 @@ class Window(ABCWindow):
         if config.vsync:
             glfw.swap_interval(1)
 
-        self.resize = resize
         glfw.set_framebuffer_size_callback(
             self.window, self.framebuffer_size_callback)
         glfw.set_key_callback(self.window, self.key_callback)
@@ -51,6 +48,9 @@ class Window(ABCWindow):
 
         self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
         self.mouse = [KeyState.NONE, KeyState.NONE, KeyState.NONE]
+
+    def setResize(self, resize):
+        self.resize = resize
 
     def refresh(self):
         glfw.swap_buffers(self.window)
@@ -121,12 +121,6 @@ class Window(ABCWindow):
 
     def quit(self):
         glfw.destroy_window(self.window)
-
-    def draw(self):
-        if glfw.window_should_close(self.window):
-            raise PyUnityExit
-        glfw.poll_events()
-        glfw.swap_buffers(self.window)
 
     def updateFunc(self, loop):
         self.checkQuit()

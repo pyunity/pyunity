@@ -6,7 +6,7 @@ __all__ = ["Event", "EventLoopManager", "WaitForSeconds", "WaitForEventLoop",
            "WaitForUpdate", "WaitForFixedUpdate"]
 
 from . import Logger, config
-from .errors import PyUnityException, PyUnityExit
+from .errors import PyUnityException
 from .core import Component, GameObject
 from .values import SavableStruct, StructEntry, Clock
 from functools import update_wrapper
@@ -42,11 +42,8 @@ class Event:
         self.kwargs = kwargs
         self.isAsync = inspect.iscoroutinefunction(func)
 
-    async def asyncTrigger(self):
-        await self.func(*self.args, **self.kwargs)
-
     def trigger(self):
-        self.func(*self.args, **self.kwargs)
+        return self.func(*self.args, **self.kwargs)
 
     def callSoon(self):
         if self.isAsync:
@@ -70,6 +67,7 @@ class EventLoopManager:
     def __init__(self):
         self.threads = []
         self.loops = []
+        self.separateLoops = []
         self.waiting = {}
         self.pending = []
         self.updates = []
@@ -97,7 +95,7 @@ class EventLoopManager:
                         try:
                             func(loop)
                         except Exception as e:
-                            EventLoopManager.exception = e
+                            EventLoopManager.exceptions.append(e)
                             break
                         loop.call_soon(loop.stop)
                         loop.run_forever()
@@ -106,24 +104,45 @@ class EventLoopManager:
             t = threading.Thread(target=inner, daemon=True)
             self.threads.append(t)
 
-    def set(self):
+    def addLoop(self, loop):
+        def inner():
+            while self.running:
+                loop.call_soon(loop.stop)
+                loop.run_forever()
+
+        self.loops.append(loop)
+        self.separateLoops.append(loop)
+        t = threading.Thread(target=inner, daemon=True)
+        self.threads.append(t)
+
+    def start(self):
         if EventLoopManager.current is not None:
             raise PyUnityException("Only one EventLoopManager can be running")
         EventLoopManager.current = self
 
-    def start(self):
+        for loop in self.separateLoops:
+            loop.call_soon(loop.stop)
+            loop.run_forever() # Run until awaits are encountered
+        self.separateLoops.clear()
+
         self.running = True
         for thread in self.threads:
             thread.start()
 
-        while True:
+        while self.running:
             if len(EventLoopManager.exceptions):
                 from . import SceneManager
-                if config.exitOnError:
+                from .scenes.runner import ChangeScene
+                if isinstance(EventLoopManager.exceptions[0], ChangeScene):
+                    exc = EventLoopManager.exceptions.pop()
+                    EventLoopManager.exceptions.clear()
+                    raise exc
+                elif config.exitOnError:
                     Logger.LogLine(Logger.ERROR,
-                                f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
-                    Logger.LogException(EventLoopManager.exceptions[0])
-                    raise PyUnityExit
+                                   f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
+                    exc = EventLoopManager.exceptions.pop()
+                    EventLoopManager.exceptions.clear()
+                    raise exc
                 else:
                     for exception in EventLoopManager.exceptions:
                         Logger.LogLine(Logger.ERROR,
@@ -142,7 +161,13 @@ class EventLoopManager:
         self.running = False
         for thread in self.threads:
             thread.join() # Will wait until this iteration has finished
-        self.threads.clear()
+
+        self.threads = []
+        self.loops = []
+        self.waiting = {}
+        self.pending = []
+        self.updates = []
+
         EventLoopManager.current = None
 
 class EventLoop(asyncio.SelectorEventLoop):

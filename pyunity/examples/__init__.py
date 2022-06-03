@@ -10,7 +10,7 @@ import sys
 import importlib
 
 SceneManager.KeyboardInterruptKill = True
-broken = [6]
+broken = []
 
 def loadExample(i):
     if pkgutil.find_loader(__name__ + f".example{i}") is None:

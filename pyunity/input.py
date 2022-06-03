@@ -132,7 +132,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getKey(keycode, KeyState.PRESS)
+        return SceneManager.runner.window.getKey(keycode, KeyState.PRESS)
 
     @classmethod
     def GetKeyUp(cls, keycode):
@@ -152,7 +152,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getKey(keycode, KeyState.UP)
+        return SceneManager.runner.window.getKey(keycode, KeyState.UP)
 
     @classmethod
     def GetKeyDown(cls, keycode):
@@ -172,7 +172,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getKey(keycode, KeyState.DOWN)
+        return SceneManager.runner.window.getKey(keycode, KeyState.DOWN)
 
     @classmethod
     def GetKeyState(cls, keycode, keystate):
@@ -194,7 +194,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getKey(keycode, keystate)
+        return SceneManager.runner.window.getKey(keycode, keystate)
 
     @classmethod
     def GetMouse(cls, mousecode):
@@ -214,7 +214,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getMouse(mousecode, KeyState.PRESS)
+        return SceneManager.runner.window.getMouse(mousecode, KeyState.PRESS)
 
     @classmethod
     def GetMouseUp(cls, mousecode):
@@ -234,7 +234,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getMouse(mousecode, KeyState.UP)
+        return SceneManager.runner.window.getMouse(mousecode, KeyState.UP)
 
     @classmethod
     def GetMouseDown(cls, mousecode):
@@ -254,7 +254,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getMouse(mousecode, KeyState.DOWN)
+        return SceneManager.runner.window.getMouse(mousecode, KeyState.DOWN)
 
     @classmethod
     def GetMouseState(cls, mousecode, mousestate):
@@ -276,7 +276,7 @@ class Input(metaclass=ImmutableStruct):
         """
         if os.environ["PYUNITY_INTERACTIVE"] != "1":
             return False
-        return SceneManager.windowObject.getMouse(mousecode, mousestate)
+        return SceneManager.runner.window.getMouse(mousecode, mousestate)
 
     _axes = {"MouseX": 0, "MouseY": 0, "Horizontal": 0, "Vertical": 0}
     _axisObjects = {
@@ -352,7 +352,7 @@ class Input(metaclass=ImmutableStruct):
     @classmethod
     def UpdateAxes(cls, dt):
         cls._set("mousePosition", Vector3(
-            *SceneManager.windowObject.getMousePos(), 0))
+            *SceneManager.runner.window.getMousePos(), 0))
 
         new = cls.mousePosition
         if cls._mouseLast is None:

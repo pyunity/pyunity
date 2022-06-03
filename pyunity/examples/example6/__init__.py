@@ -2,12 +2,11 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, GameObject, SceneManager, Material, RGB, Mesh, Vector3, MeshRenderer
-import asyncio
+from pyunity import Behaviour, GameObject, SceneManager, Material, RGB, Mesh, Vector3, MeshRenderer, WaitForSeconds
 
 class Switch(Behaviour):
     async def Start(self):
-        await asyncio.sleep(3)
+        await WaitForSeconds(3)
         SceneManager.LoadSceneByIndex(1)
 
 def main():

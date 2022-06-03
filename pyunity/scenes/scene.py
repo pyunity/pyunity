@@ -413,6 +413,8 @@ class Scene(Asset):
             else:
                 self.audioListener = audioListeners[0]
                 self.audioListener.Init()
+        else:
+            self.audioListener = None
 
         for gameObject in self.gameObjects:
             for component in gameObject.components:

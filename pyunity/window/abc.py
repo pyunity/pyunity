@@ -27,7 +27,11 @@ class ABCWindow(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, name, resize):
+    def __init__(self, name):
+        pass
+
+    @abstractmethod
+    def setResize(self, resize):
         pass
 
     @abstractmethod
@@ -142,6 +146,10 @@ class ABCWindow(metaclass=ABCMeta):
         Refreshes and redraws the screen.
 
         """
+        pass
+
+    @abstractmethod
+    def updateFunc(self, loop):
         pass
 
     @abstractmethod
