@@ -243,7 +243,6 @@ class Rigidbody(Component):
     def __init__(self, transform, dummy=False):
         super(Rigidbody, self).__init__(transform, dummy)
         self.mass = 100
-        self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
         self.force = Vector3.zero()
@@ -260,7 +259,9 @@ class Rigidbody(Component):
     def mass(self, val):
         if val == Infinity or val == 0:
             self.invMass = 0
-        self.invMass = 1 / val
+        else:
+            self.invMass = 1 / val
+        self.inertia = 2 / 3 * self.mass # (1/6 ms^2)
 
     @property
     def inertia(self):
