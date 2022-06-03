@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import shutil
 import zipfile
@@ -32,6 +33,7 @@ def getPath(local):
         src = package / local
         if not src.exists():
             raise Exception(f"No resource at {src}")
+        dest.parent.mkdir(parents=True, exist_ok=True)
         if src.is_file():
             shutil.copy(src, dest)
         else:

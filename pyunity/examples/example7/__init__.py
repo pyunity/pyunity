@@ -14,7 +14,6 @@ def main():
         source.playOnStart = True
 
     SceneManager.LoadScene(scene)
-    stack.close()
 
 if __name__ == "__main__":
     main()

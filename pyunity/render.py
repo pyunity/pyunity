@@ -281,11 +281,11 @@ class Shader:
 
 shaders = {}
 skyboxes = {}
-skyboxes["Water"] = Skybox(getPath("pyunity/skybox/textures"))
-Shader.fromFolder(getPath("pyunity/standard"), "Standard")
-Shader.fromFolder(getPath("pyunity/skybox"), "Skybox")
-Shader.fromFolder(getPath("pyunity/gui"), "GUI")
-Shader.fromFolder(getPath("pyunity/depth"), "Depth")
+Shader.fromFolder(getPath("shaders/standard"), "Standard")
+Shader.fromFolder(getPath("shaders/skybox"), "Skybox")
+Shader.fromFolder(getPath("shaders/gui"), "GUI")
+Shader.fromFolder(getPath("shaders/depth"), "Depth")
+skyboxes["Water"] = Skybox(getPath("shaders/skybox/textures"))
 
 def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":
