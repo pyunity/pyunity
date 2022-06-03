@@ -10,6 +10,7 @@ import time
 import sys
 from functools import partial
 from ..errors import PyUnityException
+from .. import config
 
 class IgnoredMixin:
     # Used by various helper scripts.
@@ -43,21 +44,20 @@ class Clock:
     def Start(self, fps=None):
         if fps is not None:
             self.fps = fps
-        self._start = time.time()
+        self._start = time.perf_counter()
 
     def Maintain(self):
-        from .. import config
-        self._end = time.time()
+        self._end = time.perf_counter()
         elapsedMS = self._end - self._start
-        if config.vsync:
-            sleep = 0
+        if config.vsync or self.fps == 0:
+            sleep = 0.001
         else:
             sleep = self._frameDuration - elapsedMS
         if sleep <= 0:
-            self._start = time.time()
+            self._start = time.perf_counter()
             return sys.float_info.epsilon
         time.sleep(sleep)
-        self._start = time.time()
+        self._start = time.perf_counter()
         return sleep
 
 class LockedLiteral:

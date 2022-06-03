@@ -51,14 +51,14 @@ class Behaviour(Component):
 
     """
 
-    def Start(self):
+    async def Start(self):
         """
         Called every time a scene is loaded up.
 
         """
         pass
 
-    def Update(self, dt):
+    async def Update(self, dt):
         """
         Called every frame.
 
@@ -71,7 +71,7 @@ class Behaviour(Component):
         """
         pass
 
-    def FixedUpdate(self, dt):
+    async def FixedUpdate(self, dt):
         """
         Called every frame, in each physics step.
 
@@ -83,7 +83,7 @@ class Behaviour(Component):
         """
         pass
 
-    def LateUpdate(self, dt):
+    async def LateUpdate(self, dt):
         """
         Called every frame, after physics processing.
 

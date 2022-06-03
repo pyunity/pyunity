@@ -12,21 +12,15 @@ __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
            "LoadSceneByName", "CurrentScene", "AddScene", "LoadScene",
            "RemoveAllScenes", "GetSceneByIndex", "FirstScene", "KeyboardInterruptKill"]
 
-from .. import config, settings
+from .. import settings
 from ..errors import PyUnityException, PyUnityExit
+from .runner import newRunner
 from .scene import Scene
 from .. import logger as Logger
-from .. import render
-import os
-import copy
-# import threading
 
 scenesByIndex = []
 scenesByName = {}
-windowObject = None
-__runningScenes = []
-
-FirstScene = True
+runner = newRunner()
 KeyboardInterruptKill = False
 
 def AddScene(sceneName):
@@ -190,7 +184,7 @@ def LoadSceneByName(name):
         raise TypeError(f"Expected str, got {type(name).__name__}")
     if name not in scenesByName:
         raise PyUnityException(f"There is no scene named {name!r}")
-    __loadScene(copy.deepcopy(scenesByName[name]))
+    __loadScene(scenesByName[name])
 
 def LoadSceneByIndex(index):
     """
@@ -214,7 +208,7 @@ def LoadSceneByIndex(index):
         raise TypeError(f"Expected int, got {type(index).__name__}")
     if index >= len(scenesByIndex):
         raise PyUnityException(f"There is no scene at index {index}")
-    __loadScene(copy.deepcopy(scenesByIndex[index]))
+    __loadScene(scenesByIndex[index])
 
 def LoadScene(scene):
     """
@@ -241,105 +235,46 @@ def LoadScene(scene):
     if scene not in scenesByIndex:
         raise PyUnityException(
             "The provided scene is not part of the SceneManager")
-    __loadScene(copy.deepcopy(scene))
+    __loadScene(scene)
+
+def stopWindow():
+    Logger.LogLine(Logger.INFO, "Stopping main loop")
+    runner.quit()
 
 def __loadScene(scene):
-    global windowObject, FirstScene
-    __runningScenes.append(scene)
-    if not FirstScene:
-        Logger.Save()
-        FirstScene = False
-    if not windowObject:
-        hasClosed = False
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            try:
-                os.environ["PYUNITY_GL_CONTEXT"] = "1"
-                Logger.LogLine(Logger.DEBUG, "Launching window manager")
-                windowObject = config.windowProvider(
-                    scene.name, scene.mainCamera.Resize)
-
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-                windowObject.refresh()
-                render.fillScreen()
-                windowObject.refresh()
-                render.fillScreen() # double buffering
-
-                # done = False
-                # def loop():
-                #     while not done:
-                #         windowObject.refresh()
-                # t = threading.Thread(target=loop)
-                # t.daemon = True
-                # t.start()
-
-                Logger.LogLine(Logger.DEBUG, "Compiling objects")
-
-                Logger.LogLine(Logger.INFO, "Compiling shaders")
-                render.compileShaders()
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-
-                Logger.LogLine(Logger.INFO, "Loading skyboxes")
-                render.compileSkyboxes()
-                Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
-
-                # done = True
-                # t.join()
-            except PyUnityExit:
-                hasClosed = True
-            except Exception:
-                if "windowProvider" in settings.db:
-                    Logger.LogLine(Logger.WARN, "Detected settings.json entry")
-                    if "windowCache" in settings.db:
-                        Logger.LogLine(Logger.WARN, "windowCache entry has been set,",
-                                       "indicating window checking happened on this import")
-                    Logger.LogLine(
-                        Logger.WARN, "settings.json entry may be faulty, removing")
-                    settings.db.pop("windowProvider")
-                raise
-
-        if os.environ["PYUNITY_INTERACTIVE"] != "1" and config.fps == 0:
-            config.fps = 60
-            Logger.LogLine(Logger.WARN, "FPS cannot be 0 in non-interactive mode")
-        Logger.LogLine(Logger.DEBUG, "Starting scene")
-        scene.Start()
+    if not runner.opened:
+        runner.setScene(scene)
         try:
-            if hasClosed:
-                raise PyUnityExit
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.start(scene.update)
-            else:
-                scene.noInteractive()
-        except (KeyboardInterrupt, PyUnityExit):
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.quit()
-            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
-            if KeyboardInterruptKill:
-                exit()
+            runner.open()
+        except PyUnityExit:
+            stopWindow()
+            return
         except Exception:
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-            if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                windowObject.quit()
-            Logger.LogLine(Logger.INFO, "Shutting PyUnity down")
+            Logger.LogLine(Logger.ERROR,
+                           "Exception while launching window manager")
+            if "windowProvider" in settings.db:
+                Logger.LogLine(Logger.WARN, "Detected settings.json entry")
+                if "windowCache" in settings.db:
+                    Logger.LogLine(Logger.WARN, "windowCache entry has been set,",
+                                   "indicating window checking happened on this import")
+                Logger.LogLine(Logger.WARN, "settings.json entry may be faulty, removing")
+                settings.db.pop("windowProvider")
             raise
-        else:
-            Logger.LogLine(Logger.INFO, "Stopping main loop")
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            del os.environ["PYUNITY_GL_CONTEXT"]
-        render.resetShaders()
-        Logger.LogLine(Logger.INFO, "Reset shaders")
-        render.resetSkyboxes()
-        Logger.LogLine(Logger.INFO, "Reset skyboxes")
-        windowObject = None
+        runner.setup()
     else:
-        scene.Start()
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            windowObject.updateFunc = scene.update
-    scene.cleanUp()
-    __runningScenes.pop()
+        runner.setNext(scene)
+    runner.load()
+
+    try:
+        runner.start()
+    except (SystemExit, KeyboardInterrupt, PyUnityExit) as e:
+        stopWindow()
+        if isinstance(e, KeyboardInterrupt) and KeyboardInterruptKill:
+            exit()
+    except Exception:
+        stopWindow()
+        raise
 
 def CurrentScene():
     """Gets the current scene being run"""
-    if len(__runningScenes) == 0:
-        return None
-    return __runningScenes[-1]
+    return runner.scene

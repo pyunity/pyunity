@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pyunity.scenes.runner
    pyunity.scenes.scene
    pyunity.scenes.sceneManager
 

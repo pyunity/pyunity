@@ -2,16 +2,12 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, GameObject, SceneManager, Material, RGB, Mesh, Vector3, MeshRenderer
+from pyunity import Behaviour, GameObject, SceneManager, Material, RGB, Mesh, Vector3, MeshRenderer, WaitForSeconds
 
 class Switch(Behaviour):
-    def Start(self):
-        self.a = 3
-
-    def Update(self, dt):
-        self.a -= dt
-        if self.a < 0:
-            SceneManager.LoadSceneByIndex(1)
+    async def Start(self):
+        await WaitForSeconds(3)
+        SceneManager.LoadSceneByIndex(1)
 
 def main():
     scene = SceneManager.AddScene("Scene")

@@ -22,6 +22,7 @@ from PIL import Image, ImageDraw, ImageFont, features
 from contextlib import ExitStack
 import OpenGL.GL as gl
 import atexit
+import inspect
 import os
 import sys
 import enum
@@ -36,6 +37,11 @@ RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:
     Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
 
+def createTask(loop, coro):
+    if inspect.iscoroutine(coro):
+        loop.create_task(coro)
+    return coro
+
 class Canvas(Component):
     """
     A Component that manages GUI interactions
@@ -45,7 +51,7 @@ class Canvas(Component):
 
     """
 
-    def Update(self):
+    def Update(self, loop):
         """
         Check if any components have been hovered over.
 
@@ -57,7 +63,7 @@ class Canvas(Component):
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    comp.HoverUpdate()
+                    createTask(loop, comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
 decorator(Camera)
@@ -289,7 +295,7 @@ class GuiComponent(Component, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         pass
 
 class NoResponseGuiComponent(GuiComponent):
@@ -298,7 +304,7 @@ class NoResponseGuiComponent(GuiComponent):
 
     """
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         """
         Empty HoverUpdate function. This is to ensure
         nothing happens when the component is clicked,
@@ -474,10 +480,10 @@ class Button(GuiComponent):
     def __init__(self, transform):
         super(Button, self).__init__(transform)
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
             if self.callback is not None:
-                self.callback()
+                self.callback.callSoon()
 
 stack = ExitStack()
 atexit.register(stack.close)
@@ -795,7 +801,7 @@ class CheckBox(GuiComponent):
     """
     checked = ShowInInspector(bool, False)
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         """
         Inverts :attr:`checked` and updates the texture of
         the Image2D, if there is one.

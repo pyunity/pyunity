@@ -2,12 +2,12 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import os
-import time
 from pyunity import (
     config, Behaviour, SceneManager, AudioListener, Logger, GameObject,
     Rigidbody, Collider)
 from . import SceneTestCase
+import os
+import pytest
 
 class TestBehaviour1(Behaviour):
     def Start(self):
@@ -50,6 +50,7 @@ class TestSceneRun:
             def setUp(self):
                 super().setUp()
                 os.environ["PYUNITY_INTERACTIVE"] = "0"
+                pytest.skip("Scene loading requires a Runner")
 
             def testCase1(self):
                 scene = SceneManager.AddScene("Scene")
@@ -88,23 +89,10 @@ class TestSceneRun:
                 coll3 = gameObject2.AddComponent(Collider)
                 scene.Add(gameObject2)
 
-                start = time.time()
                 scene.startScripts()
-                assert start <= scene.lastFrame
 
                 assert hasattr(scene, "physics")
                 assert scene.physics
                 assert hasattr(scene, "collManager")
                 assert scene.collManager.rigidbodies[rb] == [coll1, coll2]
                 assert scene.collManager.rigidbodies[scene.collManager.dummyRigidbody] == [coll3]
-
-    class TestStart(SceneTestCase):
-        def setUp(self):
-            super().setUp()
-            os.environ["PYUNITY_INTERACTIVE"] = "0"
-
-        def testOutput(self):
-            scene = SceneManager.AddScene("Scene")
-            with Logger.TempRedirect(silent=True) as r:
-                scene.Start()
-            assert r.get() == "Physics is on\nScene 'Scene' has started\n"
