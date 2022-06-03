@@ -25,21 +25,14 @@ from .core import GameObject, Component, Tag, SavesProjectID
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
 from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
-from contextlib import ExitStack
+from .resources import getPath
 from pathlib import Path
 from uuid import uuid4
 import struct
-import atexit
 import inspect
 import json
 import enum
-import sys
 import os
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
 
 def LoadObj(filename):
     """
@@ -262,10 +255,6 @@ def SaveMesh(mesh, path):
                 f.write("/")
         f.write("\n")
 
-stack = ExitStack()
-atexit.register(stack.close)
-ref = files("pyunity") / "primitives"
-
 class Primitives(metaclass=ImmutableStruct):
     """
     Primitive preloaded meshes.
@@ -273,12 +262,12 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    cube = LoadMesh(stack.enter_context(as_file(ref / "cube.mesh")))
-    quad = LoadMesh(stack.enter_context(as_file(ref / "quad.mesh")))
-    doubleQuad = LoadMesh(stack.enter_context(as_file(ref / "doubleQuad.mesh")))
-    sphere = LoadMesh(stack.enter_context(as_file(ref / "sphere.mesh")))
-    capsule = LoadMesh(stack.enter_context(as_file(ref / "capsule.mesh")))
-    cylinder = LoadMesh(stack.enter_context(as_file(ref / "cylinder.mesh")))
+    cube = LoadMesh(getPath("primitives/cube.mesh"))
+    quad = LoadMesh(getPath("primitives/quad.mesh"))
+    doubleQuad = LoadMesh(getPath("primitives/doubleQuad.mesh"))
+    sphere = LoadMesh(getPath("primitives/sphere.mesh"))
+    capsule = LoadMesh(getPath("primitives/capsule.mesh"))
+    cylinder = LoadMesh(getPath("primitives/cylinder.mesh"))
 
 def GetImports(file):
     with open(file) as f:
