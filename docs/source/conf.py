@@ -39,6 +39,7 @@ release = pyunity.__version__
 # ones.
 extensions = [
     "sphinx_toolbox.more_autodoc",
+    "sphinx_toolbox.tweaks.latex_toc",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
