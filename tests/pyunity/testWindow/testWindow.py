@@ -6,7 +6,10 @@ from . import TestCase
 from pyunity import Window, PyUnityException, Logger, config
 
 class CustomWindow(Window.ABCWindow):
-    def __init__(self, name, resize):
+    def __init__(self, name):
+        pass
+
+    def setResize(self, resize):
         pass
 
     def getMouse(self, mousecode, keystate):
@@ -24,7 +27,7 @@ class CustomWindow(Window.ABCWindow):
     def quit(self):
         pass
 
-    def start(self, updateFunc):
+    def updateFunc(self):
         pass
 
 class TestWindow(TestCase):

@@ -2,12 +2,12 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import os
-import time
 from pyunity import (
     config, Behaviour, SceneManager, AudioListener, Logger, GameObject,
     Rigidbody, Collider)
 from . import SceneTestCase
+import os
+import pytest
 
 class TestBehaviour1(Behaviour):
     def Start(self):
@@ -50,6 +50,7 @@ class TestSceneRun:
             def setUp(self):
                 super().setUp()
                 os.environ["PYUNITY_INTERACTIVE"] = "0"
+                pytest.skip("Scene loading requires a Runner")
 
             def testCase1(self):
                 scene = SceneManager.AddScene("Scene")

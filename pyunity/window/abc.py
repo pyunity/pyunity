@@ -21,8 +21,6 @@ class ABCWindow(metaclass=ABCMeta):
     ----------
     name : str
         Name to display on window title.
-    resize : function
-        Resize callback
 
     """
 
