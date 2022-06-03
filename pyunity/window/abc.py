@@ -164,17 +164,14 @@ class ABCWindow(metaclass=ABCMeta):
     def updateFunc(self):
         """
         Update the input of keys and mouse.
-        Also checks to quit.
+        Also checks to quit. Don't close the
+        window in this method. Close it in
+        :meth:`quit` instead.
 
         Raises
         ------
         PyUnityExit
             When the window should
-
-        Note
-        ----
-        Don't close the window in this method.
-        Close it in :meth:`quit` instead.
 
         """
         pass
