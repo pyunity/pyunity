@@ -9,7 +9,7 @@ from . import Logger, config
 from .errors import PyUnityException
 from .core import Component, GameObject
 from .values import SavableStruct, StructEntry, Clock
-from functools import update_wrapper
+from functools import update_wrapper, wraps
 import threading
 import asyncio
 import inspect
@@ -60,6 +60,12 @@ class Event:
             return factory(func, args, kwargs)
         return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
 
+def wrap(func):
+    @wraps(func)
+    def inner(loop):
+        return func()
+    return inner
+
 class EventLoopManager:
     current = None
     exceptions = []
@@ -74,8 +80,14 @@ class EventLoopManager:
         self.running = False
 
     def schedule(self, *funcs, main=False, ups=None, waitFor=None):
+        functions = list(funcs)
+        for i in range(len(functions)):
+            sig = inspect.signature(functions[i])
+            if len(sig.parameters) == 0:
+                functions[i] = wraps(functions[i])
+
         if main:
-            self.updates.extend(funcs)
+            self.updates.extend(functions)
         else:
             if ups is None:
                 raise PyUnityException("ups argument is required if main is False")
@@ -91,7 +103,7 @@ class EventLoopManager:
                     for waiter in self.waiting[waitFor]:
                         waiter.loop.call_soon_threadsafe(waiter.event.set)
 
-                    for func in funcs:
+                    for func in functions:
                         try:
                             func(loop)
                         except Exception as e:
