@@ -7,12 +7,12 @@ import os
 import sys
 import platform
 import pkgutil
+import argparse
 from ._version import __version__
-from . import Logger
+from . import Logger, Loader, SceneManager, examples
 
-TITLE_WIDTH = 30
-
-if "--version" in sys.argv or "-v" in sys.argv:
+def version():
+    TITLE_WIDTH = 30
     Logger.Log("#" * TITLE_WIDTH)
     Logger.Log("VERSION INFO".center(TITLE_WIDTH))
     Logger.Log("#" * TITLE_WIDTH)
@@ -55,6 +55,27 @@ if "--version" in sys.argv or "-v" in sys.argv:
             except PackageNotFoundError:
                 # python_version or sys.platform used
                 Logger.Log("-", name, "version:", None)
-else:
-    from . import examples
-    examples.show()
+
+parser = argparse.ArgumentParser(description="Load PyUnity examples, PyUnity projects or display information about the PyUnity installation")
+parser.add_argument("-v", "--version", action="store_true",
+                    help="Display information about the PyUnity installation")
+parser.add_argument("project", nargs="?", default="0",
+                    help="Project or example number to load")
+
+def main():
+    args = parser.parse_args()
+    if args.version:
+        version()
+        return
+
+    if args.project.isdecimal():
+        examples.show()
+    elif os.path.isdir(args.project):
+        project = Loader.LoadProject(args.project)
+        SceneManager.LoadSceneByIndex(project.firstScene)
+    else:
+        Logger.LogLine(Logger.ERROR,
+                       f"error: invalid project: {args.project}")
+
+if __name__ == "__main__":
+    main()
