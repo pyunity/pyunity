@@ -42,15 +42,36 @@ class Window(ABCWindow):
             glfw.swap_interval(1)
 
         glfw.set_framebuffer_size_callback(
-            self.window, self.framebuffer_size_callback)
+            self.window, self.framebufferSizeCallback)
         glfw.set_key_callback(self.window, self.key_callback)
-        glfw.set_mouse_button_callback(self.window, self.mouse_button_callback)
+        glfw.set_mouse_button_callback(self.window, self.mouseButtonCallback)
 
         self.keys = [KeyState.NONE for _ in range(glfw.KEY_MENU)]
         self.mouse = [KeyState.NONE, KeyState.NONE, KeyState.NONE]
 
     def setResize(self, resize):
         self.resize = resize
+
+    def getKey(self, keycode, keystate):
+        key = keyMap[keycode]
+        if keystate == KeyState.PRESS:
+            if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.keys[key] == keystate:
+            return True
+        return False
+
+    def getMouse(self, mousecode, keystate):
+        mouse = mouseMap[mousecode]
+        if keystate == KeyState.PRESS:
+            if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
+                return True
+        if self.mouse[mouse] == keystate:
+            return True
+        return False
+
+    def getMousePos(self):
+        return glfw.get_cursor_pos(self.window)
 
     def refresh(self):
         glfw.swap_buffers(self.window)
@@ -59,7 +80,17 @@ class Window(ABCWindow):
             self.quit()
             raise PyUnityExit
 
-    def framebuffer_size_callback(self, window, width, height):
+    def quit(self):
+        glfw.destroy_window(self.window)
+
+    def updateFunc(self):
+        self.checkQuit()
+        self.checkKeys()
+        self.checkMouse()
+
+    # Helper methods
+
+    def framebufferSizeCallback(self, window, width, height):
         self.resize(width, height)
         self.updateFunc()
         glfw.swap_buffers(window)
@@ -72,20 +103,17 @@ class Window(ABCWindow):
         else:
             self.keys[key] = KeyState.DOWN
 
-    def mouse_button_callback(self, window, button, action, mods):
+    def mouseButtonCallback(self, window, button, action, mods):
         if action == glfw.PRESS:
             self.mouse[button] = KeyState.DOWN
         elif action == glfw.RELEASE:
             self.mouse[button] = KeyState.UP
 
-    def getMouse(self, mousecode, keystate):
-        mouse = mouseMap[mousecode]
-        if keystate == KeyState.PRESS:
-            if self.mouse[mouse] in [KeyState.PRESS, KeyState.DOWN]:
-                return True
-        if self.mouse[mouse] == keystate:
-            return True
-        return False
+    def checkQuit(self):
+        alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
+            self.window, glfw.KEY_RIGHT_ALT)
+        if alt_pressed and glfw.get_key(self.window, glfw.KEY_F4):
+            glfw.set_window_should_close(self.window, 1)
 
     def checkKeys(self):
         for i in range(len(self.keys)):
@@ -100,32 +128,6 @@ class Window(ABCWindow):
                 self.mouse[i] = KeyState.NONE
             elif self.mouse[i] == KeyState.DOWN:
                 self.mouse[i] = KeyState.PRESS
-
-    def getKey(self, keycode, keystate):
-        key = keyMap[keycode]
-        if keystate == KeyState.PRESS:
-            if self.keys[key] in [KeyState.PRESS, KeyState.DOWN]:
-                return True
-        if self.keys[key] == keystate:
-            return True
-        return False
-
-    def getMousePos(self):
-        return glfw.get_cursor_pos(self.window)
-
-    def checkQuit(self):
-        alt_pressed = glfw.get_key(self.window, glfw.KEY_LEFT_ALT) or glfw.get_key(
-            self.window, glfw.KEY_RIGHT_ALT)
-        if alt_pressed and glfw.get_key(self.window, glfw.KEY_F4):
-            glfw.set_window_should_close(self.window, 1)
-
-    def quit(self):
-        glfw.destroy_window(self.window)
-
-    def updateFunc(self, loop):
-        self.checkQuit()
-        self.checkKeys()
-        self.checkMouse()
 
 keyMap = {
     KeyCode.A: glfw.KEY_A,
