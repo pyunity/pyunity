@@ -106,9 +106,9 @@ autodoc_member_order = "bysource"
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
-# latex_documents = [
-#     ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
-# ]
+latex_documents = [
+    ("latexindex", "pyunity.tex", "PyUnity", "The PyUnity Team", "manual")
+]
 
 hoverxref_intersphinx = ["python"]
 hoverxref_default_type = "tooltip"
