@@ -9,7 +9,7 @@ from . import Logger, config
 from .errors import PyUnityException
 from .core import Component, GameObject
 from .values import SavableStruct, StructEntry, Clock
-from functools import update_wrapper, wraps
+import functools
 import threading
 import asyncio
 import inspect
@@ -32,7 +32,7 @@ class Event:
             raise PyUnityException(
                 "Provided callback component does not belong to a GameObject")
 
-        update_wrapper(self, func)
+        functools.update_wrapper(self, func)
 
         self.component = func.__self__
         self.name = func.__name__
@@ -61,7 +61,7 @@ class Event:
         return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
 
 def wrap(func):
-    @wraps(func)
+    @functools.wraps(func)
     def inner(loop):
         return func()
     return inner
@@ -84,7 +84,7 @@ class EventLoopManager:
         for i in range(len(functions)):
             sig = inspect.signature(functions[i])
             if len(sig.parameters) == 0:
-                functions[i] = wraps(functions[i])
+                functions[i] = wrap(functions[i])
 
         if main:
             self.updates.extend(functions)
