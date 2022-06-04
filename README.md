@@ -17,7 +17,8 @@
 ## Version 0.9.0 (in development)
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
-Game Engine. This does not mean that PyUnity
+Game Engine. It aims to be as close as possible
+to Unity itself. This does not mean that PyUnity
 are bindings for the UnityEngine. However,
 this project has been made to facilitate
 any programmer, beginner or advanced, novice
