@@ -262,7 +262,6 @@ from ._version import __version__
 
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
-    Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
 if ("PYUNITY_SPHINX_CHECK" not in os.environ and
         os.environ["PYUNITY_CHANGE_MODULE"] == "1"):
