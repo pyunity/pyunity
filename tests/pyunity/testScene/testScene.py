@@ -50,7 +50,7 @@ class TestScene(SceneTestCase):
         assert scene.FindGameObjectsByTagNumber(tagnum) == [a, c]
 
         assert isinstance(scene.FindComponentByType(Transform), Transform)
-        assert scene.FindComponentsByType(Transform) == [
+        assert scene.FindComponents(Transform) == [
             scene.mainCamera.transform, scene.gameObjects[1].transform,
             a.transform, b.transform, c.transform, d.transform]
 

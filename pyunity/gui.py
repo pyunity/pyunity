@@ -386,8 +386,8 @@ class RenderTarget(GuiRenderComponent):
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
-        renderers = self.scene.FindComponentsByType(MeshRenderer)
-        lights = self.scene.FindComponentsByType(Light)
+        renderers = self.scene.FindComponents(MeshRenderer)
+        lights = self.scene.FindComponents(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
         self.source.RenderSkybox()
