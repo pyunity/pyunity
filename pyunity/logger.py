@@ -58,8 +58,9 @@ timestamp = time.strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
 start = time.time()
 
 with open(folder / "latest.log", "w+") as f:
-    f.write("Timestamp Module:Line |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
-    f.write(time.strftime(TIME_FORMAT) + " |I| Started logger\n")
+    f.write("YYYY-MM-DD HH:MM:SS Module:Line |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
+    lineno = inspect.getframeinfo(inspect.currentframe()).lineno
+    f.write(time.strftime(TIME_FORMAT) + f" {__name__}:{lineno + 1} |I| Started logger\n")
 
 class Level:
     """
