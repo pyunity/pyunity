@@ -2,8 +2,8 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Event", "EventLoopManager", "WaitForSeconds", "WaitForEventLoop",
-           "WaitForUpdate", "WaitForFixedUpdate"]
+__all__ = ["Event", "EventLoopManager", "EventLoop", "WaitForSeconds", "WaitForEventLoop",
+           "WaitForUpdate", "WaitForFixedUpdate", "StartCoroutine"]
 
 from . import Logger, config
 from .errors import PyUnityException
@@ -205,6 +205,13 @@ class EventLoop(asyncio.SelectorEventLoop):
     def handleException(self, context):
         if "exception" in context:
             EventLoopManager.exceptions.append(context["exception"])
+
+def StartCoroutine(coro):
+    loop = asyncio.get_running_loop()
+    if not isinstance(loop, EventLoop):
+        Logger.LogLine(Logger.ERROR,
+                       f"Expected loop of type EventLoop, got {type(loop).__name__}")
+    loop.create_task(coro)
 
 class WaitForSeconds:
     def __init__(self, length):
