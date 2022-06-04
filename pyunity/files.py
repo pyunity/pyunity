@@ -115,6 +115,24 @@ class Behaviour(Component):
         """
         pass
 
+    async def OnPreRender(self):
+        """
+        Called before rendering happens.
+        Can be either a normal function or an
+        ``async`` function.
+
+        """
+        pass
+
+    async def OnPostRender(self):
+        """
+        Called after rendering happens.
+        Can be either a normal function or an
+        ``async`` function.
+
+        """
+        pass
+
     def OnDestroy(self):
         """
         Called at the end of each Scene. Cannot

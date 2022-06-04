@@ -3,6 +3,7 @@ __all__ = ["ChangeScene", "Runner", "WindowRunner", "NonInteractiveRunner", "new
 from .. import config, render, Logger
 from ..events import EventLoopManager, WaitForUpdate, WaitForFixedUpdate
 from ..errors import PyUnityException
+import functools
 import copy
 import os
 

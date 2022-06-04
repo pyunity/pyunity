@@ -23,7 +23,6 @@ from ..values import Vector3, Mathf
 from .. import Logger, config
 from ..physics.core import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
-from ..values import Clock
 from ..render import Camera, Light, Screen
 from pathlib import Path
 import os
@@ -507,10 +506,17 @@ class Scene(Asset):
                     if component.enabled:
                         createTask(loop, component.FixedUpdate, dt)
 
-    def Render(self):
+    def Render(self, loop=None):
         """
         Call the appropriate rendering functions
         of the Main Camera.
+
+        Parameters
+        ----------
+        loop : EventLoop
+            Event loop to run :meth:`Behaviour.OnPreRender`
+            and :meth:`Behaviour.OnPostRender` in. If None,
+            the above methods will not be called.
 
         """
         if self.mainCamera is None or not self.mainCamera.enabled:
@@ -518,10 +524,19 @@ class Scene(Asset):
             gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return
 
+        if loop is not None:
+            behaviours = self.FindComponents(Behaviour)
+            for component in behaviours:
+                createTask(loop, component.OnPreRender)
+
         renderers = self.FindComponents(MeshRenderer)
         lights = self.FindComponents(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
+
+        if loop is not None:
+            for component in behaviours:
+                createTask(loop, component.OnPostRender)
 
     def cleanUp(self):
         """

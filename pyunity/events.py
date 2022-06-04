@@ -48,7 +48,7 @@ class Event:
     def callSoon(self):
         if self.isAsync:
             loop = asyncio.get_running_loop()
-            loop.call_soon(self.trigger)
+            loop.create_task(self.trigger())
         else:
             if EventLoopManager.current is None:
                 raise PyUnityException("No EventLoopManager running")
@@ -77,13 +77,14 @@ class EventLoopManager:
         self.waiting = {}
         self.pending = []
         self.updates = []
+        self.mainLoop = None
         self.running = False
 
     def schedule(self, *funcs, main=False, ups=None, waitFor=None):
         functions = list(funcs)
         for i in range(len(functions)):
             sig = inspect.signature(functions[i])
-            if len(sig.parameters) == 0:
+            if "loop" not in sig.parameters:
                 functions[i] = wrap(functions[i])
 
         if main:
@@ -141,6 +142,9 @@ class EventLoopManager:
         for thread in self.threads:
             thread.start()
 
+        self.mainLoop = EventLoop()
+        asyncio.set_event_loop(self.mainLoop)
+
         while self.running:
             if len(EventLoopManager.exceptions):
                 from . import SceneManager
@@ -169,6 +173,9 @@ class EventLoopManager:
                 event.trigger()
             self.pending.clear()
 
+            self.mainLoop.call_soon(self.mainLoop.stop)
+            self.mainLoop.run_forever()
+
     def quit(self):
         self.running = False
         for thread in self.threads:
@@ -176,9 +183,11 @@ class EventLoopManager:
 
         self.threads = []
         self.loops = []
+        self.separateLoops = []
         self.waiting = {}
         self.pending = []
         self.updates = []
+        self.mainLoop = None
 
         EventLoopManager.current = None
 
