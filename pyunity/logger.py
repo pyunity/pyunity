@@ -115,12 +115,12 @@ elapsed = Elapsed()
 RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time.time() - start))
 ELAPSED_TIME = Special("ELAPSED_TIME", lambda: str(elapsed.tick()))
 
-def Log(*message):
+def Log(*message, stacklevel=1):
     """
     Logs a message with level OUTPUT.
 
     """
-    LogLine(OUTPUT, *message)
+    LogLine(OUTPUT, *message, stacklevel=stacklevel + 1)
 
 def LogLine(level, *message, stacklevel=1, silent=False):
     """
@@ -134,9 +134,15 @@ def LogLine(level, *message, stacklevel=1, silent=False):
         Level or severity of log.
 
     """
-    frameinfo = inspect.stack()[stacklevel]
-    module = frameinfo.frame.f_globals.get("__name__", "<string>")
-    location = f"{module}:{frameinfo.lineno}"
+    stack = inspect.stack()
+    if len(stack) <= stacklevel:
+        module = "sys"
+        lineno = 1
+    else:
+        frameinfo = inspect.stack()[stacklevel]
+        module = frameinfo.frame.f_globals.get("__name__", "<string>")
+        lineno = frameinfo.lineno
+    location = f"{module}:{lineno}"
 
     stamp = time.strftime(TIME_FORMAT)
     msg = " ".join(map(lambda a: str(a).rstrip(), message))
