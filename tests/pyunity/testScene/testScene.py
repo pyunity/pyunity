@@ -49,7 +49,7 @@ class TestScene(SceneTestCase):
         assert scene.FindGameObjectsByTagName("Custom Tag") == [a, c]
         assert scene.FindGameObjectsByTagNumber(tagnum) == [a, c]
 
-        assert isinstance(scene.FindComponentByType(Transform), Transform)
+        assert isinstance(scene.FindComponent(Transform), Transform)
         assert scene.FindComponents(Transform) == [
             scene.mainCamera.transform, scene.gameObjects[1].transform,
             a.transform, b.transform, c.transform, d.transform]
@@ -63,7 +63,7 @@ class TestScene(SceneTestCase):
         assert exc.value == "No tag at index -1; create a new tag with Tag.AddTag"
 
         with self.assertRaises(ComponentException) as exc:
-            scene.FindComponentByType(Canvas)
+            scene.FindComponent(Canvas)
         assert exc.value == "Cannot find component Canvas in scene"
 
     def testRootGameObjects(self):
