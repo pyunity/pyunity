@@ -402,13 +402,14 @@ class Scene(Asset):
         loop = EventLoop()
         if config.audio:
             audioListeners = self.FindComponentsByType(AudioListener)
+            audioListeners = [c for c in audioListeners if c.enabled]
             if len(audioListeners) == 0:
                 Logger.LogLine(
-                    Logger.WARN, "No AudioListeners found, audio is disabled")
+                    Logger.WARN, "No enabled AudioListeners found, audio is disabled")
                 self.audioListener = None
             elif len(audioListeners) > 1:
                 Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
-                               str(len(audioListeners)) + " found")
+                               str(len(audioListeners)) + " enabled")
                 self.audioListener = None
             else:
                 self.audioListener = audioListeners[0]
@@ -417,8 +418,13 @@ class Scene(Asset):
             self.audioListener = None
 
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.components:
+                if not component.enabled:
+                    continue
                 if isinstance(component, Behaviour):
+                    component.Awake()
                     createTask(loop, component.Start)
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
@@ -462,10 +468,15 @@ class Scene(Asset):
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
             if self.mainCamera is not None and self.mainCamera.canvas is not None:
-                self.mainCamera.canvas.Update(loop)
+                if self.mainCamera.enabled and self.mainCamera.canvas.enabled:
+                    self.mainCamera.canvas.Update(loop)
 
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.components:
+                if not component.enabled:
+                    continue
                 if isinstance(component, Behaviour):
                     createTask(loop, component.Update, dt)
                 elif isinstance(component, AudioSource):
@@ -474,8 +485,11 @@ class Scene(Asset):
                             component.Play()
 
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.GetComponents(Behaviour):
-                createTask(loop, component.LateUpdate, dt)
+                if component.enabled:
+                    createTask(loop, component.LateUpdate, dt)
 
     def updateFixed(self, loop):
         dt = max(time.perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
@@ -483,31 +497,11 @@ class Scene(Asset):
         if self.physics:
             self.collManager.Step(dt)
             for gameObject in self.gameObjects:
+                if not gameObject.enabled:
+                    continue
                 for component in gameObject.GetComponents(Behaviour):
-                    createTask(loop, component.FixedUpdate, dt)
-
-    def noInteractive(self):
-        """
-        Run scene without rendering.
-
-        """
-        done = False
-        clock = Clock()
-        clock.Start(config.fps)
-        while not done:
-            try:
-                self.updateScripts()
-                clock.Maintain()
-            except KeyboardInterrupt:
-                Logger.LogLine(Logger.DEBUG, "Exiting")
-                done = True
-
-    def update(self):
-        """Updating function to pass to the window provider."""
-        self.updateScripts()
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.Render()
+                    if component.enabled:
+                        createTask(loop, component.FixedUpdate, dt)
 
     def Render(self):
         """
@@ -515,7 +509,7 @@ class Scene(Asset):
         of the Main Camera.
 
         """
-        if self.mainCamera is None:
+        if self.mainCamera is None or not self.mainCamera.enabled:
             gl.glClearColor(0, 0, 0, 1)
             gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return

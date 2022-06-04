@@ -51,9 +51,20 @@ class Behaviour(Component):
 
     """
 
+    def Awake(self):
+        """
+        Called every time a scene is loaded up,
+        regardless whether the Behaviour is
+        enabled or not. Cannot be an ``async``
+        function.
+
+        """
+        pass
+
     async def Start(self):
         """
         Called every time a scene is loaded up.
+        Only called when the Behaviour is enabled.
 
         """
         pass

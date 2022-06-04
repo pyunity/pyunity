@@ -488,7 +488,10 @@ def SaveGameObjects(gameObjects, data, project):
     for gameObject in gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
-            attrs = {"gameObject": ObjectInfo.SkipConv(gameObjectID)}
+            attrs = {
+                "gameObject": ObjectInfo.SkipConv(gameObjectID),
+                "enabled": gameObject.enabled
+            }
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
@@ -628,6 +631,7 @@ def LoadGameObjects(data, project):
     for part in componentInfo + behaviourInfo:
         gameObjectID = part.attrs.pop("gameObject")
         gameObject = project._idMap[gameObjectID]
+        enabled = part.attrs.pop("enabled", "True") == "True"
 
         if part.name.endswith("(Component)"):
             component = gameObject.AddComponent(componentMap[part.name[:-11]])
@@ -639,6 +643,7 @@ def LoadGameObjects(data, project):
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
+        component.enabled = enabled
 
         addUuid(component, part.uuid)
 
