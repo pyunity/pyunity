@@ -1,9 +1,8 @@
 __all__ = ["ChangeScene", "Runner", "WindowRunner", "NonInteractiveRunner", "newRunner"]
 
 from .. import config, render, Logger
-from ..events import EventLoopManager, WaitForUpdate, WaitForFixedUpdate
+from ..events import EventLoopManager, WaitForUpdate, WaitForFixedUpdate, WaitForRender
 from ..errors import PyUnityException
-import functools
 import copy
 import os
 
@@ -94,7 +93,9 @@ class WindowRunner(Runner):
 
     def load(self):
         super(WindowRunner, self).load([self.scene.updateScripts, self.window.updateFunc])
-        self.eventLoopManager.schedule(self.scene.Render, self.window.refresh, main=True)
+        self.eventLoopManager.schedule(
+            self.scene.Render, self.window.refresh,
+            main=True, waitFor=WaitForRender)
         if self.scene.mainCamera is not None:
             self.window.setResize(self.scene.mainCamera.Resize)
         self.scene.startOpenGL()

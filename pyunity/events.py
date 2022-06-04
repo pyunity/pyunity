@@ -3,7 +3,7 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["Event", "EventLoopManager", "EventLoop", "WaitForSeconds", "WaitForEventLoop",
-           "WaitForUpdate", "WaitForFixedUpdate", "StartCoroutine"]
+           "WaitForUpdate", "WaitForFixedUpdate", "WaitForRender", "StartCoroutine"]
 
 from . import Logger, config
 from .errors import PyUnityException
@@ -78,6 +78,7 @@ class EventLoopManager:
         self.pending = []
         self.updates = []
         self.mainLoop = None
+        self.mainWaitFor = None
         self.running = False
 
     def schedule(self, *funcs, main=False, ups=None, waitFor=None):
@@ -89,12 +90,12 @@ class EventLoopManager:
 
         if main:
             self.updates.extend(functions)
+            self.mainWaitFor = waitFor
         else:
             if ups is None:
                 raise PyUnityException("ups argument is required if main is False")
 
             self.waiting[waitFor] = []
-
             loop = EventLoop()
             self.loops.append(loop)
             def inner():
@@ -133,6 +134,8 @@ class EventLoopManager:
             raise PyUnityException("Only one EventLoopManager can be running")
         EventLoopManager.current = self
 
+        self.waiting[self.mainWaitFor] = []
+
         for loop in self.separateLoops:
             loop.call_soon(loop.stop)
             loop.run_forever() # Run until awaits are encountered
@@ -165,6 +168,9 @@ class EventLoopManager:
                                     f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
                         Logger.LogException(exception)
                     EventLoopManager.exceptions.clear()
+
+            for waiter in self.waiting[self.mainWaitFor]:
+                waiter.loop.call_soon_threadsafe(waiter.event.set)
 
             for func in self.updates:
                 func(loop)
@@ -248,4 +254,7 @@ class WaitForUpdate(WaitForEventLoop):
     pass
 
 class WaitForFixedUpdate(WaitForEventLoop):
+    pass
+
+class WaitForRender(WaitForEventLoop):
     pass
