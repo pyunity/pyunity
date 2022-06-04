@@ -2,11 +2,9 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
 from contextlib import ExitStack
 import sys
-
-from pyunity.events import WaitForUpdate
 
 if sys.version_info < (3, 9):
     from importlib_resources import files, as_file
@@ -31,14 +29,13 @@ class FPSTracker(Behaviour):
         frames = []
         time = 0
         while True:
-            dt = await WaitForUpdate()
+            dt = await WaitForRender()
             time += dt
             frames.append(dt)
             if len(frames) > 200:
                 frames.pop(0)
-            if time > 0.1:
-                self.text.text = str(1 / (sum(frames) / len(frames)))
-                time = 0
+            self.text.text = str(1 / (sum(frames) / len(frames)))
+            time = 0
 
 class CheckboxTracker(Behaviour):
     check = ShowInInspector(CheckBox)
