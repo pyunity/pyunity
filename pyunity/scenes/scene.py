@@ -137,7 +137,7 @@ class Scene(Asset):
         for gameObject in args:
             self.Add(gameObject)
 
-    def Remove(self, gameObject):
+    def Destroy(self, gameObject):
         """
         Remove a GameObject from the scene.
 
@@ -158,6 +158,10 @@ class Scene(Asset):
                 "The provided GameObject is not part of the Scene")
 
         pending = [a.gameObject for a in gameObject.transform.GetDescendants()]
+        for gameObject in pending:
+            for component in gameObject.GetComponents(Behaviour):
+                component.OnDestroy()
+
         for gameObject in pending:
             if gameObject in self.gameObjects:
                 gameObject.scene = None
@@ -269,7 +273,7 @@ class Scene(Asset):
             raise GameObjectException(
                 f"No tag at index {num}; create a new tag with Tag.AddTag")
 
-    def FindComponentByType(self, component):
+    def FindComponent(self, component):
         """
         Finds the first matching Component that is in the Scene.
 
@@ -298,7 +302,7 @@ class Scene(Asset):
                 f"Cannot find component {component.__name__} in scene")
         return query
 
-    def FindComponentsByType(self, component):
+    def FindComponents(self, component):
         """
         Finds all matching Components that are in the Scene.
 
@@ -401,7 +405,7 @@ class Scene(Asset):
     def startScripts(self):
         loop = EventLoop()
         if config.audio:
-            audioListeners = self.FindComponentsByType(AudioListener)
+            audioListeners = self.FindComponents(AudioListener)
             audioListeners = [c for c in audioListeners if c.enabled]
             if len(audioListeners) == 0:
                 Logger.LogLine(
@@ -514,8 +518,8 @@ class Scene(Asset):
             gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return
 
-        renderers = self.FindComponentsByType(MeshRenderer)
-        lights = self.FindComponentsByType(Light)
+        renderers = self.FindComponents(MeshRenderer)
+        lights = self.FindComponents(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
 
@@ -527,3 +531,7 @@ class Scene(Asset):
         """
         if self.audioListener is not None:
             self.audioListener.DeInit()
+
+        for gameObject in self.gameObjects:
+            for component in gameObject.GetComponents(Behaviour):
+                component.OnDestroy()

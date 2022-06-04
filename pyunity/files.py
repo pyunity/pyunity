@@ -65,6 +65,8 @@ class Behaviour(Component):
         """
         Called every time a scene is loaded up.
         Only called when the Behaviour is enabled.
+        Can be either a normal function or an
+        ``async`` function.
 
         """
         pass
@@ -72,6 +74,8 @@ class Behaviour(Component):
     async def Update(self, dt):
         """
         Called every frame.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
@@ -85,6 +89,8 @@ class Behaviour(Component):
     async def FixedUpdate(self, dt):
         """
         Called every frame, in each physics step.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
@@ -97,12 +103,22 @@ class Behaviour(Component):
     async def LateUpdate(self, dt):
         """
         Called every frame, after physics processing.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
         dt : float
             Time since last frame, sent by the scene
             that the Behaviour is in.
+
+        """
+        pass
+
+    def OnDestroy(self):
+        """
+        Called at the end of each Scene. Cannot
+        be an ``async`` function.
 
         """
         pass
