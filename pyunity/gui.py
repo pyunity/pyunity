@@ -60,7 +60,7 @@ class Canvas(Component):
                     createTask(loop, comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
-decorator(Camera)
+decorator.apply(Camera)
 
 @SavableStruct(
     min=StructEntry(Vector2, required=True),
@@ -380,8 +380,8 @@ class RenderTarget(GuiRenderComponent):
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
-        renderers = self.scene.FindComponentsByType(MeshRenderer)
-        lights = self.scene.FindComponentsByType(Light)
+        renderers = self.scene.FindComponents(MeshRenderer)
+        lights = self.scene.FindComponents(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
         self.source.RenderSkybox()

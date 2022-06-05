@@ -203,6 +203,6 @@ class AudioListener(SingleComponent):
         the AudioClips.
 
         """
-        for source in self.scene.FindComponentsByType(AudioSource):
+        for source in self.scene.FindComponents(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)

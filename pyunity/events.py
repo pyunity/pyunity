@@ -2,8 +2,8 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Event", "EventLoopManager", "WaitForSeconds", "WaitForEventLoop",
-           "WaitForUpdate", "WaitForFixedUpdate"]
+__all__ = ["Event", "EventLoopManager", "EventLoop", "WaitForSeconds", "WaitForEventLoop",
+           "WaitForUpdate", "WaitForFixedUpdate", "WaitForRender", "StartCoroutine"]
 
 from . import Logger, config
 from .errors import PyUnityException
@@ -48,7 +48,7 @@ class Event:
     def callSoon(self):
         if self.isAsync:
             loop = asyncio.get_running_loop()
-            loop.call_soon(self.trigger)
+            loop.create_task(self.trigger())
         else:
             if EventLoopManager.current is None:
                 raise PyUnityException("No EventLoopManager running")
@@ -77,23 +77,25 @@ class EventLoopManager:
         self.waiting = {}
         self.pending = []
         self.updates = []
+        self.mainLoop = None
+        self.mainWaitFor = None
         self.running = False
 
     def schedule(self, *funcs, main=False, ups=None, waitFor=None):
         functions = list(funcs)
         for i in range(len(functions)):
             sig = inspect.signature(functions[i])
-            if len(sig.parameters) == 0:
+            if "loop" not in sig.parameters:
                 functions[i] = wrap(functions[i])
 
         if main:
             self.updates.extend(functions)
+            self.mainWaitFor = waitFor
         else:
             if ups is None:
                 raise PyUnityException("ups argument is required if main is False")
 
             self.waiting[waitFor] = []
-
             loop = EventLoop()
             self.loops.append(loop)
             def inner():
@@ -132,6 +134,8 @@ class EventLoopManager:
             raise PyUnityException("Only one EventLoopManager can be running")
         EventLoopManager.current = self
 
+        self.waiting[self.mainWaitFor] = []
+
         for loop in self.separateLoops:
             loop.call_soon(loop.stop)
             loop.run_forever() # Run until awaits are encountered
@@ -140,6 +144,9 @@ class EventLoopManager:
         self.running = True
         for thread in self.threads:
             thread.start()
+
+        self.mainLoop = EventLoop()
+        asyncio.set_event_loop(self.mainLoop)
 
         while self.running:
             if len(EventLoopManager.exceptions):
@@ -162,12 +169,18 @@ class EventLoopManager:
                         Logger.LogException(exception)
                     EventLoopManager.exceptions.clear()
 
+            for waiter in self.waiting[self.mainWaitFor]:
+                waiter.loop.call_soon_threadsafe(waiter.event.set)
+
             for func in self.updates:
                 func(loop)
 
             for event in self.pending:
                 event.trigger()
             self.pending.clear()
+
+            self.mainLoop.call_soon(self.mainLoop.stop)
+            self.mainLoop.run_forever()
 
     def quit(self):
         self.running = False
@@ -176,9 +189,11 @@ class EventLoopManager:
 
         self.threads = []
         self.loops = []
+        self.separateLoops = []
         self.waiting = {}
         self.pending = []
         self.updates = []
+        self.mainLoop = None
 
         EventLoopManager.current = None
 
@@ -206,6 +221,13 @@ class EventLoop(asyncio.SelectorEventLoop):
         if "exception" in context:
             EventLoopManager.exceptions.append(context["exception"])
 
+def StartCoroutine(coro):
+    loop = asyncio.get_running_loop()
+    if not isinstance(loop, EventLoop):
+        Logger.LogLine(Logger.ERROR,
+                       f"Expected loop of type EventLoop, got {type(loop).__name__}")
+    loop.create_task(coro)
+
 class WaitForSeconds:
     def __init__(self, length):
         self.length = length
@@ -232,4 +254,7 @@ class WaitForUpdate(WaitForEventLoop):
     pass
 
 class WaitForFixedUpdate(WaitForEventLoop):
+    pass
+
+class WaitForRender(WaitForEventLoop):
     pass

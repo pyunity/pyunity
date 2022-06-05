@@ -130,6 +130,10 @@ class Shader:
         digest = sha256.hexdigest()
         file = folder / (digest + ".bin")
 
+        self.loadCache(file)
+        if self.compiled:
+            return
+
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
         gl.glCompileShader(vertexShader)
