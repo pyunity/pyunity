@@ -393,18 +393,7 @@ def SaveMat(material, project, filename):
     if material.texture is None:
         texID = "None"
     else:
-        if material.texture not in project._ids:
-            texID = str(uuid4())
-            project._ids[material.texture] = texID
-            project._idMap[texID] = material.texture
-
-            name = Path(filename).name.rsplit(".")[0]
-            path = project.path / "Textures" / (name + ".png")
-            file = File(path, texID)
-            project.ImportFile(file, write=False)
-            material.texture.img.save(path)
-        else:
-            texID = project._ids[material.texture]
+        texID = project._ids[material.texture]
 
     colStr = str(material.color)
 
