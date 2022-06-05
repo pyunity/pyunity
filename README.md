@@ -37,21 +37,21 @@ based on Ubuntu or Debian, use:
     > pip3 install pyunity
 
 To install PyUnity for other operating systems,
-use pip:
+use:
 
     > pip install pyunity
 
 Alternatively, you can clone the repository
 to build the package from source. The latest
-version is on the master branch and you can
-build as follows:
+stable version is on the master branch and
+you can build as follows:
 
     > git clone https://github.com/pyunity/pyunity
     > git checkout master
     > pip install .
 
-The latest builds are on the ``develop`` branch
-which is the default branch. These builds are
+The latest unstable version is on the ``develop``
+branch which is the default branch. These builds are
 sometimes broken, so use at your own risk.
 
     > git clone https://github.com/pyunity/pyunity
@@ -60,9 +60,11 @@ sometimes broken, so use at your own risk.
 Its only dependencies are PyOpenGL, PySDL2,
 Pillow and PyGLM. Microsoft Visual
 C++ Build Tools are required on Windows
-for building yourself. GLFW can be optionally
-installed if you would like to use the GLFW
-window provider.
+for building yourself, but it can be disabled by
+setting the `cython` environment variable to
+`0`, at the cost of being less optimized.
+GLFW can be optionally installed if you would
+like to use the GLFW window provider.
 
 ### Links
 
@@ -71,8 +73,8 @@ For more information check out
 There we offer some tutorials on the basics of
 PyUnity, as well as all modules and utility functions
 that come with it. Examples are located at subfolders in
-`pyunity/examples` so do be sure to check them out as a
-starting point.
+[pyunity/examples](https://github.com/pyunity/pyunity/tree/develop/pyunity/examples)
+so do be sure to check them out as a starting point.
 
 If you would like to contribute, please
 first see the [contributing guidelines](https://github.com/pyunity/pyunity/blob/develop/docs/contributing.md),
