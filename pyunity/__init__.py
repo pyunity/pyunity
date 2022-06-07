@@ -221,6 +221,8 @@ __summary__ = "A pure Python 3D Game Engine that was inspired by the structure o
 __title__ = "pyunity"
 __uri__ = "https://docs.pyunity.x10.bz/en/latest/"
 
+from . import resources
+
 # Logger must start first, config straight after
 from . import logger as Logger
 from . import config
