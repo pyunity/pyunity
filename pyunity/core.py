@@ -377,7 +377,7 @@ class _AddFields(IncludeInstanceMixin):
         selfref = self.selfref
         class _decorator:
             def apply(self, cls):
-                return self(cls)
+                return self.__call__(cls)
 
             def __call__(self, cls):
                 for name, value in kwargs.items():
@@ -431,7 +431,10 @@ class Component(SavesProjectID, metaclass=ComponentType):
     @classmethod
     def __init_subclass__(cls):
         if "PYUNITY_SPHINX_CHECK" not in os.environ:
+            protected = ["gameObject", "transform", "enabled", "scene"]
             for name, val in cls._saved.items():
+                if name in protected:
+                    raise PyUnityException(f"Cannot use an attribute named one of {protected}")
                 if val.name is None:
                     val.name = name
                 setattr(cls, name, val.default)

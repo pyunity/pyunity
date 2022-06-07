@@ -18,11 +18,12 @@ import os
 import sys
 import platform
 import traceback
+import inspect
 import re
 import atexit
 import threading
+import time
 from pathlib import Path
-from time import strftime, time
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -45,7 +46,7 @@ def getDataFolder():
         folder = Path.home() / "Library/Application Support/PyUnity"
     else:
         # Linux
-        folder = Path("/opt/pyunity")
+        folder = Path("/tmp/pyunity")
     return folder
 
 folder = getDataFolder() / "Logs"
@@ -53,12 +54,13 @@ if not folder.is_dir():
     folder.mkdir(parents=True, exist_ok=True)
 
 stream = sys.stdout
-timestamp = strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
-start = time()
+timestamp = time.strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
+start = time.time()
 
 with open(folder / "latest.log", "w+") as f:
-    f.write("Timestamp |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
-    f.write(strftime(TIME_FORMAT) + " |I| Started logger\n")
+    f.write("YYYY-MM-DD HH:MM:SS Module:Line |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
+    lineno = inspect.getframeinfo(inspect.currentframe()).lineno
+    f.write(time.strftime(TIME_FORMAT) + f" {__name__}:{lineno + 1} |I| Started logger\n")
 
 class Level:
     """
@@ -102,25 +104,25 @@ class Special:
 
 class Elapsed:
     def __init__(self):
-        self.time = time()
+        self.time = time.time()
 
     def tick(self):
         old = self.time
-        self.time = time()
+        self.time = time.time()
         return self.time - old
 
 elapsed = Elapsed()
-RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time() - start))
+RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time.time() - start))
 ELAPSED_TIME = Special("ELAPSED_TIME", lambda: str(elapsed.tick()))
 
-def Log(*message):
+def Log(*message, stacklevel=1):
     """
     Logs a message with level OUTPUT.
 
     """
-    LogLine(OUTPUT, *message)
+    LogLine(OUTPUT, *message, stacklevel=stacklevel + 1)
 
-def LogLine(level, *message, silent=False):
+def LogLine(level, *message, stacklevel=1, silent=False):
     """
     Logs a line in ``latest.log`` found in these two locations:
     Windows: ``%appdata%\\PyUnity\\Logs\\latest.log``
@@ -132,15 +134,25 @@ def LogLine(level, *message, silent=False):
         Level or severity of log.
 
     """
-    time = strftime(TIME_FORMAT)
+    stack = inspect.stack()
+    if len(stack) <= stacklevel:
+        module = "sys"
+        lineno = 1
+    else:
+        frameinfo = inspect.stack()[stacklevel]
+        module = frameinfo.frame.f_globals.get("__name__", "<string>")
+        lineno = frameinfo.lineno
+    location = f"{module}:{lineno}"
+
+    stamp = time.strftime(TIME_FORMAT)
     msg = " ".join(map(lambda a: str(a).rstrip(), message))
     if level == WARN:
-        msg = "Warning: " + msg
+        msg = f"Warning: " + msg
     if msg.count("\n") > 0:
         for line in msg.split("\n"):
             if not line.isspace():
-                LogLine(level, line, silent=silent)
-        return time, msg
+                LogLine(level, line, stacklevel=stacklevel + 1, silent=silent)
+        return stamp, msg
     if not silent:
         output = False
         if level == DEBUG:
@@ -154,10 +166,10 @@ def LogLine(level, *message, silent=False):
             else:
                 stream.write(msg + "\n")
     with open(folder / "latest.log", "a") as f:
-        f.write(f"{time} |{level.abbr}| {msg}\n")
-    return time, msg
+        f.write(f"{stamp} {location} |{level.abbr}| {msg}\n")
+    return stamp, msg
 
-def LogException(e, silent=False):
+def LogException(e, stacklevel=1, silent=False):
     """
     Log an exception.
 
@@ -171,7 +183,7 @@ def LogException(e, silent=False):
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
-                LogLine(ERROR, line2, silent=silent)
+                LogLine(ERROR, line2, stacklevel=stacklevel + 1, silent=silent)
 
 def LogTraceback(exctype, value, tb):
     """
@@ -195,7 +207,7 @@ def LogTraceback(exctype, value, tb):
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
-                LogLine(ERROR, line2)
+                LogLine(ERROR, line2, stacklevel=2)
 
 sys.excepthook = LogTraceback
 
@@ -213,7 +225,7 @@ def LogSpecial(level, type):
         The special line to log
 
     """
-    LogLine(level, "(" + type.name + ")", type.func())
+    LogLine(level, "(" + type.name + ")", type.func(), stacklevel=2)
 
 @atexit.register
 def Save():

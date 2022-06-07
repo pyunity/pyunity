@@ -9,89 +9,21 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from .meshes import Color, RGB
+from .meshes import Color, RGB, floatSize
 from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
+from .resources import getPath
 from .files import Skybox, convert
 from . import config, Logger
-from contextlib import ExitStack
-from typing import Dict
-from ctypes import c_float, c_ubyte, c_void_p
+from ctypes import c_float
 from pathlib import Path
 import OpenGL.GL as gl
 import collections.abc
-import atexit
 import enum
 import hashlib
 import glm
-import itertools
-import sys
 import os
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
-
-floatSize = gl.sizeof(c_float)
-
-def genBuffers(mesh):
-    """
-    Create buffers for a mesh.
-
-    Parameters
-    ----------
-    mesh : Mesh
-        Mesh to create buffers for
-
-    Returns
-    -------
-    tuple
-        Tuple containing a vertex buffer object and
-        an index buffer object.
-    """
-    data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
-                for item in zip(mesh.verts, mesh.normals, mesh.texcoords)]))
-    indices = list(itertools.chain(*mesh.triangles))
-
-    vbo = gl.glGenBuffers(1)
-    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, vbo)
-    gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
-                    convert(c_float, data), gl.GL_STATIC_DRAW)
-    ibo = gl.glGenBuffers(1)
-    gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, ibo)
-    gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices),
-                    convert(c_ubyte, indices), gl.GL_STATIC_DRAW)
-    return vbo, ibo
-
-def genArray():
-    """
-    Generate a vertex array object.
-
-    Returns
-    -------
-    Any
-        A vertex buffer object of floats.
-        Has 3 elements::
-
-            # vertex    # normal    # texcoord
-            x, y, z,    a, b, c,    u, v
-
-
-    """
-    vao = gl.glGenVertexArrays(1)
-    gl.glBindVertexArray(vao)
-    gl.glVertexAttribPointer(
-        0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, None)
-    gl.glEnableVertexAttribArray(0)
-    gl.glVertexAttribPointer(
-        1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(3 * floatSize))
-    gl.glEnableVertexAttribArray(1)
-    gl.glVertexAttribPointer(
-        2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(6 * floatSize))
-    gl.glEnableVertexAttribArray(2)
-    return vao
 
 def fillScreen(scale=1):
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)
@@ -197,6 +129,10 @@ class Shader:
         sha256.update(hex(formats[0])[2:].encode())
         digest = sha256.hexdigest()
         file = folder / (digest + ".bin")
+
+        self.loadCache(file)
+        if self.compiled:
+            return
 
         vertexShader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
         gl.glShaderSource(vertexShader, self.vertex, 1, None)
@@ -347,17 +283,13 @@ class Shader:
                 self.compile()
             gl.glUseProgram(self.program)
 
-stack = ExitStack()
-atexit.register(stack.close)
-ref = files("pyunity") / "shaders"
-
-shaders: Dict[str, Shader] = dict()
-skyboxes: Dict[str, Skybox] = dict()
-skyboxes["Water"] = Skybox(stack.enter_context(as_file(ref / "skybox/textures")))
-Shader.fromFolder(stack.enter_context(as_file(ref / "standard")), "Standard")
-Shader.fromFolder(stack.enter_context(as_file(ref / "skybox")), "Skybox")
-Shader.fromFolder(stack.enter_context(as_file(ref / "gui")), "GUI")
-Shader.fromFolder(stack.enter_context(as_file(ref / "depth")), "Depth")
+shaders = {}
+skyboxes = {}
+Shader.fromFolder(getPath("shaders/standard"), "Standard")
+Shader.fromFolder(getPath("shaders/skybox"), "Skybox")
+Shader.fromFolder(getPath("shaders/gui"), "GUI")
+Shader.fromFolder(getPath("shaders/depth"), "Depth")
+skyboxes["Water"] = Skybox(getPath("shaders/skybox/textures"))
 
 def compileShaders():
     if os.environ["PYUNITY_INTERACTIVE"] == "1":

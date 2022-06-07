@@ -21,13 +21,27 @@ class ABCWindow(metaclass=ABCMeta):
     ----------
     name : str
         Name to display on window title.
-    resize : function
-        Resize callback
 
     """
 
     @abstractmethod
-    def __init__(self, name, resize):
+    def __init__(self, name):
+        pass
+
+    @abstractmethod
+    def setResize(self, resize):
+        """
+        Sets the resize function, which has a signature
+        of ``def Resize(width, height):``. This should
+        be bound to the appropriate callback handler
+        of the window.
+
+        Parameters
+        ----------
+        resize : function
+            Resize function
+
+        """
         pass
 
     @abstractmethod
@@ -145,25 +159,25 @@ class ABCWindow(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def quit(self):
+    def updateFunc(self):
         """
-        Closes the window.
+        Update the input of keys and mouse.
+        Also checks to quit. Don't close the
+        window in this method. Close it in
+        :meth:`quit` instead.
+
+        Raises
+        ------
+        PyUnityExit
+            When the window should
 
         """
         pass
 
     @abstractmethod
-    def start(self, updateFunc):
+    def quit(self):
         """
-        Runs the main loop of the window, ensuring
-        that it is closed at the end of the function.
-
-        Parameters
-        ----------
-        updateFunc : function
-            Function taking zero parameters. This must be
-            set to `self.updateFunc` to ensure scene changes
-            work as intended.
+        Closes the window.
 
         """
         pass

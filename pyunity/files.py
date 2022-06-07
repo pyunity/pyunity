@@ -51,16 +51,31 @@ class Behaviour(Component):
 
     """
 
-    def Start(self):
+    def Awake(self):
         """
-        Called every time a scene is loaded up.
+        Called every time a scene is loaded up,
+        regardless whether the Behaviour is
+        enabled or not. Cannot be an ``async``
+        function.
 
         """
         pass
 
-    def Update(self, dt):
+    async def Start(self):
+        """
+        Called every time a scene is loaded up.
+        Only called when the Behaviour is enabled.
+        Can be either a normal function or an
+        ``async`` function.
+
+        """
+        pass
+
+    async def Update(self, dt):
         """
         Called every frame.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
@@ -71,9 +86,11 @@ class Behaviour(Component):
         """
         pass
 
-    def FixedUpdate(self, dt):
+    async def FixedUpdate(self, dt):
         """
         Called every frame, in each physics step.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
@@ -83,15 +100,43 @@ class Behaviour(Component):
         """
         pass
 
-    def LateUpdate(self, dt):
+    async def LateUpdate(self, dt):
         """
         Called every frame, after physics processing.
+        Can be either a normal function or an
+        ``async`` function.
 
         Parameters
         ----------
         dt : float
             Time since last frame, sent by the scene
             that the Behaviour is in.
+
+        """
+        pass
+
+    async def OnPreRender(self):
+        """
+        Called before rendering happens.
+        Can be either a normal function or an
+        ``async`` function.
+
+        """
+        pass
+
+    async def OnPostRender(self):
+        """
+        Called after rendering happens.
+        Can be either a normal function or an
+        ``async`` function.
+
+        """
+        pass
+
+    def OnDestroy(self):
+        """
+        Called at the end of each Scene. Cannot
+        be an ``async`` function.
 
         """
         pass
@@ -489,7 +534,6 @@ class Prefab(Asset):
 
     def SaveAsset(self, ctx):
         for asset in self.assets:
-            asset.SaveAsset(ctx)
             ctx.project.ImportAsset(asset, ctx.gameObject)
 
         path = ctx.project.path / ctx.filename

@@ -49,8 +49,8 @@ class TestScene(SceneTestCase):
         assert scene.FindGameObjectsByTagName("Custom Tag") == [a, c]
         assert scene.FindGameObjectsByTagNumber(tagnum) == [a, c]
 
-        assert isinstance(scene.FindComponentByType(Transform), Transform)
-        assert scene.FindComponentsByType(Transform) == [
+        assert isinstance(scene.FindComponent(Transform), Transform)
+        assert scene.FindComponents(Transform) == [
             scene.mainCamera.transform, scene.gameObjects[1].transform,
             a.transform, b.transform, c.transform, d.transform]
 
@@ -63,7 +63,7 @@ class TestScene(SceneTestCase):
         assert exc.value == "No tag at index -1; create a new tag with Tag.AddTag"
 
         with self.assertRaises(ComponentException) as exc:
-            scene.FindComponentByType(Canvas)
+            scene.FindComponent(Canvas)
         assert exc.value == "Cannot find component Canvas in scene"
 
     def testRootGameObjects(self):
@@ -92,7 +92,7 @@ class TestScene(SceneTestCase):
         assert len(scene.gameObjects) == 0
         assert scene.mainCamera is None
 
-    def testRemove(self):
+    def testDestroy(self):
         class Test(Behaviour):
             other = ShowInInspector(GameObject)
 
@@ -101,7 +101,7 @@ class TestScene(SceneTestCase):
         # Exception
         fake = GameObject("Not in scene")
         with self.assertRaises(PyUnityException) as exc:
-            scene.Remove(fake)
+            scene.Destroy(fake)
         assert exc.value == "The provided GameObject is not part of the Scene"
 
         # Correct
@@ -112,12 +112,12 @@ class TestScene(SceneTestCase):
         assert c.scene is scene
         assert c in scene.gameObjects
 
-        scene.Remove(c)
+        scene.Destroy(c)
         assert c.scene is None
         assert c not in scene.gameObjects
 
         # Multiple
-        scene.Remove(a)
+        scene.Destroy(a)
         assert b.scene is None
         assert b not in scene.gameObjects
         assert c.scene is None
@@ -132,7 +132,7 @@ class TestScene(SceneTestCase):
         target.AddComponent(RenderTarget).source = camera
         scene.AddMultiple(cam, test, target)
 
-        scene.Remove(cam)
+        scene.Destroy(cam)
         assert b.scene is None
         assert cam not in scene.gameObjects
         assert test.GetComponent(Test).other is None
@@ -140,7 +140,7 @@ class TestScene(SceneTestCase):
 
         # Main Camera
         with Logger.TempRedirect(silent=True) as r:
-            scene.Remove(scene.mainCamera.gameObject)
+            scene.Destroy(scene.mainCamera.gameObject)
         assert r.get() == "Warning: Removing Main Camera from scene 'Scene'\n"
 
     def testHas(self):

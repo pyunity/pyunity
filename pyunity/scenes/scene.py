@@ -17,25 +17,30 @@ __all__ = ["Scene"]
 from ..meshes import MeshRenderer
 from ..audio import AudioListener, AudioSource
 from ..core import GameObject, Tag, Component
+from ..events import EventLoop
 from ..files import Behaviour, Asset
 from ..values import Vector3, Mathf
 from .. import Logger, config
 from ..physics.core import CollManager
 from ..errors import PyUnityException, ComponentException, GameObjectException
-from ..values import Clock
-from ..render import Camera, Light, Screen, genBuffers, genArray
-from inspect import signature
+from ..render import Camera, Light, Screen
 from pathlib import Path
-from time import time
 import os
 import sys
-import glm
 import uuid
+import time
+import inspect
 
 if os.environ["PYUNITY_INTERACTIVE"] == "1":
     import OpenGL.GL as gl
 
 disallowedChars = set(":*/\"\\?<>|")
+
+def createTask(loop, coro, *args):
+    if inspect.iscoroutinefunction(coro):
+        loop.create_task(coro(*args))
+    else:
+        loop.call_soon(coro, *args)
 
 class Scene(Asset):
     """
@@ -131,7 +136,7 @@ class Scene(Asset):
         for gameObject in args:
             self.Add(gameObject)
 
-    def Remove(self, gameObject):
+    def Destroy(self, gameObject):
         """
         Remove a GameObject from the scene.
 
@@ -152,6 +157,10 @@ class Scene(Asset):
                 "The provided GameObject is not part of the Scene")
 
         pending = [a.gameObject for a in gameObject.transform.GetDescendants()]
+        for gameObject in pending:
+            for component in gameObject.GetComponents(Behaviour):
+                component.OnDestroy()
+
         for gameObject in pending:
             if gameObject in self.gameObjects:
                 gameObject.scene = None
@@ -263,7 +272,7 @@ class Scene(Asset):
             raise GameObjectException(
                 f"No tag at index {num}; create a new tag with Tag.AddTag")
 
-    def FindComponentByType(self, component):
+    def FindComponent(self, component):
         """
         Finds the first matching Component that is in the Scene.
 
@@ -292,7 +301,7 @@ class Scene(Asset):
                 f"Cannot find component {component.__name__} in scene")
         return query
 
-    def FindComponentsByType(self, component):
+    def FindComponents(self, component):
         """
         Finds all matching Components that are in the Scene.
 
@@ -373,38 +382,56 @@ class Scene(Asset):
             Screen.size.x / Screen.size.y
         return minX > -wmin / 2 or maxX < wmax / 2
 
-    def startScripts(self):
-        """Start the scripts in the Scene."""
+    def startOpenGL(self):
+        self.mainCamera.Resize(*config.size)
 
+        gl.glEnable(gl.GL_DEPTH_TEST)
+        if config.faceCulling:
+            gl.glEnable(gl.GL_CULL_FACE)
+        else:
+            gl.glDisable(gl.GL_CULL_FACE)
+        gl.glEnable(gl.GL_BLEND)
+        gl.glBlendFunc(gl.GL_SRC_ALPHA,
+                        gl.GL_ONE_MINUS_SRC_ALPHA)
+
+        for gameObject in self.gameObjects:
+            for component in gameObject.components:
+                if isinstance(component, MeshRenderer) and component.mesh is not None:
+                    component.mesh.compile()
+
+        self.mainCamera.setupBuffers()
+
+    def startScripts(self):
+        loop = EventLoop()
         if config.audio:
-            audioListeners = self.FindComponentsByType(AudioListener)
+            audioListeners = self.FindComponents(AudioListener)
+            audioListeners = [c for c in audioListeners if c.enabled]
             if len(audioListeners) == 0:
                 Logger.LogLine(
-                    Logger.WARN, "No AudioListeners found, audio is disabled")
+                    Logger.WARN, "No enabled AudioListeners found, audio is disabled")
                 self.audioListener = None
             elif len(audioListeners) > 1:
                 Logger.LogLine(Logger.WARN, "Ambiguity in AudioListeners, " +
-                               str(len(audioListeners)) + " found")
+                               str(len(audioListeners)) + " enabled")
                 self.audioListener = None
             else:
                 self.audioListener = audioListeners[0]
                 self.audioListener.Init()
+        else:
+            self.audioListener = None
 
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.components:
+                if not component.enabled:
+                    continue
                 if isinstance(component, Behaviour):
-                    component.Start()
+                    component.Awake()
+                    createTask(loop, component.Start)
                 elif isinstance(component, AudioSource):
                     if component.playOnStart:
                         component.Play()
-                elif isinstance(component, MeshRenderer) and component.mesh is not None:
-                    if os.environ["PYUNITY_INTERACTIVE"] == "1":
-                        mesh = component.mesh
-                        mesh.vbo, mesh.ibo = genBuffers(mesh)
-                        mesh.vao = genArray()
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mainCamera.setupBuffers()
 
         # self.physics = any(
         #     isinstance(
@@ -416,107 +443,100 @@ class Scene(Asset):
             self.collManager = CollManager()
             self.collManager.AddPhysicsInfo(self)
 
-        self.lastFrame = time()
+        return loop
 
-    def Start(self):
-        """
-        Start the internal parts of the
-        Scene.
-
-        """
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.mainCamera.Resize(*config.size)
-
-            gl.glEnable(gl.GL_DEPTH_TEST)
-            if config.faceCulling:
-                gl.glEnable(gl.GL_CULL_FACE)
-            else:
-                gl.glDisable(gl.GL_CULL_FACE)
-            gl.glEnable(gl.GL_BLEND)
-            gl.glBlendFunc(gl.GL_SRC_ALPHA,
-                           gl.GL_ONE_MINUS_SRC_ALPHA)
-
-        self.startScripts()
-
+    def startLoop(self):
         Logger.LogLine(Logger.DEBUG, "Physics is",
                        "on" if self.physics else "off")
         Logger.LogLine(Logger.DEBUG, "Scene " +
                        repr(self.name) + " has started")
 
-    def updateScripts(self):
+        self.lastFrame = time.perf_counter()
+        self.lastFixedFrame = time.perf_counter()
+
+    def Start(self):
+        """
+        Start the internal parts of the
+        Scene. Deprecated in 0.9.0.
+
+        """
+        self.startScripts()
+        self.startOpenGL()
+
+    def updateScripts(self, loop):
         """Updates all scripts in the scene."""
         from ..input import Input
-        dt = max(time() - self.lastFrame, sys.float_info.epsilon)
+        dt = max(time.perf_counter() - self.lastFrame, sys.float_info.epsilon)
+        self.lastFrame = time.perf_counter()
         if os.environ["PYUNITY_INTERACTIVE"] == "1":
             Input.UpdateAxes(dt)
             if self.mainCamera is not None and self.mainCamera.canvas is not None:
-                self.mainCamera.canvas.Update()
+                if self.mainCamera.enabled and self.mainCamera.canvas.enabled:
+                    self.mainCamera.canvas.Update(loop)
 
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.components:
+                if not component.enabled:
+                    continue
                 if isinstance(component, Behaviour):
-                    sig = signature(component.Update)
-                    if "dt" in sig.parameters:
-                        component.Update(dt)
-                    else:
-                        component.Update()
+                    createTask(loop, component.Update, dt)
                 elif isinstance(component, AudioSource):
                     if component.loop and component.playOnStart:
                         if component.channel and not component.channel.get_busy():
                             component.Play()
 
-        if self.physics:
-            for i in range(self.collManager.steps):
-                self.collManager.Step(dt / self.collManager.steps)
-                for gameObject in self.gameObjects:
-                    for component in gameObject.GetComponents(Behaviour):
-                        component.FixedUpdate(dt / self.collManager.steps)
-
         for gameObject in self.gameObjects:
+            if not gameObject.enabled:
+                continue
             for component in gameObject.GetComponents(Behaviour):
-                component.LateUpdate(dt)
+                if component.enabled:
+                    createTask(loop, component.LateUpdate, dt)
 
-        self.lastFrame = time()
+    def updateFixed(self, loop):
+        dt = max(time.perf_counter() - self.lastFixedFrame, sys.float_info.epsilon)
+        self.lastFixedFrame = time.perf_counter()
+        if self.physics:
+            self.collManager.Step(dt)
+            for gameObject in self.gameObjects:
+                if not gameObject.enabled:
+                    continue
+                for component in gameObject.GetComponents(Behaviour):
+                    if component.enabled:
+                        createTask(loop, component.FixedUpdate, dt)
 
-    def noInteractive(self):
-        """
-        Run scene without rendering.
-
-        """
-        done = False
-        clock = Clock()
-        clock.Start(config.fps)
-        while not done:
-            try:
-                self.updateScripts()
-                clock.Maintain()
-            except KeyboardInterrupt:
-                Logger.LogLine(Logger.DEBUG, "Exiting")
-                done = True
-
-    def update(self):
-        """Updating function to pass to the window provider."""
-        self.updateScripts()
-
-        if os.environ["PYUNITY_INTERACTIVE"] == "1":
-            self.Render()
-
-    def Render(self):
+    def Render(self, loop=None):
         """
         Call the appropriate rendering functions
         of the Main Camera.
 
+        Parameters
+        ----------
+        loop : EventLoop
+            Event loop to run :meth:`Behaviour.OnPreRender`
+            and :meth:`Behaviour.OnPostRender` in. If None,
+            the above methods will not be called.
+
         """
-        if self.mainCamera is None:
+        if self.mainCamera is None or not self.mainCamera.enabled:
             gl.glClearColor(0, 0, 0, 1)
             gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return
 
-        renderers = self.FindComponentsByType(MeshRenderer)
-        lights = self.FindComponentsByType(Light)
+        if loop is not None:
+            behaviours = self.FindComponents(Behaviour)
+            for component in behaviours:
+                createTask(loop, component.OnPreRender)
+
+        renderers = self.FindComponents(MeshRenderer)
+        lights = self.FindComponents(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
+
+        if loop is not None:
+            for component in behaviours:
+                createTask(loop, component.OnPostRender)
 
     def cleanUp(self):
         """
@@ -526,3 +546,7 @@ class Scene(Asset):
         """
         if self.audioListener is not None:
             self.audioListener.DeInit()
+
+        for gameObject in self.gameObjects:
+            for component in gameObject.GetComponents(Behaviour):
+                component.OnDestroy()

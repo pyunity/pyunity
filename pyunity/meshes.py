@@ -7,12 +7,16 @@
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
 from .core import SingleComponent, ShowInInspector
-from .files import Asset
+from .files import Asset, convert
 from .values import Vector3
 from pathlib import Path
+from ctypes import c_float, c_uint, c_void_p
 import OpenGL.GL as gl
+import itertools
 import colorsys
 import os
+
+floatSize = gl.sizeof(c_float)
 
 class Mesh(Asset):
     """
@@ -66,8 +70,8 @@ class Mesh(Asset):
             self.texcoords = [[0, 0] for _ in range(len(self.verts))]
 
         self.compiled = False
-        if "PYUNITY_GL_CONTEXT" in os.environ and \
-                os.environ["PYUNITY_INTERACTIVE"] == "1":
+        if ("PYUNITY_GL_CONTEXT" in os.environ and
+                os.environ["PYUNITY_INTERACTIVE"] == "1"):
             self.compile()
 
         self.min = Vector3(
@@ -83,9 +87,31 @@ class Mesh(Asset):
 
     def compile(self, force=False):
         if not self.compiled or force:
-            from . import render
-            self.vbo, self.ibo = render.genBuffers(self)
-            self.vao = render.genArray()
+            data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
+                for item in zip(self.verts, self.normals, self.texcoords)]))
+            indices = list(itertools.chain(*self.triangles))
+
+            self.vbo = gl.glGenBuffers(1)
+            gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.vbo)
+            gl.glBufferData(gl.GL_ARRAY_BUFFER, len(data) * floatSize,
+                            convert(c_float, data), gl.GL_STATIC_DRAW)
+            self.ibo = gl.glGenBuffers(1)
+            gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ibo)
+            gl.glBufferData(gl.GL_ELEMENT_ARRAY_BUFFER, len(indices) * gl.sizeof(c_uint),
+                            convert(c_uint, indices), gl.GL_STATIC_DRAW)
+
+            self.vao = gl.glGenVertexArrays(1)
+            gl.glBindVertexArray(self.vao)
+            gl.glVertexAttribPointer(
+                0, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, None)
+            gl.glEnableVertexAttribArray(0)
+            gl.glVertexAttribPointer(
+                1, 3, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(3 * floatSize))
+            gl.glEnableVertexAttribArray(1)
+            gl.glVertexAttribPointer(
+                2, 2, gl.GL_FLOAT, gl.GL_FALSE, 8 * floatSize, c_void_p(6 * floatSize))
+            gl.glEnableVertexAttribArray(2)
+
             self.compiled = True
 
     def draw(self):
@@ -93,7 +119,7 @@ class Mesh(Asset):
         gl.glBindVertexArray(self.vao)
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ibo)
         gl.glDrawElements(gl.GL_TRIANGLES, len(
-            self.triangles) * 3, gl.GL_UNSIGNED_BYTE, None)
+            self.triangles) * 3, gl.GL_UNSIGNED_INT, None)
 
     def copy(self):
         """
@@ -264,6 +290,8 @@ class Material(Asset):
         return Path("Materials") / (gameObject.name + ".mat")
 
     def SaveAsset(self, ctx):
+        if self.texture is not None:
+            ctx.project.ImportAsset(self.texture, ctx.gameObject)
         path = ctx.project.path / ctx.filename
         ctx.savers[Material](self, ctx.project, path)
 

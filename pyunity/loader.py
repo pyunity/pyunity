@@ -25,21 +25,14 @@ from .core import GameObject, Component, Tag, SavesProjectID
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
 from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
-from contextlib import ExitStack
+from .resources import getPath
 from pathlib import Path
 from uuid import uuid4
 import struct
-import atexit
 import inspect
 import json
 import enum
-import sys
 import os
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
 
 def LoadObj(filename):
     """
@@ -102,7 +95,15 @@ def LoadStl(filename):
     def vectorFromBytes(b):
         x, y, z = b[:4], b[4:8], b[8:]
         l = [struct.unpack("<f", a)[0] for a in [x, y, z]]
-        return Vector3(l)
+        # Flip Z and Y axes
+        # Reverse Z axis
+        return Vector3(l[0], l[2], -l[1])
+
+    def vectorFromStr(s):
+        l = list(map(float, s.split(" ")[-3:]))
+        # Flip Z and Y axes
+        # Reverse Z axis
+        return Vector3(l[0], l[2], -l[1])
 
     faces = []
     vertices = []
@@ -127,10 +128,10 @@ def LoadStl(filename):
         i = 0
         for section in sections:
             lines = section.split("\n")
-            normal = Vector3(map(float, lines[0].split(" ")[-3:]))
-            a = Vector3(map(float, lines[2].split(" ")[-3:]))
-            b = Vector3(map(float, lines[3].split(" ")[-3:]))
-            c = Vector3(map(float, lines[4].split(" ")[-3:]))
+            normal = vectorFromStr(lines[0].split(" ")[-3:])
+            a = vectorFromStr(lines[2].split(" ")[-3:])
+            b = vectorFromStr(lines[3].split(" ")[-3:])
+            c = vectorFromStr(lines[4].split(" ")[-3:])
             faces.append([i, i + 1, i + 2])
             vertices.extend([a, b, c])
             normals.extend([normal.copy(), normal.copy(), normal.copy()])
@@ -254,10 +255,6 @@ def SaveMesh(mesh, path):
                 f.write("/")
         f.write("\n")
 
-stack = ExitStack()
-atexit.register(stack.close)
-ref = files("pyunity") / "primitives"
-
 class Primitives(metaclass=ImmutableStruct):
     """
     Primitive preloaded meshes.
@@ -265,12 +262,12 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    cube = LoadMesh(stack.enter_context(as_file(ref / "cube.mesh")))
-    quad = LoadMesh(stack.enter_context(as_file(ref / "quad.mesh")))
-    doubleQuad = LoadMesh(stack.enter_context(as_file(ref / "doubleQuad.mesh")))
-    sphere = LoadMesh(stack.enter_context(as_file(ref / "sphere.mesh")))
-    capsule = LoadMesh(stack.enter_context(as_file(ref / "capsule.mesh")))
-    cylinder = LoadMesh(stack.enter_context(as_file(ref / "cylinder.mesh")))
+    cube = LoadMesh(getPath("primitives/cube.mesh"))
+    quad = LoadMesh(getPath("primitives/quad.mesh"))
+    doubleQuad = LoadMesh(getPath("primitives/doubleQuad.mesh"))
+    sphere = LoadMesh(getPath("primitives/sphere.mesh"))
+    capsule = LoadMesh(getPath("primitives/capsule.mesh"))
+    cylinder = LoadMesh(getPath("primitives/cylinder.mesh"))
 
 def GetImports(file):
     with open(file) as f:
@@ -385,18 +382,7 @@ def SaveMat(material, project, filename):
     if material.texture is None:
         texID = "None"
     else:
-        if material.texture not in project._ids:
-            texID = str(uuid4())
-            project._ids[material.texture] = texID
-            project._idMap[texID] = material.texture
-
-            name = Path(filename).name.rsplit(".")[0]
-            path = project.path / "Textures" / (name + ".png")
-            file = File(path, texID)
-            project.ImportFile(file, write=False)
-            material.texture.img.save(path)
-        else:
-            texID = project._ids[material.texture]
+        texID = project._ids[material.texture]
 
     colStr = str(material.color)
 
@@ -480,7 +466,10 @@ def SaveGameObjects(gameObjects, data, project):
     for gameObject in gameObjects:
         gameObjectID = getUuid(gameObject)
         for component in gameObject.components:
-            attrs = {"gameObject": ObjectInfo.SkipConv(gameObjectID)}
+            attrs = {
+                "gameObject": ObjectInfo.SkipConv(gameObjectID),
+                "enabled": gameObject.enabled
+            }
             for k in component._saved.keys():
                 v = getattr(component, k)
                 if isinstance(v, SavesProjectID):
@@ -620,6 +609,7 @@ def LoadGameObjects(data, project):
     for part in componentInfo + behaviourInfo:
         gameObjectID = part.attrs.pop("gameObject")
         gameObject = project._idMap[gameObjectID]
+        enabled = part.attrs.pop("enabled", "True") == "True"
 
         if part.name.endswith("(Component)"):
             component = gameObject.AddComponent(componentMap[part.name[:-11]])
@@ -631,6 +621,7 @@ def LoadGameObjects(data, project):
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
+        component.enabled = enabled
 
         addUuid(component, part.uuid)
 
@@ -645,7 +636,6 @@ def LoadGameObjects(data, project):
                 type_, value = instanceCheck(component._saved[k].type, value)
                 if hasattr(type_, "_wrapper"):
                     if isinstance(getattr(type_, "_wrapper"), SavableStruct):
-                        print(value)
                         value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(

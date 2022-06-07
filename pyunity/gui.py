@@ -18,23 +18,23 @@ from .events import Event
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .render import Screen, Camera, Light
+from .resources import getPath
 from PIL import Image, ImageDraw, ImageFont, features
-from contextlib import ExitStack
 import OpenGL.GL as gl
-import atexit
+import inspect
 import os
 import sys
 import enum
 import ctypes
 
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
-
 RAQM_SUPPORT = features.check("raqm")
 if not RAQM_SUPPORT:
     Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
+
+def createTask(loop, coro):
+    if inspect.iscoroutine(coro):
+        loop.create_task(coro)
+    return coro
 
 class Canvas(Component):
     """
@@ -45,7 +45,7 @@ class Canvas(Component):
 
     """
 
-    def Update(self):
+    def Update(self, loop):
         """
         Check if any components have been hovered over.
 
@@ -57,10 +57,10 @@ class Canvas(Component):
                 rect = rectTransform.GetRect() + rectTransform.offset
                 pos = Vector2(Input.mousePosition)
                 if rect.min < pos < rect.max:
-                    comp.HoverUpdate()
+                    createTask(loop, comp.HoverUpdate())
 
 decorator = addFields(canvas=ShowInInspector(Canvas))
-decorator(Camera)
+decorator.apply(Camera)
 
 @SavableStruct(
     min=StructEntry(Vector2, required=True),
@@ -289,7 +289,7 @@ class GuiComponent(Component, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         pass
 
 class NoResponseGuiComponent(GuiComponent):
@@ -298,7 +298,7 @@ class NoResponseGuiComponent(GuiComponent):
 
     """
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         """
         Empty HoverUpdate function. This is to ensure
         nothing happens when the component is clicked,
@@ -380,8 +380,8 @@ class RenderTarget(GuiRenderComponent):
         gl.glDepthMask(gl.GL_TRUE)
         self.source.Resize(*self.size)
 
-        renderers = self.scene.FindComponentsByType(MeshRenderer)
-        lights = self.scene.FindComponentsByType(Light)
+        renderers = self.scene.FindComponents(MeshRenderer)
+        lights = self.scene.FindComponents(Light)
         self.source.renderPass = True
         self.source.RenderScene(renderers, lights)
         self.source.RenderSkybox()
@@ -474,21 +474,16 @@ class Button(GuiComponent):
     def __init__(self, transform):
         super(Button, self).__init__(transform)
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
             if self.callback is not None:
-                self.callback()
+                self.callback.callSoon()
 
-stack = ExitStack()
-atexit.register(stack.close)
-ref = files("pyunity") / "shaders/gui/textures"
-
-buttonDefault = Texture2D(stack.enter_context(as_file(ref / "button.png")))
+buttonDefault = Texture2D(getPath("shaders/gui/textures/button.png"))
 checkboxDefaults = [
-    Texture2D(stack.enter_context(as_file(ref / "checkboxOff.png"))),
-    Texture2D(stack.enter_context(as_file(ref / "checkboxOn.png")))
+    Texture2D(getPath("shaders/gui/textures/checkboxOff.png")),
+    Texture2D(getPath("shaders/gui/textures/checkboxOn.png"))
 ]
-stack.close()
 
 class _FontLoader:
     """
@@ -677,9 +672,9 @@ class Font:
         return (FontLoader.LoadFont, (self.name, self.size))
 
 class TextAlign(enum.IntEnum):
-    Left = enum.auto()
-    Center = enum.auto()
-    Right = enum.auto()
+    Left = 1
+    Center = 2
+    Right = 3
 
     Top = Left
     Bottom = Right
@@ -762,7 +757,7 @@ class Text(GuiRenderComponent):
             offX = (size.x - width) // 2
         else:
             offX = size.x - width
-        if self.centeredY == TextAlign.Left:
+        if self.centeredY == TextAlign.Top:
             offY = 0
         elif self.centeredY == TextAlign.Center:
             offY = (size.y - height) // 2
@@ -795,7 +790,7 @@ class CheckBox(GuiComponent):
     """
     checked = ShowInInspector(bool, False)
 
-    def HoverUpdate(self):
+    async def HoverUpdate(self):
         """
         Inverts :attr:`checked` and updates the texture of
         the Image2D, if there is one.

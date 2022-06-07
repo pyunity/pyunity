@@ -3,16 +3,10 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour, Vector3, SceneManager, GameObject, Mesh, Material, RGB, Texture2D, MeshRenderer
-from contextlib import ExitStack
-import sys
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
+from pyunity.resources import getPath
 
 class Rotator(Behaviour):
-    def Update(self, dt):
+    async def Update(self, dt):
         self.transform.eulerAngles += Vector3(0, 90, 135) * dt
 
 def main():
@@ -20,12 +14,8 @@ def main():
 
     scene.mainCamera.transform.localPosition = Vector3(0, 0, -10)
 
-    stack = ExitStack()
-    ref = files(__package__) / "logo.png"
-    path = stack.enter_context(as_file(ref))
-
     cube = GameObject("Cube")
-    texture = Texture2D(path)
+    texture = Texture2D(getPath("examples/example8/logo.png"))
     renderer = cube.AddComponent(MeshRenderer)
     renderer.mesh = Mesh.cube(2)
     renderer.mat = Material(RGB(255, 255, 255), texture)
@@ -33,7 +23,6 @@ def main():
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
-    stack.close()
 
 if __name__ == "__main__":
     main()

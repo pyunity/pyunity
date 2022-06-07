@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import textwrap
 sys.path.insert(0, os.path.abspath("../.."))
 
 os.environ["PYUNITY_TESTING"] = "1"
@@ -38,6 +39,7 @@ release = pyunity.__version__
 # ones.
 extensions = [
     "sphinx_toolbox.more_autodoc",
+    "sphinx_toolbox.latex.toc",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
@@ -77,6 +79,8 @@ html_theme_options = {
     "code_font_family": "'Cascadia Code', 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace",
     "show_relbars": "true",
     "analytics_id": os.getenv("ANALYTICS_ID"),
+    "fixed_sidebar": "true",
+    "page_width": "90%"
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -120,6 +124,15 @@ hoverxref_role_types = {
     "attr": "tooltip",
 }
 
+if pyunity.__version__ == "0.9.0":
+    rst_prolog = textwrap.dedent("""
+    .. attention::
+       You are viewing PyUnity docs under the ``develop`` branch.
+       As such, they are only applicable if you installed from source.
+       Go to https://docs.pyunity.x10.bz/en/latest/ for the most recent
+       release.
+    """)
+
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
         return True
@@ -141,8 +154,8 @@ def process_docstring(app, what, name, obj, options, lines):
 
         for index in reversed(indexes):
             name = lines[index].split("::", 1)[1][1:]
-            if name in obj.saved:
-                val = str(obj.saved[name].default)
+            if name in obj._saved:
+                val = str(obj._saved[name].default)
                 lines.insert(index + 1, "   :value: " + val)
 
 def setup(app):

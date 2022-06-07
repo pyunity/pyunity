@@ -19,11 +19,13 @@ if "PYUNITY_CHANGE_MODULE" not in os.environ:
 os.environ["MESA_GL_VERSION_OVERRIDE"] = "3.3"
 os.environ["MESA_GLSL_VERSION_OVERRIDE"] = "330"
 
+audio = True
+
 size = (800, 500)
 fps = 0
 faceCulling = True
-audio = True
 windowProvider = None
 vsync = False
+exitOnError = True
 
 Logger.LogLine(Logger.DEBUG, "Loaded config")

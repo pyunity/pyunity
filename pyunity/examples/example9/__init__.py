@@ -2,22 +2,16 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material
-from contextlib import ExitStack
-import sys
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
+from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
+from pyunity.resources import getPath
 
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
     speed = ShowInInspector(float, 300)
-    def Start(self):
+    async def Start(self):
         self.rectTransform.offset.Move(Screen.size / 2)
 
-    def Update(self, dt):
+    async def Update(self, dt):
         movement = Vector2(Input.GetAxis("Horizontal"), -
                            Input.GetAxis("Vertical"))
         self.rectTransform.offset.Move(movement * dt * self.speed)
@@ -25,19 +19,17 @@ class Mover2D(Behaviour):
 
 class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
-    def Start(self):
-        self.a = 0
-        self.t = []
-
-    def Update(self, dt):
-        self.t.append(dt)
-        if len(self.t) > 200:
-            self.t.pop(0)
-
-        self.a += dt
-        if self.a > 0.1:
-            self.text.text = str(1 / (sum(self.t) / len(self.t)))
-            self.a = 0
+    async def Start(self):
+        frames = []
+        time = 0
+        while True:
+            dt = await WaitForRender()
+            time += dt
+            frames.append(dt)
+            if len(frames) > 200:
+                frames.pop(0)
+            self.text.text = str(1 / (sum(frames) / len(frames)))
+            time = 0
 
 class CheckboxTracker(Behaviour):
     check = ShowInInspector(CheckBox)
@@ -64,13 +56,9 @@ def main():
     rectTransform.offset = RectOffset.Rectangle(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
-    stack = ExitStack()
-    ref = files("pyunity.examples.example8") / "logo.png"
-    path = stack.enter_context(as_file(ref))
-
     img = imgObject.AddComponent(Image2D)
     img.depth = -0.1
-    img.texture = Texture2D(path)
+    img.texture = Texture2D(getPath("examples/example8/logo.png"))
     scene.Add(imgObject)
 
     rect, button, text = Gui.MakeButton(
@@ -78,7 +66,7 @@ def main():
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     receiver = button.AddComponent(CallbackReceiver)
-    button.callback = receiver.Callback
+    button.callback = Event(receiver.Callback)
 
     rect, checkbox = Gui.MakeCheckBox("Checkbox", scene)
     rect.transform.ReparentTo(canvas.transform)
@@ -137,7 +125,6 @@ def main():
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
-    stack.close()
 
 if __name__ == "__main__":
     main()
