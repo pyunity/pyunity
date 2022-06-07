@@ -32,7 +32,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: No AudioListeners found, audio is disabled\n"
+                assert r.get() == "Warning: No enabled AudioListeners found, audio is disabled\n"
                 assert scene.audioListener is None
 
             def testCase3(self):
@@ -43,7 +43,7 @@ class TestSceneRun:
 
                 with Logger.TempRedirect(silent=True) as r:
                     scene.startScripts()
-                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 found\n"
+                assert r.get() == "Warning: Ambiguity in AudioListeners, 2 enabled\n"
                 assert scene.audioListener is None
 
         class TestBehaviours(SceneTestCase):
