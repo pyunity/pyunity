@@ -29,7 +29,7 @@ class OpenCommand(BaseCommand):
             try:
                 item = int(args.scene)
             except ValueError:
-                raise CommandStop(f"{locale.commands.project.open.noint}: {args.scene!r}")
+                raise CommandStop(f"{locale.commands.noint}: {args.scene!r}")
             scene = SceneManager.GetSceneByIndex(item)
         else:
             scene = SceneManager.GetSceneByName(args.scene)
@@ -46,7 +46,7 @@ class ListCommand(BaseCommand):
             print(f"{i}\t{scene.name!r}")
 
 class ProjectMenu(CommandMenu):
-    name = "Project"
+    name = locale.menu.project.name
     cmds = {
         "help": HelpCommand,
         "exit": ExitCommand,

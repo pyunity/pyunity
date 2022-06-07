@@ -34,7 +34,7 @@ class ListCommand(BaseCommand):
     def run(self, ctx, args):
         if hasattr(args, "parent"):
             if args.parent not in ctx.project._idMap:
-                raise CommandStop(f"{args.parent}: {locale.commands.scene.list.noid}")
+                raise CommandStop(f"{args.parent}: {locale.commands.scene.noid}")
 
             objects = []
             if args.recursive:
@@ -60,7 +60,7 @@ class ListCommand(BaseCommand):
             try:
                 num = int(args.tag)
             except ValueError:
-                raise CommandStop(f"{locale.commands.scene.list.noint}: {args.scene!r}")
+                raise CommandStop(f"{locale.commands.noint}: {args.scene!r}")
             objects = [o for o in objects if o.tag.tag == num]
 
         if not len(objects):
@@ -83,53 +83,53 @@ class SelectCommand(BaseCommand):
     name = locale.commands.scene.select.name
     description = locale.commands.scene.select.description
     positionals = [
-        ("id", "ID of the GameObject to select (optional)")
+        ("id", locale.commands.scene.select.id)
     ]
 
     def run(self, ctx, args):
         if hasattr(args, "id"):
             if args.id not in ctx.project._idMap:
-                raise CommandStop(f"{args.id}: ID not in scene")
+                raise CommandStop(f"{args.id}: {locale.commands.scene.noid}")
 
             if ctx.gameObject is not None:
                 lastId = ctx.project._ids[ctx.gameObject]
                 lastPath = ctx.gameObject.transform.FullPath()
-                print(f"Previously selected GameObject: {lastId} ({lastPath})")
+                print(f"{locale.commands.scene.select.prev}: {lastId} ({lastPath})")
 
             ctx.gameObject = ctx.project._idMap[args.id]
             path = ctx.gameObject.transform.FullPath()
-            print(f"Selected GameObject {args.id} ({path})")
+            print(f"{locale.commands.scene.select.curr}: {args.id} ({path})")
         else:
             if ctx.gameObject is not None:
                 lastId = ctx.project._ids[ctx.gameObject]
                 lastPath = ctx.gameObject.transform.FullPath()
-                print(f"Selected GameObject: {lastId} ({lastPath})")
+                print(f"{locale.commands.scene.select.curr}: {lastId} ({lastPath})")
             else:
-                print("No selected GameObject")
+                print(locale.commands.scene.none)
 
 class ComponentCommand(BaseCommand):
-    name = "cpnt"
-    description = "Get information about or modify the selected GameObject's components"
+    name = locale.commands.scene.cpnt.name
+    description = locale.commands.scene.cpnt.description
 
     flags = [
-        (("-l", "--list"), "List components on the selected GameObject"),
-        (("-i", "--info"), "List attributes on a specific Component by index", 1),
+        (("-l", "--list"), locale.commands.scene.cpnt.list),
+        (("-i", "--info"), locale.commands.scene.cpnt.info, 1),
     ]
 
     def run(self, ctx, args):
         if ctx.gameObject is None:
-            raise CommandStop("No GameObject selected")
+            raise CommandStop(locale.commands.scene.none)
 
         names = ["list", "info"]
         cmd = None
         for name in names:
             if getattr(args, name, False):
                 if cmd is not None:
-                    raise CommandStop("Expected one of --list, --info")
+                    raise CommandStop(locale.commands.scene.cpnt.missing)
                 cmd = name
 
         if cmd is None:
-            raise CommandStop("Expected one of --list, --info")
+            raise CommandStop(locale.commands.scene.cpnt.missing)
 
         if cmd == "list":
             indexLength = len(str(len(ctx.gameObject.components)))
@@ -145,10 +145,10 @@ class ComponentCommand(BaseCommand):
             try:
                 num = int(args.info)
             except ValueError:
-                raise CommandStop(f"invalid integer: {args.info!r}")
+                raise CommandStop(f"{locale.commands.noint}: {args.info!r}")
 
             if num < 0 or num > len(ctx.gameObject.components) - 1:
-                raise CommandStop(f"invalid index: {num}")
+                raise CommandStop(f"{locale.commands.noidx}: {num}")
 
             cpnt = ctx.gameObject.components[num]
             typename = type(cpnt).__name__
@@ -157,11 +157,11 @@ class ComponentCommand(BaseCommand):
             else:
                 typename += "(Component)"
 
-            print("ID:", ctx.project._ids[cpnt])
-            print("Type:", typename)
+            print(f"{locale.commands.scene.cpnt.id}:", ctx.project._ids[cpnt])
+            print(f"{locale.commands.scene.cpnt.type}:", typename)
 
 class SceneMenu(CommandMenu):
-    name = "Scene"
+    name = locale.menu.scene.name
     cmds = {
         "help": HelpCommand,
         "exit": ExitCommand,
@@ -181,7 +181,8 @@ class SceneMenu(CommandMenu):
         return " ".join([
             f"{Style.BRIGHT}{Fore.BLUE}{self.name}{Style.RESET_ALL}",
             f"{Fore.BLUE}({Fore.GREEN}{ctx.project.name}{Fore.BLUE})",
-            f"({Fore.RED}Scene {ctx.scene.name!r}{modify}{Fore.BLUE})",
+            f"({Fore.RED}{locale.menu.scene.scene}",
+            f"{ctx.scene.name!r}{modify}{Fore.BLUE})",
             f"{Style.RESET_ALL}%> "
         ])
 
@@ -192,7 +193,7 @@ class SceneMenu(CommandMenu):
 
     def quit(self, ctx):
         if ctx.modified:
-            if input("Do you want to save your changes? (Y/n) ").lower() != "n":
+            if input(locale.menu.scene.save + " (Y/n) ").lower() != "n":
                 ctx.project.ImportAsset(ctx.scene)
         ctx.scene = None
         ctx.gameObject = None

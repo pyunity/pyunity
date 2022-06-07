@@ -12,9 +12,19 @@
     "menu": {
         "base": {
             "name": "Base"
+        },
+        "project": {
+            "name": "Project"
+        },
+        "scene": {
+            "name": "Scene",
+            "scene": "Scene",
+            "save": "Do you want to save your changes?"
         }
     },
     "commands": {
+        "noint": "invalid integer",
+        "noidx": "invalid index",
         "base": {
             "name": "base",
             "description": "Base command to inherit from.",
@@ -40,7 +50,6 @@
 
                 "noindex": "please provide a scene index.",
                 "noname": "please provide a scene name.",
-                "noint": "invalid integer",
                 "loaded": "Loaded scene {name}"
             },
             "list": {
@@ -49,6 +58,8 @@
             }
         },
         "scene": {
+            "none": "No selected GameObject",
+            "noid": "ID not in scene",
             "save": {
                 "name": "save",
                 "description": "Save the opened Scene."
@@ -66,9 +77,7 @@
                 "recursive": "display all GameObjects, not just root GameObjects",
                 "parent": "ID of GameObject to list children",
 
-                "noid": "ID not in scene",
                 "empty": "Scene is empty",
-                "noint": "invalid integer",
                 "noobj":"No matching GameObjects",
                 "path": "Path",
                 "id": "ID",
@@ -77,7 +86,21 @@
             },
             "select": {
                 "name": "select",
-                "description": "Selects a GameObject for further operations, or get the current selected."
+                "description": "Selects a GameObject for further operations, or get the current selected.",
+                "id": "ID of the GameObject to select (optional)",
+
+                "prev": "Previously selected GameObject",
+                "curr": "Selected GameObject"
+            },
+            "cpnt": {
+                "name": "cpnt",
+                "description": "Get information about or modify the selected GameObject's components",
+                "list": "List components on the selected GameObject",
+                "info": "List attributes on a specific Component by index",
+
+                "missing": "expected one of --list, --info",
+                "id": "ID",
+                "type": "Type"
             }
         }
     }
