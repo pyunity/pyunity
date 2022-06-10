@@ -3,7 +3,7 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from setuptools import setup, find_packages, Extension
-from distutils.command.build_ext import build_ext
+from setuptools.command.egg_info import egg_info
 import distutils.log
 import os
 import re
@@ -14,11 +14,7 @@ import subprocess
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-class Cythonize(build_ext):
-    description = " ".join([
-        "Run default build_ext command but cythonize",
-        "files beforehand if needed."])
-
+class Cythonize(egg_info):
     def run(self):
         if os.environ["cython"] == "1":
             self.announce("Cython enabled", level=distutils.log.INFO)
@@ -62,7 +58,7 @@ if os.environ["cython"] == "1":
         versionfile = "src/_version.py"
 
     config = {
-        "cmdclass": {"build_ext": Cythonize},
+        "cmdclass": {"egg_info": Cythonize},
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
