@@ -3,13 +3,7 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
-from contextlib import ExitStack
-import sys
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
+from pyunity.resources import getPath
 
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
@@ -62,13 +56,9 @@ def main():
     rectTransform.offset = RectOffset.Rectangle(100)
     imgObject.AddComponent(Mover2D).rectTransform = rectTransform
 
-    stack = ExitStack()
-    ref = files("pyunity.examples.example8") / "logo.png"
-    path = stack.enter_context(as_file(ref))
-
     img = imgObject.AddComponent(Image2D)
     img.depth = -0.1
-    img.texture = Texture2D(path)
+    img.texture = Texture2D(getPath("examples/example8/logo.png"))
     scene.Add(imgObject)
 
     rect, button, text = Gui.MakeButton(
@@ -135,7 +125,6 @@ def main():
     scene.Add(cube)
 
     SceneManager.LoadScene(scene)
-    stack.close()
 
 if __name__ == "__main__":
     main()

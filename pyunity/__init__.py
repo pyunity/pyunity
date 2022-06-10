@@ -7,7 +7,8 @@ Version 0.9.0 (in development)
 ==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
-Game Engine. This does not mean that PyUnity
+Game Engine. It aims to be as close as possible
+to Unity itself. This does not mean that PyUnity
 are bindings for the UnityEngine. However,
 this project has been made to facilitate
 any programmer, beginner or advanced, novice
@@ -28,7 +29,7 @@ based on Ubuntu or Debian, use::
     > pip3 install pyunity
 
 To install PyUnity for other operating systems,
-use pip::
+use::
 
     > pip install pyunity
 
@@ -50,9 +51,11 @@ sometimes broken, so use at your own risk. ::
 Its only dependencies are PyOpenGL, PySDL2,
 Pillow and PyGLM. Microsoft Visual
 C++ Build Tools are required on Windows
-for building yourself. GLFW can be optionally
-installed if you would like to use the GLFW
-window provider.
+for building yourself, but it can be disabled by
+setting the ``cython`` environment variable to
+``0``, at the cost of being less optimized.
+GLFW can be optionally installed if you would
+like to use the GLFW window provider.
 
 Importing
 ---------
@@ -183,6 +186,11 @@ by PyUnity:
 
 Examples
 --------
+Examples are located at subfolders in
+`pyunity/examples <https://github.com/pyunity/pyunity/tree/develop/pyunity/examples>`_
+so do be sure to check them out as a
+starting point.
+
 To run an example, import it like so:
 
     >>> from pyunity.examples.example1 import main
@@ -212,6 +220,8 @@ __license__ = "MIT License"
 __summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
 __title__ = "pyunity"
 __uri__ = "https://docs.pyunity.x10.bz/en/latest/"
+
+from . import resources
 
 # Logger must start first, config straight after
 from . import logger as Logger

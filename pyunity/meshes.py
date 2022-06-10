@@ -290,6 +290,8 @@ class Material(Asset):
         return Path("Materials") / (gameObject.name + ".mat")
 
     def SaveAsset(self, ctx):
+        if self.texture is not None:
+            ctx.project.ImportAsset(self.texture, ctx.gameObject)
         path = ctx.project.path / ctx.filename
         ctx.savers[Material](self, ctx.project, path)
 

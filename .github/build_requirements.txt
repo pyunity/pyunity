@@ -3,4 +3,3 @@ pyglm
 pillow
 wheel
 autopep8
-importlib-resources; python_version < "3.9"

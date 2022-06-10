@@ -3,28 +3,17 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import config, SceneManager, AudioClip, AudioSource
-from contextlib import ExitStack
-import sys
-
-if sys.version_info < (3, 9):
-    from importlib_resources import files, as_file
-else:
-    from importlib.resources import files, as_file
+from pyunity.resources import getPath
 
 def main():
-    stack = ExitStack()
-
     scene = SceneManager.AddScene("Scene")
     if config.audio:
-        ref = files(__package__) / "explode.ogg"
-        path = stack.enter_context(as_file(ref))
-        clip = AudioClip(path)
+        clip = AudioClip(getPath("examples/example7/explode.ogg"))
         source = scene.mainCamera.AddComponent(AudioSource)
         source.SetClip(clip)
         source.playOnStart = True
 
     SceneManager.LoadScene(scene)
-    stack.close()
 
 if __name__ == "__main__":
     main()

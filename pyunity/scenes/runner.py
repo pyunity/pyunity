@@ -36,12 +36,11 @@ class Runner:
     def setup(self):
         pass
 
-    def load(self, updates):
+    def load(self):
         if self.scene is None:
             raise PyUnityException("Cannot load runner before setting a scene")
         Logger.LogLine(Logger.DEBUG, "Starting scene")
         self.eventLoopManager = EventLoopManager()
-        self.eventLoopManager.schedule(*updates, ups=config.fps, waitFor=WaitForUpdate)
         self.eventLoopManager.schedule(self.scene.updateFixed, ups=50, waitFor=WaitForFixedUpdate)
         self.eventLoopManager.addLoop(self.scene.startScripts())
 
@@ -92,7 +91,10 @@ class WindowRunner(Runner):
         Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
     def load(self):
-        super(WindowRunner, self).load([self.scene.updateScripts, self.window.updateFunc])
+        super(WindowRunner, self).load()
+        self.eventLoopManager.schedule(
+            self.scene.updateScripts, self.window.updateFunc,
+            ups=config.fps, waitFor=WaitForUpdate)
         self.eventLoopManager.schedule(
             self.scene.Render, self.window.refresh,
             main=True, waitFor=WaitForRender)
@@ -116,7 +118,10 @@ class WindowRunner(Runner):
 
 class NonInteractiveRunner(Runner):
     def load(self):
-        super(NonInteractiveRunner, self).load([self.scene.updateScripts])
+        super(NonInteractiveRunner, self).load()
+        self.eventLoopManager.schedule(
+            self.scene.updateScripts,
+            ups=config.fps, waitFor=WaitForUpdate)
         self.scene.startLoop()
 
 def newRunner():

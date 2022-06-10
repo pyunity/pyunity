@@ -534,7 +534,6 @@ class Prefab(Asset):
 
     def SaveAsset(self, ctx):
         for asset in self.assets:
-            asset.SaveAsset(ctx)
             ctx.project.ImportAsset(asset, ctx.gameObject)
 
         path = ctx.project.path / ctx.filename
