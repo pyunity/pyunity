@@ -8,7 +8,7 @@ import sys
 import platform
 import pkgutil
 import argparse
-from ._version import __version__
+from ._version import versionInfo
 from . import Logger, Loader, SceneManager, examples
 
 def version():
@@ -18,7 +18,7 @@ def version():
     Logger.Log("#" * TITLE_WIDTH)
 
     vstr = "v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}"
-    Logger.Log("PyUnity version: v" + __version__)
+    Logger.Log("PyUnity version: v" + vstr.format(versionInfo))
     Logger.Log("Python version:", vstr.format(sys.version_info))
     Logger.Log("Operating system:", platform.system(), platform.release())
     Logger.Log("Machine:", platform.machine())
@@ -29,6 +29,7 @@ def version():
     elif pkgutil.find_loader("importlib_metadata") is not None:
         from importlib_metadata import requires, version, PackageNotFoundError
     else:
+        requires = None
         Logger.LogLine(Logger.WARN,
                        "Python version less than 3.8 but no importlib_metadata found")
 
