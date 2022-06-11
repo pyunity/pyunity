@@ -5,7 +5,6 @@
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info
 from pkg_resources import EntryPoint, Distribution, working_set
-import distutils.log
 import os
 import re
 import sys
@@ -53,21 +52,21 @@ class SaveMeta(egg_info):
 class Cythonize(SaveMeta):
     def run(self):
         if os.environ["cython"] == "1":
-            self.announce("Cython enabled", level=distutils.log.INFO)
+            self.announce("Cython enabled", level=2)
             if not os.path.isdir("src"):
                 self.announce(
-                    "src/ directory not found", level=distutils.log.INFO)
+                    "src/ directory not found", level=2)
                 cmd = [sys.executable, "prepare.py", "cythonize"]
                 self.announce(
                     f"Running command: {cmd}",
-                    level=distutils.log.INFO)
+                    level=2)
                 subprocess.check_call(cmd)
             else:
                 self.announce(
-                    "src/ directory found", level=distutils.log.INFO)
+                    "src/ directory found", level=2)
         else:
             self.announce(
-                "Cython disabled", level=distutils.log.INFO)
+                "Cython disabled", level=2)
 
         super(Cythonize, self).run()
 
