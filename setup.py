@@ -4,17 +4,39 @@
 
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info
+from pkg_resources import EntryPoint, Distribution, working_set
 import distutils.log
 import os
 import re
 import sys
 import glob
+import json
 import subprocess
 
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-class Cythonize(egg_info):
+class SaveMeta(egg_info):
+    @staticmethod
+    def writer(cmd, basename, filename):
+        if not os.path.exists(filename):
+            p = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE)
+            stdout, _ = p.communicate()
+            rev = stdout.decode().rstrip()
+            if p.returncode != 0:
+                rev = "unknown"
+
+            cmd.write_or_delete_file(
+                "meta", filename, json.dumps({"revision": rev}))
+
+    def run(self):
+        d = Distribution("meta.json")
+        ep = EntryPoint.parse("meta.json = __main__:SaveMeta.writer", d)
+        d._ep_map = {"egg_info.writers": {"meta.json": ep}}
+        working_set.add(d)
+        super(SaveMeta, self).run()
+
+class Cythonize(SaveMeta):
     def run(self):
         if os.environ["cython"] == "1":
             self.announce("Cython enabled", level=distutils.log.INFO)
@@ -32,6 +54,7 @@ class Cythonize(egg_info):
         else:
             self.announce(
                 "Cython disabled", level=distutils.log.INFO)
+
         super(Cythonize, self).run()
 
 if os.environ["cython"] == "1":
@@ -60,7 +83,7 @@ if os.environ["cython"] == "1":
     config = {
         "cmdclass": {"egg_info": Cythonize},
         "package_dir": {"pyunity": "src"},
-        "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
+        "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
@@ -69,16 +92,17 @@ else:
     dataFiles = list(filter(lambda a: ".py" not in a,
                             glob.glob("pyunity/**/*.*", recursive=True)))
     config = {
+        "cmdclass": {"egg_info": SaveMeta},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in dataFiles]},
     }
     versionfile = "pyunity/_version.py"
 
 verstrline = open(versionfile, "r").read()
-versionexp = r"^__version__ = ['\"]([^'\"]*)['\"]"
+versionexp = r"^versionInfo = VersionInfo\((\d+), (\d+), (\d+)"
 match = re.search(versionexp, verstrline, re.M)
 if match:
-    version = match.group(1)
+    version = f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
 else:
     raise RuntimeError(f"Unable to find version string in {versionfile}")
 
