@@ -3,7 +3,7 @@
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from setuptools import setup, find_packages, Extension
-from setuptools.command.egg_info import egg_info
+from setuptools.command.egg_info import egg_info, manifest_maker
 from pkg_resources import EntryPoint, Distribution, working_set
 import os
 import re
@@ -51,6 +51,19 @@ class SaveMeta(egg_info):
         d._ep_map = {"egg_info.writers": {"version.json": ep}}
         working_set.add(d)
         super(SaveMeta, self).run()
+
+    def find_sources(self):
+        """Generate SOURCES.txt manifest file"""
+        manifest_filename = os.path.join(self.egg_info, "SOURCES.txt")
+        mm = ManifestMaker(self.distribution)
+        mm.manifest = manifest_filename
+        mm.run()
+        self.filelist = mm.filelist
+
+class ManifestMaker(manifest_maker):
+    def add_defaults(self):
+        super(ManifestMaker, self).add_defaults()
+        self.filelist.append("prepare.py")
 
 class Cythonize(SaveMeta):
     def run(self):
