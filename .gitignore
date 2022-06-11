@@ -17,7 +17,6 @@ htmlcov/
 
 # Replit
 .replit
-pyproject.toml
 poetry.lock
 main.sh
 
