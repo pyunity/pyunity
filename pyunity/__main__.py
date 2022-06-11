@@ -2,9 +2,12 @@
 # This file is licensed under the MIT License.
 # See https://docs.pyunity.x10.bz/en/latest/license.html
 
+from pathlib import Path
 import re
 import os
 import sys
+import json
+import subprocess
 import platform
 import pkgutil
 import argparse
@@ -18,28 +21,76 @@ def version():
     Logger.Log("#" * TITLE_WIDTH)
 
     vstr = "v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}"
-    Logger.Log("PyUnity version: v" + vstr.format(versionInfo))
+    Logger.Log("PyUnity version: " + vstr.format(versionInfo))
     Logger.Log("Python version:", vstr.format(sys.version_info))
     Logger.Log("Operating system:", platform.system(), platform.release())
     Logger.Log("Machine:", platform.machine())
     Logger.Log("Python architecture:", platform.architecture()[0])
 
     if sys.version_info >= (3, 8):
-        from importlib.metadata import requires, version, PackageNotFoundError
+        from importlib.metadata import distribution, version, PackageNotFoundError
     elif pkgutil.find_loader("importlib_metadata") is not None:
-        from importlib_metadata import requires, version, PackageNotFoundError
+        from importlib_metadata import distribution, version, PackageNotFoundError
     else:
-        requires = None
+        distribution = None
         Logger.LogLine(Logger.WARN,
                        "Python version less than 3.8 but no importlib_metadata found")
 
-    if requires is not None:
+    if distribution is not None:
+        gitrepo = False
         try:
-            requirements = requires("pyunity")
+            dist = distribution("pyunity")
+
+            path = Path(__file__)
+            if path.exists() and (path.parent.parent / ".git").is_dir():
+                gitrepo = True
+                raise PackageNotFoundError
         except PackageNotFoundError:
             Logger.LogLine(Logger.WARN,
                            "PyUnity not ran as an installed package")
             requirements = []
+
+            orig = os.getcwd()
+            if gitrepo:
+                os.chdir(path.parent.parent)
+                p = subprocess.Popen(["git", "rev-parse", "HEAD"],
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE)
+                stdout, _ = p.communicate()
+                rev = stdout.decode().rstrip()
+                if p.returncode != 0:
+                    rev = "unknown"
+                    local = True
+                else:
+                    p = subprocess.Popen(["git", "branch", "-r", "--contains", rev],
+                                         stdout=subprocess.PIPE,
+                                         stderr=subprocess.PIPE)
+                    stdout, _ = p.communicate()
+                    out = stdout.decode().rstrip()
+                    if p.returncode != 0:
+                        local = True
+                    else:
+                        local = len(out) == 0
+                os.chdir(orig)
+
+                Logger.Log("Git commit hash:", rev)
+                Logger.Log("Local commit:", local)
+
+                p = subprocess.Popen(["git", "branch", "-r", "--contains", rev],
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE)
+                stdout, _ = p.communicate()
+                out = stdout.decode().rstrip()
+                Logger.Log("Working tree modified:", len(out) == 0)
+        else:
+            requirements = dist.requires
+            path = dist._path / "version.json"
+            if path.is_file():
+                with open(path) as f:
+                    data = json.load(f)
+                Logger.Log("Git commit hash:", data["revision"])
+                Logger.Log("Local commit:", data["local"])
+
         if not len(requirements):
             if os.path.isfile("requirements.txt"):
                 with open("requirements.txt") as f:

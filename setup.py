@@ -21,7 +21,9 @@ class SaveMeta(egg_info):
         if not os.path.isdir(".git"):
             return
 
-        p = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE)
+        p = subprocess.Popen(["git", "rev-parse", "HEAD"],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
         stdout, _ = p.communicate()
         rev = stdout.decode().rstrip()
         if p.returncode != 0:
@@ -29,7 +31,8 @@ class SaveMeta(egg_info):
             local = True
         else:
             p = subprocess.Popen(["git", "branch", "-r", "--contains", rev],
-                                 stdout=subprocess.PIPE)
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
             stdout, _ = p.communicate()
             out = stdout.decode().rstrip()
             if p.returncode != 0:
@@ -40,12 +43,12 @@ class SaveMeta(egg_info):
         data = {"revision": rev, "local": local}
 
         cmd.write_or_delete_file(
-            "meta", filename, json.dumps(data))
+            "version", filename, json.dumps(data))
 
     def run(self):
-        d = Distribution("meta.json")
-        ep = EntryPoint.parse("meta.json = __main__:SaveMeta.writer", d)
-        d._ep_map = {"egg_info.writers": {"meta.json": ep}}
+        d = Distribution("version.json")
+        ep = EntryPoint.parse("version.json = __main__:SaveMeta.writer", d)
+        d._ep_map = {"egg_info.writers": {"version.json": ep}}
         working_set.add(d)
         super(SaveMeta, self).run()
 
