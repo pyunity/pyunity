@@ -19,15 +19,29 @@ if "cython" not in os.environ:
 class SaveMeta(egg_info):
     @staticmethod
     def writer(cmd, basename, filename):
-        if not os.path.exists(filename):
-            p = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE)
-            stdout, _ = p.communicate()
-            rev = stdout.decode().rstrip()
-            if p.returncode != 0:
-                rev = "unknown"
+        if not os.path.isdir(".git"):
+            return
 
-            cmd.write_or_delete_file(
-                "meta", filename, json.dumps({"revision": rev}))
+        p = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE)
+        stdout, _ = p.communicate()
+        rev = stdout.decode().rstrip()
+        if p.returncode != 0:
+            rev = "unknown"
+            local = True
+        else:
+            p = subprocess.Popen(["git", "branch", "-r", "--contains", rev],
+                                 stdout=subprocess.PIPE)
+            stdout, _ = p.communicate()
+            out = stdout.decode().rstrip()
+            if p.returncode != 0:
+                local = True
+            else:
+                local = len(out) == 0
+
+        data = {"revision": rev, "local": local}
+
+        cmd.write_or_delete_file(
+            "meta", filename, json.dumps(data))
 
     def run(self):
         d = Distribution("meta.json")
