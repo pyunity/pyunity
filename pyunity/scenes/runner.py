@@ -96,7 +96,7 @@ class WindowRunner(Runner):
             self.scene.updateScripts, self.window.updateFunc,
             ups=config.fps, waitFor=WaitForUpdate)
         self.eventLoopManager.schedule(
-            self.scene.Render, self.window.refresh,
+            self.window.refresh, self.scene.Render,
             main=True, waitFor=WaitForRender)
         if self.scene.mainCamera is not None:
             self.window.setResize(self.scene.mainCamera.Resize)
