@@ -4,7 +4,7 @@
 
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info, manifest_maker
-from pkg_resources import EntryPoint, Distribution, working_set
+from pathlib import Path
 import os
 import re
 import sys
@@ -16,8 +16,7 @@ if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
 class SaveMeta(egg_info):
-    @staticmethod
-    def writer(cmd, basename, filename):
+    def run(self):
         if not os.path.isdir(".git"):
             return
 
@@ -41,28 +40,25 @@ class SaveMeta(egg_info):
                 local = len(out) == 0
 
         data = {"revision": rev, "local": local}
+        self.mkpath(self.egg_info)
+        self.write_or_delete_file(
+            "version", Path(self.egg_info) / "version.json", json.dumps(data))
 
-        cmd.write_or_delete_file(
-            "version", filename, json.dumps(data))
-
-    def run(self):
-        d = Distribution("version.json")
-        ep = EntryPoint.parse("version.json = __main__:SaveMeta.writer", d)
-        d._ep_map = {"egg_info.writers": {"version.json": ep}}
-        working_set.add(d)
         super(SaveMeta, self).run()
 
     def find_sources(self):
         """Generate SOURCES.txt manifest file"""
-        manifest_filename = os.path.join(self.egg_info, "SOURCES.txt")
+        sources = Path(self.egg_info) / "SOURCES.txt"
         mm = ManifestMaker(self.distribution)
-        mm.manifest = manifest_filename
+        mm.manifest = str(sources)
         mm.run()
         self.filelist = mm.filelist
 
 class ManifestMaker(manifest_maker):
     def add_defaults(self):
         super(ManifestMaker, self).add_defaults()
+        folder = self.get_finalized_command("egg_info").egg_info
+        self.filelist.append(str(Path(folder) / "version.json"))
         self.filelist.append("prepare.py")
 
 class Cythonize(SaveMeta):
