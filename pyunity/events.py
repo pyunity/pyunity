@@ -98,6 +98,7 @@ class EventLoopManager:
             self.waiting[waitFor] = []
             loop = EventLoop()
             self.loops.append(loop)
+
             def inner():
                 clock = Clock()
                 clock.Start(ups)
@@ -165,7 +166,7 @@ class EventLoopManager:
                 else:
                     for exception in EventLoopManager.exceptions:
                         Logger.LogLine(Logger.ERROR,
-                                    f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
+                                       f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
                         Logger.LogException(exception)
                     EventLoopManager.exceptions.clear()
 

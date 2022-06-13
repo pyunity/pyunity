@@ -375,6 +375,7 @@ class _AddFields(IncludeInstanceMixin):
 
     def __call__(self, **kwargs):
         selfref = self.selfref
+
         class _decorator:
             def apply(self, cls):
                 return self.__call__(cls)
