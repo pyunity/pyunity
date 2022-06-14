@@ -16,7 +16,7 @@ if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
 class SaveMeta(egg_info):
-    def run(self):
+    def writeVersion(self):
         if not os.path.isdir(".git"):
             return
 
@@ -40,14 +40,12 @@ class SaveMeta(egg_info):
                 local = len(out) == 0
 
         data = {"revision": rev, "local": local}
-        self.mkpath(self.egg_info)
         self.write_or_delete_file(
             "version", Path(self.egg_info) / "version.json", json.dumps(data))
 
-        super(SaveMeta, self).run()
-
     def find_sources(self):
         """Generate SOURCES.txt manifest file"""
+        self.writeVersion()
         sources = Path(self.egg_info) / "SOURCES.txt"
         mm = ManifestMaker(self.distribution)
         mm.manifest = str(sources)
@@ -57,8 +55,6 @@ class SaveMeta(egg_info):
 class ManifestMaker(manifest_maker):
     def add_defaults(self):
         super(ManifestMaker, self).add_defaults()
-        folder = self.get_finalized_command("egg_info").egg_info
-        self.filelist.append(str(Path(folder) / "version.json"))
         self.filelist.append("prepare.py")
 
 class Cythonize(SaveMeta):
