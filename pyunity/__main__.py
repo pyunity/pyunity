@@ -71,7 +71,6 @@ def version():
                         local = True
                     else:
                         local = len(out) == 0
-                os.chdir(orig)
 
                 Logger.Log("Git commit hash:", rev)
                 Logger.Log("Local commit:", local)
@@ -82,6 +81,15 @@ def version():
                 stdout, _ = p.communicate()
                 out = stdout.decode().rstrip()
                 Logger.Log("Working tree modified:", len(out) == 0)
+
+                if os.path.isfile("requirements.txt"):
+                    with open("requirements.txt") as f:
+                        requirements = f.read().rstrip().split("\n")
+                else:
+                    Logger.LogLine(Logger.WARN,
+                                "No requirements.txt file found")
+
+                os.chdir(orig)
         else:
             requirements = dist.requires
             path = dist._path / "version.json"
@@ -90,14 +98,6 @@ def version():
                     data = json.load(f)
                 Logger.Log("Git commit hash:", data["revision"])
                 Logger.Log("Local commit:", data["local"])
-
-        if not len(requirements):
-            if os.path.isfile("requirements.txt"):
-                with open("requirements.txt") as f:
-                    requirements = f.read().rstrip().split("\n")
-            else:
-                Logger.LogLine(Logger.WARN,
-                               "No requirements.txt file found")
 
         Logger.Log("Dependencies:")
         for item in requirements:
