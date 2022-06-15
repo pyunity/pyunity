@@ -169,6 +169,8 @@ class Shader:
         Logger.LogLine(Logger.INFO, "Compiled shader", repr(self.name))
 
         length = gl.glGetProgramiv(self.program, gl.GL_PROGRAM_BINARY_LENGTH)
+        if length == 0:
+            return
         out = gl.glGetProgramBinary(self.program, length)
 
         folder.mkdir(parents=True, exist_ok=True)
