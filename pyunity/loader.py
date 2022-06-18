@@ -574,6 +574,15 @@ def instanceCheck(type_, value):
             raise ProjectParseException(f"{value} not in enum {type_}")
     return type_, value
 
+def GetComponentMap():
+    import pyunity
+    componentMap = {}
+    for item in pyunity.__all__:
+        obj = getattr(pyunity, item)
+        if isinstance(obj, type) and issubclass(obj, Component):
+            componentMap[item] = obj
+    return componentMap
+
 def LoadGameObjects(data, project):
     def addUuid(obj, uuid):
         if obj in project._ids:
@@ -598,12 +607,7 @@ def LoadGameObjects(data, project):
         addUuid(gameObject, part.uuid)
         gameObjects.append(gameObject)
 
-    import pyunity
-    componentMap = {}
-    for item in pyunity.__all__:
-        obj = getattr(pyunity, item)
-        if isinstance(obj, type) and issubclass(obj, Component):
-            componentMap[item] = obj
+    componentMap = GetComponentMap()
 
     # first pass, adding components
     for part in componentInfo + behaviourInfo:
