@@ -1,3 +1,4 @@
+from . import Logger
 from pathlib import Path
 import shutil
 import zipfile
@@ -27,6 +28,7 @@ def getPath(local):
             out = zf.extract(src, directory)
             shutil.move(out, dest)
             shutil.rmtree(Path(out).parent)
+            Logger.LogLine(Logger.INFO, f"Loaded resource {src} to {dest}")
             return dest
     else:
         src = package / local
@@ -35,6 +37,7 @@ def getPath(local):
         dest.parent.mkdir(parents=True, exist_ok=True)
         if src.is_file():
             shutil.copy(src, dest)
+            Logger.LogLine(Logger.INFO, f"Loaded resource {src} to {dest}")
         else:
             shutil.copytree(src, dest)
         return dest

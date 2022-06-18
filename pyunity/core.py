@@ -44,9 +44,9 @@ and all have MeshRenderers:
     /Root/Child2
     /Root/Child2/Grandchild
     >>> child1.components # List child1's components
-    [<Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0A929460>]
+    [<Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path='/Root/Child1'>, <pyunity.MeshRenderer object at 0x00000170E4199CF0>]
     >>> child2.transform.children # List child2's children
-    [<Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child2/Grandchild">]
+    [<Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path='/Root/Child2/Grandchild'>]
 
 """
 
