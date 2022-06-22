@@ -29,6 +29,7 @@ from .resources import getPath
 from pathlib import Path
 from uuid import uuid4
 import struct
+import shutil
 import inspect
 import json
 import enum
@@ -700,8 +701,20 @@ def ResaveScene(scene, project):
     path = project.fileIDs[project._ids[scene]].path
     SaveScene(scene, project, Path(path).parent)
 
-def GenerateProject(name):
-    project = Project(name)
+def GenerateProject(name, force=True):
+    path = Path(name).resolve()
+    if os.path.exists(path):
+        if force:
+            if os.path.isfile(path):
+                os.remove(path)
+            else:
+                shutil.rmtree(path)
+        else:
+            if os.path.isfile(path):
+                raise PyUnityException(f"File exists: {path}")
+            else:
+                raise PyUnityException(f"Directory exists: {path}")
+    project = Project(path)
     SaveProject(project)
     return project
 
