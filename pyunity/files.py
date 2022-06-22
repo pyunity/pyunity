@@ -577,8 +577,10 @@ def checkScene(func):
 
 class Project:
     def __init__(self, name="Project"):
-        self.name = name
-        self.path = Path.cwd().resolve() / self.name
+        self.path = Path(name)
+        if not self.path.is_absolute():
+            self.path = self.path.resolve()
+        self.name = self.path.name
         self._ids = {}
         self._idMap = {}
         self.fileIDs = {}
