@@ -10,7 +10,7 @@ of Scenes.
 
 __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
            "LoadSceneByName", "CurrentScene", "AddScene", "LoadScene",
-           "RemoveAllScenes", "GetSceneByIndex", "FirstScene", "KeyboardInterruptKill"]
+           "RemoveAllScenes", "GetSceneByIndex", "KeyboardInterruptKill"]
 
 from .. import settings
 from ..errors import PyUnityException, PyUnityExit
