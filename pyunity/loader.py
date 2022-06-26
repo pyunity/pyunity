@@ -699,7 +699,7 @@ def ResaveScene(scene, project):
         raise PyUnityException(f"Scene is not part of project: {scene.name!r}")
 
     path = project.fileIDs[project._ids[scene]].path
-    SaveScene(scene, project, Path(path).parent)
+    SaveScene(scene, project, Path(path))
 
 def GenerateProject(name, force=True):
     path = Path(name).resolve()
