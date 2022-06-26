@@ -69,7 +69,8 @@ def wrap(func):
 class EventLoopManager:
     current = None
     exceptions = []
-    lock = threading.RLock()
+    exceptionLock = threading.RLock()
+    waitingLock = threading.RLock()
 
     def __init__(self):
         self.threads = []
@@ -104,14 +105,15 @@ class EventLoopManager:
                 clock = Clock()
                 clock.Start(ups)
                 while self.running:
-                    for waiter in self.waiting[waitFor]:
-                        waiter.loop.call_soon_threadsafe(waiter.event.set)
+                    with EventLoopManager.waitingLock:
+                        for waiter in self.waiting[waitFor]:
+                            waiter.loop.call_soon_threadsafe(waiter.event.set)
 
                     for func in functions:
                         try:
                             func(loop)
                         except Exception as e:
-                            with EventLoopManager.lock:
+                            with EventLoopManager.exceptionLock:
                                 EventLoopManager.exceptions.append(e)
                             break
                         loop.call_soon(loop.stop)
@@ -152,7 +154,7 @@ class EventLoopManager:
         asyncio.set_event_loop(self.mainLoop)
 
         while self.running:
-            with EventLoopManager.lock:
+            with EventLoopManager.exceptionLock:
                 if len(EventLoopManager.exceptions):
                     from . import SceneManager
                     from .scenes.runner import ChangeScene
@@ -173,8 +175,9 @@ class EventLoopManager:
                             Logger.LogException(exception)
                         EventLoopManager.exceptions.clear()
 
-            for waiter in self.waiting[self.mainWaitFor]:
-                waiter.loop.call_soon_threadsafe(waiter.event.set)
+            with EventLoopManager.waitingLock:
+                for waiter in self.waiting[self.mainWaitFor]:
+                    waiter.loop.call_soon_threadsafe(waiter.event.set)
 
             for func in self.updates:
                 func(loop)
@@ -223,7 +226,7 @@ class EventLoop(asyncio.SelectorEventLoop):
 
     def handleException(self, context):
         if "exception" in context:
-            with EventLoopManager.lock:
+            with EventLoopManager.exceptionLock:
                 EventLoopManager.exceptions.append(context["exception"])
 
 def StartCoroutine(coro):
@@ -247,12 +250,14 @@ class WaitForEventLoop:
     def __init__(self):
         self.event = asyncio.Event()
         self.loop = asyncio.get_running_loop()
-        EventLoopManager.current.waiting[type(self)].append(self)
+        with EventLoopManager.waitingLock:
+            EventLoopManager.current.waiting[type(self)].append(self)
 
     def __await__(self):
         start = time.perf_counter()
         yield from self.event.wait().__await__()
-        EventLoopManager.current.waiting[type(self)].remove(self)
+        with EventLoopManager.waitingLock:
+            EventLoopManager.current.waiting[type(self)].remove(self)
         return time.perf_counter() - start
 
 class WaitForUpdate(WaitForEventLoop):
