@@ -70,8 +70,6 @@ class Scene(Asset):
         light.AddComponent(Light)
         light.scene = self
         self.gameObjects = [self.mainCamera.gameObject, light]
-        self.ids = {}
-        self.id = str(uuid.uuid4())
 
     def GetAssetFile(self, gameObject):
         return Path("Scenes") / (self.name + ".scene")
@@ -99,7 +97,6 @@ class Scene(Asset):
         cls.name = name
         cls.gameObjects = []
         cls.mainCamera = None
-        cls.ids = {}
         return cls
 
     @property
