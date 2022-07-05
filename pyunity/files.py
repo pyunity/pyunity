@@ -22,6 +22,7 @@ from pathlib import Path
 from PIL import Image
 from uuid import uuid4
 import OpenGL.GL as gl
+import textwrap
 import ctypes
 import sys
 import os
@@ -144,6 +145,16 @@ class Behaviour(Component):
 class Scripts:
     """Utility class for loading scripts in a folder."""
 
+    template = textwrap.dedent("""
+    from pyunity import *
+
+    class {}(Behaviour):
+        async def Start(self):
+            pass
+
+        async def Update(self, dt):
+            pass
+    """)[1:]
     var = {}
 
     @staticmethod
@@ -208,7 +219,7 @@ class Scripts:
         return module
 
     @staticmethod
-    def LoadScript(path):
+    def LoadScript(path, force=False):
         """
         Loads a PyUnity script by path.
 
@@ -216,6 +227,8 @@ class Scripts:
         ----------
         path : Pathlike
             A path to a PyUnity script
+        force : bool
+            Continue on error
 
         Returns
         -------
@@ -249,7 +262,12 @@ class Scripts:
         name = pathobj.name[:-3]
         if Scripts.CheckScript(text):
             c = compile("\n".join(text), name + ".py", "exec")
-            exec(c, Scripts.var)
+            try:
+                exec(c, Scripts.var)
+            except Exception as e:
+                if not force:
+                    raise
+                Logger.LogException(e)
             if name not in Scripts.var:
                 raise PyUnityException(
                     f"Cannot find class {name!r} in {str(pathobj)!r}")
@@ -261,6 +279,12 @@ class Scripts:
                            f"{str(pathobj)!r} is not a valid PyUnity script")
 
         return module
+
+    @staticmethod
+    def Reset():
+        Scripts.var = {}
+        if "PyUnityScripts" in sys.modules:
+            sys.modules.pop("PyUnityScripts")
 
 class Asset(SavesProjectID, metaclass=ABCMeta):
     @abstractmethod

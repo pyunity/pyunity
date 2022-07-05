@@ -622,7 +622,6 @@ def LoadGameObjects(data, project):
             file = project.fileIDs[part.attrs.pop("_script")]
             fullpath = project.path.resolve() / file.path
             behaviourType = PyUnityScripts._lookup[str(fullpath)]
-            addUuid(behaviourType, file.uuid)
             component = gameObject.AddComponent(behaviourType)
             if part.name[:-11] != behaviourType.__name__:
                 raise PyUnityException(f"{behaviourType.__name__} does not match {part.name[:-11]}")
@@ -761,7 +760,8 @@ def LoadProject(folder, remove=True):
     # Scenes
     for file in project.filePaths:
         if file.endswith(".scene"):
-            LoadScene(project.path / os.path.normpath(file), project)
+            scene = LoadScene(project.path / os.path.normpath(file), project)
+            project.SetAsset(file, scene)
 
     return project
 
