@@ -24,6 +24,7 @@ from uuid import uuid4
 import OpenGL.GL as gl
 import textwrap
 import ctypes
+import copy
 import sys
 import os
 
@@ -436,55 +437,51 @@ class Skybox:
 
 class Prefab(Asset):
     """Prefab model"""
-    def __init__(self, gameObject, prune=True):
+    def __init__(self, root, prune=True):
         if prune:
             self.gameObjects = []
             self.assets = []
             components = []
             mapping = {}
 
-            for transform in gameObject.transform.GetDescendants():
-                obj = transform.gameObject
-                g = GameObject(obj.name)
-                g.tag = obj.tag
-                g.enabled = obj.enabled
-                mapping[obj] = g
-                self.gameObjects.append(g)
+            for transform in root.transform.GetDescendants():
+                gameObject = transform.gameObject
+                copy = GameObject(gameObject.name)
+                copy.tag = gameObject.tag
+                copy.enabled = gameObject.enabled
+                mapping[gameObject] = copy
+                self.gameObjects.append(copy)
 
-                parentTransform = obj.transform.parent
+                parentTransform = gameObject.transform.parent
                 if parentTransform is None:
                     newParent = None
                 else:
                     newParent = mapping[parentTransform.gameObject].transform
-                g.transform.ReparentTo(newParent)
+                copy.transform.ReparentTo(newParent)
 
-                for component in obj.components:
+                for component in gameObject.components:
                     if isinstance(component, Transform):
-                        mapping[component] = g.transform
+                        mapping[component] = copy.transform
                         for k in component._shown:
                             v = getattr(component, k)
                             setattr(mapping[component], k, v)
                     else:
-                        new = g.AddComponent(type(component))
+                        new = copy.AddComponent(type(component))
                         mapping[component] = new
                         components.append(new)
 
             # 2nd pass setting attributes
-            for transform in gameObject.transform.GetDescendants():
+            for transform in root.transform.GetDescendants():
                 for component in transform.gameObject.components:
                     if isinstance(component, Transform):
                         continue
                     for k in component._saved:
                         v = getattr(component, k)
-                        if isinstance(v, GameObject):
+                        if isinstance(v, (GameObject, Component)):
                             if v not in mapping:
                                 continue
                             v = mapping[v]
-                        elif isinstance(v, Component):
-                            if v.gameObject not in mapping:
-                                continue
-                            v = mapping[v]
-                        if isinstance(v, Asset):
+                        elif isinstance(v, Asset):
                             self.assets.append(v)
                         setattr(mapping[component], k, v)
 
@@ -493,7 +490,7 @@ class Prefab(Asset):
             self.gameObjects = []
             self.assets = []
 
-            for transform in gameObject.transform.GetDescendants():
+            for transform in root.transform.GetDescendants():
                 if transform.gameObject.scene is not None:
                     raise PyUnityException(
                         "Cannot create prefab with GameObjects that are part of a scene")
@@ -521,6 +518,7 @@ class Prefab(Asset):
 
     def Instantiate(self,
                     scene=None,
+                    parent=None,
                     position=Vector3.zero(),
                     rotation=Quaternion.identity(),
                     scale=Vector3.one(),
@@ -533,6 +531,10 @@ class Prefab(Asset):
         scene : Scene, optional
             The scene to instantiate in. If None, the
             current scene is selected.
+        parent : GameObject, optional
+            The parent to instantiate the Prefab under.
+            If None, the prefab will be instantiated
+            at the root of the scene.
         position : Vector3, optional
             Position of the newly created GameObject, by
             default Vector3.zero()
@@ -563,42 +565,17 @@ class Prefab(Asset):
             if scene is None:
                 raise PyUnityException("No scene running")
 
-        root = GameObject(self.gameObject.name)
-        mapping = {self.gameObject: root}
-        for gameObject in self.gameObjects:
-            if gameObject is not self.gameObject:
-                copy = GameObject(gameObject.name)
-                mapping[gameObject] = copy
-            else:
-                copy = mapping[gameObject]
-            copy.tag = gameObject.tag
-            copy.enabled = gameObject.enabled
-            scene.Add(copy)
+        root = copy.deepcopy(self.gameObject)
+        for transform in root.transform.GetDescendants():
+            scene.Add(transform.gameObject)
 
-            parentTransform = gameObject.transform.parent
-            if parentTransform is None:
-                newParent = None
-            else:
-                newParent = mapping[parentTransform.gameObject].transform
-            copy.transform.ReparentTo(newParent)
-
-            for component in gameObject.components:
-                if isinstance(component, Transform):
-                    mapping[component] = copy.transform
-                    for k in component._shown:
-                        v = getattr(component, k)
-                        setattr(mapping[component], k, v)
-                else:
-                    new = copy.AddComponent(type(component))
-                    mapping[component] = new
-
-        for transform in gameObject.transform.GetDescendants():
-            for component in transform.gameObject.components:
-                if isinstance(component, Transform):
-                    continue
-                for k in component._saved:
-                    v = getattr(component, k)
-                    setattr(mapping[component], k, v)
+        if parent is not None:
+            if not isinstance(parent, (GameObject, Transform)):
+                raise PyUnityException(
+                    "Provided parent is not a GameObject or a Transform")
+            if isinstance(parent, GameObject):
+                parent = parent.transform
+            root.transform.ReparentTo(parent)
 
         if worldSpace:
             root.transform.position = position
