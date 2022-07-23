@@ -19,6 +19,7 @@ def main():
     scene.gameObjects[1].transform.LookAtPoint(Vector3.zero())
     scene.mainCamera.transform.localPosition = Vector3(0, 5, -10)
     scene.mainCamera.transform.LookAtPoint(Vector3.zero())
+    scene.mainCamera.shadows = True
 
     cube = GameObject("Cube")
     renderer = cube.AddComponent(MeshRenderer)

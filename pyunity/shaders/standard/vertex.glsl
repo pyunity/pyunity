@@ -6,6 +6,7 @@ layout (location = 2) in vec2 aTexCoord;
 
 uniform int numLights;
 uniform mat4 projection;
+uniform mat3 normModel;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 lightSpaceMatrices[NR_LIGHTS];
@@ -18,7 +19,7 @@ out vec4 FragPosLightSpaces[NR_LIGHTS];
 void main() {
     gl_Position = projection * view * model * vec4(aPos, 1.0);
     TexCoord = aTexCoord;
-    normal = vec3(transpose(inverse(mat3(model))) * aNormal);
+    normal = vec3(normModel * aNormal);
     FragPos = vec3(model * vec4(aPos, 1.0));
 
     for (int i = 0; i < numLights; i++) {
