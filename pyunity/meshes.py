@@ -88,7 +88,7 @@ class Mesh(Asset):
     def compile(self, force=False):
         if not self.compiled or force:
             data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
-                for item in zip(self.verts, self.normals, self.texcoords)]))
+                                          for item in zip(self.verts, self.normals, self.texcoords)]))
             indices = list(itertools.chain(*self.triangles))
 
             self.vbo = gl.glGenBuffers(1)

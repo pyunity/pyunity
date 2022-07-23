@@ -445,27 +445,17 @@ savable = (
 """All savable types that will not be saved as UUIDs"""
 
 def SaveGameObjects(gameObjects, data, project):
-    def getUuid(obj):
-        if obj is None:
-            return None
-        if obj in project._ids:
-            return project._ids[obj]
-        uuid = str(uuid4())
-        project._ids[obj] = uuid
-        project._idMap[uuid] = obj
-        return project._ids[obj]
-
     for gameObject in gameObjects:
         attrs = {
             "name": gameObject.name,
             "tag": gameObject.tag.tag,
             "enabled": gameObject.enabled,
-            "transform": ObjectInfo.SkipConv(getUuid(gameObject.transform))
+            "transform": ObjectInfo.SkipConv(project.GetUuid(gameObject.transform))
         }
-        data.append(ObjectInfo("GameObject", getUuid(gameObject), attrs))
+        data.append(ObjectInfo("GameObject", project.GetUuid(gameObject), attrs))
 
     for gameObject in gameObjects:
-        gameObjectID = getUuid(gameObject)
+        gameObjectID = project.GetUuid(gameObject)
         for component in gameObject.components:
             attrs = {
                 "gameObject": ObjectInfo.SkipConv(gameObjectID),
@@ -476,7 +466,7 @@ def SaveGameObjects(gameObjects, data, project):
                 if isinstance(v, SavesProjectID):
                     if v not in project._ids and isinstance(v, Asset):
                         project.ImportAsset(v, gameObject)
-                    v = ObjectInfo.SkipConv(getUuid(v))
+                    v = ObjectInfo.SkipConv(project.GetUuid(v))
                 elif hasattr(v, "_wrapper"):
                     if isinstance(getattr(v, "_wrapper"), SavableStruct):
                         wrapper = getattr(v, "_wrapper")
@@ -487,7 +477,7 @@ def SaveGameObjects(gameObjects, data, project):
                                 if isinstance(item, SavesProjectID):
                                     if item not in project._ids and isinstance(item, Asset):
                                         project.ImportAsset(item, gameObject)
-                                    struct[key] = getUuid(item)
+                                    struct[key] = project.GetUuid(item)
                                 else:
                                     struct[key] = ObjectInfo.convString(item)
                         sep = "\n        "
@@ -505,7 +495,7 @@ def SaveGameObjects(gameObjects, data, project):
                         f.write(GetImports(inspect.getsourcefile(behaviour)) +
                                 inspect.getsource(behaviour))
 
-                    uuid = getUuid(behaviour)
+                    uuid = project.GetUuid(behaviour)
                     file = File(filename, uuid)
                     project.ImportFile(file, write=False)
 
@@ -513,7 +503,7 @@ def SaveGameObjects(gameObjects, data, project):
                 name = behaviour.__name__ + "(Behaviour)"
             else:
                 name = component.__class__.__name__ + "(Component)"
-            data.append(ObjectInfo(name, getUuid(component), attrs))
+            data.append(ObjectInfo(name, project.GetUuid(component), attrs))
 
 def LoadObjectInfos(file):
     with open(file) as f:
@@ -659,23 +649,13 @@ def LoadGameObjects(data, project):
     return gameObjects
 
 def SaveScene(scene, project, path):
-    def getUuid(obj):
-        if obj is None:
-            return None
-        if obj in project._ids:
-            return project._ids[obj]
-        uuid = str(uuid4())
-        project._ids[obj] = uuid
-        project._idMap[uuid] = obj
-        return project._ids[obj]
-
     location = project.path / path
     data = [ObjectInfo(
         "Scene",
-        getUuid(scene),
+        project.GetUuid(scene),
         {
             "name": scene.name,
-            "mainCamera": ObjectInfo.SkipConv(getUuid(scene.mainCamera))
+            "mainCamera": ObjectInfo.SkipConv(project.GetUuid(scene.mainCamera))
         }
     )]
 
@@ -684,7 +664,7 @@ def SaveScene(scene, project, path):
     location.parent.mkdir(parents=True, exist_ok=True)
     with open(location, "w+") as f:
         f.write("\n".join(map(str, data)))
-    project.ImportFile(File(Path(path), getUuid(scene)))
+    project.ImportFile(File(Path(path), project.GetUuid(scene)))
 
 savers = {
     Mesh: SaveMesh,
