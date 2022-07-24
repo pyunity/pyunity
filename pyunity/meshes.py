@@ -6,9 +6,11 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
+from charset_normalizer import normalize
 from .core import SingleComponent, ShowInInspector
 from .files import Asset, convert
 from .values import Vector3
+from .values import Mathf
 from pathlib import Path
 from ctypes import c_float, c_uint, c_void_p
 import OpenGL.GL as gl
@@ -202,6 +204,39 @@ class Mesh(Asset):
             ],
             [[0, 0], [0, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 0]]
         )
+
+    @staticmethod
+    def sphere(size, detail=16):
+        verts = []
+        normals = []
+        texcoords = []
+        for i in range(detail * 2):
+            azimuth = i / detail * Mathf.PI
+            for j in range(detail + 1):
+                polar = j / detail * Mathf.PI
+                x = Mathf.Cos(azimuth) * Mathf.Sin(polar)
+                y = Mathf.Sin(azimuth) * Mathf.Sin(polar)
+                z = Mathf.Cos(polar)
+                point = Vector3(x, y, z)
+                verts.append(point * size)
+                normals.append(point)
+                texcoords.append([i / detail / 2 % 1, j / detail % 1])
+
+        triangles = []
+        for i in range(detail * 2):
+            for j in range(detail):
+                inext = i + 1 if i < detail * 2 - 1 else 0
+                jnext = j + 1
+                a = i * (detail + 1) + j
+                b = inext * (detail + 1) + j
+                c = i * (detail + 1) + jnext
+                d = inext * (detail + 1) + jnext
+                if j != 0:
+                    triangles.append([a, b, c])
+                if j != detail - 1:
+                    triangles.append([b, d, c])
+
+        return Mesh(verts, triangles, normals, texcoords)
 
     @staticmethod
     def cube(size):
