@@ -19,6 +19,7 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
            "SaveGameObjects", "SavePrefab"]
 
 from . import Logger
+from ._version import versionInfo
 from .meshes import Mesh, Material, Color
 from .errors import PyUnityException, ProjectParseException
 from .core import GameObject, Component, Tag, SavesProjectID
@@ -93,15 +94,15 @@ def SaveObj(mesh, path):
             f.write(f"f {face}\n")
 
 def LoadStl(filename):
-    def vectorFromBytes(b):
-        x, y, z = b[:4], b[4:8], b[8:]
-        l = [struct.unpack("<f", a)[0] for a in [x, y, z]]
+    def vectorFromStr(s):
+        l = list(map(float, s.split(" ")[-3:]))
         # Flip Z and Y axes
         # Reverse Z axis
         return Vector3(l[0], l[2], -l[1])
 
-    def vectorFromStr(s):
-        l = list(map(float, s.split(" ")[-3:]))
+    def vectorFromBytes(b):
+        x, y, z = b[:4], b[4:8], b[8:]
+        l = [struct.unpack("<f", a)[0] for a in [x, y, z]]
         # Flip Z and Y axes
         # Reverse Z axis
         return Vector3(l[0], l[2], -l[1])
@@ -157,6 +158,26 @@ def LoadStl(filename):
             vertices.extend([a, b, c])
             normals.extend([normal.copy(), normal.copy(), normal.copy()])
         return Mesh(vertices, faces, normals)
+
+def SaveStl(mesh, path):
+    def bytesFromVector(v):
+        l = [struct.pack("<f", i) for i in [v.x, -v.z, v.y]]
+        return b"".join(l)
+
+    directory = Path(path).resolve().parent
+    directory.mkdir(parents=True, exist_ok=True)
+
+    with open(path, "wb+") as f:
+        header = f"Exported by PyUnity {versionInfo}"
+        f.write(header.encode().ljust(80, b"\x00"))
+        f.write(len(mesh.triangles).to_bytes(4, "little"))
+        for i in range(len(mesh.triangles)):
+            left = mesh.verts[mesh.triangles[i][0]] - mesh.verts[mesh.triangles[i][1]]
+            right = mesh.verts[mesh.triangles[i][2]] - mesh.verts[mesh.triangles[i][1]]
+            f.write(bytesFromVector(left.cross(right).normalized()))
+            for index in reversed(mesh.triangles[i]):
+                f.write(bytesFromVector(mesh.verts[index]))
+            f.write(b"\x00\x00")
 
 def LoadMesh(filename):
     """
