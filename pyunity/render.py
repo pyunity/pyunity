@@ -230,6 +230,22 @@ class Shader:
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
 
+    def setMat3(self, var, val):
+        """
+        Set a ``mat3`` uniform variable.
+
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : glm.mat3
+            Value of uniform variable
+
+        """
+        self.uniforms[var.decode()] = val
+        location = gl.glGetUniformLocation(self.program, var)
+        gl.glUniformMatrix3fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
+
     def setMat4(self, var, val):
         """
         Set a ``mat4`` uniform variable.
@@ -619,7 +635,7 @@ class Camera(SingleComponent):
             model = self.getMatrix(renderer.transform)
             normModel = glm.transpose(glm.inverse(glm.mat3(model)))
             self.shader.setMat4(b"model", model)
-            self.shader.setMat4(b"normModel", normModel)
+            self.shader.setMat3(b"normModel", normModel)
             self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
