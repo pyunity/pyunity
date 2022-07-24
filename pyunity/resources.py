@@ -4,6 +4,7 @@
 
 from . import Logger
 from pathlib import Path
+from datetime import datetime
 import shutil
 import zipfile
 
@@ -22,13 +23,15 @@ else:
 
 def getPath(local):
     dest = directory / local
-    if dest.exists():
-        return dest
     if egg:
         with zipfile.ZipFile(package) as zf:
             src = str(Path("pyunity") / local)
             if src not in zf.namelist():
                 raise Exception(f"No resource at {package / src}")
+            if dest.exists():
+                ziptime = datetime(*zf.getinfo(src).date_time)
+                if ziptime.timestamp() != dest.stat().st_mtime:
+                    return dest
             out = zf.extract(src, directory)
             shutil.move(out, dest)
             shutil.rmtree(Path(out).parent)
@@ -38,10 +41,12 @@ def getPath(local):
         src = package / local
         if not src.exists():
             raise Exception(f"No resource at {src}")
+        if dest.exists() and src.stat().st_mtime != dest.stat().st_mtime:
+            return dest
         dest.parent.mkdir(parents=True, exist_ok=True)
         if src.is_file():
             shutil.copy(src, dest)
             Logger.LogLine(Logger.INFO, f"Loaded resource {src} to {dest}")
         else:
-            shutil.copytree(src, dest)
+            shutil.copytree(src, dest, dirs_exist_ok=True)
         return dest
