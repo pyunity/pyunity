@@ -41,12 +41,21 @@ def getPath(local):
         src = package / local
         if not src.exists():
             raise Exception(f"No resource at {src}")
-        if dest.exists() and src.stat().st_mtime != dest.stat().st_mtime:
-            return dest
-        dest.parent.mkdir(parents=True, exist_ok=True)
         if src.is_file():
+            if dest.exists() and src.stat().st_mtime != dest.stat().st_mtime:
+                return dest
+            dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(src, dest)
-            Logger.LogLine(Logger.INFO, f"Loaded resource {src} to {dest}")
         else:
-            shutil.copytree(src, dest, dirs_exist_ok=True)
+            for file in src.glob("**/*"):
+                if file.is_dir():
+                    continue
+                rel = file.relative_to(src)
+                filedest = dest / rel
+                if filedest.exists():
+                    if src.stat().st_mtime != filedest.stat().st_mtime:
+                        continue
+                filedest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(file, filedest)
+        Logger.LogLine(Logger.INFO, f"Loaded resource {src} to {dest}")
         return dest
