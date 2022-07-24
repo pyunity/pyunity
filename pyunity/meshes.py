@@ -206,6 +206,41 @@ class Mesh(Asset):
         )
 
     @staticmethod
+    def cylinder(radius, height, detail=32):
+        verts = []
+        normals = []
+        triangles = []
+
+        verts.append(Vector3(0, height / 2, 0))
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(radius * Vector3(Mathf.Cos(angle), height / 2, Mathf.Sin(angle)))
+            normals.append(Vector3(0, 1, 0))
+            triangles.append([i + 1, i + 2 if i < detail - 1 else 1, 0])
+
+        offset = len(verts)
+        verts.append(Vector3(0, -height / 2, 0))
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(radius * Vector3(Mathf.Cos(angle), -height / 2, Mathf.Sin(angle)))
+            normals.append(Vector3(0, -1, 0))
+            nextIndex = offset + i + 2 if i < detail - 1 else offset + 1
+            triangles.append([offset + i + 1, offset, nextIndex])
+
+        offset = len(verts)
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(radius * Vector3(Mathf.Cos(angle), height / 2, Mathf.Sin(angle)))
+            verts.append(radius * Vector3(Mathf.Cos(angle), -height / 2, Mathf.Sin(angle)))
+            normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
+            normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
+            inext = i + 1 if i < detail - 1 else 0
+            triangles.append([offset + i * 2, offset + i * 2 + 1, offset + inext * 2])
+            triangles.append([offset + inext * 2, offset + i * 2 + 1, offset + inext * 2 + 1])
+
+        return Mesh(verts, triangles, normals)
+
+    @staticmethod
     def sphere(size, detail=16):
         verts = []
         normals = []
