@@ -42,7 +42,7 @@ def main():
 
     quad = GameObject("Quad", root)
     quad.transform.localPosition = Vector3(rt50, 0, rt50)
-    quad.transform.localEulerAngles = Vector3(0, -45, 0)
+    quad.transform.localEulerAngles = Vector3(0, -135, 0)
     renderer = quad.AddComponent(MeshRenderer)
     renderer.mat = mat
     renderer.mesh = Loader.Primitives.quad
