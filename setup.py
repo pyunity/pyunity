@@ -108,6 +108,7 @@ if os.environ["cython"] == "1":
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
+        "zip_safe": False
     }
 else:
     dataFiles = list(filter(lambda a: ".py" not in a,
@@ -116,6 +117,7 @@ else:
         "cmdclass": {"egg_info": SaveMeta},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "package_data": {"pyunity": [file[8:] for file in dataFiles]},
+        "zip_safe": True
     }
     versionfile = "pyunity/_version.py"
 
