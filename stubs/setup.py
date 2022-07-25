@@ -31,8 +31,11 @@ setup(
         "Programming Language :: Python :: 3.9",
     ],
     python_requires='>=3.6',
-    packages=["pyunity"],
+    packages=["pyunity", "PyUnityScripts"],
     install_requires=["pyunity==0.9.0"],
-    package_data={"pyunity": ["*.pyi", "*/*.pyi"]},
+    package_data={
+        "pyunity": ["*.pyi", "*/*.pyi"],
+        "PyUnityScripts": ["__init__.pyi"]
+    },
     zip_safe=False,
 )
