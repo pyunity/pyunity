@@ -426,7 +426,7 @@ class Camera(SingleComponent):
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
-    shadows = ShowInInspector(bool, True)
+    shadows = ShowInInspector(bool, False)
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -522,8 +522,8 @@ class Camera(SingleComponent):
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
         angle, axis = transform.rotation.angleAxisPair
-        angle = glm.radians(angle)
-        axis = axis.normalized()
+        angle = -glm.radians(angle)
+        axis = Vector3(1, 1, -1) * axis.normalized()
 
         position = glm.translate(glm.mat4(), list(
             transform.position * Vector3(1, 1, -1)))
