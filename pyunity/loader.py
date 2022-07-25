@@ -62,7 +62,7 @@ def LoadObj(filename):
         if not values:
             continue
         if values[0] == "v":
-            v = Vector3(float(values[1]), float(values[3]), float(values[2]))
+            v = Vector3(float(values[1]), -float(values[3]), float(values[2]))
             vertices.append(v)
         elif values[0] == "f":
             face = []
@@ -81,14 +81,18 @@ def LoadObj(filename):
     return Mesh(vertices, faces, normals)
 
 def SaveObj(mesh, path):
+    def vectorToStr(v):
+        l = [v.x, v.z, -v.y]
+        return " ".join(map(str, round(l, 8)))
+
     directory = Path(path).resolve().parent
     directory.mkdir(parents=True, exist_ok=True)
 
     with open(path, "w+") as f:
         for vertex in mesh.verts:
-            f.write(f"v {' '.join(map(str, round(vertex, 8)))}\n")
+            f.write(f"v {vectorToStr(vertex)}\n")
         for normal in mesh.normals:
-            f.write(f"vn {' '.join(map(str, round(normal, 8)))}\n")
+            f.write(f"vn {vectorToStr(normal)}\n")
         for face in mesh.triangles:
             face = " ".join([f"{x + 1}//{x + 1}" for x in face])
             f.write(f"f {face}\n")
