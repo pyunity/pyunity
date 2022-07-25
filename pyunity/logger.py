@@ -150,7 +150,7 @@ def LogLine(level, *message, stacklevel=1, silent=False):
     location = f"{module}:{lineno}"
 
     stamp = time.strftime(TIME_FORMAT)
-    msg = " ".join(map(lambda a: str(a).rstrip(), message))
+    msg = " ".join(str(a).rstrip() for a in message)
     if level == WARN:
         msg = f"Warning: " + msg
     if msg.count("\n") > 0:

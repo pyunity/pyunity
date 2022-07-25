@@ -97,8 +97,7 @@ if os.environ["cython"] == "1":
         versionfile = "pyunity/_version.py"
     else:
         cFiles = glob.glob("src/**/*.c", recursive=True)
-        dataFiles = list(filter(lambda a: ".c" not in a,
-                                glob.glob("src/**/*.*", recursive=True)))
+        dataFiles = [a for a in glob.glob("src/**/*.*", recursive=True) if ".c" not in a]
         versionfile = "src/_version.py"
 
     config = {
@@ -111,8 +110,7 @@ if os.environ["cython"] == "1":
         "zip_safe": False
     }
 else:
-    dataFiles = list(filter(lambda a: ".py" not in a,
-                            glob.glob("pyunity/**/*.*", recursive=True)))
+    dataFiles = [a for a in glob.glob("pyunity/**/*.*", recursive=True) if ".py" not in a]
     config = {
         "cmdclass": {"egg_info": SaveMeta},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],

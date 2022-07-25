@@ -307,10 +307,10 @@ class GameObject(SavesProjectID):
 
     def __repr__(self):
         return (f"<GameObject name={self.name!r} components="
-                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+                f"{[type(x).__name__ for x in self.components]}>")
     def __str__(self):
         return (f"<GameObject name={self.name!r} components="
-                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+                f"{[type(x).__name__ for x in self.components]}>")
 
 class HideInInspector:
     """
