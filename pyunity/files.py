@@ -252,10 +252,8 @@ class Scripts:
             raise PyUnityException(
                 f"The specified file does not exist: {str(path)!r}")
 
-        if hasattr(sys.modules.get("PyUnityScripts", None), "__pyunity__"):
-            module = sys.modules["PyUnityScripts"]
-        else:
-            module = Scripts.GenerateModule()
+        Scripts.GenerateModule()
+        import PyUnityScripts
 
         with open(path) as f:
             text = f.read().rstrip().splitlines()
@@ -272,9 +270,9 @@ class Scripts:
             if name not in Scripts.var:
                 raise PyUnityException(
                     f"Cannot find class {name!r} in {str(pathobj)!r}")
-            setattr(module, name, Scripts.var[name])
-            module.__all__.append(name)
-            module._lookup[str(path)] = Scripts.var[name]
+            setattr(PyUnityScripts, name, Scripts.var[name])
+            PyUnityScripts.__all__.append(name)
+            PyUnityScripts._lookup[str(path)] = Scripts.var[name]
             return Scripts.var[name]
         else:
             Logger.LogLine(Logger.WARN,
