@@ -154,15 +154,15 @@ class Mesh(Asset):
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of ``size``
-            facing in the direction of the negative z axis.
+            A quad centered at Vector3(0, 0, 0) with side length of ``size``
+            facing in the direction of the positive z axis.
 
         """
+        half = size / 2
         return Mesh(
             [
-                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2,
-                        0), Vector3(size / 2, -size / 2, 0)
+                Vector3(-half, half, 0), Vector3(half, half, 0),
+                Vector3(half, -half, 0), Vector3(-half, -half, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
             [Vector3.forward(), Vector3.forward(),
