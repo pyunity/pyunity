@@ -14,7 +14,7 @@ import argparse
 from ._version import versionInfo
 from . import Loader, SceneManager, examples
 
-def version():
+def printVersion():
     TITLE_WIDTH = 30
     print("#" * TITLE_WIDTH)
     print("VERSION INFO".center(TITLE_WIDTH))
@@ -114,7 +114,7 @@ parser.add_argument("project", nargs="?", default="0",
 def main():
     args = parser.parse_args()
     if args.version:
-        version()
+        printVersion()
         return
 
     if args.project.isdecimal():
