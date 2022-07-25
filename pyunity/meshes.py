@@ -212,31 +212,39 @@ class Mesh(Asset):
         triangles = []
 
         verts.append(Vector3(0, height / 2, 0))
+        normals.append(Vector3(0, 1, 0))
         for i in range(detail):
             angle = i / detail * Mathf.PI * 2
-            verts.append(radius * Vector3(Mathf.Cos(angle), height / 2, Mathf.Sin(angle)))
+            verts.append(Vector3(radius * Mathf.Cos(angle), height / 2, radius * Mathf.Sin(angle)))
             normals.append(Vector3(0, 1, 0))
-            triangles.append([i + 1, i + 2 if i < detail - 1 else 1, 0])
+            triangles.append([i + 1, 0, i + 2])
+        verts.append(Vector3(radius, height / 2, 0))
+        normals.append(Vector3(0, 1, 0))
 
         offset = len(verts)
         verts.append(Vector3(0, -height / 2, 0))
+        normals.append(Vector3(0, -1, 0))
         for i in range(detail):
             angle = i / detail * Mathf.PI * 2
-            verts.append(radius * Vector3(Mathf.Cos(angle), -height / 2, Mathf.Sin(angle)))
+            verts.append(Vector3(radius * Mathf.Cos(angle), -height / 2, radius * Mathf.Sin(angle)))
             normals.append(Vector3(0, -1, 0))
-            nextIndex = offset + i + 2 if i < detail - 1 else offset + 1
-            triangles.append([offset + i + 1, offset, nextIndex])
+            triangles.append([offset + i + 1, offset + i + 2, offset])
+        verts.append(radius * Vector3(1, -height / 2, 0))
+        normals.append(Vector3(0, -1, 0))
 
         offset = len(verts)
         for i in range(detail):
             angle = i / detail * Mathf.PI * 2
-            verts.append(radius * Vector3(Mathf.Cos(angle), height / 2, Mathf.Sin(angle)))
-            verts.append(radius * Vector3(Mathf.Cos(angle), -height / 2, Mathf.Sin(angle)))
+            verts.append(Vector3(radius * Mathf.Cos(angle), height / 2, radius * Mathf.Sin(angle)))
+            verts.append(Vector3(radius * Mathf.Cos(angle), -height / 2, radius * Mathf.Sin(angle)))
             normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
             normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
-            inext = i + 1 if i < detail - 1 else 0
-            triangles.append([offset + i * 2, offset + i * 2 + 1, offset + inext * 2])
-            triangles.append([offset + inext * 2, offset + i * 2 + 1, offset + inext * 2 + 1])
+            triangles.append([offset + i * 2, offset + i * 2 + 2, offset + i * 2 + 1])
+            triangles.append([offset + i * 2 + 2, offset + i * 2 + 3, offset + i * 2 + 1])
+        verts.append(Vector3(radius, height / 2, 0))
+        verts.append(Vector3(radius, -height / 2, 0))
+        normals.append(Vector3(1, 0, 0))
+        normals.append(Vector3(1, 0, 0))
 
         return Mesh(verts, triangles, normals)
 
@@ -299,8 +307,8 @@ class Mesh(Asset):
                 c = i * (detail // 2 + 1) + jnext
                 d = inext * (detail // 2 + 1) + jnext
                 if j != 0:
-                    triangles.append([a, c, b])
-                triangles.append([b, c, d])
+                    triangles.append([a, b, c])
+                triangles.append([b, d, c])
 
         offset = len(verts)
         for i in range(detail * 2):
@@ -323,15 +331,15 @@ class Mesh(Asset):
                 c = offset + i * (detail // 2 + 1) + jnext
                 d = offset + inext * (detail // 2 + 1) + jnext
                 if j != 0:
-                    triangles.append([a, b, c])
-                triangles.append([b, d, c])
+                    triangles.append([a, c, b])
+                triangles.append([b, c, d])
 
         for i in range(detail * 2):
             inext = i + 1 if i < detail * 2 - 1 else 0
             a = i * (detail // 2 + 1) + detail // 2
             b = inext * (detail // 2 + 1) + detail // 2
-            triangles.append([a, a + offset, b])
-            triangles.append([b, a + offset, b + offset])
+            triangles.append([a, b, a + offset])
+            triangles.append([a + offset, b, b + offset])
 
         return Mesh(verts, triangles, normals)
 

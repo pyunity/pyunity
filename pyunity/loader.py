@@ -175,7 +175,7 @@ def SaveStl(mesh, path):
             left = mesh.verts[mesh.triangles[i][0]] - mesh.verts[mesh.triangles[i][1]]
             right = mesh.verts[mesh.triangles[i][2]] - mesh.verts[mesh.triangles[i][1]]
             f.write(bytesFromVector(left.cross(right).normalized()))
-            for index in reversed(mesh.triangles[i]):
+            for index in mesh.triangles[i]:
                 f.write(bytesFromVector(mesh.verts[index]))
             f.write(b"\x00\x00")
 
