@@ -1,0 +1,39 @@
+[build-system]
+requires = [
+    "cython>=3.0.0a8",
+    "wheel>=0.29.0",
+    "setuptools>=58.3.0"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+python_files = "test*.py"
+python_classes = "Test*"
+python_functions = "test*"
+addopts = ["tests/", "--cov=pyunity", "-vrs"]
+filterwarnings = [
+    "ignore:cannot collect test class .* because it has a __init__ constructor:pytest.PytestCollectionWarning"
+]
+
+[tool.coverage.run]
+omit = [
+    "pyunity/examples/*",
+    "pyunity/window/providers/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "def __repr__",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "@(abc\\.)?abstractmethod",
+    "pass$"
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+mypy_path = "stubs/"

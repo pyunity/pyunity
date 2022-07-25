@@ -44,9 +44,9 @@ and all have MeshRenderers:
     /Root/Child2
     /Root/Child2/Grandchild
     >>> child1.components # List child1's components
-    [<Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child1">, <pyunity.core.MeshRenderer object at 0x0A929460>]
+    [<Transform position=Vector3(-2, 0, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path='/Root/Child1'>, <pyunity.MeshRenderer object at 0x00000170E4199CF0>]
     >>> child2.transform.children # List child2's children
-    [<Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path="/Root/Child2/Grandchild">]
+    [<Transform position=Vector3(0, 5, 0) rotation=Quaternion(1, 0, 0, 0) scale=Vector3(1, 1, 1) path='/Root/Child2/Grandchild'>]
 
 """
 
@@ -375,6 +375,7 @@ class _AddFields(IncludeInstanceMixin):
 
     def __call__(self, **kwargs):
         selfref = self.selfref
+
         class _decorator:
             def apply(self, cls):
                 return self.__call__(cls)
@@ -554,7 +555,8 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localPosition.copy()
         else:
-            return self.parent.position + self.parent.rotation.RotateVector(self.localPosition) * self.scale
+            return self.parent.position + self.parent.rotation.RotateVector(
+                self.localPosition) * self.parent.scale
 
     @position.setter
     def position(self, value):
@@ -565,8 +567,8 @@ class Transform(SingleComponent):
         if self.parent is None:
             self.localPosition = value
         else:
-            self.localPosition = self.parent.rotation.RotateVector(
-                value / self.scale - self.parent.position)
+            self.localPosition = self.parent.rotation.conjugate.RotateVector(
+                value - self.parent.position) / self.parent.scale
 
     @property
     def rotation(self):

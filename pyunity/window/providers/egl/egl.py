@@ -48,6 +48,7 @@ if search:
 
 def wrap(func):
     orig = getattr(_egl, func.__name__)
+
     @wraps(func)
     def inner(*args):
         res = orig(*args)

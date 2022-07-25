@@ -6,4 +6,22 @@
 Master version for PyUnity.
 
 """
-__version__ = "0.9.0"
+
+__all__ = ["versionInfo"]
+
+class VersionInfo:
+    def __init__(self, major, minor, micro, releaselevel):
+        self.major = major
+        self.minor = minor
+        self.micro = micro
+        self.releaselevel = releaselevel
+
+    def __str__(self):
+        return f"{self.major}.{self.minor}.{self.micro}"
+
+    def __repr__(self):
+        return "VersionInfo(" + ", ".join(map(str, [
+            self.major, self.minor, self.micro, self.releaselevel])) + ")"
+
+versionInfo = VersionInfo(0, 9, 0, "beta")
+__version__ = str(versionInfo)

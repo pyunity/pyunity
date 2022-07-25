@@ -29,6 +29,7 @@ Submodules
    pyunity.logger
    pyunity.meshes
    pyunity.render
+   pyunity.resources
    pyunity.settings
 
 Module contents

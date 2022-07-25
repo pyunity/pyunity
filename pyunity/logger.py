@@ -134,14 +134,19 @@ def LogLine(level, *message, stacklevel=1, silent=False):
         Level or severity of log.
 
     """
-    stack = inspect.stack()
-    if len(stack) <= stacklevel:
+    try:
+        stack = inspect.stack()
+        if len(stack) <= stacklevel:
+            module = "sys"
+            lineno = 1
+        else:
+            frameinfo = inspect.stack()[stacklevel]
+            module = frameinfo.frame.f_globals.get("__name__", "<string>")
+            lineno = frameinfo.lineno
+    except ValueError:
+        # call stack is not deep enough
         module = "sys"
         lineno = 1
-    else:
-        frameinfo = inspect.stack()[stacklevel]
-        module = frameinfo.frame.f_globals.get("__name__", "<string>")
-        lineno = frameinfo.lineno
     location = f"{module}:{lineno}"
 
     stamp = time.strftime(TIME_FORMAT)

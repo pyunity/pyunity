@@ -69,6 +69,8 @@ def wrap(func):
 class EventLoopManager:
     current = None
     exceptions = []
+    exceptionLock = threading.RLock()
+    waitingLock = threading.RLock()
 
     def __init__(self):
         self.threads = []
@@ -98,18 +100,21 @@ class EventLoopManager:
             self.waiting[waitFor] = []
             loop = EventLoop()
             self.loops.append(loop)
+
             def inner():
                 clock = Clock()
                 clock.Start(ups)
                 while self.running:
-                    for waiter in self.waiting[waitFor]:
-                        waiter.loop.call_soon_threadsafe(waiter.event.set)
+                    with EventLoopManager.waitingLock:
+                        for waiter in self.waiting[waitFor]:
+                            waiter.loop.call_soon_threadsafe(waiter.event.set)
 
                     for func in functions:
                         try:
                             func(loop)
                         except Exception as e:
-                            EventLoopManager.exceptions.append(e)
+                            with EventLoopManager.exceptionLock:
+                                EventLoopManager.exceptions.append(e)
                             break
                         loop.call_soon(loop.stop)
                         loop.run_forever()
@@ -149,28 +154,30 @@ class EventLoopManager:
         asyncio.set_event_loop(self.mainLoop)
 
         while self.running:
-            if len(EventLoopManager.exceptions):
-                from . import SceneManager
-                from .scenes.runner import ChangeScene
-                if isinstance(EventLoopManager.exceptions[0], ChangeScene):
-                    exc = EventLoopManager.exceptions.pop()
-                    EventLoopManager.exceptions.clear()
-                    raise exc
-                elif config.exitOnError:
-                    Logger.LogLine(Logger.ERROR,
-                                   f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
-                    exc = EventLoopManager.exceptions.pop()
-                    EventLoopManager.exceptions.clear()
-                    raise exc
-                else:
-                    for exception in EventLoopManager.exceptions:
+            with EventLoopManager.exceptionLock:
+                if len(EventLoopManager.exceptions):
+                    from . import SceneManager
+                    from .scenes.runner import ChangeScene
+                    if isinstance(EventLoopManager.exceptions[0], ChangeScene):
+                        exc = EventLoopManager.exceptions.pop()
+                        EventLoopManager.exceptions.clear()
+                        raise exc
+                    elif config.exitOnError:
                         Logger.LogLine(Logger.ERROR,
-                                    f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
-                        Logger.LogException(exception)
-                    EventLoopManager.exceptions.clear()
+                                       f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
+                        exc = EventLoopManager.exceptions.pop()
+                        EventLoopManager.exceptions.clear()
+                        raise exc
+                    else:
+                        for exception in EventLoopManager.exceptions:
+                            Logger.LogLine(Logger.ERROR,
+                                           f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
+                            Logger.LogException(exception)
+                        EventLoopManager.exceptions.clear()
 
-            for waiter in self.waiting[self.mainWaitFor]:
-                waiter.loop.call_soon_threadsafe(waiter.event.set)
+            with EventLoopManager.waitingLock:
+                for waiter in self.waiting[self.mainWaitFor]:
+                    waiter.loop.call_soon_threadsafe(waiter.event.set)
 
             for func in self.updates:
                 func(loop)
@@ -219,7 +226,8 @@ class EventLoop(asyncio.SelectorEventLoop):
 
     def handleException(self, context):
         if "exception" in context:
-            EventLoopManager.exceptions.append(context["exception"])
+            with EventLoopManager.exceptionLock:
+                EventLoopManager.exceptions.append(context["exception"])
 
 def StartCoroutine(coro):
     loop = asyncio.get_running_loop()
@@ -242,12 +250,14 @@ class WaitForEventLoop:
     def __init__(self):
         self.event = asyncio.Event()
         self.loop = asyncio.get_running_loop()
-        EventLoopManager.current.waiting[type(self)].append(self)
+        with EventLoopManager.waitingLock:
+            EventLoopManager.current.waiting[type(self)].append(self)
 
     def __await__(self):
         start = time.perf_counter()
         yield from self.event.wait().__await__()
-        EventLoopManager.current.waiting[type(self)].remove(self)
+        with EventLoopManager.waitingLock:
+            EventLoopManager.current.waiting[type(self)].remove(self)
         return time.perf_counter() - start
 
 class WaitForUpdate(WaitForEventLoop):

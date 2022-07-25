@@ -6,9 +6,11 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
+from charset_normalizer import normalize
 from .core import SingleComponent, ShowInInspector
 from .files import Asset, convert
 from .values import Vector3
+from .values import Mathf
 from pathlib import Path
 from ctypes import c_float, c_uint, c_void_p
 import OpenGL.GL as gl
@@ -88,7 +90,7 @@ class Mesh(Asset):
     def compile(self, force=False):
         if not self.compiled or force:
             data = list(itertools.chain(*[[*item[0], *item[1], *item[2]]
-                for item in zip(self.verts, self.normals, self.texcoords)]))
+                                          for item in zip(self.verts, self.normals, self.texcoords)]))
             indices = list(itertools.chain(*self.triangles))
 
             self.vbo = gl.glGenBuffers(1)
@@ -152,15 +154,15 @@ class Mesh(Asset):
         Returns
         -------
         Mesh
-            A quad centered at Vector3(0, 0) with side length of ``size``
-            facing in the direction of the negative z axis.
+            A quad centered at Vector3(0, 0, 0) with side length of ``size``
+            facing in the direction of the positive z axis.
 
         """
+        half = size / 2
         return Mesh(
             [
-                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2,
-                        0), Vector3(size / 2, -size / 2, 0)
+                Vector3(-half, half, 0), Vector3(half, half, 0),
+                Vector3(half, -half, 0), Vector3(-half, -half, 0)
             ],
             [[0, 1, 2], [0, 2, 3]],
             [Vector3.forward(), Vector3.forward(),
@@ -202,6 +204,144 @@ class Mesh(Asset):
             ],
             [[0, 0], [0, 1], [1, 1], [1, 0], [0, 0], [0, 1], [1, 1], [1, 0]]
         )
+
+    @staticmethod
+    def cylinder(radius, height, detail=32):
+        verts = []
+        normals = []
+        triangles = []
+
+        verts.append(Vector3(0, height / 2, 0))
+        normals.append(Vector3(0, 1, 0))
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(Vector3(radius * Mathf.Cos(angle), height / 2, radius * Mathf.Sin(angle)))
+            normals.append(Vector3(0, 1, 0))
+            triangles.append([i + 1, 0, i + 2])
+        verts.append(Vector3(radius, height / 2, 0))
+        normals.append(Vector3(0, 1, 0))
+
+        offset = len(verts)
+        verts.append(Vector3(0, -height / 2, 0))
+        normals.append(Vector3(0, -1, 0))
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(Vector3(radius * Mathf.Cos(angle), -height / 2, radius * Mathf.Sin(angle)))
+            normals.append(Vector3(0, -1, 0))
+            triangles.append([offset + i + 1, offset + i + 2, offset])
+        verts.append(radius * Vector3(1, -height / 2, 0))
+        normals.append(Vector3(0, -1, 0))
+
+        offset = len(verts)
+        for i in range(detail):
+            angle = i / detail * Mathf.PI * 2
+            verts.append(Vector3(radius * Mathf.Cos(angle), height / 2, radius * Mathf.Sin(angle)))
+            verts.append(Vector3(radius * Mathf.Cos(angle), -height / 2, radius * Mathf.Sin(angle)))
+            normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
+            normals.append(Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)))
+            triangles.append([offset + i * 2, offset + i * 2 + 2, offset + i * 2 + 1])
+            triangles.append([offset + i * 2 + 2, offset + i * 2 + 3, offset + i * 2 + 1])
+        verts.append(Vector3(radius, height / 2, 0))
+        verts.append(Vector3(radius, -height / 2, 0))
+        normals.append(Vector3(1, 0, 0))
+        normals.append(Vector3(1, 0, 0))
+
+        return Mesh(verts, triangles, normals)
+
+    @staticmethod
+    def sphere(size, detail=16):
+        verts = []
+        normals = []
+        texcoords = []
+        for i in range(detail * 2):
+            azimuth = i / detail * Mathf.PI
+            for j in range(detail + 1):
+                polar = j / detail * Mathf.PI
+                x = Mathf.Cos(azimuth) * Mathf.Sin(polar)
+                y = Mathf.Cos(polar)
+                z = Mathf.Sin(azimuth) * Mathf.Sin(polar)
+                point = Vector3(x, y, z)
+                verts.append(point * size)
+                normals.append(point)
+                texcoords.append([i / detail / 2 % 1, j / detail % 1])
+
+        triangles = []
+        for i in range(detail * 2):
+            for j in range(detail):
+                inext = i + 1 if i < detail * 2 - 1 else 0
+                jnext = j + 1
+                a = i * (detail + 1) + j
+                b = inext * (detail + 1) + j
+                c = i * (detail + 1) + jnext
+                d = inext * (detail + 1) + jnext
+                if j != 0:
+                    triangles.append([a, b, c])
+                if j != detail - 1:
+                    triangles.append([b, d, c])
+
+        return Mesh(verts, triangles, normals, texcoords)
+
+    @staticmethod
+    def capsule(radius, height, detail=16):
+        verts = []
+        normals = []
+        triangles = []
+
+        for i in range(detail * 2):
+            azimuth = i / detail * Mathf.PI
+            for j in range(detail // 2 + 1):
+                polar = j / detail * Mathf.PI
+                x = Mathf.Cos(azimuth) * Mathf.Sin(polar)
+                y = Mathf.Cos(polar)
+                z = Mathf.Sin(azimuth) * Mathf.Sin(polar)
+                point = Vector3(x, y, z)
+                verts.append((point + Vector3(0, height / 2, 0)) * radius)
+                normals.append(point)
+
+        for i in range(detail * 2):
+            for j in range(detail // 2):
+                inext = i + 1 if i < detail * 2 - 1 else 0
+                jnext = j + 1
+                a = i * (detail // 2 + 1) + j
+                b = inext * (detail // 2 + 1) + j
+                c = i * (detail // 2 + 1) + jnext
+                d = inext * (detail // 2 + 1) + jnext
+                if j != 0:
+                    triangles.append([a, b, c])
+                triangles.append([b, d, c])
+
+        offset = len(verts)
+        for i in range(detail * 2):
+            azimuth = i / detail * Mathf.PI
+            for j in range(detail // 2 + 1):
+                polar = (1 - j / detail) * Mathf.PI
+                x = Mathf.Cos(azimuth) * Mathf.Sin(polar)
+                y = Mathf.Cos(polar)
+                z = Mathf.Sin(azimuth) * Mathf.Sin(polar)
+                point = Vector3(x, y, z)
+                verts.append((point - Vector3(0, height / 2, 0)) * radius)
+                normals.append(point)
+
+        for i in range(detail * 2):
+            for j in range(detail // 2):
+                inext = i + 1 if i < detail * 2 - 1 else 0
+                jnext = j + 1
+                a = offset + i * (detail // 2 + 1) + j
+                b = offset + inext * (detail // 2 + 1) + j
+                c = offset + i * (detail // 2 + 1) + jnext
+                d = offset + inext * (detail // 2 + 1) + jnext
+                if j != 0:
+                    triangles.append([a, c, b])
+                triangles.append([b, c, d])
+
+        for i in range(detail * 2):
+            inext = i + 1 if i < detail * 2 - 1 else 0
+            a = i * (detail // 2 + 1) + detail // 2
+            b = inext * (detail // 2 + 1) + detail // 2
+            triangles.append([a, b, a + offset])
+            triangles.append([a + offset, b, b + offset])
+
+        return Mesh(verts, triangles, normals)
 
     @staticmethod
     def cube(size):

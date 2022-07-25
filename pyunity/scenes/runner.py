@@ -1,3 +1,7 @@
+# Copyright (c) 2020-2022 The PyUnity Team
+# This file is licensed under the MIT License.
+# See https://docs.pyunity.x10.bz/en/latest/license.html
+
 __all__ = ["ChangeScene", "Runner", "WindowRunner", "NonInteractiveRunner", "newRunner"]
 
 from .. import config, render, Logger
@@ -36,12 +40,11 @@ class Runner:
     def setup(self):
         pass
 
-    def load(self, updates):
+    def load(self):
         if self.scene is None:
             raise PyUnityException("Cannot load runner before setting a scene")
         Logger.LogLine(Logger.DEBUG, "Starting scene")
         self.eventLoopManager = EventLoopManager()
-        self.eventLoopManager.schedule(*updates, ups=config.fps, waitFor=WaitForUpdate)
         self.eventLoopManager.schedule(self.scene.updateFixed, ups=50, waitFor=WaitForFixedUpdate)
         self.eventLoopManager.addLoop(self.scene.startScripts())
 
@@ -92,9 +95,12 @@ class WindowRunner(Runner):
         Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
     def load(self):
-        super(WindowRunner, self).load([self.scene.updateScripts, self.window.updateFunc])
+        super(WindowRunner, self).load()
         self.eventLoopManager.schedule(
-            self.scene.Render, self.window.refresh,
+            self.scene.updateScripts, self.window.updateFunc,
+            ups=config.fps, waitFor=WaitForUpdate)
+        self.eventLoopManager.schedule(
+            self.window.refresh, self.scene.Render,
             main=True, waitFor=WaitForRender)
         if self.scene.mainCamera is not None:
             self.window.setResize(self.scene.mainCamera.Resize)
@@ -116,7 +122,10 @@ class WindowRunner(Runner):
 
 class NonInteractiveRunner(Runner):
     def load(self):
-        super(NonInteractiveRunner, self).load([self.scene.updateScripts])
+        super(NonInteractiveRunner, self).load()
+        self.eventLoopManager.schedule(
+            self.scene.updateScripts,
+            ups=config.fps, waitFor=WaitForUpdate)
         self.scene.startLoop()
 
 def newRunner():

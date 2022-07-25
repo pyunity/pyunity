@@ -32,6 +32,7 @@ Submodules
    api/pyunity.logger
    api/pyunity.meshes
    api/pyunity.render
+   api/pyunity.resources
    api/pyunity.settings
 
 Module contents

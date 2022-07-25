@@ -15,7 +15,7 @@ jobs:
           python-version: 3.9
           architecture: x64
       - name: Install dependencies
-        run: pip install pytest pytest-cov -r requirements.txt
+        run: pip install "pytest>=6.0" pytest-cov -r requirements.txt
       - name: Print info
         env:
           PYUNITY_TESTING: 0

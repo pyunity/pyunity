@@ -14,7 +14,7 @@ __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
 
 from .errors import PyUnityException, ProjectParseException
 from .core import Component, GameObject, SavesProjectID, Transform
-from .values import ABCMeta, abstractmethod
+from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 from . import Logger
 from types import ModuleType
 from functools import wraps
@@ -22,7 +22,9 @@ from pathlib import Path
 from PIL import Image
 from uuid import uuid4
 import OpenGL.GL as gl
+import textwrap
 import ctypes
+import copy
 import sys
 import os
 
@@ -144,6 +146,16 @@ class Behaviour(Component):
 class Scripts:
     """Utility class for loading scripts in a folder."""
 
+    template = textwrap.dedent("""
+    from pyunity import *
+
+    class {}(Behaviour):
+        async def Start(self):
+            pass
+
+        async def Update(self, dt):
+            pass
+    """)[1:]
     var = {}
 
     @staticmethod
@@ -208,7 +220,7 @@ class Scripts:
         return module
 
     @staticmethod
-    def LoadScript(path):
+    def LoadScript(path, force=False):
         """
         Loads a PyUnity script by path.
 
@@ -216,11 +228,13 @@ class Scripts:
         ----------
         path : Pathlike
             A path to a PyUnity script
+        force : bool
+            Continue on error
 
         Returns
         -------
-        ModuleType
-            The module that contains all the imported scripts
+        type
+            The compiled PyUnity script
 
         Notes
         -----
@@ -238,10 +252,8 @@ class Scripts:
             raise PyUnityException(
                 f"The specified file does not exist: {str(path)!r}")
 
-        if hasattr(sys.modules.get("PyUnityScripts", None), "__pyunity__"):
-            module = sys.modules["PyUnityScripts"]
-        else:
-            module = Scripts.GenerateModule()
+        Scripts.GenerateModule()
+        import PyUnityScripts
 
         with open(path) as f:
             text = f.read().rstrip().splitlines()
@@ -249,18 +261,29 @@ class Scripts:
         name = pathobj.name[:-3]
         if Scripts.CheckScript(text):
             c = compile("\n".join(text), name + ".py", "exec")
-            exec(c, Scripts.var)
+            try:
+                exec(c, Scripts.var)
+            except Exception as e:
+                if not force:
+                    raise
+                Logger.LogException(e)
             if name not in Scripts.var:
                 raise PyUnityException(
                     f"Cannot find class {name!r} in {str(pathobj)!r}")
-            setattr(module, name, Scripts.var[name])
-            module.__all__.append(name)
-            module._lookup[str(path)] = Scripts.var[name]
+            setattr(PyUnityScripts, name, Scripts.var[name])
+            PyUnityScripts.__all__.append(name)
+            PyUnityScripts._lookup[str(path)] = Scripts.var[name]
+            return Scripts.var[name]
         else:
             Logger.LogLine(Logger.WARN,
                            f"{str(pathobj)!r} is not a valid PyUnity script")
+            return None
 
-        return module
+    @staticmethod
+    def Reset():
+        Scripts.var = {}
+        if "PyUnityScripts" in sys.modules:
+            sys.modules.pop("PyUnityScripts")
 
 class Asset(SavesProjectID, metaclass=ABCMeta):
     @abstractmethod
@@ -412,51 +435,51 @@ class Skybox:
 
 class Prefab(Asset):
     """Prefab model"""
-    def __init__(self, gameObject, prune=True):
+    def __init__(self, root, prune=True):
         if prune:
             self.gameObjects = []
             self.assets = []
             components = []
             mapping = {}
 
-            for transform in gameObject.transform.GetDescendants():
-                obj = transform.gameObject
-                g = GameObject(obj.name)
-                g.tag = obj.tag
-                g.enabled = obj.enabled
-                mapping[obj] = g
-                self.gameObjects.append(g)
+            for transform in root.transform.GetDescendants():
+                gameObject = transform.gameObject
+                copy = GameObject(gameObject.name)
+                copy.tag = gameObject.tag
+                copy.enabled = gameObject.enabled
+                mapping[gameObject] = copy
+                self.gameObjects.append(copy)
 
-                parentTransform = obj.transform.parent
+                parentTransform = gameObject.transform.parent
                 if parentTransform is None:
                     newParent = None
                 else:
                     newParent = mapping[parentTransform.gameObject].transform
-                g.transform.ReparentTo(newParent)
+                copy.transform.ReparentTo(newParent)
 
-                for component in obj.components:
+                for component in gameObject.components:
                     if isinstance(component, Transform):
-                        continue
-                    new = g.AddComponent(type(component))
-                    mapping[component] = new
-                    components.append(new)
+                        mapping[component] = copy.transform
+                        for k in component._shown:
+                            v = getattr(component, k)
+                            setattr(mapping[component], k, v)
+                    else:
+                        new = copy.AddComponent(type(component))
+                        mapping[component] = new
+                        components.append(new)
 
             # 2nd pass setting attributes
-            for transform in gameObject.transform.GetDescendants():
+            for transform in root.transform.GetDescendants():
                 for component in transform.gameObject.components:
                     if isinstance(component, Transform):
                         continue
                     for k in component._saved:
                         v = getattr(component, k)
-                        if isinstance(v, GameObject):
+                        if isinstance(v, (GameObject, Component)):
                             if v not in mapping:
                                 continue
                             v = mapping[v]
-                        elif isinstance(v, Component):
-                            if v.gameObject not in mapping:
-                                continue
-                            v = mapping[v]
-                        if isinstance(v, Asset):
+                        elif isinstance(v, Asset):
                             self.assets.append(v)
                         setattr(mapping[component], k, v)
 
@@ -465,7 +488,7 @@ class Prefab(Asset):
             self.gameObjects = []
             self.assets = []
 
-            for transform in gameObject.transform.GetDescendants():
+            for transform in root.transform.GetDescendants():
                 if transform.gameObject.scene is not None:
                     raise PyUnityException(
                         "Cannot create prefab with GameObjects that are part of a scene")
@@ -491,43 +514,76 @@ class Prefab(Asset):
         else:
             return obj.gameObject in self.gameObjects
 
-    def Instantiate(self, scene=None, position=None, rotation=None, scale=None, worldSpace=False):
+    def Instantiate(self,
+                    scene=None,
+                    parent=None,
+                    position=Vector3.zero(),
+                    rotation=Quaternion.identity(),
+                    scale=Vector3.one(),
+                    worldSpace=False):
+        """
+        Instantiate this prefab.
+
+        Parameters
+        ----------
+        scene : Scene, optional
+            The scene to instantiate in. If None, the
+            current scene is selected.
+        parent : GameObject, optional
+            The parent to instantiate the Prefab under.
+            If None, the prefab will be instantiated
+            at the root of the scene.
+        position : Vector3, optional
+            Position of the newly created GameObject, by
+            default Vector3.zero()
+        rotation : Quaternion, optional
+            Rotation of the newly created GameObject, by
+            default Quaternion.identity()
+        scale : Vector3, optional
+            Scale of the newly created GameObject, by default
+            Vector3.one()
+        worldSpace : bool, optional
+            Whether the above 3 properties are world space or
+            local space, by default False
+
+        Returns
+        -------
+        GameObject
+            The newly created GameObject
+
+        Raises
+        ------
+        PyUnityException
+            If ``scene`` is None but no scene is running
+
+        """
         if scene is None:
             from .scenes import SceneManager
             scene = SceneManager.CurrentScene()
             if scene is None:
                 raise PyUnityException("No scene running")
 
-        mapping = {}
-        for gameObject in self.gameObjects:
-            copy = GameObject(gameObject.name)
-            copy.tag = gameObject.tag
-            copy.enabled = gameObject.enabled
-            mapping[gameObject] = copy
-            scene.Add(copy)
+        root = copy.deepcopy(self.gameObject)
+        for transform in root.transform.GetDescendants():
+            scene.Add(transform.gameObject)
 
-            parentTransform = gameObject.transform.parent
-            if parentTransform is None:
-                newParent = None
-            else:
-                newParent = mapping[parentTransform.gameObject].transform
-            copy.transform.ReparentTo(newParent)
+        if parent is not None:
+            if not isinstance(parent, (GameObject, Transform)):
+                raise PyUnityException(
+                    "Provided parent is not a GameObject or a Transform")
+            if isinstance(parent, GameObject):
+                parent = parent.transform
+            root.transform.ReparentTo(parent)
 
-            for component in gameObject.components:
-                if isinstance(component, Transform):
-                    continue
-                new = copy.AddComponent(type(component))
-                mapping[component] = new
-
-            for transform in gameObject.transform.GetDescendants():
-                for component in transform.gameObject.components:
-                    if isinstance(component, Transform):
-                        continue
-                    for k in component._saved:
-                        v = getattr(component, k)
-                        setattr(mapping[component], k, v)
-
-        return mapping[self.gameObject]
+        if worldSpace:
+            root.transform.position = position
+            root.transform.rotation = rotation
+            root.transform.scale = scale
+        else:
+            root.transform.localPosition = position
+            root.transform.localRotation = rotation
+            root.transform.localScale = scale
+        return root
 
     def GetAssetFile(self, gameObject):
         return Path("Prefabs") / (gameObject.name + ".prefab")
@@ -604,7 +660,9 @@ class Project:
                 f.write(f"\n    {id_}: {normalized}")
 
     @checkScene
-    def ImportFile(self, file, write=True):
+    def ImportFile(self, file, uuid=None, write=True):
+        if uuid is not None:
+            file = File(file, uuid)
         fullPath = self.path / file.path
         if not fullPath.is_file():
             raise PyUnityException(f"The specified file does not exist: {fullPath}")
@@ -646,6 +704,17 @@ class Project:
         uuid = self.filePaths[file].uuid
         self._idMap[uuid] = obj
         self._ids[obj] = uuid
+
+    @checkScene
+    def GetUuid(self, obj):
+        if obj is None:
+            return None
+        if obj in self._ids:
+            return self._ids[obj]
+        uuid = str(uuid4())
+        self._ids[obj] = uuid
+        self._idMap[uuid] = obj
+        return self._ids[obj]
 
     @staticmethod
     def FromFolder(folder):

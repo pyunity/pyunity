@@ -169,6 +169,8 @@ class Shader:
         Logger.LogLine(Logger.INFO, "Compiled shader", repr(self.name))
 
         length = gl.glGetProgramiv(self.program, gl.GL_PROGRAM_BINARY_LENGTH)
+        if length == 0:
+            return
         out = gl.glGetProgramBinary(self.program, length)
 
         folder.mkdir(parents=True, exist_ok=True)
@@ -227,6 +229,22 @@ class Shader:
         self.uniforms[var.decode()] = val
         location = gl.glGetUniformLocation(self.program, var)
         gl.glUniform3f(location, *val)
+
+    def setMat3(self, var, val):
+        """
+        Set a ``mat3`` uniform variable.
+
+        Parameters
+        ==========
+        var : bytes
+            Variable name
+        val : glm.mat3
+            Value of uniform variable
+
+        """
+        self.uniforms[var.decode()] = val
+        location = gl.glGetUniformLocation(self.program, var)
+        gl.glUniformMatrix3fv(location, 1, gl.GL_FALSE, glm.value_ptr(val))
 
     def setMat4(self, var, val):
         """
@@ -408,7 +426,7 @@ class Camera(SingleComponent):
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
     ortho = ShowInInspector(bool, False, "Orthographic")
-    shadows = ShowInInspector(bool, True)
+    shadows = ShowInInspector(bool, False)
     depthMapSize = ShowInInspector(int, 1024)
 
     def __init__(self, transform):
@@ -504,8 +522,8 @@ class Camera(SingleComponent):
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
         angle, axis = transform.rotation.angleAxisPair
-        angle = glm.radians(angle)
-        axis = axis.normalized()
+        angle = -glm.radians(angle)
+        axis = Vector3(1, 1, -1) * axis.normalized()
 
         position = glm.translate(glm.mat4(), list(
             transform.position * Vector3(1, 1, -1)))
@@ -615,8 +633,10 @@ class Camera(SingleComponent):
         self.shader.use()
         for renderer in renderers:
             model = self.getMatrix(renderer.transform)
-            self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
+            normModel = glm.transpose(glm.inverse(glm.mat3(model)))
             self.shader.setMat4(b"model", model)
+            self.shader.setMat3(b"normModel", normModel)
+            self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
