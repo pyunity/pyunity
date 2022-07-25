@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2022 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info, manifest_maker

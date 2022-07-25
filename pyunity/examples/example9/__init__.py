@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2022 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
 from pyunity.resources import getPath

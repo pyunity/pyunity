@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2022 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 import json
 import os
@@ -42,9 +42,9 @@ def checkLicense():
 
     with open("LICENSE") as f:
         content = f.read()
-    header = "# " + content.split("\n")[2] + "\n"
-    header += "# This file is licensed under the MIT License.\n"
-    header += "# See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
+    header = "## " + content.split("\n")[2] + "\n"
+    header += "## This file is licensed under the MIT License.\n"
+    header += "## See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
     for file in files:
         with open(file) as f:
             contents = f.read()
