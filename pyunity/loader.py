@@ -42,7 +42,7 @@ def LoadObj(filename):
 
     Parameters
     ----------
-    filename : str
+    filename : Pathlike
         Name of file
 
     Returns
@@ -81,6 +81,17 @@ def LoadObj(filename):
     return Mesh(vertices, faces, normals)
 
 def SaveObj(mesh, path):
+    """
+    Save a PyUnity Mesh to a .obj file.
+
+    Parameters
+    ----------
+    mesh : Mesh
+        Mesh to save
+    path : Pathlike
+        Path to save mesh
+
+    """
     def vectorToStr(v):
         l = [v.x, v.z, -v.y]
         return " ".join(map(str, round(l, 8)))
@@ -98,6 +109,20 @@ def SaveObj(mesh, path):
             f.write(f"f {face}\n")
 
 def LoadStl(filename):
+    """
+    Loads a .stl mesh to a PyUnity mesh.
+
+    Parameters
+    ----------
+    filename : Pathlike
+        Path to PyUnity mesh.
+
+    Raises
+    ------
+    PyUnityException
+        If the file format is incorrect
+
+    """
     def vectorFromStr(s):
         l = list(map(float, s.split(" ")[-3:]))
         # Flip Z and Y axes
@@ -164,6 +189,17 @@ def LoadStl(filename):
         return Mesh(vertices, faces, normals)
 
 def SaveStl(mesh, path):
+    """
+    Save a PyUnity Mesh to a .stl file.
+
+    Parameters
+    ----------
+    mesh : Mesh
+        Mesh to save
+    path : Pathlike
+        Path to save mesh
+
+    """
     def bytesFromVector(v):
         l = [struct.pack("<f", i) for i in [v.x, -v.z, v.y]]
         return b"".join(l)
@@ -191,7 +227,7 @@ def LoadMesh(filename):
 
     Parameters
     ----------
-    filename : str
+    filename : Pathlike
         Name of file relative to the cwd
 
     Returns
@@ -233,8 +269,8 @@ def SaveMesh(mesh, path):
     ----------
     mesh : Mesh
         Mesh to save
-    path : str or Path
-        Path to save file
+    path : Pathlike
+        Path to save mesh
 
     """
     directory = Path(path).resolve().parent
