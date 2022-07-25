@@ -89,7 +89,6 @@ def parseCode(nthreads=None):
     pool = multiprocessing.Pool(nthreads, initWorker)
     paths = glob.glob("pyunity/**/*.py", recursive=True)
     paths.append("setup.py")
-    paths.append("cli.py")
 
     result = pool.map_async(parseSingleFile, paths)
     try:
