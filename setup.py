@@ -17,6 +17,8 @@ if "cython" not in os.environ:
 
 class SaveMeta(egg_info):
     def writeVersion(self):
+        orig = os.getcwd()
+        os.chdir(Path(__file__).resolve().parent)
         if not os.path.isdir(".git"):
             return
 
@@ -38,7 +40,8 @@ class SaveMeta(egg_info):
                 local = True
             else:
                 local = len(out) == 0
-
+        
+        os.chdir(orig)
         data = {"revision": rev, "local": local}
         self.write_or_delete_file(
             "version", Path(self.egg_info) / "version.json", json.dumps(data))
@@ -102,7 +105,7 @@ if os.environ["cython"] == "1":
 
     config = {
         "command_options": {"build_ext": {
-            "-j": ("setup.py", os.cpu_count())
+            "parallel": ("setup.py", os.cpu_count())
         }},
         "cmdclass": {"egg_info": Cythonize},
         "package_dir": {"pyunity": "src"},
