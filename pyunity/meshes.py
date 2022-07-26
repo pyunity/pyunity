@@ -6,7 +6,6 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from charset_normalizer import normalize
 from .core import SingleComponent, ShowInInspector
 from .files import Asset, convert
 from .values import Vector3
