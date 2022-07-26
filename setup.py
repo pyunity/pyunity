@@ -101,7 +101,9 @@ if os.environ["cython"] == "1":
         versionfile = "src/_version.py"
 
     config = {
-        "command_options": {"build_ext": ("-j", os.cpu_count())},
+        "command_options": {"build_ext": {
+            "-j": ("setup.py", os.cpu_count())
+        }},
         "cmdclass": {"egg_info": Cythonize},
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
