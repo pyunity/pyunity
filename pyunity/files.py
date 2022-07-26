@@ -502,7 +502,7 @@ class Prefab(Asset):
                         if isinstance(v, Asset):
                             self.assets.append(v)
 
-            self.gameObject = gameObject
+            self.gameObject = root
 
     def Contains(self, obj):
         if not isinstance(obj, (GameObject, Component)):
