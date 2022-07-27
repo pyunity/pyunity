@@ -100,7 +100,8 @@ if os.environ["cython"] == "1":
         versionfile = "pyunity/_version.py"
     else:
         cFiles = glob.glob("src/**/*.c", recursive=True)
-        dataFiles = [a for a in glob.glob("src/**/*.*", recursive=True) if ".c" not in a]
+        dataFiles = [a for a in glob.glob("src/**/*.*", recursive=True)
+                     if not a.endswith(".c") and not a.endswith(".py")]
         versionfile = "src/_version.py"
 
     config = {
