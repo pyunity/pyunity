@@ -555,13 +555,13 @@ class CollManager(IgnoredMixin):
             results.sort(key=lambda x: x[1])
             results = [r for r in results if abs(r[1] - results[0][1]) < 0.001]
 
-            curTriangles = []
+            curTriangle = None
             for result, dst in results:
                 minSupport = CollManager.supportPoint(a, b, result.normal)
                 if result.normal.dot(minSupport.point) - dst < threshold:
-                    curTriangles.append(result)
+                    curTriangle = result
 
-            if len(curTriangles):
+            if curTriangle is not None:
                 break
 
             i = 0
@@ -580,27 +580,24 @@ class CollManager(IgnoredMixin):
 
             edges.clear()
 
-        manifolds = []
-        for curTriangle in curTriangles:
-            penetration = curTriangle.normal.dot(curTriangle.a.point)
-            u, v, w = CollManager.barycentric(
-                curTriangle.normal * penetration,
-                curTriangle.a.point,
-                curTriangle.b.point,
-                curTriangle.c.point)
+        penetration = curTriangle.normal.dot(curTriangle.a.point)
+        u, v, w = CollManager.barycentric(
+            curTriangle.normal * penetration,
+            curTriangle.a.point,
+            curTriangle.b.point,
+            curTriangle.c.point)
 
-            if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
-                continue
-            elif math.isnan(u + v + w):
-                continue
+        if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
+            return None
+        elif math.isnan(u + v + w):
+            return None
 
-            point = Vector3(
-                u * curTriangle.a.original[0] +
-                v * curTriangle.b.original[0] +
-                w * curTriangle.c.original[0])
-            normal = -curTriangle.normal
-            manifolds.append(Manifold(a, b, point, normal, penetration))
-        return manifolds
+        point = Vector3(
+            u * curTriangle.a.original[0] +
+            v * curTriangle.b.original[0] +
+            w * curTriangle.c.original[0])
+        normal = -curTriangle.normal
+        return Manifold(a, b, point, normal, penetration)
 
     @staticmethod
     def AddEdge(edges, a, b):
@@ -700,21 +697,18 @@ class CollManager(IgnoredMixin):
         manifolds = {}
         for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
             for rbB in list(self.rigidbodies.keys())[x + 1:]:
-                m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m.extend(CollManager.epa(colliderA, colliderB))
-                if len(m):
-                    manifolds[rbA, rbB] = m
+                        m = colliderA.collidingWith(colliderB)
+                        if m is not None:
+                            manifolds[rbA, rbB] = m
 
         for rbA, rbB in manifolds:
-            manifold = manifolds[rbA, rbB]
-            point = sum(m.point for m in manifold) / len(manifold)
+            m = manifolds[rbA, rbB]
             e = self.GetRestitution(rbA, rbB)
-            normal = manifold[0].normal.copy()
             self.ResolveCollisions(
                 rbA, rbB,
-                point, e, normal, manifold[0].penetration)
+                m.point, e, m.normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
         # rv = b.velocity - a.velocity
