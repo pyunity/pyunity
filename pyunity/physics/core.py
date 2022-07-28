@@ -697,10 +697,10 @@ class CollManager(IgnoredMixin):
                 point, e, normal, manifold[0].penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
-        rv = b.velocity - a.velocity
-        vn = rv.dot(normal)
-        if vn < 0:
-            return
+        # rv = b.velocity - a.velocity
+        # vn = rv.dot(normal)
+        # if vn < 0:
+        #     return
 
         if b is self.dummyRigidbody:
             ap = point - a.pos
