@@ -133,7 +133,7 @@ class SphereCollider(Collider):
 
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
-        self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
+        self.SetSize(max(self.transform.scale.abs()), Vector3.zero())
 
     def SetSize(self, radius, offset):
         """
@@ -323,7 +323,7 @@ class Rigidbody(Component):
             Time to simulate movement by
 
         """
-        if self.gravity:
+        if self.gravity and self.invMass > 0:
             self.force += config.gravity * self.mass
         self.velocity += self.force * self.invMass * dt
         self.pos += self.velocity * dt
@@ -703,7 +703,7 @@ class CollManager(IgnoredMixin):
                 m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m.append(CollManager.epa(colliderA, colliderB))
+                        m.extend(CollManager.epa(colliderA, colliderB))
                 if len(m):
                     manifolds[rbA, rbB] = m
 
