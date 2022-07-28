@@ -81,8 +81,21 @@ class Manifold:
         self.normal = normal
         self.penetration = penetration
 
+    def __str__(self):
+        return f"<Manifold point={self.point} normal={self.normal} penetration={self.penetration}>"
+
 class Collider(Component, metaclass=ABCMeta):
-    """Collider base class."""
+    """
+    Collider base class.
+
+    Attributes
+    ----------
+    offset : Vector3
+        The offset from the centre of the Collider
+
+    """
+
+    offset = ShowInInspector(Vector3)
 
     @abstractmethod
     def supportPoint(self, direction):
@@ -111,15 +124,12 @@ class SphereCollider(Collider):
 
     Attributes
     ----------
-    offset : Vector3
-        The offset from the centre of the SphereCollider
     radius : Vector3
         The radius of the SphereCollider
 
     """
 
     radius = ShowInInspector(float, 0)
-    offset = ShowInInspector(Vector3)
 
     def __init__(self, transform):
         super(SphereCollider, self).__init__(transform)
@@ -174,19 +184,29 @@ class BoxCollider(Collider):
     size : Vector3
         The distance between two farthest
         vertices of the collider
-    offset : Vector3
-        The offset from the centre of the
-        collider
 
     """
 
     size = ShowInInspector(Vector3)
-    offset = ShowInInspector(Vector3)
 
     def __init__(self, transform):
         super(BoxCollider, self).__init__(transform)
-        self.size = self.transform.scale * 2
-        self.offset = Vector3.zero()
+        self.SetSize(self.transform.scale * 2, Vector3.zero())
+
+    def SetSize(self, size, offset):
+        """
+        Sets the size of the collider.
+
+        Parameters
+        ----------
+        size : Vector3
+            The dimensions of the collider.
+        offset : Vector3
+            Offset of the collider.
+
+        """
+        self.size = size
+        self.offset = offset
 
     @property
     def min(self):
@@ -304,7 +324,7 @@ class Rigidbody(Component):
 
         """
         if self.gravity:
-            self.force += config.gravity / self.invMass
+            self.force += config.gravity * self.mass
         self.velocity += self.force * self.invMass * dt
         self.pos += self.velocity * dt
 
@@ -683,7 +703,7 @@ class CollManager(IgnoredMixin):
                 m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m.extend(CollManager.epa(colliderA, colliderB))
+                        m.append(CollManager.epa(colliderA, colliderB))
                 if len(m):
                     manifolds[rbA, rbB] = m
 
