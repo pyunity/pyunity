@@ -167,17 +167,15 @@ class Vector2(Vector):
         if xOrList is not None:
             if y is None:
                 if hasattr(xOrList, "x") and hasattr(xOrList, "y"):
-                    self.x = xOrList.x
-                    self.y = xOrList.y
+                    l = [xOrList.x, xOrList.y]
                 else:
-                    self.x = xOrList[0]
-                    self.y = xOrList[1]
+                    l = xOrList
             else:
-                self.x = xOrList
-                self.y = y
+                l = [xOrList, y]
         else:
-            self.x = 0
-            self.y = 0
+            l = [0, 0]
+        self.x = float(l[0])
+        self.y = float(l[1])
         self._lock()
 
     def __iter__(self):
@@ -386,23 +384,18 @@ class Vector3(Vector):
         if xOrList is not None:
             if y is None:
                 if hasattr(xOrList, "x") and hasattr(xOrList, "y") and hasattr(xOrList, "z"):
-                    self.x = xOrList.x
-                    self.y = xOrList.y
-                    self.z = xOrList.z
+                    l = [xOrList.x, xOrList.y, xOrList.z]
                 else:
-                    self.x = xOrList[0]
-                    self.y = xOrList[1]
-                    self.z = xOrList[2]
+                    l = xOrList
             else:
                 if z is None:
                     raise ValueError("Expected 3 arguments, got 2")
-                self.x = xOrList
-                self.y = y
-                self.z = z
+                l = [xOrList, y, z]
         else:
-            self.x = 0
-            self.y = 0
-            self.z = 0
+            l = [0, 0, 0]
+        self.x = float(l[0])
+        self.y = float(l[1])
+        self.z = float(l[2])
         self._lock()
 
     def __iter__(self):
