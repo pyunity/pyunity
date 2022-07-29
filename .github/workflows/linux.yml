@@ -48,6 +48,10 @@ jobs:
           path: src
       - name: Build wheel
         uses: docker://quay.io/pypa/manylinux2014_${{ matrix.arch }}
+        run: |
+          docker run -it --rm docker://quay.io/pypa/manylinux2014_${{ matrix.arch }} \
+            -v `pwd`:/workspace/ -w /workspace \
+            /bin/bash .github/workflows/build_wheel.sh ${{ matrix.python-version }}
         with:
           entrypoint: /bin/bash
           args: .github/workflows/build_wheel.sh ${{ matrix.python-version }}

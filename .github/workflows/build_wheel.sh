@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-cd /github/workspace/
 NAME=cp$(echo $1 | cut --complement -b 2)
 PYTHON=$(ls /opt/python/$NAME-$NAME*/bin/python)
 $PYTHON -m pip install "cython>=3.0.0a8" wheel
