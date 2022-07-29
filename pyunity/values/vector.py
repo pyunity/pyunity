@@ -174,7 +174,7 @@ class Vector2(Vector):
                 l = [xOrList, y]
         else:
             l = [0, 0]
-        l = [x if isinstance(x, (int, float) else float(x) for x in l]
+        l = [x if isinstance(x, (int, float)) else float(x) for x in l]
         self.x, self.y = l
         self._lock()
 
@@ -393,7 +393,7 @@ class Vector3(Vector):
                 l = [xOrList, y, z]
         else:
             l = [0, 0, 0]
-        l = [x if isinstance(x, (int, float) else float(x) for x in l]
+        l = [x if isinstance(x, (int, float)) else float(x) for x in l]
         self.x, self.y, self.z = l
         self._lock()
 
