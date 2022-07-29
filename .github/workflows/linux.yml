@@ -1,4 +1,4 @@
-name: Linux & MacOS Wheel Builds
+name: Linux Wheel Builds
 on: [push, workflow_dispatch]
 jobs:
   compile:
@@ -54,5 +54,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }} python${{ matrix.python-version }}
+          name: python${{ matrix.python-version }}
           path: dist/*.whl
