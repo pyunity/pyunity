@@ -393,7 +393,7 @@ class Vector3(Vector):
                 l = [xOrList, y, z]
         else:
             l = [0, 0, 0]
-        l = [int(x) for x in l if float(x).is_integer() else float(x)
+        l = [x if isinstance(x, (int, float) else float(x) for x in l]
         self.x, self.y, self.z = l
         self._lock()
 
