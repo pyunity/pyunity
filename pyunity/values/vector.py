@@ -174,8 +174,8 @@ class Vector2(Vector):
                 l = [xOrList, y]
         else:
             l = [0, 0]
-        self.x = float(l[0])
-        self.y = float(l[1])
+        l = [int(x) for x in l if float(x).is_integer() else float(x)]
+        self.x, self.y = l
         self._lock()
 
     def __iter__(self):
@@ -393,9 +393,8 @@ class Vector3(Vector):
                 l = [xOrList, y, z]
         else:
             l = [0, 0, 0]
-        self.x = float(l[0])
-        self.y = float(l[1])
-        self.z = float(l[2])
+        l = [int(x) for x in l if float(x).is_integer() else float(x)
+        self.x, self.y, self.z = l
         self._lock()
 
     def __iter__(self):
