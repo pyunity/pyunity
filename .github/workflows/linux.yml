@@ -48,7 +48,7 @@ jobs:
           path: src
       - name: Build wheel
         run: |
-          docker run --rm docker://quay.io/pypa/manylinux2014_${{ matrix.arch }} \
+          docker run --rm quay.io/pypa/manylinux2014_${{ matrix.arch }} \
             -v `pwd`:/workspace/ -w /workspace \
             /bin/bash .github/workflows/build_wheel.sh ${{ matrix.python-version }}
       - name: Upload artifact
