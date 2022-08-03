@@ -48,11 +48,11 @@ jobs:
           path: src
       - name: Build wheel
         run: |
-          docker run --rm quay.io/pypa/manylinux2014_${{ matrix.arch }} \
-            -v `pwd`:/workspace/ -w /workspace \
+          docker run --rm -v `pwd`:/workspace/ -w /workspace \
+            quay.io/pypa/manylinux2014_${{ matrix.arch }} \
             /bin/bash .github/workflows/build_wheel.sh ${{ matrix.python-version }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: python${{ matrix.python-version }}
+          name: python${{ matrix.python-version }}-${{ matrix.arch }}
           path: dist/*.whl
