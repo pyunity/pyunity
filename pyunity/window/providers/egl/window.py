@@ -7,10 +7,12 @@
 from pyunity.window import ABCWindow
 from pyunity.values import Clock
 from pyunity import config, Logger
-from .egl import *
+import os
+os.environ["PYOPENGL_PLATFORM"] = "egl"
+import OpenGL.EGL as egl
 
-eglDpy = eglGetDisplay(EGL.DEFAULT_DISPLAY)
-print(eglGetError())
+eglDpy = egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
+print(egl.eglGetError())
 
 class Window(ABCWindow):
     """
@@ -19,60 +21,50 @@ class Window(ABCWindow):
 
     """
 
-    def __init__(self, name, resize):
+    def __init__(self, name):
         self.name = name
-        self.resize = resize # not actually needed
 
-        eglInitialize(eglDpy)
+        egl.eglInitialize(eglDpy)
 
-        configAttribs = EGLList(
-            EGL.SURFACE_TYPE, EGL.PBUFFER_BIT,
-            EGL.BLUE_SIZE, 8,
-            EGL.GREEN_SIZE, 8,
-            EGL.RED_SIZE, 8,
-            EGL.DEPTH_SIZE, 8,
-            EGL.RENDERABLE_TYPE, EGL.OPENGL_BIT,
-            EGL.NONE
-        )
-        self.eglCfg = eglChooseConfig(eglDpy, configAttribs, 1)[0]
-        pbufferAttribs = EGLList(
-            EGL.WIDTH, 800,
-            EGL.HEIGHT, 500,
-            EGL.NONE
-        )
-        self.eglSurf = eglCreatePbufferSurface(eglDpy, self.eglCfg, pbufferAttribs)
-        eglBindAPI(EGL.OPENGL_API)
-        contextAttribs = EGLList(
-            EGL.CONTEXT_CLIENT_VERSION, 330,
-            EGL.NONE
-        )
-        self.eglCtx = eglCreateContext(eglDpy, self.eglCfg, None, contextAttribs)
-        eglMakeCurrent(eglDpy, self.eglSurf, self.eglSurf, self.eglCtx)
+        configAttribs = [
+            egl.EGL_SURFACE_TYPE, egl.EGL_PBUFFER_BIT,
+            egl.EGL_BLUE_SIZE, 8,
+            egl.EGL_GREEN_SIZE, 8,
+            egl.EGL_RED_SIZE, 8,
+            egl.EGL_DEPTH_SIZE, 8,
+            egl.EGL_RENDERABLE_TYPE, egl.EGL_OPENGL_BIT,
+            egl.EGL_NONE
+        ]
+        self.eglCfg = egl.eglChooseConfig(eglDpy, configAttribs, 1)
+        pbufferAttribs = [
+            egl.EGL_WIDTH, 800,
+            egl.EGL_HEIGHT, 500,
+            egl.EGL_NONE
+        ]
+        self.eglSurf = egl.eglCreatePbufferSurface(eglDpy, self.eglCfg, pbufferAttribs)
+        egl.eglBindAPI(egl.EGL_OPENGL_API)
+        contextAttribs = [
+            egl.EGL_CONTEXT_CLIENT_VERSION, 330,
+            egl.EGL_NONE
+        ]
+        self.eglCtx = egl.eglCreateContext(eglDpy, self.eglCfg, None, contextAttribs)
+        egl.eglMakeCurrent(eglDpy, self.eglSurf, self.eglSurf, self.eglCtx)
+
+    def setResize(self, resize):
+        self.resize = resize # not needed, surface shouldn't change size
 
     def refresh(self):
         pass
 
     def quit(self):
         Logger.LogLine(Logger.DEBUG, "Exiting")
-        eglMakeCurrent(eglDpy, None, None, None)
-        eglDestroySurface(eglDpy, self.eglSurf)
-        eglDestroyContext(eglDpy, self.eglCtx)
-        eglTerminate(eglDpy)
+        egl.eglMakeCurrent(eglDpy, None, None, None)
+        egl.eglDestroySurface(eglDpy, self.eglSurf)
+        egl.eglDestroyContext(eglDpy, self.eglCtx)
+        egl.eglTerminate(eglDpy)
 
-    def start(self, updateFunc):
-        self.updateFunc = updateFunc
-
-        done = False
-        clock = Clock()
-        clock.Start(config.fps)
-        while not done:
-            try:
-                self.updateFunc()
-                clock.Maintain()
-            except KeyboardInterrupt:
-                done = True
-
-        self.quit()
+    def updateFunc(self):
+        pass
 
     def getKey(self, keycode, keystate):
         return False

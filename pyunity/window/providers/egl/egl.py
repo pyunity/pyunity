@@ -161,7 +161,7 @@ _egl.eglChooseConfig.argtypes = [
     EGLint,
     ctypes.POINTER(EGLint)
 ]
-@returnArray([2], [4], [2])
+@returnPointer([2, 4])
 def eglChooseConfig(display, attribList, configSize): pass
 
 _egl.eglCreatePbufferSurface.restype = EGLSurface
