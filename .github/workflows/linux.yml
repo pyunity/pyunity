@@ -46,6 +46,11 @@ jobs:
         with:
           name: Cython
           path: src
+      - name: Setup Docker
+        if: matrix.arch == 'aarch64'
+        run: |
+          sudo apt-get install qemu binfmt-support qemu-user-static
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Build wheel
         run: |
           docker run --rm -v `pwd`:/workspace/ -w /workspace \
