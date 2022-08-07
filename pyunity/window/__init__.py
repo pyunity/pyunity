@@ -39,6 +39,7 @@ from .. import Logger
 from .. import config
 from .. import settings
 import os
+import fnmatch
 import importlib.util
 
 def GetWindowProvider():
@@ -88,16 +89,21 @@ def GetWindowProvider():
             if specified.isspace() or not specified:
                 continue
             specified = specified.rstrip().lstrip()
-            if specified not in providers:
+            added = False
+            for item in providers:
+                if item not in newProviders:
+                    if fnmatch.fnmatch(item.lower(), specified.lower()):
+                        added = True
+                        newProviders.append(item)
+            if not added:
                 Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
                                repr(specified), "but no window provider matches")
                 continue
-            newProviders.append(specified)
-        providers = newProviders
-        if len(providers) == 0:
+        if len(newProviders) == 0:
+            Logger.Log("Available window providers:", " ".join(providers))
             raise PyUnityException("No matching window providers found")
-
-    if len(providers) == 0:
+        providers = newProviders
+    elif len(providers) == 0:
         raise PyUnityException("No window providers installed")
 
     windowProvider = ""
