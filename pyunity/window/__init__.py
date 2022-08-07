@@ -82,17 +82,20 @@ def GetWindowProvider():
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
     if env is not None:
+        newProviders = []
         env = env.split(",")
-        for specified in reversed(env):
+        for specified in env:
+            if specified.isspace() or not specified:
+                continue
+            specified = specified.rstrip().lstrip()
             if specified not in providers:
                 Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
-                               specified, "but there is no window provider called that")
+                               repr(specified), "but no window provider matches")
                 continue
-            for item in providers:
-                if item == specified:
-                    selected = item
-            providers.remove(selected)
-            providers.insert(0, selected)
+            newProviders.append(specified)
+        providers = newProviders
+        if len(providers) == 0:
+            raise PyUnityException("No matching window providers found")
 
     if len(providers) == 0:
         raise PyUnityException("No window providers installed")
@@ -125,7 +128,10 @@ def GetWindowProvider():
             break
 
     if not windowProvider:
-        raise PyUnityException(f"No window provider found")
+        if env is not None:
+            raise PyUnityException(f"No matching window provider found")
+        else:
+            raise PyUnityException(f"No window provider found")
 
     settings.db["windowProvider"] = windowProvider
     settings.db["windowCache"] = True

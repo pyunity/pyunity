@@ -4,12 +4,11 @@
 
 """Class to manage console input as a window provider."""
 
-from pyunity.window import ABCWindow
-from pyunity.values import Clock
-from pyunity import config, Logger
 import os
 os.environ["PYOPENGL_PLATFORM"] = "egl"
 import OpenGL.EGL as egl
+from pyunity.window import ABCWindow
+from pyunity import Logger
 
 eglDpy = egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
 print(egl.eglGetError())
