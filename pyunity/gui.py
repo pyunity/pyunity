@@ -744,7 +744,7 @@ class Text(GuiRenderComponent):
         im = Image.new("RGBA", tuple(round(size)), (255, 255, 255, 0))
 
         if RAQM_SUPPORT:
-            ft = "-liga"
+            ft = ["-liga"]
         else:
             ft = None
 

@@ -20,15 +20,19 @@ class Mover2D(Behaviour):
 class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
     async def Start(self):
+        counter = 0
         frames = []
         time = 0
         while True:
+            counter += 1
             dt = await WaitForRender()
             time += dt
             frames.append(dt)
             if len(frames) > 200:
                 frames.pop(0)
-            self.text.text = str(1 / (sum(frames) / len(frames)))
+            if counter == 3:
+                self.text.text = str(len(frames) / sum(frames))
+                counter = 0
             time = 0
 
 class CheckboxTracker(Behaviour):
