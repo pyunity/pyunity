@@ -3,6 +3,7 @@ on: [workflow_dispatch]
 jobs:
   run:
     name: trigger
+    runs-on: ubuntu-latest
     steps:
       - name: Trigger all builds
         run: |
