@@ -236,7 +236,10 @@ def StartCoroutine(coro):
                        f"Expected loop of type EventLoop, got {type(loop).__name__}")
     loop.create_task(coro)
 
-class WaitForSeconds:
+class WaitFor:
+    pass
+
+class WaitForSeconds(WaitFor):
     def __init__(self, length):
         self.length = length
 
@@ -246,7 +249,7 @@ class WaitForSeconds:
         yield from sleep.__await__()
         return time.perf_counter() - start
 
-class WaitForEventLoop:
+class WaitForEventLoop(WaitFor):
     def __init__(self):
         self.event = asyncio.Event()
         self.loop = asyncio.get_running_loop()
