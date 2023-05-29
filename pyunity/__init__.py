@@ -232,7 +232,7 @@ if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
 
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
-           "SceneManager", "Mesh"]
+           "SceneManager"]
 
 from .errors import __all__ as _errors_all
 from .values import __all__ as _values_all

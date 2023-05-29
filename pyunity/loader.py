@@ -14,8 +14,8 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
            "LoadMat", "SaveMat", "LoadProject", "ObjectInfo",
            "SaveProject", "ResaveScene", "GenerateProject",
-           "LoadScene", "LoadStl", "LoadPrefab",
-           "LoadObjectInfos", "LoadGameObjects",
+           "LoadScene", "LoadStl", "SaveStl", "LoadPrefab",
+           "LoadObjectInfos", "GetComponentMap", "LoadGameObjects",
            "SaveGameObjects", "SavePrefab"]
 
 from . import Logger

@@ -9,7 +9,9 @@ Master version for PyUnity.
 
 __all__ = ["versionInfo"]
 
-class VersionInfo:
+from .values import IgnoredMixin, IncludeInstanceMixin
+
+class VersionInfo(IgnoredMixin, IncludeInstanceMixin):
     def __init__(self, major, minor, micro, releaselevel):
         self.major = major
         self.minor = minor
