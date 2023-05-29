@@ -49,20 +49,6 @@ else:
             Logger.LogLine(Logger.WARN,
                            "SDL2_mixer could not be initialized: " + SDL_GetError().decode())
 
-class _CustomMock:
-    def __getattr__(self, item):
-        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
-        return _CustomMock()
-
-    def __setattr__(self, item, value):
-        Logger.LogLine(Logger.WARN, "Audio is currently disabled")
-
-    def __call__(self, *args, **kwargs):
-        return _CustomMock()
-
-if not config.audio:
-    mixer = _CustomMock()
-
 class AudioClip:
     """
     Class to store information about an audio file.
@@ -110,7 +96,8 @@ class AudioSource(Component):
         self.clip = None
         self.channel = channels
         channels += 1
-        mixer.Mix_AllocateChannels(channels)
+        if config.audio:
+            mixer.Mix_AllocateChannels(channels)
 
     def SetClip(self, clip):
         """
@@ -132,6 +119,8 @@ class AudioSource(Component):
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
             return
+        if not config.audio:
+            return
         if self.clip.music is None:
             self.clip.music = mixer.Mix_LoadWAV(self.clip.path.encode())
         if mixer.Mix_PlayChannel(self.channel, self.clip.music, 0) == -1:
@@ -143,6 +132,8 @@ class AudioSource(Component):
         Stops playing the AudioClip attached to the AudioSource.
 
         """
+        if not config.audio:
+            return
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_HaltChannel(self.channel)
@@ -152,6 +143,8 @@ class AudioSource(Component):
         Pauses the AudioClip attached to the AudioSource.
 
         """
+        if not config.audio:
+            return
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_Pause(self.channel)
@@ -161,6 +154,8 @@ class AudioSource(Component):
         Unpauses the AudioClip attached to the AudioSource.
 
         """
+        if not config.audio:
+            return
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         mixer.Mix_Resume(self.channel)
@@ -171,6 +166,8 @@ class AudioSource(Component):
         Gets if the AudioSource is playing.
 
         """
+        if not config.audio:
+            return False
         if self.clip is None:
             Logger.LogLine(Logger.WARN, "AudioSource has no AudioClip")
         return mixer.Mix_Playing(self.channel)
@@ -203,6 +200,8 @@ class AudioListener(SingleComponent):
         the AudioClips.
 
         """
+        if not config.audio:
+            return
         for source in self.scene.FindComponents(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
