@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["RAQM_SUPPORT", "Canvas", "RectData", "RectAnchors",
+__all__ = ["Canvas", "RectData", "RectAnchors",
            "RectOffset", "RectTransform", "Image2D", "Gui",
            "Text", "FontLoader", "GuiComponent",
            "NoResponseGuiComponent", "CheckBox",
@@ -27,8 +27,8 @@ import sys
 import enum
 import ctypes
 
-RAQM_SUPPORT = features.check("raqm")
-if not RAQM_SUPPORT:
+_RAQM_SUPPORT = features.check("raqm")
+if not _RAQM_SUPPORT:
     Logger.LogLine(Logger.INFO, "No raqm support, ligatures disabled")
 
 def createTask(loop, coro):
@@ -86,12 +86,17 @@ class RectData:
             if isinstance(minOrBoth, RectData):
                 self.min = minOrBoth.min.copy()
                 self.max = minOrBoth.max.copy()
-            else:
+            elif isinstance(minOrBoth, Vector2):
                 self.min = minOrBoth.copy()
                 self.max = minOrBoth.copy()
-        else:
+            else:
+                raise TypeError(f"Expected type Vector2, got {type(minOrBoth).__name__}")
+        elif isinstance(minOrBoth, Vector2) and isinstance(max, Vector2):
             self.min = minOrBoth.copy()
             self.max = max.copy()
+        else:
+            raise TypeError(f"Expected type Vector2 for arguments 1 and 2, "
+                            f"got {type(minOrBoth).__name__} and {type(max).__name__}")
 
     def size(self):
         return self.max - self.min
@@ -255,6 +260,7 @@ class RectTransform(SingleComponent):
     def parent(self):
         if self.transform.parent is not None:
             return self.transform.parent.GetComponent(RectTransform)
+        return None
 
     def GetRect(self, bb=None):
         """
@@ -353,7 +359,7 @@ class RenderTarget(GuiRenderComponent):
 
     def PreRender(self):
         if self.renderPass:
-            return 1
+            return
         self.renderPass = True
 
         if self.source is self.scene.mainCamera:
@@ -470,9 +476,6 @@ class Button(GuiComponent):
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
-
-    def __init__(self, transform):
-        super(Button, self).__init__(transform)
 
     async def HoverUpdate(self):
         if Input.GetMouseState(self.mouseButton, self.state):
@@ -658,6 +661,11 @@ class Font:
     size : int
         Font size, in points
 
+    Notes
+    -----
+    Do not instantiate this class directly, instead use
+    :func:`FontLoader.LoadFont` to get a font.
+
     """
     def __init__(self, name, size, imagefont):
         if not isinstance(imagefont, ImageFont.FreeTypeFont):
@@ -709,7 +717,7 @@ class Text(GuiRenderComponent):
 
     """
 
-    font = ShowInInspector(Font)
+    font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
     color = ShowInInspector(Color)
     depth = ShowInInspector(float, 0.1)
@@ -717,7 +725,6 @@ class Text(GuiRenderComponent):
     centeredY = ShowInInspector(TextAlign, TextAlign.Center)
     def __init__(self, transform):
         super(Text, self).__init__(transform)
-        self.font = FontLoader.LoadFont("Arial", 24)
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)
@@ -743,7 +750,7 @@ class Text(GuiRenderComponent):
         size = (rect.max - rect.min).abs()
         im = Image.new("RGBA", tuple(round(size)), (255, 255, 255, 0))
 
-        if RAQM_SUPPORT:
+        if _RAQM_SUPPORT:
             ft = ["-liga"]
         else:
             ft = None
