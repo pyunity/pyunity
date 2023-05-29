@@ -35,7 +35,7 @@ def convert(type, list):
 
     Parameters
     ----------
-    type : _ctypes.PyCSimpleType
+    type : Type[ctypes.PyCSimpleType]
         Type to cast to.
     list : list
         List to cast
@@ -305,10 +305,12 @@ class Texture2D(Asset):
             self.path = str(pathOrImg)
             self.img = Image.open(self.path).convert("RGBA")
             self.imgData = self.img.tobytes()
-        else:
+        elif isinstance(pathOrImg, Image.Image):
             self.path = None
             self.img = pathOrImg
             self.imgData = self.img.tobytes()
+        else:
+            raise TypeError(f"Expected str, Path or Image: got {type(pathOrImg).__name__}")
         self.loaded = False
         self.texture = None
         self.mipmaps = False
