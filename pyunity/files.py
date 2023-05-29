@@ -367,6 +367,7 @@ class Texture2D(Asset):
 
     @classmethod
     def FromOpenGL(cls, texture):
+        # TODO: set mipmaps?
         obj = cls.__new__(cls)
         obj.loaded = True
         obj.texture = texture
