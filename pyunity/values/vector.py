@@ -7,6 +7,7 @@ __all__ = ["Vector", "Vector2", "Vector3"]
 from . import Mathf
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
+from collections.abc import Iterable
 import operator
 
 def clamp(x, _min, _max):
@@ -194,14 +195,14 @@ class Vector2(Vector):
 
     def _o2(self, other, f):
         """Any two-operator operation where the left operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector2(f(self.x, other[0]), f(self.y, other[1]))
         else:
             return Vector2(f(self.x, other), f(self.y, other))
 
     def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector2(f(other[0], self.x), f(other[1], self.y))
         else:
             return Vector2(f(other, self.x), f(other, self.y))
@@ -416,14 +417,14 @@ class Vector3(Vector):
         """Any two-operator operation where the left operand is a Vector3"""
         if isinstance(other, Vector3):
             return Vector3(f(self.x, other.x), f(self.y, other.y), f(self.z, other.z))
-        elif hasattr(other, "__getitem__"):
+        elif isinstance(other, Iterable):
             return Vector3(f(self.x, other[0]), f(self.y, other[1]), f(self.z, other[2]))
         else:
             return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
 
     def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector3"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
         else:
             return Vector3(f(other, self.x), f(other, self.y), f(other, self.z))

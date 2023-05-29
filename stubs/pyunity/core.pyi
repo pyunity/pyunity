@@ -3,14 +3,14 @@
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["Component", "GameObject", "SingleComponent",
-           "MeshRenderer", "Tag", "Transform", "ShowInInspector",
-           "HideInInspector"]
+           "Tag", "Transform", "ShowInInspector",
+           "HideInInspector", "addFields", "SavesProjectID",
+           "ComponentType"]
 
 from .scenes import Scene
-from .values import Vector3, Quaternion, Material
-from .meshes import Mesh
+from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from ctypes import Union
-from typing import Dict, Iterator, List as _List, Type, TypeVar
+from typing import Dict, Iterator, List as _List, Type, TypeVar, Callable, Any
 
 T = TypeVar("T")
 
@@ -22,7 +22,9 @@ class Tag:
     def AddTag(cls, name: str) -> int: ...
     def __init__(self, tagNumOrName: Union[str, int]) -> None: ...
 
-class GameObject:
+class SavesProjectID: ...
+
+class GameObject(SavesProjectID):
     name: str
     components: _List[Component]
     transform: Transform
@@ -37,18 +39,33 @@ class GameObject:
     def RemoveComponent(self, componentClass: Type) -> None: ...
     def GetComponents(self, componentClass: Type[T]) -> _List[T]: ...
     def RemoveComponents(self, componentClass: Type[T]) -> None: ...
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
 
 class HideInInspector:
     type: Type[T] | None
     default: T | None
     name: str | None
     def __init__(self, type_: Type[T] | None = ..., default: T | None = ...) -> None: ...
+    def __set_name__(self, owner: Component, name: str) -> None: ...
 
 class ShowInInspector(HideInInspector):
     name: str | None
     def __init__(self, type: Type[T] | None = ..., default: T | None = ..., name: str | None = ...) -> None: ...
+    def __set_name__(self, owner: Component, name: str) -> None: ...
 
-class Component:
+class _AddFields(IncludeInstanceMixin):
+    selfref: HideInInspector
+    def __init__(self) -> None: ...
+    def __call__(self, **kwargs: Dict[str, HideInInspector]) -> Callable[[Type[Component]], Type[Component]]: ...
+
+addFields: _AddFields
+
+class ComponentType(ABCMeta):
+    @classmethod
+    def __prepare__(cls, name: str, bases: _List[type], **kwds: Dict[str, Any]) -> Dict[str, Any]: ...
+
+class Component(SavesProjectID, metaclass=ComponentType):
     shown: Dict[str, HideInInspector]
     saved: Dict[str, HideInInspector]
     gameObject: GameObject
@@ -102,9 +119,5 @@ class Transform(SingleComponent):
     def LookAtGameObject(self, gameObject: GameObject) -> None: ...
     def LookAtPoint(self, vec: Vector3) -> None: ...
     def LookInDirection(self, vec: Vector3) -> None: ...
-
-class MeshRenderer(SingleComponent):
-    DefaultMaterial: Material
-    mesh: Mesh
-    mat: Material
-    def Render(self) -> None: ...
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
