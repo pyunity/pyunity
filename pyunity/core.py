@@ -203,13 +203,14 @@ class GameObject(SavesProjectID):
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it already has one")
 
-        component = componentClass()
+        component = Component.__new__(componentClass)
         if componentClass is Transform:
             component.transform = component
         else:
             component.transform = self.transform
-
         component.gameObject = self
+        component.__init__()
+
         self.components.append(component)
         return component
 
@@ -429,8 +430,6 @@ class Component(SavesProjectID, metaclass=ComponentType):
 
     def __init__(self):
         # gameObject and transform to be set by AddComponent
-        self.gameObject = None
-        self.transform = None
         self.enabled = True
 
     @classmethod
