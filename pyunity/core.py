@@ -405,7 +405,7 @@ setattr(addFields, "__module__", __name__)
 
 class ComponentType(ABCMeta):
     @classmethod
-    def __prepare__(cls, name, bases, **kwds):
+    def __prepare__(cls, name, bases, /, **kwds):
         namespace = dict(super(ComponentType, cls).__prepare__(name, bases, **kwds))
         namespace["_saved"] = {}
         namespace["_shown"] = {}

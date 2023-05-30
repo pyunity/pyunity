@@ -9,10 +9,9 @@ __all__ = ["Component", "GameObject", "SingleComponent",
 
 from .scenes import Scene
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
-from ctypes import Union
-from typing import Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple
-
-T = TypeVar("T")
+from typing import (
+    Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple,
+    Generic, Union, Mapping)
 
 class Tag:
     tags: _List[str]
@@ -24,6 +23,8 @@ class Tag:
 
 class SavesProjectID: ...
 
+CT = TypeVar("CT", bound=Component)
+
 class GameObject(SavesProjectID):
     name: str
     components: _List[Component]
@@ -34,15 +35,17 @@ class GameObject(SavesProjectID):
     def __init__(self, name: str = ..., parent: GameObject | None = ...) -> None: ...
     @classmethod
     def BareObject(cls, name: str = ...) -> GameObject: ...
-    def AddComponent(self, componentClass: Type[T]) -> T: ...
-    def GetComponent(self, componentClass: Type[T]) -> T: ...
+    def AddComponent(self, componentClass: Type[CT]) -> CT: ...
+    def GetComponent(self, componentClass: Type[CT]) -> CT: ...
     def RemoveComponent(self, componentClass: Type) -> None: ...
-    def GetComponents(self, componentClass: Type[T]) -> _List[T]: ...
-    def RemoveComponents(self, componentClass: Type[T]) -> None: ...
+    def GetComponents(self, componentClass: Type[CT]) -> _List[CT]: ...
+    def RemoveComponents(self, componentClass: Type[CT]) -> None: ...
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
 
-class HideInInspector:
+T = TypeVar("T")
+
+class HideInInspector(Generic[T]):
     type: Type[T] | None
     default: T | None
     name: str | None
@@ -63,9 +66,7 @@ addFields: _AddFields
 
 class ComponentType(ABCMeta):
     @classmethod
-    def __prepare__(cls, name: str, bases: Tuple[type, ...], **kwds: Dict[str, Any]) -> Dict[str, Any]: ...
-
-CT = TypeVar("CT", bound=Component)
+    def __prepare__(cls, name: str, bases: Tuple[type, ...], /, **kwds: Any) -> Mapping[str, object]: ...
 
 class Component(SavesProjectID, metaclass=ComponentType):
     _shown: Dict[str, HideInInspector] = ...
