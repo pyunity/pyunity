@@ -393,9 +393,9 @@ class Camera(SingleComponent):
     Attributes
     ----------
     near : float
-        Distance of the near plane in the camera frustrum. Defaults to 0.05.
+        Distance of the near plane in the camera frustum. Defaults to 0.05.
     far : float
-        Distance of the far plane in the camera frustrum. Defaults to 100.
+        Distance of the far plane in the camera frustum. Defaults to 100.
     clearColor : Color
         The clear color of the camera. Defaults to black.
     shader : Shader

@@ -318,7 +318,7 @@ class Scene(Asset):
             components.extend(query)
         return components
 
-    def insideFrustrum(self, renderer):
+    def insideFrustum(self, renderer):
         """
         Check if the renderer's mesh can be
         seen by the main camera.

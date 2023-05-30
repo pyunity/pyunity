@@ -163,16 +163,16 @@ class TestScene(SceneTestCase):
         assert r.get() == "\n".join([
             "/A", "/A/B", "/A/C", "/A/C/B", "/Light", "/Main Camera\n"])
 
-    def testInsideFrustrum(self):
+    def testInsideFrustum(self):
         scene = SceneManager.AddScene("Scene")
         gameObject = GameObject("Cube")
         gameObject.transform.position = Vector3(0, 0, 5)
         renderer = gameObject.AddComponent(MeshRenderer)
         scene.Add(gameObject)
-        assert not scene.insideFrustrum(renderer)
+        assert not scene.insideFrustum(renderer)
 
         renderer.mesh = Mesh.cube(2)
-        # assert scene.insideFrustrum(renderer))
+        # assert scene.insideFrustum(renderer))
 
         gameObject.transform.position = Vector3(0, 0, -5)
-        # assert not scene.insideFrustrum(renderer)
+        # assert not scene.insideFrustum(renderer)
