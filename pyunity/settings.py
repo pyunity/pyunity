@@ -52,13 +52,13 @@ class LiveDict:
         return d
 
     def keys(self):
-        return self.todict().keys()
+        return self.d.keys()
 
     def values(self):
-        return self.todict().values()
+        return self.d.values()
 
     def items(self):
-        return self.todict().items()
+        return self.d.items()
 
     def pop(self, item):
         if item in self:

@@ -49,11 +49,12 @@ class Shader:
         self.uniforms = {}
         shaders[name] = self
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo=None):
         memo[id(self)] = self
         return self
 
     def loadCache(self, file):
+        file = Path(file)
         if not file.is_file():
             return
 
@@ -197,7 +198,7 @@ class Shader:
 
         Parameters
         ==========
-        path : str
+        path : Pathlike
             Path of folder to load
         name : str
             Name to register this shader to. Used with :meth:`Camera.SetShader`.
@@ -384,8 +385,7 @@ class Light(SingleComponent):
 
 @addFields(
     fov=ShowInInspector(int, 90),
-    orthoSize=ShowInInspector(float, 5, "Ortho Size"),
-    canvas=ShowInInspector(addFields.selfref))
+    orthoSize=ShowInInspector(float, 5, "Ortho Size"))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
