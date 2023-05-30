@@ -24,7 +24,6 @@ class ABCWindow(metaclass=ABCMeta):
 
     """
 
-    @abstractmethod
     def __init__(self, name):
         pass
 
