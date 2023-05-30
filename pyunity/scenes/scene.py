@@ -27,7 +27,6 @@ from ..render import Camera, Light, Screen
 from pathlib import Path
 import os
 import sys
-import uuid
 import time
 import inspect
 

@@ -91,14 +91,14 @@ class Prefab(Asset):
     def GetAssetFile(self, gameObject: GameObject) -> None: ...
     def SaveAsset(self, ctx: ProjectSavingContext) -> None: ...
 
-AssetT = TypeVar("AssetT", bound=Asset)
+AT = TypeVar("AT", bound=Asset)
 
 class ProjectSavingContext:
     asset: Asset
     gameObject: GameObject
     project: Project
     filename: Union[str, Path]
-    savers: Dict[Type[AssetT], Callable[[AssetT, Union[str, Path]], None]]
+    savers: Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
     def __init__(self, asset: Asset, gameObject: GameObject, project: Project, filename: Union[str, Path] = ...) -> None: ...
 
 class File:
