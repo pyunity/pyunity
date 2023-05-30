@@ -17,7 +17,8 @@ from PIL import Image
 from pathlib import Path
 from .core import Component, ShowInInspector, GameObject, SavesProjectID
 from .scenes import Scene
-from .values import Material, ABCMeta, abstractmethod, Vector3, Quaternion
+from .values import ABCMeta, abstractmethod, Vector3, Quaternion
+from .meshes import Material
 import ctypes
 
 def convert(type: Type[ctypes._SimpleCData], list: List[float]) -> object: ...

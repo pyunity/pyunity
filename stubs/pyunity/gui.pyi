@@ -11,10 +11,11 @@ __all__ = ["Canvas", "RectData", "RectAnchors",
 
 import enum
 from pathlib import Path
-from typing import Callable, Dict, List, NoReturn, Optional, Tuple, Type, Union, Any
+from typing import Callable, Dict, List, Optional, Tuple, Type, Union, Any
 from PIL import ImageFont
 from .core import Component, SingleComponent, Transform
-from .values import Vector2, ABCMeta, abstractmethod, Color
+from .values import Vector2, ABCMeta, abstractmethod
+from .meshes import Color
 from .files import Texture2D
 from .input import KeyState, MouseCode
 from .scenes import Scene

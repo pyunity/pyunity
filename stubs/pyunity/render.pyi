@@ -14,9 +14,9 @@ import enum
 from typing import Dict, List, Union, Optional
 from pathlib import Path
 from .files import Skybox
-from .values import Color, Vector2, Vector3, Quaternion, ImmutableStruct
+from .values import Vector2, Vector3, Quaternion, ImmutableStruct
 from .core import SingleComponent, Transform
-from .meshes import MeshRenderer
+from .meshes import MeshRenderer, Color
 from .gui import RectTransform, GuiRenderComponent
 
 def fillScreen(scale: float = ...): ...

@@ -12,10 +12,10 @@ This will be imported as ``pyunity.Loader``.
 
 from typing import List, Optional, Dict, Type, Tuple, Any, Union, TypeVar, Callable
 from pathlib import Path
-from .meshes import Mesh
+from .meshes import Mesh, Material
 from .scenes import Scene
 from .files import Project, Prefab, Asset
-from .values import ImmutableStruct, Material
+from .values import ImmutableStruct
 from .core import GameObject, Component
 import enum
 
