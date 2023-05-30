@@ -260,7 +260,7 @@ def LoadMesh(filename):
         texcoords = None
     return Mesh(vertices, faces, normals, texcoords)
 
-def SaveMesh(mesh, path):
+def SaveMesh(mesh, project, path):
     """
     Saves a mesh to a .mesh file
     for faster loading.
@@ -269,6 +269,8 @@ def SaveMesh(mesh, path):
     ----------
     mesh : Mesh
         Mesh to save
+    project : Project
+        Project to save mesh to
     path : Pathlike
         Path to save mesh
 
