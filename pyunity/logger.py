@@ -212,7 +212,7 @@ def LogTraceback(exctype, value, tb, stacklevel=1):
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
-                LogLine(ERROR, line2, stacklevel=stacklevel+1)
+                LogLine(ERROR, line2, stacklevel=stacklevel + 1)
 
 sys.excepthook = LogTraceback
 
@@ -230,7 +230,7 @@ def LogSpecial(level, type, stacklevel=1):
         The special line to log
 
     """
-    LogLine(level, "(" + type.name + ")", type.func(), stacklevel=stacklevel+1)
+    LogLine(level, "(" + type.name + ")", type.func(), stacklevel=stacklevel + 1)
 
 @atexit.register
 def Save():
