@@ -7,10 +7,9 @@
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
 from typing import List, Optional, Union, Any, Iterator
-from pathlib import Path
 from .values import Vector3
-from .files import Asset, Texture2D, ProjectSavingContext
-from .core import GameObject, SingleComponent
+from .files import Asset, Texture2D
+from .core import SingleComponent
 
 floatSize: int = ...
 
@@ -47,8 +46,6 @@ class Material(Asset):
     color: Color
     texture: Texture2D
     def __init__(self, color: Color, texture: Optional[Texture2D] = ...) -> None: ...
-    def GetAssetFile(self, gameObject: GameObject) -> Path: ...
-    def SaveAsset(self, ctx: ProjectSavingContext) -> None: ...
 
 class Color:
     def toString(self) -> str: ...
