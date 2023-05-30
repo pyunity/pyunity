@@ -37,3 +37,7 @@ warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
 mypy_path = "stubs/"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_unreachable = true
+disable_error_code = ["valid-type"]
