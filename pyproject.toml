@@ -52,6 +52,18 @@ providers = [
     # Other window providers as needed
     "glfw",
 ]
+dev = [
+    "pytest",
+    "mypy",
+    "sphinx",
+    "glfw",
+    "importlib_metadata",
+    "cython>=3.0.0a8",
+    "wheel>=0.29.0",
+    "setuptools>=61.2",
+    "sphinx-toolbox>=1.1.0",
+    "sphinx-hoverxref>=1.1.1"
+]
 
 [tool.setuptools]
 include-package-data = false

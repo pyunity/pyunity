@@ -1,5 +1,4 @@
 cython>=3.0.0a8
 pyglm
 pillow
-wheel
 autopep8
