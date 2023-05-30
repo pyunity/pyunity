@@ -90,8 +90,8 @@ class AudioSource(Component):
     loop = ShowInInspector(bool, False)
     clip = ShowInInspector(AudioClip)
 
-    def __init__(self, transform):
-        super(AudioSource, self).__init__(transform)
+    def __init__(self):
+        super(AudioSource, self).__init__()
         global channels
         self.clip = None
         self.channel = channels
@@ -183,8 +183,8 @@ class AudioListener(SingleComponent):
 
     """
 
-    def __init__(self, transform):
-        super(AudioListener, self).__init__(transform)
+    def __init__(self):
+        super(AudioListener, self).__init__()
         self.opened = 0
 
     def Init(self):

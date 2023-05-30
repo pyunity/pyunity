@@ -352,8 +352,8 @@ class Light(SingleComponent):
     color = ShowInInspector(Color, RGB(255, 255, 255))
     type = ShowInInspector(LightType, LightType.Directional)
 
-    def __init__(self, transform):
-        super(Light, self).__init__(transform)
+    def __init__(self):
+        super(Light, self).__init__()
         self.near = 0.03
         self.far = 20
 
@@ -429,8 +429,8 @@ class Camera(SingleComponent):
     shadows = ShowInInspector(bool, False)
     depthMapSize = ShowInInspector(int, 1024)
 
-    def __init__(self, transform):
-        super(Camera, self).__init__(transform)
+    def __init__(self):
+        super(Camera, self).__init__()
         self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]

@@ -250,8 +250,8 @@ class RectTransform(SingleComponent):
     offset = ShowInInspector(RectOffset)
     pivot = ShowInInspector(Vector2)
     rotation = ShowInInspector(float, 0)
-    def __init__(self, transform):
-        super(RectTransform, self).__init__(transform)
+    def __init__(self):
+        super(RectTransform, self).__init__()
         self.anchors = RectAnchors()
         self.offset = RectOffset()
         self.pivot = Vector2(0.5, 0.5)
@@ -340,8 +340,8 @@ class Image2D(GuiRenderComponent):
 
     texture = ShowInInspector(Texture2D)
     depth = ShowInInspector(float, 0.0)
-    def __init__(self, transform):
-        super(Image2D, self).__init__(transform)
+    def __init__(self):
+        super(Image2D, self).__init__()
         self.rectTransform = self.GetComponent(RectTransform)
 
 class RenderTarget(GuiRenderComponent):
@@ -350,8 +350,8 @@ class RenderTarget(GuiRenderComponent):
     canvas = ShowInInspector(bool, True, "Render Canvas")
     flipY = 1
 
-    def __init__(self, transform):
-        super(RenderTarget, self).__init__(transform)
+    def __init__(self):
+        super(RenderTarget, self).__init__()
         self.setup = False
         self.size = Vector2.zero()
         self.texture = None
@@ -723,8 +723,8 @@ class Text(GuiRenderComponent):
     depth = ShowInInspector(float, 0.1)
     centeredX = ShowInInspector(TextAlign, TextAlign.Left)
     centeredY = ShowInInspector(TextAlign, TextAlign.Center)
-    def __init__(self, transform):
-        super(Text, self).__init__(transform)
+    def __init__(self):
+        super(Text, self).__init__()
         self.rect = None
         self.texture = None
         self.color = RGB(255, 255, 255)

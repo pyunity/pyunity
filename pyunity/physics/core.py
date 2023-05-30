@@ -131,8 +131,8 @@ class SphereCollider(Collider):
 
     radius = ShowInInspector(float, 0)
 
-    def __init__(self, transform):
-        super(SphereCollider, self).__init__(transform)
+    def __init__(self):
+        super(SphereCollider, self).__init__()
         self.SetSize(max(self.transform.scale.abs()), Vector3.zero())
 
     def SetSize(self, radius, offset):
@@ -189,8 +189,8 @@ class BoxCollider(Collider):
 
     size = ShowInInspector(Vector3)
 
-    def __init__(self, transform):
-        super(BoxCollider, self).__init__(transform)
+    def __init__(self):
+        super(BoxCollider, self).__init__()
         self.SetSize(self.transform.scale * 2, Vector3.zero())
 
     def SetSize(self, size, offset):

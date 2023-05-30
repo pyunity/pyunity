@@ -198,17 +198,20 @@ class GameObject(SavesProjectID):
                 f"it is not a component"
             )
         if (issubclass(componentClass, SingleComponent) and
-                self.GetComponents(componentClass) is not None):
+                self.GetComponent(componentClass) is not None):
             raise ComponentException(
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it already has one")
-        else:
-            component = componentClass(self.transform)
-            self.components.append(component)
 
-            component.gameObject = self
+        component = componentClass()
+        if componentClass is Transform:
+            component.transform = component
+        else:
             component.transform = self.transform
-            return component
+
+        component.gameObject = self
+        self.components.append(component)
+        return component
 
     def GetComponent(self, componentClass):
         """
@@ -424,12 +427,10 @@ class Component(SavesProjectID, metaclass=ComponentType):
     _saved = {}
     _shown = {}
 
-    def __init__(self, transform, isDummy=False):
-        if isDummy:
-            self.gameObject = None
-        else:
-            self.gameObject = transform.gameObject
-        self.transform = transform
+    def __init__(self):
+        # gameObject and transform to be set by AddComponent
+        self.gameObject = None
+        self.transform = None
         self.enabled = True
 
     @classmethod
@@ -543,9 +544,8 @@ class Transform(SingleComponent):
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
 
-    def __init__(self, transform=None):
-        super(Transform, self).__init__(self, True)
-        assert transform is None
+    def __init__(self):
+        super(Transform, self).__init__()
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
         self.localScale = Vector3.one()
