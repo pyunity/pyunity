@@ -2,8 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Event", "EventLoopManager", "EventLoop", "WaitForSeconds", "WaitForEventLoop",
-           "WaitForUpdate", "WaitForFixedUpdate", "WaitForRender", "StartCoroutine"]
+__all__ = ["Event", "EventLoop", "EventLoopManager", "StartCoroutine",
+           "WaitFor", "WaitForEventLoop", "WaitForFixedUpdate",
+           "WaitForRender", "WaitForSeconds", "WaitForUpdate"]
 
 from .core import Component
 from typing import (

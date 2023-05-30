@@ -2,12 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Canvas", "RectData", "RectAnchors",
-           "RectOffset", "RectTransform", "Image2D", "Gui",
-           "Text", "FontLoader", "GuiComponent",
-           "NoResponseGuiComponent", "CheckBox",
-           "GuiRenderComponent", "TextAlign", "Font",
-           "Button", "RenderTarget"]
+__all__ = ["Button", "Canvas", "CheckBox", "Font", "FontLoader", "Gui",
+           "GuiComponent", "GuiRenderComponent", "Image2D",
+           "NoResponseGuiComponent", "RectAnchors", "RectData", "RectOffset",
+           "RectTransform", "RenderTarget", "Text", "TextAlign",
+           "UnixFontLoader", "WinFontLoader"]
 
 import enum
 from pathlib import Path

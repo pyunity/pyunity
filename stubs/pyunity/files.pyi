@@ -8,8 +8,8 @@ Also manages project structure.
 
 """
 
-__all__ = ["Behaviour", "Texture2D", "Prefab",
-           "File", "Project", "Skybox", "Scripts"]
+__all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
+           "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
 from typing import List, Dict, Optional, Type, Union, Tuple, TypeVar, Callable, Any
 from types import ModuleType

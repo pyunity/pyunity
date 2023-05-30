@@ -8,11 +8,11 @@ physics engine.
 
 """
 
-__all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
-           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
+__all__ = ["BoxCollider", "Collider", "Infinity", "Manifold",
+           "PhysicMaterial", "Rigidbody", "SphereCollider"]
 
 from typing import List, NoReturn, Optional
-from ..values import Vector3, ABCMeta, abstractmethod
+from ..values import Vector3, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, Transform
 from ..scenes import Scene
 
@@ -68,7 +68,7 @@ class Rigidbody(Component):
     def AddForce(self, force: Vector3) -> None: ...
     def AddImpulse(self, impulse: Vector3) -> None: ...
 
-class CollManager:
+class CollManager(IgnoredMixin):
     rigidbodies: dict[Rigidbody, List[Collider]]
     dummyRigidbody: Rigidbody
     steps: int

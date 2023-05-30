@@ -4,8 +4,8 @@
 
 """Module for all exceptions and warnings related to PyUnity."""
 
-__all__ = ["PyUnityException", "ComponentException",
-           "GameObjectException"]
+__all__ = ["ComponentException", "GameObjectException",
+           "ProjectParseException", "PyUnityException", "PyUnityExit"]
 
 class PyUnityException(Exception): ...
 class ComponentException(PyUnityException): ...

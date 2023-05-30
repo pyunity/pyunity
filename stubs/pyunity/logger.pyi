@@ -9,6 +9,10 @@ This will be imported as ``pyunity.Logger``.
 
 """
 
+__all__ = ["Elapsed", "Level", "Log", "LogException", "LogLine", "LogSpecial",
+           "LogTraceback", "ResetStream", "Save", "SetStream", "Special",
+           "TIME_FORMAT", "TempRedirect"]
+
 from typing import Callable, Tuple, IO, Union, Any, Type
 from types import TracebackType
 import atexit

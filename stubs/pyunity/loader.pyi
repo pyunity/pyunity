@@ -10,6 +10,13 @@ This will be imported as ``pyunity.Loader``.
 
 """
 
+__all__ = ["GenerateProject", "GetComponentMap", "GetImports",
+           "LoadGameObjects", "LoadMat", "LoadMesh", "LoadObj",
+           "LoadObjectInfos", "LoadPrefab", "LoadProject", "LoadScene",
+           "LoadStl", "ObjectInfo", "Primitives", "ResaveScene",
+           "SaveGameObjects", "SaveMat", "SaveMesh", "SaveObj", "SavePrefab",
+           "SaveProject", "SaveScene", "SaveStl"]
+
 from typing import List, Optional, Dict, Type, Tuple, Any, Union, TypeVar, Callable
 from pathlib import Path
 from .meshes import Mesh, Material

@@ -423,7 +423,7 @@ class CollManager(IgnoredMixin):
 
     def __init__(self):
         self.rigidbodies = {}
-        self.dummyRigidbody = Rigidbody(None, True)
+        self.dummyRigidbody = Rigidbody()
         self.dummyRigidbody.mass = Infinity
         self.steps = 1
 

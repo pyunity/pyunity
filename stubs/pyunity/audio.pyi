@@ -2,6 +2,15 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+"""
+Classes to manage the playback of audio.
+It uses the sdl2.sdlmixer library.
+A variable in the ``config`` module called
+``audio`` will be set to ``False`` if the
+mixer module cannot be initialized.
+
+"""
+
 __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
 from .core import Component, Transform
