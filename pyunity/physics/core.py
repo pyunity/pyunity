@@ -44,7 +44,7 @@ class PhysicMaterial:
 
     """
 
-    def exception(self, *args, **kwargs):
+    def _setattrException(self, name, value):
         raise PyUnityException(
             "Cannot modify properties of PhysicMaterial: it is immutable")
 
@@ -53,7 +53,7 @@ class PhysicMaterial:
         self.friction = friction
         self.combine = -1
         if immutable:
-            self.__setattr__ = self.exception
+            self.__setattr__ = self._setattrException
 
 class Manifold:
     """
@@ -260,8 +260,8 @@ class Rigidbody(Component):
     physicMaterial = ShowInInspector(
         PhysicMaterial, PhysicMaterial(immutable=True))
 
-    def __init__(self, transform, dummy=False):
-        super(Rigidbody, self).__init__(transform, dummy)
+    def __init__(self):
+        super(Rigidbody, self).__init__()
         self.mass = 100
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
