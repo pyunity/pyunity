@@ -228,6 +228,8 @@ def InverseLerp(num, a, b):
         Upper bound
 
     """
+    if a == b:
+        return 0
     prop = (num - a) / (b - a)
     return Clamp01(prop)
 
@@ -385,5 +387,5 @@ class SmoothDamper:
             self.velocity = (output - originalTo) / dt
         return output
 
-    def reset(self):
+    def Reset(self):
         self.velocity = 0.0

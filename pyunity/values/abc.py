@@ -53,8 +53,8 @@ class abstractproperty(abstractmethod):
 class ABCMeta(type):
     _trigger = True
 
-    def __init__(cls, fullname, bases, attrs):
-        super().__init__(fullname, bases, attrs)
+    def __init__(cls, fullname, bases, attrs, **kwds):
+        super().__init__(fullname, bases, attrs, **kwds)
 
         for supercls in cls.__bases__:
             if supercls is object:
@@ -73,7 +73,7 @@ class ABCMeta(type):
                                        repr(attrs[method]))
 
     @classmethod
-    def __prepare__(cls, name, bases, message=None):
-        if message is not None:
-            raise ABCMessage(message)
-        return super(ABCMeta, cls).__prepare__(name, bases)
+    def __prepare__(cls, name, bases, **kwds):
+        if "message" in kwds:
+            raise ABCMessage(kwds["message"])
+        return super(ABCMeta, cls).__prepare__(name, bases, **kwds)
