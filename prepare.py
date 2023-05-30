@@ -178,15 +178,15 @@ def checkMissing():
         if moduleVars[moduleName]["__doc__"] is not None:
             fileHeader += '"""' + moduleVars[moduleName]["__doc__"] + '"""\n\n'
         if not contents.startswith(fileHeader):
-            print(file, "has wrong header and docstring")
+            print(file, "has wrong header and docstring, see", file[6:-1])
         if moduleVars[moduleName]["__all__"] == []:
             continue
-        allVar = re.search(r"__all__ = \[(.*?)\]", contents, re.M)
+        allVar = re.search(r"__all__ = \[(.*?)\]", contents, re.DOTALL)
         if allVar is None:
             print(file, "does not have __all__, expected:")
             allVar = ""
         else:
-            allVar = allVar.group(1)
+            allVar = re.sub(r"\s+", " ", allVar.group(1))
         allSet = set(allVar[1:-1].split("\", \""))
         if allSet == set(moduleVars[moduleName]["__all__"]):
             continue
