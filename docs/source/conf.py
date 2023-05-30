@@ -25,8 +25,8 @@ pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 # -- Project information -----------------------------------------------------
 
 project = "PyUnity"
-copyright = "2020-2021, The PyUnity Team"
-author = "Ray Chen"
+copyright = " 2020-2023 The PyUnity Team"
+author = "The PyUnity Team"
 
 # The full version, including alpha/beta/rc tags
 release = pyunity.__version__
