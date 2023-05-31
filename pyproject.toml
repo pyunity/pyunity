@@ -53,7 +53,8 @@ providers = [
     "glfw",
 ]
 dev = [
-    "pytest",
+    "pytest>=6.0",
+    "pytest-cov",
     "mypy",
     "sphinx",
     "glfw",
@@ -102,4 +103,4 @@ mypy_path = "stubs/"
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_unreachable = true
-disable_error_code = ["valid-type"]
+# disable_error_code = ["valid-type"]
