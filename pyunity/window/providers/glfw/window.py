@@ -7,7 +7,7 @@
 import glfw
 import sys
 from pyunity.window import ABCWindow
-from pyunity.errors import PyUnityException, PyUnityExit
+from pyunity.errors import WindowProviderException, PyUnityExit
 from pyunity.input import KeyCode, KeyState, MouseCode
 from pyunity import config
 
@@ -17,7 +17,7 @@ class Window(ABCWindow):
 
     Raises
     ------
-    PyUnityException
+    WindowProviderException
         If the window creation fails
 
     """
@@ -34,7 +34,7 @@ class Window(ABCWindow):
         self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
             glfw.terminate()
-            raise PyUnityException("Cannot open GLFW window")
+            raise WindowProviderException("Cannot open GLFW window")
 
         glfw.make_context_current(self.window)
 
