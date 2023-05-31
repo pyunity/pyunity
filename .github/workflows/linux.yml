@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: "3.9"
         architecture: x64
@@ -28,19 +28,20 @@ jobs:
     needs: compile
     steps:
       - uses: actions/checkout@v3
-      # - name: Set up Python
-      #   uses: actions/setup-python@v3
-      #   with:
-      #     python-version: ${{ matrix.python-version }}
-      #     architecture: x64
-      # - name: Install dependencies
-      #   run: |
-      #     python -m pip install -r requirements.txt
-      # - name: Print info
-      #   env:
-      #     PYUNITY_TESTING: 0
-      #   run: |
-      #     python -m pyunity -v
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          sudo apt-get install libgl1-mesa-dev
+      - name: Print info
+        env:
+          PYUNITY_TESTING: 0
+        run: |
+          python -m pyunity -v
       - name: Get artifact
         uses: actions/download-artifact@v3
         with:

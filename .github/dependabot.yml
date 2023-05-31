@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    assignees:
+      - "rayzchen"
+    labels:
+      - "Type: Update"
+      - "Topic: Module"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "rayzchen"
+    labels:
+      - "Type: Update"
+      - "Topic: GitHub"
