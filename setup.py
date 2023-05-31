@@ -4,6 +4,7 @@
 
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info, manifest_maker
+from setuptools.command.build_ext import build_ext
 from pathlib import Path
 import os
 import re
@@ -94,6 +95,14 @@ class Cythonize(SaveMeta):
         Cythonize.cythonize(self)
         super(Cythonize, self).run()
 
+class ParallelBuild(build_ext):
+    def finalize_options(self):
+        super(ParallelBuild, self).finalize_options()
+        if self.parallel == 0:
+            cores = min(32, (os.cpu_count() or 1) + 4)
+            self.parallel = True
+            print(f"ParallelBuild selecting {cores} cores for compilation")
+
 class Wheel(bdist_wheel):
     def run(self):
         Cythonize.cythonize(self)
@@ -126,7 +135,7 @@ if os.environ["cython"] == "1":
         "command_options": {"build_ext": {
             "parallel": ("setup.py", os.cpu_count())
         }},
-        "cmdclass": {"egg_info": Cythonize, "bdist_wheel": Wheel},
+        "cmdclass": {"egg_info": Cythonize, "bdist_wheel": Wheel, "build_ext": ParallelBuild},
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
