@@ -15,12 +15,13 @@ jobs:
           python-version: 3.9
           architecture: x64
       - name: Install dependencies
-        run: pip install -r build_requirements.txt -r requirements.txt
+        run: |
+          pip install -r build_requirements.txt -r requirements.txt
+          sudo apt-get install libgl1-mesa-dev
       - name: Print info
         env:
           PYUNITY_TESTING: 0
-        run: |
-          python -m pyunity -v
+        run: python -m pyunity -v
       - name: Run tests
         env:
           full: 1
