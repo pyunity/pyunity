@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyunity"
 authors = [{name = "The PyUnity Team", email = "tankimarshal2@gmail.com"}]
-description = "A Python implementation of the Unity Engine"
+description = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
 license = {text = "MIT"}
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -95,7 +95,7 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.6"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
@@ -103,4 +103,3 @@ mypy_path = "stubs/"
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_unreachable = true
-# disable_error_code = ["valid-type"]
