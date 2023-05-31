@@ -2,10 +2,15 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+__all__ = ["checkModule", "getPriority", "getProviders"]
+
 import os
 import sys
 import pkgutil
 import importlib.util
+
+_loaded = False
+_names = []
 
 def checkModule(name):
     if os.getenv("PYUNITY_TESTING") is not None:
@@ -18,11 +23,8 @@ def checkModule(name):
     sys.modules[name] = module
     return module
 
-_loaded = False
-_names = []
-
-def sort(x):
-    module = importlib.import_module(f".{x}.checker", __name__)
+def getPriority(name):
+    module = importlib.import_module(f".{name}.checker", __name__)
     if hasattr(module, "prio"):
         return module.prio
     return 0
@@ -31,6 +33,6 @@ def getProviders():
     global _names, _loaded
     if not _loaded:
         _names = [x.name for x in pkgutil.iter_modules(__path__)]
-        _names.sort(key=sort, reverse=True)
+        _names.sort(key=getPriority, reverse=True)
         _loaded = True
     return _names
