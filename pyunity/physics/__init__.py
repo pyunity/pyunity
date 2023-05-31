@@ -39,6 +39,8 @@ Inside the config file there are some configurations:
 
 """
 
+from .. import Logger
+Logger.LogLine(Logger.DEBUG, "Loading physics engine")
 from .core import *
 from . import core
 

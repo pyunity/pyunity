@@ -15,6 +15,8 @@ from ..errors import PyUnityException
 from ..values import Vector3, Quaternion, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, ShowInInspector, addFields
 from . import config
+import hppfcl
+import numpy as np
 import math
 
 Infinity = math.inf
@@ -135,6 +137,9 @@ class SphereCollider(Collider):
         super(SphereCollider, self).__init__()
         self.SetSize(max(self.transform.scale.abs()), Vector3.zero())
 
+    def shape(self):
+        return hppfcl.Sphere(self.radius)
+
     def SetSize(self, radius, offset):
         """
         Sets the size of the collider.
@@ -207,6 +212,9 @@ class BoxCollider(Collider):
         """
         self.size = size
         self.offset = offset
+
+    def shape(self):
+        return hppfcl.Box(*self.size)
 
     @property
     def min(self):
@@ -687,6 +695,14 @@ class CollManager(IgnoredMixin):
         else:
             return (a.physicMaterial.restitution + b.physicMaterial.restitution) / 2
 
+    def makeTransform(self, collider):
+        obj = hppfcl.CollisionObject(collider.shape())
+        pos = collider.offset + collider.pos
+        rot = hppfcl.Quaternion(*collider.rot)
+        obj.setTranslation(np.array(list(pos)))
+        obj.setRotation(hppfcl.Quaternion.toRotationMatrix(rot))
+        return obj
+
     def CheckCollisions(self):
         """
         Goes through every pair exactly once,
@@ -699,8 +715,15 @@ class CollManager(IgnoredMixin):
             for rbB in list(self.rigidbodies.keys())[x + 1:]:
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m = colliderA.collidingWith(colliderB)
-                        if m is not None:
+                        transformA = self.makeTransform(colliderA)
+                        transformB = self.makeTransform(colliderB)
+                        req = hppfcl.CollisionRequest()
+                        res = hppfcl.CollisionResult()
+                        if hppfcl.collide(transformA, transformB, req, res):
+                            contact = res.getContact(0)
+                            m = Manifold(colliderA, colliderB,
+                                         Vector3(contact.pos), -Vector3(contact.normal),
+                                         contact.penetration_depth)
                             manifolds[rbA, rbB] = m
 
         for rbA, rbB in manifolds:
