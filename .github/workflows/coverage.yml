@@ -16,7 +16,7 @@ jobs:
           architecture: x64
       - name: Install dependencies
         run: |
-          pip install -r build_requirements.txt -r requirements.txt
+          pip install -r .github/build_requirements.txt -r requirements.txt
           sudo apt-get install libgl1-mesa-dev
       - name: Print info
         env:
