@@ -99,7 +99,7 @@ class ParallelBuild(build_ext):
     def finalize_options(self):
         super(ParallelBuild, self).finalize_options()
         if self.parallel == 0:
-            cores = min(32, (os.cpu_count() or 1) + 4)
+            cores = min(32, (os.cpu_count() or 1))
             self.parallel = True
             print(f"ParallelBuild selecting {cores} cores for compilation")
 
