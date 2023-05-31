@@ -16,11 +16,11 @@ def check():
     except ImportError:
         cleanup()
         del os.environ["PYOPENGL_PLATFORM"]
-        raise Exception
+        raise WindowProviderException("Could not import OpenGL.EGL")
     egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
     err = egl.eglGetError()
     if err:
-        raise Exception(err)
+        raise WindowProviderException("EGL error: " + err)
 
 def cleanup():
     import sys
