@@ -36,8 +36,7 @@ use::
 Alternatively, you can clone the repository
 `here <https://github.com/pyunity/pyunity>`_
 to build the package from source. Then use
-``setup.py`` to build. Note that it will install
-Cython to compile. ::
+``pip`` to install::
 
     > pip install .
 

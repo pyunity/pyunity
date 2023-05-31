@@ -1,5 +1,6 @@
 cython>=3.0.0a8
 setuptools>=61.2
+build>=0.10.0
 autopep8
 pytest>=6.0
 pytest-cov
