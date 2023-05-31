@@ -50,7 +50,7 @@ jobs:
           python -m pip install "cython>=3.0.0a8" wheel
           python setup.py egg_info
           test -f pyunity.egg-info/version.json || exit 1
-          python setup.py bdist_wheel
+          python setup.py bdist_wheel -j 4
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
