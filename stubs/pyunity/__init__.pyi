@@ -7,7 +7,8 @@ Version 0.9.0 (in development)
 ==============================
 PyUnity is a pure Python 3D Game Engine that
 was inspired by the structure of the Unity
-Game Engine. This does not mean that PyUnity
+Game Engine. It aims to be as close as possible
+to Unity itself. This does not mean that PyUnity
 are bindings for the UnityEngine. However,
 this project has been made to facilitate
 any programmer, beginner or advanced, novice
@@ -28,7 +29,7 @@ based on Ubuntu or Debian, use::
     > pip3 install pyunity
 
 To install PyUnity for other operating systems,
-use pip::
+use::
 
     > pip install pyunity
 
@@ -50,9 +51,11 @@ sometimes broken, so use at your own risk. ::
 Its only dependencies are PyOpenGL, PySDL2,
 Pillow and PyGLM. Microsoft Visual
 C++ Build Tools are required on Windows
-for building yourself. GLFW can be optionally
-installed if you would like to use the GLFW
-window provider.
+for building yourself, but it can be disabled by
+setting the ``cython`` environment variable to
+``0``, at the cost of being less optimized.
+GLFW can be optionally installed if you would
+like to use the GLFW window provider.
 
 Importing
 ---------
@@ -145,7 +148,7 @@ please `create a pull request <https://github.com/pyunity/pyunity/compare>`_.
 
 Environment variables
 ---------------------
-Here are a list of environment variables used
+Here is a list of environment variables used
 by PyUnity:
 
 - **PYUNITY_TESTING** (default: unset)
@@ -155,11 +158,10 @@ by PyUnity:
   - Window provder selection
   - Audio
   - Font loading
-  - Module checking (if window providing is forced)
 
 - **PYUNITY_DEBUG_MODE** (default: 1)
   Disables debug output if set to "0".
-  Debug output has the code \|D\| in the log file.
+  Debug output has the code \\|D\\| in the log file.
 - **PYUNITY_AUDIO** (default: 1)
   If set to "0", sdlmixer won't be loaded and
   ``config.audio`` is set to ``False``.
@@ -167,12 +169,28 @@ by PyUnity:
   Set when the OpenGL context is enabled. Usually
   not used except by wrapper scripts as Behaviours
   only update while a valid context exists.
-- **PYUNITY_CHECK_WINDOW** (default: unset)
-  When set, forces window provider selection regardless
-  if ``windowProvider`` is set in ``settings.json``.
+- **PYUNITY_CHECK_WINDOW** (default: 0)
+  If set to "1", forces window provider selection regardless
+  if ``windowProvider`` is set in ``settings.json``. If set
+  to "0", window provider selection is triggered only if
+  ``windowProvider`` doesn't already exist in ``settings.json``.
+- **PYUNITY_INTERACTIVE** (default: 1)
+  If set to "0", window providing is disabled and scenes
+  are run without any OpenGL rendering.
+- **PYUNITY_SPHINX_CHECK** (default: unset)
+  Used by sphinx to fix some bugs that occur during documentation
+  generation.
+- **PYUNITY_CHANGE_MODULE** (default: 1)
+  Change the ``__module__`` attribute of all imported objects
+  to ``pyunity``. If set to "0", this is disabled.
 
 Examples
 --------
+Examples are located at subfolders in
+`pyunity/examples <https://github.com/pyunity/pyunity/tree/develop/pyunity/examples>`_
+so do be sure to check them out as a
+starting point.
+
 To run an example, import it like so:
 
     >>> from pyunity.examples.example1 import main
@@ -196,13 +214,20 @@ contribute an example, then please
 
 """
 
+# Logger must start first, config straight after
 from . import logger as Logger
+# from . import config
+# Window provider selection should be as early as possible
+from . import window as Window
+
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
-           "SceneManager", "Mesh"]
+           "SceneManager"]
 
 from .errors import __all__ as _errors_all
 from .values import __all__ as _values_all
 from .core import __all__ as _core_all
+from .events import __all__ as _events_all
+from .meshes import __all__ as _meshes_all
 from .files import __all__ as _files_all
 from .render import __all__ as _render_all
 from .audio import __all__ as _audio_all
@@ -212,6 +237,8 @@ from .gui import __all__ as _gui_all
 __all__.extend(_errors_all)
 __all__.extend(_values_all)
 __all__.extend(_core_all)
+__all__.extend(_events_all)
+__all__.extend(_meshes_all)
 __all__.extend(_files_all)
 __all__.extend(_render_all)
 __all__.extend(_audio_all)
@@ -221,14 +248,14 @@ __all__.extend(_gui_all)
 
 from .errors import *
 from .values import *
-from .meshes import Mesh
 from .core import *
+from .events import *
+from .meshes import *
 from .physics import *
 from .audio import *
 from .files import *
 from .render import *
 from .scenes import sceneManager as SceneManager
-from . import window as Window
 from . import loader as Loader
 from .loader import Primitives
 from .input import *

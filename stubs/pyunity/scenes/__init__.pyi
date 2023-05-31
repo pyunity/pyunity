@@ -8,5 +8,6 @@ Module to create and load Scenes.
 """
 
 __all__ = ["SceneManager", "Scene"]
+
 from . import sceneManager as SceneManager
 from .scene import Scene
