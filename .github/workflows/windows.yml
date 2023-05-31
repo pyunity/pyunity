@@ -11,7 +11,7 @@ jobs:
         python-version: "3.9"
         architecture: x64
     - name: Install dependencies
-      run: python -m pip install "cython>=3.0.0a8" autopep8
+      run: python -m pip install -r .github/build_requirements.txt
     - name: Cythonize
       run: python prepare.py parseCode cythonize
     - name: Upload artifact
@@ -35,7 +35,7 @@ jobs:
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements.txt -r .github/build_requirements.txt
       - name: Print info
         env:
           PYUNITY_TESTING: 0
@@ -51,7 +51,7 @@ jobs:
           PYUNITY_TESTING: 1
         run: |
           python -m pip install "cython>=3.0.0a8" wheel
-          python setup.py build_ext -j 4 bdist_wheel
+          python setup.py build_ext -j 0 bdist_wheel
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

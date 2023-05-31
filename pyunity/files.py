@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Module to load files and scripts.
@@ -35,7 +35,7 @@ def convert(type, list):
 
     Parameters
     ----------
-    type : _ctypes.PyCSimpleType
+    type : Type[ctypes.PyCSimpleType]
         Type to cast to.
     list : list
         List to cast
@@ -305,10 +305,12 @@ class Texture2D(Asset):
             self.path = str(pathOrImg)
             self.img = Image.open(self.path).convert("RGBA")
             self.imgData = self.img.tobytes()
-        else:
+        elif isinstance(pathOrImg, Image.Image):
             self.path = None
             self.img = pathOrImg
             self.imgData = self.img.tobytes()
+        else:
+            raise TypeError(f"Expected str, Path or Image: got {type(pathOrImg).__name__}")
         self.loaded = False
         self.texture = None
         self.mipmaps = False
@@ -365,6 +367,7 @@ class Texture2D(Asset):
 
     @classmethod
     def FromOpenGL(cls, texture):
+        # TODO: set mipmaps?
         obj = cls.__new__(cls)
         obj.loaded = True
         obj.texture = texture
@@ -502,7 +505,7 @@ class Prefab(Asset):
                         if isinstance(v, Asset):
                             self.assets.append(v)
 
-            self.gameObject = gameObject
+            self.gameObject = root
 
     def Contains(self, obj):
         if not isinstance(obj, (GameObject, Component)):

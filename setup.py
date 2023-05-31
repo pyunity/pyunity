@@ -1,9 +1,10 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from setuptools import setup, find_packages, Extension
 from setuptools.command.egg_info import egg_info, manifest_maker
+from setuptools.command.build_ext import build_ext
 from pathlib import Path
 import os
 import re
@@ -12,11 +13,18 @@ import glob
 import json
 import subprocess
 
+try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    raise Exception("Please install `wheel` to use this script.")
+
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
 class SaveMeta(egg_info):
     def writeVersion(self):
+        orig = os.getcwd()
+        os.chdir(Path(__file__).resolve().parent)
         if not os.path.isdir(".git"):
             return
 
@@ -39,6 +47,7 @@ class SaveMeta(egg_info):
             else:
                 local = len(out) == 0
 
+        os.chdir(orig)
         data = {"revision": rev, "local": local}
         self.write_or_delete_file(
             "version", Path(self.egg_info) / "version.json", json.dumps(data))
@@ -58,25 +67,46 @@ class ManifestMaker(manifest_maker):
         self.filelist.append("prepare.py")
 
 class Cythonize(SaveMeta):
-    def run(self):
+    cythonized = False
+
+    @staticmethod
+    def cythonize(cmd):
+        if Cythonize.cythonized:
+            return
+        Cythonize.cythonized = True
         if os.environ["cython"] == "1":
-            self.announce("Cython enabled", level=2)
+            cmd.announce("Cython enabled", level=2)
             if not os.path.isdir("src"):
-                self.announce(
+                cmd.announce(
                     "src/ directory not found", level=2)
-                cmd = [sys.executable, "prepare.py", "cythonize"]
-                self.announce(
-                    f"Running command: {cmd}",
+                args = [sys.executable, "prepare.py", "cythonize"]
+                cmd.announce(
+                    "Running command: python prepare.py cythonize",
                     level=2)
-                subprocess.check_call(cmd)
+                subprocess.check_call(args)
             else:
-                self.announce(
+                cmd.announce(
                     "src/ directory found", level=2)
         else:
-            self.announce(
+            cmd.announce(
                 "Cython disabled", level=2)
 
+    def run(self):
+        Cythonize.cythonize(self)
         super(Cythonize, self).run()
+
+class ParallelBuild(build_ext):
+    def finalize_options(self):
+        super(ParallelBuild, self).finalize_options()
+        if self.parallel == 0:
+            cores = min(32, (os.cpu_count() or 1))
+            self.parallel = True
+            print(f"ParallelBuild selecting {cores} cores for compilation")
+
+class Wheel(bdist_wheel):
+    def run(self):
+        Cythonize.cythonize(self)
+        super(Wheel, self).run()
 
 if os.environ["cython"] == "1":
     if not os.path.isdir("src"):
@@ -97,12 +127,15 @@ if os.environ["cython"] == "1":
         versionfile = "pyunity/_version.py"
     else:
         cFiles = glob.glob("src/**/*.c", recursive=True)
-        dataFiles = list(filter(lambda a: ".c" not in a,
-                                glob.glob("src/**/*.*", recursive=True)))
+        dataFiles = [a for a in glob.glob("src/**/*.*", recursive=True)
+                     if not a.endswith(".c") and not a.endswith(".py")]
         versionfile = "src/_version.py"
 
     config = {
-        "cmdclass": {"egg_info": Cythonize},
+        "command_options": {"build_ext": {
+            "parallel": ("setup.py", os.cpu_count())
+        }},
+        "cmdclass": {"egg_info": Cythonize, "bdist_wheel": Wheel, "build_ext": ParallelBuild},
         "package_dir": {"pyunity": "src"},
         "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
@@ -111,8 +144,7 @@ if os.environ["cython"] == "1":
         "zip_safe": False
     }
 else:
-    dataFiles = list(filter(lambda a: ".py" not in a,
-                            glob.glob("pyunity/**/*.*", recursive=True)))
+    dataFiles = [a for a in glob.glob("pyunity/**/*.*", recursive=True) if ".py" not in a]
     config = {
         "cmdclass": {"egg_info": SaveMeta},
         "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
@@ -128,8 +160,6 @@ if match:
     version = f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
 else:
     raise RuntimeError(f"Unable to find version string in {versionfile}")
+config["version"] = version
 
-setup(
-    version=version,
-    **config,
-)
+setup(**config)

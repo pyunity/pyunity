@@ -1,5 +1,3 @@
 cython>=3.0.0a8
-pyglm
-pillow
-wheel
+setuptools>=61.2
 autopep8

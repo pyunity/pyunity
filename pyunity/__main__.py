@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pathlib import Path
 import re
@@ -14,7 +14,7 @@ import argparse
 from ._version import versionInfo
 from . import Loader, SceneManager, examples
 
-def version():
+def printVersion():
     TITLE_WIDTH = 30
     print("#" * TITLE_WIDTH)
     print("VERSION INFO".center(TITLE_WIDTH))
@@ -114,7 +114,7 @@ parser.add_argument("project", nargs="?", default="0",
 def main():
     args = parser.parse_args()
     if args.version:
-        version()
+        printVersion()
         return
 
     if args.project.isdecimal():

@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["LiveDict", "Database"]
 
@@ -52,13 +52,13 @@ class LiveDict:
         return d
 
     def keys(self):
-        return self.todict().keys()
+        return self.d.keys()
 
     def values(self):
-        return self.todict().values()
+        return self.d.values()
 
     def items(self):
-        return self.todict().items()
+        return self.d.items()
 
     def pop(self, item):
         if item in self:

@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Core classes of the PyUnity
@@ -8,11 +8,11 @@ physics engine.
 
 """
 
-__all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
-           "BoxCollider", "Rigidbody", "CollManager", "Infinity"]
+__all__ = ["BoxCollider", "Collider", "Infinity", "Manifold",
+           "PhysicMaterial", "Rigidbody", "SphereCollider"]
 
 from typing import List, NoReturn, Optional
-from ..values import Vector3, ABCMeta, abstractmethod
+from ..values import Vector3, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, Transform
 from ..scenes import Scene
 
@@ -22,7 +22,7 @@ class PhysicMaterial:
     restitution: float
     friction: float
     combine: int
-    def exception(self, *args, **kwargs) -> NoReturn: ...
+    def _setattrException(self, name: str, value: object) -> NoReturn: ...
     def __init__(self, restitution: float = ..., friction: float = ..., immutable: bool = ...) -> None: ...
 
 class Manifold:
@@ -44,7 +44,6 @@ class SphereCollider(Collider):
 
     def __init__(self, transform: Transform) -> None: ...
     def SetSize(self, radius: float, offset: Vector3) -> None: ...
-    def collidingWith(self, other: Collider) -> Optional[Manifold]: ...
     def CheckOverlap(self, other: Collider) -> bool: ...
 
 class BoxCollider(Collider):
@@ -53,7 +52,6 @@ class BoxCollider(Collider):
     pos: Vector3 = ...
     def __init__(self, transform: Transform) -> None: ...
     def SetSize(self, min: Vector3, max: Vector3) -> None: ...
-    def collidingWith(self, other: Collider) -> Optional[Manifold]: ...
     def CheckOverlap(self, other: Collider) -> bool: ...
 
 class Rigidbody(Component):
@@ -70,7 +68,7 @@ class Rigidbody(Component):
     def AddForce(self, force: Vector3) -> None: ...
     def AddImpulse(self, impulse: Vector3) -> None: ...
 
-class CollManager:
+class CollManager(IgnoredMixin):
     rigidbodies: dict[Rigidbody, List[Collider]]
     dummyRigidbody: Rigidbody
     steps: int

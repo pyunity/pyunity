@@ -23,7 +23,7 @@ def print(*values, sep=" ", end="\n"):
 def checkFolder(folder, ext):
     os.chdir(folder)
     files = glob.glob("**/*." + ext, recursive=True)
-    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
+    files = [x for x in files if not x.startswith("examples") and not x.endswith("Window.py")]
 
     classFind = re.compile("(?<=^class )(\\w+)(?=(\(.*?\))?:)")
     methodFind = re.compile("(?<=    def )(\\w+)")
@@ -105,7 +105,7 @@ def checkClasses(a, b, c, d, e, f, name):
 def checkDocstrings():
     os.chdir("../pyunity")
     files = glob.glob("**/*.py", recursive=True)
-    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
+    files = [x for x in files if not x.startswith("examples") and not x.endswith("Window.py")]
 
     a = {}
     for file in files:
@@ -118,7 +118,7 @@ def checkDocstrings():
 
     os.chdir("../stubs/pyunity")
     files = glob.glob("**/*.pyi", recursive=True)
-    files = list(filter(lambda x: not x.startswith("examples") and not x.endswith("Window.py"), files))
+    files = [x for x in files if not x.startswith("examples") and not x.endswith("Window.py")]
 
     b = {}
     for file in files:

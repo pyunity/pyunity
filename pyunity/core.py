@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Core classes for the PyUnity library.
@@ -150,9 +150,8 @@ class GameObject(SavesProjectID):
     def __init__(self, name="GameObject", parent=None):
         self.name = name
         self.components = []
-        self.transform = None
-        self.AddComponent(Transform)
-        if parent:
+        self.transform = self.AddComponent(Transform)
+        if parent is not None:
             self.transform.ReparentTo(parent.transform)
         self.tag = Tag(0)
         self.enabled = True
@@ -199,19 +198,21 @@ class GameObject(SavesProjectID):
                 f"it is not a component"
             )
         if (issubclass(componentClass, SingleComponent) and
-                self.GetComponents(componentClass)):
+                self.GetComponent(componentClass) is not None):
             raise ComponentException(
                 f"Cannot add {componentClass.__name__} to the GameObject; "
                 f"it already has one")
-        else:
-            component = componentClass(self.transform)
-            self.components.append(component)
-            if componentClass is Transform:
-                self.transform = component
 
-            component.gameObject = self
+        component = Component.__new__(componentClass)
+        if componentClass is Transform:
+            component.transform = component
+        else:
             component.transform = self.transform
-            return component
+        component.gameObject = self
+        component.__init__()
+
+        self.components.append(component)
+        return component
 
     def GetComponent(self, componentClass):
         """
@@ -307,10 +308,10 @@ class GameObject(SavesProjectID):
 
     def __repr__(self):
         return (f"<GameObject name={self.name!r} components="
-                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+                f"{[type(x).__name__ for x in self.components]}>")
     def __str__(self):
         return (f"<GameObject name={self.name!r} components="
-                f"{list(map(lambda x: type(x).__name__, self.components))}>")
+                f"{[type(x).__name__ for x in self.components]}>")
 
 class HideInInspector:
     """
@@ -320,10 +321,10 @@ class HideInInspector:
     Attributes
     ==========
     type : type
-        Type of the variable
+        Type of the attribute
     default : Any
-        Default value (will be set to the Behaviour)
-    name : NoneType
+        Default value for the attribute (will be set to the Component)
+    name : str
         Set when ``Component.__init_subclass__`` is excecuted
 
     """
@@ -377,11 +378,14 @@ class _AddFields(IncludeInstanceMixin):
         selfref = self.selfref
 
         class _decorator:
+            def __init__(self, fields):
+                self.fields = fields
+
             def apply(self, cls):
                 return self.__call__(cls)
 
             def __call__(self, cls):
-                for name, value in kwargs.items():
+                for name, value in self.fields.items():
                     if value.name is None:
                         value.name = name
                     if value.type is selfref:
@@ -394,7 +398,7 @@ class _AddFields(IncludeInstanceMixin):
                         if not hasattr(cls, name):
                             setattr(cls, name, value.default)
                 return cls
-        return _decorator()
+        return _decorator(kwargs)
 
 addFields = _AddFields()
 del _AddFields
@@ -402,8 +406,8 @@ setattr(addFields, "__module__", __name__)
 
 class ComponentType(ABCMeta):
     @classmethod
-    def __prepare__(cls, name, bases, **kwds):
-        namespace = super(ComponentType, cls).__prepare__(name, bases, **kwds)
+    def __prepare__(cls, name, bases, /, **kwds):
+        namespace = dict(super(ComponentType, cls).__prepare__(name, bases, **kwds))
         namespace["_saved"] = {}
         namespace["_shown"] = {}
         return namespace
@@ -421,12 +425,11 @@ class Component(SavesProjectID, metaclass=ComponentType):
 
     """
 
-    def __init__(self, transform, isDummy=False):
-        if isDummy:
-            self.gameObject = None
-        else:
-            self.gameObject = transform.gameObject
-        self.transform = transform
+    _saved = {}
+    _shown = {}
+
+    def __init__(self):
+        # gameObject and transform to be set by AddComponent
         self.enabled = True
 
     @classmethod
@@ -540,9 +543,8 @@ class Transform(SingleComponent):
     localRotation = ShowInInspector(Quaternion, None, "rotation")
     localScale = ShowInInspector(Vector3, None, "scale")
 
-    def __init__(self, transform=None):
-        super(Transform, self).__init__(self, True)
-        assert transform is None
+    def __init__(self):
+        super(Transform, self).__init__()
         self.localPosition = Vector3.zero()
         self.localRotation = Quaternion.identity()
         self.localScale = Vector3.one()

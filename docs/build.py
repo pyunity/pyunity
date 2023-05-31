@@ -43,5 +43,7 @@ with open("docs/source/api.rst", "w") as f:
 
 if len(sys.argv) > 1:
     result = subprocess.call(["sphinx-build", "-b", "html", "-a", "-E", "-v", "docs/source/", "docs/en/"])
+    if result != 0:
+        exit(result)
     os.system("start docs/index.html")
     exit(result)

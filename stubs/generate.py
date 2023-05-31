@@ -1,12 +1,12 @@
 import functools
 import inspect
-import pathlib
 import typing
 import types as _types
 import os
 import sys
 import ast
 import glob
+from pathlib import Path
 os.environ["PYUNITY_CHANGE_MODULE"] = "0"
 
 ignored = ["pyunity.examples.", "pyunity.window.providers."]
@@ -51,8 +51,8 @@ def gettype(obj):
         return typing.Callable
     elif isinstance(obj, type(a for a in "")):
         return typing.Generator
-    elif issubclass(t, pathlib.Path):
-        return typing.Union[str, pathlib.Path]
+    elif issubclass(t, Path):
+        return typing.Union[str, Path]
     return t
 
 def mostCommon(l):
@@ -306,6 +306,7 @@ def wrapAll():
                 classes[classname] = cls
                 for attrname, attr in vars(obj).items():
                     if callable(attr):
+                        print(obj, attrname, attr)
                         if attr.__qualname__ != obj.__qualname__ + "." + attrname:
                             # Not defined in class
                             continue
@@ -478,8 +479,8 @@ if __name__ == "__main__":
     wrapAll()
     runTests()
 
-    # from pyunity import examples
-    # examples.loadExample(0)
+    from pyunity import examples
+    examples.loadExample(0)
 
     printAll()
     writeAll()

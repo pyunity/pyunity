@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 A basic 3D Physics engine that uses
@@ -39,7 +39,7 @@ Inside the config file there are some configurations:
 
 """
 
-from core import *
+from .core import *
 from . import core
 __all__ = []
 __all__.extend(core.__all__)

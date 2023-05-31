@@ -1,12 +1,11 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """Module for meshes created at runtime and their various attributes."""
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from charset_normalizer import normalize
 from .core import SingleComponent, ShowInInspector
 from .files import Asset, convert
 from .values import Vector3
@@ -139,7 +138,7 @@ class Mesh(Asset):
 
     def SaveAsset(self, ctx):
         path = ctx.project.path / ctx.filename
-        ctx.savers[Mesh](self, path)
+        ctx.savers[Mesh](self, ctx.project, path)
 
     @staticmethod
     def quad(size):
@@ -187,14 +186,15 @@ class Mesh(Asset):
             of ``size``.
 
         """
+        half = size / 2
         return Mesh(
             [
-                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2,
-                        0), Vector3(size / 2, -size / 2, 0),
-                Vector3(size / 2, size / 2, 0), Vector3(-size / 2, size / 2, 0),
-                Vector3(-size / 2, -size / 2,
-                        0), Vector3(size / 2, -size / 2, 0),
+                Vector3(half, half, 0), Vector3(-half, half, 0),
+                Vector3(-half, -half,
+                        0), Vector3(half, -half, 0),
+                Vector3(half, half, 0), Vector3(-half, half, 0),
+                Vector3(-half, -half,
+                        0), Vector3(half, -half, 0),
             ],
             [[0, 1, 2], [0, 2, 3], [4, 6, 5], [4, 7, 6]],
             [
@@ -359,32 +359,33 @@ class Mesh(Asset):
             A cube centered at Vector3(0, 0, 0) that has a side length of ``size``
 
         """
+        half = size / 2
         return Mesh(
             [
-                Vector3(-1, 1, -1) * size / 2,
-                Vector3(1, 1, -1) * size / 2,
-                Vector3(1, -1, -1) * size / 2,
-                Vector3(-1, -1, -1) * size / 2,
-                Vector3(-1, 1, 1) * size / 2,
-                Vector3(1, 1, 1) * size / 2,
-                Vector3(1, -1, 1) * size / 2,
-                Vector3(-1, -1, 1) * size / 2,
-                Vector3(-1, -1, -1) * size / 2,
-                Vector3(1, -1, -1) * size / 2,
-                Vector3(1, -1, 1) * size / 2,
-                Vector3(-1, -1, 1) * size / 2,
-                Vector3(-1, 1, -1) * size / 2,
-                Vector3(1, 1, -1) * size / 2,
-                Vector3(1, 1, 1) * size / 2,
-                Vector3(-1, 1, 1) * size / 2,
-                Vector3(1, 1, -1) * size / 2,
-                Vector3(1, 1, 1) * size / 2,
-                Vector3(1, -1, 1) * size / 2,
-                Vector3(1, -1, -1) * size / 2,
-                Vector3(-1, 1, -1) * size / 2,
-                Vector3(-1, 1, 1) * size / 2,
-                Vector3(-1, -1, 1) * size / 2,
-                Vector3(-1, -1, -1) * size / 2,
+                Vector3(-1, 1, -1) * half,
+                Vector3(1, 1, -1) * half,
+                Vector3(1, -1, -1) * half,
+                Vector3(-1, -1, -1) * half,
+                Vector3(-1, 1, 1) * half,
+                Vector3(1, 1, 1) * half,
+                Vector3(1, -1, 1) * half,
+                Vector3(-1, -1, 1) * half,
+                Vector3(-1, -1, -1) * half,
+                Vector3(1, -1, -1) * half,
+                Vector3(1, -1, 1) * half,
+                Vector3(-1, -1, 1) * half,
+                Vector3(-1, 1, -1) * half,
+                Vector3(1, 1, -1) * half,
+                Vector3(1, 1, 1) * half,
+                Vector3(-1, 1, 1) * half,
+                Vector3(1, 1, -1) * half,
+                Vector3(1, 1, 1) * half,
+                Vector3(1, -1, 1) * half,
+                Vector3(1, -1, -1) * half,
+                Vector3(-1, 1, -1) * half,
+                Vector3(-1, 1, 1) * half,
+                Vector3(-1, -1, 1) * half,
+                Vector3(-1, -1, -1) * half,
             ],
             [
                 [0, 1, 2],

@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Utility functions related to loading
@@ -14,8 +14,8 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
            "LoadMesh", "SaveMesh", "LoadObj", "SaveObj",
            "LoadMat", "SaveMat", "LoadProject", "ObjectInfo",
            "SaveProject", "ResaveScene", "GenerateProject",
-           "LoadScene", "LoadStl", "LoadPrefab",
-           "LoadObjectInfos", "LoadGameObjects",
+           "LoadScene", "LoadStl", "SaveStl", "LoadPrefab",
+           "LoadObjectInfos", "GetComponentMap", "LoadGameObjects",
            "SaveGameObjects", "SavePrefab"]
 
 from . import Logger
@@ -260,7 +260,7 @@ def LoadMesh(filename):
         texcoords = None
     return Mesh(vertices, faces, normals, texcoords)
 
-def SaveMesh(mesh, path):
+def SaveMesh(mesh, project, path):
     """
     Saves a mesh to a .mesh file
     for faster loading.
@@ -269,6 +269,8 @@ def SaveMesh(mesh, path):
     ----------
     mesh : Mesh
         Mesh to save
+    project : Project
+        Project to save mesh to
     path : Pathlike
         Path to save mesh
 

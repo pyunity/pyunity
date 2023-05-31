@@ -1,9 +1,10 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["Event", "EventLoopManager", "EventLoop", "WaitForSeconds", "WaitForEventLoop",
-           "WaitForUpdate", "WaitForFixedUpdate", "WaitForRender", "StartCoroutine"]
+__all__ = ["Event", "EventLoopManager", "EventLoop", "WaitFor", "WaitForSeconds",
+           "WaitForEventLoop", "WaitForUpdate", "WaitForFixedUpdate",
+           "WaitForRender", "StartCoroutine"]
 
 from . import Logger, config
 from .errors import PyUnityException
@@ -236,7 +237,10 @@ def StartCoroutine(coro):
                        f"Expected loop of type EventLoop, got {type(loop).__name__}")
     loop.create_task(coro)
 
-class WaitForSeconds:
+class WaitFor:
+    pass
+
+class WaitForSeconds(WaitFor):
     def __init__(self, length):
         self.length = length
 
@@ -246,7 +250,7 @@ class WaitForSeconds:
         yield from sleep.__await__()
         return time.perf_counter() - start
 
-class WaitForEventLoop:
+class WaitForEventLoop(WaitFor):
     def __init__(self):
         self.event = asyncio.Event()
         self.loop = asyncio.get_running_loop()

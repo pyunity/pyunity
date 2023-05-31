@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Utility functions to log output of PyUnity.
@@ -55,7 +55,7 @@ if not folder.is_dir():
 
 stream = sys.stdout
 timestamp = time.strftime(TIME_FORMAT.replace(":", "-")) # No : allowed in path
-start = time.time()
+start = time.perf_counter()
 
 with open(folder / "latest.log", "w+") as f:
     f.write("YYYY-MM-DD HH:MM:SS Module:Line |(O)utput / (I)nfo / (D)ebug / (E)rror / (W)arning| Message\n")
@@ -112,7 +112,7 @@ class Elapsed:
         return self.time - old
 
 elapsed = Elapsed()
-RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time.time() - start))
+RUNNING_TIME = Special("RUNNING_TIME", lambda: str(time.perf_counter() - start))
 ELAPSED_TIME = Special("ELAPSED_TIME", lambda: str(elapsed.tick()))
 
 def Log(*message, stacklevel=1):
@@ -150,7 +150,7 @@ def LogLine(level, *message, stacklevel=1, silent=False):
     location = f"{module}:{lineno}"
 
     stamp = time.strftime(TIME_FORMAT)
-    msg = " ".join(map(lambda a: str(a).rstrip(), message))
+    msg = " ".join(str(a).rstrip() for a in message)
     if level == WARN:
         msg = f"Warning: " + msg
     if msg.count("\n") > 0:
@@ -190,7 +190,7 @@ def LogException(e, stacklevel=1, silent=False):
             if line2:
                 LogLine(ERROR, line2, stacklevel=stacklevel + 1, silent=silent)
 
-def LogTraceback(exctype, value, tb):
+def LogTraceback(exctype, value, tb, stacklevel=1):
     """
     Log an exception.
 
@@ -212,11 +212,11 @@ def LogTraceback(exctype, value, tb):
     for line in exception:
         for line2 in line.split("\n"):
             if line2:
-                LogLine(ERROR, line2, stacklevel=2)
+                LogLine(ERROR, line2, stacklevel=stacklevel + 1)
 
 sys.excepthook = LogTraceback
 
-def LogSpecial(level, type):
+def LogSpecial(level, type, stacklevel=1):
     """
     Log a line of level ``level`` with a
     special line that is generated at
@@ -230,7 +230,7 @@ def LogSpecial(level, type):
         The special line to log
 
     """
-    LogLine(level, "(" + type.name + ")", type.func(), stacklevel=2)
+    LogLine(level, "(" + type.name + ")", type.func(), stacklevel=stacklevel + 1)
 
 @atexit.register
 def Save():
@@ -264,7 +264,7 @@ class TempRedirect:
             SetStream(self.stream)
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exctype, value, tb):
         global stream
         if self.silent:
             stream = sys.stdout

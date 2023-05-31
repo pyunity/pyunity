@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Master version for PyUnity.
@@ -9,7 +9,9 @@ Master version for PyUnity.
 
 __all__ = ["versionInfo"]
 
-class VersionInfo:
+from .values import IgnoredMixin, IncludeInstanceMixin
+
+class VersionInfo(IgnoredMixin, IncludeInstanceMixin):
     def __init__(self, major, minor, micro, releaselevel):
         self.major = major
         self.minor = minor

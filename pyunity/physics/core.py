@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Core classes of the PyUnity
@@ -44,7 +44,7 @@ class PhysicMaterial:
 
     """
 
-    def exception(self, *args, **kwargs):
+    def _setattrException(self, name, value):
         raise PyUnityException(
             "Cannot modify properties of PhysicMaterial: it is immutable")
 
@@ -53,7 +53,7 @@ class PhysicMaterial:
         self.friction = friction
         self.combine = -1
         if immutable:
-            self.__setattr__ = self.exception
+            self.__setattr__ = self._setattrException
 
 class Manifold:
     """
@@ -81,8 +81,21 @@ class Manifold:
         self.normal = normal
         self.penetration = penetration
 
+    def __str__(self):
+        return f"<Manifold point={self.point} normal={self.normal} penetration={self.penetration}>"
+
 class Collider(Component, metaclass=ABCMeta):
-    """Collider base class."""
+    """
+    Collider base class.
+
+    Attributes
+    ----------
+    offset : Vector3
+        The offset from the centre of the Collider
+
+    """
+
+    offset = ShowInInspector(Vector3)
 
     @abstractmethod
     def supportPoint(self, direction):
@@ -111,19 +124,16 @@ class SphereCollider(Collider):
 
     Attributes
     ----------
-    offset : Vector3
-        The offset from the centre of the SphereCollider
     radius : Vector3
         The radius of the SphereCollider
 
     """
 
     radius = ShowInInspector(float, 0)
-    offset = ShowInInspector(Vector3)
 
-    def __init__(self, transform):
-        super(SphereCollider, self).__init__(transform)
-        self.SetSize(max(abs(self.transform.scale)), Vector3.zero())
+    def __init__(self):
+        super(SphereCollider, self).__init__()
+        self.SetSize(max(self.transform.scale.abs()), Vector3.zero())
 
     def SetSize(self, radius, offset):
         """
@@ -174,19 +184,29 @@ class BoxCollider(Collider):
     size : Vector3
         The distance between two farthest
         vertices of the collider
-    offset : Vector3
-        The offset from the centre of the
-        collider
 
     """
 
     size = ShowInInspector(Vector3)
-    offset = ShowInInspector(Vector3)
 
-    def __init__(self, transform):
-        super(BoxCollider, self).__init__(transform)
-        self.size = self.transform.scale * 2
-        self.offset = Vector3.zero()
+    def __init__(self):
+        super(BoxCollider, self).__init__()
+        self.SetSize(self.transform.scale * 2, Vector3.zero())
+
+    def SetSize(self, size, offset):
+        """
+        Sets the size of the collider.
+
+        Parameters
+        ----------
+        size : Vector3
+            The dimensions of the collider.
+        offset : Vector3
+            Offset of the collider.
+
+        """
+        self.size = size
+        self.offset = offset
 
     @property
     def min(self):
@@ -240,8 +260,8 @@ class Rigidbody(Component):
     physicMaterial = ShowInInspector(
         PhysicMaterial, PhysicMaterial(immutable=True))
 
-    def __init__(self, transform, dummy=False):
-        super(Rigidbody, self).__init__(transform, dummy)
+    def __init__(self):
+        super(Rigidbody, self).__init__()
         self.mass = 100
         self.velocity = Vector3.zero()
         self.rotVel = Vector3.zero()
@@ -303,8 +323,8 @@ class Rigidbody(Component):
             Time to simulate movement by
 
         """
-        if self.gravity:
-            self.force += config.gravity / self.invMass
+        if self.gravity and self.invMass > 0:
+            self.force += config.gravity * self.mass
         self.velocity += self.force * self.invMass * dt
         self.pos += self.velocity * dt
 
@@ -403,7 +423,7 @@ class CollManager(IgnoredMixin):
 
     def __init__(self):
         self.rigidbodies = {}
-        self.dummyRigidbody = Rigidbody(None, True)
+        self.dummyRigidbody = Rigidbody()
         self.dummyRigidbody.mass = Infinity
         self.steps = 1
 
@@ -535,13 +555,13 @@ class CollManager(IgnoredMixin):
             results.sort(key=lambda x: x[1])
             results = [r for r in results if abs(r[1] - results[0][1]) < 0.001]
 
-            curTriangles = []
+            curTriangle = None
             for result, dst in results:
                 minSupport = CollManager.supportPoint(a, b, result.normal)
                 if result.normal.dot(minSupport.point) - dst < threshold:
-                    curTriangles.append(result)
+                    curTriangle = result
 
-            if len(curTriangles):
+            if curTriangle is not None:
                 break
 
             i = 0
@@ -560,27 +580,24 @@ class CollManager(IgnoredMixin):
 
             edges.clear()
 
-        manifolds = []
-        for curTriangle in curTriangles:
-            penetration = curTriangle.normal.dot(curTriangle.a.point)
-            u, v, w = CollManager.barycentric(
-                curTriangle.normal * penetration,
-                curTriangle.a.point,
-                curTriangle.b.point,
-                curTriangle.c.point)
+        penetration = curTriangle.normal.dot(curTriangle.a.point)
+        u, v, w = CollManager.barycentric(
+            curTriangle.normal * penetration,
+            curTriangle.a.point,
+            curTriangle.b.point,
+            curTriangle.c.point)
 
-            if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
-                continue
-            elif math.isnan(u + v + w):
-                continue
+        if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
+            return None
+        elif math.isnan(u + v + w):
+            return None
 
-            point = Vector3(
-                u * curTriangle.a.original[0] +
-                v * curTriangle.b.original[0] +
-                w * curTriangle.c.original[0])
-            normal = -curTriangle.normal
-            manifolds.append(Manifold(a, b, point, normal, penetration))
-        return manifolds
+        point = Vector3(
+            u * curTriangle.a.original[0] +
+            v * curTriangle.b.original[0] +
+            w * curTriangle.c.original[0])
+        normal = -curTriangle.normal
+        return Manifold(a, b, point, normal, penetration)
 
     @staticmethod
     def AddEdge(edges, a, b):
@@ -680,27 +697,24 @@ class CollManager(IgnoredMixin):
         manifolds = {}
         for x, rbA in zip(range(0, len(self.rigidbodies) - 1), list(self.rigidbodies.keys())[:-1]):
             for rbB in list(self.rigidbodies.keys())[x + 1:]:
-                m = []
                 for colliderA in self.rigidbodies[rbA]:
                     for colliderB in self.rigidbodies[rbB]:
-                        m.extend(CollManager.epa(colliderA, colliderB))
-                if len(m):
-                    manifolds[rbA, rbB] = m
+                        m = colliderA.collidingWith(colliderB)
+                        if m is not None:
+                            manifolds[rbA, rbB] = m
 
         for rbA, rbB in manifolds:
-            manifold = manifolds[rbA, rbB]
-            point = sum(m.point for m in manifold) / len(manifold)
+            m = manifolds[rbA, rbB]
             e = self.GetRestitution(rbA, rbB)
-            normal = manifold[0].normal.copy()
             self.ResolveCollisions(
                 rbA, rbB,
-                point, e, normal, manifold[0].penetration)
+                m.point, e, m.normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
-        rv = b.velocity - a.velocity
-        vn = rv.dot(normal)
-        if vn < 0:
-            return
+        # rv = b.velocity - a.velocity
+        # vn = rv.dot(normal)
+        # if vn < 0:
+        #     return
 
         if b is self.dummyRigidbody:
             ap = point - a.pos

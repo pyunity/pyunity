@@ -1,8 +1,9 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 import json
+import re
 import os
 import glob
 import shutil
@@ -31,6 +32,11 @@ if "cython" not in os.environ:
 
 # import pyunity
 
+with open("LICENSE") as f:
+    content = f.read()
+licenseHeader = "## " + content.split("\n")[2] + "\n"
+licenseHeader += "## This file is licensed under the MIT License.\n"
+licenseHeader += "## See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
 def checkLicense():
     files = [
         "prepare.py", "setup.py", # Root files
@@ -40,19 +46,14 @@ def checkLicense():
         *glob.glob("pyunity/**/*.py", recursive=True),
     ]
 
-    with open("LICENSE") as f:
-        content = f.read()
-    header = "# " + content.split("\n")[2] + "\n"
-    header += "# This file is licensed under the MIT License.\n"
-    header += "# See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
     for file in files:
         with open(file) as f:
             contents = f.read()
         if contents.startswith("#"):
             continue
-        if not contents.startswith(header):
+        if not contents.startswith(licenseHeader):
             with open(file, "w") as f:
-                f.write(header)
+                f.write(licenseHeader)
                 f.write(contents)
 
 def checkWhitespace():
@@ -89,7 +90,6 @@ def parseCode(nthreads=None):
     pool = multiprocessing.Pool(nthreads, initWorker)
     paths = glob.glob("pyunity/**/*.py", recursive=True)
     paths.append("setup.py")
-    paths.append("cli.py")
 
     result = pool.map_async(parseSingleFile, paths)
     try:
@@ -99,6 +99,7 @@ def parseCode(nthreads=None):
         pool.join()
         raise
 
+moduleVars = {}
 def getPackages(module="pyunity"):
     os.environ["PYUNITY_SPHINX_CHECK"] = "1"
     from pyunity.values import IgnoredMixin, IncludeInstanceMixin, IncludeMixin
@@ -135,14 +136,64 @@ def getPackages(module="pyunity"):
             elif isinstance(val, IncludeInstanceMixin):
                 if getattr(val, "__module__", "") == mod.__name__:
                     new.add(x)
+        moduleVars[mod.__name__] = {
+            "__all__": sorted(list(new)),
+            "__doc__": mod.__doc__
+        }
         if original != new:
             added = json.dumps(sorted(list(new - original)))
             removed = json.dumps(sorted(list(original - new)))
             print(mod.__name__, "Add", added, "Remove", removed)
 
+def formatAll(list):
+    indent = 11
+    limit = 79 - indent
+    text = "__all__ = ["
+    length = 0
+    for item in list:
+        length += len(item) + 4
+        if length > limit:
+            text += "\n" + " " * indent
+            length = len(item) + 4
+        text += "\"" + item + "\", "
+    if len(list):
+        text = text[:-2]
+    text += "]"
+    return text
+
 def checkMissing():
-    import pyunity
-    getPackages(pyunity)
+    global moduleVars
+    moduleVars = {}
+    getPackages("pyunity")
+    for file in glob.glob("stubs/**/*.pyi", recursive=True):
+        moduleName = file[6:-4].replace(os.path.sep, ".")
+        if moduleName.endswith(".__init__"):
+            # Needs special handling
+            continue
+        if moduleName.endswith("config") or "example" in moduleName:
+            continue
+        with open(file) as f:
+            contents = f.read()
+        fileHeader = licenseHeader
+        if moduleVars[moduleName]["__doc__"] is not None:
+            fileHeader += '"""' + moduleVars[moduleName]["__doc__"] + '"""\n\n'
+        if not contents.startswith(fileHeader):
+            print(file, "has wrong header and docstring, see", file[6:-1])
+        if moduleVars[moduleName]["__all__"] == []:
+            continue
+        allVar = re.search(r"__all__ = \[(.*?)\]", contents, re.DOTALL)
+        if allVar is None:
+            print(file, "does not have __all__, expected:")
+            allVar = ""
+        else:
+            allVar = re.sub(r"\s+", " ", allVar.group(1))
+        allSet = set(allVar[1:-1].split("\", \""))
+        if allSet == set(moduleVars[moduleName]["__all__"]):
+            continue
+        elif allVar != "":
+            print(file, "does not have correct __all__, expected:")
+        expectedAllText = formatAll(moduleVars[moduleName]["__all__"])
+        print(expectedAllText)
 
 # items = []
 

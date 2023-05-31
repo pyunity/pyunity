@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = [
     "EGLBoolean", "EGLConfig", "EGLContext", "EGLDisplay", "EGLList",
@@ -161,7 +161,7 @@ _egl.eglChooseConfig.argtypes = [
     EGLint,
     ctypes.POINTER(EGLint)
 ]
-@returnArray([2], [4], [2])
+@returnPointer([2, 4])
 def eglChooseConfig(display, attribList, configSize): pass
 
 _egl.eglCreatePbufferSurface.restype = EGLSurface

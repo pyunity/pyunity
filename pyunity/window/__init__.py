@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 A module used to load the window providers.
@@ -39,6 +39,7 @@ from .. import Logger
 from .. import config
 from .. import settings
 import os
+import fnmatch
 import importlib.util
 
 def GetWindowProvider():
@@ -82,19 +83,27 @@ def GetWindowProvider():
     env = os.getenv("PYUNITY_WINDOW_PROVIDER")
     providers = getProviders()
     if env is not None:
+        newProviders = []
         env = env.split(",")
-        for specified in reversed(env):
-            if specified not in providers:
-                Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
-                               specified, "but there is no window provider called that")
+        for specified in env:
+            if specified.isspace() or not specified:
                 continue
+            specified = specified.rstrip().lstrip()
+            added = False
             for item in providers:
-                if item == specified:
-                    selected = item
-            providers.remove(selected)
-            providers.insert(0, selected)
-
-    if len(providers) == 0:
+                if item not in newProviders:
+                    if fnmatch.fnmatch(item.lower(), specified.lower()):
+                        added = True
+                        newProviders.append(item)
+            if not added:
+                Logger.LogLine(Logger.WARN, "PYUNITY_WINDOW_PROVIDER environment variable contains",
+                               repr(specified), "but no window provider matches")
+                continue
+        if len(newProviders) == 0:
+            Logger.Log("Available window providers:", " ".join(providers))
+            raise PyUnityException("No matching window providers found")
+        providers = newProviders
+    elif len(providers) == 0:
         raise PyUnityException("No window providers installed")
 
     windowProvider = ""
@@ -125,7 +134,10 @@ def GetWindowProvider():
             break
 
     if not windowProvider:
-        raise PyUnityException(f"No window provider found")
+        if env is not None:
+            raise PyUnityException(f"No matching window provider found")
+        else:
+            raise PyUnityException(f"No window provider found")
 
     settings.db["windowProvider"] = windowProvider
     settings.db["windowCache"] = True

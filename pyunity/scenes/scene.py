@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Class to load, render and manage GameObjects
@@ -27,7 +27,6 @@ from ..render import Camera, Light, Screen
 from pathlib import Path
 import os
 import sys
-import uuid
 import time
 import inspect
 
@@ -319,7 +318,7 @@ class Scene(Asset):
             components.extend(query)
         return components
 
-    def insideFrustrum(self, renderer):
+    def insideFrustum(self, renderer):
         """
         Check if the renderer's mesh can be
         seen by the main camera.

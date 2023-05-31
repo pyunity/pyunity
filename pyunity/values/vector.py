@@ -1,12 +1,13 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["Vector", "Vector2", "Vector3"]
 
 from . import Mathf
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
+from collections.abc import Iterable
 import operator
 
 def clamp(x, _min, _max):
@@ -35,9 +36,8 @@ class Vector(LockedLiteral, metaclass=ABCMeta):
     def __list__(self):
         return list(iter(self))
 
-    @abstractmethod
     def __hash__(self):
-        pass
+        return hash(list(self))
 
     @abstractmethod
     def __len__(self):
@@ -103,9 +103,12 @@ class Vector(LockedLiteral, metaclass=ABCMeta):
     def __rrshift__(self, other):
         return self._o2r(other, operator.rshift)
 
-    @abstractmethod
     def __eq__(self, other):
-        pass
+        if not isinstance(other, type(self)):
+            return False
+        return all(self._o2(other, operator.eq))
+    def __ne__(self, other):
+        return any(self._o2(other, operator.ne))
     def __gt__(self, other):
         return all(self._o2(other, operator.gt))
     def __lt__(self, other):
@@ -167,17 +170,15 @@ class Vector2(Vector):
         if xOrList is not None:
             if y is None:
                 if hasattr(xOrList, "x") and hasattr(xOrList, "y"):
-                    self.x = xOrList.x
-                    self.y = xOrList.y
+                    l = [xOrList.x, xOrList.y]
                 else:
-                    self.x = xOrList[0]
-                    self.y = xOrList[1]
+                    l = xOrList
             else:
-                self.x = xOrList
-                self.y = y
+                l = [xOrList, y]
         else:
-            self.x = 0
-            self.y = 0
+            l = [0, 0]
+        l = [x if isinstance(x, (int, float)) else float(x) for x in l]
+        self.x, self.y = l
         self._lock()
 
     def __iter__(self):
@@ -187,31 +188,23 @@ class Vector2(Vector):
     def __len__(self):
         return 2
 
-    def __hash__(self):
-        return hash((self.x, self.y))
-
     def _o1(self, f):
         """Unary operator"""
         return Vector2(f(self.x), f(self.y))
 
     def _o2(self, other, f):
         """Any two-operator operation where the left operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector2(f(self.x, other[0]), f(self.y, other[1]))
         else:
             return Vector2(f(self.x, other), f(self.y, other))
 
     def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector2"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector2(f(other[0], self.x), f(other[1], self.y))
         else:
             return Vector2(f(other, self.x), f(other, self.y))
-
-    def __eq__(self, other):
-        if not isinstance(other, Vector2):
-            return False
-        return self.x == other.x and self.y == other.y
 
     def replace(self, num, value):
         l = list(self)
@@ -386,23 +379,17 @@ class Vector3(Vector):
         if xOrList is not None:
             if y is None:
                 if hasattr(xOrList, "x") and hasattr(xOrList, "y") and hasattr(xOrList, "z"):
-                    self.x = xOrList.x
-                    self.y = xOrList.y
-                    self.z = xOrList.z
+                    l = [xOrList.x, xOrList.y, xOrList.z]
                 else:
-                    self.x = xOrList[0]
-                    self.y = xOrList[1]
-                    self.z = xOrList[2]
+                    l = xOrList
             else:
                 if z is None:
                     raise ValueError("Expected 3 arguments, got 2")
-                self.x = xOrList
-                self.y = y
-                self.z = z
+                l = [xOrList, y, z]
         else:
-            self.x = 0
-            self.y = 0
-            self.z = 0
+            l = [0, 0, 0]
+        l = [x if isinstance(x, (int, float)) else float(x) for x in l]
+        self.x, self.y, self.z = l
         self._lock()
 
     def __iter__(self):
@@ -413,9 +400,6 @@ class Vector3(Vector):
     def __len__(self):
         return 3
 
-    def __hash__(self):
-        return hash((self.x, self.y, self.z))
-
     def _o1(self, f):
         """Unary operator"""
         return Vector3(f(self.x), f(self.y), f(self.z))
@@ -424,22 +408,17 @@ class Vector3(Vector):
         """Any two-operator operation where the left operand is a Vector3"""
         if isinstance(other, Vector3):
             return Vector3(f(self.x, other.x), f(self.y, other.y), f(self.z, other.z))
-        elif hasattr(other, "__getitem__"):
+        elif isinstance(other, Iterable):
             return Vector3(f(self.x, other[0]), f(self.y, other[1]), f(self.z, other[2]))
         else:
             return Vector3(f(self.x, other), f(self.y, other), f(self.z, other))
 
     def _o2r(self, other, f):
         """Any two-operator operation where the right operand is a Vector3"""
-        if hasattr(other, "__getitem__"):
+        if isinstance(other, Iterable):
             return Vector3(f(other[0], self.x), f(other[1], self.y), f(other[2], self.z))
         else:
             return Vector3(f(other, self.x), f(other, self.y), f(other, self.z))
-
-    def __eq__(self, other):
-        if not isinstance(other, Vector3):
-            return False
-        return self.x == other.x and self.y == other.y and self.z == other.z
 
     def replace(self, num, value):
         l = list(self)

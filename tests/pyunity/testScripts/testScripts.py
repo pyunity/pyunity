@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Scripts, PyUnityException, Logger
 from pathlib import Path
@@ -25,17 +25,19 @@ class TestScripts(TestCase):
         sys.modules.pop("PyUnityScripts")
         module = Scripts.GenerateModule()
         assert module is Scripts.GenerateModule()
-
-        file = currentdir / "TestBehaviour1.py"
-        module = Scripts.LoadScript(file)
         assert hasattr(module, "__pyunity__")
         assert module.__pyunity__
         assert __import__("PyUnityScripts") is module
+
+        file = currentdir / "TestBehaviour1.py"
+        behaviour = Scripts.LoadScript(file)
         assert str(file) in module._lookup
+        assert module._lookup[str(file)] is behaviour
         assert "TestBehaviour1" in Scripts.var
+        assert Scripts.var["TestBehaviour1"] is behaviour
         assert "TestBehaviour1" in module.__all__
         assert hasattr(module, "TestBehaviour1")
-        assert hasattr(module, "TestBehaviour1")
+        assert getattr(module, "TestBehaviour1") is behaviour
 
     def testLoadScriptFails(self):
         with self.assertRaises(PyUnityException) as exc:

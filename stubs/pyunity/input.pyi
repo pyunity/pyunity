@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
@@ -91,7 +91,7 @@ class KeyboardAxis:
     name: str
     speed: float
     def __init__(self, name: str, speed: float, positive: List[KeyCode], negative: List[KeyCode]) -> None: ...
-    def get_value(self, dt: float) -> float: ...
+    def getValue(self, dt: float) -> float: ...
 
 class Input(metaclass=ImmutableStruct):
     _names: List[str] = ...

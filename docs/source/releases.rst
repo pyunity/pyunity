@@ -226,7 +226,7 @@ Features:
 - New color theme for documentation
 - Timer decorator
 - Non-interactive mode
-- Frustrum culling
+- Frustum culling
 - Overall optimization
 
 Notes:

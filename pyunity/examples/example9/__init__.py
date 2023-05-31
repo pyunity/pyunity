@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
 from pyunity.resources import getPath
@@ -20,15 +20,19 @@ class Mover2D(Behaviour):
 class FPSTracker(Behaviour):
     text = ShowInInspector(Text)
     async def Start(self):
+        counter = 0
         frames = []
         time = 0
         while True:
+            counter += 1
             dt = await WaitForRender()
             time += dt
             frames.append(dt)
             if len(frames) > 200:
                 frames.pop(0)
-            self.text.text = str(1 / (sum(frames) / len(frames)))
+            if counter == 3:
+                self.text.text = str(len(frames) / sum(frames))
+                counter = 0
             time = 0
 
 class CheckboxTracker(Behaviour):

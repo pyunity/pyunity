@@ -9,4 +9,25 @@ prio = 0
 
 def check():
     """Checks to see if EGL works"""
-    pass
+    import os
+    os.environ["PYOPENGL_PLATFORM"] = "egl"
+    try:
+        import OpenGL.EGL as egl
+    except ImportError:
+        cleanup()
+        del os.environ["PYOPENGL_PLATFORM"]
+        raise Exception
+    egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
+    err = egl.eglGetError()
+    if err:
+        raise Exception(err)
+
+def cleanup():
+    import sys
+    removed = []
+    for module in sys.modules:
+        if module.startswith("OpenGL"):
+            removed.append(module)
+
+    for module in removed:
+        sys.modules.pop(module)

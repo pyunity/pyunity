@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Version 0.9.0 (in development)
@@ -224,8 +224,15 @@ __uri__ = "https://docs.pyunity.x10.bz/en/latest/"
 # Logger must start first, config straight after
 from . import logger as Logger
 from . import config
+# Window provider selection should be as early as possible
+from . import window as Window
+
+import os
+if "PYUNITY_TESTING" not in os.environ:
+    config.windowProvider = Window.GetWindowProvider()
+
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
-           "SceneManager", "Mesh"]
+           "SceneManager"]
 
 from .errors import __all__ as _errors_all
 from .values import __all__ as _values_all
@@ -250,7 +257,6 @@ __all__.extend(_physics_all)
 __all__.extend(_input_all)
 __all__.extend(_gui_all)
 
-import os
 from .errors import *
 from .values import *
 from .core import *
@@ -261,15 +267,11 @@ from .audio import *
 from .files import *
 from .render import *
 from .scenes import sceneManager as SceneManager
-from . import window as Window
 from . import loader as Loader
 from .loader import Primitives
 from .input import *
 from .gui import *
 from ._version import __version__
-
-if "PYUNITY_TESTING" not in os.environ:
-    config.windowProvider = Window.GetWindowProvider()
 
 if ("PYUNITY_SPHINX_CHECK" not in os.environ and
         os.environ["PYUNITY_CHANGE_MODULE"] == "1"):

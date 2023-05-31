@@ -1,6 +1,6 @@
-# Copyright (c) 2020-2022 The PyUnity Team
-# This file is licensed under the MIT License.
-# See https://docs.pyunity.x10.bz/en/latest/license.html
+## Copyright (c) 2020-2023 The PyUnity Team
+## This file is licensed under the MIT License.
+## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 """
 Classes to aid in rendering in a Scene.
@@ -49,11 +49,12 @@ class Shader:
         self.uniforms = {}
         shaders[name] = self
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo=None):
         memo[id(self)] = self
         return self
 
     def loadCache(self, file):
+        file = Path(file)
         if not file.is_file():
             return
 
@@ -197,7 +198,7 @@ class Shader:
 
         Parameters
         ==========
-        path : str
+        path : Pathlike
             Path of folder to load
         name : str
             Name to register this shader to. Used with :meth:`Camera.SetShader`.
@@ -352,8 +353,8 @@ class Light(SingleComponent):
     color = ShowInInspector(Color, RGB(255, 255, 255))
     type = ShowInInspector(LightType, LightType.Directional)
 
-    def __init__(self, transform):
-        super(Light, self).__init__(transform)
+    def __init__(self):
+        super(Light, self).__init__()
         self.near = 0.03
         self.far = 20
 
@@ -384,8 +385,7 @@ class Light(SingleComponent):
 
 @addFields(
     fov=ShowInInspector(int, 90),
-    orthoSize=ShowInInspector(float, 5, "Ortho Size"),
-    canvas=ShowInInspector(addFields.selfref))
+    orthoSize=ShowInInspector(float, 5, "Ortho Size"))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
@@ -393,9 +393,9 @@ class Camera(SingleComponent):
     Attributes
     ----------
     near : float
-        Distance of the near plane in the camera frustrum. Defaults to 0.05.
+        Distance of the near plane in the camera frustum. Defaults to 0.05.
     far : float
-        Distance of the far plane in the camera frustrum. Defaults to 100.
+        Distance of the far plane in the camera frustum. Defaults to 100.
     clearColor : Color
         The clear color of the camera. Defaults to black.
     shader : Shader
@@ -429,8 +429,8 @@ class Camera(SingleComponent):
     shadows = ShowInInspector(bool, False)
     depthMapSize = ShowInInspector(int, 1024)
 
-    def __init__(self, transform):
-        super(Camera, self).__init__(transform)
+    def __init__(self):
+        super(Camera, self).__init__()
         self.size = Screen.size.copy()
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
