@@ -42,7 +42,7 @@ def getPath(local):
         if not src.exists():
             raise Exception(f"No resource at {src}")
         if src.is_file():
-            if dest.exists() and src.stat().st_mtime == dest.stat().st_mtime:
+            if dest.exists() and src.stat().st_mtime < dest.stat().st_mtime:
                 return dest
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(src, dest)
@@ -53,7 +53,7 @@ def getPath(local):
                 rel = file.relative_to(src)
                 filedest = dest / rel
                 if filedest.exists():
-                    if src.stat().st_mtime == filedest.stat().st_mtime:
+                    if src.stat().st_mtime < filedest.stat().st_mtime:
                         continue
                 filedest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy(file, filedest)
