@@ -14,7 +14,7 @@ import os
 import ctypes
 import ctypes.util
 from functools import wraps
-from pyunity import Logger, PyUnityException
+from pyunity import Logger, WindowProviderException
 
 directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
 if os.path.isdir(directory):
@@ -44,7 +44,7 @@ if search:
         except OSError:
             _egl = None
     if _egl is None:
-        raise PyUnityException("Cannot find libegl library")
+        raise WindowProviderException("Cannot find libegl library")
 
 def wrap(func):
     orig = getattr(_egl, func.__name__)
@@ -53,7 +53,7 @@ def wrap(func):
     def inner(*args):
         res = orig(*args)
         if orig.restype is EGLBoolean and res.value == 0:
-            raise PyUnityException(f"{func.__name__} failed")
+            raise WindowProviderException(f"{func.__name__} failed")
     return inner
 
 def returnPointer(wrapArgs, includeOutput=False):
@@ -67,7 +67,7 @@ def returnPointer(wrapArgs, includeOutput=False):
                 newArgs.insert(argnum, item)
             res = orig(*newArgs)
             if orig.restype is EGLBoolean and res.value == 0:
-                raise PyUnityException(f"{func.__name__} failed")
+                raise WindowProviderException(f"{func.__name__} failed")
             out = []
             if includeOutput:
                 out.append(res)
@@ -94,7 +94,7 @@ def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
                 newArgs.insert(argnum, item)
             res = orig(*newArgs)
             if orig.restype is EGLBoolean and res.value == 0:
-                raise PyUnityException(f"{func.__name__} failed")
+                raise WindowProviderException(f"{func.__name__} failed")
             out = []
             if includeOutput:
                 out.append(res)
@@ -108,7 +108,7 @@ def returnArray(wrapArgs, lenArgs, inArgs, includeOutput=False):
             # for i in range(len(wrapArgs)):
             #     arr = out[i]
             #     if ctypes.sizeof(arr) // ctypes.sizeof(arr[0]) != lengths[i]:
-            #         raise Exception("Sizeof array does not match return")
+            #         raise WindowProviderException("Sizeof array does not match return")
             if len(out) == 1:
                 return out[0]
             return tuple(out)

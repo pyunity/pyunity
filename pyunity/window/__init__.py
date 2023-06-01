@@ -121,8 +121,9 @@ def GetWindowProvider():
                 Logger.LogLine(Logger.WARN, name +
                                ": Check the source code and use `pip install` "
                                "to resolve any missing dependencies.")
+            Logger.LogException(e, silent=True)
             if i == len(providers) - 1:
-                Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
+                Logger.LogLine(Logger.DEBUG, module.name, "doesn't work, exception logged")
                 break
             else:
                 newModule = importlib.import_module(f".providers.{providers[i+1]}", __name__)

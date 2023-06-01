@@ -6,7 +6,7 @@
 
 __all__ = ["PyUnityException", "ComponentException",
            "GameObjectException", "ProjectParseException",
-           "PyUnityExit"]
+           "PyUnityExit", "WindowProviderException"]
 
 class PyUnityException(Exception):
     """Base class for PyUnity exceptions."""
@@ -26,3 +26,8 @@ class ProjectParseException(PyUnityException):
 
 class PyUnityExit(PyUnityException):
     """Exception for breaking out of the main loop and shutting PyUnity down."""
+    pass
+
+class WindowProviderException(PyUnityException):
+    """Class for PyUnity window provider exceptions."""
+    pass

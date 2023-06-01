@@ -11,4 +11,4 @@ def check():
     """Checks to see if PySDL2 works"""
     sdl2 = checkModule("sdl2")
     if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
-        raise PyUnityException
+        raise PyUnityException("SDL2 init failed")

@@ -11,6 +11,6 @@ def check():
     """Checks to see if GLFW works"""
     glfw = checkModule("glfw")
     if not glfw.init():
-        raise PyUnityException
+        raise WindowProviderException("GLFW init failed")
     window = glfw.create_window(5, 5, "test", None, None)
     glfw.destroy_window(window)
