@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyunity-stubs"
+version = "0.9.0"
+authors = [{name = "The PyUnity Team", email = "tankimarshal2@gmail.com"}]
+description = "Stub files for the PyUnity package"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+urls = {Homepage = "https://github.com/pyunity/pyunity"}
+requires-python = ">=3.6"
+dependencies = ["pyunity==0.9.0"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+packages = ["pyunity", "PyUnityScripts"]
+zip-safe = false
+include-package-data = false
+
+[tool.setuptools.package-data]
+pyunity = ["*.pyi", "*/*.pyi"]
+pyunityscripts = ["__init__.pyi"]
