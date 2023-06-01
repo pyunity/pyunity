@@ -2,6 +2,24 @@
 Releases
 ========
 
+v0.8.4
+======
+An internal change-heavy update, but most of the API is untouched.
+
+Changes:
+
+- Python 3.10 support
+- Orthographic camera projection
+- Ortho camera example
+- Fixed scaling and position issues
+- A 2D tutorial
+- Better documentation formatting
+- Directional light type
+- Skybox toggle
+
+Download source code at
+https://github.com/pyunity/pyunity/releases/tag/0.8.4
+
 v0.8.3
 ======
 Bugfix regarding Quaternion.eulerAngles.
@@ -10,7 +28,7 @@ To set the rotation of the camera using Euler angles,
 use ``scene.mainCamera.localRotation.SetBackward(Vector3(...))``.
 
 Download source code at
-https://github.com/pyunity/pyunity/releases/tag/0.9.0
+https://github.com/pyunity/pyunity/releases/tag/0.8.3
 
 v0.8.2
 ======
