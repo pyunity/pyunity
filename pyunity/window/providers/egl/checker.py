@@ -18,7 +18,7 @@ def check():
         context = None
     try:
         setupPlatform()
-        import OpenGL.EGL as egl
+        egl = checkModule("OpenGL.EGL")
     except ImportError:
         cleanup()
         raise WindowProviderException("Could not import OpenGL.EGL")
