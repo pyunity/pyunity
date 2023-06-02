@@ -75,7 +75,8 @@ class Shader:
         binary = binary[4:]
         if ver != Shader.VERSION:
             Logger.LogLine(Logger.WARN, "Shader", repr(self.name),
-                           "is not up-to-date; recompiling")
+                           "is not up-to-date")
+            Logger.LogLine(Logger.WARN, "Recompiling shader", repr(self.name))
             return
 
         formatLength = int(binary[0])
@@ -86,25 +87,25 @@ class Shader:
 
         if binaryFormat not in formats:
             Logger.LogLine(Logger.WARN,
-                           "Shader binaryFormat not supported; recompiling")
+                           "Shader binaryFormat not supported")
+            Logger.LogLine(Logger.WARN, "Recompiling shader", repr(self.name))
             return
 
-        stop = False
         try:
             gl.glProgramBinary(
                 self.program, binaryFormat, binary, len(binary))
-        except Exception:
-            stop = True
-        if stop:
-            Logger.LogLine(Logger.WARN,
-                           "glProgramBinary failed; recompiling")
+        except gl.GLError as e:
+            Logger.LogLine(Logger.WARN, "glProgramBinary failed")
+            Logger.LogLine(Logger.ERROR, f"ERROR: {e!r}", silent=True)
+            Logger.LogLine(Logger.WARN, "Recompiling shader", repr(self.name))
             return
 
         success = gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)
         if not success:
             log = gl.glGetProgramInfoLog(self.program)
-            Logger.LogLine(Logger.WARN, log.decode())
-            Logger.LogLine(Logger.WARN, "Recompiling shader")
+            Logger.LogLine(Logger.WARN, "GL_LINK_STATUS unsuccessful")
+            Logger.LogLine(Logger.ERROR, "ERROR:", log.decode(), silent=True)
+            Logger.LogLine(Logger.WARN, "Recompiling shader", repr(self.name))
             return
 
         self.compiled = True
@@ -311,14 +312,12 @@ Shader.fromFolder(getPath("shaders/depth"), "Depth")
 skyboxes["Water"] = Skybox(getPath("shaders/skybox/textures"))
 
 def compileShaders():
-    if os.environ["PYUNITY_INTERACTIVE"] == "1":
-        for shader in shaders.values():
-            shader.compile()
+    for shader in shaders.values():
+        shader.compile()
 
 def compileSkyboxes():
-    if os.environ["PYUNITY_INTERACTIVE"] == "1":
-        for skybox in skyboxes.values():
-            skybox.compile()
+    for skybox in skyboxes.values():
+        skybox.compile()
 
 def resetShaders():
     for shader in shaders.values():
