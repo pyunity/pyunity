@@ -8,7 +8,7 @@ and their various components.
 
 You should never use the :class:`Scene`
 class directly, instead, only use
-the SceneManager class.
+the :class:`SceneManager` submodule.
 
 """
 
