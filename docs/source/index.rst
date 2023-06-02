@@ -72,6 +72,7 @@ and then make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
     links
     license
     api
+    repo/index
 
 Indices and tables
 ------------------
