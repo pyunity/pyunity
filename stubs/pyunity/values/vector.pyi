@@ -8,7 +8,6 @@ from typing import Callable, Iterator, TypeVar, List, Union, Optional, Tuple
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
 
-def clamp(x: float, _min: float, _max: float) -> float: ...
 def conv(num: Union[int, float]) -> str: ...
 
 T = TypeVar("T", bound=Vector)
