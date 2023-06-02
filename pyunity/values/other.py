@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["IgnoredMixin", "IncludeMixin", "IncludeInstanceMixin",
-           "Clock", "ImmutableStruct", "SavableStruct", "StructEntry",
-           "LockedLiteral"]
+__all__ = ["Clock", "IgnoredMixin", "ImmutableStruct", "IncludeInstanceMixin",
+           "IncludeMixin", "LockedLiteral", "ModuleExportControlMixin",
+           "SavableStruct", "StructEntry"]
 
 import time
 import sys
@@ -12,15 +12,19 @@ from functools import partial
 from ..errors import PyUnityException
 from .. import config
 
-class IgnoredMixin:
+class ModuleExportControlMixin:
     # Used by various helper scripts.
     pass
 
-class IncludeMixin:
+class IgnoredMixin(ModuleExportControlMixin):
     # Used by various helper scripts.
     pass
 
-class IncludeInstanceMixin:
+class IncludeMixin(ModuleExportControlMixin):
+    # Used by various helper scripts.
+    pass
+
+class IncludeInstanceMixin(ModuleExportControlMixin):
     # Used by various helper scripts.
     pass
 
