@@ -2,12 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, RGB, Quaternion
-import asyncio
+from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, RGB, WaitForSeconds
 
 class Rotator(Behaviour):
     async def Start(self):
-        await asyncio.sleep(5)
+        await WaitForSeconds(5)
         print("Hello World!")
 
     async def Update(self, dt):
