@@ -100,50 +100,57 @@ def parseCode(nthreads=None):
         raise
 
 moduleVars = {}
-def getPackages(module="pyunity"):
+def getPackages(parentModule="pyunity"):
     os.environ["PYUNITY_SPHINX_CHECK"] = "1"
     from pyunity.values import IgnoredMixin, IncludeInstanceMixin, IncludeMixin
-    if isinstance(module, str):
-        module = importlib.import_module(module)
-    for _, name, ispkg in pkgutil.iter_modules(module.__path__):
-        if "__" in name or name == "providers" or name == "config" or "example" in name:
+    if isinstance(parentModule, str):
+        parentModule = importlib.import_module(parentModule)
+    for _, name, ispkg in pkgutil.iter_modules(parentModule.__path__):
+        if "example" in name:
             continue
-        mod = importlib.import_module(module.__name__ + "." + name)
-        if ispkg:
-            getPackages(mod)
-        if hasattr(mod, "__all__"):
-            original = set(mod.__all__)
+        module = importlib.import_module(parentModule.__name__ + "." + name)
+        if ispkg and name != "providers":
+            getPackages(module)
+        if hasattr(module, "__all__"):
+            original = set(module.__all__)
         else:
             original = set()
         new = set()
-        for x in dir(mod):
-            val = getattr(mod, x)
-            if inspect.isclass(val) or inspect.isfunction(val):
-                if val.__module__ == mod.__name__ or (
-                        ispkg and val.__module__.startswith(mod.__name__)):
-                    if not (isinstance(val, type) and issubclass(val, IgnoredMixin)):
-                        if x[0].isupper():
-                            new.add(x)
-                        elif isinstance(val, type) and issubclass(val, IncludeMixin):
-                            new.add(x)
-                    elif val is IgnoredMixin:
-                        new.add(x)
-            elif inspect.ismodule(val):
-                if ispkg and x[0].isupper() and val.__package__ == mod.__name__:
-                    new.add(x)
-            elif isinstance(val, (int, float, str, bool, list, dict)) and x[0].isupper():
-                new.add(x)
-            elif isinstance(val, IncludeInstanceMixin):
-                if getattr(val, "__module__", "") == mod.__name__:
-                    new.add(x)
-        moduleVars[mod.__name__] = {
+        for variable in dir(module):
+            value = getattr(module, variable)
+            if inspect.isclass(value) or inspect.isfunction(value):
+                if value.__module__ == module.__name__ or (
+                        ispkg and value.__module__.startswith(module.__name__)):
+                    if inspect.isclass(value):
+                        if issubclass(value, IncludeMixin):
+                            new.add(variable)
+                        elif variable[0].isupper() and not issubclass(value, IgnoredMixin):
+                            new.add(variable)
+                        elif value is IgnoredMixin:
+                            new.add(variable)
+                    else:
+                        # value is a function
+                        if variable[0].isupper():
+                            new.add(variable)
+            elif inspect.ismodule(value):
+                if value.__package__ == module.__name__ and variable[0].isupper():
+                    new.add(variable)
+            elif isinstance(value, (int, float, str, bool, list, dict)) and variable[0].isupper():
+                new.add(variable)
+            elif isinstance(value, IncludeInstanceMixin):
+                if getattr(value, "__module__", "") == module.__name__:
+                    new.add(variable)
+        moduleVars[module.__name__] = {
             "__all__": sorted(list(new)),
-            "__doc__": mod.__doc__
+            "__doc__": module.__doc__
         }
         if original != new:
             added = json.dumps(sorted(list(new - original)))
             removed = json.dumps(sorted(list(original - new)))
-            print(mod.__name__, "Add", added, "Remove", removed)
+            moduleFile = module.__name__.replace(".", os.path.sep) + ".py"
+            if ispkg:
+                moduleFile = moduleFile[:-3] + os.path.sep + "__init__.py"
+            print(moduleFile, "Add", added, "Remove", removed)
 
 def formatAll(list):
     indent = 11
@@ -168,9 +175,9 @@ def checkMissing():
     for file in glob.glob("stubs/**/*.pyi", recursive=True):
         moduleName = file[6:-4].replace(os.path.sep, ".")
         if moduleName.endswith(".__init__"):
-            # Needs special handling
+            # Needs special handling, better to do manually
             continue
-        if moduleName.endswith("config") or "example" in moduleName:
+        if "example" in moduleName:
             continue
         with open(file) as f:
             contents = f.read()
