@@ -117,7 +117,7 @@ class Shader:
         Compiles shader and generates program. Checks for errors.
 
         Notes
-        =====
+        -----
         This function will not work if there is no active framebuffer.
 
         """
@@ -198,7 +198,7 @@ class Shader:
         Create a Shader from a folder. It must contain ``vertex.glsl`` and ``fragment.glsl``.
 
         Parameters
-        ==========
+        ----------
         path : Pathlike
             Path of folder to load
         name : str
@@ -221,7 +221,7 @@ class Shader:
         Set a ``vec3`` uniform variable.
 
         Parameters
-        ==========
+        ----------
         var : bytes
             Variable name
         val : Vector3
@@ -237,7 +237,7 @@ class Shader:
         Set a ``mat3`` uniform variable.
 
         Parameters
-        ==========
+        ----------
         var : bytes
             Variable name
         val : glm.mat3
@@ -253,7 +253,7 @@ class Shader:
         Set a ``mat4`` uniform variable.
 
         Parameters
-        ==========
+        ----------
         var : bytes
             Variable name
         val : glm.mat4
@@ -269,7 +269,7 @@ class Shader:
         Set an ``int`` uniform variable.
 
         Parameters
-        ==========
+        ----------
         var : bytes
             Variable name
         val : int
@@ -285,7 +285,7 @@ class Shader:
         Set a ``float`` uniform variable.
 
         Parameters
-        ==========
+        ----------
         var : bytes
             Variable name
         val : float
@@ -624,7 +624,7 @@ class Camera(SingleComponent):
         Draw specific renderers, taking into account light positions.
 
         Parameters
-        ==========
+        ----------
         renderers : List[MeshRenderer]
             Which meshes to render
 
