@@ -24,8 +24,9 @@ with open("docs/source/api/pyunity.rst") as f:
 
 lines[0] = "API Documentation"
 lines[1] = "================="
-lines.insert(2, "Information on specific functions, classes, and methods.")
 lines.insert(2, "")
+lines.insert(3, "Information on specific functions, classes, and methods in")
+lines.insert(4, "the PyUnity project.")
 lines.insert(0, "=================")
 for i in range(len(lines)):
     if lines[i].startswith("   pyunity"):
