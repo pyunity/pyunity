@@ -121,18 +121,25 @@ class Tag:
                             f"expected str or int, got {type(tagNumOrName).__name__}")
 
 class SavesProjectID:
+    """
+    Base class for PyUnity classes to inherit. Instances of
+    the subclass will have a UUID generated but no asset
+    saved. Only used internally.
+
+    """
     pass
 
 class GameObject(SavesProjectID):
     """
-    Class to create a GameObject, which is an object with components.
+    Class to create a GameObject, which is an object containing
+    :class:`Component`\s.
 
     Parameters
     ----------
     name : str, optional
         Name of GameObject
-    parent : GameObject or None
-        Parent of GameObject
+    parent : GameObject, optional
+        Parent of GameObject, defaults to None
 
     Attributes
     ----------
@@ -163,7 +170,7 @@ class GameObject(SavesProjectID):
         Create a bare GameObject with no components or attributes.
 
         Parameters
-        ==========
+        ----------
         name : str
             Name of the GameObject
 
@@ -183,8 +190,17 @@ class GameObject(SavesProjectID):
 
         Parameters
         ----------
-        componentClass : Component
+        componentClass : type
             Component to add. Must inherit from :class:`Component`
+
+        Raises
+        ------
+        ComponentException
+            If the provided component is not a component type,
+        ComponentException
+            If the component subclasses :class:`SingleComponent`
+            and the GameObject already has a component of that
+            type
 
         """
         if not isinstance(componentClass, type):
@@ -216,13 +232,13 @@ class GameObject(SavesProjectID):
 
     def GetComponent(self, componentClass):
         """
-        Gets a component from the GameObject.
-        Will return first match.
+        Gets a component from the GameObject. Will return first match.
+
         For all matches, use :meth:`GameObject.GetComponents`.
 
         Parameters
         ----------
-        componentClass : Component
+        componentClass : type
             Component to get. Must inherit from :class:`Component`
 
         Returns
@@ -246,7 +262,7 @@ class GameObject(SavesProjectID):
         Parameters
         ----------
         componentClass : type
-            Component to remove
+            Component to remove. Must inherit from :class:`Component`
 
         Raises
         ------
@@ -272,7 +288,7 @@ class GameObject(SavesProjectID):
 
         Parameters
         ----------
-        componentClass : Component
+        componentClass : type
             Component to get. Must inherit from :class:`Component`
 
         Returns
@@ -282,7 +298,7 @@ class GameObject(SavesProjectID):
 
         """
 
-        return [component for component in self.components if isinstance(component, componentClass)]
+        return [cpnt for cpnt in self.components if isinstance(cpnt, componentClass)]
 
     def RemoveComponents(self, componentClass):
         """
@@ -291,7 +307,7 @@ class GameObject(SavesProjectID):
         Parameters
         ----------
         componentClass : type
-            Component to remove
+            Component to remove. Must inherit from :class:`Component`
 
         Raises
         ------
@@ -313,19 +329,50 @@ class GameObject(SavesProjectID):
         return (f"<GameObject name={self.name!r} components="
                 f"{[type(x).__name__ for x in self.components]}>")
 
-class HideInInspector:
+class SavedAttribute:
+    """
+    An attribute that should be saved when saving a project.
+    Do not instantiate this class, only use one of its
+    subclasses (either :class:`HideInInspector` or
+    :class:`ShowInInspector`). However, this class will be
+    used to reference an instance of either of these.
+
+    """
+    pass
+
+class HideInInspector(SavedAttribute):
     """
     An attribute that should be saved when saving a project,
     but not shown in the Inspector of the PyUnityEditor.
 
+    Parameters
+    ----------
     Attributes
-    ==========
+    ----------
     type : type
         Type of the attribute
     default : Any
         Default value for the attribute (will be set to the Component)
-    name : str
-        Set when ``Component.__init_subclass__`` is excecuted
+
+    Notes
+    -----
+    The class variable is replaced after the class is defined.
+    For example:
+
+    .. code-block:: python
+
+        class MyBehaviour(Behaviour):
+            attr = HideInInspector(str)
+
+    Here, accessing ``MyBehaviour.attr`` would return ``None``, and
+
+    .. code-block:: python
+
+        class MyBehaviour(Behaviour):
+            attr = HideInInspector(str, "default string")
+
+    Here, accessing ``MyBehaviour.attr`` would return
+    ``"default string"``.
 
     """
 
@@ -352,14 +399,19 @@ class ShowInInspector(HideInInspector):
     An attribute that should be saved when saving a project,
     and shown in the Inspector of the PyUnityEditor.
 
-    Attributes
-    ==========
+    Parameters
+    ----------
     type : type
         Type of the variable
     default : Any
         Default value (will be set to the Behaviour)
     name : str
-        Alternate name shown in the Inspector
+        Alternate name shown in the Inspector. The
+        default name is a properly capitalized phrase
+        consisting of the words in the attribute name.
+        For example, ``checkBox`` would be named
+        ``Check Box`` and ``snake_case_Var`` would be
+        named ``Snake Case Var``.
 
     """
     def __init__(self, type, default=None, name=None):
@@ -405,6 +457,12 @@ del _AddFields
 setattr(addFields, "__module__", __name__)
 
 class ComponentType(ABCMeta):
+    """
+    Component metaclass to ensure that every subclass
+    has its own unique ``_saved`` and ``_shown``
+    attributes.
+
+    """
     @classmethod
     def __prepare__(cls, name, bases, /, **kwds):
         namespace = dict(super(ComponentType, cls).__prepare__(name, bases, **kwds))
@@ -423,12 +481,59 @@ class Component(SavesProjectID, metaclass=ComponentType):
     transform : Transform
         Transform that the component belongs to.
 
+    Notes
+    -----
+    For a component to define an attribute visible in the
+    PyUnity editor and savable in the scene file, a
+    class variable needs to be defined using a subclass of
+    :class:`SavedAttribute` with the appropriate type. This
+    instance of :class:`SavedAttribute` will be replaced
+    with its default value. See the notes for
+    :class:`HideInInspector` for more details.
+
+    Sometimes, the type for the :class:`SavedAttribute` is
+    inaccessible from the current namespace, possibly
+    because it is the component of which this attribute
+    belongs to, or it is in another file which importing
+    would cause a circular import. Or, the attribute that
+    you want to define is a Python ``@property`` which means
+    that you cannot define a class variable of the same
+    name. In all three of these situations, a class variable
+    would not work. The ``addFields`` decorator deals with
+    this.
+
+    For example:
+
+    .. code-block:: python
+
+        # in file1.py
+        @addFields(attr1=HideInInspector(int, 5),
+                   attr3=ShowInInspector(addFields.selfref, name="Attribute 3"))
+        class SomeComponent(Component):
+            attr4 = HideInInspector(str, "default value")
+
+            @property
+            def attr1(self):
+                return 2
+
+        # In another file
+        from file1 import SomeComponent
+        ...
+        decorator = addFields(attr2=ShowInInspector(SomeTypeOnlyAccessibleHere))
+        decorator.apply(SomeComponent)
+
+    Here you can see that ``attr1`` is a property but is also
+    a saved attribute, ``attr2`` is a saved attribute added
+    after the class is defined, and ``attr3`` is a saved
+    attribute with the type of ``SomeComponent``.
+
     """
 
     _saved = {}
     _shown = {}
 
     def __init__(self):
+        super(Component, self).__init__()
         # gameObject and transform to be set by AddComponent
         self.enabled = True
 
@@ -510,7 +615,7 @@ class Component(SavesProjectID, metaclass=ComponentType):
 
 class SingleComponent(Component):
     """
-    Represents a component that can be added only once.
+    A base class for components that can only be added once.
 
     """
     pass
@@ -539,9 +644,9 @@ class Transform(SingleComponent):
 
     """
 
-    localPosition = ShowInInspector(Vector3, None, "position")
-    localRotation = ShowInInspector(Quaternion, None, "rotation")
-    localScale = ShowInInspector(Vector3, None, "scale")
+    localPosition = ShowInInspector(Vector3, name="position")
+    localRotation = ShowInInspector(Quaternion, name="rotation")
+    localScale = ShowInInspector(Vector3, name="scale")
 
     def __init__(self):
         super(Transform, self).__init__()
@@ -602,6 +707,10 @@ class Transform(SingleComponent):
 
     @localEulerAngles.setter
     def localEulerAngles(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set localEulerAngles to object of type {type(value).__name__!r}")
+
         self.localRotation = Quaternion.Euler(value)
 
     @property
@@ -615,6 +724,10 @@ class Transform(SingleComponent):
 
     @eulerAngles.setter
     def eulerAngles(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set eulerAngles to object of type {type(value).__name__!r}")
+
         self.rotation = Quaternion.Euler(value)
 
     @property
@@ -630,6 +743,7 @@ class Transform(SingleComponent):
         if not isinstance(value, Vector3):
             raise PyUnityException(
                 f"Cannot set scale to object of type {type(value).__name__!r}")
+
         if self.parent is None or not bool(self.parent.scale):
             self.localScale = value
         else:
@@ -645,9 +759,9 @@ class Transform(SingleComponent):
             The parent to reparent to.
 
         """
-        if self.parent:
+        if self.parent is not None:
             self.parent.children.remove(self)
-        if parent:
+        if parent is not None:
             parent.children.append(self)
         self.parent = parent
 
@@ -691,15 +805,16 @@ class Transform(SingleComponent):
         Face towards another transform's position.
 
         Parameters
-        ==========
+        ----------
         transform : Transform
             Transform to face towards
 
         Notes
-        =====
+        -----
         The rotation generated may not be upright, and
         to fix this just use ``transform.rotation.eulerAngles *= Vector3(1, 1, 0)``
-        which will remove the Z component of the Euler angles.
+        which will remove the Z component of the Euler angles (the
+        "roll" component). However, in most cases it will be upright.
 
         """
         v = transform.position - self.position
@@ -711,7 +826,7 @@ class Transform(SingleComponent):
         :meth:`Transform.LookAtTransform` for details.
 
         Parameters
-        ==========
+        ----------
         gameObject : GameObject
             GameObject to face towards
 
@@ -725,7 +840,7 @@ class Transform(SingleComponent):
         :meth:`Transform.LookAtTransform` for details.
 
         Parameters
-        ==========
+        ----------
         vec : Vector3
             Point to face towards
 
@@ -739,7 +854,7 @@ class Transform(SingleComponent):
         See :meth:`Transform.LookAtTransform` for details.
 
         Parameters
-        ==========
+        ----------
         vec : Vector3
             Direction to face in
 
