@@ -162,15 +162,9 @@ class Quaternion(LockedLiteral):
 
     @staticmethod
     def Between(v1, v2):
-        a = v1.cross(v2)
-        if a.dot(a) == 0:
-            if v1 == v2 or v1.dot(v1) == 0 or v2.dot(v2) == 0:
-                return Quaternion.identity()
-            else:
-                return Quaternion.FromAxis(180, Vector3.up())
-        angle = Mathf.Acos(v1.dot(v2) / (Mathf.Sqrt(v1.length * v2.length)))
-        q = Quaternion.FromAxis(angle * Mathf.DEG_TO_RAD, a)
-        return q.normalized()
+        a = Quaternion.FromDir(v1).conjugate
+        b = Quaternion.FromDir(v2)
+        return a * b
 
     @staticmethod
     def FromDir(v):
@@ -238,9 +232,7 @@ class Quaternion(LockedLiteral):
 
         euler = [x, y, z]
         for i in range(3):
-            euler[i] = euler[i] * Mathf.RAD_TO_DEG % 360
-            if euler[i] > 180:
-                euler[i] -= 360
+            euler[i] = (euler[i] * Mathf.RAD_TO_DEG + 180) % 360 - 180
         return Vector3(euler)
 
     @staticmethod
