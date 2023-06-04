@@ -25,7 +25,12 @@ class ProjectParseException(PyUnityException):
     pass
 
 class PyUnityExit(PyUnityException):
-    """Exception for breaking out of the main loop and shutting PyUnity down."""
+    """
+    Exception for breaking out of the main loop and shutting PyUnity down.
+
+    Only used internally, do not raise outside of the module.
+
+    """
     pass
 
 class WindowProviderException(PyUnityException):

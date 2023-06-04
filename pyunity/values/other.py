@@ -114,12 +114,16 @@ class SavableStruct:
                 newAttrs[key] = self.attrs[key].default
             elif self.attrs[key].required:
                 raise PyUnityException(f"Missing required field: {key!r}")
+        factory = self.factoryWrapper(factory)
         return factory(*attrs.values())
 
+    def factoryWrapper(self, factory):
+        return factory
+
     def __call__(self, cls):
-        def __init__(*args, **kwargs):
+        def __init__(obj, *args, **kwargs):
             argmap = {}
-            keys = self._attrs.keys()
+            keys = self.attrs.keys()
             for i, val in args:
                 attr = keys[i]
                 argmap[attr] = val
@@ -127,21 +131,21 @@ class SavableStruct:
             for attr, val in kwargs.items():
                 if attr in argmap:
                     raise ValueError(
-                        f"{self.__class__.__name__}() got multiple values for argument {attr!r}")
+                        f"{cls.__name__}() got multiple values for argument {attr!r}")
                 argmap[attr] = val
 
             for key in keys:
                 if key not in argmap:
-                    if self._attrs[key].required:
+                    if self.attrs[key].required:
                         raise PyUnityException(f"Missing required argument: {key!r}")
-                    if self._attrs[key].default is not StructEntry.ignore:
-                        argmap[key] = self._attrs[key].default
+                    if self.attrs[key].default is not StructEntry.ignore:
+                        argmap[key] = self.attrs[key].default
 
             for k, v in argmap.items():
-                setattr(self, k, v)
+                setattr(obj, k, v)
 
-        if hasattr(cls, "_fromDict"):
-            self.fromDict = partial(cls._fromDict, self)
+        if hasattr(cls, "_factoryWrapper"):
+            self.factoryWrapper = cls._factoryWrapper
 
         if cls.__init__ is object.__init__:
             cls.__init__ = __init__

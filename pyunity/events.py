@@ -17,11 +17,30 @@ import inspect
 # import signal
 import time
 
+# TODO: support kwargs=StructEntry(dict, required=True)
+# see issue #72 in github
 @SavableStruct(
     component=StructEntry(Component, required=True),
     name=StructEntry(str, required=True),
     args=StructEntry(tuple, required=True))
 class Event:
+    """
+    Class used for PyUnity events. Used to set callback
+    events of certain :class:`Component`\s, for example
+    :class:`GuiComponent`.
+
+    Arguments
+    ---------
+    func : Callable
+        Function to call. Must be a method of a Component
+        that is added to a GameObject
+    args : tuple, optional
+        Positional arguments for the callback
+    kwargs : dict, optional
+        Keyword arguments for the callback
+
+    """
+
     def __init__(self, func, args=(), kwargs={}):
         if not hasattr(func, "__self__"):
             raise PyUnityException(
@@ -55,11 +74,12 @@ class Event:
                 raise PyUnityException("No EventLoopManager running")
             EventLoopManager.current.pending.append(self)
 
-    def _fromDict(self, factory, attrs, instanceCheck=None):
+    @classmethod
+    def _factoryWrapper(cls, factory):
         def wrapper(component, method, args=(), kwargs={}):
             func = getattr(component, method)
             return factory(func, args, kwargs)
-        return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
+        return wrapper
 
 def wrap(func):
     @functools.wraps(func)

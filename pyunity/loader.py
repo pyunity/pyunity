@@ -28,7 +28,6 @@ from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
 from .resources import getPath
 from pathlib import Path
-from uuid import uuid4
 import struct
 import shutil
 import inspect
@@ -671,6 +670,8 @@ def LoadGameObjects(data, project):
 
         if part.name.endswith("(Component)"):
             component = gameObject.AddComponent(componentMap[part.name[:-11]])
+            if part.name == "Transform(Component)":
+                gameObject.transform = component
         else:
             file = project.fileIDs[part.attrs.pop("_script")]
             fullpath = project.path.resolve() / file.path
@@ -691,9 +692,10 @@ def LoadGameObjects(data, project):
                 continue
             if value is not None:
                 type_, value = instanceCheck(component._saved[k].type, value)
-                if hasattr(type_, "_wrapper"):
-                    if isinstance(getattr(type_, "_wrapper"), SavableStruct):
-                        value = getattr(type_, "_wrapper").fromDict(type_, value, instanceCheck)
+                struct = getattr(type_, "_wrapper", None)
+                if struct is not None:
+                    if isinstance(struct, SavableStruct):
+                        value = struct.fromDict(type_, value, instanceCheck)
                 if not isinstance(value, type_):
                     raise ProjectParseException(
                         f"Value {value!r} does not match type {type_}: "
