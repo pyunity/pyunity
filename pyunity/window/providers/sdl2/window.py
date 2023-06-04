@@ -5,7 +5,6 @@
 """Class to create a window using PySDL2."""
 
 from pyunity.window import ABCWindow
-from pyunity.values import Clock
 from pyunity.input import KeyCode, KeyState, MouseCode
 from pyunity.errors import PyUnityExit
 from pyunity import config
@@ -19,9 +18,7 @@ class Window(ABCWindow):
 
     """
 
-    def __init__(self, name, resize):
-        self.resize = resize
-
+    def __init__(self, name):
         self.screen = sdl2.SDL_CreateWindow(
             name.encode(), sdl2.SDL_WINDOWPOS_UNDEFINED,
             sdl2.SDL_WINDOWPOS_UNDEFINED, *config.size,
@@ -61,26 +58,14 @@ class Window(ABCWindow):
     def quit(self):
         sdl2.SDL_DestroyWindow(self.screen)
 
-    def start(self, updateFunc):
-        self.updateFunc = updateFunc
+    def setResize(self, resize):
+        self.resize = resize
 
-        done = False
-        clock = Clock()
-        clock.Start(config.fps)
-        while not done:
-            events = sdl2.ext.get_events()
-            for event in events:
-                if event.type == sdl2.SDL_QUIT:
-                    done = True
-
-            self.processKeys(events)
-            self.processMouse(events)
-            self.updateFunc()
-            sdl2.SDL_GL_SwapWindow(self.screen)
-
-            clock.Maintain()
-
-        self.quit()
+    def updateFunc(self):
+        events = sdl2.ext.get_events()
+        self.processKeys(events)
+        self.processMouse(events)
+        self.processSize(events)
 
     def processKeys(self, events):
         for i in range(len(self.keys)):
@@ -111,6 +96,12 @@ class Window(ABCWindow):
                     self.mouse[event.button.button] = KeyState.PRESS
             elif event.type == sdl2.SDL_MOUSEBUTTONUP:
                 self.mouse[event.button.button] = KeyState.UP
+
+    def processSize(self, events):
+        for event in events:
+            if event.type == sdl2.SDL_WINDOWEVENT:
+                if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
+                    self.resize(event.window.data1, event.window.data2)
 
     def getKey(self, keycode, keystate):
         key = keyMap[keycode]
