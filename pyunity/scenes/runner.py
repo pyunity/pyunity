@@ -76,11 +76,11 @@ class WindowRunner(Runner):
 
         self.window = config.windowProvider(self.scene.name)
         # front buffer
-        self.window.refresh()
         render.fillScreen()
+        self.window.refresh()
         # back buffer
-        self.window.refresh()
         render.fillScreen()
+        self.window.refresh()
 
     def setup(self):
         Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
