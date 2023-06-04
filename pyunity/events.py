@@ -14,8 +14,9 @@ import functools
 import threading
 import asyncio
 import inspect
-# import signal
+import signal
 import time
+import sys
 
 # TODO: support kwargs=StructEntry(dict, required=True)
 # see issue #72 in github
@@ -230,10 +231,12 @@ class EventLoop(asyncio.SelectorEventLoop):
         super(EventLoop, self).__init__(selector)
         self.set_exception_handler(EventLoop.handleException)
 
-        # signals = (signal.SIGTERM, signal.SIGINT)
-        # for s in signals:
-        #     self.add_signal_handler(
-        #         s, lambda sig=s: asyncio.create_task(self.shutdown(sig)))
+        if sys.platform != "win32":
+            # SelectorEventLoop defines add_signal_handler
+            signals = (signal.SIGTERM, signal.SIGINT)
+            for s in signals:
+                self.add_signal_handler(
+                    s, lambda sig=s: asyncio.create_task(self.shutdown(sig)))
 
     async def shutdown(self, signal=None):
         if signal is not None:
