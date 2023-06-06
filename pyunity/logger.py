@@ -285,13 +285,14 @@ def ResetStream():
 
 def _upload():
     # Upload to ftp
+    import urllib.error
     try:
         import urllib.request
         url = "https://ftp.pyunity.repl.co/upload?confirm=1"
         with urllib.request.urlopen(url):
             pass
-    except Exception as e:
-        LogException(e, silent=True)
+    except urllib.error.HTTPError as e:
+        LogLine(ERROR, "urllib.error.HTTPError:", e, silent=True)
 
 t = threading.Thread(target=_upload)
 t.daemon = True
