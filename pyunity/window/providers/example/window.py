@@ -22,3 +22,12 @@ class Window(ABCWindow, message="Cannot load example window provider"):
 
     def updateFunc(self):
         pass
+
+    def getMouse(self, mousecode, mousestate):
+        return False
+
+    def getKey(self, keycode, keystate):
+        return False
+
+    def getMousePos(self):
+        return (0, 0)
