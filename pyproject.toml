@@ -51,18 +51,20 @@ Changelog = "https://docs.pyunity.x10.bz/en/latest/releases.html"
 providers = [
     # Other window providers as needed
     "glfw",
+    "glcontext",
 ]
 dev = [
+    "glfw",
+    "glcontext",
     "pytest>=6.0",
     "pytest-cov",
     "mypy",
     "sphinx",
-    "glfw",
     "importlib_metadata",
     "cython>=3.0.0a8",
     "wheel>=0.29.0",
     "setuptools>=61.2",
-    "build>=0.10.0",
+    "build[virtualenv]>=0.10.0",
     "sphinx-toolbox>=1.1.0",
     "sphinx-hoverxref>=1.1.1"
 ]
