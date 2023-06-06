@@ -529,6 +529,7 @@ class Scene(Asset):
         lights = self.FindComponents(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
+        self.mainCamera.renderPass = False
 
         if loop is not None:
             for component in behaviours:
