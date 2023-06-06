@@ -202,7 +202,7 @@ class EventLoopManager:
                     waiter.loop.call_soon_threadsafe(waiter.event.set)
 
             for func in self.updates:
-                func(loop)
+                func(self.mainLoop)
 
             for event in self.pending:
                 event.trigger()
