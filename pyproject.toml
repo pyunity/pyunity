@@ -53,20 +53,25 @@ providers = [
     "glfw",
     "glcontext",
 ]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-toolbox>=1.1.0",
+    "sphinx-hoverxref>=1.1.1",
+]
 dev = [
     "glfw",
     "glcontext",
     "pytest>=6.0",
-    "pytest-cov",
+    "pytest-cov>=2.0",
     "mypy",
-    "sphinx",
-    "importlib_metadata",
+    "importlib-metadata",
     "cython>=3.0.0a8",
     "wheel>=0.29.0",
     "setuptools>=61.2",
     "build[virtualenv]>=0.10.0",
+    "sphinx>=5.0.0",
     "sphinx-toolbox>=1.1.0",
-    "sphinx-hoverxref>=1.1.1"
+    "sphinx-hoverxref>=1.1.1",
 ]
 
 [tool.setuptools]
