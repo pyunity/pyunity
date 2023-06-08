@@ -51,6 +51,8 @@ def printVersion():
             orig = os.getcwd()
             if gitrepo:
                 os.chdir(path.parent.parent)
+
+                # Get repo version info
                 p = subprocess.Popen(["git", "rev-parse", "HEAD"],
                                      stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE)
@@ -89,16 +91,14 @@ def printVersion():
                 os.chdir(orig)
         else:
             requirements = dist.requires
-            path = dist._path / "version.json"
-            if path.is_file():
-                with open(path) as f:
-                    data = json.load(f)
+            data = json.loads(dist.read_text("version.json"))
+            if data is not None:
                 print("Git commit hash:", data["revision"])
                 print("Local commit:", data["local"])
 
         print("Dependencies:")
         for item in requirements:
-            name = re.split(" |;", item)[0]
+            name = re.split(" |;[", item)[0]
             try:
                 print("-", name, "version:", version(name))
             except PackageNotFoundError:

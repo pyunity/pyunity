@@ -28,6 +28,7 @@ class SaveMeta(egg_info):
         if not os.path.isdir(".git"):
             return
 
+        # Get repo version info
         p = subprocess.Popen(["git", "rev-parse", "HEAD"],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
