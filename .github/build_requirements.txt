@@ -3,4 +3,4 @@ setuptools>=61.2
 build[virtualenv]>=0.10.0
 autopep8
 pytest>=6.0
-pytest-cov
+pytest-cov>=2.0
