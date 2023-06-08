@@ -9,14 +9,15 @@ __all__ = ["Event", "EventLoop", "EventLoopManager", "StartCoroutine",
 from .core import Component
 from typing import (
     TypeVar, Callable, Any, Sequence, Mapping, Optional, Type, Tuple,
-    List, Dict, Awaitable, Generator)
+    List, Dict, Awaitable, Generator, Generic)
 import threading
 import asyncio
 import signal
 
 T = TypeVar("T")
+AT = TypeVar("AT")
 
-class Event:
+class Event(Generic[T]):
     component: Component
     name: str
     func: Callable[..., T]

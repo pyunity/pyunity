@@ -11,7 +11,7 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import List, Dict, Optional, Type, Union, Tuple, TypeVar, Callable, Any
+from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
