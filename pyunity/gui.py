@@ -358,7 +358,7 @@ class RenderTarget(GuiRenderComponent):
         self.renderPass = False
 
     def PreRender(self):
-        if self.renderPass:
+        if self.renderPass or self.source is None:
             return
         self.renderPass = True
 
