@@ -105,8 +105,6 @@ class Vector2(Vector):
 
     @property
     def intTuple(self) -> tuple: ...
-    @property
-    def rounded(self) -> tuple: ...
 
 class Vector3(Vector):
     x: float
@@ -149,5 +147,3 @@ class Vector3(Vector):
 
     @property
     def intTuple(self) -> tuple: ...
-    @property
-    def rounded(self) -> tuple: ...
