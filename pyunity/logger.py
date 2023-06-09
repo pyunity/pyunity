@@ -11,7 +11,8 @@ This will be imported as ``pyunity.Logger``.
 
 __all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
            "SetStream", "Log", "LogLine", "Save", "Level", "Special",
-           "TempRedirect", "Elapsed", "TIME_FORMAT"]
+           "TempRedirect", "Elapsed", "TIME_FORMAT", "RUNNING_TIME",
+           "ELAPSED_TIME"]
 
 import io
 import os
