@@ -51,11 +51,11 @@ class Asset(SavesProjectID, metaclass=ABCMeta):
     def SaveAsset(self, ctx: ProjectSavingContext) -> None: ...
 
 class Texture2D(Asset):
-    path: str
+    path: Union[str, None]
     img: Image.Image
     imgData: bytes
     loaded: bool
-    texture: int
+    texture: Union[int, None]
     mipmaps: bool
     def __init__(self, pathOrImg: Union[str, Path, Image.Image]) -> None: ...
     def load(self) -> None: ...
