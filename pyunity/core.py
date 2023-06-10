@@ -548,19 +548,19 @@ class Component(SavesProjectID, metaclass=ComponentType):
                     val.name = name
                 setattr(cls, name, val.default)
 
-    def AddComponent(self, component):
+    def AddComponent(self, componentClass):
         """
         Calls :meth:`GameObject.AddComponent` on the component's GameObject.
 
         Parameters
         ----------
-        component : Component
+        componentClass : Component
             Component to add. Must inherit from :class:`Component`
 
         """
-        return self.gameObject.AddComponent(component)
+        return self.gameObject.AddComponent(componentClass)
 
-    def GetComponent(self, component):
+    def GetComponent(self, componentClass):
         """
         Calls :meth:`GameObject.GetComponent` on the component's GameObject.
 
@@ -570,21 +570,21 @@ class Component(SavesProjectID, metaclass=ComponentType):
             Component to get. Must inherit from :class:`Component`
 
         """
-        return self.gameObject.GetComponent(component)
+        return self.gameObject.GetComponent(componentClass)
 
-    def RemoveComponent(self, component):
+    def RemoveComponent(self, componentClass):
         """
         Calls :meth:`GameObject.RemoveComponent` on the component's GameObject.
 
         Parameters
         ----------
-        component : Component
+        componentClass : Component
             Component to remove. Must inherit from :class:`Component`
 
         """
-        return self.gameObject.RemoveComponent(component)
+        return self.gameObject.RemoveComponent(componentClass)
 
-    def GetComponents(self, component):
+    def GetComponents(self, componentClass):
         """
         Calls :meth:`GameObject.GetComponents` on the component's GameObject.
 
@@ -594,19 +594,19 @@ class Component(SavesProjectID, metaclass=ComponentType):
             Component to get. Must inherit from :class:`Component`
 
         """
-        return self.gameObject.GetComponents(component)
+        return self.gameObject.GetComponents(componentClass)
 
-    def RemoveComponents(self, component):
+    def RemoveComponents(self, componentClass):
         """
         Calls :meth:`GameObject.RemoveComponents` on the component's GameObject.
 
         Parameters
         ----------
-        component : Component
+        componentClass : Component
             Component to remove. Must inherit from :class:`Component`
 
         """
-        return self.gameObject.RemoveComponents(component)
+        return self.gameObject.RemoveComponents(componentClass)
 
     @property
     def scene(self):
