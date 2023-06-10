@@ -90,13 +90,14 @@ class Prefab(Asset):
                     worldSpace: bool = ...) -> GameObject: ...
 
 AT = TypeVar("AT", bound=Asset)
+saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
 
 class ProjectSavingContext:
     asset: Asset
     gameObject: GameObject
     project: Project
     filename: Union[str, Path]
-    savers: Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
+    savers: saverType
     def __init__(self, asset: Asset, gameObject: GameObject, project: Project, filename: Union[str, Path] = ...) -> None: ...
 
 class File:

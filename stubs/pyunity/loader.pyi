@@ -21,7 +21,7 @@ from typing import List, Optional, Dict, Type, Tuple, Any, Union, TypeVar, Calla
 from pathlib import Path
 from .meshes import Mesh, Material
 from .scenes import Scene
-from .files import Project, Prefab, Asset
+from .files import Project, Prefab, Asset, saverType
 from .values import ImmutableStruct
 from .core import GameObject, Component
 import enum
@@ -75,7 +75,7 @@ def LoadGameObjects(data: List[ObjectInfo], project: Project) -> List[GameObject
 def SaveScene(scene: Scene, project: Project, path: Union[str, Path]) -> None: ...
 
 AT = TypeVar("AT", bound=Asset)
-savers: Dict[Type[AT], Callable[[AT, Project, Union[str, Path]], None]] = ...
+savers: saverType = ...
 
 def ResaveScene(scene: Scene, project: Project) -> None: ...
 def GenerateProject(name: str, force: bool = ...) -> Project: ...
