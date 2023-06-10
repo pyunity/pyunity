@@ -98,7 +98,7 @@ def printVersion():
 
         print("Dependencies:")
         for item in requirements:
-            name = re.split(" |;[", item)[0]
+            name = re.split("[^a-zA-Z0-9_-]", item)[0]
             try:
                 print("-", name, "version:", version(name))
             except PackageNotFoundError:
