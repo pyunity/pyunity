@@ -113,4 +113,4 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_unreachable = true
 # stubtest command
-# PYUNITY_CHANGE_MODULE=0 py -m mypy.stubtest --mypy-config-file pyproject.toml pyunity
+# PYUNITY_CHANGE_MODULE=0 py -m mypy.stubtest --mypy-config-file pyproject.toml --allowlist .github/stubtest-ignore.txt pyunityerror:
