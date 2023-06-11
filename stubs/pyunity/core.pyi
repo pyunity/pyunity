@@ -58,7 +58,11 @@ from .scenes import Scene
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from typing import (
     Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple,
-    Generic, Union, Mapping, Optional)
+    Generic, Union, Mapping, Optional, TYPE_CHECKING)
+
+if TYPE_CHECKING:
+    CT = TypeVar("CT", bound=Component)
+    T = TypeVar("T")
 
 class Tag:
     tags: _List[str]
@@ -69,8 +73,6 @@ class Tag:
     def __init__(self, tagNumOrName: Union[str, int]) -> None: ...
 
 class SavesProjectID: ...
-
-CT = TypeVar("CT", bound=Component)
 
 class GameObject(SavesProjectID):
     name: str
@@ -89,8 +91,6 @@ class GameObject(SavesProjectID):
     def RemoveComponents(self, componentClass: Type[CT]) -> None: ...
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
-
-T = TypeVar("T")
 
 class HideInInspector(Generic[T]):
     type: Type[T]

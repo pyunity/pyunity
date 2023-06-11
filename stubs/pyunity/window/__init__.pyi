@@ -32,10 +32,12 @@ pull request.
 __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
-from typing import Type, TypeVar
+from typing import Type, TypeVar, TYPE_CHECKING
 from .abc import ABCWindow
+
+if TYPE_CHECKING:
+    T = TypeVar("T", bound=ABCWindow)
 
 def GetWindowProvider() -> Type[ABCWindow]: ...
 def SetWindowProvider(name: str) -> Type[ABCWindow]: ...
-T = TypeVar("T", bound=ABCWindow)
 def CustomWindowProvider(cls: Type[T]) -> Type[T]: ...

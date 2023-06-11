@@ -21,7 +21,7 @@ def formatannotation(annotation):
         return " | ".join(map(formatannotation, annotation.__args__))
     elif isinstance(annotation, type):
         return annotation.__name__
-    elif isinstance(annotation, (typing._BaseGenericAlias, typing._SpecialForm)):
+    elif isinstance(annotation, (typing._SpecialGenericAlias, typing._SpecialForm)):
         return annotation._name
     return repr(annotation)
 inspect.formatannotation = formatannotation

@@ -6,7 +6,13 @@ __all__ = ["Clock", "IgnoredMixin", "ImmutableStruct", "IncludeInstanceMixin",
            "IncludeMixin", "LockedLiteral", "ModuleExportControlMixin",
            "SavableStruct", "StructEntry"]
 
-from typing import Optional, Any, Dict, Callable, TypeVar, Type, Tuple, Generic, Union, Mapping, List
+from typing import (
+    Optional, Any, Dict, Callable, TypeVar, Type, Tuple, Generic,
+    Union, Mapping, List, TYPE_CHECKING)
+
+if TYPE_CHECKING:
+    T = TypeVar("T")
+    TWRAP = TypeVar("TWRAP")
 
 class ModuleExportControlMixin: ...
 class IgnoredMixin(ModuleExportControlMixin): ...
@@ -31,9 +37,6 @@ class LockedLiteral:
     def _lock(self) -> None: ...
     def __setattr__(self, name: str, value: Any) -> None: ...
     def __delattr__(self, name: str) -> None: ...
-
-T = TypeVar("T")
-TWRAP = TypeVar("TWRAP")
 
 class SavableStruct(Generic[TWRAP]):
     attrs: Dict[str, StructEntry]

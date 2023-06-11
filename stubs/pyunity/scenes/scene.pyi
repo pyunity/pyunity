@@ -14,17 +14,17 @@ the :class:`SceneManager` submodule.
 
 __all__ = ["Scene"]
 
-from typing import Dict, List as _List, Type, TypeVar, Awaitable, Any, Optional
+from typing import Dict, List as _List, Type, TypeVar, Awaitable, Any, Optional, TYPE_CHECKING
 from ..render import Camera, Light
 from ..core import GameObject, Component
 from ..meshes import MeshRenderer
-from ..audio import AudioListener
 from ..events import EventLoop
 from ..files import Asset
 
-disallowedChars: set = ...
+if TYPE_CHECKING:
+    CT = TypeVar("CT", bound=Component)
 
-CT = TypeVar("CT", bound=Component)
+disallowedChars: set = ...
 
 def createTask(loop: EventLoop, coro: Awaitable[None], *args: Any) -> None: ...
 

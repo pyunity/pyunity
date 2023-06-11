@@ -4,12 +4,13 @@
 
 __all__ = ["LiveDict", "Database"]
 
-from typing import Dict, Iterator, Optional, Generic, TypeVar
+from typing import Dict, Iterator, Optional, Generic, TypeVar, TYPE_CHECKING
 from collections.abc import KeysView, ValuesView, ItemsView
 from pathlib import Path
 
-KT = TypeVar("KT")
-VT = TypeVar("VT")
+if TYPE_CHECKING:
+    KT = TypeVar("KT")
+    VT = TypeVar("VT")
 
 class LiveDict(Generic[KT, VT]):
     d: Dict[KT, VT]

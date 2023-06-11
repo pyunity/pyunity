@@ -4,13 +4,14 @@
 
 __all__ = ["Vector", "Vector2", "Vector3"]
 
-from typing import Callable, Iterator, TypeVar, List, Union, Optional, Tuple
+from typing import Callable, Iterator, TypeVar, List, Union, Optional, Tuple, TYPE_CHECKING
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
 
-def conv(num: Union[int, float]) -> str: ...
+if TYPE_CHECKING:
+    T = TypeVar("T", bound=Vector)
 
-T = TypeVar("T", bound=Vector)
+def conv(num: Union[int, float]) -> str: ...
 
 class Vector(LockedLiteral, metaclass=ABCMeta):
     def __repr__(self) -> str: ...

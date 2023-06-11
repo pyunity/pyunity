@@ -11,7 +11,7 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any
+from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any, TYPE_CHECKING
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
@@ -19,6 +19,10 @@ from .core import Component, ShowInInspector, GameObject, SavesProjectID
 from .scenes import Scene
 from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
+
+if TYPE_CHECKING:
+    AT = TypeVar("AT", bound=Asset)
+    saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
 
 def convert(type: Type[ctypes._SimpleCData], list: List[float]) -> object: ...
 
@@ -88,9 +92,6 @@ class Prefab(Asset):
                     rotation: Quaternion = ...,
                     scale: Vector3 = ...,
                     worldSpace: bool = ...) -> GameObject: ...
-
-AT = TypeVar("AT", bound=Asset)
-saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
 
 class ProjectSavingContext:
     asset: Asset
