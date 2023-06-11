@@ -720,18 +720,20 @@ class CollManager(IgnoredMixin):
                         req = hppfcl.CollisionRequest()
                         res = hppfcl.CollisionResult()
                         if hppfcl.collide(transformA, transformB, req, res):
-                            contact = res.getContact(0)
-                            m = Manifold(colliderA, colliderB,
-                                         Vector3(contact.pos), -Vector3(contact.normal),
-                                         contact.penetration_depth)
-                            manifolds[rbA, rbB] = m
+                            manifolds[rbA, rbB] = []
+                            for contact in res.getContacts():
+                                m = Manifold(colliderA, colliderB,
+                                             Vector3(contact.pos),
+                                             -Vector3(contact.normal),
+                                             contact.penetration_depth)
+                                manifolds[rbA, rbB].append(m)
 
         for rbA, rbB in manifolds:
-            m = manifolds[rbA, rbB]
-            e = self.GetRestitution(rbA, rbB)
-            self.ResolveCollisions(
-                rbA, rbB,
-                m.point, e, m.normal, m.penetration)
+            for m in manifolds[rbA, rbB]:
+                e = self.GetRestitution(rbA, rbB)
+                self.ResolveCollisions(
+                    rbA, rbB,
+                    m.point, e, m.normal, m.penetration)
 
     def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
         # rv = b.velocity - a.velocity
