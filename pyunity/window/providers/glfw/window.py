@@ -7,7 +7,7 @@
 import glfw
 import sys
 from pyunity.window import ABCWindow
-from pyunity.errors import PyUnityException, PyUnityExit
+from pyunity.errors import WindowProviderException, PyUnityExit
 from pyunity.input import KeyCode, KeyState, MouseCode
 from pyunity import config
 
@@ -17,7 +17,7 @@ class Window(ABCWindow):
 
     Raises
     ------
-    PyUnityException
+    WindowProviderException
         If the window creation fails
 
     """
@@ -25,16 +25,16 @@ class Window(ABCWindow):
     def __init__(self, name):
         glfw.init()
         if sys.platform == "darwin":
-            glfw.window_hint(glfw.GLFW_CONTEXT_VERSION_MAJOR, 3)
-            glfw.window_hint(glfw.GLFW_CONTEXT_VERSION_MINOR, 3)
-            glfw.window_hint(glfw.GLFW_OPENGL_FORWARD_COMPAT, glfw.GL_TRUE)
-            glfw.window_hint(glfw.GLFW_OPENGL_PROFILE,
-                             glfw.GLFW_OPENGL_CORE_PROFILE)
+            glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
+            glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
+            glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, glfw.TRUE)
+            glfw.window_hint(glfw.OPENGL_PROFILE,
+                             glfw.OPENGL_CORE_PROFILE)
 
         self.window = glfw.create_window(*config.size, name, None, None)
         if not self.window:
             glfw.terminate()
-            raise PyUnityException("Cannot open GLFW window")
+            raise WindowProviderException("Cannot open GLFW window")
 
         glfw.make_context_current(self.window)
 

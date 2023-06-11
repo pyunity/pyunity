@@ -1,6 +1,6 @@
 .PHONY: all
 all: cython
-		python setup.py bdist_wheel sdist
+		python -m build
 
 .PHONY: cython
 cython:

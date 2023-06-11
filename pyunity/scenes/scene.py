@@ -8,7 +8,7 @@ and their various components.
 
 You should never use the :class:`Scene`
 class directly, instead, only use
-the :class:`SceneManager` class.
+the :class:`SceneManager` submodule.
 
 """
 
@@ -523,16 +523,17 @@ class Scene(Asset):
         if loop is not None:
             behaviours = self.FindComponents(Behaviour)
             for component in behaviours:
-                createTask(loop, component.OnPreRender)
+                component.OnPreRender()
 
         renderers = self.FindComponents(MeshRenderer)
         lights = self.FindComponents(Light)
         self.mainCamera.renderPass = True
         self.mainCamera.Render(renderers, lights)
+        self.mainCamera.renderPass = False
 
         if loop is not None:
             for component in behaviours:
-                createTask(loop, component.OnPostRender)
+                component.OnPostRender()
 
     def cleanUp(self):
         """

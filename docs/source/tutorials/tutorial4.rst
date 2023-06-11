@@ -123,7 +123,7 @@ is an example:
 
 .. code-block:: python
 
-   class CallbackReceiver(Component):
+   class CallbackReceiver(Behaviour):
        def callback():
            Logger.Log("Clicked")
 

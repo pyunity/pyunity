@@ -36,8 +36,7 @@ use::
 Alternatively, you can clone the repository
 `here <https://github.com/pyunity/pyunity>`_
 to build the package from source. Then use
-``setup.py`` to build. Note that it will install
-Cython to compile. ::
+``pip`` to install::
 
     > pip install .
 
@@ -214,7 +213,7 @@ contribute an example, then please
 
 """
 
-__copyright__ = "Copyright 2020-2022 The PyUnity Team"
+__copyright__ = "Copyright (c) 2020-2023 The PyUnity Team"
 __email__ = "tankimarshal2@gmail.com"
 __license__ = "MIT License"
 __summary__ = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"

@@ -337,7 +337,6 @@ class Texture2D(Asset):
                         gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, self.imgData)
         if self.mipmaps:
             gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
-        gl.glEnable(gl.GL_TEXTURE_2D)
         self.loaded = True
 
     def setImg(self, im):

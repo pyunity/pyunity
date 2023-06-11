@@ -10,10 +10,6 @@ from .other import LockedLiteral
 from collections.abc import Iterable
 import operator
 
-def clamp(x, _min, _max):
-    """Clamp a value between a minimum and a maximum"""
-    return min(_max, max(_min, x))
-
 def conv(num):
     """Convert float to string and removing decimal place as necessary."""
     if isinstance(num, float) and num.is_integer():

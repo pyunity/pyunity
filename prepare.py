@@ -2,6 +2,13 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+"""
+A script that contains commands to manage the PyUnity project.
+
+Run this script with ``python prepare.py cmd1 cmd2 ...``
+
+"""
+
 import json
 import re
 import os
@@ -15,22 +22,11 @@ import importlib
 import importlib.metadata
 import inspect
 from setuptools._vendor.packaging import version # avoid pip install
-# from types import ModuleType
-# from unittest.mock import Mock
-# sys.modules["sdl2"] = Mock()
-# sys.modules["sdl2.sdlmixer"] = Mock()
-# sys.modules["sdl2.ext"] = Mock()
-# sys.modules["sdl2.video"] = Mock()
-# sys.modules["glfw"] = Mock()
-# sys.modules["OpenGL"] = Mock()
-# sys.modules["OpenGL.GL"] = Mock()
-# sys.modules["OpenGL.GLU"] = Mock()
-# sys.modules["OpenGL.GLUT"] = Mock()
-# os.environ["PYUNITY_INTERACTIVE"] = "0"
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 
-# import pyunity
+def initWorker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 with open("LICENSE") as f:
     content = f.read()
@@ -38,6 +34,15 @@ licenseHeader = "## " + content.split("\n")[2] + "\n"
 licenseHeader += "## This file is licensed under the MIT License.\n"
 licenseHeader += "## See https://docs.pyunity.x10.bz/en/latest/license.html\n\n"
 def checkLicense():
+    """
+    Make sure that the PyUnity license header is present in all
+    module files, stub files, test suites and helper scripts.
+
+    Affected helper scripts are:
+    - ``prepare.py``
+    - ``setup.py``
+
+    """
     files = [
         "prepare.py", "setup.py", # Root files
         os.path.join("stubs", "setup.py"), # Stub setup
@@ -57,6 +62,12 @@ def checkLicense():
                 f.write(contents)
 
 def checkWhitespace():
+    """
+    Checks whitespace in all python and python stub files.
+    Trailing whitespace is removed and one empty line is
+    enforced at the end.
+
+    """
     for file in glob.glob("**/*.py", recursive=True) + \
             glob.glob("**/*.pyi", recursive=True):
         with open(file, encoding="utf8") as f:
@@ -64,6 +75,7 @@ def checkWhitespace():
 
         lines = contents.split("\n")
         for i in range(len(lines)):
+            lines[i] = lines[i].rstrip()
             if lines[i].isspace():
                 lines[i] = ""
         lines.append("")
@@ -81,6 +93,21 @@ def parseSingleFile(path):
                 path])
 
 def parseCode(nthreads=None):
+    """
+    Uses autopep8 to parse all files in the ``pyunity``
+    package. Does not parse other files.
+
+    Parameters
+    ----------
+    nthreads : int, optional
+        Number of threads to use, by default None
+
+    Raises
+    ------
+    Exception
+        Propagated from the worker threads.
+
+    """
     if pkgutil.find_loader("autopep8") is None:
         raise Exception("autopep8 is needed to parse the source code.\n" +
                         "Install using \"pip install autopep8\".")
@@ -100,78 +127,135 @@ def parseCode(nthreads=None):
         raise
 
 moduleVars = {}
-def getPackages(module="pyunity"):
+def getPackages(parentModule="pyunity"):
+    """
+    Check the ``__all__`` attribute of all submodules and subpackages
+    using subclasses of :class:`ModuleExportControlMixin`.
+
+    Parameters
+    ----------
+    parentModule : str, optional
+        The package to check, by default "pyunity"
+
+    """
+    # Keep original __module__ attributes and expose Mathf functions
     os.environ["PYUNITY_SPHINX_CHECK"] = "1"
     from pyunity.values import IgnoredMixin, IncludeInstanceMixin, IncludeMixin
-    if isinstance(module, str):
-        module = importlib.import_module(module)
-    for _, name, ispkg in pkgutil.iter_modules(module.__path__):
-        if "__" in name or name == "providers" or name == "config" or "example" in name:
+    if isinstance(parentModule, str):
+        parentModule = importlib.import_module(parentModule)
+
+    for _, name, ispkg in pkgutil.iter_modules(parentModule.__path__):
+        if "example" in name:
+            # Includes pyunity.examples and all of its subpackages
             continue
-        mod = importlib.import_module(module.__name__ + "." + name)
+        module = importlib.import_module(parentModule.__name__ + "." + name)
         if ispkg:
-            getPackages(mod)
-        if hasattr(mod, "__all__"):
-            original = set(mod.__all__)
-        else:
-            original = set()
+            # how pyunity.window.providers is dealt with is to be decided
+            if name != "providers":
+                # Recursive descent into subpackage
+                getPackages(module)
+
+        original = set(getattr(module, "__all__", set()))
         new = set()
-        for x in dir(mod):
-            val = getattr(mod, x)
-            if inspect.isclass(val) or inspect.isfunction(val):
-                if val.__module__ == mod.__name__ or (
-                        ispkg and val.__module__.startswith(mod.__name__)):
-                    if not (isinstance(val, type) and issubclass(val, IgnoredMixin)):
-                        if x[0].isupper():
-                            new.add(x)
-                        elif isinstance(val, type) and issubclass(val, IncludeMixin):
-                            new.add(x)
-                    elif val is IgnoredMixin:
-                        new.add(x)
-            elif inspect.ismodule(val):
-                if ispkg and x[0].isupper() and val.__package__ == mod.__name__:
-                    new.add(x)
-            elif isinstance(val, (int, float, str, bool, list, dict)) and x[0].isupper():
-                new.add(x)
-            elif isinstance(val, IncludeInstanceMixin):
-                if getattr(val, "__module__", "") == mod.__name__:
-                    new.add(x)
-        moduleVars[mod.__name__] = {
+
+        for variable in dir(module):
+            value = getattr(module, variable)
+            if inspect.isclass(value) or inspect.isfunction(value):
+                if value.__module__ == module.__name__ or (
+                        ispkg and value.__module__.startswith(module.__name__)):
+                    # value was not imported from a submodule
+                    if inspect.isclass(value):
+                        if issubclass(value, IncludeMixin):
+                            new.add(variable)
+                        elif not issubclass(value, IgnoredMixin) and variable[0].isupper():
+                            new.add(variable)
+                        elif value is IgnoredMixin:
+                            new.add(variable)
+                    else:
+                        # value is a function
+                        if variable[0].isupper():
+                            new.add(variable)
+            elif inspect.ismodule(value):
+                if value.__package__ == module.__name__ and variable[0].isupper():
+                    # value is a submodule of this module, imported with a capital letter
+                    new.add(variable)
+            elif isinstance(value, (int, float, str, bool, list, dict)) and variable[0].isupper():
+                # Constants
+                new.add(variable)
+            elif isinstance(value, IncludeInstanceMixin):
+                # value was defined in this module
+                if getattr(value, "__module__", "") == module.__name__:
+                    new.add(variable)
+
+        moduleVars[module.__name__] = {
             "__all__": sorted(list(new)),
-            "__doc__": mod.__doc__
+            "__doc__": module.__doc__
         }
         if original != new:
             added = json.dumps(sorted(list(new - original)))
             removed = json.dumps(sorted(list(original - new)))
-            print(mod.__name__, "Add", added, "Remove", removed)
+            moduleFile = module.__name__.replace(".", os.path.sep) + ".py"
+            if ispkg:
+                moduleFile = moduleFile[:-3] + os.path.sep + "__init__.py"
+            print(moduleFile, "Add", added, "Remove", removed)
 
-def formatAll(list):
-    indent = 11
-    limit = 79 - indent
+def formatAll(list, width=79):
+    """
+    Formats the ``__all__`` attribute of a module
+    with line wrapping.
+
+    Parameters
+    ----------
+    list : list
+        List of variable names exported
+    width : int, optional
+        Maximum width of a line, defaults to 79
+
+    Returns
+    -------
+    string
+        The formatted list
+
+    """
     text = "__all__ = ["
+    indent = len(text)
+    limit = width - indent
     length = 0
     for item in list:
         length += len(item) + 4
         if length > limit:
+            # Line wrap
             text += "\n" + " " * indent
+            # 4 includes ("", )
             length = len(item) + 4
         text += "\"" + item + "\", "
     if len(list):
+        # Remove comma if non-empty
         text = text[:-2]
     text += "]"
     return text
 
 def checkMissing():
+    """
+    Runs :func:`getPackages` to gather module information
+    then checks stub files for three things:
+
+    1. if they have the correct license header
+    2. if they have the correct module docstring
+    3. if they have the correct ``__all__``
+
+    """
     global moduleVars
     moduleVars = {}
     getPackages("pyunity")
     for file in glob.glob("stubs/**/*.pyi", recursive=True):
         moduleName = file[6:-4].replace(os.path.sep, ".")
         if moduleName.endswith(".__init__"):
-            # Needs special handling
+            # Needs special handling, better to do manually
             continue
-        if moduleName.endswith("config") or "example" in moduleName:
-            continue
+        # if "example" in moduleName:
+        #     continue
+
         with open(file) as f:
             contents = f.read()
         fileHeader = licenseHeader
@@ -179,18 +263,21 @@ def checkMissing():
             fileHeader += '"""' + moduleVars[moduleName]["__doc__"] + '"""\n\n'
         if not contents.startswith(fileHeader):
             print(file, "has wrong header and docstring, see", file[6:-1])
+
         if moduleVars[moduleName]["__all__"] == []:
             continue
-        allVar = re.search(r"__all__ = \[(.*?)\]", contents, re.DOTALL)
-        if allVar is None:
+        allVars = re.search(r"__all__ = \[(.*?)\]", contents, re.DOTALL)
+        if allVars is None:
             print(file, "does not have __all__, expected:")
-            allVar = ""
+            allVars = ""
         else:
-            allVar = re.sub(r"\s+", " ", allVar.group(1))
-        allSet = set(allVar[1:-1].split("\", \""))
+            # Replace all newlines and indents
+            allVars = re.sub(r"\s+", " ", allVars.group(1))
+
+        allSet = set(allVars[1:-1].split("\", \""))
         if allSet == set(moduleVars[moduleName]["__all__"]):
             continue
-        elif allVar != "":
+        elif allVars != "":
             print(file, "does not have correct __all__, expected:")
         expectedAllText = formatAll(moduleVars[moduleName]["__all__"])
         print(expectedAllText)
@@ -276,6 +363,19 @@ def checkMissing():
 #         f.write(line + "\n")
 
 def getFiles():
+    """
+    Gets a list of all files to be included in generated
+    packages.
+
+    Returns
+    -------
+    tuple
+        A tuple of two lists. The first list contains all
+        of the cython output C files, and the second list
+        contains all other files, including resources and
+        files that are not cythonized.
+
+    """
     cythonized = []
     copied = []
 
@@ -293,7 +393,21 @@ def getFiles():
 
     return cythonized, copied
 
-def cythonizeSingleFile(path):
+def packageSingleFile(path):
+    """
+    Cythonize or copy a package file.
+
+    Parameters
+    ----------
+    path : str
+        Path to package file
+
+    Raises
+    ------
+    Exception
+        If a file failed to cythonize
+
+    """
     from Cython.Build import cythonize
     directives = {"language_level": "3"}
 
@@ -309,7 +423,8 @@ def cythonizeSingleFile(path):
                 "pyunity", "window", "providers"))):
         srcPath = path[:-2] + "c"
         try:
-            cythonize(path, quiet=True, compiler_directives=directives)
+            cythonize(path, quiet=True, compiler_directives=directives,
+                      show_all_warnings=True)
         except:
             os.remove(srcPath)
             raise Exception(f"Cythonization of `{path}` failed.") from None
@@ -322,19 +437,33 @@ def cythonizeSingleFile(path):
     os.makedirs(destPath, exist_ok=True)
     op(srcPath, destPath)
 
-def initWorker():
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-
+minimumCythonVersion = "3.0.0a8"
 def cythonize(nthreads=None):
+    """
+    Loop through all files in the package and prepares them
+    for distribution, cythonizing them if necessary.
+
+    Parameters
+    ----------
+    nthreads : int, optional
+        Number of threads to use. If ``None`` is passed (the
+        default) then the number of cpu threads is used.
+
+    Raises
+    ------
+    Exception
+        If Cython is not installed or has the wrong version
+
+    """
     if os.environ["cython"] != "1":
         return
     if pkgutil.find_loader("cython") is None:
         raise Exception("Cython is needed to create CPython extensions.")
     cythonVer = version.parse(importlib.metadata.version("cython"))
-    if cythonVer < version.parse("3.0.0a8"):
+    if cythonVer < version.parse(minimumCythonVersion):
         raise Exception(" - ".join([
-            "Cython version must be at least 3.0.0a8",
-            "install using pip install \"cython>=3.0.0a8\""]))
+            "Cython version must be at least " + minimumCythonVersion,
+            f"install using `pip install \"cython>={minimumCythonVersion}\"`"]))
     if os.path.exists("src"):
         shutil.rmtree("src")
 
@@ -343,7 +472,7 @@ def cythonize(nthreads=None):
     pool = multiprocessing.Pool(nthreads, initWorker)
     paths = glob.glob("pyunity/**/*.*", recursive=True)
 
-    result = pool.map_async(cythonizeSingleFile, paths)
+    result = pool.map_async(packageSingleFile, paths)
     try:
         result.get(0xFFF)
     except Exception:
@@ -352,15 +481,24 @@ def cythonize(nthreads=None):
         raise
 
 def main():
+    """
+    Runs the specified commands from command line arguments
+    or runs all of them if none given.
+
+    """
     if len(sys.argv) == 1:
         checkLicense()
         checkWhitespace()
         parseCode()
+        checkMissing()
         cythonize()
     else:
         for item in sys.argv[1:]:
-            if item in globals():
-                globals()[item]()
+            func = globals().get(item)
+            if callable(func):
+                func()
+            else:
+                print("Unrecognised command: " + item)
 
 if __name__ == "__main__":
     main()

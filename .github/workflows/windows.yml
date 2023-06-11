@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: "3.9"
         architecture: x64
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
           architecture: ${{ matrix.architecture }}
@@ -51,7 +51,7 @@ jobs:
           PYUNITY_TESTING: 1
         run: |
           python -m pip install "cython>=3.0.0a8" wheel
-          python setup.py build_ext -j 0 bdist_wheel
+          python -m build -w
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

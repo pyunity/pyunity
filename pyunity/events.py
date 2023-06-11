@@ -14,14 +14,34 @@ import functools
 import threading
 import asyncio
 import inspect
-# import signal
+import signal
 import time
+import sys
 
+# TODO: support kwargs=StructEntry(dict, required=True)
+# see issue #72 in github
 @SavableStruct(
     component=StructEntry(Component, required=True),
     name=StructEntry(str, required=True),
     args=StructEntry(tuple, required=True))
 class Event:
+    """
+    Class used for PyUnity events. Used to set callback
+    events of certain :class:`Component`\s, for example
+    :class:`GuiComponent`.
+
+    Arguments
+    ---------
+    func : Callable
+        Function to call. Must be a method of a Component
+        that is added to a GameObject
+    args : tuple, optional
+        Positional arguments for the callback
+    kwargs : dict, optional
+        Keyword arguments for the callback
+
+    """
+
     def __init__(self, func, args=(), kwargs={}):
         if not hasattr(func, "__self__"):
             raise PyUnityException(
@@ -55,11 +75,12 @@ class Event:
                 raise PyUnityException("No EventLoopManager running")
             EventLoopManager.current.pending.append(self)
 
-    def _fromDict(self, factory, attrs, instanceCheck=None):
+    @classmethod
+    def _factoryWrapper(cls, factory):
         def wrapper(component, method, args=(), kwargs={}):
             func = getattr(component, method)
             return factory(func, args, kwargs)
-        return SavableStruct.fromDict(self, wrapper, attrs, instanceCheck)
+        return wrapper
 
 def wrap(func):
     @functools.wraps(func)
@@ -181,7 +202,7 @@ class EventLoopManager:
                     waiter.loop.call_soon_threadsafe(waiter.event.set)
 
             for func in self.updates:
-                func(loop)
+                func(self.mainLoop)
 
             for event in self.pending:
                 event.trigger()
@@ -210,10 +231,12 @@ class EventLoop(asyncio.SelectorEventLoop):
         super(EventLoop, self).__init__(selector)
         self.set_exception_handler(EventLoop.handleException)
 
-        # signals = (signal.SIGTERM, signal.SIGINT)
-        # for s in signals:
-        #     self.add_signal_handler(
-        #         s, lambda sig=s: asyncio.create_task(self.shutdown(sig)))
+        if sys.platform != "win32":
+            # SelectorEventLoop defines add_signal_handler
+            signals = (signal.SIGTERM, signal.SIGINT)
+            for s in signals:
+                self.add_signal_handler(
+                    s, lambda sig=s: asyncio.create_task(self.shutdown(sig)))
 
     async def shutdown(self, signal=None):
         if signal is not None:

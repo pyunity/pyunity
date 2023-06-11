@@ -80,6 +80,7 @@ html_theme_options = {
     "show_relbars": "true",
     "analytics_id": os.getenv("ANALYTICS_ID"),
     "fixed_sidebar": "true",
+    "sidebar_width": "250px",
     "page_width": "90%"
 }
 

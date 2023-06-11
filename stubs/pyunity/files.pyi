@@ -11,15 +11,18 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import List, Dict, Optional, Type, Union, Tuple, TypeVar, Callable, Any
+from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any, TYPE_CHECKING
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
 from .core import Component, ShowInInspector, GameObject, SavesProjectID
 from .scenes import Scene
 from .values import ABCMeta, abstractmethod, Vector3, Quaternion
-from .meshes import Material
 import ctypes
+
+if TYPE_CHECKING:
+    AT = TypeVar("AT", bound=Asset)
+    saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
 
 def convert(type: Type[ctypes._SimpleCData], list: List[float]) -> object: ...
 
@@ -30,6 +33,8 @@ class Behaviour(Component):
     async def Update(self, dt: float) -> None: ...
     async def FixedUpdate(self, dt: float) -> None: ...
     async def LateUpdate(self, dt: float) -> None: ...
+    async def OnPreRender(self) -> None: ...
+    async def OnPostRender(self) -> None: ...
     def OnDestroy(self) -> None: ...
 
 class Scripts:
@@ -51,11 +56,11 @@ class Asset(SavesProjectID, metaclass=ABCMeta):
     def SaveAsset(self, ctx: ProjectSavingContext) -> None: ...
 
 class Texture2D(Asset):
-    path: str
+    path: Union[str, None]
     img: Image.Image
     imgData: bytes
     loaded: bool
-    texture: int
+    texture: Union[int, None]
     mipmaps: bool
     def __init__(self, pathOrImg: Union[str, Path, Image.Image]) -> None: ...
     def load(self) -> None: ...
@@ -88,14 +93,12 @@ class Prefab(Asset):
                     scale: Vector3 = ...,
                     worldSpace: bool = ...) -> GameObject: ...
 
-AT = TypeVar("AT", bound=Asset)
-
 class ProjectSavingContext:
     asset: Asset
     gameObject: GameObject
     project: Project
     filename: Union[str, Path]
-    savers: Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
+    savers: saverType
     def __init__(self, asset: Asset, gameObject: GameObject, project: Project, filename: Union[str, Path] = ...) -> None: ...
 
 class File:

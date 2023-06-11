@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyunity"
 authors = [{name = "The PyUnity Team", email = "tankimarshal2@gmail.com"}]
-description = "A Python implementation of the Unity Engine"
+description = "A pure Python 3D Game Engine that was inspired by the structure of the Unity Game Engine"
 license = {text = "MIT"}
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -51,18 +51,28 @@ Changelog = "https://docs.pyunity.x10.bz/en/latest/releases.html"
 providers = [
     # Other window providers as needed
     "glfw",
+    "glcontext",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-toolbox>=1.1.0",
+    "sphinx-hoverxref>=1.1.1",
 ]
 dev = [
-    "pytest",
-    "mypy",
-    "sphinx",
     "glfw",
-    "importlib_metadata",
+    "glcontext",
+    "autopep8",
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "mypy>=1.3.0",
+    "importlib-metadata",
     "cython>=3.0.0a8",
     "wheel>=0.29.0",
     "setuptools>=61.2",
+    "build[virtualenv]>=0.10.0",
+    "sphinx>=5.0.0",
     "sphinx-toolbox>=1.1.0",
-    "sphinx-hoverxref>=1.1.1"
+    "sphinx-hoverxref>=1.1.1",
 ]
 
 [tool.setuptools]
@@ -94,7 +104,7 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.6"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
@@ -102,4 +112,5 @@ mypy_path = "stubs/"
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_unreachable = true
-disable_error_code = ["valid-type"]
+# stubtest command
+# PYUNITY_CHANGE_MODULE=0 py -m mypy.stubtest --mypy-config-file pyproject.toml --allowlist .github/stubtest-ignore.txt pyunity

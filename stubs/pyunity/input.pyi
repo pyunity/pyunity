@@ -4,7 +4,7 @@
 
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
-from typing import Dict, List
+from typing import Dict, List, Union
 from enum import IntEnum
 from .values import ImmutableStruct, Vector2
 
@@ -96,9 +96,9 @@ class KeyboardAxis:
 class Input(metaclass=ImmutableStruct):
     _names: List[str] = ...
     _axes: Dict[str, float] = ...
-    _axis_objects: Dict[str, KeyboardAxis] = ...
-    mousePosition: Vector2
-    _mouse_last: Vector2
+    _axisObjects: Dict[str, KeyboardAxis] = ...
+    mousePosition: Union[Vector2, None]
+    _mouseLast: Union[Vector2, None]
     @classmethod
     def GetKey(cls, keycode: KeyCode) -> bool: ...
     @classmethod

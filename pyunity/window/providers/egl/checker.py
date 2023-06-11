@@ -10,17 +10,25 @@ prio = 0
 def check():
     """Checks to see if EGL works"""
     import os
-    os.environ["PYOPENGL_PLATFORM"] = "egl"
+    from .egl import setupPlatform
+    directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
+    if os.path.isdir(directory):
+        context = os.add_dll_directory(directory)
+    else:
+        context = None
     try:
-        import OpenGL.EGL as egl
+        setupPlatform()
+        egl = checkModule("OpenGL.EGL")
     except ImportError:
         cleanup()
-        del os.environ["PYOPENGL_PLATFORM"]
-        raise Exception
+        raise WindowProviderException("Could not import OpenGL.EGL")
+    finally:
+        if context is not None:
+            context.close()
     egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
     err = egl.eglGetError()
-    if err:
-        raise Exception(err)
+    if err != egl.EGL_SUCCESS:
+        raise WindowProviderException("EGL error: " + str(err))
 
 def cleanup():
     import sys

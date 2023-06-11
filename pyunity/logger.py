@@ -11,7 +11,8 @@ This will be imported as ``pyunity.Logger``.
 
 __all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
            "SetStream", "Log", "LogLine", "Save", "Level", "Special",
-           "TempRedirect", "Elapsed", "TIME_FORMAT"]
+           "TempRedirect", "Elapsed", "TIME_FORMAT", "RUNNING_TIME",
+           "ELAPSED_TIME"]
 
 import io
 import os
@@ -285,13 +286,14 @@ def ResetStream():
 
 def _upload():
     # Upload to ftp
+    import urllib.error
     try:
         import urllib.request
         url = "https://ftp.pyunity.repl.co/upload?confirm=1"
         with urllib.request.urlopen(url):
             pass
-    except Exception as e:
-        LogException(e, silent=True)
+    except urllib.error.HTTPError as e:
+        LogLine(ERROR, "urllib.error.HTTPError:", e, silent=True)
 
 t = threading.Thread(target=_upload)
 t.daemon = True

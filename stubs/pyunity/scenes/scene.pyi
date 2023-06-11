@@ -8,23 +8,23 @@ and their various components.
 
 You should never use the :class:`Scene`
 class directly, instead, only use
-the SceneManager class.
+the :class:`SceneManager` submodule.
 
 """
 
 __all__ = ["Scene"]
 
-from typing import Dict, List as _List, Type, TypeVar, Awaitable, Any, Optional
+from typing import Dict, List as _List, Type, TypeVar, Awaitable, Any, Optional, TYPE_CHECKING
 from ..render import Camera, Light
 from ..core import GameObject, Component
 from ..meshes import MeshRenderer
-from ..audio import AudioListener
 from ..events import EventLoop
 from ..files import Asset
 
-disallowedChars: set = ...
+if TYPE_CHECKING:
+    CT = TypeVar("CT", bound=Component)
 
-CT = TypeVar("CT", bound=Component)
+disallowedChars: set = ...
 
 def createTask(loop: EventLoop, coro: Awaitable[None], *args: Any) -> None: ...
 
@@ -44,7 +44,6 @@ class Scene(Asset):
     def AddMultiple(self, *args: GameObject) -> None: ...
     def Destroy(self, gameObject: GameObject) -> None: ...
     def Has(self, gameObject: GameObject) -> bool: ...
-    def RegisterLight(self, light: Light) -> None: ...
     def List(self) -> None: ...
     def FindGameObjectsByName(self, name: str) -> _List[GameObject]: ...
     def FindGameObjectsByTagName(self, name: str) -> _List[GameObject]: ...

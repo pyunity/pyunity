@@ -55,7 +55,7 @@ class AudioClip:
 
     Attributes
     ----------
-    path : str
+    path : Pathlike
         Path to the file
     music : sdl2.sdlmixer.mixer.Mix_Chunk
         Sound chunk that can be played with
@@ -178,8 +178,8 @@ class AudioListener(SingleComponent):
     sound from. By default the Main Camera has an
     AudioListener, but you can also remove it and
     add a new one to another GameObject in a Scene.
-    There can only be one AudioListener, otherwise
-    sound is disabled.
+    There can only be one AudioListener and there must
+    be one, otherwise sound is disabled.
 
     """
 
@@ -205,3 +205,4 @@ class AudioListener(SingleComponent):
         for source in self.scene.FindComponents(AudioSource):
             mixer.Mix_HaltChannel(source.channel)
             mixer.Mix_FreeChunk(source.clip.music)
+            source.clip.music = None

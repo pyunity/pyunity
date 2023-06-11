@@ -68,10 +68,11 @@ and then make a `pull request <https://github.com/pyunity/pyunity/pulls>`_.
     :caption: Contents:
 
     releases
-    tutorials/tutorials
+    tutorials/index
     links
     license
     api
+    repo/index
 
 Indices and tables
 ------------------

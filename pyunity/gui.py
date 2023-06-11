@@ -358,13 +358,14 @@ class RenderTarget(GuiRenderComponent):
         self.renderPass = False
 
     def PreRender(self):
-        if self.renderPass:
+        if self.renderPass or self.source is None:
             return
         self.renderPass = True
 
         if self.source is self.scene.mainCamera:
-            raise PyUnityException(
-                "Cannot render main camera with main camera")
+            if self.scene.mainCamera.renderPass:
+                raise PyUnityException(
+                    "Cannot render main camera with main camera")
 
         rectTransform = self.GetComponent(RectTransform)
         if rectTransform is None:
@@ -389,6 +390,7 @@ class RenderTarget(GuiRenderComponent):
         renderers = self.scene.FindComponents(MeshRenderer)
         lights = self.scene.FindComponents(Light)
         self.source.renderPass = True
+        self.source.RenderDepth(renderers, lights)
         self.source.RenderScene(renderers, lights)
         self.source.RenderSkybox()
 
@@ -412,7 +414,7 @@ class RenderTarget(GuiRenderComponent):
         data = gl.glReadPixels(0, 0, *self.size,
                                gl.GL_RGB, gl.GL_UNSIGNED_BYTE)
         im = Image.frombytes("RGB", tuple(self.size), data)
-        im.save(path)
+        im.transpose(Image.Transpose.FLIP_TOP_BOTTOM).save(path)
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, previousFBO)
 
     def genBuffers(self, force=False):
@@ -427,7 +429,6 @@ class RenderTarget(GuiRenderComponent):
                         0, gl.GL_RGB, gl.GL_UNSIGNED_BYTE, None)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
-        gl.glEnable(gl.GL_TEXTURE_2D)
 
         self.texture = Texture2D.FromOpenGL(self.texID)
 

@@ -4,14 +4,21 @@
 
 """Class to manage console input as a window provider."""
 
-import os
-os.environ["PYOPENGL_PLATFORM"] = "egl"
-import OpenGL.EGL as egl
 from pyunity.window import ABCWindow
 from pyunity import Logger
+from pyunity.errors import WindowProviderException
+from .egl import setupPlatform
+setupPlatform()
+import OpenGL.EGL as egl
+import OpenGL.GL as gl
 
 eglDpy = egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
-print(egl.eglGetError())
+err = egl.eglGetError()
+if err != egl.EGL_SUCCESS:
+    raise WindowProviderException("EGL error: " + str(err))
+
+def convert(type, l):
+    return (type * len(l))(*l)
 
 class Window(ABCWindow):
     """
@@ -23,9 +30,10 @@ class Window(ABCWindow):
     def __init__(self, name):
         self.name = name
 
-        egl.eglInitialize(eglDpy)
+        major, minor = (gl.GLint * 1)(), (gl.GLint * 1)()
+        egl.eglInitialize(eglDpy, major, minor)
 
-        configAttribs = [
+        configAttribs = convert(gl.GLint, [
             egl.EGL_SURFACE_TYPE, egl.EGL_PBUFFER_BIT,
             egl.EGL_BLUE_SIZE, 8,
             egl.EGL_GREEN_SIZE, 8,
@@ -33,8 +41,14 @@ class Window(ABCWindow):
             egl.EGL_DEPTH_SIZE, 8,
             egl.EGL_RENDERABLE_TYPE, egl.EGL_OPENGL_BIT,
             egl.EGL_NONE
-        ]
-        self.eglCfg = egl.eglChooseConfig(eglDpy, configAttribs, 1)
+        ])
+        eglCfgs = (gl.GLvoidp * 1)()
+        eglCfgSize = (gl.GLint * 1)(2)
+        egl.eglChooseConfig(eglDpy, configAttribs, eglCfgs, 1, eglCfgSize)
+        self.eglCfg = eglCfgs[0]
+        if self.eglCfg is None:
+            raise WindowProviderException("Could not get EGL config")
+
         pbufferAttribs = [
             egl.EGL_WIDTH, 800,
             egl.EGL_HEIGHT, 500,
@@ -43,7 +57,8 @@ class Window(ABCWindow):
         self.eglSurf = egl.eglCreatePbufferSurface(eglDpy, self.eglCfg, pbufferAttribs)
         egl.eglBindAPI(egl.EGL_OPENGL_API)
         contextAttribs = [
-            egl.EGL_CONTEXT_CLIENT_VERSION, 330,
+            egl.EGL_CONTEXT_MAJOR_VERSION, 3,
+            egl.EGL_CONTEXT_MINOR_VERSION, 3,
             egl.EGL_NONE
         ]
         self.eglCtx = egl.eglCreateContext(eglDpy, self.eglCfg, None, contextAttribs)
