@@ -39,33 +39,30 @@ def getRepoInfo():
     print("Git commit hash:", rev)
     print("Local commit:", local)
 
-    p = subprocess.Popen(["git", "branch", "-r", "--contains", rev],
+    p = subprocess.Popen(["git", "diff", "--quiet", "--", "**/*.py"],
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
-    stdout, _ = p.communicate()
-    out = stdout.decode().rstrip()
-    print("Working tree modified:", len(out) == 0)
+    p.communicate()
+    print("Working tree modified:", p.returncode != 1)
 
 def getTomlLoader():
     if sys.version_info >= (3, 11):
         from tomllib import load as tomlLoad
         format = "rb"
+    elif pkgutil.find_loader("toml") is not None:
+        from toml import load as tomlLoad
+        format = "r"
+    elif pkgutil.find_loader("tomli") is not None:
+        from tomli import load as tomlLoad
+        format = "rb"
     else:
-        try:
-            from toml import load as tomlLoad
-            format = "r"
-        except ImportError:
-            try:
-                from tomli import load as tomlLoad
-                format = "rb"
-            except ImportError:
-                tomlLoad = None
+        tomlLoad = None
     return tomlLoad, format
 
 def formatName(item):
     return re.split("[^a-zA-Z0-9_-]", item)[0].lower().replace("_", "-")
 
-def getRequirementsFromToml(version):
+def getReqsFromToml(version):
     if not os.path.isfile("pyproject.toml"):
         print("Warning: Could not find pyproject.toml")
         return None
@@ -75,7 +72,7 @@ def getRequirementsFromToml(version):
         print("Warning: could not load pyproject.toml")
         return None
 
-    requirements = {"": []}
+    reqs = {"": []}
     with open("pyproject.toml", format) as f:
         data = tomlLoad(f)
 
@@ -85,70 +82,70 @@ def getRequirementsFromToml(version):
 
     for item in data["project"]["dependencies"]:
         name = formatName(item)
-        requirements[""].append((name, version(name)))
+        reqs[""].append((name, version(name)))
 
     if "optional-dependencies" in data["project"]:
         optDeps = data["project"]["optional-dependencies"]
         for section in optDeps:
-            if section not in requirements:
-                requirements[section] = []
+            if section not in reqs:
+                reqs[section] = []
             for item in optDeps[section]:
                 name = formatName(item)
-                requirements[section].append((name, version(name)))
-    return requirements
+                reqs[section].append((name, version(name)))
+    return reqs
 
-def getRequirementsFromRepo(path, version):
+def getReqsFromRepo(path, version):
     print("Warning: PyUnity not ran as an installed package")
     orig = os.getcwd()
     os.chdir(path.parent.parent)
     getRepoInfo()
-    requirements = getRequirementsFromToml(version)
-    if requirements is not None:
+    reqs = getReqsFromToml(version)
+    if reqs is not None:
         removed = []
-        for section in requirements:
-            requirements[section] = [x for x in requirements[section] if x[1] is not None]
-            if all(x[1] is not None for x in requirements[section]):
+        for section in reqs:
+            if all(x[1] is None for x in reqs[section]):
                 removed.append(section)
 
         for section in removed:
-            requirements.pop(section)
-        if len(requirements) == 0:
-            print("Warning: no requirements found in pyproject.toml")
-            requirements = None
-    if requirements is not None:
-        if os.path.isfile("requirements.txt"):
-            requirements = {"": []}
-            with open("requirements.txt") as f:
+            reqs.pop(section)
+        if len(reqs) == 0:
+            print("Warning: no reqs found in pyproject.toml")
+            reqs = None
+    if reqs is None:
+        if os.path.isfile("reqs.txt"):
+            reqs = {"": []}
+            with open("reqs.txt") as f:
                 for item in f.read().rstrip().split("\n"):
                     name = formatName(item)
-                    requirements[""].append((name, version(name)))
+                    reqs[""].append((name, version(name)))
         else:
-            print("Warning: No requirements.txt file found")
+            print("Warning: No reqs.txt file found")
 
     os.chdir(orig)
-    return requirements
+    return reqs
 
-def getRequirementsFromDistribution(dist, version):
-    data = json.loads(dist.read_text("version.json"))
-    if data is not None:
-        print("Git commit hash:", data["revision"])
-        print("Local commit:", data["local"])
-    else:
-        print("Warning: version.json not found")
+def getReqsFromDistribution(dist, version, gitInfo=True):
+    if gitInfo:
+        data = json.loads(dist.read_text("version.json"))
+        if data is not None:
+            print("Git commit hash:", data["revision"])
+            print("Local commit:", data["local"])
+        else:
+            print("Warning: version.json not found")
 
     discriminant = "; extra == \""
-    requirements = {"": []}
+    reqs = {"": []}
     for item in dist.requires:
         name = formatName(item)
         if discriminant not in item:
-            requirements[""].append((name, version(name)))
+            reqs[""].append((name, version(name)))
         else:
             group = item[item.index(discriminant) + len(discriminant): -1]
-            if group not in requirements:
-                requirements[group] = []
-            requirements[group].append((name, version(name)))
+            if group not in reqs:
+                reqs[group] = []
+            reqs[group].append((name, version(name)))
 
-    return requirements
+    return reqs
 
 def printSystemInfo():
     TITLE_WIDTH = 30
@@ -159,14 +156,12 @@ def printSystemInfo():
     vstr = "v{0.major}.{0.minor}.{0.micro}"
     print("PyUnity version: " + vstr.format(versionInfo) + versionInfo.releaselevel)
     print("Python version:",
-          "".join([vstr.format(sys.version_info),
-                   ".",
-                   sys.version_info.releaselevel]))
+          vstr.format(sys.version_info) + "-" + sys.version_info.releaselevel)
     print("Operating system:", platform.system(), platform.release())
     print("Machine:", platform.machine())
     print("Python architecture:", platform.architecture()[0])
 
-def getRequirements():
+def getReqs():
     if sys.version_info >= (3, 8):
         from importlib.metadata import distribution, version, PackageNotFoundError
     elif pkgutil.find_loader("importlib_metadata") is not None:
@@ -182,38 +177,41 @@ def getRequirements():
             return None
 
     path = Path(__file__)
-    requirements = None
+    reqs = None
+    repoChecked = False
     if path.exists() and (path.parent.parent / ".git").is_dir():
-        requirements = getRequirementsFromRepo(path, getVersion)
+        repoChecked = True
+        reqs = getReqsFromRepo(path, getVersion)
 
-    if requirements is None:
+    if reqs is None:
         try:
             if distribution is None:
                 raise PackageNotFoundError
             dist = distribution("pyunity")
         except PackageNotFoundError:
             print("Warning: could not find pyunity distribution info")
-            requirements = None
+            reqs = None
         else:
-            requirements = getRequirementsFromDistribution(dist, getVersion)
+            reqs = getReqsFromDistribution(dist, getVersion, not repoChecked)
 
-    return requirements
+    return reqs
 
 def printInfo():
     printSystemInfo()
-    requirements = getRequirements()
-    if requirements is not None:
+    reqs = getReqs()
+    if reqs is not None:
         print("\nDependencies:")
-        for item, version in requirements[""]:
+        for item, version in reqs[""]:
             print("-", item, "version:", version)
 
-        if len(requirements) > 1:
+        if len(reqs) > 1:
             print("Optional dependencies:")
-            for section in requirements:
+            sortedKeys = sorted(reqs.keys(), key=lambda x: len(reqs[x]), reverse=True)
+            for section in sortedKeys:
                 if section == "":
                     continue
                 print("-", section + ":")
-                for item, version in requirements[section]:
+                for item, version in reqs[section]:
                     print("  -", item, "version:", version)
         else:
             print("Optional dependencies: none installed")
