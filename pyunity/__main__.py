@@ -196,25 +196,28 @@ def getReqs():
 
     return reqs
 
+def printReqs(reqs):
+    print("\nDependencies:")
+    for item, version in reqs[""]:
+        print("-", item, "version:", version)
+
+    if len(reqs) > 1:
+        print("Optional dependencies:")
+        sortedKeys = sorted(reqs.keys(), key=lambda x: len(reqs[x]), reverse=True)
+        for section in sortedKeys:
+            if section == "":
+                continue
+            print("-", section + ":")
+            for item, version in reqs[section]:
+                print("  -", item, "version:", version)
+    else:
+        print("Optional dependencies: none installed")
+
 def printInfo():
     printSystemInfo()
     reqs = getReqs()
     if reqs is not None:
-        print("\nDependencies:")
-        for item, version in reqs[""]:
-            print("-", item, "version:", version)
-
-        if len(reqs) > 1:
-            print("Optional dependencies:")
-            sortedKeys = sorted(reqs.keys(), key=lambda x: len(reqs[x]), reverse=True)
-            for section in sortedKeys:
-                if section == "":
-                    continue
-                print("-", section + ":")
-                for item, version in reqs[section]:
-                    print("  -", item, "version:", version)
-        else:
-            print("Optional dependencies: none installed")
+        printReqs(reqs)
 
 parser = argparse.ArgumentParser(description="Load PyUnity examples, PyUnity projects or display information about the PyUnity installation")
 parser.add_argument("-v", "--version", action="store_true",
