@@ -15,18 +15,18 @@ import asyncio
 import signal
 
 if TYPE_CHECKING:
-    T = TypeVar("T")
-    AT = TypeVar("AT")
+    _T = TypeVar("_T")
+    _AT = TypeVar("_AT")
 
-class Event(Generic[T]):
+class Event(Generic[_T]):
     component: Component
     name: str
-    func: Callable[..., T]
+    func: Callable[..., _T]
     args: Sequence[Any]
     kwargs: Mapping[str, Any]
     isAsync: bool
-    def __init__(self, func: Callable[..., T], args: Sequence[Any] = ..., kwargs: Mapping[str, Any] = ...) -> None: ...
-    def trigger(self) -> T: ...
+    def __init__(self, func: Callable[..., _T], args: Sequence[Any] = ..., kwargs: Mapping[str, Any] = ...) -> None: ...
+    def trigger(self) -> _T: ...
     def callSoon(self) -> None: ...
     @classmethod
     def _factoryWrapper(cls, factory: Callable[..., Event]) -> Callable[..., Event]: ...

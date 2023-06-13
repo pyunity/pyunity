@@ -21,8 +21,8 @@ from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
 
 if TYPE_CHECKING:
-    AT = TypeVar("AT", bound=Asset)
-    saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
+    _AT = TypeVar("_AT", bound=Asset)
+    _saverType = Dict[Type[_AT], Callable[[_AT, Union[str, Path]], None]]
 
 def convert(type: Type[ctypes._SimpleCData], list: List[float]) -> object: ...
 
@@ -98,7 +98,7 @@ class ProjectSavingContext:
     gameObject: GameObject
     project: Project
     filename: Union[str, Path]
-    savers: saverType
+    savers: _saverType
     def __init__(self, asset: Asset, gameObject: GameObject, project: Project, filename: Union[str, Path] = ...) -> None: ...
 
 class File:

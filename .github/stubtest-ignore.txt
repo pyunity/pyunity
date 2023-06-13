@@ -11,7 +11,7 @@ pyunity\.[A-Z]\w+\..*
 
 # Skip TypeVars and type aliases
 # (AT asset, CT component, KT key, VT value)
-pyunity.*\.([ACKV]?T|saverType|TWRAP)
+# pyunity.*\.([ACKV]?T|saverType|TWRAP)
 
 # Skip __main__ and __all__
 pyunity\.(.*\.)?__(main|all)__
