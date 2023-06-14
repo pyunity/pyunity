@@ -50,13 +50,12 @@ def checkFolder(folder, ext):
         for line in content:
             if re.search(classFind, line):
                 if currentClass != {}:
-                    currentClass["name"] = currentClass["name"]
                     classes.append(currentClass)
-                currentClass = {"name": module + re.search(classFind, line).group(),
-                                "methods": []}
+                name = module + re.search(classFind, line).group()
+                currentClass = {"name": name, "methods": []}
             elif re.search(methodFind, line) and currentClass != {}:
-                currentClass["methods"].append(currentClass["name"] + \
-                    "." + re.search(methodFind, line).group())
+                qualname = currentClass["name"] + "." + re.search(methodFind, line).group()
+                currentClass["methods"].append(qualname)
             elif re.search(funcFind, line):
                 functions.append(module + re.search(funcFind, line).group())
             elif re.match(attrFind, line):
