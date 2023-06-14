@@ -57,6 +57,7 @@ def getTomlLoader():
         format = "rb"
     else:
         tomlLoad = None
+        format = ""
     return tomlLoad, format
 
 def formatName(item):
@@ -112,14 +113,14 @@ def getReqsFromRepo(path, version):
             print("Warning: no reqs found in pyproject.toml")
             reqs = None
     if reqs is None:
-        if os.path.isfile("reqs.txt"):
+        if os.path.isfile("requirements.txt"):
             reqs = {"": []}
-            with open("reqs.txt") as f:
+            with open("requirements.txt") as f:
                 for item in f.read().rstrip().split("\n"):
                     name = formatName(item)
                     reqs[""].append((name, version(name)))
         else:
-            print("Warning: No reqs.txt file found")
+            print("Warning: No requirements.txt file found")
 
     os.chdir(orig)
     return reqs
