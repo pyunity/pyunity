@@ -58,9 +58,15 @@ docs = [
     "sphinx-toolbox>=1.1.0",
     "sphinx-hoverxref>=1.1.1",
 ]
+accel = [
+    "pyopengl-accelerate",
+    "numpy",
+]
 dev = [
     "glfw",
     "glcontext",
+    "pyopengl-accelerate",
+    "numpy",
     "autopep8",
     "pytest>=6.0",
     "pytest-cov>=2.0",
