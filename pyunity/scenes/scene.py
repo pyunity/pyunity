@@ -39,7 +39,7 @@ def createTask(loop, coro, *args):
     if inspect.iscoroutinefunction(coro):
         loop.create_task(coro(*args))
     else:
-        loop.call_soon(coro, *args)
+        coro(*args)
 
 class Scene(Asset):
     """
@@ -523,7 +523,7 @@ class Scene(Asset):
         if loop is not None:
             behaviours = self.FindComponents(Behaviour)
             for component in behaviours:
-                component.OnPreRender()
+                createTask(loop, component.OnPreRender)
 
         renderers = self.FindComponents(MeshRenderer)
         lights = self.FindComponents(Light)
@@ -533,7 +533,7 @@ class Scene(Asset):
 
         if loop is not None:
             for component in behaviours:
-                component.OnPostRender()
+                createTask(loop, component.OnPostRender)
 
     def cleanUp(self):
         """
