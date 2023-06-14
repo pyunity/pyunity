@@ -50,10 +50,9 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "SingleComponent",
-           "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "addFields", "SavesProjectID",
-           "ComponentType"]
+__all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
+           "SavedAttribute", "SavesProjectID", "ShowInInspector",
+           "SingleComponent", "Tag", "Transform", "addFields"]
 
 import os
 from .errors import PyUnityException, ComponentException

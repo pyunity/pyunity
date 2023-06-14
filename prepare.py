@@ -182,6 +182,9 @@ def getPackages(parentModule="pyunity"):
             elif isinstance(value, (int, float, str, bool, list, dict)) and variable[0].isupper():
                 # Constants
                 new.add(variable)
+            elif variable.isupper() and not variable.startswith("_"):
+                # Forced constants (IncludeInstanceMixin not needed)
+                new.add(variable)
             elif isinstance(value, IncludeInstanceMixin):
                 # value was defined in this module
                 if getattr(value, "__module__", "") == module.__name__:

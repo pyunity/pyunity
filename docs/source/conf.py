@@ -137,11 +137,11 @@ if pyunity.__version__ == "0.9.0":
 def skip_member(app, what, name, obj, skip, options):
     if name.startswith("__"):
         return True
-    if isinstance(obj, pyunity.HideInInspector):
+    if isinstance(obj, pyunity.SavedAttribute):
         return True
     if name in ["saved", "shown"] and isinstance(obj, dict):
         for val in obj.values():
-            if not isinstance(val, pyunity.HideInInspector):
+            if not isinstance(val, pyunity.SavedAttribute):
                 break
         else:
             return True

@@ -50,9 +50,9 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
-           "SavesProjectID", "ShowInInspector", "SingleComponent", "Tag",
-           "Transform", "addFields"]
+__all__ = ["Component", "ComponentType", "GameObject", "HideInInspector", 
+           "SavedAttribute", "SavesProjectID", "ShowInInspector",
+           "SingleComponent", "Tag", "Transform", "addFields"]
 
 from .scenes import Scene
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
@@ -92,7 +92,9 @@ class GameObject(SavesProjectID):
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
 
-class HideInInspector(Generic[_T]):
+class SavedAttribute(Generic[_T]): ...
+
+class HideInInspector(SavedAttribute[_T]):
     type: Type[_T]
     default: Union[_T, None]
     name: Union[str, None]
