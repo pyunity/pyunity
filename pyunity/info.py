@@ -2,6 +2,12 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+"""
+Functions to get information about the PyUnity's installation,
+distribution or build. The main function is :func:`printInfo`.
+
+"""
+
 from pathlib import Path
 import re
 import os
@@ -13,6 +19,17 @@ import pkgutil
 from ._version import versionInfo
 
 def getRepoInfo():
+    """
+    Print information about the git repository that PyUnity
+    is running in.
+
+    Note
+    ----
+    This function only applies to editable installations
+    (``pip install -e .``) or local imports (cloned git
+    repositories).
+
+    """
     # Get repo version info
     p = subprocess.Popen(["git", "rev-parse", "HEAD"],
                          stdout=subprocess.PIPE,
@@ -43,6 +60,17 @@ def getRepoInfo():
     print("Working tree modified:", p.returncode != 1)
 
 def getTomlLoader():
+    """
+    Get toml loading function and format to open
+    file with
+
+    Returns
+    -------
+    function, str
+        Tuple of toml loading function and format
+        to create a file handle with (either "r"
+        or "rb")
+    """
     if sys.version_info >= (3, 11):
         from tomllib import load as tomlLoad
         format = "rb"
@@ -58,9 +86,46 @@ def getTomlLoader():
     return tomlLoad, format
 
 def formatName(item):
+    """
+    Format a requirements item to package name
+
+    Parameters
+    ----------
+    item : str
+        Name of requirement specified in pyproject.toml
+        or requirements.txt
+
+    Returns
+    -------
+    str
+        Package name
+
+    Notes
+    -----
+    The package name is normalized to only have lowercase
+    letters a-z, numbers and hyphens.
+
+    """
     return re.split("[^a-zA-Z0-9_-]", item)[0].lower().replace("_", "-")
 
 def getReqsFromToml(version):
+    """
+    Get all requirements of the PyUnity package from the
+    pyproject.toml file found in the repository.
+
+    Parameters
+    ----------
+    version : function
+        Function to get package version. Should be
+        imported from ``importlib.metadata`` or
+        ``importlib_metadata``.
+
+    Returns
+    -------
+    dict
+        See format of return type of :func:`getReqs`
+
+    """
     if not os.path.isfile("pyproject.toml"):
         print("Warning: Could not find pyproject.toml")
         return None
@@ -93,6 +158,26 @@ def getReqsFromToml(version):
     return reqs
 
 def getReqsFromRepo(path, version):
+    """
+    Get all requirements of the PyUnity package from
+    either the pyproject.toml file or the requirements.txt
+    file found in the repository.
+
+    Parameters
+    ----------
+    path : pathlib.Path
+        Path of the repository
+    version : function
+        Function to get package version. Should be
+        imported from ``importlib.metadata`` or
+        ``importlib_metadata``.
+
+    Returns
+    -------
+    dict
+        See format of return type of :func:`getReqs`
+
+    """
     print("Warning: PyUnity not ran as an installed package")
     orig = os.getcwd()
     os.chdir(path.parent.parent)
@@ -123,6 +208,28 @@ def getReqsFromRepo(path, version):
     return reqs
 
 def getReqsFromDistribution(dist, version, gitInfo=True):
+    """
+    Get all requirements of the PyUnity package from
+    either the pyproject.toml file or the requirements.txt
+    file found in the repository.
+
+    Parameters
+    ----------
+    dist : importlib.metadata.Distribution
+        Distribution object of PyUnity
+    version : function
+        Function to get package version. Should be
+        imported from ``importlib.metadata`` or
+        ``importlib_metadata``.
+    gitInfo : bool
+        If True, print git repository info
+
+    Returns
+    -------
+    dict
+        See format of return type of :func:`getReqs`
+
+    """
     if gitInfo:
         data = json.loads(dist.read_text("version.json"))
         if data is not None:
@@ -146,6 +253,11 @@ def getReqsFromDistribution(dist, version, gitInfo=True):
     return reqs
 
 def printSystemInfo():
+    """
+    Print system info and versions of Python and PyUnity,
+    to be used in bug reports.
+
+    """
     TITLE_WIDTH = 30
     print("#" * TITLE_WIDTH)
     print("VERSION INFO".center(TITLE_WIDTH))
@@ -160,6 +272,17 @@ def printSystemInfo():
     print("Python architecture:", platform.architecture()[0])
 
 def getReqs():
+    """
+    Get requirements for PyUnity from multiple sources.
+
+    Returns
+    -------
+    dict
+        Dictionary of requirements, with keys for
+        optional dependencies. The ``""`` key is
+        for install_requires requirements.
+
+    """
     if sys.version_info >= (3, 8):
         from importlib.metadata import distribution, version, PackageNotFoundError
     elif pkgutil.find_loader("importlib_metadata") is not None:
@@ -195,6 +318,14 @@ def getReqs():
     return reqs
 
 def printReqs(reqs):
+    """
+    Print requirements found from :func:`getReqs`.
+
+    Parameters
+    ----------
+    reqs : dict
+        See format of return type of :func:`getReqs`
+    """
     print("\nDependencies:")
     for item, version in reqs[""]:
         print("-", item, "version:", version)
@@ -212,6 +343,11 @@ def printReqs(reqs):
         print("Optional dependencies: none installed")
 
 def printInfo():
+    """
+    Print system info, get requirements and print them. Used
+    by the PyUnity command ``python -m pyunity -v``.
+
+    """
     printSystemInfo()
     reqs = getReqs()
     if reqs is not None:
