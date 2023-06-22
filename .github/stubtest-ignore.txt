@@ -1,17 +1,18 @@
-# Skip examples, window.providers and physics
+# Skip __main__, examples, window.providers and physics
 pyunity\.(examples|window\.providers|physics)\..*
+pyunity\.__main__
 
 # Skip __all__ entries not found in packages
-pyunity\.([A-Z]\w+|abstract.*)
+# pyunity\.([A-Z]\w+|abstract.*)
 
 # Skip duplicate errors from pyunity.Class and pyunity.mod.Class
 # Logger, Window and SceneManager should be checked by their
 # lowercase module names
-pyunity\.[A-Z]\w+\..*
+# pyunity\.[A-Z]\w+\..*
 
 # Skip TypeVars and type aliases
 # (AT asset, CT component, KT key, VT value)
 # pyunity.*\.([ACKV]?T|saverType|TWRAP)
 
-# Skip __main__ and __all__
-pyunity\.(.*\.)?__(main|all)__
+# Skip __all__
+# pyunity\.(.*\.)?__all__

@@ -71,7 +71,7 @@ dev = [
     "autopep8",
     "pytest>=6.0",
     "pytest-cov>=2.0",
-    "mypy>=1.3.0",
+    "mypy>=1.4.0",
     "importlib-metadata",
     "wheel>=0.29.0",
     "cython>=3.0.0a8",

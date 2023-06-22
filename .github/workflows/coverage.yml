@@ -28,6 +28,9 @@ jobs:
           full: 1
           PYUNITY_INTERACTIVE: 0
         run: pytest
+      - name: Run mypy
+        run: |
+          mypy -p pyunity
       - name: Generate report
         if: ${{ matrix.python-version == '3.10' }}
         run: coverage xml
