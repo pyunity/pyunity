@@ -111,7 +111,7 @@ class PackageAssetResolver(AssetResolver):
         if src.is_file():
             return super(PackageAssetResolver, self).checkCache(local)
 
-        self.files = src.glob("**/*")
+        self.files = list(src.glob("**/*"))
         for file in self.files:
             rel = file.relative_to(self.package)
             if not super(PackageAssetResolver, self).checkCache(rel):
