@@ -144,5 +144,3 @@ if package.parent.name.endswith(".zip"):
     resolver = ZipAssetResolver(directory, package, "pyunity")
 else:
     resolver = PackageAssetResolver(directory, package)
-
-getPath = resolver.getPath
