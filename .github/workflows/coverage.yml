@@ -31,6 +31,12 @@ jobs:
       - name: Run mypy
         run: |
           mypy -p pyunity
+      - name: Run stubtest
+        env:
+          PYUNITY_CHANGE_MODULE: 0
+        run: |
+          python -m mypy.stubtest --mypy-config-file pyproject.toml \
+              --allowlist .github/stubtest-ignore.txt pyunity
       - name: Generate report
         if: ${{ matrix.python-version == '3.10' }}
         run: coverage xml
