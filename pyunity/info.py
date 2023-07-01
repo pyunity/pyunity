@@ -326,7 +326,7 @@ def printReqs(reqs):
     reqs : dict
         See format of return type of :func:`getReqs`
     """
-    print("\nDependencies:")
+    print("Dependencies:")
     for item, version in reqs[""]:
         print("-", item, "version:", version)
 
@@ -349,6 +349,8 @@ def printInfo():
 
     """
     printSystemInfo()
+    print()
     reqs = getReqs()
     if reqs is not None:
+        print()
         printReqs(reqs)
