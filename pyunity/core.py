@@ -682,7 +682,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localRotation.copy()
         else:
-            return self.localRotation * self.parent.rotation
+            return self.parent.rotation * self.localRotation
 
     @rotation.setter
     def rotation(self, value):
