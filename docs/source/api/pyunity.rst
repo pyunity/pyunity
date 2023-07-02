@@ -24,6 +24,7 @@ Submodules
    pyunity.events
    pyunity.files
    pyunity.gui
+   pyunity.info
    pyunity.input
    pyunity.loader
    pyunity.logger
