@@ -635,7 +635,7 @@ class Camera(SingleComponent):
             normModel = glm.transpose(glm.inverse(glm.mat3(model)))
             self.shader.setMat4(b"model", model)
             self.shader.setMat3(b"normModel", normModel)
-            self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
+            self.shader.setVec3(b"objectColor", renderer.mat.color.toRGB() / 255)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
