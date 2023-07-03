@@ -3,7 +3,7 @@
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
-from pyunity.resources import getPath
+from pyunity.resources import resolver
 
 class Mover2D(Behaviour):
     rectTransform = ShowInInspector(RectTransform)
@@ -62,7 +62,7 @@ def main():
 
     img = imgObject.AddComponent(Image2D)
     img.depth = -0.1
-    img.texture = Texture2D(getPath("examples/example8/logo.png"))
+    img.texture = Texture2D(resolver.getPath("examples/example8/logo.png"))
     scene.Add(imgObject)
 
     rect, button, text = Gui.MakeButton(

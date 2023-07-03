@@ -18,7 +18,7 @@ from .events import Event
 from .files import Texture2D, convert
 from .input import Input, MouseCode, KeyState
 from .render import Screen, Camera, Light
-from .resources import getPath
+from .resources import resolver
 from PIL import Image, ImageDraw, ImageFont, features
 import OpenGL.GL as gl
 import inspect
@@ -483,10 +483,10 @@ class Button(GuiComponent):
             if self.callback is not None:
                 self.callback.callSoon()
 
-buttonDefault = Texture2D(getPath("shaders/gui/textures/button.png"))
+buttonDefault = Texture2D(resolver.getPath("shaders/gui/textures/button.png"))
 checkboxDefaults = [
-    Texture2D(getPath("shaders/gui/textures/checkboxOff.png")),
-    Texture2D(getPath("shaders/gui/textures/checkboxOn.png"))
+    Texture2D(resolver.getPath("shaders/gui/textures/checkboxOff.png")),
+    Texture2D(resolver.getPath("shaders/gui/textures/checkboxOn.png"))
 ]
 
 class _FontLoader:
