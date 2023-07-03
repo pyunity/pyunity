@@ -13,7 +13,7 @@ from .meshes import Color, RGB, floatSize
 from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
-from .resources import getPath
+from .resources import resolver
 from .files import Skybox, convert
 from . import config, Logger
 from ctypes import c_float
@@ -305,11 +305,11 @@ class Shader:
 
 shaders = {}
 skyboxes = {}
-Shader.fromFolder(getPath("shaders/standard"), "Standard")
-Shader.fromFolder(getPath("shaders/skybox"), "Skybox")
-Shader.fromFolder(getPath("shaders/gui"), "GUI")
-Shader.fromFolder(getPath("shaders/depth"), "Depth")
-skyboxes["Water"] = Skybox(getPath("shaders/skybox/textures"))
+Shader.fromFolder(resolver.getPath("shaders/standard"), "Standard")
+Shader.fromFolder(resolver.getPath("shaders/skybox"), "Skybox")
+Shader.fromFolder(resolver.getPath("shaders/gui"), "GUI")
+Shader.fromFolder(resolver.getPath("shaders/depth"), "Depth")
+skyboxes["Water"] = Skybox(resolver.getPath("shaders/skybox/textures"))
 
 def compileShaders():
     for shader in shaders.values():
