@@ -10,18 +10,75 @@ import shutil
 import zipfile
 
 class AssetResolver(metaclass=ABCMeta):
+    """
+    Abstract base class for asset resolving methods.
+
+    Attributes
+    ----------
+    cache : Path
+        Path to cache folder where assets will
+        be copied.
+
+    """
+
     def __init__(self, cache):
         self.cache = Path(cache)
 
     @abstractmethod
     def getSrcMtime(self, local):
+        """
+        Get the modified timestamp from
+        the stat of the source file.
+
+        Parameters
+        ----------
+        local : Path
+            Local path relative to asset
+            root
+
+        Returns
+        -------
+        float
+            The modified timestamp
+
+        """
         pass
 
     def checkCacheExists(self, local):
+        """
+        Check if the cached file already exists.
+
+        Parameters
+        ----------
+        local : Path
+            Local path relative to cache
+
+        Returns
+        -------
+        bool
+            If the cached file already exists
+
+        """
         dest = self.cache / local
         return dest.exists()
 
     def checkCache(self, local):
+        """
+        Checks if the cache needs to be
+        updated.
+
+        Arguments
+        ---------
+        local : Path
+            Local path relative to cache
+
+        Returns
+        -------
+        bool
+            False if the cache is outdated,
+            True otherwise.
+
+        """
         if not self.checkCacheExists(local):
             return False
         dest = self.cache / local
