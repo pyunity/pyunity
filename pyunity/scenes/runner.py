@@ -57,18 +57,20 @@ class Runner:
         self.eventLoopManager.addLoop(self.scene.startScripts())
 
     def start(self):
-        while True:
+        while self.opened:
             try:
                 self.eventLoopManager.start()
-                break
             except ChangeScene:
-                if self.next is None:
-                    raise
-                self.eventLoopManager.quit()
-                self.scene.cleanUp()
-                self.scene = self.next
-                self.next = None
-                self.load()
+                self.changeScene()
+
+    def changeScene(self):
+        if self.next is None:
+            raise
+        self.eventLoopManager.quit()
+        self.scene.cleanUp()
+        self.scene = self.next
+        self.next = None
+        self.load()
 
     def quit(self):
         self.eventLoopManager.quit()
