@@ -305,11 +305,11 @@ class Shader:
 
 shaders = {}
 skyboxes = {}
-Shader.fromFolder(resolver.getPath("shaders/standard"), "Standard")
-Shader.fromFolder(resolver.getPath("shaders/skybox"), "Skybox")
-Shader.fromFolder(resolver.getPath("shaders/gui"), "GUI")
-Shader.fromFolder(resolver.getPath("shaders/depth"), "Depth")
-skyboxes["Water"] = Skybox(resolver.getPath("shaders/skybox/textures"))
+Shader.fromFolder(resolver.getPath("shaders/standard/"), "Standard")
+Shader.fromFolder(resolver.getPath("shaders/skybox/"), "Skybox")
+Shader.fromFolder(resolver.getPath("shaders/gui/"), "GUI")
+Shader.fromFolder(resolver.getPath("shaders/depth/"), "Depth")
+skyboxes["Water"] = Skybox(resolver.getPath("shaders/skybox/textures/"))
 
 def compileShaders():
     for shader in shaders.values():

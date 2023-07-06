@@ -138,7 +138,9 @@ class ZipAssetResolver(AssetResolver):
 
     def checkSrcExists(self, local):
         path = self.prefix / local
-        return path.as_posix() in self.zipfile.namelist()
+        namelist = self.zipfile.namelist()
+        return (path.as_posix() in namelist or
+                path.as_posix() + "/" in namelist)
 
     def copyAsset(self, local):
         path = self.prefix / local
