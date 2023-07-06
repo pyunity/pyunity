@@ -154,6 +154,10 @@ class ZipAssetResolver(AssetResolver):
         dest = self.cache / local
         if self.isFolder:
             path = path.as_posix() + "/"
+            namelist = self.zipfile.namelist()
+            for name in namelist:
+                if name.startswith(path):
+                    self.zipfile.extract(name, self.cache / ".tmp")
         else:
             path = path.as_posix()
         out = self.zipfile.extract(path, self.cache / ".tmp")
