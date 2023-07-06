@@ -103,13 +103,14 @@ class AssetResolver(metaclass=ABCMeta):
 
     def getPath(self, local):
         self.preFetch()
+        resolver = type(self).__name__
+        if not self.checkSrcExists(local):
+            raise Exception(f"No resource found at {local} with {resolver}")
+
         dest = self.cache / local
         if self.checkCache(local):
             return dest
 
-        resolver = type(self).__name__
-        if not self.checkSrcExists(local):
-            raise Exception(f"No resource found at {local} with {resolver}")
         self.copyAsset(local)
         Logger.LogLine(Logger.INFO,
                        f"Loaded resource found at {local} with {resolver}")
@@ -132,17 +133,17 @@ class ZipAssetResolver(AssetResolver):
 
     def getSrcMtime(self, local):
         path = self.prefix / local
-        ziptime = datetime(*self.zipfile.getinfo(path).date_time)
+        ziptime = datetime(*self.zipfile.getinfo(path.as_posix()).date_time)
         return ziptime.timestamp()
 
     def checkSrcExists(self, local):
         path = self.prefix / local
-        return path in self.zipfile.namelist()
+        return path.as_posix() in self.zipfile.namelist()
 
     def copyAsset(self, local):
         path = self.prefix / local
         dest = self.cache / local
-        out = self.zipfile.extract(path, self.cache)
+        out = self.zipfile.extract(path.as_posix(), self.cache)
         shutil.move(out, dest)
         shutil.rmtree(Path(out).parent)
 
