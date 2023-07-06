@@ -161,6 +161,7 @@ class ZipAssetResolver(AssetResolver):
         else:
             path = path.as_posix()
         out = self.zipfile.extract(path, self.cache / ".tmp")
+        dest.parent.mkdir(exist_ok=True, parents=True)
         shutil.move(out, dest)
         shutil.rmtree(self.cache / ".tmp")
 
