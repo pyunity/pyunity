@@ -126,6 +126,7 @@ class ZipAssetResolver(AssetResolver):
 
     def preFetch(self):
         self.zipfile = zipfile.ZipFile(self.src)
+        self.isFolder = False
 
     def postFetch(self):
         self.zipfile.close()
@@ -133,21 +134,31 @@ class ZipAssetResolver(AssetResolver):
 
     def getSrcMtime(self, local):
         path = self.prefix / local
-        ziptime = datetime(*self.zipfile.getinfo(path.as_posix()).date_time)
+        if self.isFolder:
+            path = path.as_posix() + "/"
+        else:
+            path = path.as_posix()
+        ziptime = datetime(*self.zipfile.getinfo(path).date_time)
         return ziptime.timestamp()
 
     def checkSrcExists(self, local):
         path = self.prefix / local
         namelist = self.zipfile.namelist()
-        return (path.as_posix() in namelist or
-                path.as_posix() + "/" in namelist)
+        if path.as_posix() + "/" in namelist:
+            self.isFolder = True
+            return True
+        return path.as_posix() in namelist
 
     def copyAsset(self, local):
         path = self.prefix / local
         dest = self.cache / local
-        out = self.zipfile.extract(path.as_posix(), self.cache)
+        if self.isFolder:
+            path = path.as_posix() + "/"
+        else:
+            path = path.as_posix()
+        out = self.zipfile.extract(path, self.cache / ".tmp")
         shutil.move(out, dest)
-        shutil.rmtree(Path(out).parent)
+        shutil.rmtree(self.cache / ".tmp")
 
 class PackageAssetResolver(AssetResolver):
     def __init__(self, cache, package):
