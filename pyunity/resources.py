@@ -83,7 +83,7 @@ class AssetResolver(metaclass=ABCMeta):
             return False
         dest = self.cache / local
         cacheMtime = dest.stat().st_mtime
-        if cacheMtime < self.getSrcMtime(local):
+        if cacheMtime > self.getSrcMtime(local):
             return True
         return False
 
@@ -184,7 +184,7 @@ class PackageAssetResolver(AssetResolver):
 
     def checkCache(self, local):
         src = self.package / local
-        if src.is_file():
+        if src.is_file() or not src.exists():
             return super(PackageAssetResolver, self).checkCache(local)
 
         self.files = list(src.glob("**/*"))
