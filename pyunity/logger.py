@@ -169,7 +169,7 @@ def LogLine(level, *message, stacklevel=1, silent=False):
         if output:
             if level == ERROR:
                 sys.stderr.write(msg + "\n")
-            else:
+            elif stream is not None:
                 stream.write(msg + "\n")
     with open(folder / "latest.log", "a") as f:
         f.write(f"{stamp} {location} |{level.abbr}| {msg}\n")
