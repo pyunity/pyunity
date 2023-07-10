@@ -47,8 +47,12 @@ def GetWindowProvider():
     if os.environ["PYUNITY_INTERACTIVE"] != "1":
         Logger.LogLine(Logger.DEBUG, "Using no window provider")
         return None
+    env = os.getenv("PYUNITY_WINDOW_PROVIDER")
+    if env == "0":
+        Logger.LogLine(Logger.DEBUG, "Window provider selection disabled")
+        return None
+
     if "windowProvider" in settings.db and os.environ["PYUNITY_CHECK_WINDOW"] == "0":
-        env = os.getenv("PYUNITY_WINDOW_PROVIDER")
         if env is not None:
             env = env.split(",")
             use = settings.db["windowProvider"] in env[0]
