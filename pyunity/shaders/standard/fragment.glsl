@@ -121,7 +121,7 @@ void main() {
     shadows[7] = (useShadowMap == 1) ? getShadow(7, shadowMaps[7]) : 0.0;
     #endif
 
-    vec3 total;
+    vec3 total = vec3(0);
     for (int i = 0; i < NR_LIGHTS; i++) {
         if (i == numLights) {
             break;
