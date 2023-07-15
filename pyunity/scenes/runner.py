@@ -104,8 +104,8 @@ class WindowRunner(Runner):
         render.compileSkyboxes()
         Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
-    def load(self):
-        super(WindowRunner, self).load()
+    def load(self, managerClass=EventLoopManager):
+        super(WindowRunner, self).load(managerClass)
         self.eventLoopManager.schedule(
             self.scene.updateScripts, self.window.updateFunc,
             ups=config.fps, waitFor=WaitForUpdate)
@@ -131,8 +131,8 @@ class WindowRunner(Runner):
         Logger.LogLine(Logger.INFO, "Reset skyboxes")
 
 class NonInteractiveRunner(Runner):
-    def load(self):
-        super(NonInteractiveRunner, self).load()
+    def load(self, managerClass=EventLoopManager):
+        super(NonInteractiveRunner, self).load(managerClass)
         self.eventLoopManager.schedule(
             self.scene.updateScripts,
             ups=config.fps, waitFor=WaitForUpdate)

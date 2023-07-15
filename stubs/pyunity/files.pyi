@@ -15,7 +15,7 @@ from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any, TY
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
-from .core import Component, ShowInInspector, GameObject, SavesProjectID
+from .core import Component, ShowInInspector, GameObject, SavesProjectID, Space
 from .scenes import Scene
 from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
@@ -88,10 +88,10 @@ class Prefab(Asset):
     def Instantiate(self,
                     scene: Optional[Scene] = ...,
                     parent: Optional[GameObject] = ...,
-                    position: Vector3 = ...,
-                    rotation: Quaternion = ...,
-                    scale: Vector3 = ...,
-                    worldSpace: bool = ...) -> GameObject: ...
+                    position: Optional[Vector3] = ...,
+                    rotation: Optional[Quaternion] = ...,
+                    scale: Optional[Vector3] = ...,
+                    space: Space = ...) -> GameObject: ...
 
 class ProjectSavingContext:
     asset: Asset
