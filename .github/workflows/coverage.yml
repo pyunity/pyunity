@@ -29,9 +29,11 @@ jobs:
           PYUNITY_INTERACTIVE: 0
         run: pytest
       - name: Run mypy
+        if: ${{ matrix.python-version == '3.10' }}
         run: |
           mypy -p pyunity
       - name: Run stubtest
+        if: ${{ matrix.python-version == '3.10' }}
         env:
           PYUNITY_CHANGE_MODULE: 0
         run: |
