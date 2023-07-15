@@ -776,7 +776,8 @@ def LoadProject(folder, remove=True):
     # Scripts
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
-            Scripts.LoadScript(project.path / os.path.normpath(file))
+            script = Scripts.LoadScript(project.path / os.path.normpath(file))
+            project.SetAsset(file, script)
 
     # Meshes
     for file in project.filePaths:
