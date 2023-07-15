@@ -657,6 +657,11 @@ class Transform(SingleComponent):
         self.children = []
         self.modelMatrix = None
 
+    def _setChanged(self):
+        self.hasChanged = True
+        for child in self.children:
+            child._setChanged()
+
     @property
     def localPosition(self):
         return self._localPosition
@@ -667,7 +672,7 @@ class Transform(SingleComponent):
             raise PyUnityException(
                 f"Cannot set position to object of type {type(value).__name__!r}")
         self._localPosition = value
-        self.hasChanged = True
+        self._setChanged()
 
     @property
     def localRotation(self):
@@ -679,7 +684,7 @@ class Transform(SingleComponent):
             raise PyUnityException(
                 f"Cannot set rotation to object of type {type(value).__name__!r}")
         self._localRotation = value
-        self.hasChanged = True
+        self._setChanged()
 
     @property
     def localScale(self):
@@ -691,7 +696,7 @@ class Transform(SingleComponent):
             raise PyUnityException(
                 f"Cannot set position to object of type {type(value).__name__!r}")
         self._localScale = value
-        self.hasChanged = True
+        self._setChanged()
 
     @property
     def position(self):
