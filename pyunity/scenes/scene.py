@@ -338,12 +338,9 @@ class Scene(Asset):
         if mesh is None:
             return False
         pos = self.mainCamera.transform.position * Vector3(1, 1, -1)
-        directionX = self.mainCamera.transform.rotation.RotateVector(
-            Vector3.right()) * Vector3(1, 1, -1)
-        directionY = self.mainCamera.transform.rotation.RotateVector(
-            Vector3.up()) * Vector3(1, 1, -1)
-        directionZ = self.mainCamera.transform.rotation.RotateVector(
-            Vector3.forward()) * Vector3(1, 1, -1)
+        directionX = self.mainCamera.transform.right * Vector3(1, 1, -1)
+        directionY = self.mainCamera.transform.up * Vector3(1, 1, -1)
+        directionZ = self.mainCamera.transform.forward * Vector3(1, 1, -1)
         if renderer.transform.parent is not None:
             parent = renderer.transform.parent.position
         else:

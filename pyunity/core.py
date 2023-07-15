@@ -791,6 +791,33 @@ class Transform(SingleComponent):
         else:
             self.localScale = value / self.parent.scale
 
+    @property
+    def up(self):
+        """
+        Return a normalized vector pointing in the up direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.up())
+
+    @property
+    def forward(self):
+        """
+        Return a normalized vector pointing in the forward direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.forward())
+
+    @property
+    def right(self):
+        """
+        Return a normalized vector pointing in the right direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.right())
+
     def ReparentTo(self, parent):
         """
         Reparent a Transform.

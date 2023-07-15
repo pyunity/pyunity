@@ -595,7 +595,7 @@ class Camera(SingleComponent):
             self.shader.setVec3(lightName + b"color",
                                 light.color.toRGB() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
-            direction = light.transform.rotation.RotateVector(Vector3.forward())
+            direction = light.transform.forward
             self.shader.setVec3(lightName + b"dir",
                                 direction * Vector3(1, 1, -1))
             if self.shadows:
@@ -609,10 +609,8 @@ class Camera(SingleComponent):
         self.depthShader.use()
         proj = glm.ortho(-10, 10, -10, 10, light.near, light.far)
         pos = light.transform.position * Vector3(1, 1, -1)
-        look = pos + light.transform.rotation.RotateVector(
-            Vector3.forward()) * Vector3(1, 1, -1)
-        up = light.transform.rotation.RotateVector(
-            Vector3.up()) * Vector3(1, 1, -1)
+        look = pos + light.transform.forward() * Vector3(1, 1, -1)
+        up = light.transform.up * Vector3(1, 1, -1)
         view = glm.lookAt(list(pos), list(look), list(up))
         light.lightSpaceMatrix = proj * view
 
