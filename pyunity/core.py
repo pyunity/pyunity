@@ -824,7 +824,7 @@ class Transform(SingleComponent):
         """
         return self.rotation.RotateVector(Vector3.right())
 
-    def ReparentTo(self, parent):
+    def ReparentTo(self, parent, relativeTo=Space.World):
         """
         Reparent a Transform.
 
@@ -832,13 +832,27 @@ class Transform(SingleComponent):
         ----------
         parent : Transform
             The parent to reparent to.
+        relativeTo : Space
+            If Space.World, keeps the world space position, rotation
+            and scale. If Space.Self, only preserves local space
+            position, rotation and scale.
 
         """
         if self.parent is not None:
             self.parent.children.remove(self)
         if parent is not None:
             parent.children.append(self)
-        self.parent = parent
+
+        if relativeTo == Space.World:
+            oldPos = self.position
+            oldRot = self.rotation
+            oldScl = self.scale
+            self.parent = parent
+            self.position = oldPos
+            self.rotation = oldRot
+            self.scale = oldScl
+        else:
+            self.parent = parent
 
     def List(self):
         """
