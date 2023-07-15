@@ -498,6 +498,18 @@ class _FontLoader:
     fonts = {}
 
     @classmethod
+    def ChooseFont(cls, names, size):
+        font = None
+        for name in names:
+            try:
+                font = cls.LoadFont(name, size)
+            except PyUnityException:
+                font = None
+            if font is not None:
+                return font
+        raise PyUnityException("Could not find any fonts matching: " + str(names))
+
+    @classmethod
     def LoadFont(cls, name, size):
         """
         Loads and returns a Font object. This
@@ -676,12 +688,12 @@ class UnixFontLoader(_FontLoader):
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     class FontLoader(UnixFontLoader):
+        """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
         pass
-    """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 else:
     class FontLoader(WinFontLoader):
+        """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
         pass
-    """Font loader, either :class:`UnixFontLoader` or :class:`WinFontLoader`."""
 
 class Font:
     """

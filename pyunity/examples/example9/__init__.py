@@ -65,8 +65,9 @@ def main():
     img.texture = Texture2D(resolver.getPath("examples/example8/logo.png"))
     scene.Add(imgObject)
 
+    buttonFont = FontLoader.ChooseFont(["Cascadia Code Regular", "Consolas"], 18)
     rect, button, text = Gui.MakeButton(
-        "Button", scene, "-> Click me", FontLoader.LoadFont("Consolas", 20))
+        "Button", scene, "-> Click me", buttonFont)
     rect.transform.ReparentTo(canvas.transform)
     rect.offset = RectOffset(Vector2(40, 25), Vector2(190, 50))
     receiver = button.AddComponent(CallbackReceiver)
