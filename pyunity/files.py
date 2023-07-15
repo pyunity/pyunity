@@ -13,8 +13,8 @@ __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "ProjectSavingContext"]
 
 from .errors import PyUnityException, ProjectParseException
-from .core import Component, GameObject, SavesProjectID, Transform
-from .values import ABCMeta, abstractmethod, Vector3, Quaternion
+from .core import Component, GameObject, SavesProjectID, Transform, Space
+from .values import ABCMeta, abstractmethod
 from . import Logger
 from types import ModuleType
 from functools import wraps
@@ -519,10 +519,10 @@ class Prefab(Asset):
     def Instantiate(self,
                     scene=None,
                     parent=None,
-                    position=Vector3.zero(),
-                    rotation=Quaternion.identity(),
-                    scale=Vector3.one(),
-                    worldSpace=False):
+                    position=None,
+                    rotation=None,
+                    scale=None,
+                    space=Space.World):
         """
         Instantiate this prefab.
 
@@ -537,16 +537,16 @@ class Prefab(Asset):
             at the root of the scene.
         position : Vector3, optional
             Position of the newly created GameObject, by
-            default Vector3.zero()
+            default the GameObject's original position
         rotation : Quaternion, optional
             Rotation of the newly created GameObject, by
-            default Quaternion.identity()
+            default the GameObject's original rotation
         scale : Vector3, optional
             Scale of the newly created GameObject, by default
-            Vector3.one()
-        worldSpace : bool, optional
+            the GameObject's original scale
+        worldSpace : Space, optional
             Whether the above 3 properties are world space or
-            local space, by default False
+            local space, by default world space
 
         Returns
         -------
@@ -577,14 +577,20 @@ class Prefab(Asset):
                 parent = parent.transform
             root.transform.ReparentTo(parent)
 
-        if worldSpace:
-            root.transform.position = position
-            root.transform.rotation = rotation
-            root.transform.scale = scale
+        if space == Space.World:
+            if position is not None:
+                root.transform.position = position
+            if rotation is not None:
+                root.transform.rotation = rotation
+            if scale is not None:
+                root.transform.scale = scale
         else:
-            root.transform.localPosition = position
-            root.transform.localRotation = rotation
-            root.transform.localScale = scale
+            if position is not None:
+                root.transform.localPosition = position
+            if rotation is not None:
+                root.transform.localRotation = rotation
+            if scale is not None:
+                root.transform.localScale = scale
         return root
 
     def GetAssetFile(self, gameObject):

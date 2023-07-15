@@ -52,9 +52,10 @@ and all have MeshRenderers:
 
 __all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
            "SavedAttribute", "SavesProjectID", "ShowInInspector",
-           "SingleComponent", "Tag", "Transform", "addFields"]
+           "SingleComponent", "Space", "Tag", "Transform", "addFields"]
 
 import os
+import enum
 from .errors import PyUnityException, ComponentException
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from . import Logger
@@ -611,6 +612,11 @@ class Component(SavesProjectID, metaclass=ComponentType):
     def scene(self):
         """Get the scene of the GameObject."""
         return self.gameObject.scene
+
+class Space(enum.Enum):
+    World = enum.auto()
+    Self = enum.auto()
+    Local = Self
 
 class SingleComponent(Component):
     """

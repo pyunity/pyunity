@@ -52,13 +52,14 @@ and all have MeshRenderers:
 
 __all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
            "SavedAttribute", "SavesProjectID", "ShowInInspector",
-           "SingleComponent", "Tag", "Transform", "addFields"]
+           "SingleComponent", "Space", "Tag", "Transform", "addFields"]
 
 from .scenes import Scene
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from typing import (
     Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple,
     Generic, Union, Mapping, Optional, TYPE_CHECKING)
+import enum
 import glm
 
 if TYPE_CHECKING:
@@ -134,6 +135,11 @@ class Component(SavesProjectID, metaclass=ComponentType):
     def RemoveComponents(self, componentClass: Type[_CT]) -> None: ...
     @property
     def scene(self) -> Scene: ...
+
+class Space(enum.Enum):
+    World = ...
+    Self = ...
+    Local = ...
 
 class SingleComponent(Component): ...
 
