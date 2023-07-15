@@ -577,6 +577,31 @@ class _FontLoader:
         raise PyUnityException("No font loading function found")
 
 class WinFontLoader(_FontLoader):
+    localFontRegPath = None
+    @classmethod
+    def getLocalFontRegPath(cls):
+        if cls.localFontRegPath is not None:
+            return cls.localFontRegPath
+        import winreg
+        home = os.path.expanduser("~")
+        localFontPath = "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+        profileListPath = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList"
+
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, profileListPath) as key:
+                length = winreg.QueryInfoKey(key)[0]
+                for i in range(length):
+                    name = winreg.EnumKey(key, i)
+                    with winreg.OpenKey(key, name) as subkey:
+                        path = winreg.QueryValueEx(subkey, "ProfileImagePath")[0]
+                        if path == home:
+                            cls.localFontRegPath = name + localFontPath
+                            return cls.localFontRegPath
+        except WindowsError:
+            pass
+        cls.localFontRegPath = ""
+        return cls.localFontRegPath
+
     @classmethod
     def LoadFile(cls, name):
         """
@@ -603,11 +628,20 @@ class WinFontLoader(_FontLoader):
                              "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\\")
         try:
             file = winreg.QueryValueEx(key, name + " (TrueType)")
+            return file[0]
         except WindowsError:
             file = None
+
+        localFontRegPath = cls.getLocalFontRegPath()
+        key = winreg.OpenKey(winreg.HKEY_USERS, localFontRegPath)
+        try:
+            file = winreg.QueryValueEx(key, name + " (TrueType)")
+            return file[0]
+        except WindowsError:
+            file = None
+
         if file is None:
             raise PyUnityException(f"Cannot find font named {name!r}")
-        return file[0]
 
 class UnixFontLoader(_FontLoader):
     @classmethod
@@ -751,14 +785,8 @@ class Text(GuiRenderComponent):
         size = (rect.max - rect.min).abs()
         im = Image.new("RGBA", tuple(round(size)), (255, 255, 255, 0))
 
-        if _RAQM_SUPPORT:
-            ft = ["-liga"]
-        else:
-            ft = None
-
         draw = ImageDraw.Draw(im)
-        _, _, width, height = draw.textbbox((0, 0), self.text, font=self.font._font,
-                                            features=ft)
+        _, _, width, height = draw.textbbox((0, 0), self.text, font=self.font._font)
         if self.centeredX == TextAlign.Left:
             offX = 0
         elif self.centeredX == TextAlign.Center:
@@ -773,7 +801,7 @@ class Text(GuiRenderComponent):
             offY = size.y - height
 
         draw.text((offX, offY), self.text, font=self.font._font,
-                  fill=tuple(self.color), features=ft)
+                  fill=tuple(self.color))
         if self.texture is not None:
             self.texture.setImg(im)
         else:
