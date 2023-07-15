@@ -619,7 +619,11 @@ class SingleComponent(Component):
     """
     pass
 
-@addFields(parent=HideInInspector(addFields.selfref))
+@addFields(
+    localPosition=ShowInInspector(Vector3, name="position"),
+    localRotation=ShowInInspector(Quaternion, name="rotation"),
+    localScale=ShowInInspector(Vector3, name="scale"),
+    parent=HideInInspector(addFields.selfref))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -643,17 +647,50 @@ class Transform(SingleComponent):
 
     """
 
-    localPosition = ShowInInspector(Vector3, name="position")
-    localRotation = ShowInInspector(Quaternion, name="rotation")
-    localScale = ShowInInspector(Vector3, name="scale")
-
     def __init__(self):
         super(Transform, self).__init__()
-        self.localPosition = Vector3.zero()
-        self.localRotation = Quaternion.identity()
-        self.localScale = Vector3.one()
+        self._localPosition = Vector3.zero()
+        self._localRotation = Quaternion.identity()
+        self._localScale = Vector3.one()
+        self.hasChanged = False
         self.parent = None
         self.children = []
+
+    @property
+    def localPosition(self):
+        return self._localPosition
+
+    @localPosition.setter
+    def localPosition(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set position to object of type {type(value).__name__!r}")
+        self._localPosition = value
+        self.hasChanged = True
+
+    @property
+    def localRotation(self):
+        return self._localRotation
+
+    @localRotation.setter
+    def localRotation(self, value):
+        if not isinstance(value, Quaternion):
+            raise PyUnityException(
+                f"Cannot set rotation to object of type {type(value).__name__!r}")
+        self._localRotation = value
+        self.hasChanged = True
+
+    @property
+    def localScale(self):
+        return self._localScale
+
+    @localScale.setter
+    def localScale(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set position to object of type {type(value).__name__!r}")
+        self._localScale = value
+        self.hasChanged = True
 
     @property
     def position(self):
