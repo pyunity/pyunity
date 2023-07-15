@@ -757,8 +757,8 @@ class Text(GuiRenderComponent):
             ft = None
 
         draw = ImageDraw.Draw(im)
-        width, height = draw.textsize(self.text, font=self.font._font,
-                                      features=ft)
+        _, _, width, height = draw.textbbox((0, 0), self.text, font=self.font._font,
+                                            features=ft)
         if self.centeredX == TextAlign.Left:
             offX = 0
         elif self.centeredX == TextAlign.Center:
