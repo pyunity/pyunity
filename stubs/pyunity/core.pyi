@@ -59,6 +59,7 @@ from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from typing import (
     Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple,
     Generic, Union, Mapping, Optional, TYPE_CHECKING)
+import glm
 
 if TYPE_CHECKING:
     _CT = TypeVar("_CT", bound=Component)
@@ -139,6 +140,7 @@ class SingleComponent(Component): ...
 class Transform(SingleComponent):
     parent: Union[Transform, None] = ...
     children: _List[Transform]
+    modelMatrix: Union[glm.mat4, None]
     def __init__(self) -> None: ...
 
     @property

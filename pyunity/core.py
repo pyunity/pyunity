@@ -655,6 +655,7 @@ class Transform(SingleComponent):
         self.hasChanged = False
         self.parent = None
         self.children = []
+        self.modelMatrix = None
 
     @property
     def localPosition(self):

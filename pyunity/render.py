@@ -441,8 +441,6 @@ class Camera(SingleComponent):
         self.orthoSize = 5
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, -1], [0, 1, 0])
-        self.lastPos = Vector3.zero()
-        self.lastRot = Quaternion.identity()
         self.renderPass = False
 
     def setupBuffers(self):
@@ -520,6 +518,8 @@ class Camera(SingleComponent):
 
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
+        if not transform.hasChanged and transform.modelMatrix is not None:
+            return transform.modelMatrix
         angle, axis = transform.rotation.angleAxisPair
         angle = -glm.radians(angle)
         axis = Vector3(1, 1, -1) * axis.normalized()
@@ -528,6 +528,8 @@ class Camera(SingleComponent):
             transform.position * Vector3(1, 1, -1)))
         rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         scaled = glm.scale(rotated, list(transform.scale))
+        transform.modelMatrix = scaled
+        transform.hasChanged = False
         return scaled
 
     def get2DMatrix(self, rectTransform):
@@ -547,8 +549,7 @@ class Camera(SingleComponent):
 
     def getViewMat(self):
         """Generates view matrix from Transform of camera."""
-        if self.renderPass and (self.lastPos != self.transform.position or
-                                self.lastRot != self.transform.rotation):
+        if self.renderPass and self.transform.hasChanged:
             # pos = self.transform.position * Vector3(1, 1, -1)
             # look = pos + \
             #     self.transform.rotation.RotateVector(
@@ -564,9 +565,8 @@ class Camera(SingleComponent):
             self.viewMat = glm.translate(
                 glm.mat4_cast(rot),
                 list(self.transform.position * Vector3(-1, -1, 1)))
-            self.lastPos = self.transform.position
-            self.lastRot = self.transform.rotation
             self.renderPass = False
+            self.transform.hasChanged = False
         return self.viewMat
 
     def UseShader(self, name):

@@ -81,8 +81,6 @@ class Camera(SingleComponent):
     customProjMat: Union[glm.mat4, None]
     orthoMat: glm.mat4
     viewMat: glm.mat4
-    lastPos: Vector3
-    lastRot: Quaternion
     renderPass: bool
     guiVBO: int
     guiVAO: int
