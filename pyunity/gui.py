@@ -632,13 +632,13 @@ class UnixFontLoader(_FontLoader):
 
         """
         import subprocess
-        process = subprocess.Popen(["fc-match", name], stdout=subprocess.PIPE)
+        process = subprocess.Popen(["fc-match", "-f", "%{file}\\n", name], stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
         out = stdout.decode()
         if out == "":
             raise PyUnityException(f"Cannot find font named {name!r}")
 
-        return out.split(": ")[0]
+        return out.rstrip()
 
 if sys.platform.startswith("linux") or sys.platform == "darwin":
     class FontLoader(UnixFontLoader):
