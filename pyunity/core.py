@@ -824,6 +824,50 @@ class Transform(SingleComponent):
         """
         return self.rotation.RotateVector(Vector3.right())
 
+    def Translate(self, translation, relativeTo=Space.Self):
+        """
+        Moves the transform in the direction and distance of ``translation``.
+
+        Parameters
+        ----------
+        translation : Vector3
+            Distance to translate by
+        relativeTo : Space or Transform, optional
+            If Space.Self, translates relative to the transform. If
+            Space.World, trranslates relative to the world. If
+            another transform, translates relative to that transform.
+            By default Space.Self
+
+        """
+        if isinstance(relativeTo, Transform):
+            self.position += relativeTo.TransformDirection(translation)
+        elif relativeTo == Space.Self:
+            self.localPosition += translation
+        else:
+            self.position += translation
+
+    def Rotate(self, rotation, relativeTo=Space.Self):
+        """
+        Rotates the transform by either a quaternion or a vector
+        of Euler angles (around the x, y and z axes).
+
+        Parameters
+        ----------
+        rotation : Vector3 or Quaternion
+            Amount to rotate by
+        relativeTo : Space, optional
+            If Space.Self, rotates relative to the transform.
+            If Space.World, rotates relative to the world.
+            By default Space.Self
+
+        """
+        if not isinstance(rotation, Quaternion):
+            rotation = Quaternion.Euler(rotation)
+        if relativeTo == Space.Self:
+            self.rotation *= rotation
+        else:
+            self.rotation *= self.rotation * rotation * self.rotation.conjugate
+
     def ReparentTo(self, parent, relativeTo=Space.World):
         """
         Reparent a Transform.
