@@ -192,14 +192,14 @@ class EventLoopManager:
                     raise exc
                 elif config.exitOnError:
                     Logger.LogLine(Logger.ERROR,
-                                    f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
+                                   f"Exception in Scene: {SceneManager.CurrentScene().name!r}")
                     exc = cls.exceptions.pop()
                     cls.exceptions.clear()
                     raise exc
                 else:
                     for exception in cls.exceptions:
                         Logger.LogLine(Logger.ERROR,
-                                        f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
+                                       f"Exception ignored in Scene: {SceneManager.CurrentScene().name!r}")
                         Logger.LogException(exception)
                     cls.exceptions.clear()
 

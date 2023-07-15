@@ -2,6 +2,12 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+"""
+Functions to get information about the PyUnity's installation,
+distribution or build. The main function is :func:`printInfo`.
+
+"""
+
 from typing import TYPE_CHECKING, Dict, List, Tuple, Callable, IO, Union, Any
 from importlib.metadata import Distribution
 

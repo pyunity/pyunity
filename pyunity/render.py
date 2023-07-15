@@ -609,7 +609,7 @@ class Camera(SingleComponent):
         self.depthShader.use()
         proj = glm.ortho(-10, 10, -10, 10, light.near, light.far)
         pos = light.transform.position * Vector3(1, 1, -1)
-        look = pos + light.transform.forward() * Vector3(1, 1, -1)
+        look = pos + light.transform.forward * Vector3(1, 1, -1)
         up = light.transform.up * Vector3(1, 1, -1)
         view = glm.lookAt(list(pos), list(look), list(up))
         light.lightSpaceMatrix = proj * view
