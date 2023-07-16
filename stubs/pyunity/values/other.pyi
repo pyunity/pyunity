@@ -9,8 +9,10 @@ __all__ = ["Clock", "IgnoredMixin", "ImmutableStruct", "IncludeInstanceMixin",
 from typing import (
     Optional, Any, Dict, Callable, TypeVar, Type, Tuple, Generic,
     Union, Mapping, List, TYPE_CHECKING)
+from typing_extensions import ParamSpec
 
 if TYPE_CHECKING:
+    _P = ParamSpec("_P")
     _T = TypeVar("_T")
     _TWRAP = TypeVar("_TWRAP")
 
@@ -42,7 +44,7 @@ class SavableStruct(Generic[_TWRAP]):
     attrs: Dict[str, StructEntry]
     def __init__(self, **kwargs: StructEntry) -> None: ...
     def fromDict(self, factory: Callable[..., _TWRAP], attrs: Mapping[str, Any], instanceCheck: Optional[Callable[[Type[_T], _T], Tuple[Type[_T], _T]]] = ...) -> _TWRAP: ...
-    def factoryWrapper(self, factory: Callable[..., _TWRAP]) -> Callable[..., _TWRAP]: ...
+    def factoryWrapper(self, factory: Callable[_P, _TWRAP]) -> Callable[_P, _TWRAP]: ...
     def __call__(self, cls: Type[_TWRAP]) -> Type[_TWRAP]: ...
 
 class StructEntry(Generic[_T]):

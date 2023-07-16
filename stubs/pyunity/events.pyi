@@ -10,6 +10,7 @@ from .core import Component
 from typing import (
     TypeVar, Callable, Any, Sequence, Mapping, Optional, Type, Union,
     List, Dict, Awaitable, Generator, Generic, TYPE_CHECKING)
+from typing_extensions import ParamSpec
 import threading
 import asyncio
 import signal
@@ -17,6 +18,7 @@ import signal
 if TYPE_CHECKING:
     _T = TypeVar("_T")
     _AT = TypeVar("_AT")
+    _P = ParamSpec("_P")
 
 class Event(Generic[_T]):
     component: Component
@@ -29,7 +31,7 @@ class Event(Generic[_T]):
     def trigger(self) -> _T: ...
     def callSoon(self) -> None: ...
     @classmethod
-    def _factoryWrapper(cls, factory: Callable[..., Event]) -> Callable[..., Event]: ...
+    def _factoryWrapper(cls, factory: Callable[_P, Event]) -> Callable[_P, Event]: ...
 
 class EventLoopManager:
     current: Union[EventLoopManager, None] = ...

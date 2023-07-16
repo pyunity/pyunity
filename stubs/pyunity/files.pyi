@@ -11,7 +11,10 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any, TYPE_CHECKING
+from typing import (
+    List, Dict, Optional, Type, Union, TypeVar, Callable, Any,
+    TYPE_CHECKING)
+from typing_extensions import ParamSpec
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
@@ -21,6 +24,7 @@ from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
 
 if TYPE_CHECKING:
+    _P = ParamSpec("_P")
     _AT = TypeVar("_AT", bound=Asset)
     _saverType = Dict[Type[_AT], Callable[[_AT, Union[str, Path]], None]]
 
@@ -106,7 +110,7 @@ class File:
     uuid: str
     def __init__(self, path: str, uuid: str) -> None: ...
 
-def checkScene(func: Callable[..., Any]) -> Callable[..., Any]: ...
+def checkScene(func: Callable[_P, Any]) -> Callable[_P, Any]: ...
 
 class Project:
     path: Path
