@@ -2,7 +2,7 @@
 requires = [
     "cython>=3.0.0a8",
     "wheel>=0.29.0",
-    "setuptools>=61.2"
+    "setuptools>=58.6.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -76,7 +76,7 @@ dev = [
     "importlib-metadata",
     "wheel>=0.29.0",
     "cython>=3.0.0a8",
-    "setuptools>=61.2",
+    "setuptools>=58.6.0",
     "build[virtualenv]>=0.10.0",
     "sphinx>=5.0.0",
     "sphinx-toolbox>=1.1.0",
