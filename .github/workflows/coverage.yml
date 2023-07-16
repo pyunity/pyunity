@@ -35,6 +35,7 @@ jobs:
       - name: Run mypy
         if: ${{ matrix.python-version == '3.11' }}
         run: |
+          pip install mypy>=1.4.0
           mypy -p pyunity
       - name: Run stubtest
         if: ${{ matrix.python-version == '3.11' }}
