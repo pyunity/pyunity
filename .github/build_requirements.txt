@@ -1,6 +1,6 @@
 cython>=3.0.0a8
 setuptools>=58.6.0
-build[virtualenv]>=0.10.0
+build[virtualenv]>=0.9.0
 toml
 autopep8
 pytest>=6.0
