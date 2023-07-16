@@ -34,4 +34,9 @@ class TestImmutableStruct(TestCase):
         del Struct.n
         with self.assertRaises(AttributeError) as exc:
             del Struct.f
-        assert exc.value == "f"
+        with self.assertRaises(AttributeError) as example:
+            class Struct:
+                pass
+
+            del Struct.f
+        assert exc.value == example.value
