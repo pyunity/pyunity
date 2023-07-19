@@ -49,7 +49,6 @@ class Window(ABCWindow):
         sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
 
     def refresh(self):
-        print("refresh")
         self.events = sdl2.ext.get_events()
         for event in self.events:
             if event.type == sdl2.SDL_QUIT:
