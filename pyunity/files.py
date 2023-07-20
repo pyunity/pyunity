@@ -272,7 +272,7 @@ class Scripts:
                     f"Cannot find class {name!r} in {str(pathobj)!r}")
             setattr(PyUnityScripts, name, Scripts.var[name])
             PyUnityScripts.__all__.append(name)
-            PyUnityScripts._lookup[str(path)] = Scripts.var[name]
+            PyUnityScripts._lookup[str(pathobj)] = Scripts.var[name]
             return Scripts.var[name]
         else:
             Logger.LogLine(Logger.WARN,
