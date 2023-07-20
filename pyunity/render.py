@@ -689,7 +689,6 @@ class Camera(SingleComponent):
             self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(self.getViewMat())))
             self.skyboxShader.setMat4(b"projection", self.projMat)
             self.skybox.use()
-            gl.glBindVertexArray(self.skybox.vao)
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 

@@ -434,6 +434,7 @@ class Skybox:
             if not self.compiled:
                 self.compile()
             gl.glBindTexture(gl.GL_TEXTURE_CUBE_MAP, self.texture)
+            gl.glBindVertexArray(self.vao)
 
 class Prefab(Asset):
     """Prefab model"""
