@@ -117,7 +117,7 @@ addFields: _AddFields
 
 class ComponentType(ABCMeta):
     @classmethod
-    def __prepare__(cls, name: str, bases: Tuple[type, ...], **kwds: Any) -> Mapping[str, object]: ...
+    def __prepare__(cls, name: str, bases: Tuple[type, ...], **kwds: Any) -> Mapping[str, object]: ...  # type: ignore # positional-only parameters not in python < 3.8
 
 class Component(SavesProjectID, metaclass=ComponentType):
     _shown: Dict[str, HideInInspector] = ...
