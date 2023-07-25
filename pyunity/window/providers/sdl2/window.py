@@ -49,7 +49,6 @@ class Window(ABCWindow):
         sdl2.SDL_GL_MakeCurrent(self.screen, self.context)
 
     def refresh(self):
-        self.events = sdl2.ext.get_events()
         for event in self.events:
             if event.type == sdl2.SDL_QUIT:
                 self.quit()
@@ -63,6 +62,7 @@ class Window(ABCWindow):
         self.resize = resize
 
     def updateFunc(self):
+        self.events = sdl2.ext.get_events()
         self.processKeys(self.events)
         self.processMouse(self.events)
         self.processSize(self.events)
