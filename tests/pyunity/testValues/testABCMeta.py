@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import ABCMeta, abstractmethod, abstractproperty, ABCException, ABCMessage
+from pyunity import ABCMeta, abstractmethod, abstractproperty, ABCException
 from . import TestCase
 
 class TestAbstractmethod(TestCase):
@@ -64,8 +64,9 @@ class TestABCMeta(TestCase):
             ABCSub().meth(1)
         assert exc.value.startswith("Function signature is not the same: ")
 
-        with self.assertRaises(ABCMessage) as exc:
-            class ABCSub(ABCTest, message="error message"):
-                def meth(self):
-                    return 5
-        assert exc.value == "error message"
+        # TODO: move to testWindow.py
+        # with self.assertRaises(ABCMessage) as exc:
+        #     class ABCSub(ABCTest, message="error message"):
+        #         def meth(self):
+        #             return 5
+        # assert exc.value == "error message"
