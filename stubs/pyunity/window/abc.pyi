@@ -8,14 +8,18 @@ Imported into ``pyunity.Window``.
 
 """
 
-__all__ = ["ABCWindow"]
+__all__ = ["ABCMessage", "ABCWindow"]
 
-from typing import Callable, Tuple
-from ..values import ABCMeta, abstractmethod
+from typing import Callable, Tuple, Mapping
+from ..values import ABCException, ABCMeta, abstractmethod
 from ..input import KeyCode, KeyState, MouseCode
+
+class ABCMessage(ABCException): ...
 
 class ABCWindow(metaclass=ABCMeta):
     def __init__(self, name: str) -> None: ...
+    @classmethod
+    def __init_subclass__(cls, **kwargs: Mapping[str, Any]) -> None: ...
     @abstractmethod
     def setResize(self, resize: Callable[[int, int], None]) -> None: ...
     @abstractmethod

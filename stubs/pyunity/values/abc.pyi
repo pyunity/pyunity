@@ -2,8 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["ABCMessage", "ABCException", "ABCMeta",
-           "abstractmethod", "abstractproperty"]
+__all__ = ["ABCException", "ABCMeta", "abstractmethod", "abstractproperty"]
 
 from typing import (
     Callable, Optional, Type, List, Tuple, Any, NoReturn, Mapping,
@@ -16,7 +15,6 @@ if TYPE_CHECKING:
     _P = ParamSpec("_P")
 
 class ABCException(Exception): ...
-class ABCMessage(ABCException): ...
 
 class abstractmethod(Generic[_P, _T]):
     func: Callable[_P, _T]
@@ -35,5 +33,3 @@ class abstractproperty(abstractmethod):
 class ABCMeta(type):
     _trigger: bool = ...
     def __init__(cls, name: str, bases: Tuple[type, ...], attrs: dict[str, Any], **kwds: Any) -> None: ...
-    @classmethod
-    def __prepare__(cls: Type[Any], name: str, bases: Tuple[type, ...], /, **kwds: Any) -> Mapping[str, object]: ...
