@@ -125,6 +125,10 @@ def GetWindowProvider():
                 Logger.LogLine(Logger.WARN, name +
                                ": Check the source code and use `pip install` "
                                "to resolve any missing dependencies.")
+            if i == 0 and len(providers) == 1:
+                Logger.LogLine(Logger.DEBUG, module.name, "doesn't work")
+                raise e
+
             Logger.LogException(e, silent=True)
             if i == len(providers) - 1:
                 Logger.LogLine(Logger.DEBUG, module.name, "doesn't work, exception logged")
@@ -175,9 +179,7 @@ def SetWindowProvider(name):
             Logger.LogLine(Logger.WARN,
                            name + ": Check the source code and use `pip install` "
                            "to resolve any missing dependencies.")
-        exc = e
-    if exc is not None:
-        raise PyUnityException(f"Cannot use window provider {module.name!r}")
+        raise PyUnityException(f"Cannot use window provider {module.name!r}") from e
     Logger.LogLine(Logger.DEBUG, "Using window provider", module.name)
     module = importlib.import_module(f".providers.{name}.window", __name__)
     config.windowProvider = module.Window
