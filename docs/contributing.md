@@ -21,7 +21,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 6. Issue that pull request!
 
 ## Any contributions you make will be under the MIT Software License
-In short, when you submit code changes, your submissions will be understood under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions will be understood under the same [MIT License](https://docs.pyunity.x10.bz/en/latest/license.html) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/pyunity/pyunity/issues)
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/pyunity/pyunity/issues/new); it's that easy!
@@ -43,12 +43,11 @@ People *love* thorough bug reports. I'm not even kidding.
 * 4 spaces for indentation rather than tabs
 * Adhere to our naming convention (it's a little different to Python's standard one):
 
-  - PascalCase for class names and public functions
-  - snake_case for private functions
-  - camelCase for all variables (even local variables) and module names
+  - PascalCase for class names and exported functions
+  - camelCase for all variables (even local variables), all module names
+    and all internal functions not to be used by the user
 
-  The definition of public and private is very strange in the context of Python, but it
-  is more like user functions and internal helper functions.
+    - If you want to export an entire submodule, import it as `from . import module as Module` in the package `__init__.py` file. For example, `Logger` is exported as `from . import logger as Logger`.
 
 * Add comments wherever needed, to explain what your changes do
 

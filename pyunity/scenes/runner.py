@@ -40,27 +40,37 @@ class Runner:
     def setup(self):
         pass
 
-    def load(self):
+    def load(self, managerClass=EventLoopManager):
         if self.scene is None:
             raise PyUnityException("Cannot load runner before setting a scene")
+
+        if not isinstance(managerClass, type):
+            raise PyUnityException("Argument 1: expected subclass of EventLoopManager, "
+                                   "got " + repr(managerClass))
+        if not issubclass(managerClass, EventLoopManager):
+            raise PyUnityException("Argument 1: expected subclass of EventLoopManager, "
+                                   "got " + str(managerClass.__name__))
+
         Logger.LogLine(Logger.DEBUG, "Starting scene")
-        self.eventLoopManager = EventLoopManager()
+        self.eventLoopManager = managerClass()
         self.eventLoopManager.schedule(self.scene.updateFixed, ups=50, waitFor=WaitForFixedUpdate)
         self.eventLoopManager.addLoop(self.scene.startScripts())
 
     def start(self):
-        while True:
+        while self.opened:
             try:
                 self.eventLoopManager.start()
-                break
             except ChangeScene:
-                if self.next is None:
-                    raise
-                self.eventLoopManager.quit()
-                self.scene.cleanUp()
-                self.scene = self.next
-                self.next = None
-                self.load()
+                self.changeScene()
+
+    def changeScene(self):
+        if self.next is None:
+            raise
+        self.eventLoopManager.quit()
+        self.scene.cleanUp()
+        self.scene = self.next
+        self.next = None
+        self.load()
 
     def quit(self):
         self.eventLoopManager.quit()
@@ -94,8 +104,8 @@ class WindowRunner(Runner):
         render.compileSkyboxes()
         Logger.LogSpecial(Logger.INFO, Logger.ELAPSED_TIME)
 
-    def load(self):
-        super(WindowRunner, self).load()
+    def load(self, managerClass=EventLoopManager):
+        super(WindowRunner, self).load(managerClass)
         self.eventLoopManager.schedule(
             self.scene.updateScripts, self.window.updateFunc,
             ups=config.fps, waitFor=WaitForUpdate)
@@ -121,8 +131,8 @@ class WindowRunner(Runner):
         Logger.LogLine(Logger.INFO, "Reset skyboxes")
 
 class NonInteractiveRunner(Runner):
-    def load(self):
-        super(NonInteractiveRunner, self).load()
+    def load(self, managerClass=EventLoopManager):
+        super(NonInteractiveRunner, self).load(managerClass)
         self.eventLoopManager.schedule(
             self.scene.updateScripts,
             ups=config.fps, waitFor=WaitForUpdate)

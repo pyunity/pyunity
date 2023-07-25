@@ -11,18 +11,22 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import List, Dict, Optional, Type, Union, TypeVar, Callable, Any, TYPE_CHECKING
+from typing import (
+    List, Dict, Optional, Type, Union, TypeVar, Callable, Any,
+    TYPE_CHECKING)
+from typing_extensions import ParamSpec
 from types import ModuleType
 from PIL import Image
 from pathlib import Path
-from .core import Component, ShowInInspector, GameObject, SavesProjectID
+from .core import Component, ShowInInspector, GameObject, SavesProjectID, Space
 from .scenes import Scene
 from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
 
 if TYPE_CHECKING:
-    AT = TypeVar("AT", bound=Asset)
-    saverType = Dict[Type[AT], Callable[[AT, Union[str, Path]], None]]
+    _P = ParamSpec("_P")
+    _AT = TypeVar("_AT", bound=Asset)
+    _saverType = Dict[Type[_AT], Callable[[_AT, Union[str, Path]], None]]
 
 def convert(type: Type[ctypes._SimpleCData], list: List[float]) -> object: ...
 
@@ -88,17 +92,17 @@ class Prefab(Asset):
     def Instantiate(self,
                     scene: Optional[Scene] = ...,
                     parent: Optional[GameObject] = ...,
-                    position: Vector3 = ...,
-                    rotation: Quaternion = ...,
-                    scale: Vector3 = ...,
-                    worldSpace: bool = ...) -> GameObject: ...
+                    position: Optional[Vector3] = ...,
+                    rotation: Optional[Quaternion] = ...,
+                    scale: Optional[Vector3] = ...,
+                    space: Space = ...) -> GameObject: ...
 
 class ProjectSavingContext:
     asset: Asset
     gameObject: GameObject
     project: Project
     filename: Union[str, Path]
-    savers: saverType
+    savers: _saverType
     def __init__(self, asset: Asset, gameObject: GameObject, project: Project, filename: Union[str, Path] = ...) -> None: ...
 
 class File:
@@ -106,7 +110,7 @@ class File:
     uuid: str
     def __init__(self, path: str, uuid: str) -> None: ...
 
-def checkScene(func: Callable[..., Any]) -> Callable[..., Any]: ...
+def checkScene(func: Callable[_P, Any]) -> Callable[_P, Any]: ...
 
 class Project:
     path: Path

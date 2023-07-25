@@ -12,9 +12,20 @@ for folder in os.listdir("pyunity/window/providers"):
     if os.path.isdir(path):
         providers.append(path)
 
-result = subprocess.call(["sphinx-apidoc", "-e", "-f", "-T", "-o",
-                "docs/source/api/", "pyunity", "pyunity/config.py", "pyunity/examples/", *providers],
-                env={**os.environ, "SPHINX_APIDOC_OPTIONS": "members,undoc-members,show-inheritance"})
+command = [
+    "sphinx-apidoc",
+    "-e",
+    "-f",
+    "-T",
+    "-o",
+    "docs/source/api/",
+    "pyunity",
+    "pyunity/config.py",
+    "pyunity/examples/",
+    *providers
+]
+apidocOpts = ",".join(["members", "undoc-members", "show-inheritance"])
+result = subprocess.call(command, env={**os.environ, "SPHINX_APIDOC_OPTIONS": apidocOpts})
 
 if result != 0:
     exit(result)
@@ -22,15 +33,15 @@ if result != 0:
 with open("docs/source/api/pyunity.rst") as f:
     lines = f.read().splitlines()[:-8]
 
-lines[0] = "API Documentation"
-lines[1] = "================="
-lines.insert(2, "")
-lines.insert(3, "Information on specific functions, classes, and methods in")
-lines.insert(4, "the PyUnity project.")
-lines.insert(0, "=================")
+lines[0] = "================="
+lines[1] = "API Documentation"
+lines.insert(2, "=================")
+lines.insert(3, "")
+lines.insert(4, "Information on specific functions, classes, and methods in")
+lines.insert(5, "the PyUnity project.")
 for i in range(len(lines)):
     if lines[i].startswith("   pyunity"):
-        lines[i] = "   api/" + lines[i][3:]
+        lines[i] = "   api/" + lines[i].lstrip()
 
 lines.append("")
 lines.append("Module contents")
@@ -43,7 +54,17 @@ with open("docs/source/api.rst", "w") as f:
     f.write("\n".join(lines))
 
 if len(sys.argv) > 1:
-    result = subprocess.call(["sphinx-build", "-b", "html", "-a", "-E", "-v", "docs/source/", "docs/en/"])
+    command = [
+        "sphinx-build",
+        "-b",
+        "html",
+        "-a",
+        "-E",
+        "-v",
+        "docs/source/",
+        "docs/en/"
+    ]
+    result = subprocess.call(command)
     if result != 0:
         exit(result)
     os.system("start docs/index.html")

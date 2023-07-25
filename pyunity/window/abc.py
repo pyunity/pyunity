@@ -8,9 +8,12 @@ Imported into ``pyunity.Window``.
 
 """
 
-__all__ = ["ABCWindow"]
+__all__ = ["ABCMessage", "ABCWindow"]
 
-from ..values import ABCMeta, abstractmethod
+from ..values import ABCException, ABCMeta, abstractmethod
+
+class ABCMessage(ABCException):
+    pass
 
 class ABCWindow(metaclass=ABCMeta):
     """
@@ -26,6 +29,12 @@ class ABCWindow(metaclass=ABCMeta):
 
     def __init__(self, name):
         pass
+
+    @classmethod
+    def __init_subclass__(cls, **kwargs):
+        if "message" in kwargs:
+            raise ABCMessage(kwargs["message"])
+        super(ABCWindow, cls).__init_subclass__(**kwargs)
 
     @abstractmethod
     def setResize(self, resize):

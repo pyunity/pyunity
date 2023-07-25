@@ -9,10 +9,10 @@ This will be imported as ``pyunity.Logger``.
 
 """
 
-__all__ = ["ResetStream", "LogException", "LogTraceback", "LogSpecial",
-           "SetStream", "Log", "LogLine", "Save", "Level", "Special",
-           "TempRedirect", "Elapsed", "TIME_FORMAT", "RUNNING_TIME",
-           "ELAPSED_TIME"]
+__all__ = ["DEBUG", "ELAPSED_TIME", "ERROR", "Elapsed", "INFO", "Level",
+           "Log", "LogException", "LogLine", "LogSpecial", "LogTraceback",
+           "OUTPUT", "RUNNING_TIME", "ResetStream", "Save", "SetStream",
+           "Special", "TIME_FORMAT", "TempRedirect", "WARN"]
 
 import io
 import os
@@ -169,7 +169,7 @@ def LogLine(level, *message, stacklevel=1, silent=False):
         if output:
             if level == ERROR:
                 sys.stderr.write(msg + "\n")
-            else:
+            elif stream is not None:
                 stream.write(msg + "\n")
     with open(folder / "latest.log", "a") as f:
         f.write(f"{stamp} {location} |{level.abbr}| {msg}\n")

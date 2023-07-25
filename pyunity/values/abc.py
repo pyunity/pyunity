@@ -2,16 +2,12 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["ABCMessage", "ABCException", "ABCMeta",
-           "abstractmethod", "abstractproperty"]
+__all__ = ["ABCException", "ABCMeta", "abstractmethod", "abstractproperty"]
 
 import inspect
 from .other import IncludeMixin
 
 class ABCException(Exception):
-    pass
-
-class ABCMessage(ABCException):
     pass
 
 class abstractmethod(IncludeMixin):
@@ -53,8 +49,8 @@ class abstractproperty(abstractmethod):
 class ABCMeta(type):
     _trigger = True
 
-    def __init__(cls, fullname, bases, attrs, /, **kwds):
-        super().__init__(fullname, bases, attrs, **kwds)
+    def __init__(cls, name, bases, attrs, **kwds):
+        super().__init__(name, bases, attrs, **kwds)
 
         for supercls in cls.__bases__:
             if supercls is object:
@@ -71,9 +67,3 @@ class ABCMeta(type):
                     raise ABCException("Function signature is not the same: " +
                                        repr(methods[method].func) + " and " +
                                        repr(attrs[method]))
-
-    @classmethod
-    def __prepare__(cls, name, bases, /, **kwds):
-        if "message" in kwds:
-            raise ABCMessage(kwds["message"])
-        return super(ABCMeta, cls).__prepare__(name, bases, **kwds)

@@ -20,6 +20,21 @@ if err != egl.EGL_SUCCESS:
 def convert(type, l):
     return (type * len(l))(*l)
 
+def getEglCfg():
+    configAttribs = convert(gl.GLint, [
+        egl.EGL_SURFACE_TYPE, egl.EGL_PBUFFER_BIT,
+        egl.EGL_BLUE_SIZE, 8,
+        egl.EGL_GREEN_SIZE, 8,
+        egl.EGL_RED_SIZE, 8,
+        egl.EGL_DEPTH_SIZE, 8,
+        egl.EGL_RENDERABLE_TYPE, egl.EGL_OPENGL_BIT,
+        egl.EGL_NONE
+    ])
+    eglCfgs = (gl.GLvoidp * 1)()
+    eglCfgSize = (gl.GLint * 1)(2)
+    egl.eglChooseConfig(eglDpy, configAttribs, eglCfgs, 1, eglCfgSize)
+    return eglCfgs[0]
+
 class Window(ABCWindow):
     """
     A window provider that uses EGL and
@@ -33,19 +48,7 @@ class Window(ABCWindow):
         major, minor = (gl.GLint * 1)(), (gl.GLint * 1)()
         egl.eglInitialize(eglDpy, major, minor)
 
-        configAttribs = convert(gl.GLint, [
-            egl.EGL_SURFACE_TYPE, egl.EGL_PBUFFER_BIT,
-            egl.EGL_BLUE_SIZE, 8,
-            egl.EGL_GREEN_SIZE, 8,
-            egl.EGL_RED_SIZE, 8,
-            egl.EGL_DEPTH_SIZE, 8,
-            egl.EGL_RENDERABLE_TYPE, egl.EGL_OPENGL_BIT,
-            egl.EGL_NONE
-        ])
-        eglCfgs = (gl.GLvoidp * 1)()
-        eglCfgSize = (gl.GLint * 1)(2)
-        egl.eglChooseConfig(eglDpy, configAttribs, eglCfgs, 1, eglCfgSize)
-        self.eglCfg = eglCfgs[0]
+        self.eglCfg = getEglCfg()
         if self.eglCfg is None:
             raise WindowProviderException("Could not get EGL config")
 

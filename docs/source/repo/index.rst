@@ -11,3 +11,4 @@ project.
    :caption: Contents:
 
    prepare
+   script

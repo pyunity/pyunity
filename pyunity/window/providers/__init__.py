@@ -2,8 +2,6 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-__all__ = ["checkModule", "getPriority", "getProviders"]
-
 import os
 import sys
 import pkgutil

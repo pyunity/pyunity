@@ -30,8 +30,14 @@ class TestImmutableStruct(TestCase):
         assert exc.value == "Field 'x' is read-only"
 
     def testSetOther(self):
+        global Struct
         Struct.n = 5
         del Struct.n
         with self.assertRaises(AttributeError) as exc:
             del Struct.f
-        assert exc.value == "f"
+        with self.assertRaises(AttributeError) as example:
+            class Struct:
+                pass
+
+            del Struct.f
+        assert exc.value == example.value

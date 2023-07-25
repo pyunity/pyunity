@@ -28,6 +28,7 @@ Submodules
    api/pyunity.events
    api/pyunity.files
    api/pyunity.gui
+   api/pyunity.info
    api/pyunity.input
    api/pyunity.loader
    api/pyunity.logger

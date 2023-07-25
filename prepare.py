@@ -45,7 +45,6 @@ def checkLicense():
     """
     files = [
         "prepare.py", "setup.py", # Root files
-        os.path.join("stubs", "setup.py"), # Stub setup
         *glob.glob("stubs/**/*.pyi", recursive=True),
         *glob.glob("tests/**/*.py", recursive=True),
         *glob.glob("pyunity/**/*.py", recursive=True),
@@ -63,13 +62,20 @@ def checkLicense():
 
 def checkWhitespace():
     """
-    Checks whitespace in all python and python stub files.
+    Checks whitespace in all files in the ``pyunity``
+    and ``stubs`` packages, the `docs/` folder and the
+    ``tests/`` suites.
+
     Trailing whitespace is removed and one empty line is
     enforced at the end.
 
     """
-    for file in glob.glob("**/*.py", recursive=True) + \
-            glob.glob("**/*.pyi", recursive=True):
+    files = ["prepare.py", "setup.py"]
+    for folder in ["docs", "pyunity", "stubs", "tests"]:
+        files.extend(glob.glob(folder + "**/*.py", recursive=True))
+        files.extend(glob.glob(folder + "**/*.pyi", recursive=True))
+
+    for file in files:
         with open(file, encoding="utf8") as f:
             contents = f.read().rstrip()
 
@@ -80,8 +86,11 @@ def checkWhitespace():
                 lines[i] = ""
         lines.append("")
 
+        content = "\n".join(lines)
+        while "\n\n\n" in lines:
+            content.replace("\n\n\n", "\n\n")
         with open(file, "w", encoding="utf8") as f:
-            f.write("\n".join(lines))
+            f.write(content)
 
 def parseSingleFile(path):
     current = multiprocessing.current_process()
@@ -89,13 +98,14 @@ def parseSingleFile(path):
 
     import autopep8
     autopep8.main(["autopep8", "-i", "--ignore",
-                "E26,E301,E302,E305,E401,E402,E501",
-                path])
+                   "E26,E301,E302,E305,E401,E402,E501",
+                   path])
 
 def parseCode(nthreads=None):
     """
     Uses autopep8 to parse all files in the ``pyunity``
-    package. Does not parse other files.
+    and ``stubs`` packages, the `docs/` folder and the
+    ``tests/`` suites.
 
     Parameters
     ----------
@@ -115,8 +125,10 @@ def parseCode(nthreads=None):
     if nthreads is None:
         nthreads = os.cpu_count()
     pool = multiprocessing.Pool(nthreads, initWorker)
-    paths = glob.glob("pyunity/**/*.py", recursive=True)
-    paths.append("setup.py")
+    paths = ["prepare.py", "setup.py"]
+    for folder in ["docs", "pyunity", "stubs", "tests"]:
+        paths.extend(glob.glob(folder + "**/*.py", recursive=True))
+        paths.extend(glob.glob(folder + "**/*.pyi", recursive=True))
 
     result = pool.map_async(parseSingleFile, paths)
     try:
@@ -181,6 +193,9 @@ def getPackages(parentModule="pyunity"):
                     new.add(variable)
             elif isinstance(value, (int, float, str, bool, list, dict)) and variable[0].isupper():
                 # Constants
+                new.add(variable)
+            elif variable.isupper() and not variable.startswith("_"):
+                # Forced constants (IncludeInstanceMixin not needed)
                 new.add(variable)
             elif isinstance(value, IncludeInstanceMixin):
                 # value was defined in this module
@@ -248,7 +263,7 @@ def checkMissing():
     global moduleVars
     moduleVars = {}
     getPackages("pyunity")
-    for file in glob.glob("stubs/**/*.pyi", recursive=True):
+    for file in glob.glob("stubs/pyunity/*.pyi", recursive=True):
         moduleName = file[6:-4].replace(os.path.sep, ".")
         if moduleName.endswith(".__init__"):
             # Needs special handling, better to do manually

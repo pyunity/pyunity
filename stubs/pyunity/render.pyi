@@ -17,7 +17,7 @@ from .files import Skybox
 from .values import Vector2, Vector3, Quaternion, ImmutableStruct
 from .core import SingleComponent, Transform
 from .meshes import MeshRenderer, Color
-from .gui import RectTransform, GuiRenderComponent
+from .gui import RectTransform, GuiRenderComponent, Canvas
 
 def fillScreen(scale: float = ...) -> None: ...
 
@@ -72,6 +72,7 @@ class Camera(SingleComponent):
     skybox: Skybox = ...
     ortho: bool = ...
     shadows: bool = ...
+    canvas: Union[Canvas, None] = ...
     depthMapSize: int = ...
     size: Vector2
     guiShader: Shader
@@ -80,8 +81,6 @@ class Camera(SingleComponent):
     customProjMat: Union[glm.mat4, None]
     orthoMat: glm.mat4
     viewMat: glm.mat4
-    lastPos: Vector3
-    lastRot: Quaternion
     renderPass: bool
     guiVBO: int
     guiVAO: int

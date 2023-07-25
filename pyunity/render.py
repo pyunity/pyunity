@@ -13,7 +13,7 @@ from .meshes import Color, RGB, floatSize
 from .values import Vector3, Vector2, Quaternion, ImmutableStruct
 from .errors import PyUnityException
 from .core import ShowInInspector, SingleComponent, addFields
-from .resources import getPath
+from .resources import resolver
 from .files import Skybox, convert
 from . import config, Logger
 from ctypes import c_float
@@ -305,11 +305,11 @@ class Shader:
 
 shaders = {}
 skyboxes = {}
-Shader.fromFolder(getPath("shaders/standard"), "Standard")
-Shader.fromFolder(getPath("shaders/skybox"), "Skybox")
-Shader.fromFolder(getPath("shaders/gui"), "GUI")
-Shader.fromFolder(getPath("shaders/depth"), "Depth")
-skyboxes["Water"] = Skybox(getPath("shaders/skybox/textures"))
+Shader.fromFolder(resolver.getPath("shaders/standard/"), "Standard")
+Shader.fromFolder(resolver.getPath("shaders/skybox/"), "Skybox")
+Shader.fromFolder(resolver.getPath("shaders/gui/"), "GUI")
+Shader.fromFolder(resolver.getPath("shaders/depth/"), "Depth")
+skyboxes["Water"] = Skybox(resolver.getPath("shaders/skybox/textures/"))
 
 def compileShaders():
     for shader in shaders.values():
@@ -441,8 +441,6 @@ class Camera(SingleComponent):
         self.orthoSize = 5
 
         self.viewMat = glm.lookAt([0, 0, 0], [0, 0, -1], [0, 1, 0])
-        self.lastPos = Vector3.zero()
-        self.lastRot = Quaternion.identity()
         self.renderPass = False
 
     def setupBuffers(self):
@@ -520,6 +518,8 @@ class Camera(SingleComponent):
 
     def getMatrix(self, transform):
         """Generates model matrix from transform."""
+        if not transform.hasChanged and transform.modelMatrix is not None:
+            return transform.modelMatrix
         angle, axis = transform.rotation.angleAxisPair
         angle = -glm.radians(angle)
         axis = Vector3(1, 1, -1) * axis.normalized()
@@ -528,6 +528,8 @@ class Camera(SingleComponent):
             transform.position * Vector3(1, 1, -1)))
         rotated = position * glm.mat4_cast(glm.angleAxis(angle, list(axis)))
         scaled = glm.scale(rotated, list(transform.scale))
+        transform.modelMatrix = scaled
+        transform.hasChanged = False
         return scaled
 
     def get2DMatrix(self, rectTransform):
@@ -547,8 +549,7 @@ class Camera(SingleComponent):
 
     def getViewMat(self):
         """Generates view matrix from Transform of camera."""
-        if self.renderPass and (self.lastPos != self.transform.position or
-                                self.lastRot != self.transform.rotation):
+        if self.renderPass and self.transform.hasChanged:
             # pos = self.transform.position * Vector3(1, 1, -1)
             # look = pos + \
             #     self.transform.rotation.RotateVector(
@@ -564,9 +565,8 @@ class Camera(SingleComponent):
             self.viewMat = glm.translate(
                 glm.mat4_cast(rot),
                 list(self.transform.position * Vector3(-1, -1, 1)))
-            self.lastPos = self.transform.position
-            self.lastRot = self.transform.rotation
             self.renderPass = False
+            self.transform.hasChanged = False
         return self.viewMat
 
     def UseShader(self, name):
@@ -595,7 +595,7 @@ class Camera(SingleComponent):
             self.shader.setVec3(lightName + b"color",
                                 light.color.toRGB() / 255)
             self.shader.setInt(lightName + b"type", int(light.type))
-            direction = light.transform.rotation.RotateVector(Vector3.forward())
+            direction = light.transform.forward
             self.shader.setVec3(lightName + b"dir",
                                 direction * Vector3(1, 1, -1))
             if self.shadows:
@@ -609,10 +609,8 @@ class Camera(SingleComponent):
         self.depthShader.use()
         proj = glm.ortho(-10, 10, -10, 10, light.near, light.far)
         pos = light.transform.position * Vector3(1, 1, -1)
-        look = pos + light.transform.rotation.RotateVector(
-            Vector3.forward()) * Vector3(1, 1, -1)
-        up = light.transform.rotation.RotateVector(
-            Vector3.up()) * Vector3(1, 1, -1)
+        look = pos + light.transform.forward * Vector3(1, 1, -1)
+        up = light.transform.up * Vector3(1, 1, -1)
         view = glm.lookAt(list(pos), list(look), list(up))
         light.lightSpaceMatrix = proj * view
 
@@ -635,7 +633,7 @@ class Camera(SingleComponent):
             normModel = glm.transpose(glm.inverse(glm.mat3(model)))
             self.shader.setMat4(b"model", model)
             self.shader.setMat3(b"normModel", normModel)
-            self.shader.setVec3(b"objectColor", renderer.mat.color / 255)
+            self.shader.setVec3(b"objectColor", renderer.mat.color.toRGB() / 255)
             if renderer.mat.texture is not None:
                 self.shader.setInt(b"textured", 1)
                 renderer.mat.texture.use()
@@ -691,7 +689,6 @@ class Camera(SingleComponent):
             self.skyboxShader.setMat4(b"view", glm.mat4(glm.mat3(self.getViewMat())))
             self.skyboxShader.setMat4(b"projection", self.projMat)
             self.skybox.use()
-            gl.glBindVertexArray(self.skybox.vao)
             gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36)
             gl.glDepthFunc(gl.GL_LESS)
 

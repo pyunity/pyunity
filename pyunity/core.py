@@ -50,12 +50,12 @@ and all have MeshRenderers:
 
 """
 
-__all__ = ["Component", "GameObject", "SingleComponent",
-           "Tag", "Transform", "ShowInInspector",
-           "HideInInspector", "addFields", "SavesProjectID",
-           "ComponentType"]
+__all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
+           "SavedAttribute", "SavesProjectID", "ShowInInspector",
+           "SingleComponent", "Space", "Tag", "Transform", "addFields"]
 
 import os
+import enum
 from .errors import PyUnityException, ComponentException
 from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
 from . import Logger
@@ -464,7 +464,7 @@ class ComponentType(ABCMeta):
 
     """
     @classmethod
-    def __prepare__(cls, name, bases, /, **kwds):
+    def __prepare__(cls, name, bases, **kwds):
         namespace = dict(super(ComponentType, cls).__prepare__(name, bases, **kwds))
         namespace["_saved"] = {}
         namespace["_shown"] = {}
@@ -613,6 +613,11 @@ class Component(SavesProjectID, metaclass=ComponentType):
         """Get the scene of the GameObject."""
         return self.gameObject.scene
 
+class Space(enum.Enum):
+    World = enum.auto()
+    Self = enum.auto()
+    Local = Self
+
 class SingleComponent(Component):
     """
     A base class for components that can only be added once.
@@ -620,7 +625,11 @@ class SingleComponent(Component):
     """
     pass
 
-@addFields(parent=HideInInspector(addFields.selfref))
+@addFields(
+    localPosition=ShowInInspector(Vector3, name="position"),
+    localRotation=ShowInInspector(Quaternion, name="rotation"),
+    localScale=ShowInInspector(Vector3, name="scale"),
+    parent=HideInInspector(addFields.selfref))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -644,17 +653,56 @@ class Transform(SingleComponent):
 
     """
 
-    localPosition = ShowInInspector(Vector3, name="position")
-    localRotation = ShowInInspector(Quaternion, name="rotation")
-    localScale = ShowInInspector(Vector3, name="scale")
-
     def __init__(self):
         super(Transform, self).__init__()
-        self.localPosition = Vector3.zero()
-        self.localRotation = Quaternion.identity()
-        self.localScale = Vector3.one()
+        self._localPosition = Vector3.zero()
+        self._localRotation = Quaternion.identity()
+        self._localScale = Vector3.one()
+        self.hasChanged = False
         self.parent = None
         self.children = []
+        self.modelMatrix = None
+
+    def _setChanged(self):
+        self.hasChanged = True
+        for child in self.children:
+            child._setChanged()
+
+    @property
+    def localPosition(self):
+        return self._localPosition
+
+    @localPosition.setter
+    def localPosition(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set position to object of type {type(value).__name__!r}")
+        self._localPosition = value
+        self._setChanged()
+
+    @property
+    def localRotation(self):
+        return self._localRotation
+
+    @localRotation.setter
+    def localRotation(self, value):
+        if not isinstance(value, Quaternion):
+            raise PyUnityException(
+                f"Cannot set rotation to object of type {type(value).__name__!r}")
+        self._localRotation = value
+        self._setChanged()
+
+    @property
+    def localScale(self):
+        return self._localScale
+
+    @localScale.setter
+    def localScale(self, value):
+        if not isinstance(value, Vector3):
+            raise PyUnityException(
+                f"Cannot set position to object of type {type(value).__name__!r}")
+        self._localScale = value
+        self._setChanged()
 
     @property
     def position(self):
@@ -683,7 +731,7 @@ class Transform(SingleComponent):
         if self.parent is None:
             return self.localRotation.copy()
         else:
-            return self.localRotation * self.parent.rotation
+            return self.parent.rotation * self.localRotation
 
     @rotation.setter
     def rotation(self, value):
@@ -749,7 +797,78 @@ class Transform(SingleComponent):
         else:
             self.localScale = value / self.parent.scale
 
-    def ReparentTo(self, parent):
+    @property
+    def up(self):
+        """
+        Return a normalized vector pointing in the up direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.up())
+
+    @property
+    def forward(self):
+        """
+        Return a normalized vector pointing in the forward direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.forward())
+
+    @property
+    def right(self):
+        """
+        Return a normalized vector pointing in the right direction
+        of this Transform in world space.
+
+        """
+        return self.rotation.RotateVector(Vector3.right())
+
+    def Translate(self, translation, relativeTo=Space.Self):
+        """
+        Moves the transform in the direction and distance of ``translation``.
+
+        Parameters
+        ----------
+        translation : Vector3
+            Distance to translate by
+        relativeTo : Space or Transform, optional
+            If Space.Self, translates relative to the transform. If
+            Space.World, trranslates relative to the world. If
+            another transform, translates relative to that transform.
+            By default Space.Self
+
+        """
+        if isinstance(relativeTo, Transform):
+            self.position += relativeTo.TransformDirection(translation)
+        elif relativeTo == Space.Self:
+            self.localPosition += translation
+        else:
+            self.position += translation
+
+    def Rotate(self, rotation, relativeTo=Space.Self):
+        """
+        Rotates the transform by either a quaternion or a vector
+        of Euler angles (around the x, y and z axes).
+
+        Parameters
+        ----------
+        rotation : Vector3 or Quaternion
+            Amount to rotate by
+        relativeTo : Space, optional
+            If Space.Self, rotates relative to the transform.
+            If Space.World, rotates relative to the world.
+            By default Space.Self
+
+        """
+        if not isinstance(rotation, Quaternion):
+            rotation = Quaternion.Euler(rotation)
+        if relativeTo == Space.Self:
+            self.rotation *= rotation
+        else:
+            self.rotation *= self.rotation * rotation * self.rotation.conjugate
+
+    def ReparentTo(self, parent, relativeTo=Space.World):
         """
         Reparent a Transform.
 
@@ -757,13 +876,27 @@ class Transform(SingleComponent):
         ----------
         parent : Transform
             The parent to reparent to.
+        relativeTo : Space
+            If Space.World, keeps the world space position, rotation
+            and scale. If Space.Self, only preserves local space
+            position, rotation and scale.
 
         """
         if self.parent is not None:
             self.parent.children.remove(self)
         if parent is not None:
             parent.children.append(self)
-        self.parent = parent
+
+        if relativeTo == Space.World:
+            oldPos = self.position
+            oldRot = self.rotation
+            oldScl = self.scale
+            self.parent = parent
+            self.position = oldPos
+            self.rotation = oldRot
+            self.scale = oldScl
+        else:
+            self.parent = parent
 
     def List(self):
         """

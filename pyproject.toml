@@ -2,7 +2,7 @@
 requires = [
     "cython>=3.0.0a8",
     "wheel>=0.29.0",
-    "setuptools>=61.2"
+    "setuptools>=58.6.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -25,6 +25,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.6"
 dependencies = [
@@ -58,18 +59,25 @@ docs = [
     "sphinx-toolbox>=1.1.0",
     "sphinx-hoverxref>=1.1.1",
 ]
+accel = [
+    "pyopengl-accelerate",
+    "numpy",
+]
 dev = [
     "glfw",
     "glcontext",
+    "pyopengl-accelerate",
+    "numpy",
+    "toml",
     "autopep8",
     "pytest>=6.0",
     "pytest-cov>=2.0",
-    "mypy>=1.3.0",
+    "mypy>=1.4.0",
     "importlib-metadata",
-    "cython>=3.0.0a8",
     "wheel>=0.29.0",
-    "setuptools>=61.2",
-    "build[virtualenv]>=0.10.0",
+    "cython>=3.0.0a8",
+    "setuptools>=58.6.0",
+    "build[virtualenv]>=0.9.0",
     "sphinx>=5.0.0",
     "sphinx-toolbox>=1.1.0",
     "sphinx-hoverxref>=1.1.1",
@@ -104,7 +112,7 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-python_version = "3.6"
+python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
@@ -113,4 +121,4 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 warn_unreachable = true
 # stubtest command
-# PYUNITY_CHANGE_MODULE=0 py -m mypy.stubtest --mypy-config-file pyproject.toml --allowlist .github/stubtest-ignore.txt pyunity
+# PYUNITY_CHANGE_MODULE=0 py -m mypy.stubtest --mypy-config-file pyproject.toml --ignore-unused-allowlist --allowlist .github/stubtest-ignore.txt pyunity

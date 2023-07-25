@@ -26,7 +26,7 @@ from .core import GameObject, Component, Tag, SavesProjectID
 from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
 from .scenes import SceneManager, Scene
 from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
-from .resources import getPath
+from .resources import resolver
 from pathlib import Path
 import struct
 import shutil
@@ -325,12 +325,12 @@ class Primitives(metaclass=ImmutableStruct):
 
     """
     _names = ["cube", "quad", "doubleQuad", "sphere", "capsule", "cylinder"]
-    cube = LoadMesh(getPath("primitives/cube.mesh"))
-    quad = LoadMesh(getPath("primitives/quad.mesh"))
-    doubleQuad = LoadMesh(getPath("primitives/doubleQuad.mesh"))
-    sphere = LoadMesh(getPath("primitives/sphere.mesh"))
-    capsule = LoadMesh(getPath("primitives/capsule.mesh"))
-    cylinder = LoadMesh(getPath("primitives/cylinder.mesh"))
+    cube = LoadMesh(resolver.getPath("primitives/cube.mesh"))
+    quad = LoadMesh(resolver.getPath("primitives/quad.mesh"))
+    doubleQuad = LoadMesh(resolver.getPath("primitives/doubleQuad.mesh"))
+    sphere = LoadMesh(resolver.getPath("primitives/sphere.mesh"))
+    capsule = LoadMesh(resolver.getPath("primitives/capsule.mesh"))
+    cylinder = LoadMesh(resolver.getPath("primitives/cylinder.mesh"))
 
 def GetImports(file):
     with open(file) as f:
@@ -776,7 +776,8 @@ def LoadProject(folder, remove=True):
     # Scripts
     for file in project.filePaths:
         if file.endswith(".py") and not file.startswith("__"):
-            Scripts.LoadScript(project.path / os.path.normpath(file))
+            script = Scripts.LoadScript(project.path / os.path.normpath(file))
+            project.SetAsset(file, script)
 
     # Meshes
     for file in project.filePaths:
