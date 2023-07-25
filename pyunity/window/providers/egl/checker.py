@@ -11,6 +11,7 @@ def check():
     """Checks to see if EGL works"""
     import os
     from .egl import setupPlatform
+    from .window import getEglCfg
     directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
     if os.path.isdir(directory):
         context = os.add_dll_directory(directory)
@@ -25,10 +26,18 @@ def check():
     finally:
         if context is not None:
             context.close()
-    egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
+
+    eglDpy = egl.eglGetDisplay(egl.EGL_DEFAULT_DISPLAY)
     err = egl.eglGetError()
     if err != egl.EGL_SUCCESS:
         raise WindowProviderException("EGL error: " + str(err))
+    
+    gl = checkModule("OpenGL.GL")
+    major, minor = (gl.GLint * 1)(), (gl.GLint * 1)()
+    egl.eglInitialize(eglDpy, major, minor)
+    eglCfg = getEglCfg()
+    if eglCfg is None:
+        raise WindowProviderException("Could not get EGL config")
 
 def cleanup():
     import sys

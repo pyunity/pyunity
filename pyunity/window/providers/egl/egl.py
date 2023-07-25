@@ -8,9 +8,6 @@ from pyunity import Logger
 import os
 import ctypes
 
-if os.name == "nt":
-    from OpenGL.platform.win32 import Win32Platform
-
 def setupPlatform():
     if os.name == "nt":
         setupWin32Platform()
@@ -50,5 +47,6 @@ def setupWin32Platform():
                 Logger.LogLine(Logger.INFO, name + ".dll not found")
         raise OSError("No GL/OpenGL library available")
 
+    from OpenGL.platform.win32 import Win32Platform
     Win32Platform.EGL = EGL
     Win32Platform.GLES2 = GLES2
