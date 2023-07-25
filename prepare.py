@@ -263,7 +263,7 @@ def checkMissing():
     global moduleVars
     moduleVars = {}
     getPackages("pyunity")
-    for file in glob.glob("stubs/**/*.pyi", recursive=True):
+    for file in glob.glob("stubs/pyunity/*.pyi", recursive=True):
         moduleName = file[6:-4].replace(os.path.sep, ".")
         if moduleName.endswith(".__init__"):
             # Needs special handling, better to do manually
