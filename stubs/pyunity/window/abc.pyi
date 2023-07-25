@@ -10,7 +10,7 @@ Imported into ``pyunity.Window``.
 
 __all__ = ["ABCMessage", "ABCWindow"]
 
-from typing import Callable, Tuple, Mapping
+from typing import Callable, Tuple, Mapping, Any
 from ..values import ABCException, ABCMeta, abstractmethod
 from ..input import KeyCode, KeyState, MouseCode
 
