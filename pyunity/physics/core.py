@@ -533,7 +533,7 @@ class CollManager(IgnoredMixin):
         # https://blog.winter.dev/2020/epa-algorithm/
         points = CollManager.gjk(a, b)
         if points is None:
-            return []
+            return None
         p0, p1, p2, p3 = points
         triangles = []
         edges = []
@@ -548,7 +548,7 @@ class CollManager(IgnoredMixin):
 
         while True:
             if cur >= limit:
-                return []
+                return None
             cur += 1
 
             results = [(t, abs(t.normal.dot(t.a.point))) for t in triangles]
