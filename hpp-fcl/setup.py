@@ -6,7 +6,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name="hpp-fcl",
-    version="2.3.3",
+    version="2.3.5",
     description="An extension of the Flexible Collision Library",
     python_requires=">=3.7",
     install_requires=["numpy"],
