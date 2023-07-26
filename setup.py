@@ -123,6 +123,8 @@ if os.environ["cython"] == "1":
                 "If this is not a local clone of the repository, please report",
                 "this as a bug at https://github.com/pyunity/pyunity/issues."
             ]))
+        if "" not in sys.path:
+            sys.path.insert(0, "")
         import prepare
         cFiles, dataFiles = prepare.getFiles()
         versionfile = "pyunity/_version.py"
