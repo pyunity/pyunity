@@ -140,7 +140,7 @@ if os.environ["cython"] == "1":
         }},
         "cmdclass": {"egg_info": Cythonize, "bdist_wheel": Wheel, "build_ext": ParallelBuild},
         "package_dir": {"pyunity": "src"},
-        "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
+        "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
