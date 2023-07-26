@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "cython>=3.0.0a8",
+    "cython>=3.0.0",
     "wheel>=0.29.0",
     "setuptools>=58.6.0"
 ]
@@ -75,7 +75,7 @@ dev = [
     "mypy>=1.4.0",
     "importlib-metadata",
     "wheel>=0.29.0",
-    "cython>=3.0.0a8",
+    "cython>=3.0.0",
     "setuptools>=58.6.0",
     "build[virtualenv]>=0.9.0",
     "sphinx>=5.0.0",

@@ -12,14 +12,13 @@ __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
            "BoxCollider", "Rigidbody", "Infinity"]
 
 from ..errors import PyUnityException
-from ..values import Vector3, Quaternion, ABCMeta, abstractmethod, IgnoredMixin
+from ..values import Vector3, Quaternion, ABCMeta, abstractmethod, IgnoredMixin, Mathf
 from ..core import Component, ShowInInspector, addFields
 from . import config
 import hppfcl
 import numpy as np
-import math
 
-Infinity = math.inf
+Infinity = Mathf.INFINITY
 """A representation of infinity"""
 
 class PhysicMaterial:
@@ -50,9 +49,11 @@ class PhysicMaterial:
         raise PyUnityException(
             "Cannot modify properties of PhysicMaterial: it is immutable")
 
-    def __init__(self, restitution=0.75, friction=1, immutable=False):
+    def __init__(self, restitution=0.75, friction=0.42, immutable=False):
         self.restitution = restitution
         self.friction = friction
+        self.staticFriction = self.friction
+        self.dynamicFriction = self.friction / 1.25
         self.combine = -1
         if immutable:
             self.__setattr__ = self._setattrException
@@ -169,7 +170,7 @@ class SphereCollider(Collider):
             distance = self.pos.getDistSqrd(other.pos)
             if distance < radii:
                 relative = (other.pos - self.pos).normalized()
-                dist = self.radius + other.radius - math.sqrt(distance)
+                dist = self.radius + other.radius - Mathf.Sqrt(distance)
                 return Manifold(self, other,
                                 (self.pos + other.pos) / 2,
                                 relative, dist)
@@ -341,7 +342,7 @@ class Rigidbody(Component):
         angle = rotation.length
         if angle != 0:
             rotation /= angle
-        rotQuat = Quaternion.FromAxis(math.degrees(angle), rotation)
+        rotQuat = Quaternion.FromAxis(Mathf.RAD_TO_DEG * angle, rotation)
         self.rot *= rotQuat
 
         self.force = Vector3.zero()
@@ -381,14 +382,16 @@ class Rigidbody(Component):
         self.force += force
         self.torque += point.cross(force)
 
-    def AddImpulse(self, impulse):
+    def AddImpulse(self, impulse, point=Vector3.zero()):
         """
-        Apply an impulse to the center of the Rigidbody.
+        Apply an impulse at some point relative to the Rigidbody.
 
         Parameters
         ----------
         impulse : Vector3
             Impulse to apply
+        point : Vector3
+            Point relative to rigidbody (in world space)
 
         Notes
         -----
@@ -396,7 +399,8 @@ class Rigidbody(Component):
         an impulse is just a jump in velocity.
 
         """
-        self.velocity += impulse
+        self.velocity += impulse * self.invMass
+        self.rotVel += self.invInertia * point.cross(impulse)
 
 class SupportPoint(IgnoredMixin):
     def __init__(self, point, original):
@@ -597,7 +601,7 @@ class CollManager(IgnoredMixin):
 
         if abs(u) > 1 or abs(v) > 1 or abs(w) > 1:
             return None
-        elif math.isnan(u + v + w):
+        elif u + v + w == float("nan"):
             return None
 
         point = Vector3(
@@ -703,6 +707,12 @@ class CollManager(IgnoredMixin):
         obj.setRotation(hppfcl.Quaternion.toRotationMatrix(rot))
         return obj
 
+    def GetStaticFriction(self, a, b):
+        return Mathf.Sqrt(a.physicMaterial.staticFriction ** 2 + b.physicMaterial.staticFriction ** 2)
+
+    def GetDynamicFriction(self, a, b):
+        return Mathf.Sqrt(a.physicMaterial.dynamicFriction ** 2 + b.physicMaterial.dynamicFriction ** 2)
+
     def CheckCollisions(self):
         """
         Goes through every pair exactly once,
@@ -730,27 +740,40 @@ class CollManager(IgnoredMixin):
 
         for rbA, rbB in manifolds:
             for m in manifolds[rbA, rbB]:
-                e = self.GetRestitution(rbA, rbB)
                 self.ResolveCollisions(
                     rbA, rbB,
-                    m.point, e, m.normal, m.penetration)
+                    m.point, m.normal, m.penetration)
 
-    def ResolveCollisions(self, a, b, point, restitution, normal, penetration):
+    def ResolveCollisions(self, a, b, point, normal, penetration):
         # rv = b.velocity - a.velocity
         # vn = rv.dot(normal)
         # if vn < 0:
         #     return
 
+        if a.invMass + b.invMass == 0:
+            return
+
+        restitution = self.GetRestitution(a, b)
         if b is self.dummyRigidbody:
             ap = point - a.pos
             vab = a.velocity + a.rotVel.cross(ap)
-            top = -(1 + restitution) * vab.dot(normal)
             apCrossN = ap.cross(normal)
             inertiaAcoeff = apCrossN.dot(apCrossN) * a.invInertia
+            top = -(1 + restitution) * vab.dot(normal)
             bottom = a.invMass + inertiaAcoeff
             j = top / bottom
             a.velocity += j * normal * a.invMass
-            a.rotVel += (point.cross(j * normal)) * a.invInertia
+            a.rotVel += ap.cross(j * normal) * a.invInertia
+
+            tangent = (vab - (vab.dot(normal)) * normal).normalized()
+            apCrossT = ap.cross(tangent)
+            inertiaAcoeff = apCrossT.dot(apCrossT) * a.invInertia
+            top = -vab.dot(tangent)
+            bottom = a.invMass + inertiaAcoeff
+            jt = top / bottom
+            if abs(jt) > j * self.GetStaticFriction(a, b):
+                jt = -j * self.GetDynamicFriction(a, b)
+            a.AddImpulse(jt * tangent, ap)
             return
 
         ap = point - a.pos
@@ -766,13 +789,26 @@ class CollManager(IgnoredMixin):
         bottom = a.invMass + b.invMass + inertiaAcoeff + inertiaBcoeff
         j = top / bottom
 
-        a.velocity += j * normal * a.invMass
-        b.velocity -= j * normal * b.invMass
-        a.rotVel += (ap.cross(j * normal)) * a.invInertia
-        b.rotVel -= (bp.cross(j * normal)) * b.invInertia
+        a.AddImpulse(j * normal, ap)
+        b.AddImpulse(-j * normal, bp)
+
+        # Friction
+        vab = a.velocity + a.rotVel.cross(ap) - b.velocity - b.rotVel.cross(bp)
+        tangent = (vab - (vab.dot(normal)) * normal).normalized()
+        apCrossT = ap.cross(tangent)
+        bpCrossT = bp.cross(tangent)
+        inertiaAcoeff = apCrossT.dot(apCrossT) * a.invInertia
+        inertiaBcoeff = bpCrossT.dot(bpCrossT) * b.invInertia
+        top = -vab.dot(tangent)
+        bottom = a.invMass + b.invMass + inertiaAcoeff + inertiaBcoeff
+        jt = top / bottom
+        if abs(jt) > j * self.GetStaticFriction(a, b):
+            jt = -j * self.GetDynamicFriction(a, b)
+
+        a.AddImpulse(jt * tangent, ap)
+        b.AddImpulse(-jt * tangent, bp)
 
         # Positional correction
-
         percent = 0.6
         slop = 0.01
         correction = max(penetration - slop, 0) / (a.invMass + b.invMass) * percent * normal
@@ -780,7 +816,7 @@ class CollManager(IgnoredMixin):
         b.pos -= b.invMass * correction
 
     def correctInf(self, a, b, correction, target):
-        if not math.isinf(a + b):
+        if a + b != Infinity:
             return 1 / target * correction
         else:
             return 0

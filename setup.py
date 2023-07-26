@@ -123,6 +123,8 @@ if os.environ["cython"] == "1":
                 "If this is not a local clone of the repository, please report",
                 "this as a bug at https://github.com/pyunity/pyunity/issues."
             ]))
+        if "" not in sys.path:
+            sys.path.insert(0, "")
         import prepare
         cFiles, dataFiles = prepare.getFiles()
         versionfile = "pyunity/_version.py"
@@ -138,12 +140,15 @@ if os.environ["cython"] == "1":
         }},
         "cmdclass": {"egg_info": Cythonize, "bdist_wheel": Wheel, "build_ext": ParallelBuild},
         "package_dir": {"pyunity": "src"},
-        "packages": ["pyunity"] + ["src." + package for package in find_packages(where="pyunity")],
+        "packages": ["pyunity"] + ["pyunity." + package for package in find_packages(where="pyunity")],
         "ext_package": "pyunity",
         "ext_modules": [Extension(file[4:-2].replace(os.path.sep, "."), [file]) for file in cFiles],
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
         "zip_safe": False
     }
+    if os.getenv("PYUNITY_COMPILER", "") == "mingw":
+        config["command_options"]["build_ext"]["compiler"] = ("setup.py", "mingw32")
+        config["command_options"]["build_ext"]["define"] = ("setup.py", "MS_WIN64")
 else:
     dataFiles = [a for a in glob.glob("pyunity/**/*.*", recursive=True) if ".py" not in a]
     config = {
