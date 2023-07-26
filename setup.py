@@ -146,6 +146,9 @@ if os.environ["cython"] == "1":
         "package_data": {"pyunity": [file[4:] for file in dataFiles]},
         "zip_safe": False
     }
+    if os.getenv("PYUNITY_COMPILER", "") == "mingw":
+        config["command_options"]["build_ext"]["compiler"] = ("setup.py", "mingw32")
+        config["command_options"]["build_ext"]["define"] = ("setup.py", "MS_WIN64")
 else:
     dataFiles = [a for a in glob.glob("pyunity/**/*.*", recursive=True) if ".py" not in a]
     config = {
