@@ -98,7 +98,6 @@ class SavedAttribute(Generic[_T]):
     class _Sentinel: ...
     Sentinel: _Sentinel = ...
 
-
 class HideInInspector(SavedAttribute[_T]):
     type: Type[_T]
     default: Union[_T, None]

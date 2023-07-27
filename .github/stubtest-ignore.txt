@@ -15,4 +15,7 @@ pyunity\.[A-Z]\w+\..*
 # pyunity.*\.([ACKV]?T|saverType|TWRAP)
 
 # Skip __all__
-pyunity\.(.*\.)?__all__
+pyunity(\..*)*\.__all__
+
+# Skip underscore values
+pyunity(\..*)*\._[a-zA-Z].*
