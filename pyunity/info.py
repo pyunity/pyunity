@@ -157,6 +157,35 @@ def getReqsFromToml(version):
                 reqs[section].append((name, version(name)))
     return reqs
 
+def pruneReqs(reqs):
+    """
+    Prune the requirements dict retrieved by ``getReqsFrom*``
+    functions. Removes sections with no requirements found,
+    and removes the ``dev`` section if there are any missing
+    requirements. This helps reduce the output of ``getInfo``,
+    since ``[dev]`` is a list of requirements which include
+    most other sections.
+
+    Parameters
+    ----------
+    reqs : dict
+        Requirements dictionary.
+        See format of return type of :func:`getReqs`
+
+    """
+    removed = set()
+    for section in reqs:
+        if all(x[1] is None for x in reqs[section]):
+            removed.add(section)
+
+    if "dev" in reqs and any(x[1] is None for x in reqs[section]):
+        removed.add("dev")
+
+    for section in removed:
+        reqs.pop(section)
+
+    return reqs
+
 def getReqsFromRepo(path, version):
     """
     Get all requirements of the PyUnity package from
@@ -184,13 +213,7 @@ def getReqsFromRepo(path, version):
     getRepoInfo()
     reqs = getReqsFromToml(version)
     if reqs is not None:
-        removed = []
-        for section in reqs:
-            if all(x[1] is None for x in reqs[section]):
-                removed.append(section)
-
-        for section in removed:
-            reqs.pop(section)
+        reqs = pruneReqs(reqs)
         if len(reqs) == 0:
             print("Warning: no reqs found in pyproject.toml")
             reqs = None
@@ -288,8 +311,8 @@ def getReqs():
     elif pkgutil.find_loader("importlib_metadata") is not None:
         from importlib_metadata import distribution, version, PackageNotFoundError
     else:
-        distribution = None
         print("Warning: Python version less than 3.8 but no importlib_metadata found")
+        return None
 
     def getVersion(name):
         try:
@@ -306,14 +329,14 @@ def getReqs():
 
     if reqs is None:
         try:
-            if distribution is None:
-                raise PackageNotFoundError
             dist = distribution("pyunity")
         except PackageNotFoundError:
             print("Warning: could not find pyunity distribution info")
             reqs = None
         else:
             reqs = getReqsFromDistribution(dist, getVersion, not repoChecked)
+            if reqs is not None:
+                reqs = pruneReqs(reqs)
 
     return reqs
 
