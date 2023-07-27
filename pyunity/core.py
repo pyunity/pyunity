@@ -361,7 +361,7 @@ class HideInInspector(SavedAttribute):
 
     Notes
     -----
-    The class variable is replaced after the class is defined.
+    The class variable is replaced only when instances are created.
     For example:
 
     .. code-block:: python
@@ -369,14 +369,15 @@ class HideInInspector(SavedAttribute):
         class MyBehaviour(Behaviour):
             attr = HideInInspector(str)
 
-    Here, accessing ``MyBehaviour.attr`` would return ``None``, and
+    If ``behaviour`` is an added component of type ``MyBehaviour``,
+    accessing ``behaviour.attr`` would raise ``AttributeError``, and
 
     .. code-block:: python
 
         class MyBehaviour(Behaviour):
             attr = HideInInspector(str, "default string")
 
-    Here, accessing ``MyBehaviour.attr`` would return
+    Here, accessing ``behaviour.attr`` would return
     ``"default string"``.
 
     """
@@ -432,6 +433,7 @@ class _AddFields(IncludeInstanceMixin):
         self.selfref = HideInInspector(type)
 
     def __call__(self, **kwargs):
+        # To disambiguate between the two `self` parameters
         selfref = self.selfref
 
         class _decorator:
