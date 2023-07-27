@@ -338,7 +338,12 @@ class SavedAttribute:
     used to reference an instance of either of these.
 
     """
-    pass
+
+    class _Sentinel:
+        pass
+
+    Sentinel = _Sentinel()
+    del _Sentinel
 
 class HideInInspector(SavedAttribute):
     """
@@ -376,7 +381,7 @@ class HideInInspector(SavedAttribute):
 
     """
 
-    def __init__(self, type_, default=None):
+    def __init__(self, type_, default=SavedAttribute.Sentinel):
         if isinstance(type_, str):
             import pyunity
             if type_ not in pyunity.__all__:
@@ -414,7 +419,7 @@ class ShowInInspector(HideInInspector):
         named ``Snake Case Var``.
 
     """
-    def __init__(self, type, default=None, name=None):
+    def __init__(self, type, default=SavedAttribute.Sentinel, name=None):
         super(ShowInInspector, self).__init__(type, default)
         self.name = name
 
@@ -438,6 +443,11 @@ class _AddFields(IncludeInstanceMixin):
 
             def __call__(self, cls):
                 for name, value in self.fields.items():
+                    if "PYUNITY_SPHINX_CHECK" not in os.environ:
+                        if not hasattr(cls, name):
+                            if value.default is not SavedAttribute.Sentinel:
+                                setattr(cls, name, value.default)
+
                     if value.name is None:
                         value.name = name
                     if value.type is selfref:
