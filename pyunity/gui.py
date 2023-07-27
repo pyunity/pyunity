@@ -59,7 +59,7 @@ class Canvas(Component):
                 if rect.min < pos < rect.max:
                     createTask(loop, comp.HoverUpdate())
 
-decorator = addFields(canvas=ShowInInspector(Canvas))
+decorator = addFields(canvas=ShowInInspector(Canvas, None))
 decorator.apply(Camera)
 
 @SavableStruct(
