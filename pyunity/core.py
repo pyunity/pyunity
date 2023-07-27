@@ -455,10 +455,6 @@ class _AddFields(IncludeInstanceMixin):
                     cls._saved[name] = value
                     if isinstance(value, ShowInInspector):
                         cls._shown[name] = value
-
-                    if "PYUNITY_SPHINX_CHECK" not in os.environ:
-                        if not hasattr(cls, name):
-                            setattr(cls, name, value.default)
                 return cls
         return _decorator(kwargs)
 
@@ -546,6 +542,15 @@ class Component(SavesProjectID, metaclass=ComponentType):
         super(Component, self).__init__()
         # gameObject and transform to be set by AddComponent
         self.enabled = True
+        for attr in self._saved:
+            if self._saved[attr].default is not SavedAttribute.Sentinel:
+                newObj = self._getAttrCopy(self._saved[attr].default)
+                setattr(self, attr, newObj)
+
+    def _getAttrCopy(self, obj):
+        if isinstance(obj, (Vector3, Quaternion, list, dict)):
+            return obj.copy()
+        return obj
 
     @classmethod
     def __init_subclass__(cls):
@@ -556,7 +561,7 @@ class Component(SavesProjectID, metaclass=ComponentType):
                     raise PyUnityException(f"Cannot use an attribute named one of {protected}")
                 if val.name is None:
                     val.name = name
-                setattr(cls, name, val.default)
+                delattr(cls, name)
 
     def AddComponent(self, componentClass):
         """
