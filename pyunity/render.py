@@ -383,8 +383,8 @@ class Light(SingleComponent):
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
 @addFields(
-    fov=ShowInInspector(int, 90),
-    orthoSize=ShowInInspector(float, 5, "Ortho Size"))
+    fov=ShowInInspector(int),
+    orthoSize=ShowInInspector(float))
 class Camera(SingleComponent):
     """
     Component to hold data about the camera in a scene.
