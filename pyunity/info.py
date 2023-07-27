@@ -238,7 +238,7 @@ def getReqsFromDistribution(dist, version, gitInfo=True):
         else:
             print("Warning: version.json not found")
 
-    discriminant = "; extra == \""
+    discriminant = " ; extra == '"
     reqs = {"": []}
     for item in dist.requires:
         name = formatName(item)
