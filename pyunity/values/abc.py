@@ -50,7 +50,7 @@ class ABCMeta(type):
     _trigger = True
 
     def __init__(cls, name, bases, attrs, **kwds):
-        super().__init__(name, bases, attrs, **kwds)
+        super(ABCMeta, cls).__init__(name, bases, attrs, **kwds)
 
         for supercls in cls.__bases__:
             if supercls is object:

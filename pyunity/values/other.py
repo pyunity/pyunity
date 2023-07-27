@@ -168,14 +168,14 @@ class ImmutableStruct(type):
     def __setattr__(self, name, value):
         if name in self._names:
             raise PyUnityException(f"Field {name!r} is read-only")
-        super().__setattr__(name, value)
+        super(ImmutableStruct, self).__setattr__(name, value)
 
     def __delattr__(self, name):
         if name in self._names:
             raise PyUnityException(f"Field {name!r} is read-only")
-        super().__delattr__(name)
+        super(ImmutableStruct, self).__delattr__(name)
 
     def _set(self, name, value):
         if name not in self._names:
             raise PyUnityException(f"No field named {name!r}")
-        super().__setattr__(name, value)
+        super(ImmutableStruct, self).__setattr__(name, value)
