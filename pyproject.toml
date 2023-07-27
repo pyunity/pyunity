@@ -63,24 +63,46 @@ accel = [
     "pyopengl-accelerate",
     "numpy",
 ]
-dev = [
-    "glfw",
-    "glcontext",
-    "pyopengl-accelerate",
-    "numpy",
-    "toml",
-    "autopep8",
-    "pytest>=6.0",
-    "pytest-cov>=2.0",
-    "mypy>=1.4.0",
-    "importlib-metadata",
+build = [
     "wheel>=0.29.0",
     "cython>=3.0.0",
     "setuptools>=58.6.0",
     "build[virtualenv]>=0.9.0",
+]
+test = [
+    "autopep8",
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "mypy>=1.4.0",
+]
+fallback = [
+    "toml",
+    "importlib-metadata",
+]
+dev = [
+    # providers
+    "glfw",
+    "glcontext",
+    # docs
     "sphinx>=5.0.0",
     "sphinx-toolbox>=1.1.0",
     "sphinx-hoverxref>=1.1.1",
+    # accel
+    "pyopengl-accelerate",
+    "numpy",
+    # build
+    "wheel>=0.29.0",
+    "cython>=3.0.0",
+    "setuptools>=58.6.0",
+    "build[virtualenv]>=0.9.0",
+    # test
+    "autopep8",
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "mypy>=1.4.0",
+    # fallback
+    "toml",
+    "importlib-metadata",
 ]
 
 [tool.setuptools]

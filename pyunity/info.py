@@ -160,11 +160,10 @@ def getReqsFromToml(version):
 def pruneReqs(reqs):
     """
     Prune the requirements dict retrieved by ``getReqsFrom*``
-    functions. Removes sections with no requirements found,
-    and removes the ``dev`` section if there are any missing
-    requirements. This helps reduce the output of ``getInfo``,
-    since ``[dev]`` is a list of requirements which include
-    most other sections.
+    functions. Removes the ``dev`` section if found and
+    removes sections with no requirements found. This helps
+    reduce the output of ``getInfo``, since ``[dev]`` is a
+    list of requirements which include most other sections.
 
     Parameters
     ----------
@@ -178,7 +177,7 @@ def pruneReqs(reqs):
         if all(x[1] is None for x in reqs[section]):
             removed.add(section)
 
-    if "dev" in reqs and any(x[1] is None for x in reqs[section]):
+    if "dev" in reqs:
         removed.add("dev")
 
     for section in removed:
