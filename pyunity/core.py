@@ -476,6 +476,20 @@ class ComponentType(ABCMeta):
         namespace["_shown"] = {}
         return namespace
 
+    def __getattr__(self, name):
+        if name in self._saved:
+            raise PyUnityException(
+                "Cannot modify SavedAttribute of ComponentType; "
+                "can only access attribute on instance")
+        return super(ComponentType, self).__getattr__(name)
+
+    def __setattr__(self, name, value):
+        if name in self._saved:
+            raise PyUnityException(
+                "Cannot modify SavedAttribute of ComponentType; "
+                "can only access attribute on instance")
+        super(ComponentType, self).__setattr__(name, value)
+
 class Component(SavesProjectID, metaclass=ComponentType):
     """
     Base class for built-in components.
