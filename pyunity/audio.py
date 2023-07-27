@@ -88,12 +88,11 @@ class AudioSource(Component):
 
     playOnStart = ShowInInspector(bool, False)
     loop = ShowInInspector(bool, False)
-    clip = ShowInInspector(AudioClip)
+    clip = ShowInInspector(AudioClip, None)
 
     def __init__(self):
         super(AudioSource, self).__init__()
         global channels
-        self.clip = None
         self.channel = channels
         channels += 1
         if config.audio:

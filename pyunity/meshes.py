@@ -573,7 +573,7 @@ class MeshRenderer(SingleComponent):
 
     DefaultMaterial = Material(RGB(200, 200, 200))
     DefaultMaterial.default = True
-    mesh = ShowInInspector(Mesh)
+    mesh = ShowInInspector(Mesh, None)
     mat = ShowInInspector(Material, DefaultMaterial, "material")
 
     def Render(self):

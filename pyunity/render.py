@@ -420,7 +420,7 @@ class Camera(SingleComponent):
 
     near = ShowInInspector(float, 0.05)
     far = ShowInInspector(float, 200)
-    clearColor = ShowInInspector(Color)
+    clearColor = ShowInInspector(Color, RGB(0, 0, 0))
     shader = ShowInInspector(Shader, shaders["Standard"])
     skyboxEnabled = ShowInInspector(bool, True)
     skybox = ShowInInspector(Skybox, skyboxes["Water"])
@@ -434,7 +434,6 @@ class Camera(SingleComponent):
         self.guiShader = shaders["GUI"]
         self.skyboxShader = shaders["Skybox"]
         self.depthShader = shaders["Depth"]
-        self.clearColor = RGB(0, 0, 0)
         self.customProjMat = None
 
         self.fov = 90

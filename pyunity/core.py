@@ -660,7 +660,7 @@ class SingleComponent(Component):
     localPosition=ShowInInspector(Vector3, name="position"),
     localRotation=ShowInInspector(Quaternion, name="rotation"),
     localScale=ShowInInspector(Vector3, name="scale"),
-    parent=HideInInspector(addFields.selfref))
+    parent=HideInInspector(addFields.selfref, None))
 class Transform(SingleComponent):
     """
     Class to hold data about a GameObject's transformation.
@@ -677,7 +677,7 @@ class Transform(SingleComponent):
         Scale of the Transform in local space.
     parent : Transform or None
         Parent of the Transform. The hierarchical tree is
-        actually formed by the Transform, not the GameObject.
+        formed by the Transform, not the GameObject.
         Do not modify this attribute.
     children : list
         List of children
@@ -690,7 +690,6 @@ class Transform(SingleComponent):
         self._localRotation = Quaternion.identity()
         self._localScale = Vector3.one()
         self.hasChanged = False
-        self.parent = None
         self.children = []
         self.modelMatrix = None
 

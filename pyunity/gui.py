@@ -248,13 +248,12 @@ class RectTransform(SingleComponent):
 
     anchors = ShowInInspector(RectAnchors)
     offset = ShowInInspector(RectOffset)
-    pivot = ShowInInspector(Vector2)
+    pivot = ShowInInspector(Vector2, Vector2(0.5, 0.5))
     rotation = ShowInInspector(float, 0)
     def __init__(self):
         super(RectTransform, self).__init__()
         self.anchors = RectAnchors()
         self.offset = RectOffset()
-        self.pivot = Vector2(0.5, 0.5)
 
     @property
     def parent(self):
@@ -338,14 +337,14 @@ class Image2D(GuiRenderComponent):
 
     """
 
-    texture = ShowInInspector(Texture2D)
+    texture = ShowInInspector(Texture2D, None)
     depth = ShowInInspector(float, 0.0)
     def __init__(self):
         super(Image2D, self).__init__()
         self.rectTransform = self.GetComponent(RectTransform)
 
 class RenderTarget(GuiRenderComponent):
-    source = ShowInInspector(Camera)
+    source = ShowInInspector(Camera, None)
     depth = ShowInInspector(float, 0.0)
     canvas = ShowInInspector(bool, True, "Render Canvas")
     flipY = 1
@@ -473,7 +472,7 @@ class Button(GuiComponent):
 
     """
 
-    callback = ShowInInspector(Event)
+    callback = ShowInInspector(Event, None)
     state = ShowInInspector(KeyState, KeyState.UP)
     mouseButton = ShowInInspector(MouseCode, MouseCode.Left)
     pressed = ShowInInspector(bool, False)
@@ -766,7 +765,7 @@ class Text(GuiRenderComponent):
 
     font = ShowInInspector(Font, FontLoader.LoadFont("Arial", 24))
     text = ShowInInspector(str, "Text")
-    color = ShowInInspector(Color)
+    color = ShowInInspector(Color, RGB(255, 255, 255))
     depth = ShowInInspector(float, 0.1)
     centeredX = ShowInInspector(TextAlign, TextAlign.Left)
     centeredY = ShowInInspector(TextAlign, TextAlign.Center)
@@ -774,7 +773,6 @@ class Text(GuiRenderComponent):
         super(Text, self).__init__()
         self.rect = None
         self.texture = None
-        self.color = RGB(255, 255, 255)
 
     def PreRender(self):
         if self.texture is None:
