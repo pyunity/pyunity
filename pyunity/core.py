@@ -132,7 +132,7 @@ class SavesProjectID:
 class GameObject(SavesProjectID):
     """
     Class to create a GameObject, which is an object containing
-    :class:`Component`\s.
+    :class:`Component`\\s.
 
     Parameters
     ----------
