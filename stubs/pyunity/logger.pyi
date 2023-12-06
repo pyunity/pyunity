@@ -14,8 +14,8 @@ __all__ = ["DEBUG", "ELAPSED_TIME", "ERROR", "Elapsed", "INFO", "Level",
            "OUTPUT", "RUNNING_TIME", "ResetStream", "Save", "SetStream",
            "Special", "TIME_FORMAT", "TempRedirect", "WARN"]
 
-from typing import Callable, Tuple, IO, Union, Type
 from types import TracebackType
+from typing import IO, Type, Tuple, Union, Callable
 from pathlib import Path
 import atexit
 

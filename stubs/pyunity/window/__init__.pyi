@@ -32,8 +32,8 @@ pull request.
 __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
-from typing import Type, TypeVar, TYPE_CHECKING
 from .abc import ABCWindow
+from typing import TYPE_CHECKING, Type, TypeVar
 
 if TYPE_CHECKING:
     _T = TypeVar("_T", bound=ABCWindow)

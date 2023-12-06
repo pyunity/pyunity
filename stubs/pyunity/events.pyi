@@ -7,13 +7,13 @@ __all__ = ["Event", "EventLoop", "EventLoopManager", "StartCoroutine",
            "WaitForRender", "WaitForSeconds", "WaitForUpdate"]
 
 from .core import Component
-from typing import (
-    TypeVar, Callable, Any, Sequence, Mapping, Optional, Type, Union,
-    List, Dict, Awaitable, Generator, Generic, TYPE_CHECKING)
 from typing_extensions import ParamSpec
-import threading
-import asyncio
+from typing import (TYPE_CHECKING, Any, Dict, List, Type, Union, Generic,
+                    Mapping, TypeVar, Callable, Optional, Sequence, Awaitable,
+                    Generator)
 import signal
+import asyncio
+import threading
 
 if TYPE_CHECKING:
     _T = TypeVar("_T")

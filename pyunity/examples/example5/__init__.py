@@ -2,7 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, Vector3, Logger, Material, RGB, SceneManager, GameObject, MeshRenderer, Loader
+from pyunity import (RGB, Behaviour, GameObject, Loader, Logger, Material,
+                     MeshRenderer, SceneManager, Vector3)
 import math
 
 rt50 = math.sqrt(50)

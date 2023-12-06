@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import config, SceneManager, AudioClip, AudioSource
+from pyunity import AudioClip, AudioSource, SceneManager, config
 from pyunity.resources import resolver
 
 def main():

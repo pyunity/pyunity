@@ -12,21 +12,21 @@ __all__ = ["Behaviour", "Texture2D", "Prefab", "Asset",
            "File", "Project", "Skybox", "Scripts",
            "ProjectSavingContext"]
 
-from .errors import PyUnityException, ProjectParseException
-from .core import Component, GameObject, SavesProjectID, Transform, Space
-from .values import ABCMeta, abstractmethod
 from . import Logger
-from types import ModuleType
-from functools import wraps
-from pathlib import Path
+from .core import Component, GameObject, SavesProjectID, Space, Transform
+from .errors import ProjectParseException, PyUnityException
+from .values import ABCMeta, abstractmethod
 from PIL import Image
-from uuid import uuid4
 import OpenGL.GL as gl
-import textwrap
-import ctypes
-import copy
-import sys
+from uuid import uuid4
+from types import ModuleType
+from pathlib import Path
+from functools import wraps
 import os
+import sys
+import copy
+import ctypes
+import textwrap
 
 def convert(type, list):
     """

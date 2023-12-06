@@ -2,7 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, GameObject, SceneManager, Material, RGB, Mesh, Vector3, MeshRenderer, WaitForSeconds
+from pyunity import (RGB, Behaviour, GameObject, Material, Mesh, MeshRenderer,
+                     SceneManager, Vector3, WaitForSeconds)
 
 class Switch(Behaviour):
     async def Start(self):

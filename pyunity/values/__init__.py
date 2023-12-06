@@ -4,14 +4,15 @@
 
 __all__ = ["Mathf", "Quaternion"]
 from . import mathf as Mathf
-from .vector import __all__ as _vector_all
-from .other import __all__ as _other_all
 from .abc import __all__ as _abc_all
+from .other import __all__ as _other_all
+from .vector import __all__ as _vector_all
+
 __all__.extend(_vector_all)
 __all__.extend(_other_all)
 __all__.extend(_abc_all)
 
-from .vector import *
-from .quaternion import Quaternion
-from .other import *
 from .abc import *
+from .other import *
+from .quaternion import Quaternion
+from .vector import *

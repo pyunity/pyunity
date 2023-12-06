@@ -6,11 +6,11 @@ __all__ = ["Clock", "IgnoredMixin", "ImmutableStruct", "IncludeInstanceMixin",
            "IncludeMixin", "LockedLiteral", "ModuleExportControlMixin",
            "SavableStruct", "StructEntry"]
 
-import time
-import sys
-from functools import partial
-from ..errors import PyUnityException
 from .. import config
+from ..errors import PyUnityException
+from functools import partial
+import sys
+import time
 
 class ModuleExportControlMixin:
     # Used by various helper scripts.

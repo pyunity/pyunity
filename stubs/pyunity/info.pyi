@@ -8,7 +8,7 @@ distribution or build. The main function is :func:`printInfo`.
 
 """
 
-from typing import TYPE_CHECKING, Dict, List, Tuple, Callable, IO, Union, Any
+from typing import IO, TYPE_CHECKING, Any, Dict, List, Tuple, Union, Callable
 from importlib.metadata import Distribution
 
 if TYPE_CHECKING:

@@ -13,8 +13,8 @@ mixer module cannot be initialized.
 
 __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
-from typing import Union
 from .core import Component
+from typing import Union
 
 class AudioClip:
     path: str

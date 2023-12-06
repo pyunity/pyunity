@@ -10,22 +10,24 @@ __all__ = ["Canvas", "RectData", "RectAnchors",
            "Button", "RenderTarget", "UnixFontLoader", "WinFontLoader"]
 
 from . import Logger
+from .core import (Component, GameObject, ShowInInspector, SingleComponent,
+                   addFields)
 from .errors import PyUnityException
-from .meshes import Color, RGB, MeshRenderer
-from .values import Vector2, ABCMeta, abstractmethod, SavableStruct, StructEntry
-from .core import Component, SingleComponent, GameObject, ShowInInspector, addFields
 from .events import Event
 from .files import Texture2D, convert
-from .input import Input, MouseCode, KeyState
-from .render import Screen, Camera, Light
+from .input import Input, KeyState, MouseCode
+from .meshes import RGB, Color, MeshRenderer
+from .render import Camera, Light, Screen
 from .resources import resolver
+from .values import (ABCMeta, SavableStruct, StructEntry, Vector2,
+                     abstractmethod)
 from PIL import Image, ImageDraw, ImageFont, features
 import OpenGL.GL as gl
-import inspect
 import os
 import sys
 import enum
 import ctypes
+import inspect
 
 _RAQM_SUPPORT = features.check("raqm")
 if not _RAQM_SUPPORT:

@@ -2,7 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Vector3, Quaternion, MeshRenderer, Loader, Material, RGB, Behaviour, Camera, ShowInInspector, Input, KeyCode, Light, LightType, Mathf
+from pyunity import (RGB, Behaviour, Camera, GameObject, Input, KeyCode, Light,
+                     LightType, Loader, Material, Mathf, MeshRenderer,
+                     Quaternion, SceneManager, ShowInInspector, Vector3)
 
 class OrthoMover(Behaviour):
     cam = ShowInInspector(Camera)

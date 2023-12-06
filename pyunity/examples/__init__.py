@@ -2,11 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from ..scenes import SceneManager
-from ..errors import PyUnityException
 from .. import Logger
-import pkgutil
+from ..errors import PyUnityException
+from ..scenes import SceneManager
 import sys
+import pkgutil
 import importlib
 
 SceneManager.KeyboardInterruptKill = True

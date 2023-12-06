@@ -4,9 +4,9 @@
 
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
-from typing import Dict, List, Union
-from enum import IntEnum
 from .values import ImmutableStruct, Vector2
+from enum import IntEnum
+from typing import Dict, List, Union
 
 class KeyState(IntEnum):
     UP: KeyState = ...

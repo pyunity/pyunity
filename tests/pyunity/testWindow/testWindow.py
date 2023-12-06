@@ -2,8 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+from pyunity import Logger, PyUnityException, Window, config
 from . import TestCase
-from pyunity import Window, PyUnityException, Logger, config
 
 class CustomWindow(Window.ABCWindow):
     def __init__(self, name):

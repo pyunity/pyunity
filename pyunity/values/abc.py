@@ -4,8 +4,8 @@
 
 __all__ = ["ABCException", "ABCMeta", "abstractmethod", "abstractproperty"]
 
-import inspect
 from .other import IncludeMixin
+import inspect
 
 class ABCException(Exception):
     pass

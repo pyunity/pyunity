@@ -32,12 +32,10 @@ pull request.
 __all__ = ["GetWindowProvider", "SetWindowProvider",
            "CustomWindowProvider", "ABCWindow"]
 
-from .providers import getProviders
-from .abc import ABCWindow
+from .. import Logger, config, settings
 from ..errors import PyUnityException
-from .. import Logger
-from .. import config
-from .. import settings
+from .abc import ABCWindow
+from .providers import getProviders
 import os
 import fnmatch
 import importlib.util

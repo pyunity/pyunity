@@ -9,21 +9,21 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
-from .meshes import Color, RGB, floatSize
-from .values import Vector3, Vector2, Quaternion, ImmutableStruct
-from .errors import PyUnityException
+from . import Logger, config
 from .core import ShowInInspector, SingleComponent, addFields
-from .resources import resolver
+from .errors import PyUnityException
 from .files import Skybox, convert
-from . import config, Logger
+from .meshes import RGB, Color, floatSize
+from .resources import resolver
+from .values import ImmutableStruct, Quaternion, Vector2, Vector3
+import glm
+import OpenGL.GL as gl
 from ctypes import c_float
 from pathlib import Path
-import OpenGL.GL as gl
-import collections.abc
+import os
 import enum
 import hashlib
-import glm
-import os
+import collections.abc
 
 def fillScreen(scale=1):
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)

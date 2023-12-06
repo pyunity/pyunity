@@ -2,7 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, SceneManager, GameObject, Vector3, MeshRenderer, Mesh, Material, RGB, WaitForSeconds
+from pyunity import (RGB, Behaviour, GameObject, Material, Mesh, MeshRenderer,
+                     SceneManager, Vector3, WaitForSeconds)
 
 class Rotator(Behaviour):
     async def Start(self):

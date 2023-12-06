@@ -10,11 +10,11 @@ __all__ = [
     "eglMakeCurrent", "eglTerminate", "EGL"
 ]
 
+from pyunity import Logger, WindowProviderException
+from functools import wraps
 import os
 import ctypes
 import ctypes.util
-from functools import wraps
-from pyunity import Logger, WindowProviderException
 
 directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
 if os.path.isdir(directory):

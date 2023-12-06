@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import math
 from pyunity import Quaternion, Vector3
 from . import TestCase, almostEqual
+import math
 
 sqrt2 = math.sqrt(2) / 2
 

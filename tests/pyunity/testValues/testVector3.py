@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import math
 from pyunity import Vector3
 from . import TestCase, almostEqual
+import math
 
 class TestVector3(TestCase):
     def testInit(self):

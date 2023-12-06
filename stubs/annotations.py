@@ -1,8 +1,8 @@
-import builtins
 import os
-import glob
 import re
 import sys
+import glob
+import builtins
 
 if len(sys.argv) > 1 and sys.argv[1] == "-x":
     missingOnly = True

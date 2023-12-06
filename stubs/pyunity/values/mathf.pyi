@@ -8,7 +8,7 @@ __all__ = ["Acos", "Asin", "Atan", "Atan2", "Ceil", "Clamp", "Clamp01", "Cos",
            "NEG_INFINITY", "PI", "RAD_TO_DEG", "Sign", "Sin", "SmoothDamper",
            "SmoothStep", "Sqrt", "Tan"]
 
-from typing import Callable, TypeVar, Any, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, TypeVar, Callable, Optional
 
 if TYPE_CHECKING:
     _T = TypeVar("_T", bound=Callable[..., Any])

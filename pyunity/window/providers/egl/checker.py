@@ -2,6 +2,7 @@
 # Keep all other imports inside check function
 from pyunity.errors import *
 from pyunity.window.providers import checkModule
+
 # Modify the below variables and function
 
 name = "EGL"
@@ -9,9 +10,9 @@ prio = 0
 
 def check():
     """Checks to see if EGL works"""
-    import os
     from .egl import setupPlatform
     from .window import getEglCfg
+    import os
     directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
     if os.path.isdir(directory):
         context = os.add_dll_directory(directory)

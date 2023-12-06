@@ -6,6 +6,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
 [![Semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue)](https://semver.org/)
 [![Python version](https://img.shields.io/pypi/pyversions/pyunity.svg?logo=python&logoColor=FBE072)](https://pypi.python.org/pypi/pyunity)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![Downloads](https://pepy.tech/badge/pyunity)](https://pepy.tech/project/pyunity)
 [![Build status](https://ci.appveyor.com/api/projects/status/ucpcthqu63llcgot?svg=true)](https://ci.appveyor.com/project/pyunity/pyunity)
 [![Testing](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml/badge.svg)](https://github.com/pyunity/pyunity/actions/workflows/coverage.yml)

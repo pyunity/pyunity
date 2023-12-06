@@ -4,10 +4,9 @@
 
 __all__ = ["ABCException", "ABCMeta", "abstractmethod", "abstractproperty"]
 
-from typing import (
-    Callable, Optional, Type, List, Tuple, Any, NoReturn, Mapping,
-    Generic, TypeVar, TYPE_CHECKING)
 from typing_extensions import ParamSpec
+from typing import (TYPE_CHECKING, Any, List, Type, Tuple, Generic, Mapping,
+                    TypeVar, Callable, NoReturn, Optional)
 import inspect
 
 if TYPE_CHECKING:

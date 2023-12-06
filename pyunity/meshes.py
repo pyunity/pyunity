@@ -6,16 +6,15 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from .core import SingleComponent, ShowInInspector
+from .core import ShowInInspector, SingleComponent
 from .files import Asset, convert
-from .values import Vector3
-from .values import Mathf
-from pathlib import Path
-from ctypes import c_float, c_uint, c_void_p
+from .values import Mathf, Vector3
 import OpenGL.GL as gl
-import itertools
-import colorsys
+from ctypes import c_uint, c_float, c_void_p
+from pathlib import Path
 import os
+import colorsys
+import itertools
 
 floatSize = gl.sizeof(c_float)
 

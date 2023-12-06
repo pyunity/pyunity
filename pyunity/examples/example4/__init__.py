@@ -2,7 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, ShowInInspector, GameObject, Vector3, SceneManager, MeshRenderer, Material, RGB, Loader, Light, LightType
+from pyunity import (RGB, Behaviour, GameObject, Light, LightType, Loader,
+                     Material, MeshRenderer, SceneManager, ShowInInspector,
+                     Vector3)
 
 class LookAt(Behaviour):
     other = ShowInInspector(GameObject)

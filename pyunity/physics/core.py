@@ -11,9 +11,9 @@ physics engine.
 __all__ = ["PhysicMaterial", "Collider", "SphereCollider", "Manifold",
            "BoxCollider", "Rigidbody", "Infinity"]
 
-from ..errors import PyUnityException
-from ..values import Vector3, Quaternion, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, ShowInInspector, addFields
+from ..errors import PyUnityException
+from ..values import ABCMeta, IgnoredMixin, Quaternion, Vector3, abstractmethod
 from . import config
 import math
 

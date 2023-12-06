@@ -10,9 +10,9 @@ Imported into ``pyunity.Window``.
 
 __all__ = ["ABCMessage", "ABCWindow"]
 
-from typing import Callable, Tuple, Mapping, Any
-from ..values import ABCException, ABCMeta, abstractmethod
 from ..input import KeyCode, KeyState, MouseCode
+from ..values import ABCException, ABCMeta, abstractmethod
+from typing import Any, Tuple, Mapping, Callable
 
 class ABCMessage(ABCException): ...
 

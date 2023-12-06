@@ -2,12 +2,12 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    SceneManager, GameObject, MeshRenderer, Mesh, Material, RGB,
-    Canvas, RectTransform, RenderTarget, Loader, Vector2)
+from pyunity import (RGB, Canvas, GameObject, Loader, Material, Mesh,
+                     MeshRenderer, RectTransform, RenderTarget, SceneManager,
+                     Vector2)
 from . import SceneTestCase
-import tempfile
 import os
+import tempfile
 
 class ChangeDirectory:
     def __init__(self, directory):

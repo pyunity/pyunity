@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Loader, Vector2, Vector3, Quaternion, RGB, HSV
+from pyunity import HSV, RGB, Loader, Quaternion, Vector2, Vector3
 from . import TestCase
 
 class TestParseString(TestCase):

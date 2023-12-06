@@ -55,12 +55,13 @@ __all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
            "SingleComponent", "Space", "Tag", "Transform", "addFields"]
 
 from .scenes import Scene
-from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
-from typing import (
-    Dict, Iterator, List as _List, Type, TypeVar, Callable, Any, Tuple,
-    Generic, Union, Mapping, Optional, TYPE_CHECKING)
-import enum
+from .values import ABCMeta, IncludeInstanceMixin, Quaternion, Vector3
 import glm
+from typing import TYPE_CHECKING, Any, Dict
+from typing import List as _List
+from typing import (Type, Tuple, Union, Generic, Mapping, TypeVar, Callable,
+                    Iterator, Optional)
+import enum
 
 if TYPE_CHECKING:
     _CT = TypeVar("_CT", bound=Component)

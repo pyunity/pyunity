@@ -2,7 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Material, RGB, MeshRenderer, Vector3, Mesh, Rigidbody, BoxCollider, Infinity
+from pyunity import (RGB, BoxCollider, GameObject, Infinity, Material, Mesh,
+                     MeshRenderer, Rigidbody, SceneManager, Vector3)
 
 def main():
     scene = SceneManager.AddScene("Scene")

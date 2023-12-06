@@ -6,9 +6,9 @@
 
 __all__ = ["Quaternion", "QuaternionDiff"]
 
-from typing import Any, Iterator, List, Tuple, Union
-from .vector import Vector3
 from .other import LockedLiteral
+from .vector import Vector3
+from typing import Any, List, Tuple, Union, Iterator
 
 class Quaternion(LockedLiteral):
     w: float

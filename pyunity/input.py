@@ -4,12 +4,11 @@
 
 __all__ = ["KeyState", "KeyCode", "MouseCode", "Input", "KeyboardAxis"]
 
-import os
-from enum import IntEnum, auto
-from .values import Mathf, ImmutableStruct
 from .errors import PyUnityException
 from .scenes import SceneManager
-from .values import Vector3
+from .values import ImmutableStruct, Mathf, Vector3
+from enum import IntEnum, auto
+import os
 
 class KeyState(IntEnum):
     UP = auto()

@@ -1,4 +1,239 @@
+Class missing: pyunity.core._AddFields
+    Method missing: pyunity.core._AddFields.apply
+Class missing: pyunity.core.Component
+    Method missing: pyunity.core.Component.attr1
+    Method missing: pyunity.core.Component._getAttrCopy
+Class missing: pyunity.core.Transform
+    Method missing: pyunity.core.Transform._setChanged
+Class missing: pyunity.events.Event
+    Method missing: pyunity.events.Event.wrapper
+    Method missing: pyunity.events.Event.inner
+Class missing: pyunity.events.EventLoopManager
+    Method missing: pyunity.events.EventLoopManager.inner
+    Method missing: pyunity.events.EventLoopManager.inner
+Class missing: pyunity.files.Texture2D
+    Method missing: pyunity.files.Texture2D.GetAssetFile
+    Method missing: pyunity.files.Texture2D.SaveAsset
+Class missing: pyunity.files.Prefab
+    Method missing: pyunity.files.Prefab.GetAssetFile
+    Method missing: pyunity.files.Prefab.SaveAsset
+Class missing: pyunity.files.File
+    Method missing: pyunity.files.File.inner
+Class missing: pyunity.loader.ObjectInfo
+    Method missing: pyunity.loader.ObjectInfo.addUuid
+    Method missing: pyunity.loader.ObjectInfo.addUuid
+Class missing: pyunity.meshes.Mesh
+    Method missing: pyunity.meshes.Mesh.GetAssetFile
+    Method missing: pyunity.meshes.Mesh.SaveAsset
+Class missing: pyunity.meshes.Material
+    Method missing: pyunity.meshes.Material.GetAssetFile
+    Method missing: pyunity.meshes.Material.SaveAsset
+Class missing: pyunity.resources.ZipAssetResolver
+    Method missing: pyunity.resources.ZipAssetResolver.getSrcMtime
+    Method missing: pyunity.resources.ZipAssetResolver.checkSrcExists
+    Method missing: pyunity.resources.ZipAssetResolver.copyAsset
+Class missing: pyunity.resources.PackageAssetResolver
+    Method missing: pyunity.resources.PackageAssetResolver.getSrcMtime
+    Method missing: pyunity.resources.PackageAssetResolver.checkSrcExists
+    Method missing: pyunity.resources.PackageAssetResolver.copyAsset
+Class missing: pyunity.physics.core.Manifold
+    Method missing: pyunity.physics.core.Manifold.__str__
+Class missing: pyunity.physics.core.Collider
+    Method missing: pyunity.physics.core.Collider.supportPoint
+    Method missing: pyunity.physics.core.Collider.pos
+    Method missing: pyunity.physics.core.Collider.pos
+    Method missing: pyunity.physics.core.Collider.rot
+    Method missing: pyunity.physics.core.Collider.rot
+Class missing: pyunity.physics.core.SphereCollider
+    Method missing: pyunity.physics.core.SphereCollider.min
+    Method missing: pyunity.physics.core.SphereCollider.max
+    Method missing: pyunity.physics.core.SphereCollider.collidingWith
+    Method missing: pyunity.physics.core.SphereCollider.supportPoint
+Class missing: pyunity.physics.core.BoxCollider
+    Method missing: pyunity.physics.core.BoxCollider.min
+    Method missing: pyunity.physics.core.BoxCollider.max
+    Method missing: pyunity.physics.core.BoxCollider.collidingWith
+    Method missing: pyunity.physics.core.BoxCollider.supportPoint
+    Method missing: pyunity.physics.core.BoxCollider.sign
+Class missing: pyunity.physics.core.Rigidbody
+    Method missing: pyunity.physics.core.Rigidbody.mass
+    Method missing: pyunity.physics.core.Rigidbody.mass
+    Method missing: pyunity.physics.core.Rigidbody.inertia
+    Method missing: pyunity.physics.core.Rigidbody.inertia
+    Method missing: pyunity.physics.core.Rigidbody.pos
+    Method missing: pyunity.physics.core.Rigidbody.pos
+    Method missing: pyunity.physics.core.Rigidbody.rot
+    Method missing: pyunity.physics.core.Rigidbody.rot
+Class missing: pyunity.physics.core.SupportPoint
+    Method missing: pyunity.physics.core.SupportPoint.__init__
+Class missing: pyunity.physics.core.Triangle
+    Method missing: pyunity.physics.core.Triangle.__init__
+Class missing: pyunity.physics.core.CollManager
+    Method missing: pyunity.physics.core.CollManager.supportPoint
+    Method missing: pyunity.physics.core.CollManager.nextSimplex
+    Method missing: pyunity.physics.core.CollManager.lineSimplex
+    Method missing: pyunity.physics.core.CollManager.triSimplex
+    Method missing: pyunity.physics.core.CollManager.tetraSimplex
+    Method missing: pyunity.physics.core.CollManager.gjk
+    Method missing: pyunity.physics.core.CollManager.epa
+    Method missing: pyunity.physics.core.CollManager.AddEdge
+    Method missing: pyunity.physics.core.CollManager.barycentric
+    Method missing: pyunity.physics.core.CollManager.ResolveCollisions
+    Method missing: pyunity.physics.core.CollManager.correctInf
+Class missing: pyunity.scenes.scene.Scene
+    Method missing: pyunity.scenes.scene.Scene.GetAssetFile
+    Method missing: pyunity.scenes.scene.Scene.SaveAsset
+Class missing: pyunity.values.vector.Vector2
+    Method missing: pyunity.values.vector.Vector2.__iter__
+    Method missing: pyunity.values.vector.Vector2.__len__
+    Method missing: pyunity.values.vector.Vector2.replace
+    Method missing: pyunity.values.vector.Vector2.length
+Class missing: pyunity.values.vector.Vector3
+    Method missing: pyunity.values.vector.Vector3.__iter__
+    Method missing: pyunity.values.vector.Vector3.__len__
+    Method missing: pyunity.values.vector.Vector3.replace
+    Method missing: pyunity.values.vector.Vector3.length
+Class missing: pyunity.window.providers.egl.eglOLD.EGLDisplay
+Class missing: pyunity.window.providers.egl.eglOLD.EGLConfig
+Class missing: pyunity.window.providers.egl.eglOLD.EGLSurface
+Class missing: pyunity.window.providers.egl.eglOLD.EGLContext
+Class missing: pyunity.window.providers.egl.eglOLD.EGLBoolean
+Class missing: pyunity.window.providers.egl.eglOLD.EGLint
+Class missing: pyunity.window.providers.egl.eglOLD.EGL
+Class missing: pyunity.window.providers.egl.window.Window
+    Method missing: pyunity.window.providers.egl.window.Window.__init__
+    Method missing: pyunity.window.providers.egl.window.Window.setResize
+    Method missing: pyunity.window.providers.egl.window.Window.refresh
+    Method missing: pyunity.window.providers.egl.window.Window.quit
+    Method missing: pyunity.window.providers.egl.window.Window.updateFunc
+    Method missing: pyunity.window.providers.egl.window.Window.getKey
+    Method missing: pyunity.window.providers.egl.window.Window.getMouse
+    Method missing: pyunity.window.providers.egl.window.Window.getMousePos
+Class missing: pyunity.window.providers.example.window.Window
+    Method missing: pyunity.window.providers.example.window.Window.__init__
+    Method missing: pyunity.window.providers.example.window.Window.refresh
+    Method missing: pyunity.window.providers.example.window.Window.quit
+    Method missing: pyunity.window.providers.example.window.Window.setResize
+    Method missing: pyunity.window.providers.example.window.Window.updateFunc
+    Method missing: pyunity.window.providers.example.window.Window.getMouse
+    Method missing: pyunity.window.providers.example.window.Window.getKey
+    Method missing: pyunity.window.providers.example.window.Window.getMousePos
+Class missing: pyunity.window.providers.glctx.window.Window
+    Method missing: pyunity.window.providers.glctx.window.Window.__init__
+    Method missing: pyunity.window.providers.glctx.window.Window.refresh
+    Method missing: pyunity.window.providers.glctx.window.Window.quit
+    Method missing: pyunity.window.providers.glctx.window.Window.setResize
+    Method missing: pyunity.window.providers.glctx.window.Window.updateFunc
+    Method missing: pyunity.window.providers.glctx.window.Window.getMouse
+    Method missing: pyunity.window.providers.glctx.window.Window.getKey
+    Method missing: pyunity.window.providers.glctx.window.Window.getMousePos
+Class missing: pyunity.window.providers.glfw.window.Window
+    Method missing: pyunity.window.providers.glfw.window.Window.__init__
+    Method missing: pyunity.window.providers.glfw.window.Window.setResize
+    Method missing: pyunity.window.providers.glfw.window.Window.getKey
+    Method missing: pyunity.window.providers.glfw.window.Window.getMouse
+    Method missing: pyunity.window.providers.glfw.window.Window.getMousePos
+    Method missing: pyunity.window.providers.glfw.window.Window.refresh
+    Method missing: pyunity.window.providers.glfw.window.Window.quit
+    Method missing: pyunity.window.providers.glfw.window.Window.updateFunc
+    Method missing: pyunity.window.providers.glfw.window.Window.framebufferSizeCallback
+    Method missing: pyunity.window.providers.glfw.window.Window.key_callback
+    Method missing: pyunity.window.providers.glfw.window.Window.mouseButtonCallback
+    Method missing: pyunity.window.providers.glfw.window.Window.checkQuit
+    Method missing: pyunity.window.providers.glfw.window.Window.checkKeys
+    Method missing: pyunity.window.providers.glfw.window.Window.checkMouse
+Class missing: pyunity.window.providers.glut.window.Window
+    Method missing: pyunity.window.providers.glut.window.Window.__init__
+    Method missing: pyunity.window.providers.glut.window.Window.refresh
+    Method missing: pyunity.window.providers.glut.window.Window.start
+    Method missing: pyunity.window.providers.glut.window.Window.scheduleUpdate
+    Method missing: pyunity.window.providers.glut.window.Window.display
+    Method missing: pyunity.window.providers.glut.window.Window.quit
+    Method missing: pyunity.window.providers.glut.window.Window.getKey
+    Method missing: pyunity.window.providers.glut.window.Window.getMouse
+Class missing: pyunity.window.providers.sdl2.window.Window
+    Method missing: pyunity.window.providers.sdl2.window.Window.__init__
+    Method missing: pyunity.window.providers.sdl2.window.Window.refresh
+    Method missing: pyunity.window.providers.sdl2.window.Window.quit
+    Method missing: pyunity.window.providers.sdl2.window.Window.setResize
+    Method missing: pyunity.window.providers.sdl2.window.Window.updateFunc
+    Method missing: pyunity.window.providers.sdl2.window.Window.processKeys
+    Method missing: pyunity.window.providers.sdl2.window.Window.processMouse
+    Method missing: pyunity.window.providers.sdl2.window.Window.processSize
+    Method missing: pyunity.window.providers.sdl2.window.Window.getKey
+    Method missing: pyunity.window.providers.sdl2.window.Window.getMouse
+    Method missing: pyunity.window.providers.sdl2.window.Window.getMousePos
+
+Function missing: pyunity.events.wrap
+Function missing: pyunity.gui.createTask
+Function missing: pyunity.logger._upload
+Function missing: pyunity.__main__.main
+Function missing: pyunity.window.providers.egl.checker.check
+Function missing: pyunity.window.providers.egl.checker.cleanup
+Function missing: pyunity.window.providers.egl.egl.setupPlatform
+Function missing: pyunity.window.providers.egl.egl.setupWin32Platform
+Function missing: pyunity.window.providers.egl.eglOLD.wrap
+Function missing: pyunity.window.providers.egl.eglOLD.returnPointer
+Function missing: pyunity.window.providers.egl.eglOLD.returnArray
+Function missing: pyunity.window.providers.egl.eglOLD.length
+Function missing: pyunity.window.providers.egl.eglOLD.EGLList
+Function missing: pyunity.window.providers.egl.eglOLD.eglGetError
+Function missing: pyunity.window.providers.egl.eglOLD.eglInitialize
+Function missing: pyunity.window.providers.egl.eglOLD.eglGetDisplay
+Function missing: pyunity.window.providers.egl.eglOLD.eglChooseConfig
+Function missing: pyunity.window.providers.egl.eglOLD.eglCreatePbufferSurface
+Function missing: pyunity.window.providers.egl.eglOLD.eglBindAPI
+Function missing: pyunity.window.providers.egl.eglOLD.eglCreateContext
+Function missing: pyunity.window.providers.egl.eglOLD.eglMakeCurrent
+Function missing: pyunity.window.providers.egl.eglOLD.eglDestroySurface
+Function missing: pyunity.window.providers.egl.eglOLD.eglDestroyContext
+Function missing: pyunity.window.providers.egl.eglOLD.eglTerminate
+Function missing: pyunity.window.providers.egl.window.convert
+Function missing: pyunity.window.providers.egl.window.getEglCfg
+Function missing: pyunity.window.providers.example.checker.check
+Function missing: pyunity.window.providers.glctx.checker.check
+Function missing: pyunity.window.providers.glfw.checker.check
+Function missing: pyunity.window.providers.glut.checker.check
+Function missing: pyunity.window.providers.sdl2.checker.check
+
+Variable missing: pyunity.audio.channels
+Variable missing: pyunity.core.addFields
+Variable missing: pyunity.gui.decorator
+Variable missing: pyunity._version.versionInfo
+Variable missing: pyunity.__main__.parser
+Variable missing: pyunity.window.providers.egl.checker.name
+Variable missing: pyunity.window.providers.egl.checker.prio
+Variable missing: pyunity.window.providers.egl.eglOLD.directory
+Variable missing: pyunity.window.providers.egl.eglOLD.search
+Variable missing: pyunity.window.providers.egl.window.eglDpy
+Variable missing: pyunity.window.providers.egl.window.err
+Variable missing: pyunity.window.providers.example.checker.name
+Variable missing: pyunity.window.providers.example.checker.prio
+Variable missing: pyunity.window.providers.glctx.checker.name
+Variable missing: pyunity.window.providers.glctx.checker.prio
+Variable missing: pyunity.window.providers.glfw.checker.name
+Variable missing: pyunity.window.providers.glfw.checker.prio
+Variable missing: pyunity.window.providers.glfw.window.keyMap
+Variable missing: pyunity.window.providers.glfw.window.mouseMap
+Variable missing: pyunity.window.providers.glut.checker.name
+Variable missing: pyunity.window.providers.glut.checker.prio
+Variable missing: pyunity.window.providers.sdl2.checker.name
+Variable missing: pyunity.window.providers.sdl2.checker.prio
+Variable missing: pyunity.window.providers.sdl2.window.keyMap
+Variable missing: pyunity.window.providers.sdl2.window.mouseMap
+Class extra: pyunity.gui.FontLoader
+Class extra: pyunity.physics.core.Collider
+    Method extra: pyunity.physics.core.Collider.collidingWith
+Class extra: pyunity.physics.core.SphereCollider
+    Method extra: pyunity.physics.core.SphereCollider.CheckOverlap
+Class extra: pyunity.physics.core.BoxCollider
+    Method extra: pyunity.physics.core.BoxCollider.CheckOverlap
+Class extra: pyunity.physics.core.CollManager
+    Method extra: pyunity.physics.core.CollManager.correct_inf
+Class extra: pyunity.values.vector.Vector2
+    Method extra: pyunity.values.vector.Vector2.intTuple
+Class extra: pyunity.values.vector.Vector3
+    Method extra: pyunity.values.vector.Vector3.intTuple
 
 
-
-
+Variable extra: pyunity.resources.resolver

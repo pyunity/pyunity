@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import ABCMeta, abstractmethod, abstractproperty, ABCException
+from pyunity import ABCException, ABCMeta, abstractmethod, abstractproperty
 from . import TestCase
 
 class TestAbstractmethod(TestCase):

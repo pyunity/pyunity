@@ -7,16 +7,16 @@ __all__ = ["Event", "EventLoopManager", "EventLoop", "WaitFor", "WaitForSeconds"
            "WaitForRender", "StartCoroutine"]
 
 from . import Logger, config
-from .errors import PyUnityException
 from .core import Component, GameObject
-from .values import SavableStruct, StructEntry, Clock
-import functools
-import threading
+from .errors import PyUnityException
+from .values import Clock, SavableStruct, StructEntry
+import sys
+import time
+import signal
 import asyncio
 import inspect
-import signal
-import time
-import sys
+import functools
+import threading
 
 # TODO: support kwargs=StructEntry(dict, required=True)
 # see issue #72 in github

@@ -4,12 +4,12 @@
 
 """Class to create a window using GLFW."""
 
+from pyunity import config
+from pyunity.errors import PyUnityExit, WindowProviderException
+from pyunity.input import KeyCode, KeyState, MouseCode
+from pyunity.window import ABCWindow
 import glfw
 import sys
-from pyunity.window import ABCWindow
-from pyunity.errors import WindowProviderException, PyUnityExit
-from pyunity.input import KeyCode, KeyState, MouseCode
-from pyunity import config
 
 class Window(ABCWindow):
     """

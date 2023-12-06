@@ -6,10 +6,9 @@ __all__ = ["Clock", "IgnoredMixin", "ImmutableStruct", "IncludeInstanceMixin",
            "IncludeMixin", "LockedLiteral", "ModuleExportControlMixin",
            "SavableStruct", "StructEntry"]
 
-from typing import (
-    Optional, Any, Dict, Callable, TypeVar, Type, Tuple, Generic,
-    Union, Mapping, List, TYPE_CHECKING)
 from typing_extensions import ParamSpec
+from typing import (TYPE_CHECKING, Any, Dict, List, Type, Tuple, Union,
+                    Generic, Mapping, TypeVar, Callable, Optional)
 
 if TYPE_CHECKING:
     _P = ParamSpec("_P")

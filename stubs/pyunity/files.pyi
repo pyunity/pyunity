@@ -11,16 +11,15 @@ Also manages project structure.
 __all__ = ["Asset", "Behaviour", "File", "Prefab", "Project",
            "ProjectSavingContext", "Scripts", "Skybox", "Texture2D"]
 
-from typing import (
-    List, Dict, Optional, Type, Union, TypeVar, Callable, Any,
-    TYPE_CHECKING)
+from .core import Component, GameObject, SavesProjectID, ShowInInspector, Space
+from .scenes import Scene
+from .values import ABCMeta, Quaternion, Vector3, abstractmethod
+from PIL import Image
 from typing_extensions import ParamSpec
 from types import ModuleType
-from PIL import Image
+from typing import (TYPE_CHECKING, Any, Dict, List, Type, Union, TypeVar,
+                    Callable, Optional)
 from pathlib import Path
-from .core import Component, ShowInInspector, GameObject, SavesProjectID, Space
-from .scenes import Scene
-from .values import ABCMeta, abstractmethod, Vector3, Quaternion
 import ctypes
 
 if TYPE_CHECKING:

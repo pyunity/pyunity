@@ -2,8 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    RectData, Vector2, RectAnchors, RectOffset)
+from pyunity import RectAnchors, RectData, RectOffset, Vector2
 from . import TestCase
 
 class TestRectData(TestCase):

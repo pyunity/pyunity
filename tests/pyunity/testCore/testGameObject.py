@@ -2,8 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    GameObject, Transform, Component, ComponentException, Collider)
+from pyunity import (Collider, Component, ComponentException, GameObject,
+                     Transform)
 from . import TestCase
 
 class TestGameObject(TestCase):

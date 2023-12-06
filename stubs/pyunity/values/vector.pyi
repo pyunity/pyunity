@@ -4,9 +4,10 @@
 
 __all__ = ["Vector", "Vector2", "Vector3"]
 
-from typing import Callable, Iterator, TypeVar, List, Union, Optional, Tuple, TYPE_CHECKING
 from .abc import ABCMeta, abstractmethod, abstractproperty
 from .other import LockedLiteral
+from typing import (TYPE_CHECKING, List, Tuple, Union, TypeVar, Callable,
+                    Iterator, Optional)
 
 if TYPE_CHECKING:
     _T = TypeVar("_T", bound=Vector)

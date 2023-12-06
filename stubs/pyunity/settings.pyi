@@ -4,9 +4,9 @@
 
 __all__ = ["LiveDict", "Database"]
 
-from typing import Dict, Iterator, Optional, Generic, TypeVar, TYPE_CHECKING
-from collections.abc import KeysView, ValuesView, ItemsView
+from typing import TYPE_CHECKING, Dict, Generic, TypeVar, Iterator, Optional
 from pathlib import Path
+from collections.abc import KeysView, ItemsView, ValuesView
 
 if TYPE_CHECKING:
     _KT = TypeVar("_KT")

@@ -14,12 +14,14 @@ the :class:`SceneManager` submodule.
 
 __all__ = ["Scene"]
 
-from typing import Dict, List as _List, Type, TypeVar, Awaitable, Any, Optional, TYPE_CHECKING
-from ..render import Camera, Light
-from ..core import GameObject, Component
-from ..meshes import MeshRenderer
+from ..core import Component, GameObject
 from ..events import EventLoop
 from ..files import Asset
+from ..meshes import MeshRenderer
+from ..render import Camera, Light
+from typing import TYPE_CHECKING, Any, Dict
+from typing import List as _List
+from typing import Type, TypeVar, Optional, Awaitable
 
 if TYPE_CHECKING:
     _CT = TypeVar("_CT", bound=Component)

@@ -2,12 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    config, Behaviour, SceneManager, AudioListener, Logger, GameObject,
-    Rigidbody, Collider)
+from pyunity import (AudioListener, Behaviour, Collider, GameObject, Logger,
+                     Rigidbody, SceneManager, config)
 from . import SceneTestCase
-import os
 import pytest
+import os
 
 class TestBehaviour1(Behaviour):
     def Start(self):

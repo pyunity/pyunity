@@ -4,10 +4,9 @@
 
 __all__ = ["TestCase", "almostEqual"]
 from .util import TestCase, almostEqual
-
+from unittest.mock import Mock
 import os
 import sys
-from unittest.mock import Mock
 
 if "full" not in os.environ:
     sys.modules["sdl2"] = Mock()

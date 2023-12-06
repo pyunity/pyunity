@@ -220,30 +220,31 @@ __summary__ = "A pure Python 3D Game Engine that was inspired by the structure o
 __title__ = "pyunity"
 __uri__ = "https://docs.pyunity.x10.bz/en/latest/"
 
-# Logger must start first, config straight after
-from . import logger as Logger
-from . import config
 # Window provider selection should be as early as possible
-from . import window as Window
-
+# Logger must start first, config straight after
+from . import logger as Logger  # noqa
+from . import config  # noqa
+from . import window as Window  # noqa
 import os
+
 if "PYUNITY_TESTING" not in os.environ:
     config.windowProvider = Window.GetWindowProvider()
 
 __all__ = ["Logger", "Loader", "Window", "Primitives", "Screen",
            "SceneManager"]
 
-from .errors import __all__ as _errors_all
-from .values import __all__ as _values_all
-from .core import __all__ as _core_all
-from .events import __all__ as _events_all
-from .meshes import __all__ as _meshes_all
-from .files import __all__ as _files_all
-from .render import __all__ as _render_all
 from .audio import __all__ as _audio_all
-from .physics import __all__ as _physics_all
-from .input import __all__ as _input_all
+from .core import __all__ as _core_all
+from .errors import __all__ as _errors_all
+from .events import __all__ as _events_all
+from .files import __all__ as _files_all
 from .gui import __all__ as _gui_all
+from .input import __all__ as _input_all
+from .meshes import __all__ as _meshes_all
+from .physics import __all__ as _physics_all
+from .render import __all__ as _render_all
+from .values import __all__ as _values_all
+
 __all__.extend(_errors_all)
 __all__.extend(_values_all)
 __all__.extend(_core_all)
@@ -256,21 +257,21 @@ __all__.extend(_physics_all)
 __all__.extend(_input_all)
 __all__.extend(_gui_all)
 
-from .errors import *
-from .values import *
+from . import loader as Loader
+from ._version import __version__
+from .audio import *
 from .core import *
+from .errors import *
 from .events import *
+from .files import *
+from .gui import *
+from .input import *
+from .loader import Primitives
 from .meshes import *
 from .physics import *
-from .audio import *
-from .files import *
 from .render import *
 from .scenes import sceneManager as SceneManager
-from . import loader as Loader
-from .loader import Primitives
-from .input import *
-from .gui import *
-from ._version import __version__
+from .values import *
 
 if ("PYUNITY_SPHINX_CHECK" not in os.environ and
         os.environ["PYUNITY_CHANGE_MODULE"] == "1"):

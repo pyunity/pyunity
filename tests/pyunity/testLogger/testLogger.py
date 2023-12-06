@@ -4,8 +4,8 @@
 
 from pyunity import Logger
 from . import SceneTestCase
-import contextlib
 import io
+import contextlib
 
 class TestLevel(SceneTestCase):
     def testInit(self):

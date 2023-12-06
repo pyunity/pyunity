@@ -2,7 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import SceneManager, GameObject, Vector3, MeshRenderer, Mesh, RGB, BoxCollider, Rigidbody, Material, Behaviour, Input, KeyCode, ShowInInspector, WaitForFixedUpdate
+from pyunity import (RGB, Behaviour, BoxCollider, GameObject, Input, KeyCode,
+                     Material, Mesh, MeshRenderer, Rigidbody, SceneManager,
+                     ShowInInspector, Vector3, WaitForFixedUpdate)
 
 class PhysicsController(Behaviour):
     started = False

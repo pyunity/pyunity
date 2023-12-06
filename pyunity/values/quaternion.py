@@ -7,8 +7,8 @@
 __all__ = ["Quaternion", "QuaternionDiff"]
 
 from . import Mathf
-from .vector import Vector3, conv
 from .other import LockedLiteral
+from .vector import Vector3, conv
 
 class Quaternion(LockedLiteral):
     """

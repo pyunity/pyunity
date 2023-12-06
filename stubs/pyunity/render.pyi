@@ -9,15 +9,15 @@ Classes to aid in rendering in a Scene.
 
 __all__ = ["Camera", "Screen", "Shader", "Light", "LightType"]
 
+from .core import SingleComponent, Transform
+from .files import Skybox
+from .gui import Canvas, GuiRenderComponent, RectTransform
+from .meshes import Color, MeshRenderer
+from .values import ImmutableStruct, Quaternion, Vector2, Vector3
 import glm
-import enum
 from typing import Dict, List, Union, Optional
 from pathlib import Path
-from .files import Skybox
-from .values import Vector2, Vector3, Quaternion, ImmutableStruct
-from .core import SingleComponent, Transform
-from .meshes import MeshRenderer, Color
-from .gui import RectTransform, GuiRenderComponent, Canvas
+import enum
 
 def fillScreen(scale: float = ...) -> None: ...
 

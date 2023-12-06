@@ -3,7 +3,7 @@
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 from pyunity import Behaviour
-from typing import List, Dict, Type
+from typing import Dict, List, Type
 
 __all__: List[str] = ...
 __pyunity__: bool = ...

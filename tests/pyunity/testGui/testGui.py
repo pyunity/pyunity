@@ -2,9 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    SceneManager, Gui, FontLoader, RGB, RectTransform,
-    Button, Text, Image2D, CheckBox)
+from pyunity import (RGB, Button, CheckBox, FontLoader, Gui, Image2D,
+                     RectTransform, SceneManager, Text)
 from . import SceneTestCase
 
 class TestGui(SceneTestCase):

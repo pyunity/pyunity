@@ -12,9 +12,9 @@ __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
            "LoadSceneByName", "CurrentScene", "AddScene", "LoadScene",
            "RemoveAllScenes", "GetSceneByIndex", "KeyboardInterruptKill"]
 
-from typing import Dict, List
-from .scene import Scene
 from .runner import Runner
+from .scene import Scene
+from typing import Dict, List
 
 scenesByIndex: List[Scene] = ...
 scenesByName: Dict[str, Scene] = ...

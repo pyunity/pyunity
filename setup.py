@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from setuptools import setup, find_packages, Extension
-from setuptools.command.egg_info import egg_info, manifest_maker
+from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext
+from setuptools.command.egg_info import egg_info, manifest_maker
 from pathlib import Path
 import os
 import re

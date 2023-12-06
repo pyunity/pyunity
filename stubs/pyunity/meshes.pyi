@@ -6,10 +6,10 @@
 
 __all__ = ["Mesh", "MeshRenderer", "Color", "RGB", "HSV", "Material"]
 
-from typing import List, Optional, Union, Any, Iterator
-from .values import Vector3
-from .files import Asset, Texture2D
 from .core import SingleComponent
+from .files import Asset, Texture2D
+from .values import Vector3
+from typing import Any, List, Union, Iterator, Optional
 
 floatSize: int = ...
 

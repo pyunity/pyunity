@@ -2,7 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, Vector3, SceneManager, GameObject, Mesh, Material, RGB, Texture2D, MeshRenderer
+from pyunity import (RGB, Behaviour, GameObject, Material, Mesh, MeshRenderer,
+                     SceneManager, Texture2D, Vector3)
 from pyunity.resources import resolver
 
 class Rotator(Behaviour):

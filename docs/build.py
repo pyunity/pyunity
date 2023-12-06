@@ -1,7 +1,7 @@
-import subprocess
-import sys
 import os
+import sys
 import shutil
+import subprocess
 
 if os.path.isdir("docs/source/api"):
     shutil.rmtree("docs/source/api")

@@ -9,9 +9,9 @@ __all__ = ["Acos", "Asin", "Atan", "Atan2", "Ceil", "Clamp", "Clamp01", "Cos",
            "SmoothStep", "Sqrt", "Tan"]
 
 from .. import Logger
-import math
-import sys
 import os
+import sys
+import math
 
 GLM_SUPPORT = True
 try:

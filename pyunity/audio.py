@@ -13,10 +13,10 @@ mixer module cannot be initialized.
 
 __all__ = ["AudioSource", "AudioClip", "AudioListener"]
 
-import warnings
-import os
-from . import config, Logger
+from . import Logger, config
 from .core import Component, ShowInInspector, SingleComponent
+import os
+import warnings
 
 channels = 0
 
@@ -33,8 +33,8 @@ else:
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore")
         try:
-            from sdl2 import sdlmixer as mixer
             from sdl2 import SDL_GetError
+            from sdl2 import sdlmixer as mixer
         except ImportError:
             config.audio = False
             Logger.LogLine(Logger.WARN,

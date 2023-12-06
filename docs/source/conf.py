@@ -13,12 +13,14 @@
 import os
 import sys
 import textwrap
+
 sys.path.insert(0, os.path.abspath("../.."))
 
 os.environ["PYUNITY_TESTING"] = "1"
 os.environ["PYUNITY_INTERACTIVE"] = "0"
 os.environ["PYUNITY_SPHINX_CHECK"] = "1"
 import pyunity
+
 pyunity.ABCMeta._trigger = False # to import templateWindow and glutWindow
 
 

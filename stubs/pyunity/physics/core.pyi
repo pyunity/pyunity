@@ -11,10 +11,10 @@ physics engine.
 __all__ = ["BoxCollider", "Collider", "Infinity", "Manifold",
            "PhysicMaterial", "Rigidbody", "SphereCollider"]
 
-from typing import List, NoReturn, Optional
-from ..values import Vector3, ABCMeta, abstractmethod, IgnoredMixin
 from ..core import Component, Transform
 from ..scenes import Scene
+from ..values import ABCMeta, IgnoredMixin, Vector3, abstractmethod
+from typing import List, NoReturn, Optional
 
 Infinity: float = ...
 

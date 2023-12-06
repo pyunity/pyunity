@@ -11,9 +11,9 @@ deprecated.
 
 """
 
-from OpenGL import GLUT as glut
-from pyunity.window import ABCWindow
 from pyunity import config
+from pyunity.window import ABCWindow
+from OpenGL import GLUT as glut
 
 class Window(ABCWindow, message="This window provider has been deprecated since PyUnity 0.5.0."):
     """A window provider that uses FreeGLUT."""

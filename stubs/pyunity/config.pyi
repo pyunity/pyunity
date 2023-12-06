@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from typing import Tuple, Type, Union
+from typing import Type, Tuple, Union
 
 audio: bool = ...
 

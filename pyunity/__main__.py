@@ -2,11 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
+from . import Loader, SceneManager, examples
+from .errors import PyUnityException
+from .info import printInfo
 import os
 import argparse
-from .errors import PyUnityException
-from . import Loader, SceneManager, examples
-from .info import printInfo
 
 parser = argparse.ArgumentParser(description="Load PyUnity examples, PyUnity projects or display information about the PyUnity installation")
 parser.add_argument("-v", "--version", action="store_true",

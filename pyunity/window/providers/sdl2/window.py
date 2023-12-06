@@ -4,10 +4,10 @@
 
 """Class to create a window using PySDL2."""
 
-from pyunity.window import ABCWindow
-from pyunity.input import KeyCode, KeyState, MouseCode
-from pyunity.errors import PyUnityExit
 from pyunity import config
+from pyunity.errors import PyUnityExit
+from pyunity.input import KeyCode, KeyState, MouseCode
+from pyunity.window import ABCWindow
 import sdl2
 import sdl2.ext
 import ctypes

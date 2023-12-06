@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import math
-from . import TestCase, almostEqual
 from pyunity import Mathf
+from . import TestCase, almostEqual
+import math
 
 class TestFunctions(TestCase):
     def testClamp(self):

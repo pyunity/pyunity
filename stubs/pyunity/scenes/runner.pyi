@@ -4,10 +4,10 @@
 
 __all__ = ["ChangeScene", "Runner", "WindowRunner", "NonInteractiveRunner"]
 
-from typing import Union, NoReturn, Type
-from .scene import Scene
-from ..window import ABCWindow
 from ..events import EventLoopManager
+from ..window import ABCWindow
+from .scene import Scene
+from typing import Type, Union, NoReturn
 
 class ChangeScene(Exception): ...
 

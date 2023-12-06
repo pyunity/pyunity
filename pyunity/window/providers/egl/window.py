@@ -4,10 +4,11 @@
 
 """Class to manage console input as a window provider."""
 
-from pyunity.window import ABCWindow
 from pyunity import Logger
 from pyunity.errors import WindowProviderException
+from pyunity.window import ABCWindow
 from .egl import setupPlatform
+
 setupPlatform()
 import OpenGL.EGL as egl
 import OpenGL.GL as gl

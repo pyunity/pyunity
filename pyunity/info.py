@@ -8,15 +8,15 @@ distribution or build. The main function is :func:`printInfo`.
 
 """
 
+from ._version import versionInfo
 from pathlib import Path
-import re
 import os
+import re
 import sys
 import json
-import subprocess
-import platform
 import pkgutil
-from ._version import versionInfo
+import platform
+import subprocess
 
 def getRepoInfo():
     """
@@ -306,9 +306,11 @@ def getReqs():
 
     """
     if sys.version_info >= (3, 8):
-        from importlib.metadata import distribution, version, PackageNotFoundError
+        from importlib.metadata import (PackageNotFoundError, version,
+                                        distribution)
     elif pkgutil.find_loader("importlib_metadata") is not None:
-        from importlib_metadata import distribution, version, PackageNotFoundError
+        from importlib_metadata import (PackageNotFoundError, distribution,
+                                        version)
     else:
         print("Warning: Python version less than 3.8 but no importlib_metadata found")
         return None

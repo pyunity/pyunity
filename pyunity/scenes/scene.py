@@ -14,16 +14,16 @@ the :class:`SceneManager` submodule.
 
 __all__ = ["Scene"]
 
-from ..meshes import MeshRenderer
-from ..audio import AudioListener, AudioSource
-from ..core import GameObject, Tag, Component
-from ..events import EventLoop
-from ..files import Behaviour, Asset
-from ..values import Vector3, Mathf
 from .. import Logger, config
+from ..audio import AudioListener, AudioSource
+from ..core import Component, GameObject, Tag
+from ..errors import ComponentException, GameObjectException, PyUnityException
+from ..events import EventLoop
+from ..files import Asset, Behaviour
+from ..meshes import MeshRenderer
 from ..physics.core import CollManager
-from ..errors import PyUnityException, ComponentException, GameObjectException
 from ..render import Camera, Light, Screen
+from ..values import Mathf, Vector3
 from pathlib import Path
 import os
 import sys

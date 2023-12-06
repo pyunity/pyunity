@@ -14,17 +14,17 @@ __all__ = ["DEBUG", "ELAPSED_TIME", "ERROR", "Elapsed", "INFO", "Level",
            "OUTPUT", "RUNNING_TIME", "ResetStream", "Save", "SetStream",
            "Special", "TIME_FORMAT", "TempRedirect", "WARN"]
 
+from pathlib import Path
 import io
 import os
-import sys
-import platform
-import traceback
-import inspect
 import re
-import atexit
-import threading
+import sys
 import time
-from pathlib import Path
+import atexit
+import inspect
+import platform
+import threading
+import traceback
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -283,18 +283,3 @@ def ResetStream():
     stream = sys.stdout
     stream.write("Changed stream back to stdout\n")
     LogLine(INFO, "Changed stream back to stdout")
-
-def _upload():
-    # Upload to ftp
-    import urllib.error
-    try:
-        import urllib.request
-        url = "https://ftp.pyunity.repl.co/upload?confirm=1"
-        with urllib.request.urlopen(url):
-            pass
-    except urllib.error.HTTPError as e:
-        LogLine(ERROR, "urllib.error.HTTPError:", e, silent=True)
-
-t = threading.Thread(target=_upload)
-t.daemon = True
-t.start()

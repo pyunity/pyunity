@@ -12,11 +12,11 @@ __all__ = ["RemoveScene", "GetSceneByName", "LoadSceneByIndex", "AddBareScene",
            "LoadSceneByName", "CurrentScene", "AddScene", "LoadScene",
            "RemoveAllScenes", "GetSceneByIndex", "KeyboardInterruptKill"]
 
+from .. import logger as Logger
 from .. import settings
 from ..errors import PyUnityException, PyUnityExit
 from .runner import newRunner
 from .scene import Scene
-from .. import logger as Logger
 
 scenesByIndex = []
 scenesByName = {}

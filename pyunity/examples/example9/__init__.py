@@ -2,7 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Behaviour, ShowInInspector, RectTransform, Screen, Vector2, Input, CheckBox, Text, SceneManager, GameObject, Canvas, Texture2D, Gui, RectOffset, Logger, Image2D, FontLoader, RGB, Camera, Vector3, RenderTarget, MeshRenderer, Mesh, Material, Event, WaitForRender
+from pyunity import (RGB, Behaviour, Camera, Canvas, CheckBox, Event,
+                     FontLoader, GameObject, Gui, Image2D, Input, Logger,
+                     Material, Mesh, MeshRenderer, RectOffset, RectTransform,
+                     RenderTarget, SceneManager, Screen, ShowInInspector, Text,
+                     Texture2D, Vector2, Vector3, WaitForRender)
 from pyunity.resources import resolver
 
 class Mover2D(Behaviour):

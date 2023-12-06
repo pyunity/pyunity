@@ -2,8 +2,8 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-import os
 from . import Logger
+import os
 
 if "PYUNITY_DEBUG_MODE" not in os.environ:
     os.environ["PYUNITY_DEBUG_MODE"] = "1"

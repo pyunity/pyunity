@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Scripts, PyUnityException, Logger
-from pathlib import Path
+from pyunity import Logger, PyUnityException, Scripts
 from . import TestCase
+from pathlib import Path
 import sys
 
 currentdir = Path(__file__).absolute().parent

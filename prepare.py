@@ -9,19 +9,20 @@ Run this script with ``python prepare.py cmd1 cmd2 ...``
 
 """
 
-import json
-import re
+from setuptools._vendor.packaging import version  # avoid pip install
 import os
-import glob
-import shutil
-import pkgutil
+import re
 import sys
+import glob
+import json
+import shutil
 import signal
-import multiprocessing
-import importlib
-import importlib.metadata
 import inspect
-from setuptools._vendor.packaging import version # avoid pip install
+import pkgutil
+import importlib
+import multiprocessing
+import importlib.metadata
+
 if "cython" not in os.environ:
     os.environ["cython"] = "1"
 

@@ -4,11 +4,12 @@
 
 __all__ = ["ChangeScene", "Runner", "WindowRunner", "NonInteractiveRunner"]
 
-from .. import config, render, Logger
-from ..events import EventLoopManager, WaitForUpdate, WaitForFixedUpdate, WaitForRender
+from .. import Logger, config, render
 from ..errors import PyUnityException
-import copy
+from ..events import (EventLoopManager, WaitForFixedUpdate, WaitForRender,
+                      WaitForUpdate)
 import os
+import copy
 
 class ChangeScene(Exception):
     pass

@@ -3,4 +3,4 @@
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["TestCase", "SceneTestCase", "almostEqual"]
-from .. import TestCase, SceneTestCase, almostEqual
+from .. import SceneTestCase, TestCase, almostEqual

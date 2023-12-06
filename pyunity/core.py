@@ -54,11 +54,11 @@ __all__ = ["Component", "ComponentType", "GameObject", "HideInInspector",
            "SavedAttribute", "SavesProjectID", "ShowInInspector",
            "SingleComponent", "Space", "Tag", "Transform", "addFields"]
 
+from . import Logger
+from .errors import ComponentException, PyUnityException
+from .values import ABCMeta, IncludeInstanceMixin, Quaternion, Vector3
 import os
 import enum
-from .errors import PyUnityException, ComponentException
-from .values import Vector3, Quaternion, IncludeInstanceMixin, ABCMeta
-from . import Logger
 
 class Tag:
     """

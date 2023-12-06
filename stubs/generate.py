@@ -1,12 +1,13 @@
-import functools
-import inspect
-import typing
-import types as _types
-import os
-import sys
-import ast
-import glob
 from pathlib import Path
+import os
+import ast
+import sys
+import glob
+import types as _types
+import typing
+import inspect
+import functools
+
 os.environ["PYUNITY_CHANGE_MODULE"] = "0"
 
 ignored = ["pyunity.examples.", "pyunity.window.providers."]

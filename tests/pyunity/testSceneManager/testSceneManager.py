@@ -2,8 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    SceneManager, PyUnityException)
+from pyunity import PyUnityException, SceneManager
 from . import SceneTestCase
 import pytest
 

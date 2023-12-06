@@ -2,12 +2,11 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import (
-    SceneManager, Component, Camera, AudioListener, Light,
-    GameObject, Tag, Transform, GameObjectException,
-    ComponentException, Canvas, PyUnityException,
-    Behaviour, ShowInInspector, RenderTarget, Logger,
-    Vector3, MeshRenderer, Mesh)
+from pyunity import (AudioListener, Behaviour, Camera, Canvas, Component,
+                     ComponentException, GameObject, GameObjectException,
+                     Light, Logger, Mesh, MeshRenderer, PyUnityException,
+                     RenderTarget, SceneManager, ShowInInspector, Tag,
+                     Transform, Vector3)
 from . import SceneTestCase
 
 class TestScene(SceneTestCase):

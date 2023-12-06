@@ -2,9 +2,9 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from OpenGL.platform.baseplatform import lazy_property
-from OpenGL.platform import ctypesloader
 from pyunity import Logger
+from OpenGL.platform import ctypesloader
+from OpenGL.platform.baseplatform import lazy_property
 import os
 import ctypes
 

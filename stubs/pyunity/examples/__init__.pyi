@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from typing import List, Optional, Union
+from typing import List, Union, Optional
 
 broken: List[int] = ...
 

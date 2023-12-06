@@ -3,11 +3,10 @@
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
 __all__ = ["TestCase", "almostEqual", "SceneTestCase"]
-from .. import TestCase, almostEqual
-
-import os
-import pytest
 from pyunity import SceneManager
+from .. import TestCase, almostEqual
+import pytest
+import os
 
 class SceneTestCase(TestCase):
     def setUp(self):

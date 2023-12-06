@@ -2,7 +2,7 @@
 ## This file is licensed under the MIT License.
 ## See https://docs.pyunity.x10.bz/en/latest/license.html
 
-from pyunity import Color, RGB, HSV
+from pyunity import HSV, RGB, Color
 from . import TestCase
 
 class TestColors(TestCase):

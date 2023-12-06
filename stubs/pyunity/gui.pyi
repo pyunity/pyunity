@@ -8,18 +8,18 @@ __all__ = ["Button", "Canvas", "CheckBox", "Font", "FontLoader", "Gui",
            "RectTransform", "RenderTarget", "Text", "TextAlign",
            "UnixFontLoader", "WinFontLoader"]
 
-import enum
-from pathlib import Path
-from typing import Callable, Dict, List, Optional, Tuple, Union, Any
-from PIL import ImageFont
 from .core import Component, SingleComponent
-from .values import Vector2, ABCMeta, abstractmethod
-from .meshes import Color
+from .events import EventLoop
 from .files import Texture2D
 from .input import KeyState, MouseCode
-from .scenes import Scene
+from .meshes import Color
 from .render import Camera
-from .events import EventLoop
+from .scenes import Scene
+from .values import ABCMeta, Vector2, abstractmethod
+from PIL import ImageFont
+from typing import Any, Dict, List, Tuple, Union, Callable, Optional
+from pathlib import Path
+import enum
 
 _RAQM_SUPPORT: bool = ...
 

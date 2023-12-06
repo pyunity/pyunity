@@ -17,13 +17,14 @@ __all__ = ["GenerateProject", "GetComponentMap", "GetImports",
            "SaveGameObjects", "SaveMat", "SaveMesh", "SaveObj", "SavePrefab",
            "SaveProject", "SaveScene", "SaveStl"]
 
-from typing import List, Optional, Dict, Type, Tuple, Any, Union, TypeVar, TYPE_CHECKING
-from pathlib import Path
-from .meshes import Mesh, Material
+from .core import Component, GameObject
+from .files import Prefab, Project, _saverType
+from .meshes import Material, Mesh
 from .scenes import Scene
-from .files import Project, Prefab, _saverType
 from .values import ImmutableStruct
-from .core import GameObject, Component
+from typing import (TYPE_CHECKING, Any, Dict, List, Type, Tuple, Union,
+                    TypeVar, Optional)
+from pathlib import Path
 import enum
 
 if TYPE_CHECKING:

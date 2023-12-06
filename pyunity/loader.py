@@ -20,20 +20,21 @@ __all__ = ["Primitives", "GetImports", "SaveScene",
 
 from . import Logger
 from ._version import versionInfo
-from .meshes import Mesh, Material, Color
-from .errors import PyUnityException, ProjectParseException
-from .core import GameObject, Component, Tag, SavesProjectID
-from .values import Vector3, Vector2, ImmutableStruct, Quaternion, SavableStruct
-from .scenes import SceneManager, Scene
-from .files import Behaviour, Scripts, Project, File, Texture2D, Asset, Prefab
+from .core import Component, GameObject, SavesProjectID, Tag
+from .errors import ProjectParseException, PyUnityException
+from .files import Asset, Behaviour, File, Prefab, Project, Scripts, Texture2D
+from .meshes import Color, Material, Mesh
 from .resources import resolver
+from .scenes import Scene, SceneManager
+from .values import (ImmutableStruct, Quaternion, SavableStruct, Vector2,
+                     Vector3)
 from pathlib import Path
-import struct
-import shutil
-import inspect
-import json
-import enum
 import os
+import enum
+import json
+import shutil
+import struct
+import inspect
 
 def LoadObj(filename):
     """
