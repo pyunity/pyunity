@@ -641,10 +641,8 @@ def checkScene(func):
     return inner
 
 class Project:
-    def __init__(self, name="Project"):
-        self.path = Path(name)
-        if not self.path.is_absolute():
-            self.path = self.path.resolve()
+    def __init__(self, path="Project"):
+        self.path = Path(path).resolve()
         self.name = self.path.name
         self._ids = {}
         self._idMap = {}
@@ -664,7 +662,7 @@ class Project:
 
     @checkScene
     def Write(self):
-        with open(Path(self.name) / (self.name + ".pyunity"), "w+") as f:
+        with open(self.path / (self.name + ".pyunity"), "w+") as f:
             f.write(f"Project\n    name: {self.name}\n    firstScene: {self.firstScene}\nFiles")
             for id_ in self.fileIDs:
                 normalized = self.fileIDs[id_].path.replace(os.path.sep, "/")
