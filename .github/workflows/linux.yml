@@ -15,7 +15,7 @@ jobs:
     - name: Cythonize
       run: python prepare.py parseCode cythonize
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Cython
         path: src
@@ -59,7 +59,7 @@ jobs:
             quay.io/pypa/manylinux2014_${{ matrix.arch }} \
             /bin/bash .github/workflows/build_wheel.sh ${{ matrix.python-version }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python${{ matrix.python-version }}-${{ matrix.arch }}
           path: dist/*.whl
