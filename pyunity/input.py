@@ -10,6 +10,8 @@ from .values import ImmutableStruct, Mathf, Vector3
 from enum import IntEnum, auto
 import os
 
+from enum import IntEnum, auto
+
 class KeyState(IntEnum):
     UP = auto()
     DOWN = auto()
@@ -17,69 +19,28 @@ class KeyState(IntEnum):
     NONE = auto()
 
 class KeyCode(IntEnum):
-    A = auto()
-    B = auto()
-    C = auto()
-    D = auto()
-    E = auto()
-    F = auto()
-    G = auto()
-    H = auto()
-    I = auto()
-    J = auto()
-    K = auto()
-    L = auto()
-    M = auto()
-    N = auto()
-    O = auto()
-    P = auto()
-    Q = auto()
-    R = auto()
-    S = auto()
-    T = auto()
-    U = auto()
-    V = auto()
-    W = auto()
-    X = auto()
-    Y = auto()
-    Z = auto()
-    Space = auto()
-    Alpha0 = auto()
-    Alpha1 = auto()
-    Alpha2 = auto()
-    Alpha3 = auto()
-    Alpha4 = auto()
-    Alpha5 = auto()
-    Alpha6 = auto()
-    Alpha7 = auto()
-    Alpha8 = auto()
-    Alpha9 = auto()
-    F1 = auto()
-    F2 = auto()
-    F3 = auto()
-    F4 = auto()
-    F5 = auto()
-    F6 = auto()
-    F7 = auto()
-    F8 = auto()
-    F9 = auto()
-    F10 = auto()
-    F11 = auto()
-    F12 = auto()
-    Keypad0 = auto()
-    Keypad1 = auto()
-    Keypad2 = auto()
-    Keypad3 = auto()
-    Keypad4 = auto()
-    Keypad5 = auto()
-    Keypad6 = auto()
-    Keypad7 = auto()
-    Keypad8 = auto()
-    Keypad9 = auto()
-    Up = auto()
-    Down = auto()
-    Left = auto()
-    Right = auto()
+    pass
+
+_keys = {}
+for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+    _keys[letter] = auto()
+
+_keys['Space'] = auto()
+
+for i in range(10):
+    _keys[f'Alpha{i}'] = auto()
+
+for i in range(1, 13):
+    _keys[f'F{i}'] = auto()
+
+for i in range(10):
+    _keys[f'Keypad{i}'] = auto()
+
+for direction in ['Up', 'Down', 'Left', 'Right']:
+    _keys[direction] = auto()
+
+# KeyCode enum'unu oluştur
+KeyCode = IntEnum('KeyCode', _keys)
 
 class MouseCode(IntEnum):
     Left = auto()
